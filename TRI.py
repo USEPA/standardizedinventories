@@ -108,7 +108,7 @@ tri2.drop('Code', axis=1, inplace=True)
 tri2.to_csv(outputdir + '2_triafterreliabilitymerge.csv')
 
 #Replace source info with Context
-source_to_context = pd.read_csv('TRI_Source_to_Context.csv')
+source_to_context = pd.read_csv('data/TRI_Source_to_Context.csv')
 source_to_context
 tri3 = pd.merge(tri2,source_to_context)
 tri3.head(100)
@@ -138,7 +138,7 @@ tri.rename(columns={'Amount_kg':'Amount'}, inplace=True)
 tri.rename(columns={'DQI Reliability Score':'ReliabilityScore'}, inplace=True)
 
 #See final names and ordering from reference list
-reflist = pd.read_csv('Standarized_Output_Format_EPA _Data_Sources.csv')
+reflist = pd.read_csv('data/Standarized_Output_Format_EPA _Data_Sources.csv')
 reflist = reflist[reflist['required?']==1]
 refnames = list(reflist['Name'])
 refnames.append('Source')
@@ -155,4 +155,4 @@ tri = tri.reindex(columns=refnames)
 #Export it as a csv
 #Final file name
 tri_file_name = 'TRI_'+ TRIyear + '_standard_format.csv'
-tri.to_csv(outputdir + tri_file_name)
+tri.to_csv(outputdir + tri_file_name, index=False)
