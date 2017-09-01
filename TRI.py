@@ -6,12 +6,14 @@
 #This code has been tested for 2014.
 
 import pandas as pd
+import os
 
 #Set some metadata
 TRIyear = '2015'
 
 #Do not write intermediate and final output to the code folder. Specify the output directory here
 outputdir = '../LCI-Primer-Output/'
+if not os.path.exists(outputdir): os.makedirs(outputdir)
 
 #Import list of fields from TRI that are desired for LCI
 tri_required_fields_csv = 'data/TRI_required_fields.txt'
@@ -64,7 +66,7 @@ import_dict = {'fug' : import_fug,
 
 
 #Import TRI file
-tri_csv = "TRI_example.csv" #Use example for testing
+tri_csv = "US_1_2015_v15.txt" #Use example for testing
 #tri_csv = "....TRI_2015_US.csv" #TRI file .. do not include in repository folder
 tri = pd.DataFrame()
 fieldnames = ['FacilityID','State', 'NAICS', 'OriginalFlowID','Unit','Amount','Basis of Estimate']
@@ -72,7 +74,7 @@ l = len(fieldnames)-1
 fieldnamesshort = fieldnames[0:l]
 #import_dict
 for k,v in import_dict.items():
-    tri_part = pd.read_csv(tri_csv, header=0,usecols=v,error_bad_lines=False)
+    tri_part = pd.read_csv(tri_csv, sep='\t',header=0,usecols=v,error_bad_lines=False)
     if k.startswith('offsite'):
         tri_part.columns = fieldnamesshort
     else:
@@ -86,6 +88,9 @@ for k,v in import_dict.items():
 
 #There is white space after some basis of estimate codes...remove it here
 tri['Basis of Estimate'] = tri['Basis of Estimate'].str.strip()
+#Convert 'Amount' to float
+tri['Amount']=pd.to_numeric(tri['Amount'],errors='coerce')
+
 #Show first 50 to see
 tri.head(50)
 #Export for review
@@ -114,7 +119,7 @@ tri3 = pd.merge(tri2,source_to_context)
 tri3.head(100)
 
 #Import pollutant omit list and use it to remove the pollutants to omit
-omitlist = pd.read_csv('TRI_pollutant_omit_list.csv')
+omitlist = pd.read_csv('data/TRI_pollutant_omit_list.csv')
 omitIDs = omitlist['OriginalFlowID']
 omitIDs
 
@@ -125,7 +130,7 @@ tri = tri3
 #Create a new field to put converted amount in
 tri['Amount_kg'] = 0.0
 #Convert amounts. Note this could be replaced with a conversion utility
-tri['Amount_kg'][tri['Unit'] == 'Pounds'] = 0.45392*tri['Amount']
+tri['Amount_kg'][tri['Unit'] == 'Pounds'] = 0.4535924*tri['Amount']
 tri['Amount_kg'][tri['Unit'] == 'Grams'] = 0.001*tri['Amount']
 tri.to_csv(outputdir + '3_triwithamountsconvertedshowingoldunits.csv')
 
