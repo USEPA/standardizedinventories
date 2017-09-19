@@ -28,7 +28,7 @@ row_start = '0'
 row_end = '5'
 
 #For each row of the subparts table
-for index, row in spinfo.iterrows():
+for index, row in subparts.iterrows():
     #generate a URL for the tables to try
     subpart_url = enviro_url + row['subpart_code'] + '_SUBPART_LEVEL_INFORMATION'
     fuel_url = enviro_url + row['subpart_code'] + '_FUEL_LEVEL_INFORMATION'
