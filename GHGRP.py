@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-subpart_list = 'C:/Users/Mbergman/Downloads/LCI-Primer-master/LCI-Primer-master/data/ghg_subpart_codes.csv'
+subpart_list = 'data/ghg_subpart_codes.csv'
 subparts = pd.read_csv(subpart_list, usecols=['subpart_code','subpart_name'])
 
 #Create unique columns to populate with query outputs
