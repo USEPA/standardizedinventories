@@ -1,44 +1,39 @@
-'''
-STATUS:
-using #json_data = requests.get(url).json()
-First time the query ran a <response 200> was recieved indicating everything ran smoothly
-However when trying to print the json for a check the following error was thrown:
-{'Results': {'Error': {'ErrorMessage': 'Your search results returned 249,382 records. 
-Maximum number of records must not exceed 100,000.'}}}
-After removing the print statement the error did not occur again
-
-Using json_data = pd.read_json(url)
-Error test described above is located in the first column and row of the dataframe
-KeyError: 'Results'
-Need to adjust query to include fewer records
-Will update code Sat Sept 22.
-'''
+#Status: pulls json down by all facilities with a year = 2015 by SIC code = 99
+#saves json data to output directory specified
+#Next steps: iterate through SIC list and combine query output to a single json file
 
 import requests
 import pandas as pd
 import json
-
+import os
 
 main_api = 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_custom_data_'
 service_parameter = 'facility?' #define which parameter is primary search criterion
-address = 'p_year=2015' #define any secondary search criteria
+year = 'p_year=2015' #define year
+form_obj = '&p_sic2=99' #define any secondary search criteria
 output_type = 'JSON' #define output type
 
+def set_output_dir(directory):
+    outputdir = directory 
+    if not os.path.exists(outputdir): os.makedirs(outputdir)
+    return outputdir
+
+outputdir = set_output_dir('../LCI-Primer-Output/')
+
+
 #creates a url from various search parameters
-def create_url(main_api, service_parameter,address, output_type):
-	url = main_api + service_parameter + address + '&output=' + output_type
-	return url
+def create_url_and_get(main_api, service_parameter,year, form_obj, output_type):
+	url = main_api + service_parameter + year + form_obj+ '&output=' + output_type
+	result = requests.get(url).json()
+	return result
 
-url = create_url(main_api, service_parameter, address, output_type)
+json_data = create_url_and_get(main_api, service_parameter, year, form_obj, output_type)
+print(json_data)
 
-#queries the data based on the previously defined url and
-#transforms it into a data frame
-def json_pull_to_df(url):
-	#json_data = requests.get(url).json()
-	#df = pd.DataFrame(json_data)
-	json_data = pd.read_json(url)
-	df = pd.DataFrame(json_data['Results']['Results'])  
-	return df
 
-DMR_df = json_pull_to_df(url)
-print(DMR_df.head())
+def write_json_file(path, file, data):
+    final_path = path + file + '.json'
+    with open(final_path, 'w') as fp:
+        json.dump(data, fp)
+
+x = write_json_file(outputdir, 'DMR_data', json_data)
