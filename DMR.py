@@ -1,10 +1,12 @@
-#STATUS: need to implement if __name__ = __main__ and testing
+#!/usr/bin/env python
+
+#STATUS: need to implement unit testing
 import requests
 import pandas as pd
 import json
 import os
 
-#appendex for object to be used in query to sic code
+#appendes form object to be used in query to sic code
 def app_sic(form_obj, SIC):
 	result = [form_obj + s for s in SIC]
 	return result
@@ -28,7 +30,6 @@ def get_write_json_file(urls, path, file):
 	final_path = path + file + '.json'
 	with open(final_path, 'w') as fp:
 		json.dump([requests.get(url).json() for url in urls], fp, indent = 2)
-
 
 
 def main():
