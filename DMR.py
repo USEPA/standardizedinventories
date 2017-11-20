@@ -35,7 +35,7 @@ def get_write_json_file(urls, path, file):
 def main():
 	DMR_year = '2015' #year of data requested
 	main_api = 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_custom_data_' #base url
-	service_parameter = 'facility?' #define which parameter is primary search criterion
+	service_parameter = 'annual?' #define which parameter is primary search criterion
 	year = 'p_year=' + DMR_year #define year
 	form_obj = '&p_sic2=' #define any secondary search criteria
 	output_type = 'JSON' #define output type
