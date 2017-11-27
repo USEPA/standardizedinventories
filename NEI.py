@@ -1,5 +1,5 @@
 #NEI import and process to Standardized EPA output format
-#This script uses the NEI Point National Data File.
+#This script uses the NEI National Data File.
 
 import pandas as pd
 
