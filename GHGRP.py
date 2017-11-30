@@ -35,7 +35,7 @@ ghg_tables = ['_SUBPART_LEVEL_INFORMATION','_FUEL_LEVEL_INFORMATION','_FOSSIL_FU
 #Returns false for subparts covered in Excel file.
 def getSubpartTable(subpart_name):
     subpart_table2 = ''
-    if subpart_name in ('F','G','H','K','N','Q','R','S','T','U','V','W','X','Y','Z','DD','FF','EE','GG','HH','II','MM','NN','PP','SS'): 
+    if subpart_name in ('F','G','H','K','N','Q','R','S','T','U','V','X','Y','Z','DD','FF','EE','GG','HH','II','MM','NN','PP','SS'): 
         subpart_table1 = subpart_name + '_SUBPART_LEVEL_INFORMATION'
     elif subpart_name in ('C','D'): subpart_table1 = subpart_name + '_FUEL_LEVEL_INFORMATION'
     elif subpart_name == 'AA': subpart_table1 = subpart_name + '_FOSSIL_FUEL_INFORMATION'
@@ -166,30 +166,43 @@ for table in [subparts,ghgs]:
         table[column] = table[column].str.replace('%3Csub%3E','').str.replace('%3C/sub%3E','')
 
 ghgrp0 = pd.DataFrame(columns = ghg_cols)
+used_tables=[]
 for index, row in subparts.iterrows():
+    #generate a URL for the tables to try
     subpart = row['SUBPART_NAME']
     subpart_table1,subpart_table2 = getSubpartTable(subpart)
-    if subpart_table1 == False: continue#Skip subpart if it's covered in the Excel file
-    subpart_count=getRowCount(subpart_table1)
-    subpart_df = downloadChunks(table=subpart_table1,table_count=subpart_count,report_year=report_year)
+    if subpart_table1 == False: continue
+    filepath='./data/ghgrp/tables/2015_'+subpart_table1
+    used_tables+=[subpart_table1]
+    subpart_df=pd.read_csv(filepath)
+#    subpart_count=getRowCount(subpart_table1)
+#    subpart_df = downloadChunks(table=subpart_table1,table_count=subpart_count,report_year=report_year)
     subpart_df['SUBPART_NAME']=subpart
+    for col in subpart_df: exec("subpart_df = subpart_df.rename(columns={'"+col+"':'"+col[len(subpart_table1)+1:]+"'})")
     ghgrp0 = pd.concat([ghgrp0,subpart_df])
     if subpart_table2!='':
-        subpart_count=getRowCount(subpart_table2)
-        subpart_df = downloadChunks(table=subpart_table2,table_count=subpart_count,report_year=report_year)
+        filepath='./data/ghgrp/tables/2015_'+subpart_table2
+        used_tables+=[subpart_table2]
+        subpart_df=pd.read_csv(filepath)
+#        subpart_count=getRowCount(subpart_table2)
+#        subpart_df = downloadChunks(table=subpart_table2,table_count=subpart_count,report_year=report_year)
         subpart_df['SUBPART_NAME']=subpart
+        for col in subpart_df: exec("subpart_df = subpart_df.rename(columns={'"+col+"':'"+col[len(subpart_table2)+1:]+"'})")
         ghgrp0 = pd.concat([ghgrp0,subpart_df])
 
+#Fixes issue with SUBPART_NAME heading and data are in separate columns
+ghgrp0.drop('SUBPART_NAME', axis=1, inplace=True)
+ghgrp0 = ghgrp0.rename(columns={'':'SUBPART_NAME'})
 
 #Combine equivalent columns from different tables into one, delete old columns
 ghgrp1 = ghgrp0[ghg_cols]
 ghgrp1['Amount']=ghgrp1[quantity_cols].fillna(0).sum(axis=1)
-ghgrp1['OriginalFlowID']=ghgrp1[name_cols].fillna('').sum(axis=1)
+ghgrp1['Flow Description']=ghgrp1[name_cols].fillna('').sum(axis=1)
 ghgrp1['METHOD']=ghgrp1[method_cols].fillna('').sum(axis=1)
 
 ghgrp1.drop(info_cols, axis=1, inplace=True)
 ghgrp1.drop(group_cols, axis=1, inplace=True)
-ghgrp1 = ghgrp1[ghgrp1['OriginalFlowID'] != '']
+ghgrp1 = ghgrp1[ghgrp1['Flow Description'] != '']
 
 ghgrp2 = pd.DataFrame()
 group_list = [ch4_cols,n2o_cols,co2_cols,co2e_cols]
@@ -198,7 +211,7 @@ for group in group_list:
         ghg_cols2 = base_cols + [group[i]] + method_cols
         temp_df = ghgrp0[ghg_cols2]
         temp_df = temp_df[pd.notnull(temp_df[group[i]])]
-        temp_df['OriginalFlowID']=group[i]
+        temp_df['Flow Description']=group[i]
         temp_df['METHOD']=temp_df[method_cols].fillna('').sum(axis=1)
         temp_df.drop(method_cols, axis=1, inplace=True)
         temp_df.rename(columns={group[i]:'Amount'}, inplace=True)
@@ -212,13 +225,12 @@ for key in excel_keys:
     excel_base_cols, excel_quant_cols, excel_method_cols = getColumns(excel_dict[key])
     temp_cols = excel_base_cols + excel_quant_cols + excel_method_cols
     temp_df=excel_subparts[key][temp_cols]#.to_frame()
-#Ignore method info for now#    temp_df['METHOD']=temp_df[excel_method_cols].fillna('').sum(axis=1)
-
+    temp_df['METHOD']=temp_df[excel_method_cols].fillna('').sum(axis=1)
     for col in excel_quant_cols:
         col_df = temp_df.dropna(subset=[col])
         col_df = col_df[col_df['Year']==int(report_year)]
         col_df['SUBPART_NAME'] = excel_dict[key]
-        col_df['OriginalFlowID'] = col
+        col_df['Flow Description'] = col
         col_df['Amount'] = col_df[col]
         col_df.drop(excel_method_cols, axis=1, inplace=True)
         col_df.drop(excel_quant_cols, axis=1, inplace=True)
@@ -230,9 +242,16 @@ reliabilitytable = pd.read_csv('data/DQ_Reliability_Scores_Table3-3fromERGreport
 ghgrp_reliabilitytable = reliabilitytable[reliabilitytable['Source']=='GHGRPa']
 ghgrp_reliabilitytable.drop('Source', axis=1, inplace=True)
 
+#Map flow descriptions to standard gas names from GHGRP
+ghg_mapping = pd.read_csv('data/ghgrp/ghg_mapping.csv', usecols=['Flow Description','OriginalFlowID'])
+
+
+#Merge tables
 ghgrp = pd.concat([ghgrp1,ghgrp2,ghgrp3]).reset_index(drop=True)
 ghgrp = ghgrp.merge(facilities,on='FACILITY_ID',how='left')
 ghgrp = pd.merge(ghgrp,ghgrp_reliabilitytable,left_on='METHOD',right_on='Code',how='left')
+ghgrp = pd.merge(ghgrp,ghg_mapping,on='Flow Description',how='left')
+
 #Fill NAs with 5 for DQI reliability score
 ghgrp.replace('',np.nan)
 ghgrp['DQI Reliability Score'] = ghgrp['DQI Reliability Score'].fillna(value=5)
@@ -244,13 +263,10 @@ ghgrp.rename(columns={'FACILITY_ID':'FacilityID'}, inplace=True)
 ghgrp.rename(columns={'DQI Reliability Score':'ReliabilityScore'}, inplace=True)
 ghgrp.rename(columns={'NAICS_CODE':'NAICS'}, inplace=True)
 
+
 #Standardize output
 reflist = pd.read_csv('data/Standarized_Output_Format_EPA _Data_Sources.csv')
 reflist = reflist[reflist['required?']==1]
 refnames = list(reflist['Name'])+['SUBPART_NAME']
 ghgrp = ghgrp[refnames]
-
-
-
-
 
