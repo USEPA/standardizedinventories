@@ -2,6 +2,7 @@
 #This script uses the NEI National Data File.
 
 import pandas as pd
+import numpy as np
 
 nei_required_fields = pd.read_table('./data/NEI_required_fields.csv',sep=',').fillna('Null')
 nei_file_path = pd.read_table('./data/NEI_file_path.csv',sep=',').fillna('Null')
@@ -29,7 +30,7 @@ def standardize_output(source): # source as 'Point'/'NonPoint'/'OnRoad'/'NonRoad
     # read in other nei files and concatenate all nei files into one dataframe
     for file in file_path[1:]:
         # concatenate all other files
-        nei = pd.concat([nei,read_data(file)])
+        nei = pd.concat([nei,read_data(source,file)])
         # aggregate
         nei = nei.groupby(nei.columns[:-1].tolist())['sum'].agg(['sum']).reset_index()
         print(file)
