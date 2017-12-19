@@ -1,0 +1,491 @@
+MV_EF_I_DRE_CLAIMED_GAS_INFO.FACILITY_ID,MV_EF_I_DRE_CLAIMED_GAS_INFO.REPORTING_YEAR,MV_EF_I_DRE_CLAIMED_GAS_INFO.FACILITY_NAME,MV_EF_I_DRE_CLAIMED_GAS_INFO.BASIS_OF_DRE,MV_EF_I_DRE_CLAIMED_GAS_INFO.DRE_CLAIMED_GAS_CAS_NUMBER,MV_EF_I_DRE_CLAIMED_GAS_INFO.DRE_CLAIMED_GAS_NAME,MV_EF_I_DRE_CLAIMED_GAS_INFO.FAB_ABATEMENT_SYSTEM_NAME,MV_EF_I_DRE_CLAIMED_GAS_INFO.FAB_NAME
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,Default DRE,115-25-3,Perfluorocyclobutane,Litmas,Building 2 3
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,,559-40-0,PFC C-1418,Litmas,Building 2 3
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,,7783-54-2,Nitrogen trifluoride,Ebara G5,Building 2 3
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,Default DRE,75-73-0,PFC-14 (Perfluoromethane),Ebara,Building 4
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,,76-16-4,PFC-116 (Perfluoroethane),Ebara,Building 4
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,Default DRE,593-53-3,HFC-41,D1C POU Abatement,D1C
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,Default DRE,2551-62-4,Sulfur hexafluoride,D1C POU Abatement,D1C
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,75-73-0,PFC-14 (Perfluoromethane),F3 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,76-19-7,PFC-218 (Perfluoropropane),F3 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-73-0,PFC-14 (Perfluoromethane),F4 TPU Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,7783-54-2,Nitrogen trifluoride,F6 Zenith TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,115-25-3,Perfluorocyclobutane,J1 Atlas Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,115-25-3,Perfluorocyclobutane,J2 Atlas Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,7783-54-2,Nitrogen trifluoride,J3 Atlas Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,685-63-2,Perfluorobuta-1 3-diene,J4 Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-19-7,PFC-218 (Perfluoropropane),J6 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,559-40-0,PFC C-1418,J6 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-46-7,HFC-23,J6 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,7783-54-2,Nitrogen trifluoride,J7 Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,7783-54-2,Nitrogen trifluoride,J8 Atlas TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,2551-62-4,Sulfur hexafluoride,F2 Atlas TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,593-53-3,HFC-41,F5 Zenith etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,2551-62-4,Sulfur hexafluoride,F1 Atlas Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,115-25-3,Perfluorocyclobutane,F1 Atlas Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,75-46-7,HFC-23,F1 Atlas Etch,526075
+1004371,2015,INTEL CORPORATION,Default DRE,75-10-5,HFC-32,F12 Subfab POU,F12
+1004371,2015,INTEL CORPORATION,Default DRE,76-16-4,PFC-116 (Perfluoroethane),Plasma Etch POU,F32
+1004371,2015,INTEL CORPORATION,Default DRE,7783-54-2,Nitrogen trifluoride,Plasma Etch POU,F32
+1004371,2015,INTEL CORPORATION,,593-53-3,HFC-41,Chamber Clean POU,F32
+1004371,2015,INTEL CORPORATION,Default DRE,7783-54-2,Nitrogen trifluoride,Chamber Clean POU,F32
+1004371,2015,INTEL CORPORATION,Default DRE,2551-62-4,Sulfur hexafluoride,F32 Subfab POU,F32
+1008734,2015,Avago Technologies,,76-16-4,PFC-116 (Perfluoroethane),Novellus D1 and D3 PFC Abatement,Building 2
+1008734,2015,Avago Technologies,,75-46-7,HFC-23,Novellus D2 PFC Abatement,Building 2
+1008734,2015,Avago Technologies,,76-16-4,PFC-116 (Perfluoroethane),Novellus D2 PFC Abatement,Building 2
+1008734,2015,Avago Technologies,,559-40-0,PFC C-1418,Ebara for LAM 9400_43,Building 4
+1008734,2015,Avago Technologies,,115-25-3,Perfluorocyclobutane,Ebara for LAM 9400_43,Building 4
+1008734,2015,Avago Technologies,Site-Specific Measured DRE,2551-62-4,Sulfur hexafluoride,Durian,Building 4
+1008768,2015,Microchip Technology Inc.,Site-Specific Measured DRE,76-19-7,PFC-218 (Perfluoropropane),Atlas T1,MCHP Tempe
+1009606,2015,INTEL CORPORATION ALOHA CAMPUS,Default DRE,75-10-5,HFC-32,Etch and Chamber Clean POU,AFO
+1009626,2015,Skyworks Solutions  Inc.,,76-16-4,PFC-116 (Perfluoroethane),EcoGuard POU,543498
+1009626,2015,Skyworks Solutions  Inc.,,75-46-7,HFC-23,EcoGuard POU,543498
+1009626,2015,Skyworks Solutions  Inc.,,75-73-0,PFC-14 (Perfluoromethane),EcoGuard POU,543498
+1009928,2015,TSI SEMICONDUCTORS LLC,,75-10-5,HFC-32,EDWARDS TPU,Roseville Facility
+1009928,2015,TSI SEMICONDUCTORS LLC,,76-16-4,PFC-116 (Perfluoroethane),EDWARDS TPU,Roseville Facility
+1009928,2015,TSI SEMICONDUCTORS LLC,,75-46-7,HFC-23,EDWARDS TPU,Roseville Facility
+1009982,2015,Maxim Integrated Products,,2551-62-4,Sulfur hexafluoride,Centrotherms (5),Beaverton  Oregon Fab
+1009982,2015,Maxim Integrated Products,,2551-62-4,Sulfur hexafluoride,Atlas Edward Units (5),Beaverton  Oregon Fab
+1009982,2015,Maxim Integrated Products,,7783-54-2,Nitrogen trifluoride,Atlas Edward Units (5),Beaverton  Oregon Fab
+1009983,2015,Maxim Integrated Products,Default DRE,7783-54-2,Nitrogen trifluoride,Centrotherm Units # 1,Maxim Integrated Products/San Jose  CA
+1009983,2015,Maxim Integrated Products,Default DRE,559-40-0,PFC C-1418,Centrotherm Units # 1,Maxim Integrated Products/San Jose  CA
+1009983,2015,Maxim Integrated Products,,75-10-5,HFC-32,Edwards Atlas Units - 7 units,Maxim Integrated Products/San Jose  CA
+1009983,2015,Maxim Integrated Products,,115-25-3,Perfluorocyclobutane,Edwards Atlas Units - 7 units,Maxim Integrated Products/San Jose  CA
+1009983,2015,Maxim Integrated Products,Default DRE,75-10-5,HFC-32,Centrotherm Units # 1,Maxim Integrated Products/San Jose  CA
+1010005,2015,Maxim Integrated Products,,75-46-7,HFC-23,Centrotherm Units # 1 through # 11,San Antonio
+1010005,2015,Maxim Integrated Products,,75-10-5,HFC-32,Centrotherm Units # 1 through # 11,San Antonio
+1010005,2015,Maxim Integrated Products,,75-73-0,PFC-14 (Perfluoromethane),Centrotherm Units # 1 through # 11,San Antonio
+1010005,2015,Maxim Integrated Products,Default DRE,75-73-0,PFC-14 (Perfluoromethane),Centrotherm Units # 1 through # 11,San Antonio
+1010141,2015,Spansion LLC,,685-63-2,Perfluorobuta-1 3-diene,GDC107,Fab25
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,7783-54-2,Nitrogen trifluoride,Edwards Atlas Kronis,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,75-46-7,HFC-23,Edwards Atlas Helios,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,7783-54-2,Nitrogen trifluoride,Edwards Atlas Helios,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,76-16-4,PFC-116 (Perfluoroethane),Edwards Atlas Helios,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,75-10-5,HFC-32,GST Dragon LE,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,593-53-3,HFC-41,GST Dragon LE,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,75-46-7,HFC-23,GST Dragon LE,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,Default DRE,7783-54-2,Nitrogen trifluoride,GST Dragon LE,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,Default DRE,685-63-2,Perfluorobuta-1 3-diene,Edwards Atlas Etch,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,Default DRE,75-46-7,HFC-23,Edwards Atlas TPU,Fab 8.1
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,,2551-62-4,Sulfur hexafluoride,Litmas,Building 2 3
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,Default DRE,75-73-0,PFC-14 (Perfluoromethane),Ebara G5,Building 2 3
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,,76-16-4,PFC-116 (Perfluoroethane),Ebara G5,Building 2 3
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,Default DRE,75-46-7,HFC-23,Ebara G5,Building 2 3
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,,559-40-0,PFC C-1418,Ebara G5,Building 2 3
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,Default DRE,75-46-7,HFC-23,Ebara,Building 4
+1003997,2015,INTEL - RIO RANCHO FACILITY,Default DRE,115-25-3,Perfluorocyclobutane,Subfab POU Abatement Devices,Fab 11X
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,Default DRE,75-73-0,PFC-14 (Perfluoromethane),D1C POU Abatement,D1C
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,Default DRE,75-10-5,HFC-32,D1C POU Abatement,D1C
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,,7783-54-2,Nitrogen trifluoride,D1C POU Abatement,D1C
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,Default DRE,115-25-3,Perfluorocyclobutane,D1D POU Abatement,D1D
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,Default DRE,593-53-3,HFC-41,D1D POU Abatement,D1D
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,75-46-7,HFC-23,F3 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,7783-54-2,Nitrogen trifluoride,F6 Zenith TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,7783-54-2,Nitrogen trifluoride,J1 Atlas Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-16-4,PFC-116 (Perfluoroethane),J1 Atlas Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,559-40-0,PFC C-1418,J1 Atlas Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,593-53-3,HFC-41,J3 Atlas Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-19-7,PFC-218 (Perfluoropropane),J3 Atlas Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-73-0,PFC-14 (Perfluoromethane),J4 Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,115-25-3,Perfluorocyclobutane,J4 Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-10-5,HFC-32,J5 TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,593-53-3,HFC-41,J5 TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-73-0,PFC-14 (Perfluoromethane),J5 TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,7783-54-2,Nitrogen trifluoride,J6 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-73-0,PFC-14 (Perfluoromethane),J6 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-16-4,PFC-116 (Perfluoroethane),J6 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,685-63-2,Perfluorobuta-1 3-diene,J6 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-10-5,HFC-32,J7 Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,593-53-3,HFC-41,J7 Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-16-4,PFC-116 (Perfluoroethane),J7 Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-19-7,PFC-218 (Perfluoropropane),J8 Atlas TCS,526075
+1004371,2015,INTEL CORPORATION,Default DRE,75-46-7,HFC-23,F12 Subfab POU,F12
+1004371,2015,INTEL CORPORATION,Default DRE,685-63-2,Perfluorobuta-1 3-diene,Plasma Etch POU,F32
+1004371,2015,INTEL CORPORATION,Default DRE,593-53-3,HFC-41,Plasma Etch POU,F32
+1004371,2015,INTEL CORPORATION,Default DRE,75-73-0,PFC-14 (Perfluoromethane),Plasma Etch POU,F32
+1004371,2015,INTEL CORPORATION,,685-63-2,Perfluorobuta-1 3-diene,Chamber Clean POU,F32
+1004371,2015,INTEL CORPORATION,,75-73-0,PFC-14 (Perfluoromethane),F32 Subfab POU,F32
+1004412,2015,GE GLOBAL RESEARCH CENTER,Default DRE,7783-54-2,Nitrogen trifluoride,Harrington Env. Engineering Model HPG 22-5S,K west MEMS Fab
+1007527,2015,ON Semiconductor,,115-25-3,Perfluorocyclobutane,Edwards TPU,Gresham
+1008734,2015,Avago Technologies,,75-73-0,PFC-14 (Perfluoromethane),Novellus D2 PFC Abatement,Building 2
+1008734,2015,Avago Technologies,,75-73-0,PFC-14 (Perfluoromethane),Durian,Building 4
+1008734,2015,Avago Technologies,,75-46-7,HFC-23,Durian,Building 4
+1008768,2015,Microchip Technology Inc.,,75-73-0,PFC-14 (Perfluoromethane),Atlas T1,MCHP Tempe
+1008768,2015,Microchip Technology Inc.,,2551-62-4,Sulfur hexafluoride,Atlas T1,MCHP Tempe
+1009606,2015,INTEL CORPORATION ALOHA CAMPUS,Default DRE,7783-54-2,Nitrogen trifluoride,Etch and Chamber Clean POU,AFO
+1009626,2015,Skyworks Solutions  Inc.,,75-46-7,HFC-23,Marathon POU - only one for 4 Novellus Tools,543498
+1009928,2015,TSI SEMICONDUCTORS LLC,,76-19-7,PFC-218 (Perfluoropropane),EDWARDS TPU,Roseville Facility
+1009928,2015,TSI SEMICONDUCTORS LLC,,75-46-7,HFC-23,Centrotherm,Roseville Facility
+1009982,2015,Maxim Integrated Products,,75-73-0,PFC-14 (Perfluoromethane),Centrotherms (5),Beaverton  Oregon Fab
+1009983,2015,Maxim Integrated Products,,75-46-7,HFC-23,Centrotherm Units # 1,Maxim Integrated Products/San Jose  CA
+1009983,2015,Maxim Integrated Products,Default DRE,75-73-0,PFC-14 (Perfluoromethane),Edwards Atlas Units - 7 units,Maxim Integrated Products/San Jose  CA
+1010005,2015,Maxim Integrated Products,Default DRE,76-16-4,PFC-116 (Perfluoroethane),Centrotherm Units # 1 through # 11,San Antonio
+1010141,2015,Spansion LLC,,593-53-3,HFC-41,GDC107,Fab25
+1010141,2015,Spansion LLC,,559-40-0,PFC C-1418,GDC107,Fab25
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,75-10-5,HFC-32,Edwards Atlas TCS,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,Site-Specific Measured DRE,7783-54-2,Nitrogen trifluoride,Edwards Atlas Helios,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,Default DRE,115-25-3,Perfluorocyclobutane,Edwards Atlas Etch,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,Default DRE,559-40-0,PFC C-1418,Edwards Atlas Etch,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,Default DRE,75-10-5,HFC-32,Edwards Atlas Etch,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,Default DRE,7783-54-2,Nitrogen trifluoride,Edwards Atlas Etch,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,593-53-3,HFC-41,Edwards Atlas TPU,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,2551-62-4,Sulfur hexafluoride,Edwards Atlas TPU,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,75-73-0,PFC-14 (Perfluoromethane),Edwards Atlas Kronis,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,559-40-0,PFC C-1418,Edwards Atlas Kronis,Fab 8.1
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,,76-16-4,PFC-116 (Perfluoroethane),Litmas,Building 2 3
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,,75-73-0,PFC-14 (Perfluoromethane),Ebara G5,Building 2 3
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,Default DRE,2551-62-4,Sulfur hexafluoride,Ebara G5,Building 2 3
+1003997,2015,INTEL - RIO RANCHO FACILITY,Default DRE,76-16-4,PFC-116 (Perfluoroethane),Subfab POU Abatement Devices,Fab 11X
+1003997,2015,INTEL - RIO RANCHO FACILITY,Default DRE,685-63-2,Perfluorobuta-1 3-diene,Subfab POU Abatement Devices,Fab 11X
+1003997,2015,INTEL - RIO RANCHO FACILITY,,7783-54-2,Nitrogen trifluoride,Subfab POU Abatement Devices,Fab 11X
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,,75-73-0,PFC-14 (Perfluoromethane),D1D POU Abatement,D1D
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,Default DRE,75-10-5,HFC-32,D1D POU Abatement,D1D
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,2551-62-4,Sulfur hexafluoride,F3 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,593-53-3,HFC-41,F4 TPU Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,75-73-0,PFC-14 (Perfluoromethane),F4 TPU Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-10-5,HFC-32,J1 Atlas Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,7783-54-2,Nitrogen trifluoride,J1 Atlas Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-19-7,PFC-218 (Perfluoropropane),J1 Atlas Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-10-5,HFC-32,J3 Atlas Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,2551-62-4,Sulfur hexafluoride,J4 Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,7783-54-2,Nitrogen trifluoride,J4 Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-46-7,HFC-23,J4 Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,593-53-3,HFC-41,J6 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,115-25-3,Perfluorocyclobutane,J6 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-46-7,HFC-23,J7 Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-73-0,PFC-14 (Perfluoromethane),J8 Atlas TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-16-4,PFC-116 (Perfluoroethane),J8 Atlas TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,593-53-3,HFC-41,F2 Atlas TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,7783-54-2,Nitrogen trifluoride,F2 Atlas TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,75-73-0,PFC-14 (Perfluoromethane),F2 Atlas TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,75-73-0,PFC-14 (Perfluoromethane),F5 Zenith etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,593-53-3,HFC-41,F1 Atlas Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,75-73-0,PFC-14 (Perfluoromethane),F1 Atlas Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,76-19-7,PFC-218 (Perfluoropropane),F1 Atlas Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,559-40-0,PFC C-1418,F1 Atlas Etch,526075
+1004371,2015,INTEL CORPORATION,,2551-62-4,Sulfur hexafluoride,Chamber Clean POU,F32
+1004371,2015,INTEL CORPORATION,Default DRE,115-25-3,Perfluorocyclobutane,F32 Subfab POU,F32
+1004371,2015,INTEL CORPORATION,Default DRE,75-10-5,HFC-32,F32 Subfab POU,F32
+1004371,2015,INTEL CORPORATION,Default DRE,593-53-3,HFC-41,F32 Subfab POU,F32
+1004412,2015,GE GLOBAL RESEARCH CENTER,Default DRE,75-73-0,PFC-14 (Perfluoromethane),Harrington Env. Engineering Model HPG 22-5S,K west MEMS Fab
+1007527,2015,ON Semiconductor,Default DRE,75-46-7,HFC-23,Edwards TPU,Gresham
+1007527,2015,ON Semiconductor,,7783-54-2,Nitrogen trifluoride,Edwards TPU,Gresham
+1007527,2015,ON Semiconductor,Default DRE,7783-54-2,Nitrogen trifluoride,Edwards TPU,Gresham
+1008734,2015,Avago Technologies,,7783-54-2,Nitrogen trifluoride,Novellus D1 and D3 PFC Abatement,Building 2
+1008734,2015,Avago Technologies,,559-40-0,PFC C-1418,Novellus D2 PFC Abatement,Building 2
+1008734,2015,Avago Technologies,Default DRE,2551-62-4,Sulfur hexafluoride,Durian,Building 4
+1009626,2015,Skyworks Solutions  Inc.,,2551-62-4,Sulfur hexafluoride,EcoGuard POU,543498
+1009928,2015,TSI SEMICONDUCTORS LLC,,559-40-0,PFC C-1418,EDWARDS TPU,Roseville Facility
+1009928,2015,TSI SEMICONDUCTORS LLC,,76-16-4,PFC-116 (Perfluoroethane),Centrotherm,Roseville Facility
+1009928,2015,TSI SEMICONDUCTORS LLC,Default DRE,76-16-4,PFC-116 (Perfluoroethane),Centrotherm,Roseville Facility
+1009982,2015,Maxim Integrated Products,,75-46-7,HFC-23,Atlas Edward Units (5),Beaverton  Oregon Fab
+1009982,2015,Maxim Integrated Products,,76-16-4,PFC-116 (Perfluoroethane),Atlas Edward Units (5),Beaverton  Oregon Fab
+1009983,2015,Maxim Integrated Products,,7783-54-2,Nitrogen trifluoride,Centrotherm Units # 1,Maxim Integrated Products/San Jose  CA
+1009983,2015,Maxim Integrated Products,,75-46-7,HFC-23,Edwards Atlas Units - 7 units,Maxim Integrated Products/San Jose  CA
+1009983,2015,Maxim Integrated Products,Default DRE,593-53-3,HFC-41,Centrotherm Units # 1,Maxim Integrated Products/San Jose  CA
+1010141,2015,Spansion LLC,,115-25-3,Perfluorocyclobutane,GDC107,Fab25
+1010141,2015,Spansion LLC,,75-46-7,HFC-23,GDC107,Fab25
+1010141,2015,Spansion LLC,,7783-54-2,Nitrogen trifluoride,GDC107,Fab25
+1010141,2015,Spansion LLC,,76-16-4,PFC-116 (Perfluoroethane),GDC107,Fab25
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,685-63-2,Perfluorobuta-1 3-diene,Edwards Atlas TCS,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,2551-62-4,Sulfur hexafluoride,Edwards Atlas TCS,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,559-40-0,PFC C-1418,Edwards Atlas Helios,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,2551-62-4,Sulfur hexafluoride,Edwards Atlas Helios,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,115-25-3,Perfluorocyclobutane,GST Dragon LE,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,76-16-4,PFC-116 (Perfluoroethane),Edwards Atlas Etch,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,Default DRE,75-10-5,HFC-32,Edwards Atlas TPU,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,593-53-3,HFC-41,Edwards Atlas Kronis,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,Site-Specific Measured DRE,7783-54-2,Nitrogen trifluoride,Edwards Atlas Kronis,Fab 8.1
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,Default DRE,115-25-3,Perfluorocyclobutane,D1C POU Abatement,D1C
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,Default DRE,7783-54-2,Nitrogen trifluoride,D1D POU Abatement,D1D
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,Default DRE,2551-62-4,Sulfur hexafluoride,D1D POU Abatement,D1D
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,7783-54-2,Nitrogen trifluoride,F3 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-73-0,PFC-14 (Perfluoromethane),F3 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,2551-62-4,Sulfur hexafluoride,F6 Zenith TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-73-0,PFC-14 (Perfluoromethane),J1 Atlas Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,2551-62-4,Sulfur hexafluoride,J2 Atlas Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-16-4,PFC-116 (Perfluoroethane),J2 Atlas Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,559-40-0,PFC C-1418,J3 Atlas Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-10-5,HFC-32,J4 Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,559-40-0,PFC C-1418,J4 Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,7783-54-2,Nitrogen trifluoride,J5 TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,559-40-0,PFC C-1418,J5 TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-46-7,HFC-23,J5 TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-73-0,PFC-14 (Perfluoromethane),J7 Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-46-7,HFC-23,J8 Atlas TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,685-63-2,Perfluorobuta-1 3-diene,F2 Atlas TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,7783-54-2,Nitrogen trifluoride,F5 Zenith etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-19-7,PFC-218 (Perfluoropropane),F5 Zenith etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,559-40-0,PFC C-1418,F5 Zenith etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,685-63-2,Perfluorobuta-1 3-diene,F1 Atlas Etch,526075
+1004371,2015,INTEL CORPORATION,Default DRE,685-63-2,Perfluorobuta-1 3-diene,F12 Subfab POU,F12
+1004371,2015,INTEL CORPORATION,Default DRE,115-25-3,Perfluorocyclobutane,Plasma Etch POU,F32
+1004371,2015,INTEL CORPORATION,Default DRE,75-46-7,HFC-23,Plasma Etch POU,F32
+1004371,2015,INTEL CORPORATION,,115-25-3,Perfluorocyclobutane,Chamber Clean POU,F32
+1004371,2015,INTEL CORPORATION,,7783-54-2,Nitrogen trifluoride,Chamber Clean POU,F32
+1004371,2015,INTEL CORPORATION,,7783-54-2,Nitrogen trifluoride,F32 Subfab POU,F32
+1004412,2015,GE GLOBAL RESEARCH CENTER,Default DRE,2551-62-4,Sulfur hexafluoride,Harrington Env. Engineering Model HPG 22-5S,K west MEMS Fab
+1007527,2015,ON Semiconductor,,2551-62-4,Sulfur hexafluoride,Edwards TPU,Gresham
+1008734,2015,Avago Technologies,,75-46-7,HFC-23,Ebara for LAM 9400_43,Building 4
+1008734,2015,Avago Technologies,,2551-62-4,Sulfur hexafluoride,Ebara for LAM 9400_43,Building 4
+1009626,2015,Skyworks Solutions  Inc.,Default DRE,76-16-4,PFC-116 (Perfluoroethane),EcoGuard POU,543498
+1009626,2015,Skyworks Solutions  Inc.,,559-40-0,PFC C-1418,EcoGuard POU,543498
+1009928,2015,TSI SEMICONDUCTORS LLC,Default DRE,7783-54-2,Nitrogen trifluoride,EDWARDS TPU,Roseville Facility
+1009982,2015,Maxim Integrated Products,,115-25-3,Perfluorocyclobutane,Atlas Edward Units (5),Beaverton  Oregon Fab
+1009983,2015,Maxim Integrated Products,,2551-62-4,Sulfur hexafluoride,Edwards Atlas Units - 7 units,Maxim Integrated Products/San Jose  CA
+1009983,2015,Maxim Integrated Products,Default DRE,7783-54-2,Nitrogen trifluoride,Edwards Atlas Units - 7 units,Maxim Integrated Products/San Jose  CA
+1010005,2015,Maxim Integrated Products,,593-53-3,HFC-41,Centrotherm Units # 1 through # 11,San Antonio
+1010005,2015,Maxim Integrated Products,,2551-62-4,Sulfur hexafluoride,Centrotherm Units # 1 through # 11,San Antonio
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,115-25-3,Perfluorocyclobutane,Edwards Atlas TCS,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,593-53-3,HFC-41,Edwards Atlas TCS,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,Default DRE,7783-54-2,Nitrogen trifluoride,Edwards Atlas TCS,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,115-25-3,Perfluorocyclobutane,Edwards Atlas Helios,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,75-10-5,HFC-32,Edwards Atlas Helios,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,76-19-7,PFC-218 (Perfluoropropane),Edwards Atlas Helios,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,76-16-4,PFC-116 (Perfluoroethane),GST Dragon LE,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,76-19-7,PFC-218 (Perfluoropropane),GST Dragon LE,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,115-25-3,Perfluorocyclobutane,Edwards Atlas TPU,Fab 8.1
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,Default DRE,75-73-0,PFC-14 (Perfluoromethane),Litmas,Building 2 3
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,,75-73-0,PFC-14 (Perfluoromethane),Litmas,Building 2 3
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,,7783-54-2,Nitrogen trifluoride,Litmas,Building 2 3
+1003997,2015,INTEL - RIO RANCHO FACILITY,,559-40-0,PFC C-1418,Subfab POU Abatement Devices,Fab 11X
+1003997,2015,INTEL - RIO RANCHO FACILITY,,75-73-0,PFC-14 (Perfluoromethane),Subfab POU Abatement Devices,Fab 11X
+1003997,2015,INTEL - RIO RANCHO FACILITY,Default DRE,75-10-5,HFC-32,Subfab POU Abatement Devices,Fab 11X
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,,75-73-0,PFC-14 (Perfluoromethane),D1C POU Abatement,D1C
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,75-10-5,HFC-32,F3 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,7783-54-2,Nitrogen trifluoride,F4 TPU Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,76-19-7,PFC-218 (Perfluoropropane),F4 TPU Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,559-40-0,PFC C-1418,F4 TPU Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,75-46-7,HFC-23,F4 TPU Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,75-73-0,PFC-14 (Perfluoromethane),F6 Zenith TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-73-0,PFC-14 (Perfluoromethane),F6 Zenith TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,685-63-2,Perfluorobuta-1 3-diene,F6 Zenith TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,593-53-3,HFC-41,J1 Atlas Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,2551-62-4,Sulfur hexafluoride,J1 Atlas Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-10-5,HFC-32,J2 Atlas Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,593-53-3,HFC-41,J2 Atlas Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,7783-54-2,Nitrogen trifluoride,J2 Atlas Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,7783-54-2,Nitrogen trifluoride,J2 Atlas Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-19-7,PFC-218 (Perfluoropropane),J2 Atlas Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,7783-54-2,Nitrogen trifluoride,J5 TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-16-4,PFC-116 (Perfluoroethane),J5 TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-19-7,PFC-218 (Perfluoropropane),J5 TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,7783-54-2,Nitrogen trifluoride,J6 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,2551-62-4,Sulfur hexafluoride,J7 Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,559-40-0,PFC C-1418,J7 Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,685-63-2,Perfluorobuta-1 3-diene,J7 Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,115-25-3,Perfluorocyclobutane,J8 Atlas TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,7783-54-2,Nitrogen trifluoride,F2 Atlas TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-73-0,PFC-14 (Perfluoromethane),F2 Atlas TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-10-5,HFC-32,F5 Zenith etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,75-10-5,HFC-32,F1 Atlas Etch,526075
+1004371,2015,INTEL CORPORATION,Default DRE,75-73-0,PFC-14 (Perfluoromethane),F12 Subfab POU,F12
+1004371,2015,INTEL CORPORATION,,7783-54-2,Nitrogen trifluoride,Plasma Etch POU,F32
+1004371,2015,INTEL CORPORATION,Default DRE,7783-54-2,Nitrogen trifluoride,F32 Subfab POU,F32
+1007527,2015,ON Semiconductor,,559-40-0,Octafluorocyclopentene,Edwards TPU,Gresham
+1008734,2015,Avago Technologies,,75-46-7,HFC-23,Novellus D1 and D3 PFC Abatement,Building 2
+1008734,2015,Avago Technologies,,115-25-3,Perfluorocyclobutane,Novellus D1 and D3 PFC Abatement,Building 2
+1008734,2015,Avago Technologies,,115-25-3,Perfluorocyclobutane,Novellus D2 PFC Abatement,Building 2
+1008734,2015,Avago Technologies,,75-73-0,PFC-14 (Perfluoromethane),Ebara for LAM 9400_43,Building 4
+1008734,2015,Avago Technologies,,7783-54-2,Nitrogen trifluoride,Ebara for LAM 9400_43,Building 4
+1008734,2015,Avago Technologies,,559-40-0,PFC C-1418,Durian,Building 4
+1008768,2015,Microchip Technology Inc.,,559-40-0,PFC C-1418,Atlas T1,MCHP Tempe
+1008768,2015,Microchip Technology Inc.,,76-16-4,PFC-116 (Perfluoroethane),Atlas T1,MCHP Tempe
+1009606,2015,INTEL CORPORATION ALOHA CAMPUS,Default DRE,75-73-0,PFC-14 (Perfluoromethane),Etch and Chamber Clean POU,AFO
+1009606,2015,INTEL CORPORATION ALOHA CAMPUS,Default DRE,593-53-3,HFC-41,Etch and Chamber Clean POU,AFO
+1009606,2015,INTEL CORPORATION ALOHA CAMPUS,Default DRE,76-16-4,PFC-116 (Perfluoroethane),Etch and Chamber Clean POU,AFO
+1009928,2015,TSI SEMICONDUCTORS LLC,Default DRE,76-16-4,PFC-116 (Perfluoroethane),EDWARDS TPU,Roseville Facility
+1009982,2015,Maxim Integrated Products,,76-16-4,PFC-116 (Perfluoroethane),Centrotherms (5),Beaverton  Oregon Fab
+1009983,2015,Maxim Integrated Products,Default DRE,75-73-0,PFC-14 (Perfluoromethane),Centrotherm Units # 1,Maxim Integrated Products/San Jose  CA
+1009983,2015,Maxim Integrated Products,Default DRE,115-25-3,Perfluorocyclobutane,Centrotherm Units # 1,Maxim Integrated Products/San Jose  CA
+1009983,2015,Maxim Integrated Products,Default DRE,76-16-4,PFC-116 (Perfluoroethane),Edwards Atlas Units - 7 units,Maxim Integrated Products/San Jose  CA
+1010005,2015,Maxim Integrated Products,,76-16-4,PFC-116 (Perfluoroethane),Centrotherm Units # 1 through # 11,San Antonio
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,76-19-7,PFC-218 (Perfluoropropane),Edwards Atlas Kronis,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,Site-Specific Measured DRE,7783-54-2,Nitrogen trifluoride,Edwards Atlas TCS,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,76-19-7,PFC-218 (Perfluoropropane),Edwards Atlas TCS,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,75-73-0,PFC-14 (Perfluoromethane),GST Dragon LE,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,685-63-2,Perfluorobuta-1 3-diene,GST Dragon LE,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,559-40-0,PFC C-1418,GST Dragon LE,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,75-73-0,PFC-14 (Perfluoromethane),Edwards Atlas Etch,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,Default DRE,75-46-7,HFC-23,Edwards Atlas Etch,Fab 8.1
+1011905,2015,Lumileds LLC,,593-53-3,HFC-41,Kanken,Lumileds Fab
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,Default DRE,75-46-7,HFC-23,Litmas,Building 2 3
+1003997,2015,INTEL - RIO RANCHO FACILITY,Default DRE,75-73-0,PFC-14 (Perfluoromethane),Subfab POU Abatement Devices,Fab 11X
+1003997,2015,INTEL - RIO RANCHO FACILITY,Default DRE,7783-54-2,Nitrogen trifluoride,Subfab POU Abatement Devices,Fab 11X
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,Default DRE,76-16-4,PFC-116 (Perfluoroethane),D1D POU Abatement,D1D
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,115-25-3,Perfluorocyclobutane,F3 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,559-40-0,PFC C-1418,F3 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,2551-62-4,Sulfur hexafluoride,F4 TPU Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,76-16-4,PFC-116 (Perfluoroethane),F4 TPU Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,115-25-3,Perfluorocyclobutane,F6 Zenith TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-16-4,PFC-116 (Perfluoroethane),J3 Atlas Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,685-63-2,Perfluorobuta-1 3-diene,J3 Atlas Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,2551-62-4,Sulfur hexafluoride,J5 TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,2551-62-4,Sulfur hexafluoride,J6 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,7783-54-2,Nitrogen trifluoride,J7 Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-19-7,PFC-218 (Perfluoropropane),J7 Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-10-5,HFC-32,J8 Atlas TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,559-40-0,PFC C-1418,J8 Atlas TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,76-16-4,PFC-116 (Perfluoroethane),F2 Atlas TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,76-16-4,PFC-116 (Perfluoroethane),F5 Zenith etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,115-25-3,Perfluorocyclobutane,F5 Zenith etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,76-16-4,PFC-116 (Perfluoroethane),F1 Atlas Etch,526075
+1004371,2015,INTEL CORPORATION,Default DRE,2551-62-4,Sulfur hexafluoride,F12 Subfab POU,F12
+1004371,2015,INTEL CORPORATION,,75-46-7,HFC-23,Chamber Clean POU,F32
+1004371,2015,INTEL CORPORATION,Default DRE,76-16-4,PFC-116 (Perfluoroethane),F32 Subfab POU,F32
+1007527,2015,ON Semiconductor,Default DRE,76-16-4,PFC-116 (Perfluoroethane),Edwards TPU,Gresham
+1008734,2015,Avago Technologies,,7783-54-2,Nitrogen trifluoride,Novellus D2 PFC Abatement,Building 2
+1008734,2015,Avago Technologies,,76-16-4,PFC-116 (Perfluoroethane),Durian,Building 4
+1008734,2015,Avago Technologies,,7783-54-2,Nitrogen trifluoride,Durian,Building 4
+1008768,2015,Microchip Technology Inc.,,7783-54-2,Nitrogen trifluoride,Atlas T1,MCHP Tempe
+1008768,2015,Microchip Technology Inc.,,75-46-7,HFC-23,Atlas T1,MCHP Tempe
+1008768,2015,Microchip Technology Inc.,,115-25-3,Perfluorocyclobutane,Atlas T1,MCHP Tempe
+1009626,2015,Skyworks Solutions  Inc.,,559-40-0,PFC C-1418,Marathon POU - only one for 4 Novellus Tools,543498
+1009928,2015,TSI SEMICONDUCTORS LLC,,75-73-0,PFC-14 (Perfluoromethane),EDWARDS TPU,Roseville Facility
+1009928,2015,TSI SEMICONDUCTORS LLC,,75-10-5,HFC-32,Centrotherm,Roseville Facility
+1009928,2015,TSI SEMICONDUCTORS LLC,,7783-54-2,Nitrogen trifluoride,Centrotherm,Roseville Facility
+1009928,2015,TSI SEMICONDUCTORS LLC,,76-19-7,PFC-218 (Perfluoropropane),Centrotherm,Roseville Facility
+1009982,2015,Maxim Integrated Products,,75-73-0,PFC-14 (Perfluoromethane),Atlas Edward Units (5),Beaverton  Oregon Fab
+1009983,2015,Maxim Integrated Products,,75-73-0,PFC-14 (Perfluoromethane),Centrotherm Units # 1,Maxim Integrated Products/San Jose  CA
+1009983,2015,Maxim Integrated Products,,76-16-4,PFC-116 (Perfluoroethane),Centrotherm Units # 1,Maxim Integrated Products/San Jose  CA
+1009983,2015,Maxim Integrated Products,,75-73-0,PFC-14 (Perfluoromethane),Edwards Atlas Units - 7 units,Maxim Integrated Products/San Jose  CA
+1010005,2015,Maxim Integrated Products,Default DRE,7783-54-2,Nitrogen trifluoride,Centrotherm Units # 1 through # 11,San Antonio
+1010141,2015,Spansion LLC,,75-73-0,PFC-14 (Perfluoromethane),GDC107,Fab25
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,559-40-0,PFC C-1418,Edwards Atlas TCS,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,75-46-7,HFC-23,Edwards Atlas TCS,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,685-63-2,Perfluorobuta-1 3-diene,Edwards Atlas Helios,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,Site-Specific Measured DRE,7783-54-2,Nitrogen trifluoride,Edwards Atlas Etch,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,Default DRE,2551-62-4,Sulfur hexafluoride,Edwards Atlas Etch,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,76-19-7,PFC-218 (Perfluoropropane),Edwards Atlas Etch,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,Default DRE,7783-54-2,Nitrogen trifluoride,Edwards Atlas TPU,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,115-25-3,Perfluorocyclobutane,Edwards Atlas Kronis,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,75-46-7,HFC-23,Edwards Atlas Kronis,Fab 8.1
+1011905,2015,Lumileds LLC,Default DRE,76-16-4,PFC-116 (Perfluoroethane),Kanken,Lumileds Fab
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,,115-25-3,Perfluorocyclobutane,Ebara G5,Building 2 3
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,Default DRE,2551-62-4,Sulfur hexafluoride,Ebara,Building 4
+1003997,2015,INTEL - RIO RANCHO FACILITY,Default DRE,2551-62-4,Sulfur hexafluoride,Subfab POU Abatement Devices,Fab 11X
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,Default DRE,76-16-4,PFC-116 (Perfluoroethane),D1C POU Abatement,D1C
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,Default DRE,75-46-7,HFC-23,D1C POU Abatement,D1C
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,593-53-3,HFC-41,F3 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,76-16-4,PFC-116 (Perfluoroethane),F3 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,685-63-2,Perfluorobuta-1 3-diene,F3 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,75-10-5,HFC-32,F4 TPU Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,115-25-3,Perfluorocyclobutane,F4 TPU Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,685-63-2,Perfluorobuta-1 3-diene,F4 TPU Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,75-10-5,HFC-32,F6 Zenith TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,76-16-4,PFC-116 (Perfluoroethane),F6 Zenith TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-19-7,PFC-218 (Perfluoropropane),F6 Zenith TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,559-40-0,PFC C-1418,F6 Zenith TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,685-63-2,Perfluorobuta-1 3-diene,J1 Atlas Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-46-7,HFC-23,J1 Atlas Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-73-0,PFC-14 (Perfluoromethane),J2 Atlas Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,685-63-2,Perfluorobuta-1 3-diene,J2 Atlas Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-46-7,HFC-23,J2 Atlas Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,7783-54-2,Nitrogen trifluoride,J3 Atlas Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,593-53-3,HFC-41,J4 Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-16-4,PFC-116 (Perfluoroethane),J4 Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-19-7,PFC-218 (Perfluoropropane),J4 Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,115-25-3,Perfluorocyclobutane,J5 TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,685-63-2,Perfluorobuta-1 3-diene,J5 TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,593-53-3,HFC-41,J8 Atlas TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,7783-54-2,Nitrogen trifluoride,J8 Atlas TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,685-63-2,Perfluorobuta-1 3-diene,J8 Atlas TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,75-10-5,HFC-32,F2 Atlas TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,76-19-7,PFC-218 (Perfluoropropane),F2 Atlas TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,2551-62-4,Sulfur hexafluoride,F5 Zenith etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-73-0,PFC-14 (Perfluoromethane),F5 Zenith etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,685-63-2,Perfluorobuta-1 3-diene,F5 Zenith etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,75-46-7,HFC-23,F5 Zenith etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-73-0,PFC-14 (Perfluoromethane),F1 Atlas Etch,526075
+1004371,2015,INTEL CORPORATION,Default DRE,115-25-3,Perfluorocyclobutane,F12 Subfab POU,F12
+1004371,2015,INTEL CORPORATION,Default DRE,593-53-3,HFC-41,F12 Subfab POU,F12
+1004371,2015,INTEL CORPORATION,Default DRE,75-10-5,HFC-32,Plasma Etch POU,F32
+1004371,2015,INTEL CORPORATION,Default DRE,2551-62-4,Sulfur hexafluoride,Plasma Etch POU,F32
+1004371,2015,INTEL CORPORATION,,75-73-0,PFC-14 (Perfluoromethane),Plasma Etch POU,F32
+1004371,2015,INTEL CORPORATION,,75-10-5,HFC-32,Chamber Clean POU,F32
+1004371,2015,INTEL CORPORATION,Default DRE,75-73-0,PFC-14 (Perfluoromethane),F32 Subfab POU,F32
+1008734,2015,Avago Technologies,,559-40-0,PFC C-1418,Novellus D1 and D3 PFC Abatement,Building 2
+1008734,2015,Avago Technologies,,2551-62-4,Sulfur hexafluoride,Novellus D1 and D3 PFC Abatement,Building 2
+1008734,2015,Avago Technologies,,2551-62-4,Sulfur hexafluoride,Novellus D2 PFC Abatement,Building 2
+1008734,2015,Avago Technologies,,76-16-4,PFC-116 (Perfluoroethane),Ebara for LAM 9400_43,Building 4
+1009606,2015,INTEL CORPORATION ALOHA CAMPUS,,75-73-0,PFC-14 (Perfluoromethane),Etch and Chamber Clean POU,AFO
+1009626,2015,Skyworks Solutions  Inc.,,76-16-4,PFC-116 (Perfluoroethane),Marathon POU - only one for 4 Novellus Tools,543498
+1009626,2015,Skyworks Solutions  Inc.,,75-73-0,PFC-14 (Perfluoromethane),Marathon POU - only one for 4 Novellus Tools,543498
+1009928,2015,TSI SEMICONDUCTORS LLC,,115-25-3,Perfluorocyclobutane,EDWARDS TPU,Roseville Facility
+1009928,2015,TSI SEMICONDUCTORS LLC,,559-40-0,PFC C-1418,Centrotherm,Roseville Facility
+1009982,2015,Maxim Integrated Products,,115-25-3,Perfluorocyclobutane,Centrotherms (5),Beaverton  Oregon Fab
+1009983,2015,Maxim Integrated Products,,593-53-3,HFC-41,Edwards Atlas Units - 7 units,Maxim Integrated Products/San Jose  CA
+1009983,2015,Maxim Integrated Products,,7783-54-2,Nitrogen trifluoride,Edwards Atlas Units - 7 units,Maxim Integrated Products/San Jose  CA
+1009983,2015,Maxim Integrated Products,Default DRE,2551-62-4,Sulfur hexafluoride,Centrotherm Units # 1,Maxim Integrated Products/San Jose  CA
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,2551-62-4,Sulfur hexafluoride,Edwards Atlas Kronis,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,76-16-4,PFC-116 (Perfluoroethane),Edwards Atlas Kronis,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,7783-54-2,Nitrogen trifluoride,Edwards Atlas TCS,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,76-16-4,PFC-116 (Perfluoroethane),Edwards Atlas TCS,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,75-73-0,PFC-14 (Perfluoromethane),Edwards Atlas Helios,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,2551-62-4,Sulfur hexafluoride,GST Dragon LE,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,Site-Specific Measured DRE,75-73-0,PFC-14 (Perfluoromethane),Edwards Atlas Etch,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,7783-54-2,Nitrogen trifluoride,Edwards Atlas Etch,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,685-63-2,Perfluorobuta-1 3-diene,Edwards Atlas TPU,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,76-16-4,PFC-116 (Perfluoroethane),Edwards Atlas TPU,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,685-63-2,Perfluorobuta-1 3-diene,Edwards Atlas Kronis,Fab 8.1
+1011905,2015,Lumileds LLC,Default DRE,75-73-0,PFC-14 (Perfluoromethane),Kanken,Lumileds Fab
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,Default DRE,115-25-3,Perfluorocyclobutane,Ebara,Building 4
+1003997,2015,INTEL - RIO RANCHO FACILITY,Default DRE,593-53-3,HFC-41,Subfab POU Abatement Devices,Fab 11X
+1003997,2015,INTEL - RIO RANCHO FACILITY,Default DRE,75-46-7,HFC-23,Subfab POU Abatement Devices,Fab 11X
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,Default DRE,685-63-2,Perfluorobuta-1 3-diene,D1C POU Abatement,D1C
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,Default DRE,7783-54-2,Nitrogen trifluoride,D1C POU Abatement,D1C
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,Default DRE,685-63-2,Perfluorobuta-1 3-diene,D1D POU Abatement,D1D
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,Default DRE,75-73-0,PFC-14 (Perfluoromethane),D1D POU Abatement,D1D
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,Default DRE,75-46-7,HFC-23,D1D POU Abatement,D1D
+1004006,2015,INTEL CORPORATION RONLER ACRES CAMPUS,,7783-54-2,Nitrogen trifluoride,D1D POU Abatement,D1D
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,7783-54-2,Nitrogen trifluoride,F3 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,7783-54-2,Nitrogen trifluoride,F4 TPU Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,593-53-3,HFC-41,F6 Zenith TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,75-46-7,HFC-23,F6 Zenith TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,559-40-0,PFC C-1418,J2 Atlas Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,2551-62-4,Sulfur hexafluoride,J3 Atlas Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-73-0,PFC-14 (Perfluoromethane),J3 Atlas Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,115-25-3,Perfluorocyclobutane,J3 Atlas Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-46-7,HFC-23,J3 Atlas Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,7783-54-2,Nitrogen trifluoride,J4 Helios,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,75-10-5,HFC-32,J6 TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,115-25-3,Perfluorocyclobutane,J7 Kronis,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,2551-62-4,Sulfur hexafluoride,J8 Atlas TCS,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,115-25-3,Perfluorocyclobutane,F2 Atlas TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,559-40-0,PFC C-1418,F2 Atlas TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,75-46-7,HFC-23,F2 Atlas TPU,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,Default DRE,7783-54-2,Nitrogen trifluoride,F1 Atlas Etch,526075
+1004300,2015,GLOBALFOUNDRIES US2 LLC East Fishkill Facility,,7783-54-2,Nitrogen trifluoride,F1 Atlas Etch,526075
+1004371,2015,INTEL CORPORATION,Default DRE,76-16-4,PFC-116 (Perfluoroethane),F12 Subfab POU,F12
+1004371,2015,INTEL CORPORATION,,75-73-0,PFC-14 (Perfluoromethane),F12 Subfab POU,F12
+1004371,2015,INTEL CORPORATION,Default DRE,7783-54-2,Nitrogen trifluoride,F12 Subfab POU,F12
+1004371,2015,INTEL CORPORATION,,76-16-4,PFC-116 (Perfluoroethane),Chamber Clean POU,F32
+1004371,2015,INTEL CORPORATION,,75-73-0,PFC-14 (Perfluoromethane),Chamber Clean POU,F32
+1004371,2015,INTEL CORPORATION,Default DRE,685-63-2,Perfluorobuta-1 3-diene,F32 Subfab POU,F32
+1004371,2015,INTEL CORPORATION,Default DRE,75-46-7,HFC-23,F32 Subfab POU,F32
+1004412,2015,GE GLOBAL RESEARCH CENTER,Default DRE,75-46-7,HFC-23,Harrington Env. Engineering Model HPG 22-5S,K west MEMS Fab
+1007527,2015,ON Semiconductor,Default DRE,75-73-0,PFC-14 (Perfluoromethane),Edwards TPU,Gresham
+1008734,2015,Avago Technologies,,75-73-0,PFC-14 (Perfluoromethane),Novellus D1 and D3 PFC Abatement,Building 2
+1008734,2015,Avago Technologies,,115-25-3,Perfluorocyclobutane,Durian,Building 4
+1009606,2015,INTEL CORPORATION ALOHA CAMPUS,Default DRE,75-46-7,HFC-23,Etch and Chamber Clean POU,AFO
+1009626,2015,Skyworks Solutions  Inc.,,2551-62-4,Sulfur hexafluoride,Marathon POU - only one for 4 Novellus Tools,543498
+1009928,2015,TSI SEMICONDUCTORS LLC,,115-25-3,Perfluorocyclobutane,Centrotherm,Roseville Facility
+1009928,2015,TSI SEMICONDUCTORS LLC,,75-73-0,PFC-14 (Perfluoromethane),Centrotherm,Roseville Facility
+1009982,2015,Maxim Integrated Products,,75-46-7,HFC-23,Centrotherms (5),Beaverton  Oregon Fab
+1009982,2015,Maxim Integrated Products,,7783-54-2,Nitrogen trifluoride,Centrotherms (5),Beaverton  Oregon Fab
+1009983,2015,Maxim Integrated Products,Default DRE,76-16-4,PFC-116 (Perfluoroethane),Centrotherm Units # 1,Maxim Integrated Products/San Jose  CA
+1009983,2015,Maxim Integrated Products,,76-16-4,PFC-116 (Perfluoroethane),Edwards Atlas Units - 7 units,Maxim Integrated Products/San Jose  CA
+1009983,2015,Maxim Integrated Products,,559-40-0,PFC C-1418,Edwards Atlas Units - 7 units,Maxim Integrated Products/San Jose  CA
+1010005,2015,Maxim Integrated Products,,115-25-3,Perfluorocyclobutane,Centrotherm Units # 1 through # 11,San Antonio
+1010005,2015,Maxim Integrated Products,,559-40-0,PFC C-1418,Centrotherm Units # 1 through # 11,San Antonio
+1010141,2015,Spansion LLC,,2551-62-4,Sulfur hexafluoride,GDC107,Fab25
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,75-73-0,PFC-14 (Perfluoromethane),Edwards Atlas TCS,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,593-53-3,HFC-41,Edwards Atlas Helios,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,7783-54-2,Nitrogen trifluoride,GST Dragon LE,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,593-53-3,HFC-41,Edwards Atlas Etch,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,Site-Specific Measured DRE,75-73-0,PFC-14 (Perfluoromethane),Edwards Atlas TPU,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,75-73-0,PFC-14 (Perfluoromethane),Edwards Atlas TPU,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,559-40-0,PFC C-1418,Edwards Atlas TPU,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,7783-54-2,Nitrogen trifluoride,Edwards Atlas TPU,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,76-19-7,PFC-218 (Perfluoropropane),Edwards Atlas TPU,Fab 8.1
+1010586,2015,GLOBALFOUNDRIES U.S. Inc. Fab 8,,75-10-5,HFC-32,Edwards Atlas Kronis,Fab 8.1

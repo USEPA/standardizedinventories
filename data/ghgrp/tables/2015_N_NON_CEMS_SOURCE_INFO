@@ -1,0 +1,215 @@
+N_NON_CEMS_SOURCE_INFO.FACILITY_ID,N_NON_CEMS_SOURCE_INFO.REPORTING_YEAR,N_NON_CEMS_SOURCE_INFO.CALCINATION_FRACTION_METHOD,N_NON_CEMS_SOURCE_INFO.CO2_EMISSIONS,N_NON_CEMS_SOURCE_INFO.MASS_FRACTION_TEST_DATE,N_NON_CEMS_SOURCE_INFO.MASS_FRACTION_TEST_METHOD,N_NON_CEMS_SOURCE_INFO.OTHER_TEST_METHOD,N_NON_CEMS_SOURCE_INFO.OTHR_CALC_FRAC_METHD_DESCRIP,N_NON_CEMS_SOURCE_INFO.TIMES_MISS_DATA_PROCE_USED_RAW,N_NON_CEMS_SOURCE_INFO.TIMES_MISS_DATA_PRO_USED_FRAC,N_NON_CEMS_SOURCE_INFO.UNIT_NAME,N_NON_CEMS_SOURCE_INFO.UNIT_TYPE
+1003348,2015,Default value (1.0),362,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 89,Continuous Glass Melting Furnace
+1002145,2015,Default value (1.0),640.3,2015-12-31,Default Method per 98.143(c),,,0,0,C4 Furnace,Continuous Glass Melting Furnace
+1007968,2015,Default value (1.0),12724.4,2015-12-31,Default Method per 98.143(c),,,0,0,3304,Continuous Glass Melting Furnace
+1004943,2015,Default value (1.0),15895.9,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 1,Continuous Glass Melting Furnace
+1002019,2015,Default value (1.0),120.5,2015-12-31,Default Method per 98.143(c),,,0,0,V-3 Furnace,Continuous Glass Melting Furnace
+1000021,2015,Default value (1.0),18473.3,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #2,Continuous Glass Melting Furnace
+1000023,2015,Default value (1.0),13951.6,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #50,Continuous Glass Melting Furnace
+1000026,2015,Default value (1.0),15249.3,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #29,Continuous Glass Melting Furnace
+1000622,2015,Chemical analysis using x-ray fluorescence,3571.2,2015-10-28,Default Method per 98.143(c),,,0,0,Glass Furnace,Continuous Glass Melting Furnace
+1002864,2015,Chemical analysis using x-ray fluorescence,33011.1,2015-11-06,Default Method per 98.143(c),,,0,0,Glass Furnace,Continuous Glass Melting Furnace
+1004085,2015,Other,0,2015-12-25,Other,Mass Fractions by ASTM Method D 6349-09; Calcination Fractions by ASTM C25,Mass Fractions by ASTM Method D 6349-09; Calcination Fractions by ASTM C25,0,0,ES1 Glass Melting Furnace #1,Continuous Glass Melting Furnace
+1005122,2015,Default value (1.0),10298.8,2015-12-31,Default Method per 98.143(c),,,0,0,28 A,Continuous Glass Melting Furnace
+1002262,2015,Other,5645.7,2015-09-10,Other,ASTM D 6349-09,ASTM C25,0,0,Furnace 525 Batch,Continuous Glass Melting Furnace
+1002322,2015,Other,0,2015-09-10,Other,ASTM D 6349-09,ASTM C25,0,0,Furnace502_SubN,Continuous Glass Melting Furnace
+1002322,2015,Other,577.5,2015-09-10,Other,ASTM D 6349-09,ASTM C25,0,0,Furnace503_SubN,Continuous Glass Melting Furnace
+1007499,2015,Default value (1.0),11611.5,2015-01-01,Default Method per 98.143(c),,,0,0,N - Furnace D,Continuous Glass Melting Furnace
+1005984,2015,Default value (1.0),135.6,2015-12-01,Default Method per 98.143(c),,,12,12,R melting furnace,Continuous Glass Melting Furnace
+1004632,2015,Default value (1.0),5.3,2015-12-09,Default Method per 98.143(c),,,0,0,P13C,Continuous Glass Melting Furnace
+1001978,2015,Default value (1.0),11830.3,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace C,Continuous Glass Melting Furnace
+1002636,2015,Chemical analysis using x-ray fluorescence,2845.5,2015-08-28,Other,ASTM D 6349,,0,0,611 Glass Melting Furance,Continuous Glass Melting Furnace
+1002636,2015,Chemical analysis using x-ray fluorescence,2845.5,2015-08-28,Other,ASTM,,0,0,611 Glass Melting Furance,Continuous Glass Melting Furnace
+1002636,2015,Chemical analysis using x-ray fluorescence,3711.5,2015-08-28,Other,ASTM D 6349,,0,0,602 Glass Melting furnace,Continuous Glass Melting Furnace
+1002504,2015,Default value (1.0),5198,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #1,Continuous Glass Melting Furnace
+1002178,2015,Default value (1.0),12686.1,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 2,Continuous Glass Melting Furnace
+1006050,2015,Default value (1.0),7781.4,2015-01-01,Default Method per 98.143(c),,,0,0,A Furnace Subpart N,Continuous Glass Melting Furnace
+1002640,2015,Default value (1.0),2561.2,2015-08-28,Other,ASTM D 6349,,0,0,641 Glass melting Furnace,Continuous Glass Melting Furnace
+1007966,2015,Other,8788,2015-11-03,Default Method per 98.143(c),,ASTM C25,0,12,US 3,Continuous Glass Melting Furnace
+1007966,2015,Other,6415.2,2015-11-03,Default Method per 98.143(c),,ASTM C25,0,12,US 1,Continuous Glass Melting Furnace
+1006810,2015,Default value (1.0),13356.9,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 103,Continuous Glass Melting Furnace
+1002129,2015,Default value (1.0),155.1,2015-12-31,Default Method per 98.143(c),,,0,0,DM-1,Continuous Glass Melting Furnace
+1000020,2015,Default value (1.0),6050.2,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #1,Continuous Glass Melting Furnace
+1002019,2015,Default value (1.0),808.2,2015-12-31,Default Method per 98.143(c),,,0,0,V-1 Furnace,Continuous Glass Melting Furnace
+1007904,2015,Default value (1.0),38276.4,2015-08-06,Other,ICP Ceramic,,0,0,523991,Continuous Glass Melting Furnace
+1002181,2015,Default value (1.0),13973.3,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 1,Continuous Glass Melting Furnace
+1000002,2015,Default value (1.0),20523.9,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #1,Continuous Glass Melting Furnace
+1000005,2015,Default value (1.0),11653.6,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #1,Continuous Glass Melting Furnace
+1000028,2015,Default value (1.0),14869.9,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #21,Continuous Glass Melting Furnace
+1004942,2015,Default value (1.0),11898.8,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 1,Continuous Glass Melting Furnace
+1005558,2015,Default value (1.0),31936.2,2015-01-01,Default Method per 98.143(c),,,0,0,Glass Batch,Continuous Glass Melting Furnace
+1002439,2015,Default value (1.0),16471,2015-12-31,Default Method per 98.143(c),,,0,0,Source ID 101,Continuous Glass Melting Furnace
+1000789,2015,Default value (1.0),3941.3,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 52,Continuous Glass Melting Furnace
+1005074,2015,Default value (1.0),7048.1,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 2,Continuous Glass Melting Furnace
+1002907,2015,Default value (1.0),7855.7,2015-01-01,Default Method per 98.143(c),,,0,0,9211 (P001),Continuous Glass Melting Furnace
+1002262,2015,Other,4848.6,2015-09-10,Other,ASTM D 6349-09,ASTM C25,0,0,Furnace 524 Batch,Continuous Glass Melting Furnace
+1002160,2015,Default value (1.0),36291.8,2015-07-27,Other,Mass Fraction of Sample,,0,0,Glass Melting Furnace F001,Continuous Glass Melting Furnace
+1002905,2015,Chemical analysis using x-ray fluorescence,28307.8,2015-12-21,Other,ASTM D6349  SCL-375-R5,,0,0,EULine 1,Continuous Glass Melting Furnace
+1005984,2015,Default value (1.0),81.4,2015-12-01,Default Method per 98.143(c),,,12,12,S2,Continuous Glass Melting Furnace
+1002007,2015,Default value (1.0),4234.5,2015-01-01,Default Method per 98.143(c),,,0,0,C Furnace Subpart N,Continuous Glass Melting Furnace
+1001961,2015,Default value (1.0),9003.9,2015-01-01,Default Method per 98.143(c),,,0,0,N - Furnace B,Continuous Glass Melting Furnace
+1006551,2015,Default value (1.0),9903.6,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace A mat,Continuous Glass Melting Furnace
+1003465,2015,Default value (1.0),11910.2,2015-12-31,Default Method per 98.143(c),,,0,12,Furnace B,Continuous Glass Melting Furnace
+1000003,2015,Default value (1.0),13985.8,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #2,Continuous Glass Melting Furnace
+1002924,2015,Chemical analysis using x-ray fluorescence,40407.5,2015-12-07,Default Method per 98.143(c),,,0,0,Glass Melting Furnace 01,Continuous Glass Melting Furnace
+1004941,2015,Default value (1.0),10909,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 3,Continuous Glass Melting Furnace
+1007089,2015,Default value (1.0),639.7,2015-12-01,Default Method per 98.143(c),,,12,12,Line 2,Continuous Glass Melting Furnace
+1001718,2015,Default value (1.0),13120.9,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 1,Continuous Glass Melting Furnace
+1001987,2015,Default value (1.0),9820.8,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace B,Continuous Glass Melting Furnace
+1001975,2015,Default value (1.0),14449.7,2015-01-01,Default Method per 98.143(c),,,0,0,N - Furnace A,Continuous Glass Melting Furnace
+1001975,2015,Default value (1.0),16871.2,2015-01-01,Default Method per 98.143(c),,,0,0,N - Furnace B,Continuous Glass Melting Furnace
+1003968,2015,Default value (1.0),6921.9,2015-01-01,Default Method per 98.143(c),,,0,0,1901 (F1901),Continuous Glass Melting Furnace
+1004852,2015,Default value (1.0),2965.9,2015-12-31,Default Method per 98.143(c),,,0,0,18-01,Continuous Glass Melting Furnace
+1002770,2015,Other,31789.4,2015-04-09,Other,ICP,ASTM E-1019,0,0,Glass melt furnace,Continuous Glass Melting Furnace
+1000024,2015,Default value (1.0),4279.5,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #3,Continuous Glass Melting Furnace
+1000024,2015,Default value (1.0),3886.2,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #4,Continuous Glass Melting Furnace
+1006060,2015,Default value (1.0),14013.2,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 2,Continuous Glass Melting Furnace
+1005977,2015,Default value (1.0),10487.5,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #7,Continuous Glass Melting Furnace
+1000006,2015,Default value (1.0),1543,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #16,Continuous Glass Melting Furnace
+1006397,2015,Chemical analysis using x-ray fluorescence,21078.4,2015-07-02,Default Method per 98.143(c),,,0,0,FIN STA 22  EPN 22 - Subpart N,Continuous Glass Melting Furnace
+1005358,2015,Chemical analysis using x-ray fluorescence,32424,2015-07-10,Other,Chemical analysis using x-ray fluorescence and inductively coupled plasma.,,12,12,Batch Material,Continuous Glass Melting Furnace
+1002322,2015,Other,1608.5,2015-09-10,Other,ASTM D 6349-09,ASTM C25,0,0,Furnace509_SubN,Continuous Glass Melting Furnace
+1005121,2015,Default value (1.0),1602.5,2015-12-31,Default Method per 98.143(c),,,0,0,P022 F-Furnace,Continuous Glass Melting Furnace
+1002007,2015,Default value (1.0),5232.8,2015-01-01,Default Method per 98.143(c),,,0,0,A Furnace Subpart N,Continuous Glass Melting Furnace
+1000003,2015,Default value (1.0),8510.6,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #1,Continuous Glass Melting Furnace
+1006050,2015,Default value (1.0),8228.6,2015-01-01,Default Method per 98.143(c),,,0,0,B Furnace Subpart N,Continuous Glass Melting Furnace
+1007089,2015,Default value (1.0),797.1,2015-12-01,Default Method per 98.143(c),,,12,12,Line 1,Continuous Glass Melting Furnace
+1002145,2015,Default value (1.0),555.6,2015-12-31,Default Method per 98.143(c),,,0,0,A3 Furnace,Continuous Glass Melting Furnace
+1002448,2015,Default value (1.0),5375.3,2015-12-01,Default Method per 98.143(c),,,0,0,Glass Furnace No. 42,Continuous Glass Melting Furnace
+1003968,2015,Default value (1.0),1105.5,2015-01-01,Default Method per 98.143(c),,,0,0,L91 (Proline 91),Continuous Glass Melting Furnace
+1004943,2015,Default value (1.0),12605.4,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 2,Continuous Glass Melting Furnace
+1003520,2015,Default value (1.0),3783.1,2015-01-01,Default Method per 98.143(c),,,12,12,10-02,Continuous Glass Melting Furnace
+1002143,2015,Default value (1.0),735.5,2015-12-31,Default Method per 98.143(c),,,0,0,J5 Furnace,Continuous Glass Melting Furnace
+1000020,2015,Default value (1.0),8080.8,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #3,Continuous Glass Melting Furnace
+1002226,2015,Default value (1.0),13066.2,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace A mat,Continuous Glass Melting Furnace
+1000024,2015,Default value (1.0),4260.6,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #2,Continuous Glass Melting Furnace
+1002180,2015,Default value (1.0),10195.2,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace B Subpart N,Continuous Glass Melting Furnace
+1000105,2015,Default value (1.0),8723.3,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #2,Continuous Glass Melting Furnace
+1000028,2015,Default value (1.0),11095.5,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #20,Continuous Glass Melting Furnace
+1004072,2015,Default value (1.0),16691.8,2015-12-01,Default Method per 98.143(c),,,0,0,GP1 Furnace,Continuous Glass Melting Furnace
+1003739,2015,Default value (1.0),1182,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace 1,Continuous Glass Melting Furnace
+1010530,2015,Default value (1.0),4728.4,2015-12-31,Default Method per 98.143(c),,,12,12,Gas Oxy Furnace,Continuous Glass Melting Furnace
+1005906,2015,Default value (1.0),2364.8,2015-12-31,Default Method per 98.143(c),,,0,0,SN03,Continuous Glass Melting Furnace
+1005906,2015,Default value (1.0),424.1,2015-12-31,Default Method per 98.143(c),,,0,0,SN01,Continuous Glass Melting Furnace
+1001983,2015,Default value (1.0),5918.4,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace C,Continuous Glass Melting Furnace
+1005074,2015,Default value (1.0),23307.2,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 1,Continuous Glass Melting Furnace
+1002262,2015,Other,1261,2015-09-10,Other,ASTM D 6349-09,ASTM C25,0,0,Furnace 520 Batch,Continuous Glass Melting Furnace
+1002905,2015,Other,22091,2015-09-29,Other,ASTM D6349  SCL-375-R5,ASTM D6349  SCL-375-R5,0,0,EULine 2,Continuous Glass Melting Furnace
+1005984,2015,Default value (1.0),0,2015-12-01,Default Method per 98.143(c),,,12,12,TTank,Continuous Glass Melting Furnace
+1003849,2015,Default value (1.0),33319.4,2015-12-31,Default Method per 98.143(c),,,10,0,ES02,Continuous Glass Melting Furnace
+1004508,2015,Default value (1.0),0,2015-12-01,Default Method per 98.143(c),,,0,0,Furnace 2,Continuous Glass Melting Furnace
+1005824,2015,Chemical analysis using x-ray fluorescence,28610.5,2015-11-12,Default Method per 98.143(c),,,0,0,G2,Continuous Glass Melting Furnace
+1002217,2015,Chemical analysis using x-ray fluorescence,21957.2,2015-10-28,Default Method per 98.143(c),,,0,0,Glass Melting Furnace #2  Source ID#102,Continuous Glass Melting Furnace
+1007823,2015,Default value (1.0),6722.1,2015-01-01,Default Method per 98.143(c),,,0,0,N - Furnace C,Continuous Glass Melting Furnace
+1006551,2015,Default value (1.0),10809.8,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace B mat,Continuous Glass Melting Furnace
+1002929,2015,Default value (1.0),14217.6,2015-01-01,Default Method per 98.143(c),,,0,0,A FURNACE - SUBPART N,Continuous Glass Melting Furnace
+1002504,2015,Default value (1.0),9127.7,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #2,Continuous Glass Melting Furnace
+1005745,2015,Default value (1.0),10647.6,2015-12-31,Default Method per 98.143(c),,,0,0,EU-K1,Continuous Glass Melting Furnace
+1005745,2015,Default value (1.0),5089.9,2015-12-31,Default Method per 98.143(c),,,0,0,EU-K2,Continuous Glass Melting Furnace
+1001718,2015,Default value (1.0),9245.2,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 3,Continuous Glass Melting Furnace
+1001718,2015,Default value (1.0),13884.9,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 4,Continuous Glass Melting Furnace
+1004724,2015,Default value (1.0),21377.5,2015-12-31,Default Method per 98.143(c),,,0,0,N2 Float Furnace,Continuous Glass Melting Furnace
+1009491,2015,Default value (1.0),4662.1,2015-01-01,Default Method per 98.143(c),,,0,12,A1-Melter,Continuous Glass Melting Furnace
+1004225,2015,Default value (1.0),32627.7,2015-01-01,Default Method per 98.143(c),,,0,0,Glass Melting Furnace,Continuous Glass Melting Furnace
+1004631,2015,Default value (1.0),28818.1,2015-12-31,Other,ASTM C-25,,0,0,Main Furnace,Continuous Glass Melting Furnace
+1002770,2015,Other,31789.4,2015-07-20,Other,ICP,ASTM E-1019,0,0,Glass melt furnace,Continuous Glass Melting Furnace
+1002922,2015,Default value (1.0),0,2015-01-01,Default Method per 98.143(c),,,0,0,Two Meter Melter,Continuous Glass Melting Furnace
+1002019,2015,Default value (1.0),286.8,2015-12-31,Default Method per 98.143(c),,,0,0,V-2 Furnace,Continuous Glass Melting Furnace
+1005977,2015,Default value (1.0),11498,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #6,Continuous Glass Melting Furnace
+1000105,2015,Default value (1.0),8618.6,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #1,Continuous Glass Melting Furnace
+1000004,2015,Default value (1.0),16450.6,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #1,Continuous Glass Melting Furnace
+1004085,2015,Other,8235.8,2015-09-25,Other,Mass Fractions by ASTM Method D 6349-09; Calcination Fractions by ASTM C25,Mass Fractions by ASTM Method D 6349-09; Calcination Fractions by ASTM C25,0,0,ES67 Glass Melting Furnace #2,Continuous Glass Melting Furnace
+1009530,2015,Default value (1.0),6329,2015-12-31,Default Method per 98.143(c),,,12,0,Tank 11,Continuous Glass Melting Furnace
+1004942,2015,Default value (1.0),15631.2,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 2,Continuous Glass Melting Furnace
+1006397,2015,Chemical analysis using x-ray fluorescence,27591,2015-07-02,Default Method per 98.143(c),,,0,0,FIN STA 23  EPN 23 - Subpart N,Continuous Glass Melting Furnace
+1002439,2015,Default value (1.0),21496.8,2015-12-31,Default Method per 98.143(c),,,0,0,Source ID 102,Continuous Glass Melting Furnace
+1007055,2015,Default value (1.0),5575.6,2015-12-31,Default Method per 98.143(c),,,0,0,C1,Continuous Glass Melting Furnace
+1006053,2015,Default value (1.0),3271.5,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace D mat,Continuous Glass Melting Furnace
+1006053,2015,Default value (1.0),3914.5,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace A mat,Continuous Glass Melting Furnace
+1002905,2015,Chemical analysis using x-ray fluorescence,28307.8,2015-12-18,Other,ASTM D6349  SCL-375-R5,,0,0,EULine 1,Continuous Glass Melting Furnace
+1004508,2015,Default value (1.0),7273.9,2015-12-01,Default Method per 98.143(c),,,0,0,Furnace 3,Continuous Glass Melting Furnace
+1002911,2015,Default value (1.0),8110.8,2015-01-01,Default Method per 98.143(c),,,0,0,C Furnace Subpart N,Continuous Glass Melting Furnace
+1005121,2015,Default value (1.0),3565.3,2015-12-31,Default Method per 98.143(c),,,0,0,P007 G-Furnace,Continuous Glass Melting Furnace
+1004836,2015,Default value (1.0),971,2015-01-01,Default Method per 98.143(c),,,0,0,Glass Furnace #74-04A,Continuous Glass Melting Furnace
+1002921,2015,Chemical analysis using x-ray fluorescence,7276.7,2015-07-20,Other,ICP,,0,0,Furance 034,Continuous Glass Melting Furnace
+1000329,2015,Default value (1.0),35817.5,2015-07-06,Default Method per 98.143(c),,,0,12,Cardinal FG Durant,Continuous Glass Melting Furnace
+1004660,2015,Default value (1.0),3951.2,2015-12-31,Default Method per 98.143(c),,,0,0,Tank 4,Continuous Glass Melting Furnace
+1002189,2015,Default value (1.0),9347.1,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace H mat,Continuous Glass Melting Furnace
+1003348,2015,Default value (1.0),550.7,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace Pipe,Continuous Glass Melting Furnace
+1001987,2015,Default value (1.0),10340.6,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace A,Continuous Glass Melting Furnace
+1002770,2015,Other,31789.4,2015-11-02,Other,ICP,ASTM E-1019,0,0,Glass melt furnace,Continuous Glass Melting Furnace
+1002143,2015,Default value (1.0),1172.5,2015-12-31,Default Method per 98.143(c),,,0,0,K5 Furnace,Continuous Glass Melting Furnace
+1002226,2015,Default value (1.0),10675.5,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace B mat,Continuous Glass Melting Furnace
+1000023,2015,Default value (1.0),14734.2,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #52,Continuous Glass Melting Furnace
+1000026,2015,Default value (1.0),15151.9,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #28,Continuous Glass Melting Furnace
+1006060,2015,Default value (1.0),8602.1,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 1,Continuous Glass Melting Furnace
+1000002,2015,Default value (1.0),14001.1,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #2,Continuous Glass Melting Furnace
+1000005,2015,Default value (1.0),9400.4,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #2,Continuous Glass Melting Furnace
+1011553,2015,Default value (1.0),0,2015-12-31,Default Method per 98.143(c),,,0,0,Melting Furnace AA-101,Continuous Glass Melting Furnace
+1006397,2015,Default value (1.0),27591,2015-07-02,Default Method per 98.143(c),,,0,12,FIN STA 23  EPN 23 - Subpart N,Continuous Glass Melting Furnace
+1005919,2015,Default value (1.0),3262.6,2015-08-18,Other,ASTM D 6349,,0,0,621 Glass Melting Furnace,Continuous Glass Melting Furnace
+1005919,2015,Default value (1.0),1943.1,2015-08-18,Other,ASTM D 6349,,0,0,622 Glass Melting Furnace,Continuous Glass Melting Furnace
+1005121,2015,Default value (1.0),1565.7,2015-12-31,Default Method per 98.143(c),,,0,0,P003 B-Furnace,Continuous Glass Melting Furnace
+1002217,2015,Chemical analysis using x-ray fluorescence,26283.6,2015-10-28,Default Method per 98.143(c),,,0,0,Glass Melting Furnace #1  Source ID #101,Continuous Glass Melting Furnace
+1007823,2015,Default value (1.0),7774.1,2015-01-01,Default Method per 98.143(c),,,0,0,N - Furnace B,Continuous Glass Melting Furnace
+1002499,2015,Default value (1.0),23668.7,2015-12-31,Default Method per 98.143(c),,,0,0,6F3 Float Glass Melting Furnace,Continuous Glass Melting Furnace
+1003465,2015,Default value (1.0),9686.3,2015-12-31,Default Method per 98.143(c),,,0,12,Furnace C,Continuous Glass Melting Furnace
+1002924,2015,Chemical analysis using x-ray fluorescence,40407.5,2015-12-28,Default Method per 98.143(c),,,0,0,Glass Melting Furnace 01,Continuous Glass Melting Furnace
+1000351,2015,Default value (1.0),12166.7,2015-01-01,Default Method per 98.143(c),,,0,0,Melting Furnace #1,Continuous Glass Melting Furnace
+1007952,2015,Default value (1.0),10884.8,2015-01-01,Default Method per 98.143(c),,,0,0,Factory D Furnace,Continuous Glass Melting Furnace
+1007968,2015,Default value (1.0),1013.7,2015-12-31,Default Method per 98.143(c),,,0,0,3303,Continuous Glass Melting Furnace
+1003658,2015,Chemical analysis using x-ray fluorescence,4108.4,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #2,Continuous Glass Melting Furnace
+1004631,2015,Default value (1.0),28818.1,2015-12-31,Other,ASTM D-6349-08,,0,0,Main Furnace,Continuous Glass Melting Furnace
+1000021,2015,Default value (1.0),11954.7,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #1,Continuous Glass Melting Furnace
+1000023,2015,Default value (1.0),9064.9,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #51,Continuous Glass Melting Furnace
+1000024,2015,Default value (1.0),6106.6,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #5,Continuous Glass Melting Furnace
+1007904,2015,Default value (1.0),38276.4,2015-08-07,Other,ICP Ceramic,,0,0,523991,Continuous Glass Melting Furnace
+1007904,2015,Default value (1.0),38276.4,2015-08-11,Other,SCL-317-RO-CALC,,0,0,523991,Continuous Glass Melting Furnace
+1002180,2015,Default value (1.0),8797.6,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace A Subpart N,Continuous Glass Melting Furnace
+1000006,2015,Default value (1.0),1089,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #15,Continuous Glass Melting Furnace
+1003258,2015,Chemical analysis using x-ray fluorescence,24703.2,2015-07-15,Default Method per 98.143(c),,,0,0,GP-1,Continuous Glass Melting Furnace
+1003349,2015,Default value (1.0),1449.3,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 2603,Continuous Glass Melting Furnace
+1005358,2015,Chemical analysis using x-ray fluorescence,32424,2015-07-13,Other,Chemical analysis using x-ray fluorescence and inductively coupled plasma.,,12,12,Batch Material,Continuous Glass Melting Furnace
+1005358,2015,Default value (1.0),32424,2015-07-13,Default Method per 98.143(c),,,12,12,Batch Material,Continuous Glass Melting Furnace
+1000789,2015,Default value (1.0),2888,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 51,Continuous Glass Melting Furnace
+1002262,2015,Other,6049.9,2015-09-10,Other,ASTM D 6349-09,ASTM C25,0,0,Furnace 526 Batch,Continuous Glass Melting Furnace
+1007499,2015,Default value (1.0),5993.2,2015-01-01,Default Method per 98.143(c),,,0,0,N - Furnace B,Continuous Glass Melting Furnace
+1007499,2015,Default value (1.0),8382.6,2015-01-01,Default Method per 98.143(c),,,0,0,N - Furnace A,Continuous Glass Melting Furnace
+1002905,2015,Other,22091,2015-12-21,Other,ASTM D6349  SCL-375-R5,ASTM D6349  SCL-375-R5,0,0,EULine 2,Continuous Glass Melting Furnace
+1002911,2015,Default value (1.0),6424.6,2015-01-01,Default Method per 98.143(c),,,0,0,A Furnace Subpart N,Continuous Glass Melting Furnace
+1005121,2015,Default value (1.0),1521,2015-12-31,Default Method per 98.143(c),,,0,0,P005 D-Furnace,Continuous Glass Melting Furnace
+1005121,2015,Default value (1.0),0,2015-12-31,Default Method per 98.143(c),,,0,0,P006 E-Furnace,Continuous Glass Melting Furnace
+1002007,2015,Default value (1.0),7749.8,2015-01-01,Default Method per 98.143(c),,,0,0,B Furnace Subpart N,Continuous Glass Melting Furnace
+1001980,2015,Default value (1.0),4045.4,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace B,Continuous Glass Melting Furnace
+1002499,2015,Default value (1.0),22259.9,2015-12-31,Default Method per 98.143(c),,,0,0,6F1 Float Glass Melting Furnace,Continuous Glass Melting Furnace
+1003465,2015,Default value (1.0),8177.7,2015-12-31,Other,,,0,12,Furnace A,Continuous Glass Melting Furnace
+1003188,2015,Default value (1.0),4,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace #2,Continuous Glass Melting Furnace
+1002640,2015,Default value (1.0),2561.2,2015-10-05,Other,ASTM D 6349,,0,0,641 Glass melting Furnace,Continuous Glass Melting Furnace
+1002189,2015,Default value (1.0),10757.8,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace I mat,Continuous Glass Melting Furnace
+1007966,2015,Other,3756.9,2015-11-03,Default Method per 98.143(c),,ASTM C25,0,12,US 2,Continuous Glass Melting Furnace
+1001718,2015,Default value (1.0),5815.7,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 2,Continuous Glass Melting Furnace
+1005915,2015,Default value (1.0),24761.6,2015-01-01,Default Method per 98.143(c),,,0,12,P01,Continuous Glass Melting Furnace
+1004852,2015,Default value (1.0),2078.8,2015-12-31,Default Method per 98.143(c),,,0,0,18-02,Continuous Glass Melting Furnace
+1002129,2015,Default value (1.0),183.3,2015-12-31,Default Method per 98.143(c),,,0,0,DM-2,Continuous Glass Melting Furnace
+1002181,2015,Default value (1.0),12972.1,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 2,Continuous Glass Melting Furnace
+1000105,2015,Default value (1.0),8409,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace #3,Continuous Glass Melting Furnace
+1004085,2015,Other,8235.8,2015-09-25,Default Method per 98.143(c),,Mass Fraction by ASTM Method D 6349-09; Calcination Fraction by ASTM C25,0,0,ES67 Glass Melting Furnace #2,Continuous Glass Melting Furnace
+1003349,2015,Default value (1.0),1365,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 2601,Continuous Glass Melting Furnace
+1003520,2015,Default value (1.0),3577,2015-01-01,Default Method per 98.143(c),,,12,12,10-01,Continuous Glass Melting Furnace
+1006397,2015,Default value (1.0),21078.4,2015-07-02,Default Method per 98.143(c),,,0,12,FIN STA 22  EPN 22 - Subpart N,Continuous Glass Melting Furnace
+1005122,2015,Default value (1.0),1145,2015-12-31,Default Method per 98.143(c),,,0,0,28 C,Continuous Glass Melting Furnace
+1001983,2015,Default value (1.0),2284.9,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace D,Continuous Glass Melting Furnace
+1002907,2015,Default value (1.0),6853.9,2015-01-01,Default Method per 98.143(c),,,0,0,9212 (P013),Continuous Glass Melting Furnace
+1002322,2015,Other,1440.3,2015-09-10,Other,ASTM D 6349-09,ASTM C25,0,0,Furnace507_Sub N,Continuous Glass Melting Furnace
+1002160,2015,Default value (1.0),36291.8,2015-07-28,Other,Mass Fraction of Sample,,0,0,Glass Melting Furnace F001,Continuous Glass Melting Furnace
+1002905,2015,Other,22091,2015-12-18,Other,ASTM D6349  SCL-375-R5,ASTM D6349  SCL-375-R5,0,0,EULine 2,Continuous Glass Melting Furnace
+1002905,2015,Chemical analysis using x-ray fluorescence,28307.8,2015-09-29,Other,ASTM D6349  SCL-375-R5,,0,0,EULine 1,Continuous Glass Melting Furnace
+1003849,2015,Default value (1.0),34508.1,2015-12-31,Default Method per 98.143(c),,,10,0,ES01,Continuous Glass Melting Furnace
+1004508,2015,Default value (1.0),7191.2,2015-12-01,Default Method per 98.143(c),,,0,0,Furnace 1,Continuous Glass Melting Furnace
+1002911,2015,Default value (1.0),6444.9,2015-01-01,Default Method per 98.143(c),,,0,0,B Furnace Subpart N,Continuous Glass Melting Furnace
+1001978,2015,Default value (1.0),16711.3,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace D,Continuous Glass Melting Furnace
+1001961,2015,Default value (1.0),9122.6,2015-01-01,Default Method per 98.143(c),,,0,0,N - Furnace A,Continuous Glass Melting Furnace
+1003465,2015,Default value (1.0),8177.7,2015-12-31,Default Method per 98.143(c),,,0,12,Furnace A,Continuous Glass Melting Furnace
+1002924,2015,Chemical analysis using x-ray fluorescence,40407.5,2015-12-15,Default Method per 98.143(c),,,0,0,Glass Melting Furnace 01,Continuous Glass Melting Furnace
+1004941,2015,Default value (1.0),7232.7,2015-12-31,Default Method per 98.143(c),,,0,0,Furnace 4,Continuous Glass Melting Furnace
+1003188,2015,Default value (1.0),153,2015-01-01,Default Method per 98.143(c),,,0,0,Furnace #1,Continuous Glass Melting Furnace

@@ -1,0 +1,43 @@
+﻿SUBPART_CATEGORY,SUBPART_ID,SUBPART_NAME,SUBPART_TYPE
+Stationary Combustion,1,C,E
+Electricity Generation,2,D,E
+Adipic Acid Production,3,E,E
+Aluminum Production,4,F,E
+Ammonia Manufacturing,5,G,E
+Cement Production,6,H,E
+Ferroalloy Production,9,K,E
+Glass Production,12,N,E
+HCFC–22 Production and HFC–23 Destruction,13,O,E
+Hydrogen Production,14,P,E
+Iron and Steel Production,15,Q,E
+Lead Production,16,R,E
+Lime Production,17,S,E
+Nitric Acid Production,19,V,E
+Petrochemical Production,21,X,E
+Petroleum Refining,22,Y,E
+Phosphoric Acid Production,23,Z,E
+Pulp and Paper Manufacturing,24,AA,E
+Silicon Carbide Production,25,BB,E
+Soda Ash Manufacturing,26,CC,E
+Titanium Dioxide Production,28,EE,E
+Zinc Production,30,GG,E
+Municipal Landfills,31,HH,E
+Coal-based Liquid Fuel Supply,35,LL,S
+Petroleum Product Supply,36,MM,S
+Natural Gas and Natural Gas Liquid Supply,37,NN,S
+Non-CO%3Csub%3E2%3C/sub%3E Industrial Gas Supply,38,OO,S
+Carbon Dioxide (CO%3Csub%3E2%3C/sub%3E) Supply,39,PP,S
+Miscellaneous Uses of Carbonate,41,U,E
+Stationary Combustion,42,C (Abbr),E
+Electronics Manufacture,43,I,E
+Fluorinated GHG Production,44,L,E
+Magnesium Production,45,T,E
+Petroleum and Natural Gas Systems,46,W,E
+SF6 from Electrical Equipment,47,DD,E
+Underground Coal Mines,48,FF,E
+Industrial Wastewater Treatment,49,II,E
+Import and Exports of Equipment with Fluorinated GHGs,50,QQ,S
+Geologic Sequestration of Carbon Dioxide,51,RR,A
+Manufacture of Electric Transmission and Distribution Equipment,52,SS,E
+Industrial Waste Landfills,53,TT,E
+Injection of Carbon Dioxide,54,UU,I
