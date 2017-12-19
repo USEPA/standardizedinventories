@@ -18,7 +18,7 @@ def set_output_dir(directory):
     if not os.path.exists(outputdir): os.makedirs(outputdir)
     return outputdir
 
-outputdir = set_output_dir('../LCI-Primer-Output/')
+outputdir = set_output_dir('output/')
 
 #Import list of fields from TRI that are desired for LCI
 
@@ -247,6 +247,6 @@ tri_final = tri_part16.reindex(columns=refnames)
 
 #Export it as a csv
 #Final file name
-tri_file_name = 'TRI_'+ TRIyear + '_standard_format.csv'
+tri_file_name = 'TRI_'+ TRIyear + '.csv'
 tri_final.to_csv(outputdir + tri_file_name, index=False)
 
