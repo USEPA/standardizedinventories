@@ -24,7 +24,6 @@ def read_data(source,file):
 def standardize_output(source): # source as 'Point'/'NonPoint'/'OnRoad'/'NonRoad'
     # extract file paths
     file_path = list(set(nei_file_path[source]) - set(['Null']))
-
     # read in first nei file by chunks
     nei = read_data(source,file_path[0])
     print(file_path[0])
@@ -42,9 +41,20 @@ def standardize_output(source): # source as 'Point'/'NonPoint'/'OnRoad'/'NonRoad
     # add not included standardized columns as empty columns
     nei = pd.concat([nei,pd.DataFrame(columns=list(set(nei_required_fields['StandardizedEPA']) - set(nei.columns)))])
     nei = nei.fillna('')
+    # add Reliability Score
+    if source == 'Point':
+        reliabilitytable = pd.read_csv('./data/DQ_Reliability_Scores_Table3-3fromERGreport.csv',usecols=['Source','Code','DQI Reliability Score'])
+        nei_reliabilitytable = reliabilitytable[reliabilitytable['Source'] == 'NEI']
+        nei_reliabilitytable['Code'] = nei_reliabilitytable.Code.astype(float)
+        nei = nei.merge(nei_reliabilitytable, left_on='ReliabilityScore', right_on='Code', how='left')
+        nei['ReliabilityScore'] = nei['DQI Reliability Score']
+        # drop Code and DQI Reliability Score columns
+        nei = nei.drop(['Code', 'DQI Reliability Score'], 1)
+    else:
+        nei['ReliabilityScore'] = 3
     # add Source column
     nei['Source'] = source
-    # drop UOM and sum column
+    # drop UOM and sum columns
     nei = nei.drop(['UOM','sum'],1)
     return(nei)
 
