@@ -3,6 +3,7 @@
 
 import pandas as pd
 import numpy as np
+import math
 
 nei_required_fields = pd.read_table('./data/NEI_required_fields.csv',sep=',').fillna('Null')
 nei_file_path = pd.read_table('./data/NEI_file_path.csv',sep=',').fillna('Null')
@@ -26,6 +27,7 @@ def standardize_output(source): # source as 'Point'/'NonPoint'/'OnRoad'/'NonRoad
 
     # read in first nei file by chunks
     nei = read_data(source,file_path[0])
+    print(file_path[0])
     print(len(nei))
     # read in other nei files and concatenate all nei files into one dataframe
     for file in file_path[1:]:
@@ -37,19 +39,40 @@ def standardize_output(source): # source as 'Point'/'NonPoint'/'OnRoad'/'NonRoad
         print(len(nei))
     # convert LB/TON to KG
     nei['Amount'] = np.where(nei['UOM']=='LB',nei['sum']*0.453592,nei['sum']*907.184)
-    # drop UOM and sum column
-    nei = nei.drop(['UOM','sum'],1)
+    # add not included standardized columns as empty columns
+    nei = pd.concat([nei,pd.DataFrame(columns=list(set(nei_required_fields['StandardizedEPA']) - set(nei.columns)))])
+    nei = nei.fillna('')
     # add Source column
     nei['Source'] = source
+    # drop UOM and sum column
+    nei = nei.drop(['UOM','sum'],1)
     return(nei)
 
+#NEIPoint
 point = standardize_output('Point')
+point_row = math.floor(len(point)/6)
+#break down NEIPoint into 6 parts
+point1 = point.iloc[:point_row,]
+point2 = point.iloc[point_row:point_row*2,]
+point3 = point.iloc[point_row*2:point_row*3,]
+point4 = point.iloc[point_row*3:point_row*4,]
+point5 = point.iloc[point_row*4:point_row*5,]
+point6 = point.iloc[point_row*5:,]
+#NEINonPoint
 nonpoint = standardize_output('NonPoint')
+#NEIOnRoad
 onroad = standardize_output('OnRoad')
+#NEINonRoad
 nonroad = standardize_output('NonRoad')
-nei = pd.concat([point,nonpoint,onroad,nonroad],axis=0,ignore_index=True)
-nei = nei.fillna('')
 
 #Output to CSV
 outputdir='output/'
-nei.to_csv(outputdir+'NEI_2014.csv',index=False)
+point1.to_csv(outputdir+'NEIPoint1_2014.csv',index=False)
+point2.to_csv(outputdir+'NEIPoint2_2014.csv',index=False)
+point3.to_csv(outputdir+'NEIPoint3_2014.csv',index=False)
+point4.to_csv(outputdir+'NEIPoint4_2014.csv',index=False)
+point5.to_csv(outputdir+'NEIPoint5_2014.csv',index=False)
+point6.to_csv(outputdir+'NEIPoint6_2014.csv',index=False)
+nonpoint.to_csv(outputdir+'NEINonPoint_2014.csv',index=False)
+onroad.to_csv(outputdir+'NEIOnRoad_2014.csv',index=False)
+nonroad.to_csv(outputdir+'NEINonRoad_2014.csv',index=False)
