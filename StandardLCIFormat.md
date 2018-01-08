@@ -1,7 +1,6 @@
 LCI-Primer produces LCI files with standard fields. The field names are constant but ordering may change depending on which fields are provided
 
 #### Standard Fields
-...
 Field | Type | Required? | Description
 ----- | ---- | --------  | -----------
 OriginalFlowID | String | Y | ID or name of flow in its native source
@@ -13,7 +12,8 @@ Context | String | N | Name of compartment to which release goes, e.g. "air", "w
 NAICS | String | N  | [NAICS 2012 code](https://www.census.gov/cgi-bin/sssd/naics/naicsrch?chart=2012)
 SIC | String | N | [Standard Industry Classification (1987)](https://www.osha.gov/pls/imis/sicsearch.html)
 SCC | String | N | [EPA Source Classification Codes](https://ofmpub.epa.gov/sccsearch/)
-...
+
+
 
 
 
