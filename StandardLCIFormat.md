@@ -1,4 +1,4 @@
-LCI-Primer produces LCI files with standard fields. The field names are constant but ordering may change depending on which fields are provided
+LCI-Primer produces LCI in table form with standard fields. The field names are constant but ordering may vary depending on which fields are provided.
 
 #### Standard Fields
 Field | Type | Required? | Description
