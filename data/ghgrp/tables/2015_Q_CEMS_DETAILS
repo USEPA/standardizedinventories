@@ -1,0 +1,77 @@
+Q_CEMS_DETAILS.FACILITY_ID,Q_CEMS_DETAILS.REPORTING_YEAR,Q_CEMS_DETAILS.CEMS_ANNUAL_CO2_EMISSIONS,Q_CEMS_DETAILS.CEMS_BIOGENIC_CO2_EMISSIONS,Q_CEMS_DETAILS.CEMS_CH4_EMISSIONS,Q_CEMS_DETAILS.CEMS_CO2_COMBUSTION_EMISSIONS,Q_CEMS_DETAILS.CEMS_CO2_EMISSIONS_BY_QUARTER,Q_CEMS_DETAILS.CEMS_FUEL,Q_CEMS_DETAILS.CEMS_METHODOLOGY_END_DATE,Q_CEMS_DETAILS.CEMS_METHODOLOGY_START_DATE,Q_CEMS_DETAILS.CEMS_N2O_EMISSIONS,Q_CEMS_DETAILS.CEMS_NON_BIOGENIC_CO2_EMISSION,Q_CEMS_DETAILS.CEMS_QUARTER_NAME,Q_CEMS_DETAILS.CML_CONFIGURATION_TYPE,Q_CEMS_DETAILS.CML_NAME,Q_CEMS_DETAILS.CML_TOTAL_OPERATING_HOURS,Q_CEMS_DETAILS.TIER4_SUB_OPER_HRS_CO2_CONC,Q_CEMS_DETAILS.TIER4_SUB_OPER_HRS_GAS_FLOW_RT,Q_CEMS_DETAILS.TIER4_SUB_OPER_HRS_MOIST_CONT
+1004215,2015,131058.7,0,,,39729.20572,,2015-12-31,2015-01-01,,131058.7,First Quarter,Single process/process unit exhausts to dedicated stack,P1_EAF Evac Duct,3452,382.5,382.5,0
+1007946,2015,302.5,0,,,84.7,,2015-12-31,2015-01-01,,302.5,First Quarter,Single process/process unit exhausts to dedicated stack,LMF/ Canopy Baghouse,6915,0,0,0
+1004151,2015,66077,0,0.13,,19295,Natural Gas  Carbon,2015-12-31,2015-01-01,0.013,66077,Second Quarter,Process/stationary combustion units share common stack,Baghouse 2,7604,13,0,0
+1004151,2015,29111,0,0.13,,10122,Natural Gas  Carbon,2015-12-31,2015-01-01,0.013,29111,Second Quarter,Process/stationary combustion units share common stack,Baghouse 1,7583,62,9,0
+1007642,2015,228605,0,0.42,,33184,Natural Gas,2015-12-31,2015-01-01,0.042,228605,Fourth Quarter,Process/stationary combustion units share common stack,CS-01,7442,0,0,0
+1005832,2015,74489.4,0,0.16,,18784,Natural Gas and Carbon,2015-12-31,2015-01-01,0.016,74489.4,First Quarter,Process/stationary combustion units share common stack,EAF BAGHSMS,5649,33,0,0
+1007642,2015,228605,0,0.42,,72746,Natural Gas,2015-12-31,2015-01-01,0.042,228605,First Quarter,Process/stationary combustion units share common stack,CS-01,7442,0,0,0
+1002266,2015,530.4,0,,,151.1,,2015-12-31,2015-01-01,,530.4,Second Quarter,Multiple processes/process units share common stack,Canopy Baghouse CEMS,8376,1,5,0
+1002266,2015,530.4,0,,,132,,2015-12-31,2015-01-01,,530.4,Third Quarter,Multiple processes/process units share common stack,Canopy Baghouse CEMS,8376,1,5,0
+1006144,2015,389,0,0,,112.17,Natural Gas,2015-12-31,2015-01-01,0,389,Third Quarter,Process/stationary combustion units share common stack,BC CEMS,3917,8,0,0
+1005832,2015,74489.4,0,0.16,,19959.24,Natural Gas and Carbon,2015-12-31,2015-01-01,0.016,74489.4,Fourth Quarter,Process/stationary combustion units share common stack,EAF BAGHSMS,5649,33,0,0
+1003093,2015,45311.5,0,0.85,,14042.68,natural gas,2015-12-31,2015-01-01,0.085,45311.5,Fourth Quarter,Process/stationary combustion units share common stack,Nucor Steel Memphis Baghouse,5744,0,0,0
+1003962,2015,375409.6,0,0.11,,93261.20922,Coke Oven Gas,2015-12-31,2015-01-01,0.023,375409.6,First Quarter,Process/stationary combustion units share common stack,Sinter Plant CEMS,7286,872.87,872.87,872.87
+1000156,2015,170226,0,,,41654,,2015-12-31,2015-01-01,,170226,Second Quarter,Single process/process unit exhausts to dedicated stack,UTC_Sinter Plant_CEMS,6354,6,3,0
+1000156,2015,170226,0,,,42349,,2015-12-31,2015-01-01,,170226,Fourth Quarter,Single process/process unit exhausts to dedicated stack,UTC_Sinter Plant_CEMS,6354,6,3,0
+1005777,2015,76003.8,0,0.16,,18598.31,Primarily electric powered  with oxygen and natural gas used for added energy sources,2015-12-31,2015-01-01,0.016,76003.8,Fourth Quarter,Process/stationary combustion units share common stack,EAFs 1 and 2 Baghouse stack,7768,148,148,148
+1004215,2015,131058.7,0,,,27081.62278,,2015-12-31,2015-01-01,,131058.7,Third Quarter,Single process/process unit exhausts to dedicated stack,P1_EAF Evac Duct,3452,382.5,382.5,0
+1004151,2015,66077,0,0.13,,15936,Natural Gas  Carbon,2015-12-31,2015-01-01,0.013,66077,Third Quarter,Process/stationary combustion units share common stack,Baghouse 2,7604,13,0,0
+1004151,2015,29111,0,0.13,,4799,Natural Gas  Carbon,2015-12-31,2015-01-01,0.013,29111,Fourth Quarter,Process/stationary combustion units share common stack,Baghouse 1,7583,62,9,0
+1007921,2015,155265.5,0,,,50939.8,,2015-12-31,2015-01-01,,155265.5,Third Quarter,Multiple processes/process units share common stack,EAFBHCEMS,7466,3,0,0
+1007921,2015,155265.5,0,,,33746.8,,2015-12-31,2015-01-01,,155265.5,Fourth Quarter,Multiple processes/process units share common stack,EAFBHCEMS,7466,3,0,0
+1006341,2015,68759.6,0,0.15,,17849.3197,1,2015-12-31,2015-01-01,0.015,68759.6,Third Quarter,Process/stationary combustion units share common stack,Baghouse CEMs,7983,0,0,0
+1010766,2015,89541,0,0,,8891.8,Natural Gas & Tail Gas,2015-12-31,2015-01-01,0,89541,Fourth Quarter,Process/stationary combustion units share common stack,PH-1 & AV-1 Vent Stack,5088,0,0,0
+1002266,2015,530.4,0,,,125.2,,2015-12-31,2015-01-01,,530.4,First Quarter,Multiple processes/process units share common stack,Canopy Baghouse CEMS,8376,1,5,0
+1006144,2015,389,0,0,,81.6,Natural Gas,2015-12-31,2015-01-01,0,389,First Quarter,Process/stationary combustion units share common stack,BC CEMS,3917,8,0,0
+1006144,2015,30826.1,0,0.05,,8100.18,Natural Gas,2015-12-31,2015-01-01,0.01,30826.1,Fourth Quarter,Process/stationary combustion units share common stack,EAF CEMS,3917,8,0,0
+1003093,2015,45311.5,0,0.85,,8771.406,natural gas,2015-12-31,2015-01-01,0.085,45311.5,First Quarter,Process/stationary combustion units share common stack,Nucor Steel Memphis Baghouse,5744,0,0,0
+1000156,2015,170226,0,,,44352,,2015-12-31,2015-01-01,,170226,First Quarter,Single process/process unit exhausts to dedicated stack,UTC_Sinter Plant_CEMS,6354,6,3,0
+1004215,2015,131058.7,0,,,28436.18871,,2015-12-31,2015-01-01,,131058.7,Fourth Quarter,Single process/process unit exhausts to dedicated stack,P1_EAF Evac Duct,3452,382.5,382.5,0
+1007946,2015,91797,0,0.13,,23387.3,natural gas,2015-12-31,2015-01-01,0.125,91797,Second Quarter,Process/stationary combustion units share common stack,EAF Baghouse CEMS,6915,192,0,0
+1007946,2015,91797,0,0.13,,25538.6,natural gas,2015-12-31,2015-01-01,0.125,91797,Third Quarter,Process/stationary combustion units share common stack,EAF Baghouse CEMS,6915,192,0,0
+1004151,2015,66077,0,0.13,,15600,Natural Gas  Carbon,2015-12-31,2015-01-01,0.013,66077,Fourth Quarter,Process/stationary combustion units share common stack,Baghouse 2,7604,13,0,0
+1004151,2015,29111,0,0.13,,5597,Natural Gas  Carbon,2015-12-31,2015-01-01,0.013,29111,Third Quarter,Process/stationary combustion units share common stack,Baghouse 1,7583,62,9,0
+1007695,2015,87323.9,0,0.27,,23982.87,Natural Gas,2015-12-31,2015-01-01,0.027,87323.9,First Quarter,Process/stationary combustion units share common stack,NSNE CEMS unit Baghouse Stacks,6922,2384.4,2384.4,0
+1010766,2015,89541,0,0,,458.8,Natural Gas & Tail Gas,2015-12-31,2015-01-01,0,89541,First Quarter,Process/stationary combustion units share common stack,PH-1 & AV-1 Vent Stack,5088,0,0,0
+1002266,2015,530.4,0,,,122.2,,2015-12-31,2015-01-01,,530.4,Fourth Quarter,Multiple processes/process units share common stack,Canopy Baghouse CEMS,8376,1,5,0
+1003093,2015,45311.5,0,0.85,,8755.648,natural gas,2015-12-31,2015-01-01,0.085,45311.5,Third Quarter,Process/stationary combustion units share common stack,Nucor Steel Memphis Baghouse,5744,0,0,0
+1004215,2015,131058.7,0,,,35811.72666,,2015-12-31,2015-01-01,,131058.7,Second Quarter,Single process/process unit exhausts to dedicated stack,P1_EAF Evac Duct,3452,382.5,382.5,0
+1007946,2015,302.5,0,,,77.2,,2015-12-31,2015-01-01,,302.5,Third Quarter,Single process/process unit exhausts to dedicated stack,LMF/ Canopy Baghouse,6915,0,0,0
+1007946,2015,302.5,0,,,85,,2015-12-31,2015-01-01,,302.5,Fourth Quarter,Single process/process unit exhausts to dedicated stack,LMF/ Canopy Baghouse,6915,0,0,0
+1007946,2015,91797,0,0.13,,21436.5,natural gas,2015-12-31,2015-01-01,0.125,91797,First Quarter,Process/stationary combustion units share common stack,EAF Baghouse CEMS,6915,192,0,0
+1004151,2015,66077,0,0.13,,15247,Natural Gas  Carbon,2015-12-31,2015-01-01,0.013,66077,First Quarter,Process/stationary combustion units share common stack,Baghouse 2,7604,13,0,0
+1004151,2015,29111,0,0.13,,8593,Natural Gas  Carbon,2015-12-31,2015-01-01,0.013,29111,First Quarter,Process/stationary combustion units share common stack,Baghouse 1,7583,62,9,0
+1007695,2015,87323.9,0,0.27,,24501.43,Natural Gas,2015-12-31,2015-01-01,0.027,87323.9,Third Quarter,Process/stationary combustion units share common stack,NSNE CEMS unit Baghouse Stacks,6922,2384.4,2384.4,0
+1007921,2015,155265.5,0,,,21543,,2015-12-31,2015-01-01,,155265.5,First Quarter,Multiple processes/process units share common stack,EAFBHCEMS,7466,3,0,0
+1007921,2015,155265.5,0,,,49035.1,,2015-12-31,2015-01-01,,155265.5,Second Quarter,Multiple processes/process units share common stack,EAFBHCEMS,7466,3,0,0
+1010766,2015,89541,0,0,,44512,Natural Gas & Tail Gas,2015-12-31,2015-01-01,0,89541,Second Quarter,Process/stationary combustion units share common stack,PH-1 & AV-1 Vent Stack,5088,0,0,0
+1002266,2015,478381.2,0,0.57,,115018.9,natural gas,2015-12-31,2015-01-01,0.057,478381.2,Fourth Quarter,Process/stationary combustion units share common stack,Furnace Baghouse CEMS,8376,3,12,0
+1007946,2015,302.5,0,,,55.5,,2015-12-31,2015-01-01,,302.5,Second Quarter,Single process/process unit exhausts to dedicated stack,LMF/ Canopy Baghouse,6915,0,0,0
+1007695,2015,87323.9,0,0.27,,24193,Natural Gas,2015-12-31,2015-01-01,0.027,87323.9,Second Quarter,Process/stationary combustion units share common stack,NSNE CEMS unit Baghouse Stacks,6922,2384.4,2384.4,0
+1006341,2015,68759.6,0,0.15,,18447.51445,1,2015-12-31,2015-01-01,0.015,68759.6,First Quarter,Process/stationary combustion units share common stack,Baghouse CEMs,7983,0,0,0
+1010766,2015,89541,0,0,,35678.4,Natural Gas & Tail Gas,2015-12-31,2015-01-01,0,89541,Third Quarter,Process/stationary combustion units share common stack,PH-1 & AV-1 Vent Stack,5088,0,0,0
+1007642,2015,228605,0,0.42,,44782,Natural Gas,2015-12-31,2015-01-01,0.042,228605,Second Quarter,Process/stationary combustion units share common stack,CS-01,7442,0,0,0
+1007642,2015,228605,0,0.42,,77893,Natural Gas,2015-12-31,2015-01-01,0.042,228605,Third Quarter,Process/stationary combustion units share common stack,CS-01,7442,0,0,0
+1003962,2015,375409.6,0,0.11,,100734.82639,Coke Oven Gas,2015-12-31,2015-01-01,0.023,375409.6,Fourth Quarter,Process/stationary combustion units share common stack,Sinter Plant CEMS,7286,872.87,872.87,872.87
+1002266,2015,478381.2,0,0.57,,122068.8,natural gas,2015-12-31,2015-01-01,0.057,478381.2,Third Quarter,Process/stationary combustion units share common stack,Furnace Baghouse CEMS,8376,3,12,0
+1006144,2015,389,0,0,,84.82,Natural Gas,2015-12-31,2015-01-01,0,389,Second Quarter,Process/stationary combustion units share common stack,BC CEMS,3917,8,0,0
+1006144,2015,30826.1,0,0.05,,7949.61,Natural Gas,2015-12-31,2015-01-01,0.01,30826.1,Second Quarter,Process/stationary combustion units share common stack,EAF CEMS,3917,8,0,0
+1005832,2015,74489.4,0,0.16,,21106.6,Natural Gas and Carbon,2015-12-31,2015-01-01,0.016,74489.4,Third Quarter,Process/stationary combustion units share common stack,EAF BAGHSMS,5649,33,0,0
+1006341,2015,68759.6,0,0.15,,15033.1491,1,2015-12-31,2015-01-01,0.015,68759.6,Fourth Quarter,Process/stationary combustion units share common stack,Baghouse CEMs,7983,0,0,0
+1002266,2015,478381.2,0,0.57,,117014,natural gas,2015-12-31,2015-01-01,0.057,478381.2,Second Quarter,Process/stationary combustion units share common stack,Furnace Baghouse CEMS,8376,3,12,0
+1006144,2015,389,0,0,,110.45,Natural Gas,2015-12-31,2015-01-01,0,389,Fourth Quarter,Process/stationary combustion units share common stack,BC CEMS,3917,8,0,0
+1006144,2015,30826.1,0,0.05,,6769.32,Natural Gas,2015-12-31,2015-01-01,0.01,30826.1,First Quarter,Process/stationary combustion units share common stack,EAF CEMS,3917,8,0,0
+1006144,2015,30826.1,0,0.05,,8006.98,Natural Gas,2015-12-31,2015-01-01,0.01,30826.1,Third Quarter,Process/stationary combustion units share common stack,EAF CEMS,3917,8,0,0
+1005832,2015,74489.4,0,0.16,,14639.52,Natural Gas and Carbon,2015-12-31,2015-01-01,0.016,74489.4,Second Quarter,Process/stationary combustion units share common stack,EAF BAGHSMS,5649,33,0,0
+1003962,2015,375409.6,0,0.11,,74816.32009,Coke Oven Gas,2015-12-31,2015-01-01,0.023,375409.6,Second Quarter,Process/stationary combustion units share common stack,Sinter Plant CEMS,7286,872.87,872.87,872.87
+1000156,2015,170226,0,,,41870,,2015-12-31,2015-01-01,,170226,Third Quarter,Single process/process unit exhausts to dedicated stack,UTC_Sinter Plant_CEMS,6354,6,3,0
+1005777,2015,76003.8,0,0.16,,18200.69,Primarily electric powered  with oxygen and natural gas used for added energy sources,2015-12-31,2015-01-01,0.016,76003.8,First Quarter,Process/stationary combustion units share common stack,EAFs 1 and 2 Baghouse stack,7768,148,148,148
+1005777,2015,76003.8,0,0.16,,20053.85,Primarily electric powered  with oxygen and natural gas used for added energy sources,2015-12-31,2015-01-01,0.016,76003.8,Third Quarter,Process/stationary combustion units share common stack,EAFs 1 and 2 Baghouse stack,7768,148,148,148
+1007946,2015,91797,0,0.13,,21434.5,natural gas,2015-12-31,2015-01-01,0.125,91797,Fourth Quarter,Process/stationary combustion units share common stack,EAF Baghouse CEMS,6915,192,0,0
+1007695,2015,87323.9,0,0.27,,14646.59,Natural Gas,2015-12-31,2015-01-01,0.027,87323.9,Fourth Quarter,Process/stationary combustion units share common stack,NSNE CEMS unit Baghouse Stacks,6922,2384.4,2384.4,0
+1006341,2015,68759.6,0,0.15,,17429.6662,1,2015-12-31,2015-01-01,0.015,68759.6,Second Quarter,Process/stationary combustion units share common stack,Baghouse CEMs,7983,0,0,0
+1003962,2015,375409.6,0,0.11,,106597.27115,Coke Oven Gas,2015-12-31,2015-01-01,0.023,375409.6,Third Quarter,Process/stationary combustion units share common stack,Sinter Plant CEMS,7286,872.87,872.87,872.87
+1002266,2015,478381.2,0,0.57,,124279.6,natural gas,2015-12-31,2015-01-01,0.057,478381.2,First Quarter,Process/stationary combustion units share common stack,Furnace Baghouse CEMS,8376,3,12,0
+1003093,2015,45311.5,0,0.85,,13741.78,natural gas,2015-12-31,2015-01-01,0.085,45311.5,Second Quarter,Process/stationary combustion units share common stack,Nucor Steel Memphis Baghouse,5744,0,0,0
+1005777,2015,76003.8,0,0.16,,19150.91,Primarily electric powered  with oxygen and natural gas used for added energy sources,2015-12-31,2015-01-01,0.016,76003.8,Second Quarter,Process/stationary combustion units share common stack,EAFs 1 and 2 Baghouse stack,7768,148,148,148

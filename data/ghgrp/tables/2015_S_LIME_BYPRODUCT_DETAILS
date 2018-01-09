@@ -1,0 +1,629 @@
+S_LIME_BYPRODUCT_DETAILS.FACILITY_ID,S_LIME_BYPRODUCT_DETAILS.REPORTING_YEAR,S_LIME_BYPRODUCT_DETAILS.CAO_CHEMICAL_COMPO_ANALY,S_LIME_BYPRODUCT_DETAILS.CAO_CHEMICAL_COMPO_ANALY_METHD,S_LIME_BYPRODUCT_DETAILS.CAO_CHEMICAL_COMPO_METHD_OTHR,S_LIME_BYPRODUCT_DETAILS.MASS_SOLD_ANALYSIS_METHOD,S_LIME_BYPRODUCT_DETAILS.MASS_SOLD_ANALYSIS_METHOD_OTHR,S_LIME_BYPRODUCT_DETAILS.MGO_CHEMICAL_COMPO_ANALY,S_LIME_BYPRODUCT_DETAILS.MGO_CHEMICAL_COMPO_ANALY_METHD,S_LIME_BYPRODUCT_DETAILS.MGO_CHEMICAL_COMPO_METHD_OTHR,S_LIME_BYPRODUCT_DETAILS.MONTH_NAME
+1006343,2015,N,Did not operate,,Did not operate,,N,Did not operate,,June
+1006343,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,December
+1006324,2015,,,,,,,,,
+1003479,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,June
+1002551,2015,N,NLA Protocol method,XRF,Other,Shipping scales,N,NLA Protocol method,XRF,July
+1002722,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,February
+1002722,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,May
+1002994,2015,N,NLA Protocol method,Appendix A,Truck scales,,N,NLA Protocol method,Appendix A,November
+1004273,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,July
+1004477,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,March
+1004477,2015,N,Did not operate,,Did not operate,,N,Did not operate,,April
+1004477,2015,N,Did not operate,,Did not operate,,N,Did not operate,,July
+1004477,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,December
+1004569,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,March
+1004569,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,December
+1002919,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,March
+1002395,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,June
+1002395,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,September
+1002395,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,December
+1002725,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,July
+1002725,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,October
+1002725,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,December
+1005473,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,November
+1004517,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,October
+1001823,2015,,,,,,,,,
+1007346,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,April
+1007346,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,August
+1007346,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,September
+1007346,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,October
+1002115,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,June
+1002115,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,August
+1002209,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,ASTM C25-06,,February
+1002209,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,ASTM C25-06,,May
+1002209,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,ASTM C25-06,,September
+1006370,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,May
+1006370,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,August
+1002405,2015,,,,,,,,,
+1007561,2015,,,,,,,,,
+1002403,2015,N,NLA Protocol method,XRF,Other,truck scales an weigh belts,N,NLA Protocol method,XRF,January
+1002403,2015,N,NLA Protocol method,XRF,Other,truck scales an weigh belts,N,NLA Protocol method,XRF,May
+1002403,2015,N,NLA Protocol method,XRF,Other,truck scales an weigh belts,N,NLA Protocol method,XRF,September
+1002403,2015,N,NLA Protocol method,XRF,Other,truck scales an weigh belts,N,NLA Protocol method,XRF,December
+1002403,2015,,,,,,,,,
+1002553,2015,N,ASTM C25-06,,Other,Truck and rail scales,N,ASTM C25-06,,January
+1002553,2015,N,ASTM C25-06,,Other,Truck and rail scales,N,ASTM C25-06,,March
+1002553,2015,N,ASTM C25-06,,Other,Truck and rail scales,N,ASTM C25-06,,May
+1002553,2015,N,ASTM C25-06,,Other,Truck and rail scales,N,ASTM C25-06,,August
+1002601,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,March
+1006911,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,February
+1006911,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,September
+1006911,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,October
+1002455,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,August
+1002724,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,April
+1002724,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,December
+1006848,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,June
+1002920,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,July
+1002920,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,November
+1002920,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,December
+1002928,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,February
+1000156,2015,N,ASTM C25-06,,Other,Accounting procedure based on truck loads transferred.,N,ASTM C25-06,,November
+1002397,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,November
+1004375,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,August
+1004375,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,October
+1004020,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,July
+1006263,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,May
+1005864,2015,,,,,,,,,
+1006336,2015,,,,,,,,,
+1005030,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,March
+1005288,2015,N,Other,ASTM C25-31,Truck scales,,N,Other,ASTM C25-31,June
+1000056,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,May
+1000056,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,July
+1000056,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,August
+1000379,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,February
+1000379,2015,N,NLA Protocol method,ASTM C1271,Other,Scales on frontend loader,N,NLA Protocol method,ASTM C1271,September
+1005828,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,January
+1005828,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,February
+1005828,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,June
+1005828,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,September
+1005828,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,October
+1005758,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,August
+1004097,2015,N,NLA Protocol method,ASTM C1301 & C25,Other,Rail & Truck Scales and Company Records,N,NLA Protocol method,ASTM C1301 & C25,April
+1004097,2015,N,NLA Protocol method,ASTM C1301 & C25,Other,Rail & Truck Scales and Company Records,N,NLA Protocol method,ASTM C1301 & C25,July
+1004097,2015,N,NLA Protocol method,ASTM C1301 & C25,Other,Rail & Truck Scales and Company Records,N,NLA Protocol method,ASTM C1301 & C25,December
+1002910,2015,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,July
+1002910,2015,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,September
+1004081,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,March
+1004081,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,May
+1004081,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,June
+1004081,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,July
+1002910,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,August
+1006343,2015,N,Did not operate,,Did not operate,,N,Did not operate,,April
+1006343,2015,N,Did not operate,,Did not operate,,N,Did not operate,,May
+1006878,2015,,,,,,,,,
+1003479,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,March
+1003479,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,May
+1002551,2015,N,NLA Protocol method,XRF,Other,Shipping scales,N,NLA Protocol method,XRF,March
+1002551,2015,N,NLA Protocol method,XRF,Other,Shipping scales,N,NLA Protocol method,XRF,November
+1002722,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,July
+1002994,2015,N,NLA Protocol method,Appendix A,Truck scales,,N,NLA Protocol method,Appendix A,July
+1003487,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,September
+1002919,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,September
+1002919,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,December
+1002395,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,August
+1002395,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,October
+1006247,2015,,,,,,,,,
+1004517,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,December
+1007346,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,February
+1007346,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,November
+1002115,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,April
+1002115,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,September
+1002115,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,October
+1002115,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,November
+1006370,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,November
+1002598,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,April
+1002397,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,December
+1002601,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,May
+1002601,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,December
+1002455,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,March
+1002455,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,April
+1002455,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,June
+1002724,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,March
+1002724,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,October
+1006848,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,January
+1006848,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,August
+1000156,2015,Y,ASTM C25-06,,Other,Accounting procedure based on truck loads transferred.,Y,ASTM C25-06,,October
+1004187,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,June
+1004375,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,November
+1004020,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,March
+1004020,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,June
+1006263,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,April
+1000056,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,June
+1000379,2015,N,NLA Protocol method,ASTM C1271,Other,Scales on frontend loader,N,NLA Protocol method,ASTM C1271,July
+1000379,2015,N,NLA Protocol method,ASTM C1271,Other,Scales on frontend loader,N,NLA Protocol method,ASTM C1271,November
+1005828,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,March
+1005828,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,July
+1005758,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,May
+1004097,2015,N,NLA Protocol method,ASTM C1301 & C25,Other,Rail & Truck Scales and Company Records,N,NLA Protocol method,ASTM C1301 & C25,August
+1004097,2015,N,NLA Protocol method,ASTM C1301 & C25,Other,Rail & Truck Scales and Company Records,N,NLA Protocol method,ASTM C1301 & C25,November
+1002910,2015,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,March
+1002910,2015,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,August
+1004571,2015,N,ASTM C25-06,,Other,Belt Scales,N,ASTM C25-06,,August
+1004571,2015,N,ASTM C25-06,,Other,Belt Scales,N,ASTM C25-06,,November
+1004571,2015,N,ASTM C25-06,,Other,Belt Scales,N,ASTM C25-06,,December
+1004081,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,August
+1004081,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,October
+1002910,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,December
+1006343,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,January
+1006343,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,September
+1006343,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,November
+1003479,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,October
+1003479,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,December
+1005707,2015,,,,,,,,,
+1002551,2015,,,,,,,,,
+1002551,2015,N,NLA Protocol method,XRF,Other,Shipping scales,N,NLA Protocol method,XRF,April
+1002551,2015,N,NLA Protocol method,XRF,Other,Shipping scales,N,NLA Protocol method,XRF,October
+1002551,2015,N,NLA Protocol method,XRF,Other,Shipping scales,N,NLA Protocol method,XRF,December
+1002994,2015,N,NLA Protocol method,Appendix A,Truck scales,,N,NLA Protocol method,Appendix A,June
+1002994,2015,N,NLA Protocol method,Appendix A,Truck scales,,N,NLA Protocol method,Appendix A,December
+1004273,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,August
+1002919,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,February
+1002919,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,July
+1002919,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,November
+1006312,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,June
+1005473,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,February
+1005473,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,March
+1005473,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,August
+1004517,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,February
+1004517,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,May
+1004517,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,August
+1007346,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,March
+1002115,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,March
+1002115,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,July
+1002115,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,June
+1002115,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,December
+1002209,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,ASTM C25-06,,November
+1002209,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,ASTM C25-06,,December
+1006370,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,December
+1002598,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,October
+1002598,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,December
+1010632,2015,,,,,,,,,
+1002403,2015,N,NLA Protocol method,XRF,Other,truck scales an weigh belts,N,NLA Protocol method,XRF,February
+1002403,2015,N,NLA Protocol method,XRF,Other,truck scales an weigh belts,N,NLA Protocol method,XRF,April
+1002553,2015,N,ASTM C25-06,,Other,Truck and rail scales,N,ASTM C25-06,,September
+1002553,2015,N,ASTM C25-06,,Other,Truck and rail scales,N,ASTM C25-06,,November
+1002601,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,January
+1002601,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,August
+1002601,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,October
+1002601,2015,,,,,,,,,
+1006911,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,May
+1006911,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,June
+1006911,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,November
+1006911,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,December
+1002455,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,February
+1002455,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,September
+1002455,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,December
+1002724,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,November
+1001783,2015,,,,,,,,,
+1006848,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,October
+1002928,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,August
+1000156,2015,N,ASTM C25-06,,Other,Accounting procedure based on truck loads transferred.,N,ASTM C25-06,,February
+1002397,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,August
+1004187,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,July
+1004375,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,June
+1004020,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,January
+1006263,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,June
+1006263,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,September
+1006263,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,November
+1005030,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,April
+1005030,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,November
+1005288,2015,N,Other,ASTM C25-31,Truck scales,,N,Other,ASTM C25-31,November
+1000379,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,January
+1000379,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,April
+1000379,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,July
+1000379,2015,N,NLA Protocol method,ASTM C1271,Other,Scales on frontend loader,N,NLA Protocol method,ASTM C1271,January
+1000379,2015,N,NLA Protocol method,ASTM C1271,Other,Scales on frontend loader,N,NLA Protocol method,ASTM C1271,March
+1005758,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,November
+1004097,2015,,,,,,,,,
+1002910,2015,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,February
+1002910,2015,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,December
+1002910,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,April
+1002910,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,July
+1004571,2015,N,ASTM C25-06,,Other,Belt Scales,N,ASTM C25-06,,June
+1004081,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,February
+1006354,2015,,,,,,,,,
+1004187,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,March
+1002910,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,November
+1006343,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,February
+1006343,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,August
+1007289,2015,,,,,,,,,
+1003479,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,January
+1003479,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,July
+1002551,2015,N,NLA Protocol method,XRF,Other,Shipping scales,N,NLA Protocol method,XRF,February
+1002722,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,January
+1002722,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,August
+1002722,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,October
+1002722,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,December
+1002994,2015,N,NLA Protocol method,Appendix A,Truck scales,,N,NLA Protocol method,Appendix A,January
+1002994,2015,N,NLA Protocol method,Appendix A,Truck scales,,N,NLA Protocol method,Appendix A,March
+1004273,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,January
+1004273,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,March
+1004477,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,November
+1004569,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,January
+1004569,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,April
+1002919,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,January
+1002919,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,May
+1002919,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,June
+1006312,2015,,,,,,,,,
+1006312,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,March
+1006312,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,November
+1006312,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,December
+1002395,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,July
+1002725,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,September
+1005473,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,December
+1004517,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,November
+1007346,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,June
+1007346,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,July
+1002115,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,May
+1002115,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,December
+1002115,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,May
+1002115,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,August
+1002209,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,ASTM C25-06,,April
+1002209,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,ASTM C25-06,,June
+1002209,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,ASTM C25-06,,July
+1002209,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,ASTM C25-06,,August
+1006370,2015,,,,,,,,,
+1006370,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,July
+1002598,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,March
+1002598,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,May
+1002403,2015,N,NLA Protocol method,XRF,Other,truck scales an weigh belts,N,NLA Protocol method,XRF,July
+1002553,2015,N,ASTM C25-06,,Other,Truck and rail scales,N,ASTM C25-06,,February
+1002553,2015,,,,,,,,,
+1002601,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,February
+1006911,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,January
+1006911,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,July
+1006911,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,August
+1002455,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,January
+1002455,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,October
+1006412,2015,,,,,,,,,
+1006848,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,March
+1002920,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,May
+1002920,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,August
+1002920,2015,,,,,,,,,
+1002928,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,January
+1002928,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,May
+1002928,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,June
+1002928,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,October
+1000156,2015,N,ASTM C25-06,,Other,Accounting procedure based on truck loads transferred.,N,ASTM C25-06,,June
+1002397,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,January
+1002397,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,May
+1002397,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,June
+1002397,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,July
+1004375,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,May
+1004375,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,July
+1006319,2015,,,,,,,,,
+1004020,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,September
+1006263,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,December
+1005030,2015,,,,,,,,,
+1005288,2015,N,Other,ASTM C25-31,Truck scales,,N,Other,ASTM C25-31,July
+1005288,2015,N,Other,ASTM C25-31,Truck scales,,N,Other,ASTM C25-31,October
+1000056,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,March
+1000056,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,September
+1000379,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,May
+1000379,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,June
+1000379,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,August
+1000379,2015,N,NLA Protocol method,ASTM C1271,Other,Scales on frontend loader,N,NLA Protocol method,ASTM C1271,February
+1000379,2015,N,NLA Protocol method,ASTM C1271,Other,Scales on frontend loader,N,NLA Protocol method,ASTM C1271,April
+1000379,2015,N,NLA Protocol method,ASTM C1271,Other,Scales on frontend loader,N,NLA Protocol method,ASTM C1271,December
+1005828,2015,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,May
+1005828,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,December
+1005758,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,February
+1005758,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,September
+1004097,2015,N,NLA Protocol method,ASTM C1301 & C25,Other,Rail & Truck Scales and Company Records,N,NLA Protocol method,ASTM C1301 & C25,January
+1004097,2015,N,NLA Protocol method,ASTM C1301 & C25,Other,Rail & Truck Scales and Company Records,N,NLA Protocol method,ASTM C1301 & C25,February
+1004097,2015,N,NLA Protocol method,ASTM C1301 & C25,Other,Rail & Truck Scales and Company Records,N,NLA Protocol method,ASTM C1301 & C25,March
+1002910,2015,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,February
+1002910,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,March
+1002910,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,May
+1002928,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,December
+1004571,2015,N,ASTM C25-06,,Other,Belt Scales,N,ASTM C25-06,,April
+1004571,2015,N,ASTM C25-06,,Other,Belt Scales,N,ASTM C25-06,,October
+1002910,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,September
+1003479,2015,,,,,,,,,
+1002551,2015,N,NLA Protocol method,XRF,Other,Shipping scales,N,NLA Protocol method,XRF,January
+1002551,2015,N,NLA Protocol method,XRF,Other,Shipping scales,N,NLA Protocol method,XRF,May
+1002722,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,June
+1002994,2015,N,NLA Protocol method,Appendix A,Truck scales,,N,NLA Protocol method,Appendix A,September
+1003487,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,January
+1004273,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,June
+1004273,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,October
+1004569,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,August
+1002919,2015,,,,,,,,,
+1006312,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,September
+1006312,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,October
+1002725,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,March
+1005473,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,June
+1004517,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,April
+1004517,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,September
+1007346,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,January
+1002115,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,September
+1002115,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,October
+1002115,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,January
+1002209,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,ASTM C25-06,,October
+1004386,2015,,,,,,,,,
+1006370,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,January
+1006370,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,February
+1006370,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,March
+1002397,2015,,,,,,,,,
+1002403,2015,N,NLA Protocol method,XRF,Other,truck scales an weigh belts,N,NLA Protocol method,XRF,October
+1002553,2015,N,ASTM C25-06,,Other,Truck and rail scales,N,ASTM C25-06,,December
+1002724,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,May
+1002724,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,June
+1002724,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,September
+1002920,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,October
+1002397,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,March
+1004187,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,September
+1004375,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,February
+1004020,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,April
+1004020,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,October
+1004020,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,December
+1006263,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,January
+1006263,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,February
+1006263,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,July
+1005030,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,January
+1005030,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,June
+1005030,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,July
+1005030,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,August
+1005030,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,December
+1005288,2015,N,Other,ASTM C25-31,Truck scales,,N,Other,ASTM C25-31,August
+1005288,2015,N,Other,ASTM C25-31,Truck scales,,N,Other,ASTM C25-31,December
+1000056,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,January
+1000056,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,December
+1000056,2015,,,,,,,,,
+1000379,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,December
+1005758,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,June
+1004097,2015,N,NLA Protocol method,ASTM C1301 & C25,Other,Rail & Truck Scales and Company Records,N,NLA Protocol method,ASTM C1301 & C25,September
+1002910,2015,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,June
+1002910,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,January
+1002910,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,June
+1004571,2015,N,ASTM C25-06,,Other,Belt Scales,N,ASTM C25-06,,May
+1004081,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,September
+1006877,2015,,,,,,,,,
+1004187,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,January
+1007346,2015,,,,,,,,,
+1003479,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,February
+1003479,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,April
+1003479,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,August
+1002551,2015,N,NLA Protocol method,XRF,Other,Shipping scales,N,NLA Protocol method,XRF,June
+1002551,2015,N,NLA Protocol method,XRF,Other,Shipping scales,N,NLA Protocol method,XRF,August
+1002722,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,September
+1002994,2015,N,NLA Protocol method,Appendix A,Truck scales,,N,NLA Protocol method,Appendix A,February
+1002994,2015,N,NLA Protocol method,Appendix A,Truck scales,,N,NLA Protocol method,Appendix A,April
+1002994,2015,N,NLA Protocol method,Appendix A,Truck scales,,N,NLA Protocol method,Appendix A,October
+1003487,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,February
+1003487,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,March
+1003487,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,April
+1003487,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,August
+1003487,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,October
+1004273,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,February
+1004273,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,September
+1004273,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,December
+1004477,2015,,,,,,,,,
+1004477,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,February
+1004477,2015,N,Did not operate,,Did not operate,,N,Did not operate,,May
+1004569,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,May
+1004569,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,July
+1003005,2015,,,,,,,,,
+1002767,2015,,,,,,,,,
+1006312,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,January
+1002395,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,March
+1002395,2015,,,,,,,,,
+1002725,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,April
+1002725,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,June
+1002725,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,August
+1005473,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,January
+1005473,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,October
+1004517,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,January
+1004517,2015,,,,,,,,,
+1002115,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,January
+1002598,2015,Y,NLA Protocol method,XRF,Truck scales,,Y,NLA Protocol method,XRF,January
+1002598,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,July
+1002598,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,November
+1002403,2015,N,NLA Protocol method,XRF,Other,truck scales an weigh belts,N,NLA Protocol method,XRF,March
+1002403,2015,N,NLA Protocol method,XRF,Other,truck scales an weigh belts,N,NLA Protocol method,XRF,August
+1002553,2015,N,ASTM C25-06,,Other,Truck and rail scales,N,ASTM C25-06,,June
+1002553,2015,N,ASTM C25-06,,Other,Truck and rail scales,N,ASTM C25-06,,July
+1002553,2015,N,ASTM C25-06,,Other,Truck and rail scales,N,ASTM C25-06,,October
+1002601,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,June
+1002601,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,July
+1002601,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,September
+1002601,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,November
+1006911,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,April
+1002455,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,May
+1002724,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,February
+1002724,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,August
+1006848,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,February
+1006848,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,April
+1006848,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,July
+1002920,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,April
+1002920,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,June
+1002928,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,March
+1002773,2015,,,,,,,,,
+1000156,2015,N,ASTM C25-06,,Other,Accounting procedure based on truck loads transferred.,N,ASTM C25-06,,January
+1000156,2015,Y,ASTM C25-06,,Other,Accounting procedure based on truck loads transferred.,Y,ASTM C25-06,,May
+1000156,2015,N,ASTM C25-06,,Other,Accounting procedure based on truck loads transferred.,N,ASTM C25-06,,September
+1000156,2015,Y,ASTM C25-06,,Other,Accounting procedure based on truck loads transferred.,Y,ASTM C25-06,,December
+1002397,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,April
+1004187,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,August
+1004187,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,October
+1004187,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,November
+1004375,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,January
+1004375,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,December
+1004020,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,February
+1005030,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,May
+1005030,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,October
+1005288,2015,N,Other,ASTM C25-31,Truck scales,,N,Other,ASTM C25-31,February
+1005288,2015,N,Other,ASTM C25-31,Truck scales,,N,Other,ASTM C25-31,April
+1005288,2015,N,Other,ASTM C25-31,Truck scales,,N,Other,ASTM C25-31,September
+1000056,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,November
+1000379,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,October
+1000379,2015,N,NLA Protocol method,ASTM C1271,Other,Scales on frontend loader,N,NLA Protocol method,ASTM C1271,May
+1000379,2015,N,NLA Protocol method,ASTM C1271,Other,Scales on frontend loader,N,NLA Protocol method,ASTM C1271,June
+1000379,2015,N,NLA Protocol method,ASTM C1271,Other,Scales on frontend loader,N,NLA Protocol method,ASTM C1271,August
+1005828,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,August
+1005828,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,November
+1005758,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,March
+1005758,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,December
+1004097,2015,N,NLA Protocol method,ASTM C1301 & C25,Other,Rail & Truck Scales and Company Records,N,NLA Protocol method,ASTM C1301 & C25,October
+1002910,2015,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,January
+1005712,2015,,,,,,,,,
+1004571,2015,N,ASTM C25-06,,Other,Belt Scales,N,ASTM C25-06,,January
+1004571,2015,N,ASTM C25-06,,Other,Belt Scales,N,ASTM C25-06,,February
+1004081,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,January
+1004081,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,November
+1005753,2015,,,,,,,,,
+1004187,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,February
+1002910,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,October
+1006343,2015,,,,,,,,,
+1006343,2015,N,Did not operate,,Did not operate,,N,Did not operate,,July
+1003479,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,September
+1003479,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,November
+1002994,2015,,,,,,,,,
+1003487,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,May
+1003487,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,July
+1004273,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,April
+1004273,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,May
+1004273,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,November
+1004477,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,October
+1004569,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,February
+1004569,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,September
+1002919,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,August
+1002919,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,October
+1006312,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,July
+1006312,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,August
+1002395,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,January
+1002395,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,May
+1002725,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,February
+1002725,2015,,,,,,,,,
+1005473,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,April
+1005473,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,May
+1004517,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,June
+1004517,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,July
+1007346,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,May
+1002115,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,February
+1002115,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,November
+1002115,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,March
+1002115,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,July
+1002209,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,ASTM C25-06,,January
+1002209,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,ASTM C25-06,,March
+1002209,2015,,,,,,,,,
+1006370,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,April
+1006370,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,June
+1006370,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,September
+1002598,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,June
+1002598,2015,,,,,,,,,
+1002403,2015,N,NLA Protocol method,XRF,Other,truck scales an weigh belts,N,NLA Protocol method,XRF,June
+1002455,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,July
+1002455,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,November
+1002724,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,July
+1006848,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,September
+1006848,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,November
+1002920,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,January
+1002920,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,February
+1002920,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,September
+1002928,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,April
+1002928,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,July
+1002928,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,September
+1004187,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,December
+1004375,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,March
+1004375,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,April
+1004375,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,September
+1005288,2015,N,Other,ASTM C25-31,Truck scales,,N,Other,ASTM C25-31,January
+1005288,2015,N,Other,ASTM C25-31,Truck scales,,N,Other,ASTM C25-31,March
+1000056,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,April
+1000056,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,October
+1007033,2015,,,,,,,,,
+1000379,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,November
+1005828,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,April
+1005828,2015,,,,,,,,,
+1005758,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,October
+1004097,2015,N,NLA Protocol method,ASTM C1301 & C25,Other,Rail & Truck Scales and Company Records,N,NLA Protocol method,ASTM C1301 & C25,May
+1004097,2015,N,NLA Protocol method,ASTM C1301 & C25,Other,Rail & Truck Scales and Company Records,N,NLA Protocol method,ASTM C1301 & C25,June
+1002910,2015,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,May
+1002910,2015,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,October
+1002928,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,November
+1004571,2015,N,ASTM C25-06,,Other,Belt Scales,N,ASTM C25-06,,July
+1004571,2015,N,ASTM C25-06,,Other,Belt Scales,N,ASTM C25-06,,September
+1004081,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,December
+1004187,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,April
+1006343,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,March
+1006343,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,October
+1002551,2015,N,NLA Protocol method,XRF,Other,Shipping scales,N,NLA Protocol method,XRF,September
+1002722,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,March
+1002722,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,April
+1002722,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,November
+1002994,2015,N,NLA Protocol method,Appendix A,Truck scales,,N,NLA Protocol method,Appendix A,May
+1002994,2015,N,NLA Protocol method,Appendix A,Truck scales,,N,NLA Protocol method,Appendix A,August
+1003487,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,June
+1003487,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,November
+1003487,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,December
+1004477,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,January
+1004477,2015,N,Did not operate,,Did not operate,,N,Did not operate,,June
+1004477,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,August
+1004477,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,September
+1004569,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,June
+1004569,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,October
+1004569,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,November
+1002919,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for the Lime Industry,April
+1006312,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,February
+1006312,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,April
+1006312,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,May
+1002395,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,February
+1002395,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,April
+1002395,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,November
+1002725,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,January
+1002725,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,May
+1002725,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,November
+1005473,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,July
+1005473,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,September
+1004517,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,March
+1007346,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,December
+1002115,2015,N,ASTM C25-06,,Weigh feeders,,N,ASTM C25-06,,April
+1002115,2015,,,,,,,,,
+1002115,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,February
+1006370,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,October
+1002598,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,February
+1002598,2015,Y,NLA Protocol method,XRF,Truck scales,,Y,NLA Protocol method,XRF,August
+1002598,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,September
+1002403,2015,N,NLA Protocol method,XRF,Other,truck scales an weigh belts,N,NLA Protocol method,XRF,November
+1002553,2015,N,ASTM C25-06,,Other,Truck and rail scales,N,ASTM C25-06,,April
+1002601,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,April
+1006911,2015,N,NLA Protocol method,XRF,Truck scales,,N,NLA Protocol method,XRF,March
+1006911,2015,,,,,,,,,
+1002724,2015,N,NLA Protocol method,NLA Protocol,Truck scales,,N,NLA Protocol method,NLA Protocol,January
+1001739,2015,,,,,,,,,
+1006848,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,May
+1006848,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,December
+1002920,2015,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,N,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,March
+1000156,2015,N,ASTM C25-06,,Other,Accounting procedure based on truck loads transferred.,N,ASTM C25-06,,March
+1000156,2015,N,ASTM C25-06,,Other,Accounting procedure based on truck loads transferred.,N,ASTM C25-06,,April
+1000156,2015,N,ASTM C25-06,,Other,Accounting procedure based on truck loads transferred.,N,ASTM C25-06,,July
+1000156,2015,N,ASTM C25-06,,Other,Accounting procedure based on truck loads transferred.,N,ASTM C25-06,,August
+1002397,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,February
+1002397,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,September
+1002397,2015,N,Other,ASTM & NLA Protocol,Truck scales,,N,Other,ASTM & NLA Protocol,October
+1004020,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,May
+1004020,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,August
+1004020,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,November
+1006263,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,March
+1006263,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,August
+1006263,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,October
+1005030,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,February
+1005030,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,September
+1005288,2015,N,Other,ASTM C25-31,Truck scales,,N,Other,ASTM C25-31,May
+1000056,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,February
+1000379,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,March
+1000379,2015,N,NLA Protocol method,ASTM C1271,Truck scales,,N,NLA Protocol method,ASTM C1271,September
+1000379,2015,N,NLA Protocol method,ASTM C1271,Other,Scales on frontend loader,N,NLA Protocol method,ASTM C1271,October
+1005758,2015,,,,,,,,,
+1005758,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,January
+1005758,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,April
+1005758,2015,N,ASTM C25-06,,Truck scales,,N,ASTM C25-06,,July
+1002910,2015,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,April
+1002910,2015,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,Truck scales,,Y,NLA Protocol method,CO2 Emissions Calculation Protocol for Lime Industry,November
+1002928,2015,,,,,,,,,
+1004571,2015,N,ASTM C25-06,,Other,Belt Scales,N,ASTM C25-06,,March
+1004081,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,April
+1005751,2015,,,,,,,,,
+1004187,2015,N,NLA Protocol method,1271,Truck scales,,N,NLA Protocol method,1271,May

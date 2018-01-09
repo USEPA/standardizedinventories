@@ -168,6 +168,7 @@ for table in [subparts,ghgs]:
 ghgrp0 = pd.DataFrame(columns = ghg_cols)
 used_tables=[]
 for index, row in subparts.iterrows():
+    print('index: ',index,'\n')
     #generate a URL for the tables to try
     subpart = row['SUBPART_NAME']
     subpart_table1,subpart_table2 = getSubpartTable(subpart)
@@ -238,9 +239,11 @@ for key in excel_keys:
 ghgrp3 = ghgrp3.rename(columns={'GHGRP ID':'FACILITY_ID'})
 ghgrp3.drop('Year', axis=1, inplace=True)
 
+
 reliabilitytable = pd.read_csv('data/DQ_Reliability_Scores_Table3-3fromERGreport.csv', usecols=['Source','Code','DQI Reliability Score'])
 ghgrp_reliabilitytable = reliabilitytable[reliabilitytable['Source']=='GHGRPa']
 ghgrp_reliabilitytable.drop('Source', axis=1, inplace=True)
+
 
 #Map flow descriptions to standard gas names from GHGRP
 ghg_mapping = pd.read_csv('data/ghgrp/ghg_mapping.csv', usecols=['Flow Description','OriginalFlowID'])
@@ -252,6 +255,7 @@ ghgrp = ghgrp.merge(facilities,on='FACILITY_ID',how='left')
 ghgrp = pd.merge(ghgrp,ghgrp_reliabilitytable,left_on='METHOD',right_on='Code',how='left')
 ghgrp = pd.merge(ghgrp,ghg_mapping,on='Flow Description',how='left')
 
+
 #Fill NAs with 5 for DQI reliability score
 ghgrp.replace('',np.nan)
 ghgrp['DQI Reliability Score'] = ghgrp['DQI Reliability Score'].fillna(value=5)
@@ -262,6 +266,8 @@ ghgrp.drop('METHOD', axis=1, inplace=True)
 ghgrp.rename(columns={'FACILITY_ID':'FacilityID'}, inplace=True)
 ghgrp.rename(columns={'DQI Reliability Score':'ReliabilityScore'}, inplace=True)
 ghgrp.rename(columns={'NAICS_CODE':'NAICS'}, inplace=True)
+
+
 
 
 #Standardize output
