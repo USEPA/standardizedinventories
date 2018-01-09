@@ -260,19 +260,12 @@ ghgrp = pd.merge(ghgrp,ghg_mapping,on='Flow Description',how='left')
 ghgrp.replace('',np.nan)
 ghgrp['DQI Reliability Score'] = ghgrp['DQI Reliability Score'].fillna(value=5)
 ghgrp.drop('Code', axis=1, inplace=True)
-ghgrp['Context'] = 'air'
+#ghgrp['Context'] = 'air' #unneeded because this is the only context
 ghgrp['Amount'] = 1000*ghgrp['Amount']
 ghgrp.drop('METHOD', axis=1, inplace=True)
 ghgrp.rename(columns={'FACILITY_ID':'FacilityID'}, inplace=True)
 ghgrp.rename(columns={'DQI Reliability Score':'ReliabilityScore'}, inplace=True)
 ghgrp.rename(columns={'NAICS_CODE':'NAICS'}, inplace=True)
-
-
-#Standardize output
-reflist = pd.read_csv('data/Standarized_Output_Format_EPA _Data_Sources.csv')
-reflist = reflist[reflist['required?']==1]
-refnames = list(reflist['Name'])+['SUBPART_NAME']
-ghgrp = ghgrp[refnames]
 
 output_file = "output/GHGRP_2015.csv"
 ghgrp.to_csv(output_file,index=False)
