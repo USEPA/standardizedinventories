@@ -274,6 +274,6 @@ reflist = reflist[reflist['required?']==1]
 refnames = list(reflist['Name'])+['SUBPART_NAME']
 ghgrp = ghgrp[refnames]
 
-output_file = "output/GHGRP.csv"
+output_file = "output/GHGRP_2015.csv"
 ghgrp.to_csv(output_file,index=False)
 
