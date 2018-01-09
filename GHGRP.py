@@ -268,11 +268,12 @@ ghgrp.rename(columns={'DQI Reliability Score':'ReliabilityScore'}, inplace=True)
 ghgrp.rename(columns={'NAICS_CODE':'NAICS'}, inplace=True)
 
 
-
-
 #Standardize output
 reflist = pd.read_csv('data/Standarized_Output_Format_EPA _Data_Sources.csv')
 reflist = reflist[reflist['required?']==1]
 refnames = list(reflist['Name'])+['SUBPART_NAME']
 ghgrp = ghgrp[refnames]
+
+output_file = "output/GHGRP.csv"
+ghgrp.to_csv(output_file,index=False)
 
