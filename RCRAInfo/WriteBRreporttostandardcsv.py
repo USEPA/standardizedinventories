@@ -26,5 +26,5 @@ BR2015.rename(columns={'Primary NAICS':'NAICS'}, inplace=True)
 BR2015 = BR2015.reindex(columns=['OriginalFlowID', 'Amount', 'State', 'NAICS', 'FacilityID', 'ReliabilityScore'])
 
 #Export to csv
-BR2015.to_csv('../output/RCRAInfo_2015.csv',index=False)
+BR2015.to_csv('./output/RCRAInfo_2015.csv',index=False)
 
