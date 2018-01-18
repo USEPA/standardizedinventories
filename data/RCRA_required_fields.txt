@@ -4,3 +4,16 @@ Primary NAICS
 Form Code
 Generation Tons
 Source Code
+Management Method
+Generator ID Included in NBR
+Generator Waste Stream Included in NBR
+Waste Description
+Federal Waste Flag
+Waste Code Group
+
+
+
+
+
+
+
