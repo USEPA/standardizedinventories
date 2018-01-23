@@ -15,20 +15,14 @@ BR2015  = BR2015[BR2015['Source Code'] != 'G61']
 sum(BR2015['Generation Tons']) #tons = 79688683
 len(BR2015) #records = 1972255
 
-
-#Drop lines with management method code
-BR2015 = BR2015[BR2015['Management Method'] != 'H141']
-sum(BR2015['Generation Tons']) #tons = 79260505
-len(BR2015) #records = 648452
-
 #Only include wastes that are included in the National Biennial Report
 BR2015 = BR2015[BR2015['Generator ID Included in NBR'] == 'Y']
-sum(BR2015['Generation Tons']) #tons = 79017471
-len(BR2015) #records = 576562
+sum(BR2015['Generation Tons']) #tons = 79442685
+len(BR2015) #records = 1772004
 
 BR2015 = BR2015[BR2015['Generator Waste Stream Included in NBR'] == 'Y']
-sum(BR2015['Generation Tons']) #tons = 33242204
-len(BR2015) #records = 146690
+sum(BR2015['Generation Tons']) #tons = 33646623
+len(BR2015) #records = 288323
 
 #Remove US territories
 BR2015['State'].unique() #56
@@ -39,8 +33,8 @@ BR2015 = BR2015[BR2015['State'] != 'MP'] #NORTHERN MARIANAS
 BR2015 = BR2015[BR2015['State'] != 'NN'] #Navajo Nation
 
 len(BR2015['State'].unique()) #states = 51 (all states plus DC)
-sum(BR2015['Generation Tons']) #tons = 33223234
-len(BR2015) #records = 145955
+sum(BR2015['Generation Tons']) #tons = 33625841
+len(BR2015) #records = 286070
 
 #Remove imported wastes, waste codes G63-G75
 ImportSourceCodes = pd.read_csv('./data/RCRAImportSourceCodes.txt', header=None)
@@ -54,14 +48,16 @@ for item in SourceCodesPresent:
         SourceCodestoKeep.append(item)
 
 BR2015 = BR2015[BR2015['Source Code'].isin(SourceCodestoKeep)]
-sum(BR2015['Generation Tons']) #tons = 33204507
-len(BR2015) #records = 143981
+sum(BR2015['Generation Tons']) #tons = 33606838
+len(BR2015) #records = 283903
 
-#Identify wastes from hazardous waste facilities
+#Reassign the NAICS to a string
 BR2015.dtypes
 BR2015['NAICS'] = BR2015['Primary NAICS'].astype('str')
 BR2015.drop('Primary NAICS', axis=1, inplace=True)
 BR2015['NAICS'].unique()
+
+#Identify wastes from hazardous waste facilities
 BR2015_wasterecords  = BR2015[BR2015['NAICS'].map(lambda x: x.startswith('562'))]
 BR2015_wasterecords['NAICS'].unique()
 #562112', '562219', '562211', '56292', '562998', '56291', '562212','562119', '562111', '562213', '56221', '56299', '56211'
