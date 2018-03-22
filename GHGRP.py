@@ -6,16 +6,14 @@ import requests
 import urllib
 from xml.dom import minidom
 import os
+import zipfile
+import io
+from datetime import datetime
+import shutil
 
 # Set reporting year to be used in API requests
-report_year = '2014'
-
-# Define URLs to obtain data using EnviroFacts RESTful data service API
-enviro_url = 'https://iaspub.epa.gov/enviro/efservice/'
-subparts_url = enviro_url + 'PUB_DIM_SUBPART/JSON'
-ghgs_url = enviro_url + 'PUB_DIM_GHG/JSON'
-# Download link comes from 'https://www.epa.gov/ghgreporting/ghg-reporting-program-data-sets' -- May need to update before running
-excel_subparts_url = 'https://www.epa.gov/sites/production/files/2017-09/e_o_s_cems_bb_cc_ll_rr_full_data_set_8_5_17_final_0.xlsx'
+data_source = 'ghgrp'
+report_year = '2016'
 
 # Column groupings handled based on table structure, which varies by subpart
 name_cols = ['GAS_NAME', 'GHG_GAS_NAME', 'GHG_NAME', 'FGHG_GROUP_NAME''PROCESS_NAME', 'PROCESS_TYPE',
@@ -86,6 +84,20 @@ def generateURL(table, report_year='', row_start=0, row_end=9999, output_ext='JS
     request_url += '/' + output_ext
     return request_url
 
+def url_is_alive(url):
+    """
+    Checks that a given URL is reachable.
+    :param url: A URL
+    :rtype: bool
+    """
+    request = urllib.request.Request(url)
+    request.get_method = lambda: 'HEAD'
+
+    try:
+        urllib.request.urlopen(request)
+        return True
+    except urllib.request.HTTPError:
+        return False
 
 # Try a URL 3 times before giving up
 def followURL(input_url, filepath=''):
@@ -190,53 +202,73 @@ def getColumns(subpart_name):
     return excel_base_cols, excel_quant_cols, excel_method_cols
 
 
-# Read in tables as CSV if available, otherwise create tables from JSON output of EF RESTful data service API
-required_tables = ['facilities', 'subparts', 'ghgs', 'excel_subparts']
-for table in required_tables:
-    if table == 'excel_subparts':
-        file_ext = 'xlsx'
-        read_type = 'pd.ExcelFile'
-    else:
-        file_ext = 'csv'
-        read_type = 'pd.read_' + file_ext
-    filepath = 'data/ghgrp/' + table + '.' + file_ext
-    write_type = table + '.to_' + file_ext + '("' + filepath + '",index=False)'
-    if os.path.exists(filepath):
-        try:
-            exec(table + '=' + read_type + '("' + filepath + '")')
-        except UnicodeDecodeError:
-            exec(table + '=' + read_type + '("' + filepath + '",encoding="latin1")')
-        write_type = ''
-    elif table == 'facilities':
-        # Create facilities table from scratch. RESTful data service API can only return 10,000 row at time.
-        # CSV is used because JSON output includes inordinate amounts of HTML.
-        # Check if fac_count variable is defined. If not, count facilities and start from row 0, otherwise pick up where left off after previous 404 error.
-        try:
-            fac_table
-        except NameError:
-            fac_table = 'PUB_DIM_FACILITY'
-            fac_cols = ['PUB_DIM_FACILITY.FACILITY_ID', 'PUB_DIM_FACILITY.STATE', 'PUB_DIM_FACILITY.NAICS_CODE']
-            fac_count = getRowCount(fac_table)
-        facilities = downloadChunks(table=fac_table, table_count=fac_count, output_ext='CSV')[fac_cols]
-        # Remove duplicates and remove table name from column names
-        facilities.rename(columns={'PUB_DIM_FACILITY.FACILITY_ID': 'FACILITY_ID'}, inplace=True)
-        facilities.rename(columns={'PUB_DIM_FACILITY.STATE': 'State'}, inplace=True)
-        facilities.rename(columns={'PUB_DIM_FACILITY.NAICS_CODE': 'NAICS'}, inplace=True)
-        facilities['NAICS'] = facilities['NAICS'].fillna(0).astype(int).astype(str)
-        facilities['NAICS'][facilities['NAICS'] == '0'] = ''
-    else:
-        exec(table + '= followURL(' + table + '_url, filepath="' + filepath + '")')
-        if table == 'excel_subparts': exec(table + '= pd.ExcelFile("' + filepath + '")')
-    if table == 'excel_subparts':
-        exec(table + '={sheet: ' + table + '.parse(sheet) for sheet in ' + table + '.sheet_names}')
-        exec(table + '.pop("READ ME", None)')
-        write_type = ''
-    exec(write_type)
+def download_table(filepath, url=''):
+    if not os.path.exists(filepath):
+        if url[-4:] == '.zip':
+            table_request = requests.get(url).content
+            zip_file = zipfile.ZipFile(io.BytesIO(table_request))
+            zip_file.extractall(path='./data/' + data_source + '/')
+        elif 'xls' in filepath[-4:]:
+            with urllib.request.urlopen(url) as response, open(filepath, 'wb') as out_file:
+                shutil.copyfileobj(response, out_file)
+        else: pd.read_json(url).to_csv(filepath)
 
+
+def import_table(filepath, skip_lines=0, drop_sheets=[]):
+    if filepath[-3:].lower() == 'csv':
+        try: import_file = pd.read_csv(filepath)
+        except UnicodeDecodeError: import_file = pd.read_csv(filepath, encoding="latin1")
+    elif 'xls' in filepath[-4:]:
+        table_dict = pd.ExcelFile(filepath)
+        table_dict = {sheet: table_dict.parse(sheet, skiprows=skip_lines) for sheet in table_dict.sheet_names}
+        if drop_sheets:
+            for s in drop_sheets:
+                try: table_dict.pop(s)
+                except KeyError: continue
+        import_file = table_dict
+    return import_file
+
+
+current_year = datetime.now().year
+if int(report_year) >= current_year: raise ValueError('Data not available for ' + report_year + ' yet. Choose an earlier year')
+for i in range(current_year, int(report_year)-1, -1):
+    test_url = 'https://www.epa.gov/sites/production/files/' + str(i) + '-12/' + str(i-1) + '_ghgrp_data_summary_spreadsheets.zip'
+    if url_is_alive(test_url):
+        most_recent_year = str(i - 1)
+        break
+    elif i == report_year: most_recent_year = '2016'
+
+facilities_file = './data/ghgrp/'+ most_recent_year + '_ghgrp_data_summary_spreadsheets/' + most_recent_year + ' Data Summary Spreadsheets/ghgp_data_' + report_year + '_8_5_' + str(int(most_recent_year[-2:])+1) + '.xlsx'
+facilities_url = 'https://www.epa.gov/sites/production/files/' + str(int(most_recent_year)+1) + '-12/' + most_recent_year + '_ghgrp_data_summary_spreadsheets.zip'
+enviro_url = 'https://iaspub.epa.gov/enviro/efservice/'
+subparts_url = enviro_url + 'PUB_DIM_SUBPART/JSON'
+subparts_file = './data/ghgrp/subparts.csv'
+ghgs_url = enviro_url + 'PUB_DIM_GHG/JSON'
+ghgs_file = './data/ghgrp/ghgs.csv'
+# Download link comes from 'https://www.epa.gov/ghgreporting/ghg-reporting-program-data-sets' -- May need to update before running
+excel_subparts_url = 'https://www.epa.gov/sites/production/files/' + str(int(most_recent_year)+1) + '-09/e_o_s_cems_bb_cc_ll_rr_full_data_set_8_5_' + str(int(most_recent_year[-2:])+1) + '_final_0.xlsx'
+excel_subparts_file = './data/ghgrp/e_o_s_cems_bb_cc_ll_rr_full_data_set_8_5_' + str(int(most_recent_year[-2:])+1) + '_final_0.xlsx'
+
+required_tables = [[facilities_file, facilities_url], [subparts_file, subparts_url], [ghgs_file, ghgs_url], [excel_subparts_file, excel_subparts_url]]
+for table in required_tables: download_table(table[0], table[1])
+
+facilities_df = pd.DataFrame()
+facilities_dict = import_table(facilities_file, 3, ['Industry Type','FAQs about this Data'])
+for s in facilities_dict.keys():
+    try: facilities_dict[s] = facilities_dict[s][['Facility Id', 'State', 'Primary NAICS Code']]
+    except:
+        facilities_dict[s] = facilities_dict[s][['Facility Id', 'Reported State', 'Primary NAICS Code']]
+        facilities_dict[s].rename(columns={'Reported State': 'State'}, inplace=True)
+    facilities_df = pd.concat([facilities_df, facilities_dict[s]]).reset_index(drop=True)
+
+excel_subparts_dict = import_table(excel_subparts_file, drop_sheets=['READ ME', None])
+subparts = pd.read_csv(subparts_file)
+ghgs = pd.read_csv(ghgs_file)
 # Clean up misencoded subscripts
 for table in [subparts, ghgs]:
     for column in table.select_dtypes([np.object]):
         table[column] = table[column].str.replace('%3Csub%3E', '').str.replace('%3C/sub%3E', '')
+
 
 ghgrp0 = pd.DataFrame(columns=ghg_cols)
 used_tables = []
@@ -248,7 +280,7 @@ for index, row in subparts.iterrows():
     subpart_table1, subpart_table2 = get_subpart_table(subpart)
     if subpart_table1 is False: continue
     used_tables += [subpart_table1]
-    subpart_count=getRowCount(subpart_table1)
+    subpart_count = getRowCount(subpart_table1)
     print(subpart_table1 + '(rows: ' + str(subpart_count) + ')')
     try:
         filepath = filepath + subpart_table1
@@ -304,12 +336,12 @@ for group in group_list:
 ghgrp3 = pd.DataFrame()
 excel_dict = {'Adipic Acid': 'E', 'HCFC-22 Prod. HFC-23 Dest.': 'O', 'Lime': 'S', 'Silicon Carbide': 'BB',
               'Soda Ash': 'CC', 'CoalBased Liquid Fuel Suppliers': 'LL', 'Geologic Sequestration of CO2': 'RR'}
-excel_keys = list(excel_subparts.keys())
+excel_keys = list(excel_subparts_dict.keys())
 
 for key in excel_keys:
     excel_base_cols, excel_quant_cols, excel_method_cols = getColumns(excel_dict[key])
     temp_cols = excel_base_cols + excel_quant_cols + excel_method_cols
-    temp_df = excel_subparts[key][temp_cols]  # .to_frame()
+    temp_df = excel_subparts_dict[key][temp_cols]  # .to_frame()
     temp_df['METHOD'] = temp_df[excel_method_cols].fillna('').sum(axis=1)
     for col in excel_quant_cols:
         col_df = temp_df.dropna(subset=[col])
@@ -333,7 +365,7 @@ ghg_mapping = pd.read_csv('data/ghgrp/ghg_mapping.csv', usecols=['Flow Descripti
 
 # Merge tables
 ghgrp = pd.concat([ghgrp1, ghgrp2, ghgrp3]).reset_index(drop=True)
-ghgrp = ghgrp.merge(facilities, on='FACILITY_ID', how='left')
+ghgrp = ghgrp.merge(facilities_df, on='FACILITY_ID', how='left')
 ghgrp = pd.merge(ghgrp, ghgrp_reliabilitytable, left_on='METHOD', right_on='Code', how='left')
 ghgrp = pd.merge(ghgrp, ghg_mapping, on='Flow Description', how='left')
 
