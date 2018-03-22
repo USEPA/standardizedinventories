@@ -1,4 +1,5 @@
 # GHGRP import and processing
+# TODO: Add link to RESTFUL API docs
 
 import pandas as pd
 import numpy as np
@@ -48,6 +49,7 @@ def set_output_dir(directory):
 
 # Input subpart_name from table of subparts, return name(s) of table to query for that subpart.
 # Returns false for subparts covered in Excel file.
+# TODO: Fill data gaps for Supplier subparts e.g. NN -- determine columns to use
 def get_subpart_table(subpart_name, report_year=report_year):
     subpart_table2 = ''
     if subpart_name in (
@@ -119,6 +121,7 @@ def followURL(input_url, filepath=''):
 
 
 # Input specific table name, returns number of rows from API as XML then converts to integer
+# TODO: Add report year specification
 def getRowCount(table):
     count_url = enviro_url + table + '/COUNT'
     count_request = requests.get(count_url)
@@ -208,7 +211,7 @@ def download_table(filepath, url=''):
             table_request = requests.get(url).content
             zip_file = zipfile.ZipFile(io.BytesIO(table_request))
             zip_file.extractall(path='./data/' + data_source + '/')
-        elif 'xls' in filepath[-4:]:
+        elif 'xls' in filepath[-4:] or 'csv' in filepath[-3:]:
             with urllib.request.urlopen(url) as response, open(filepath, 'wb') as out_file:
                 shutil.copyfileobj(response, out_file)
         else: pd.read_json(url).to_csv(filepath)

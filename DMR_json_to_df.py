@@ -38,15 +38,17 @@ def main():
     dmr_reliabilitytable.drop('Source', axis=1, inplace=True)
     df['DQI Reliability Score'] = dmr_reliabilitytable['DQI Reliability Score']
 
-    # Rename with standard column names, unit conversion
+    # Rename with standard column names
     df.rename(columns={'ExternalPermitNmbr': 'FacilityID'}, inplace=True)
     df.rename(columns={'Siccode': 'SIC'}, inplace=True)
     df.rename(columns={'StateCode': 'State'}, inplace=True)
     df.rename(columns={'ParameterDesc': 'OriginalFlowID'}, inplace=True)
     df.rename(columns={'DQI Reliability Score': 'ReliabilityScore'}, inplace=True)
-    df['Amount']=df['PollutantLoad']# TODO: Is this already in kg/year?
-    df.drop('PollutantLoad', axis=1, inplace=True)
+    df.rename(columns={'PollutantLoad': 'Amount'}, inplace=True)
+    df = df[df['Amount'] != '--']
+    # Already in kg/yr, so no conversion necessary
 
+    df.drop(['EstFactor', 'TRIDirectPounds', 'TRIIndirectPounds'], axis=1, inplace=True)
     df.to_csv(path_or_buf=outputdir + file_name, index=False)
 
 
