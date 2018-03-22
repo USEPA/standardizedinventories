@@ -2,7 +2,7 @@ EstFactor
 ExternalPermitNmbr
 FacilityTypeIndicator
 NaicsCode
-ParameterCode
+ParameterDesc
 PollutantCode
 PollutantLoad
 Siccode

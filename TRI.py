@@ -9,7 +9,7 @@ import pandas as pd
 import os
 
 #Set some metadata
-TRIyear = '2015'
+TRIyear = '2016'
 
 #Do not write intermediate and final output to the code folder. Specify the output directory here
 #sets output directory path
@@ -80,14 +80,14 @@ def dict_create (k,v):
 
 import_dict = dict_create(keys,values)
 
-#Create a dictionary that had the import fields for each release type to use in import process
+# Create a dictionary that had the import fields for each release type to use in import process
 
-#Import TRI file
-tri_csv = "US_1_2015_v15.txt" #Use example for testing
-#tri_csv = "....TRI_2015_US.csv" #TRI file .. do not include in repository folder
+# Import TRI file
+tri_csv = "./data/US_1_" + TRIyear + "_v15.txt" # Use example for testing
+# tri_csv = "./data/TRI_2016_US.csv" #TRI file .. do not include in repository folder
 tri = pd.DataFrame()
 
-fieldnames = ['FacilityID','State', 'NAICS', 'OriginalFlowID','Unit','Amount','Basis of Estimate']
+fieldnames = ['FacilityID', 'State', 'NAICS', 'OriginalFlowID', 'Unit', 'Amount', 'Basis of Estimate']
 
 def truncate_fields(long_fields, e):
 	l = len(long_fields)-e
@@ -100,6 +100,7 @@ fieldnamesshort = truncate_fields(fieldnames,1)
 def format_source_columns(d):
 	for k,v in d.items():
 		tri_part = pd.read_csv(tri_csv, sep='\t',header=0,usecols=v,error_bad_lines=False)
+#		tri_part = pd.read_csv(tri_csv,header=0,error_bad_lines=False)
 		if k.startswith('offsite'):
 			tri_part.columns = fieldnamesshort
 		else:
