@@ -6,7 +6,7 @@ THIS CODE IS STILL IN EARLY DEVELOPMENT. OUTPUT FILES HAVE NOT YET BEEN TESTED.
 
 ## USEPA Inventories Covered By Data Reporting Year (current version)
 |Source|2013|2014|2015|2016|
-|--|--|--|--|
+|--|--|--|--|--|
 |[Discharge Monitoring Report](https://echo.epa.gov/tools/data-downloads/icis-npdes-dmr-and-limit-data-set)|||||
 |[Greenhouse Gas Reporting Program](https://www.epa.gov/ghgreporting)|||x||
 |[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program)|x|x|x|x|
