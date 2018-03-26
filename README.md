@@ -22,8 +22,11 @@ Each row represents the total amount of release or waste of a single type in a g
 Descriptions of the fields can be found [here](FlowByFacilityFormat.md)
 
 ## Use of the repository output
-The standard format files without any filtering are available in the output directory in csv format (can be opened in Excel).
-These can be downloaded and used without knowledge of Python.
+The standard format files without any filtering are available in the output directory in csv format (can be opened in Excel). These can be downloaded and used without knowledge of Python.
+Within github, to get all files, select 'Clone or download', and you can download all files in the repository as a .zip.
+To download an individual file, browse and click on the .csv file of interest, then click download. 
+If the file is displayed in your browser you can use your browser's > File > Save as 
+commands to save it, but make sure you use a .csv extension with no other extension added.
 
 ## Installation of python module
 Use of Python permits further customization the output.
@@ -33,7 +36,7 @@ pip can be called to install the downloaded package.
 If you've downladed and unzipped the file, open the command line and type
 >pip install -e `directory_of_unzipped_folder`
 
-where `directory_of_unzipped_folder` is a directory like `C:/Users/username/lci-primer'
+where `directory_of_unzipped_folder` is a directory like `C:/Users/username/lci-primer`
 This will install the module as `StandardizedReleaseandWasteInventories`.
 
 You can test the installation by opening up a Python console and entering
