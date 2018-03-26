@@ -21,8 +21,8 @@ Definitions:
 `Facility ID` is a unique identification number used by the emission or waste inventory source to track the facility.
 `Flow ID` is the unique identification number for the release or waste given by the source.
 `Flow Amount` is the amount of a given flow released to a given environment compartment (air, water, or ground) for the given year by that facility. 
-The `Data Reliability` score is a 1-5 score. The scoring method uses an [EPA data quality assessment protocol](https://cfpub.epa.gov/si/si_public_record_report.cfm?dirEntryId=321834). Scores are based on the data describing o releast.
-A rubric for assigning the score for each source is provided here.
+The `Data Reliability` score is a 1-5 score. The scoring method uses an [EPA data quality assessment protocol](https://cfpub.epa.gov/si/si_public_record_report.cfm?dirEntryId=321834). Scores are based on the data describing a release (e.g. 
+'Basis of Estimate' code in TRI). A rubric for assigning the score for each source is provided here (TO BE FORMATTED AND LINKED).
 These and other fields are defined in this [file](data/Standarized_Output_Format_EPA%20_Data_Sources.csv).
 
 ## Use of the repository
