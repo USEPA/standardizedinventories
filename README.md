@@ -3,7 +3,7 @@ Provides processed EPA release and waste generation inventories in a standard ta
 
 THIS CODE IS STILL IN EARLY DEVELOPMENT. OUTPUT FILES HAVE NOT YET BEEN TESTED.
 
-## EPA Emission Inventories Covered By Data Reporting Year (current version)
+## USEPA Inventories Covered By Data Reporting Year (current version)
 |Source|2014|2015|2016|
 |--|--|--|--|
 |[Discharge Monitoring Report](https://echo.epa.gov/tools/data-downloads/icis-npdes-dmr-and-limit-data-set)|x|||
@@ -14,15 +14,16 @@ THIS CODE IS STILL IN EARLY DEVELOPMENT. OUTPUT FILES HAVE NOT YET BEEN TESTED.
 
 ## FlowByFacility output format
 |Facility ID|Flow ID|Compartment|Flow Amount|Data Reliability|...optional fields|
-|--|--|--|--|--|
+|--|--|--|--|--|--|
 
-Each row represents the total amount of release or waste of a single type in a given year.
-Facility ID is a unique identification number used by the emission or waste inventory source to track the facility.
-Flow ID is the unique identification number for the release or waste given by the source.
-Flow Amount is the amount of a given flow released to a given environment compartment (air, water, or ground) for the given year by that facility. 
-The Data Reliability score is a 1-5 score. The scoring method uses an [EPA data quality assessment protocol](https://cfpub.epa.gov/si/si_public_record_report.cfm?dirEntryId=321834). Scores are based on the data describing o releast.
+Each row represents the total amount of release or waste of a single type in a given year from the given facility.
+Definitions:
+`Facility ID` is a unique identification number used by the emission or waste inventory source to track the facility.
+`Flow ID` is the unique identification number for the release or waste given by the source.
+`Flow Amount` is the amount of a given flow released to a given environment compartment (air, water, or ground) for the given year by that facility. 
+The `Data Reliability` score is a 1-5 score. The scoring method uses an [EPA data quality assessment protocol](https://cfpub.epa.gov/si/si_public_record_report.cfm?dirEntryId=321834). Scores are based on the data describing o releast.
 A rubric for assigning the score for each source is provided here.
-These and other fields are defined in this file.
+These and other fields are defined in this [file](data/Standarized_Output_Format_EPA%20_Data_Sources.csv).
 
 ## Use of the repository
 The standard format files are available in the output directory in csv format (can be opened in Excel). The Python code can by used or modified in any Python 3.x environment. 
