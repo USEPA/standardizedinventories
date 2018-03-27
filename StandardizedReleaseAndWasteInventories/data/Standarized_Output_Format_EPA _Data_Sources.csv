@@ -1,13 +1,13 @@
 ﻿Col Num,Name,required?,Note
-1,OriginalFlowID,1,
-2,Context,,
-3,Amount,1,
+1,FlowName,1,
+2,Compartment,,
+3,FlowAmount,1,
 4,State,1,
 5,NAICS,,
 6,FacilityID,1,
 7,ReliabilityScore,1,
-8,SCC,,for NEI
-9,SIC,,for DMR
+8,SCC,,NEI only
+9,SIC,,DMR only
 10,Unitid,,for NEI
 11,Unittype,,for NEI
-12,Context2,,
+12,Compartment2,,
