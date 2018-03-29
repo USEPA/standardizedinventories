@@ -8,7 +8,7 @@ import os
 
 
 def main():
-    outputdir = set_output_dir('../LCI-Primer-Output/')
+    outputdir = set_output_dir('StandardizedReleaseandWasteInventories/output/')
     year = '2015'
 
     drop_list = ['ActualAverageFlowNmbr', 'AllowableLoad', 'AssessmentUnitEPACategory',
@@ -25,10 +25,11 @@ def main():
                  'QcFlag', 'Reachcode', 'SrsID', 'StateWaterBodyName',
                  'TotalDesignFlowNmbr', 'Twf', 'WastewaterFlow', 'Zip']
 
-    file_name = "DMR_" + year + '_standard_format.csv'
-    json_data = pd.read_json(path_or_buf='../LCI-Primer-Output/DMR_data.json')
-    df = pd.DataFrame(json_data['Results']['Results'])
-    df.drop(drop_list, axis=1, inplace=True)
+    dmr = pd.read_pickle(outputdir+'DMR_'+year+'.pkl')
+    #dmr = pd.DataFrame(dmr['Results']['Results'])
+
+
+    dmr.drop(drop_list, axis=1, inplace=True)
 
     # Merge reliability table
     # TODO: Determine Reliability criteria?
@@ -42,7 +43,7 @@ def main():
     df.rename(columns={'ExternalPermitNmbr': 'FacilityID'}, inplace=True)
     df.rename(columns={'Siccode': 'SIC'}, inplace=True)
     df.rename(columns={'StateCode': 'State'}, inplace=True)
-    df.rename(columns={'ParameterDesc': 'OriginalFlowID'}, inplace=True)
+    df.rename(columns={'ParameterDesc': 'FlowName'}, inplace=True)
     df.rename(columns={'DQI Reliability Score': 'ReliabilityScore'}, inplace=True)
     df['Amount']=df['PollutantLoad']# TODO: Is this already in kg/year?
     df.drop('PollutantLoad', axis=1, inplace=True)
