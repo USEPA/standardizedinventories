@@ -1,10 +1,11 @@
-#!/usr/bin/env python
+#Queries DMR data by SIC or by SIC and Region (for large sets), temporarily saves them,
 # Web service documentation can be found at https://echo.epa.gov/system/files/ECHO%20All%20Data%20Search%20Services_v3.pdf
+
 
 import requests
 import pandas as pd
-import json
 import os
+import StandardizedReleaseAndWasteInventories.globals as globals
 
 # two digit SIC codes from advanced search drop down stripped and formatted as a list
 sic = ['01', '02', '07', '08', '09', '10', '12', '13', '14', '15',
@@ -25,13 +26,6 @@ sic_successful_df_list = []
 def app_sic(form_obj, param_list):
     result = [form_obj + s for s in param_list]
     return result
-
-
-# sets the output directory
-def set_output_dir(directory):
-    outputdir = directory
-    if not os.path.exists(outputdir): os.makedirs(outputdir)
-    return outputdir
 
 
 # creates urls from various search parameters and outputs as a list
@@ -70,6 +64,7 @@ def queryDMR(urls, path):
             # with open(final_path, 'w') as fp:
             # json.dump(json_data, fp, indent = 2)
             # pd.to_pickle(df,final_path)
+            df = pd.DataFrame(df['Results']['Results'])
             output_df = pd.concat([output_df, df])
             sic_successful_df_list.append(sic[i])
         i += 1
@@ -92,18 +87,18 @@ def main():
     form_obj = '&p_sic2='  # define any secondary search criteria
     output_type = 'JSON'  # define output type
 
-    dmr_df = pd.DataFrame()
+    #dmr_df = pd.DataFrame()
 
     sic_code_query = app_sic(form_obj, sic)
-    outputdir = set_output_dir('./output/DMRquerybySIC/')
+    #outputdir = set_output_dir('./output/DMRquerybySIC/')
     urls = create_urls(main_api, service_parameter, year, sic_code_query,
                        output_type)  # creates a list oof urls based on sic
     # json_output_file = get_write_json_file(urls, outputdir, 'DMR_data') #saves json file to LCI-Prime_Output
-    dmr_df = pd.concat([dmr_df, queryDMR(urls, outputdir)])
+    dmr_df = queryDMR(urls, outputdir)
     max_error_list_query = app_sic(form_obj, sic_maximum_record_error_list)
     region_urls = create_urls(main_api, service_parameter, year, max_error_list_query, output_type, region=True)
     dmr_df = pd.concat([dmr_df, queryDMR(region_urls, outputdir)])
-    pd.to_pickle(dmr_df, outputdir + '/../dmr_' + DMR_year + '.pkl')
+    pd.to_pickle(dmr_df, outputdir + 'DMR_' + DMR_year + '.pkl')
 
 
 if __name__ == '__main__':
