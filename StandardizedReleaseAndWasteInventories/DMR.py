@@ -4,8 +4,7 @@
 
 import requests
 import pandas as pd
-import os
-import StandardizedReleaseAndWasteInventories.globals as globals
+from StandardizedReleaseAndWasteInventories import globals
 
 # two digit SIC codes from advanced search drop down stripped and formatted as a list
 sic = ['01', '02', '07', '08', '09', '10', '12', '13', '14', '15',
@@ -80,6 +79,7 @@ def queryDMR(urls, path):
 
 # creates file path for json output. irterates through url list, requests data, and writes to json file in output directory.
 def main():
+    outputdir = globals.outputdir
     DMR_year = '2015'  # year of data requested
     main_api = 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_custom_data_'  # base url
     service_parameter = 'annual?'  # define which parameter is primary search criterion
@@ -98,8 +98,31 @@ def main():
     max_error_list_query = app_sic(form_obj, sic_maximum_record_error_list)
     region_urls = create_urls(main_api, service_parameter, year, max_error_list_query, output_type, region=True)
     dmr_df = pd.concat([dmr_df, queryDMR(region_urls, outputdir)])
-    pd.to_pickle(dmr_df, outputdir + 'DMR_' + DMR_year + '.pkl')
+
+
+    dmr_required_fields = pd.read_csv('StandardizedReleaseAndWasteInventories/data/DMR_required_fields.txt',header=None)[0]
+    dmr_df = dmr_df[dmr_required_fields]
+    reliabilitytable = globals.reliabilitytable
+    dmr_reliabilitytable = reliabilitytable[reliabilitytable['Source'] == 'DMR']
+    dmr_reliabilitytable.drop('Source', axis=1, inplace=True)
+    dmr_df['DQI Reliability Score'] = dmr_reliabilitytable['DQI Reliability Score']
+
+    # Rename with standard column names
+    dmr_df.rename(columns={'ExternalPermitNmbr': 'FacilityID'}, inplace=True)
+    dmr_df.rename(columns={'Siccode': 'SIC'}, inplace=True)
+    dmr_df.rename(columns={'StateCode': 'State'}, inplace=True)
+    dmr_df.rename(columns={'ParameterDesc': 'FlowName'}, inplace=True)
+    dmr_df.rename(columns={'DQI Reliability Score': 'ReliabilityScore'}, inplace=True)
+    dmr_df.rename(columns={'PollutantLoad': 'Amount'}, inplace=True)
+    dmr_df = dmr_df[dmr_df['Amount'] != '--']
+    # Already in kg/yr, so no conversion necessary
+
+    file_name = 'dmr_' + DMR_year + '.csv'
+    dmr_df.to_csv(path_or_buf=outputdir + file_name, index=False)
 
 
 if __name__ == '__main__':
     main()
+
+
+

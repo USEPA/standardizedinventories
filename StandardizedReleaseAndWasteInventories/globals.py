@@ -122,6 +122,11 @@ def filter_inventory(inventory_df, criteria_file, filter_type, marker=None):
     return output_df.reset_index(drop=True)
 
 
+def get_reliability_table(filepath):
+    reliabilitytable = pd.read_csv(filepath, usecols=['Source', 'Code', 'DQI Reliability Score'])
+    return reliabilitytable
+
+
 def set_output_dir(directory):
     outputdir = directory
     if not os.path.exists(outputdir): os.makedirs(outputdir)
@@ -129,6 +134,8 @@ def set_output_dir(directory):
 
 
 global outputdir
+global reliabilitytable
 outputdir = set_output_dir('StandardizedReleaseandWasteInventories/output/')
-
+reliabilitytable = get_reliability_table(
+        'StandardizedReleaseAndWasteInventories/data/DQ_Reliability_Scores_Table3-3fromERGreport.csv')
 
