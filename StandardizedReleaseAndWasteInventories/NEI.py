@@ -1,12 +1,15 @@
 #NEI import and process to Standardized EPA output format
 #This script uses the NEI National Data File.
 
+import StandardizedReleaseAndWasteInventories.globals as globals
 import pandas as pd
 import numpy as np
 import math
 
-nei_required_fields = pd.read_table('./data/NEI_required_fields.csv',sep=',').fillna('Null')
-nei_file_path = pd.read_table('./data/NEI_file_path.csv',sep=',').fillna('Null')
+output_dir = globals.output_dir
+data_dir = globals.data_dir
+nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields.csv',sep=',').fillna('Null')
+nei_file_path = pd.read_table(data_dir + 'NEI_file_path.csv',sep=',').fillna('Null')
 
 def read_data(source,file):
     tmp = pd.Series(list(nei_required_fields[source]), index=list(nei_required_fields['StandardizedEPA']))
@@ -43,10 +46,10 @@ def standardize_output(source): # source as 'Point'/'NonPoint'/'OnRoad'/'NonRoad
     nei = nei.fillna('')
     # add Reliability Score
     if source == 'Point':
-        reliabilitytable = pd.read_csv('./data/DQ_Reliability_Scores_Table3-3fromERGreport.csv',usecols=['Source','Code','DQI Reliability Score'])
-        nei_reliabilitytable = reliabilitytable[reliabilitytable['Source'] == 'NEI']
-        nei_reliabilitytable['Code'] = nei_reliabilitytable.Code.astype(float)
-        nei = nei.merge(nei_reliabilitytable, left_on='ReliabilityScore', right_on='Code', how='left')
+        reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',usecols=['Source','Code','DQI Reliability Score'])
+        nei_reliability_table = reliability_table[reliability_table['Source'] == 'NEI']
+        nei_reliability_table['Code'] = nei_reliability_table.Code.astype(float)
+        nei = nei.merge(nei_reliability_table, left_on='ReliabilityScore', right_on='Code', how='left')
         nei['ReliabilityScore'] = nei['DQI Reliability Score']
         # drop Code and DQI Reliability Score columns
         nei = nei.drop(['Code', 'DQI Reliability Score'], 1)
@@ -76,13 +79,12 @@ onroad = standardize_output('OnRoad')
 nonroad = standardize_output('NonRoad')
 
 #Output to CSV
-outputdir='output/'
-point1.to_csv(outputdir+'NEIPoint1_2014.csv',index=False)
-point2.to_csv(outputdir+'NEIPoint2_2014.csv',index=False)
-point3.to_csv(outputdir+'NEIPoint3_2014.csv',index=False)
-point4.to_csv(outputdir+'NEIPoint4_2014.csv',index=False)
-point5.to_csv(outputdir+'NEIPoint5_2014.csv',index=False)
-point6.to_csv(outputdir+'NEIPoint6_2014.csv',index=False)
-nonpoint.to_csv(outputdir+'NEINonPoint_2014.csv',index=False)
-onroad.to_csv(outputdir+'NEIOnRoad_2014.csv',index=False)
-nonroad.to_csv(outputdir+'NEINonRoad_2014.csv',index=False)
+point1.to_csv(output_dir + 'NEIPoint1_2014.csv', index=False)
+point2.to_csv(output_dir + 'NEIPoint2_2014.csv', index=False)
+point3.to_csv(output_dir + 'NEIPoint3_2014.csv', index=False)
+point4.to_csv(output_dir + 'NEIPoint4_2014.csv', index=False)
+point5.to_csv(output_dir + 'NEIPoint5_2014.csv', index=False)
+point6.to_csv(output_dir + 'NEIPoint6_2014.csv', index=False)
+nonpoint.to_csv(output_dir + 'NEINonPoint_2014.csv', index=False)
+onroad.to_csv(output_dir + 'NEIOnRoad_2014.csv', index=False)
+nonroad.to_csv(output_dir + 'NEINonRoad_2014.csv', index=False)

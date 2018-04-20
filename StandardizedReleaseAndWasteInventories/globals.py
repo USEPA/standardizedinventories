@@ -1,4 +1,5 @@
-import os
+#!/usr/bin/env python
+
 import pandas as pd
 
 
@@ -18,43 +19,24 @@ def url_is_alive(url):
         return False
 
 
-def try_url(url, filepath=''):
-    # Try a URL three times before giving up
-    import urllib
-    for i in range(0, 3):
-        try:
-            if url[-3:].lower() == 'csv':
-                output_data = pd.read_csv(url)
-            elif url[-4:].lower() == 'json':
-                output_data = pd.read_json(url)
-            elif 'xls' in url[-4:]:
-                urllib.request.urlretrieve(url, filepath)  # Downloads file before reading into Python
-                return
-            break
-        except ValueError: pass
-        except:
-            if i == 2: raise
-    return output_data
-
-
-def download_table(filepath, url=''):
+def download_table(filepath, url):
     import os
     if not os.path.exists(filepath):
-        if url[-4:] == '.zip':
+        if url[-4:].lower() == '.zip':
             import zipfile
             import requests
             import io
             table_request = requests.get(url).content
             zip_file = zipfile.ZipFile(io.BytesIO(table_request))
             zip_file.extractall(filepath)
-        elif 'xls' in filepath[-4:]:
+        elif 'xls' in url.lower() or url.lower()[-5:] == 'excel':
             import urllib
             import shutil
             with urllib.request.urlopen(url) as response, open(filepath, 'wb') as out_file:
                 shutil.copyfileobj(response, out_file)
-        else:
+        elif 'json' in url.lower():
             import pandas as pd
-            pd.read_json(url).to_csv(filepath)
+            pd.read_json(url).to_csv(filepath, index=False)
 
 
 # def read_iso_csv(filepath_or_buffer, sep=',', delimiter=None, header='infer', names=None, index_col=None, usecols=None, squeeze=False, prefix=None, mangle_dupe_cols=True, dtype=None, engine='python', converters=None, true_values=None, false_values=None, skipinitialspace=False, skiprows=None, nrows=None, na_values=None, keep_default_na=True, na_filter=True, verbose=False, skip_blank_lines=True, parse_dates=False, infer_datetime_format=False, keep_date_col=False, date_parser=None, dayfirst=False, iterator=False, chunksize=None, compression='infer', thousands=None, decimal=b'.', lineterminator=None, quotechar='"', quoting=0, escapechar=None, comment=None, encoding=None, dialect=None, tupleize_cols=None, error_bad_lines=True, warn_bad_lines=True, skipfooter=0, skip_footer=0, doublequote=True, delim_whitespace=False, as_recarray=None, compact_ints=None, use_unsigned=None, low_memory=True, buffer_lines=None, memory_map=False, float_precision=None):
@@ -73,18 +55,39 @@ def download_table(filepath, url=''):
 #     return output_df
 
 
-def import_table(filepath, skip_lines=0, drop_sheets=[]):
+def import_table(filepath, skip_lines=0):
     if filepath[-3:].lower() == 'csv':
         # import_file = read_iso_csv(filepath)
         import_file = pd.read_csv(filepath)
     elif 'xls' in filepath[-4:].lower():
         import_file = pd.ExcelFile(filepath)
         import_file = {sheet: import_file.parse(sheet, skiprows=skip_lines) for sheet in import_file.sheet_names}
-        if drop_sheets:
-            for s in drop_sheets:
-                try: import_file.pop(s)
-                except KeyError: continue
     return import_file
+
+
+def get_local_file(filename, data_source=''):
+    filepath = data_dir
+    if data_source != '': filepath += data_source + '/'
+    filepath += filename
+    output_file = import_table(filepath)
+    return output_file
+
+
+# def get_data_file(filepath, data_source, url=''):
+#     try: output_file = get_local_file(filename=filename, data_source=data_source)
+#     except:
+#         download_table(url=url, filepath=data_dir + data_source + '/' + filename)
+#         output_file = get_local_file(filename=filename, data_source=data_source)
+#     return output_file
+
+
+def drop_excel_sheets(excel_dict, drop_sheets):
+    for s in drop_sheets:
+        try:
+            excel_dict.pop(s)
+        except KeyError:
+            continue
+    return excel_dict
 
 
 def filter_inventory(inventory_df, criteria_file, filter_type, marker=None):
@@ -122,20 +125,22 @@ def filter_inventory(inventory_df, criteria_file, filter_type, marker=None):
     return output_df.reset_index(drop=True)
 
 
-def get_reliability_table(filepath):
-    reliabilitytable = pd.read_csv(filepath, usecols=['Source', 'Code', 'DQI Reliability Score'])
-    return reliabilitytable
+def set_dir(directory_name):
+    import os
+    path1 = './' + directory_name + '/'
+    path2 = 'StandardizedReleaseAndWasteInventories/' + directory_name + '/'
+    if os.path.exists(path1): pathname = path1
+    elif os.path.exists(path2): pathname = path2
+    else:
+        os.makedirs(path2)
+        pathname = path2
+    return pathname
 
 
-def set_output_dir(directory):
-    outputdir = directory
-    if not os.path.exists(outputdir): os.makedirs(outputdir)
-    return outputdir
-
-
-global outputdir
-global reliabilitytable
-outputdir = set_output_dir('StandardizedReleaseandWasteInventories/output/')
-reliabilitytable = get_reliability_table(
-        'StandardizedReleaseAndWasteInventories/data/DQ_Reliability_Scores_Table3-3fromERGreport.csv')
+global output_dir
+global data_dir
+global reliability_table
+output_dir = set_dir('output')
+data_dir = set_dir('data')
+reliability_table = import_table(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv')
 

@@ -79,7 +79,9 @@ def queryDMR(urls, path):
 
 # creates file path for json output. irterates through url list, requests data, and writes to json file in output directory.
 def main():
-    outputdir = globals.outputdir
+    data_source = 'dmr'
+    output_dir = globals.output_dir
+    data_dir = globals.data_dir
     DMR_year = '2015'  # year of data requested
     main_api = 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_custom_data_'  # base url
     service_parameter = 'annual?'  # define which parameter is primary search criterion
@@ -90,22 +92,22 @@ def main():
     #dmr_df = pd.DataFrame()
 
     sic_code_query = app_sic(form_obj, sic)
-    #outputdir = set_output_dir('./output/DMRquerybySIC/')
+    #output_dir = set_output_dir('./output/DMRquerybySIC/')
     urls = create_urls(main_api, service_parameter, year, sic_code_query,
                        output_type)  # creates a list oof urls based on sic
-    # json_output_file = get_write_json_file(urls, outputdir, 'DMR_data') #saves json file to LCI-Prime_Output
-    dmr_df = queryDMR(urls, outputdir)
+    # json_output_file = get_write_json_file(urls, output_dir, 'DMR_data') #saves json file to LCI-Prime_Output
+    dmr_df = queryDMR(urls, output_dir)
     max_error_list_query = app_sic(form_obj, sic_maximum_record_error_list)
     region_urls = create_urls(main_api, service_parameter, year, max_error_list_query, output_type, region=True)
-    dmr_df = pd.concat([dmr_df, queryDMR(region_urls, outputdir)])
+    dmr_df = pd.concat([dmr_df, queryDMR(region_urls, output_dir)])
 
 
-    dmr_required_fields = pd.read_csv('StandardizedReleaseAndWasteInventories/data/DMR_required_fields.txt',header=None)[0]
+    dmr_required_fields = pd.read_csv(data_dir + 'DMR_required_fields.txt',header=None)[0]
     dmr_df = dmr_df[dmr_required_fields]
-    reliabilitytable = globals.reliabilitytable
-    dmr_reliabilitytable = reliabilitytable[reliabilitytable['Source'] == 'DMR']
-    dmr_reliabilitytable.drop('Source', axis=1, inplace=True)
-    dmr_df['DQI Reliability Score'] = dmr_reliabilitytable['DQI Reliability Score']
+    reliability_table = globals.reliability_table
+    dmr_reliability_table = reliability_table[reliability_table['Source'] == 'DMR']
+    dmr_reliability_table.drop('Source', axis=1, inplace=True)
+    dmr_df['DQI Reliability Score'] = dmr_reliability_table['DQI Reliability Score']
 
     # Rename with standard column names
     dmr_df.rename(columns={'ExternalPermitNmbr': 'FacilityID'}, inplace=True)
@@ -118,7 +120,7 @@ def main():
     # Already in kg/yr, so no conversion necessary
 
     file_name = 'dmr_' + DMR_year + '.csv'
-    dmr_df.to_csv(path_or_buf=outputdir + file_name, index=False)
+    dmr_df.to_csv(path_or_buf=output_dir + file_name, index=False)
 
 
 if __name__ == '__main__':
