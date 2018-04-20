@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 # GHGRP import and processing
 # Models with tables available at https://www.epa.gov/enviro/greenhouse-gas-model
 # Envirofacts web services documentation can be found at: https://www.epa.gov/enviro/web-services
@@ -22,7 +21,7 @@ data_source = 'ghgrp'
 report_year = '2013'
 output_dir = globals.output_dir
 data_dir = globals.data_dir
-ghgrp_data_dir = data_dir + data_source + '/'
+ghgrp_data_dir = set_dir(data_dir + data_source + '/')
 
 ghgrp_columns = import_table(ghgrp_data_dir + 'ghgrp_columns.csv')
 # Column groupings handled based on table structure, which varies by subpart
@@ -213,9 +212,8 @@ for index, row in year_tables.iterrows():
                 break
             except ValueError: continue
             except: break
-            print('j')
-    for col in temp_df: exec(
-         "temp_df = temp_df.rename(columns={'" + col + "':'" + col[len(subpart_emissions_table) + 1:] + "'})")
+    for col in temp_df:
+        exec("temp_df = temp_df.rename(columns={'" + col + "':'" + col[len(subpart_emissions_table) + 1:] + "'})")
     if 'unnamed' in temp_df.columns[len(temp_df.columns) - 1].lower() or temp_df.columns[len(temp_df.columns) - 1] == '':
         temp_df.drop(temp_df.columns[len(temp_df.columns) - 1], axis=1, inplace=True)
     temp_df['SUBPART_NAME'] = row['SUBPART']
@@ -287,6 +285,16 @@ ghgrp.drop('METHOD', axis=1, inplace=True)
 ghgrp.rename(columns={'FACILITY_ID': 'FacilityID'}, inplace=True)
 ghgrp.rename(columns={'DQI Reliability Score': 'ReliabilityScore'}, inplace=True)
 ghgrp.rename(columns={'NAICS_CODE': 'NAICS'}, inplace=True)
+
+# TODO: Validation
+# Compare with national totals if available.
+# Also, check that all expected facilities are accounted for in each subpart based on 'PUB_DIM_FACILITY'
+# Compare amounts at facility level
+
+# validation_table = 'PUB_FACTS_SUBP_GHG_EMISSION'
+# validation_df = download_chunks(validation_table, get_row_count(validation_table), report_year=report_year)
+# validation_df = validation_df.merge()
+
 
 output_file = output_dir + data_source + '_' + report_year + '.csv'
 ghgrp.to_csv(output_file, index=False)
