@@ -3,7 +3,6 @@ ExternalPermitNmbr
 FacilityTypeIndicator
 NaicsCode
 ParameterDesc
-PollutantCode
 PollutantLoad
 Siccode
 StateCode
