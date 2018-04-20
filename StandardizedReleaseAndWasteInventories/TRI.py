@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # TRI import and processing
-# This script uses the TRI Basic National Data File.
+# This script uses the TRI Basic Plus National Data File.
 # Data files:https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-data-files-calendar-years-1987-2016
 # 2015 documentation on file format: https://www.epa.gov/sites/production/files/2016-11/documents/tri_basic_data_file_format_v15.pdf
 # The format may change from yr to yr requiring code updates.
@@ -9,6 +9,7 @@
 
 import pandas as pd
 from StandardizedReleaseAndWasteInventories import globals
+from StandardizedReleaseAndWasteInventories.globals import unit_convert
 
 # Set some metadata
 TRIyear = '2016'
@@ -23,17 +24,13 @@ def imp_fields(tri_fields_txt):
     tri_req_fields = list(tri_req_fields[0])
     return tri_req_fields
 
-
 tri_required_fields = (imp_fields(data_dir + 'TRI_required_fields.txt'))
-
 
 # Import in pieces grabbing main fields plus unique amount and basis of estimate fields
 # assigns fields to variables
-# Import in pieces grabbing main fields plus unique amount and basis of estimate fields
 def concat_req_field(a, b):
     source_name = tri_required_fields[0:5] + tri_required_fields[a:b]
     return source_name
-
 
 import_fug = concat_req_field(5, 7)
 import_stack = concat_req_field(7, 9)
@@ -49,20 +46,6 @@ import_onsiteother = concat_req_field(23, 25)
 import_offsiteland = concat_req_field(25, 26)
 import_offsiteother = concat_req_field(26, 27)
 
-# Examine each to make sure they are right
-# import_fug
-# import_stack
-# import_streamA
-# import_streamB
-# import_streamC
-# import_streamD
-# import_streamE
-# import_streamF
-# import_onsiteland
-# import_onsiteother
-# import_offsiteland
-# import_offsiteother
-
 keys = ['fug', 'stack', 'streamA', 'streamB', 'streamC', 'streamD', 'streamE', 'streamF', 'onsiteland', 'onsiteother',
         'offsiteland', 'offsiteother']
 
@@ -70,210 +53,84 @@ values = [import_fug, import_stack, import_streamA, import_streamB,
           import_streamC, import_streamD, import_streamE, import_streamF,
           import_onsiteland, import_onsiteother, import_offsiteland, import_offsiteother]
 
-
 def dict_create(k, v):
     dictionary = dict(zip(k, v))
     return dictionary
 
-
+# Create a dictionary that had the import fields for each release type to use in import process
 import_dict = dict_create(keys, values)
 
-# Create a dictionary that had the import fields for each release type to use in import process
-
 # Import TRI file
-tri_csv = data_dir + "US_" + TRIyear + "_v15/US_1_" + TRIyear + "_v15.txt"
-# tri_csv = data_dir + "TRI_2016_US.csv" #TRI file .. do not include in repository folder
-tri = pd.DataFrame()
+tri_csv = data_dir +'TRI/'+ "US_1_" + TRIyear + "_v15.txt"
 
-fieldnames = ['FacilityID', 'State', 'NAICS', 'OriginalFlowID', 'Unit', 'Amount', 'Basis of Estimate']
+fieldnames = ['FacilityID', 'State', 'NAICS', 'FlowName', 'Unit', 'FlowAmount', 'ReleaseType', 'Basis of Estimate']
 
-
-def truncate_fields(long_fields, e):
-    l = len(long_fields) - e
-    short_field_names = long_fields[0:l]
-    return short_field_names
-
-
-fieldnamesshort = truncate_fields(fieldnames, 1)
-
-
-# import_dict
-def format_source_columns(d):
+# Cycle through file importing by release type, the dictionary key
+def import_TRI_by_release_type(d):
+    tri = pd.DataFrame()
     for k, v in d.items():
         tri_part = pd.read_csv(tri_csv, sep='\t', header=0, usecols=v, error_bad_lines=False)
-        #		tri_part = pd.read_csv(tri_csv,header=0,error_bad_lines=False)
+        #print(k + ', ' + str(v))
+        tri_part['ReleaseType'] = k
         if k.startswith('offsite'):
-            tri_part.columns = fieldnamesshort
-        else:
-            tri_part.columns = fieldnames
-            return tri_part
+            tri_part['Basis of Estimate'] = 'NA'
+        tri_part.columns = fieldnames
+        tri = pd.concat([tri,tri_part])
+    return tri
 
-
-tri_part = format_source_columns(import_dict)
-
+tri = import_TRI_by_release_type(import_dict)
+#len(tri) = 953004 for 2016
 
 # drop NA for Amount, but leave in zeros
-def drop_null(part, col):
-    tri_prt = part.dropna(subset=[col])
-    return tri_prt
-
-
-tri_part1 = drop_null(tri_part, 'Amount')
-
-
-# Set 'Source' to key for name of datatype
-def set_source_column(d, prt, col):
-    for k, v in d.items():
-        prt[col] = k
-        return prt
-
-
-tri_part2 = set_source_column(import_dict, tri_part1, 'Source')
-
-
-def combine_df_and_columns(df1, df2):
-    result = pd.concat([df1, df2])
-    return result
-
-
-tri_part3 = combine_df_and_columns(tri, tri_part2)
-
+tri = tri.dropna(subset=['FlowAmount'])
 
 # There is white space after some basis of estimate codes...remove it here
 def strip_coln_white_space(df, coln):
     df[coln] = df[coln].str.strip()
     return df
 
+tri = strip_coln_white_space(tri, 'Basis of Estimate')
 
-tri_part4 = strip_coln_white_space(tri_part3, 'Basis of Estimate')
-
-
-def convert_to_float(df, coln, err):
-    df[coln] = pd.to_numeric(df[coln], errors=err)
-    return df
-
-
-tri_part5 = convert_to_float(tri_part4, 'Amount', 'coerce')
-
-
-def step_output(df, directory, file_name):
-    result = df.to_csv(directory + file_name)
-
-
-step1 = step_output(tri_part5, output_dir, '1_trifirststep.csv')
-
-
-# Show first 50 to see
+#Convert to float
+tri['FlowAmount'] = pd.to_numeric(tri['FlowAmount'], errors='coerce')
+#Drop 0 for FlowAmount
+tri = tri[tri['FlowAmount'] != 0]
+#len(tri) = 522700 for 2016
 
 # Import reliability scores for TRI
-def import_file(path, coln):
-    table = pd.read_csv(path, usecols=coln)
-    return table
+reliability_table = globals.reliability_table
+tri_reliability_table = reliability_table[reliability_table['Source']=='TRI']
+tri_reliability_table.drop('Source', axis=1, inplace=True)
 
-
-DQ_rel_path = data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv'
-read_coln_rel = ['Source', 'Code', 'DQI Reliability Score']
-
-reliabilitytable = import_file(DQ_rel_path, read_coln_rel)
-
-
-def redefine_columns(df, old_column, new_column):
-    df[df[old_column] == new_column]
-    return df
-
-
-trireliabilitytable = redefine_columns(reliabilitytable, 'Source', 'TRI')
-
-
-def drop_columns(df, coln):
-    df.drop(coln, axis=1, inplace=True)
-    return df
-
-
-tri_rel_table = drop_columns(trireliabilitytable, 'Source')
-
-
-# Link Basis of Estimate to Data Reliability Scores
-def merge_tris(df1, df2, field1, field2, join_type):
-    result = pd.merge(df1, df2, left_on=field1, right_on=field2, how=join_type)
-    return result
-
-
-tri_part6 = merge_tris(tri_part5, tri_rel_table, 'Basis of Estimate', 'Code', 'left')
-
-
+#Merge with reliability table to get
+tri = pd.merge(tri,tri_reliability_table,left_on='Basis of Estimate',right_on='Code',how='left')
 # Fill NAs with 5 for DQI reliability score
-def fill_null(df, coln, val):
-    df[coln] = df[coln].fillna(value=val)
-    return df
-
-
-tri_part7 = fill_null(tri_part6, 'DQI Reliability Score', 5)
+tri['DQI Reliability Score'] = tri['DQI Reliability Score'].fillna(value=5)
 # Drop unneeded columns
-tri_part8 = drop_columns(tri_part7, 'Basis of Estimate')
-tri_part9 = drop_columns(tri_part8, 'Code')
-
-# Drop unneeded columns
-# Export for review
-step2 = step_output(tri_part9, output_dir, '2_triafterreliabilitymerge.csv')
+tri.drop('Description', axis=1, inplace=True)
+tri.drop('Type', axis=1, inplace=True)
+tri.drop('Note',axis=1,inplace=True)
+tri.drop('Basis of Estimate',axis=1,inplace=True)
+tri.drop('Code',axis=1,inplace=True)
 
 # Replace source info with Context
-source_cnxt = data_dir + 'TRI_Source_to_Context.csv'
-source_to_context = import_file(source_cnxt, all)
-tri_part10 = pd.merge(tri_part9, source_to_context)
+source_cnxt = data_dir + 'TRI_ReleaseType_to_Compartment.csv'
+source_to_context = pd.read_csv(source_cnxt)
+tri = pd.merge(tri, source_to_context, how='left')
 
-# Import pollutant omit list and use it to remove the pollutants to omit
-omitlist_dir = data_dir + 'TRI_pollutant_omit_list.csv'
-omitlist = import_file(omitlist_dir, all)
-
-omitIDs = omitlist['OriginalFlowID']
-
-# !Still need to implement code for this removal.
 # Convert units to ref mass unit of kg
 # Create a new field to put converted amount in
-tri_part10['Amount_kg'] = 0.0
-
-
-# Convert amounts. Note this could be replaced with a conversion utility
-def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
-    df[coln1][df[coln2] == unit] = conversion_factor * df[coln3]
-    return df
-
-
-tri_part11 = unit_convert(tri_part10, 'Amount_kg', 'Unit', 'Pounds', 0.4535924, 'Amount')
-tri_part12 = unit_convert(tri_part11, 'Amount_kg', 'Unit', 'Grams', 0.001, 'Amount')
-step3 = step_output(tri_part12, output_dir, '3_triwithamountsconvertedshowingoldunits.csv')
-
+tri['Amount_kg'] = 0.0
+tri = unit_convert(tri, 'Amount_kg', 'Unit', 'Pounds', 0.4535924, 'FlowAmount')
+tri = unit_convert(tri, 'Amount_kg', 'Unit', 'Grams', 0.001, 'FlowAmount')
 # drop old amount and units
-tri_part13 = drop_columns(tri_part12, 'Amount')
-tri_part14 = drop_columns(tri_part13, 'Unit')
+tri.drop('FlowAmount',axis=1,inplace=True)
+tri.drop('Unit',axis=1,inplace=True)
 
-
-# Final cleanup - first rename then reorder
-def rename_columns(df, old_column, new_column):
-    df.rename(columns={old_column: new_column}, inplace=True)
-    return df
-
-
-tri_part15 = rename_columns(tri_part14, 'Amount_kg', 'Amount')
-tri_part16 = rename_columns(tri_part15, 'DQI Reliability Score', 'ReliabilityScore')
-
-step4 = step_output(tri_part14, output_dir, '4_triwithamountsconverted.csv')
-
-# See final names and ordering from reference list
-ref_list = data_dir + 'Standarized_Output_Format_EPA _Data_Sources.csv'
-reflist = import_file(ref_list, all)
-reflist = reflist[reflist['required?'] == 1]
-refnames = list(reflist['Name'])
-refnames.append('Source')
-
-# Reorder columns to match standard format
-tri_final = tri_part16.reindex(columns=refnames)
-
-# !Save as R dataframe. Still tbd
-# Use rpy2  package
+# Rename cols to match reference format
+tri.rename(columns={'Amount_kg':'FlowAmount'},inplace=True)
+tri.rename(columns={'DQI Reliability Score':'ReliabilityScore'},inplace=True)
 
 # Export it as a csv
-# Final file name
 tri_file_name = 'TRI_' + TRIyear + '.csv'
-tri_final.to_csv(output_dir + tri_file_name, index=False)
+tri.to_csv(output_dir + tri_file_name, index=False)
