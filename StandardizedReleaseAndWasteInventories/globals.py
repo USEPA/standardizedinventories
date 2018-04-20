@@ -132,8 +132,8 @@ def set_dir(directory_name):
     if os.path.exists(path1): pathname = path1
     elif os.path.exists(path2): pathname = path2
     else:
-        os.makedirs(path2)
-        pathname = path2
+        pathname = path1
+        os.makedirs(pathname)
     return pathname
 
 

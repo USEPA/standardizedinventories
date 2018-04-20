@@ -8,6 +8,7 @@ import StandardizedReleaseAndWasteInventories.globals as globals
 from StandardizedReleaseAndWasteInventories.globals import import_table
 from StandardizedReleaseAndWasteInventories.globals import drop_excel_sheets
 from StandardizedReleaseAndWasteInventories.globals import download_table
+from StandardizedReleaseAndWasteInventories.globals import set_dir
 import pandas as pd
 import numpy as np
 import requests
@@ -18,7 +19,7 @@ from datetime import datetime
 
 # Set reporting year to be used in API requests
 data_source = 'ghgrp'
-report_year = '2014'
+report_year = '2013'
 output_dir = globals.output_dir
 data_dir = globals.data_dir
 ghgrp_data_dir = data_dir + data_source + '/'
@@ -200,7 +201,7 @@ year_tables = year_tables[year_tables['PrimaryEmissions'] == 1].reset_index(drop
 for index, row in year_tables.iterrows():
     subpart_emissions_table = row['TABLE']
     print(subpart_emissions_table)
-    filepath = (ghgrp_data_dir + 'tables/' + report_year + '/') + subpart_emissions_table + '.csv'
+    filepath = set_dir(ghgrp_data_dir + 'tables/' + report_year + '/') + subpart_emissions_table + '.csv'
     if os.path.exists(filepath): temp_df = import_table(filepath)
     else:
         subpart_count = get_row_count(subpart_emissions_table, report_year=report_year)
