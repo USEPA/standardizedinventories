@@ -72,17 +72,13 @@ def download_chunks(table, table_count, row_start=0, report_year='', output_ext=
                                  output_ext='csv')
         print('url: ' + table_url)
         while True:
-            print('I')
             try:
                 table_temp = import_table(table_url)
                 break
             except ValueError: continue
             except: break
-            print('J')
         output_table = pd.concat([output_table, table_temp])
         row_start += 10000
-        print('a')
-    print('b')
     output_table.drop_duplicates(inplace=True)
     if filepath: output_table.to_csv(filepath, index=False)
     return output_table
@@ -210,7 +206,6 @@ for index, row in year_tables.iterrows():
         subpart_count = get_row_count(subpart_emissions_table, report_year=report_year)
         print('Downloading ' + subpart_emissions_table + '(rows: ' + str(subpart_count) + ')')
         while True:
-            print('i')
             try:
                 temp_df = download_chunks(table=subpart_emissions_table, table_count=subpart_count, report_year=report_year, filepath=filepath)
                 print('Done downloading.')
@@ -218,12 +213,9 @@ for index, row in year_tables.iterrows():
             except ValueError: continue
             except: break
             print('j')
-        print('while_loop')
-    print('else_condition')
     for col in temp_df: exec(
          "temp_df = temp_df.rename(columns={'" + col + "':'" + col[len(subpart_emissions_table) + 1:] + "'})")
     if 'unnamed' in temp_df.columns[len(temp_df.columns) - 1].lower() or temp_df.columns[len(temp_df.columns) - 1] == '':
-        print(True)
         temp_df.drop(temp_df.columns[len(temp_df.columns) - 1], axis=1, inplace=True)
     temp_df['SUBPART_NAME'] = row['SUBPART']
     ghgrp0 = pd.concat([ghgrp0, temp_df])
