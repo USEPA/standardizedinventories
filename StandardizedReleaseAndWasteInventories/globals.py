@@ -136,6 +136,10 @@ def set_dir(directory_name):
         os.makedirs(pathname)
     return pathname
 
+# Convert amounts. Note this could be replaced with a conversion utility
+def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
+    df[coln1][df[coln2] == unit] = conversion_factor * df[coln3]
+    return df
 
 global output_dir
 global data_dir
