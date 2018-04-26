@@ -136,15 +136,18 @@ def set_dir(directory_name):
         os.makedirs(pathname)
     return pathname
 
+
 # Convert amounts. Note this could be replaced with a conversion utility
 def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
     df[coln1][df[coln2] == unit] = conversion_factor * df[coln3]
     return df
+
 
 global output_dir
 global data_dir
 global reliability_table
 output_dir = set_dir('output')
 data_dir = set_dir('data')
-reliability_table = import_table(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv')
+reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',
+                                usecols=['Source', 'Code', 'DQI Reliability Score'])
 

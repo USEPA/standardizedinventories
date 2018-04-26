@@ -37,18 +37,23 @@ def query_dmr(urls, sic_list=[], reg_list=[], path=''):
     for i in range(len(urls)):
         # final_path = path + 'sic_' + sic[i] + '.json'
         # final_path = path + 'sic_' + sic[i]  + '.pickle'
-        json_data = requests.get(urls[i]).json()
-        df = pd.DataFrame(json_data)
+        if len(sic_list) == len(urls): print(sic_list[i])
+        while True:
+            try:
+                json_data = requests.get(urls[i]).json()
+                df = pd.DataFrame(json_data)
+                break
+            except: pass
         if 'Error' in df.index:
             if df['Results'].astype(str).str.contains('Maximum').any():
                 # print("iterate through by region code" + url)
                 # split url by & and append region code, import function debugging
                 if len(sic_list) == len(urls): max_error_list.append(sic_list[i])
-            else:
-                print("Error:" + urls[i])
+            else: print("Error: " + urls[i])
         elif 'NoDataMsg' in df.index:
-            print('No data found for ' + sic_list[i] + ': ' + urls[i])
-            if len(sic_list) == len(urls): no_data_list.append(sic_list[i])
+            if len(sic_list) == len(urls):
+                print('No data found for'': ' + urls[i])
+                no_data_list.append(sic_list[i])
         else:
             # with open(final_path, 'w') as fp:
             # json.dump(json_data, fp, indent = 2)
@@ -89,27 +94,41 @@ def main():
     urls = create_urls(main_api, service_parameter, year, sic_code_query,
                        output_type)  # creates a list oof urls based on sic
     # json_output_file = get_write_json_file(urls, output_dir, 'DMR_data') #saves json file to LCI-Prime_Output
+    print(report_year)
     dmr_df, sic_maximum_record_error_list, sic_no_data_list, sic_successful_df_list = \
         query_dmr(urls, sic, path=output_dir)
+    if sic_successful_df_list: print('Successfully obtained data for the following SIC:\n' +
+                                           str(sic_successful_df_list))
+    if sic_no_data_list: print('No data for the following SIC:\n' + str(sic_no_data_list))
+    if sic_maximum_record_error_list: print('Maximum record limit reached for the following SIC:\n' +
+                                            str(sic_maximum_record_error_list) +
+                                            '\nBreaking queries up by EPA Region...\n')
     max_error_sic_query = app_param(form_obj_sic, sic_maximum_record_error_list)
     region_query = app_param(form_obj_reg, epa_region)
     region_urls = create_urls(main_api, service_parameter, year, max_error_sic_query, output_type, region_query)
     reg_df, reg_max_error, reg_no_data, reg_success = \
         query_dmr(region_urls, sic_maximum_record_error_list, epa_region, path=output_dir)
-    if len(reg_max_error) > 0:
-        print('Maximum record limit still reached for the following [SIC, EPA Region]: ' + str(reg_max_error))
+    if reg_max_error:
+        print('Maximum record limit still reached for the following [SIC, EPA Region]:\n' + str(reg_max_error))
+    if reg_success: print('Successfully obtained data for [SIC, EPA Region]:\n' + str(reg_success))
+    if reg_no_data: print(('No data for [SIC, EPA Region]:\n' + str(reg_no_data)))
     dmr_df = pd.concat([dmr_df, reg_df])
+    # Quit here if the resulting DataFrame is empty
+    if len(dmr_df) == 0:
+        print('No data found for this year.')
+        exit()
 
     dmr_required_fields = pd.read_csv(data_dir + 'DMR_required_fields.txt', header=None)[0]
     dmr_df = dmr_df[dmr_required_fields]
     reliability_table = globals.reliability_table
     dmr_reliability_table = reliability_table[reliability_table['Source'] == 'DMR']
-    dmr_reliability_table.drop('Source', axis=1, inplace=True)
+    dmr_reliability_table.drop(['Source', 'Code'], axis=1, inplace=True)
     dmr_df['DQI Reliability Score'] = dmr_reliability_table['DQI Reliability Score']
 
     # Rename with standard column names
     dmr_df.rename(columns={'ExternalPermitNmbr': 'FacilityID'}, inplace=True)
     dmr_df.rename(columns={'Siccode': 'SIC'}, inplace=True)
+    dmr_df.rename(columns={'NaicsCode': 'NAICS'}, inplace=True)
     dmr_df.rename(columns={'StateCode': 'State'}, inplace=True)
     dmr_df.rename(columns={'ParameterDesc': 'FlowName'}, inplace=True)
     dmr_df.rename(columns={'DQI Reliability Score': 'ReliabilityScore'}, inplace=True)
