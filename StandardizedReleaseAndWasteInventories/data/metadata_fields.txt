@@ -1,6 +1,0 @@
-SourceName
-SourceFileName
-SourceURL
-SourceVersion
-SourceAquisitionTime
-StandardizedReleaseAndWasteInventories_version
