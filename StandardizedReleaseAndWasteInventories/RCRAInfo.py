@@ -1,14 +1,18 @@
+#Fetch and process the RCRAInfo Biennial Report files. Biennial Report is in 1 large fixed width format txt file
+#Main data file
+#ftp://ftp.epa.gov/rcrainfodata/rcra_flatfiles/Baseline/biennial_report.zip
 
-#Fetch and process the RCRAInfo files. RCRA is in 1 large fixed width format txt file
-#Main data site
-#url = 'ftp://ftp.epa.gov/rcrainfodata/rcra_flatfiles/biennial_report/'
 #Lookup files
-#'ftp://ftp.epa.gov/rcrainfodata/rcra_flatfiles/lookup_files/'
-#wastecodefileurl = "ftp://ftp.epa.gov/rcrainfodata/rcra_flatfiles/lookup_files/lu_waste_code.txt.gz"
+#ftp://ftp.epa.gov/rcrainfodata/rcra_flatfiles/Baseline/lookup_files.zip
 
 import pandas as pd
 import StandardizedReleaseAndWasteInventories.globals as globals
-from StandardizedReleaseAndWasteInventories.globals import unit_convert
+import os
+import gzip
+import shutil
+
+#Valid years are every other year since 2015
+report_year = '2013'
 
 #Get file columns widths
 output_dir = globals.output_dir
@@ -22,40 +26,45 @@ RCRAfieldstokeepdf = pd.read_table(data_dir + 'RCRA_required_fields.txt', header
 RCRAfieldstokeep = list(RCRAfieldstokeepdf[0])
 
 #Read in flat file for 2015 biennial report
-datafile = "./data/br_reporting_2015.txt" #Do not add this file to the repository
-#
-BR_1 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep, nrows=100000)
+def checkforFile(filepath):
+    if os.path.exists(filepath):
+        return True
+    else:
+        return False
+
+
+RCRAInfopath = "../RCRAInfo/"
+RCRAInfoBRarchivefile = RCRAInfopath+'br_reporting_' + report_year + '.txt.gz'
+RCRAInfoBRtextfile =  RCRAInfopath+'br_reporting_' + report_year + '.txt'
+
+if checkforFile(RCRAInfoBRtextfile) is False:
+    while checkforFile(RCRAInfoBRarchivefile) is False:
+        #download file
+        break
+
+        #unzip it
+    with gzip.open(RCRAInfoBRarchivefile, 'rb') as f_in:
+        with open(RCRAInfoBRtextfile, 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
+
+#Get total tow count of the file
+with open(RCRAInfoBRtextfile, 'rb') as rcrafile:
+    row_count = sum(1 for row in rcrafile)
+
+
+#Test 10 records
+BRtest = pd.read_fwf(RCRAInfoBRtextfile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep, nrows=10)
+
 
 #Read in one hundred thousand records at a time saving them in separate dataframes to avoid memory error
-#this is the last of the files, for 2015 has about 60K plus rows. For other years you may have to adjust, or could made this into a function to iterate through files
-BR_1 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep, nrows=100000)
-BR_2 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=100000, nrows=100000)
-BR_3 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=200000, nrows=100000)
-BR_4 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=300000, nrows=100000)
-BR_5 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=400000, nrows=100000)
-BR_6 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=500000, nrows=100000)
-BR_7 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=600000, nrows=100000)
-BR_8 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=700000, nrows=100000)
-BR_9 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=800000, nrows=100000)
-BR_10 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=900000, nrows=100000)
-BR_11 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=1000000, nrows=100000)
-BR_12 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=1100000, nrows=100000)
-BR_13 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=1200000, nrows=100000)
-BR_14 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=1300000, nrows=100000)
-BR_15 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=1400000, nrows=100000)
-BR_16 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=1500000, nrows=100000)
-BR_17 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=1600000, nrows=100000)
-BR_18 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=1700000, nrows=100000)
-BR_19 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=1800000, nrows=100000)
-BR_20 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=1900000, nrows=100000)
-BR_21 = pd.read_fwf(datafile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,skiprows=2000000, nrows=100000)
+BR = pd.DataFrame()
+for chunk in pd.read_fwf(RCRAInfoBRtextfile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,chunksize=100000):
+    BR = pd.concat([BR,chunk])
 
-#Stack up the files
-BR = pd.concat([BR_1,BR_2,BR_3,BR_4,BR_5,BR_6,BR_7,BR_8,
-                    BR_9,BR_10,BR_11,BR_12,BR_13,BR_14,BR_15,
-                    BR_16,BR_17,BR_18,BR_19,BR_20,BR_21], ignore_index=True)
+#Pickle as a backup
+#BR.to_pickle('BR_'+report_year+'.pk')
 
-#Validate correct import - number of states should be around 50 (includes PR and territories)
+#Validate correct import - number of states should be 50+ (includes PR and territories)
 states = BR['State'].unique()
 
 #Filtering to remove double counting and non BR waste records
@@ -79,7 +88,7 @@ SourceCodesPresent = BR['Source Code'].unique().tolist()
 SourceCodestoKeep = []
 for item in SourceCodesPresent:
     if item not in ImportSourceCodes:
-        print(item)
+        #print(item)
         SourceCodestoKeep.append(item)
 
 BR = BR[BR['Source Code'].isin(SourceCodestoKeep)]
@@ -87,11 +96,6 @@ BR = BR[BR['Source Code'].isin(SourceCodestoKeep)]
 #Reassign the NAICS to a string
 BR['NAICS'] = BR['Primary NAICS'].astype('str')
 BR.drop('Primary NAICS', axis=1, inplace=True)
-
-#Identify wastes from hazardous waste facilities
-BR_wasterecords  = BR[BR['NAICS'].map(lambda x: x.startswith('562'))]
-#562112', '562219', '562211', '56292', '562998', '56291', '562212','562119', '562111', '562213', '56221', '56299', '56211'
-#Only 562211 is hazardous waste treatment
 
 #Create field for DQI Reliability Score with fixed value from CSV
 #Currently generating a warning
@@ -128,9 +132,10 @@ BR.drop('FORM_CODE', axis=1, inplace=True)
 BR.rename(columns={'FORM_CODE_NAME':'FlowName'}, inplace=True)
 BR.rename(columns={'Amount_kg':'FlowAmount'}, inplace=True)
 BR.rename(columns={'Handler ID':'FacilityID'}, inplace=True)
+BR.rename(columns={'Primary NAICS':'NAICS'}, inplace=True)
 
 #Export to csv
-BR.to_csv(output_dir + 'RCRAInfo_2015.csv',index=False)
+BR.to_csv(output_dir + 'RCRAInfo_' + report_year + '.csv',index=False)
 
 
 
