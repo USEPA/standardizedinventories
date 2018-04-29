@@ -7,6 +7,7 @@
 
 import pandas as pd
 import StandardizedReleaseAndWasteInventories.globals as globals
+from StandardizedReleaseAndWasteInventories.globals import write_metadata
 import os
 import gzip
 import shutil
@@ -21,6 +22,9 @@ linewidthsdf = pd.read_csv(data_dir + 'RCRA_FlatFile_LineComponents_2015.csv')
 BRwidths = linewidthsdf['Size']
 BRnames = linewidthsdf['Data Element Name']
 
+#Metadata
+BR_meta = globals.inventory_metadata
+
 #Get columns to keep
 RCRAfieldstokeepdf = pd.read_table(data_dir + 'RCRA_required_fields.txt', header=None)
 RCRAfieldstokeep = list(RCRAfieldstokeepdf[0])
@@ -33,13 +37,21 @@ def checkforFile(filepath):
         return False
 
 
+
+RCRAfInfoflatfileURL = 'ftp://ftp.epa.gov/rcrainfodata/rcra_flatfiles/Baseline/biennial_report.zip'
 RCRAInfopath = "../RCRAInfo/"
+RCRAInfoBRzip = RCRAInfopath+'biennial_report.zip'
 RCRAInfoBRarchivefile = RCRAInfopath+'br_reporting_' + report_year + '.txt.gz'
 RCRAInfoBRtextfile =  RCRAInfopath+'br_reporting_' + report_year + '.txt'
 
 if checkforFile(RCRAInfoBRtextfile) is False:
     while checkforFile(RCRAInfoBRarchivefile) is False:
+        RCRAfile = urllib.request.urlretrieve(RCRAfInfoflatfileURL, RCRAInfoBRzip)
+
         #download file
+        #get timestamp
+        import time
+        retrieval_time = time.time()
         break
 
         #unzip it
@@ -137,8 +149,13 @@ BR.rename(columns={'Primary NAICS':'NAICS'}, inplace=True)
 #Export to csv
 BR.to_csv(output_dir + 'RCRAInfo_' + report_year + '.csv',index=False)
 
+#Record metadata
+if retrieval_time is not None:
+    BR_meta['SourceAquisitionTime'] = time.ctime(retrieval_time)
+BR_meta['SourceFileName'] = RCRAInfoBRtextfile
+BR_meta['SourceURL'] = RCRAfInfoflatfileURL
 
-
+write_metadata('RCRAInfo',report_year, BR_meta)
 
 
 
