@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import pandas as pd
-
+import json
 
 def url_is_alive(url):
     """
@@ -150,8 +150,30 @@ output_dir = set_dir('output')
 data_dir = set_dir('data')
 reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',
                                 usecols=['Source', 'Code', 'DQI Reliability Score'])
+
 US_States_withDC = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
                     'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME',
                     'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM',
                     'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX',
                     'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY']
+
+inventory_metadata = {
+'SourceType': 'Static File',  #Other types are "Web service"
+'SourceFileName':'NA',
+'SourceURL':'NA',
+'SourceVersion':'NA',
+'SourceAquisitionTime':'NA',
+'StEWI_versions_version': '0.9'
+}
+
+#Writes the metadata dictionary to a JSON file
+def write_metadata(inventoryname,report_year, metadata_dict):
+    with open(output_dir + inventoryname + '_' + report_year + '_metadata.json', 'w') as file:
+        file.write(json.dumps(metadata_dict))
+
+#Returns the metadata dictionary for an inventory
+def read_metadata(inventoryname,report_year):
+    with open(output_dir + 'RCRAInfo_' + report_year + '_metadata.json', 'r') as file:
+        file_contents = file.read()
+        metadata = json.loads(file_contents)
+        return metadata
