@@ -1,6 +1,6 @@
 # Standardized Release and Waste Inventories
 Provides processed EPA release and waste generation inventories in standard tabular formats. 
-These inventories may be further aggregated or filtered based on given criteria.
+The standard output may be further aggregated or filtered based on given criteria. 
 
 THIS CODE IS STILL IN EARLY DEVELOPMENT. OUTPUT FILES HAVE NOT YET BEEN TESTED.
 
@@ -10,7 +10,7 @@ THIS CODE IS STILL IN EARLY DEVELOPMENT. OUTPUT FILES HAVE NOT YET BEEN TESTED.
 |[Discharge Monitoring Report](https://echo.epa.gov/tools/data-downloads/icis-npdes-dmr-and-limit-data-set)|||||
 |[Greenhouse Gas Reporting Program](https://www.epa.gov/ghgreporting)|||x||
 |[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program)|x|x|x|x|
-|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)|||x||
+|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)|x||x||
 |[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)||x|||
 
 ## FlowByFacility output format
