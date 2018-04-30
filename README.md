@@ -1,4 +1,4 @@
-# Standardized Release and Waste Inventories
+# Standardized Emission and Waste Inventories (StEWI)
 Provides processed EPA release and waste generation inventories in standard tabular formats. 
 The standard output may be further aggregated or filtered based on given criteria. 
 
