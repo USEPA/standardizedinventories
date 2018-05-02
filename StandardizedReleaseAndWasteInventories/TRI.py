@@ -2,8 +2,8 @@
 
 # TRI import and processing
 # This script uses the TRI Basic Plus National Data File.
-# Data files:https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-data-files-calendar-years-1987-2016
-# 2015 documentation on file format: https://www.epa.gov/sites/production/files/2016-11/documents/tri_basic_data_file_format_v15.pdf
+# Data files:https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-calendar-years-1987-2016
+# Documentation on file format: https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-guides
 # The format may change from yr to yr requiring code updates.
 # This code has been tested for 2014.
 
@@ -12,7 +12,7 @@ from StandardizedReleaseAndWasteInventories import globals
 from StandardizedReleaseAndWasteInventories.globals import unit_convert
 
 # Set some metadata
-TRIyear = '2016'
+TRIyear = '2011'
 output_dir = globals.output_dir
 data_dir = globals.data_dir
 
@@ -61,7 +61,7 @@ def dict_create(k, v):
 import_dict = dict_create(keys, values)
 
 # Import TRI file
-tri_csv = data_dir +'TRI/'+ "US_1_" + TRIyear + "_v15.txt"
+tri_csv = '../TRI/US_' + TRIyear + '_v15/US_1_' + TRIyear + '_v15.txt'
 
 fieldnames = ['FacilityID', 'State', 'NAICS', 'FlowName', 'Unit', 'FlowAmount', 'ReleaseType', 'Basis of Estimate']
 
@@ -107,8 +107,6 @@ tri = pd.merge(tri,tri_reliability_table,left_on='Basis of Estimate',right_on='C
 # Fill NAs with 5 for DQI reliability score
 tri['DQI Reliability Score'] = tri['DQI Reliability Score'].fillna(value=5)
 # Drop unneeded columns
-tri.drop('Description', axis=1, inplace=True)
-tri.drop('Type', axis=1, inplace=True)
 tri.drop('Note',axis=1,inplace=True)
 tri.drop('Basis of Estimate',axis=1,inplace=True)
 tri.drop('Code',axis=1,inplace=True)
