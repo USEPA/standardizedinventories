@@ -63,7 +63,7 @@ import_dict = dict_create(keys, values)
 # Import TRI file
 tri_csv = '../TRI/US_' + TRIyear + '_v15/US_1_' + TRIyear + '_v15.txt'
 
-fieldnames = ['FacilityID', 'State', 'NAICS', 'FlowName', 'Unit', 'FlowAmount', 'ReleaseType', 'Basis of Estimate']
+fieldnames = ['FacilityID', 'State', 'NAICS', 'FlowName', 'Unit', 'FlowAmount','Basis of Estimate','ReleaseType']
 
 # Cycle through file importing by release type, the dictionary key
 def import_TRI_by_release_type(d):
@@ -107,7 +107,7 @@ tri = pd.merge(tri,tri_reliability_table,left_on='Basis of Estimate',right_on='C
 # Fill NAs with 5 for DQI reliability score
 tri['DQI Reliability Score'] = tri['DQI Reliability Score'].fillna(value=5)
 # Drop unneeded columns
-tri.drop('Note',axis=1,inplace=True)
+#tri.drop('Note',axis=1,inplace=True)
 tri.drop('Basis of Estimate',axis=1,inplace=True)
 tri.drop('Code',axis=1,inplace=True)
 
