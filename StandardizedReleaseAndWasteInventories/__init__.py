@@ -7,20 +7,16 @@ import pandas as pd
 #National Emissions Inventory: 2014
 #Greenhouse Gas Reporting Program: 2015, 2016
 #....
+
+outputpath = 'StandardizedReleaseandWasteInventories/output/'
+formatpath = {'flowbyfacility':""}
+
 def seeAvailbleInventoriesandYears ():
     print("Test")
 
-def getDMR(year,filter_for_LCI,US_States_Only):
-    print("test")
+def getInventory(inventory_acronym,year,format='flowbyfacility',filter_for_LCI=False,US_States_Only=False):
+    path = outputpath+formatpath[format]
+    file = path+inventory_acronym+'_'+str(year)+'.csv'
+    inventory = pd.read_csv(file,header=0)
+    return inventory
 
-def getTRI(year,filter_for_LCI,US_States_Only):
-    print("Test getTRI")
-    TRI = pd.read_csv('StandardizedReleaseandWasteInventories/output/TRI_'+ year + '.csv')
-    return TRI
-    #TRI.
-
-#def getGHGRP
-
-#def getRCRAInfo
-
-#def getNEI
