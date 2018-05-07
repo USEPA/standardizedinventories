@@ -2,6 +2,38 @@
 
 import pandas as pd
 import json
+import os
+
+
+global output_dir
+global data_dir
+global reliability_table
+
+try:
+    modulepath = os.path.dirname(__file__)
+except NameError:
+    modulepath = 'stewi/'
+
+output_dir = modulepath+'/output/'
+data_dir = modulepath+'/data/'
+
+reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',
+                                usecols=['Source', 'Code', 'DQI Reliability Score'])
+
+US_States_withDC = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
+                    'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME',
+                    'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM',
+                    'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX',
+                    'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY']
+
+inventory_metadata = {
+'SourceType': 'Static File',  #Other types are "Web service"
+'SourceFileName':'NA',
+'SourceURL':'NA',
+'SourceVersion':'NA',
+'SourceAquisitionTime':'NA',
+'StEWI_versions_version': '0.9'
+}
 
 def url_is_alive(url):
     """
@@ -54,6 +86,13 @@ def download_table(filepath, url):
 #         for column in output_df: output_df = output_df.rename(columns={column: column.encode("latin1", errors="ignore").decode()})
 #     return output_df
 
+def set_dir(directory_name):
+    path = 'stewi/' + directory_name + '/'
+    if os.path.exists(path): pathname = path
+    else:
+        pathname = path
+        os.makedirs(pathname)
+    return pathname
 
 def import_table(filepath, skip_lines=0):
     if filepath[-3:].lower() == 'csv':
@@ -125,46 +164,11 @@ def filter_inventory(inventory_df, criteria_file, filter_type, marker=None):
     return output_df.reset_index(drop=True)
 
 
-def set_dir(directory_name):
-    import os
-    path1 = './' + directory_name + '/'
-    path2 = 'stewi/' + directory_name + '/'
-    if os.path.exists(path1): pathname = path1
-    elif os.path.exists(path2): pathname = path2
-    else:
-        pathname = path1
-        os.makedirs(pathname)
-    return pathname
-
-
 # Convert amounts. Note this could be replaced with a conversion utility
 def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
     df[coln1][df[coln2] == unit] = conversion_factor * df[coln3]
     return df
 
-
-global output_dir
-global data_dir
-global reliability_table
-output_dir = set_dir('output')
-data_dir = set_dir('data')
-reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',
-                                usecols=['Source', 'Code', 'DQI Reliability Score'])
-
-US_States_withDC = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
-                    'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME',
-                    'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM',
-                    'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX',
-                    'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY']
-
-inventory_metadata = {
-'SourceType': 'Static File',  #Other types are "Web service"
-'SourceFileName':'NA',
-'SourceURL':'NA',
-'SourceVersion':'NA',
-'SourceAquisitionTime':'NA',
-'StEWI_versions_version': '0.9'
-}
 
 #Writes the metadata dictionary to a JSON file
 def write_metadata(inventoryname,report_year, metadata_dict):

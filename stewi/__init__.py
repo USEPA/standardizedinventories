@@ -2,11 +2,16 @@
 ## Currently just an initial outline
 
 import pandas as pd
+import os
 from stewi.globals import get_required_fields
 
+#for testing
+#modulepath = './'
 
+modulepath = os.path.dirname(__file__)
 
-outputpath = 'StandardizedReleaseandWasteInventories/output/'
+output_dir = modulepath+'/output/'
+data_dir = modulepath+'/data/'
 formatpath = {'flowbyfacility':""}
 
 def seeAvailbleInventoriesandYears ():
@@ -18,7 +23,7 @@ def seeAvailbleInventoriesandYears ():
 
 def getInventory(inventory_acronym,year,format='flowbyfacility',filter_for_LCI=False,US_States_Only=False):
 #Returns an inventory file as a data frame
-    path = outputpath+formatpath[format]
+    path = output_dir+formatpath[format]
     file = path+inventory_acronym+'_'+str(year)+'.csv'
     required_fields = get_required_fields(format)
     cols = list(required_fields.keys())
