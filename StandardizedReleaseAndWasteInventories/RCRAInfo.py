@@ -44,6 +44,8 @@ RCRAInfoBRzip = RCRAInfopath+'biennial_report.zip'
 RCRAInfoBRarchivefile = RCRAInfopath+'br_reporting_' + report_year + '.txt.gz'
 RCRAInfoBRtextfile =  RCRAInfopath+'br_reporting_' + report_year + '.txt'
 
+retrieval_time = None
+
 if checkforFile(RCRAInfoBRtextfile) is False:
     while checkforFile(RCRAInfoBRarchivefile) is False:
         RCRAfile = urllib.request.urlretrieve(RCRAfInfoflatfileURL, RCRAInfoBRzip)
