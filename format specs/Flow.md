@@ -1,4 +1,4 @@
-## Chemical Format
+## Flow Format
 
 Field | Type | Required? | Description|
 ----- | ---- | --------  | -----------|
