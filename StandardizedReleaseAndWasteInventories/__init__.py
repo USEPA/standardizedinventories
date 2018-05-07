@@ -2,7 +2,7 @@
 ## Currently just an initial outline
 
 import pandas as pd
-from StandardizedReleaseAndWasteInventories.globals import get_required_fields
+from stewi.globals import get_required_fields
 
 
 

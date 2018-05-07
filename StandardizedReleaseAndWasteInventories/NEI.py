@@ -1,7 +1,7 @@
 #NEI import and process to Standardized EPA output format
 #This script uses the NEI National Data File.
 
-import StandardizedReleaseAndWasteInventories.globals as globals
+import stewi.globals as globals
 import pandas as pd
 import numpy as np
 import math

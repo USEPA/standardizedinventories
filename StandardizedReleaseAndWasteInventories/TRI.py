@@ -8,8 +8,8 @@
 # This code has been tested for 2014.
 
 import pandas as pd
-from StandardizedReleaseAndWasteInventories import globals
-from StandardizedReleaseAndWasteInventories.globals import unit_convert
+from stewi import globals
+from stewi.globals import unit_convert
 
 # Set some metadata
 TRIyear = '2011'

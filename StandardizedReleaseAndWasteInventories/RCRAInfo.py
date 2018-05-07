@@ -6,8 +6,8 @@
 #ftp://ftp.epa.gov/rcrainfodata/rcra_flatfiles/Baseline/lookup_files.zip
 
 import pandas as pd
-import StandardizedReleaseAndWasteInventories.globals as globals
-from StandardizedReleaseAndWasteInventories.globals import write_metadata
+import stewi.globals as globals
+from stewi.globals import write_metadata
 import os
 import gzip
 import shutil

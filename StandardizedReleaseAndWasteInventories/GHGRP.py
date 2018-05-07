@@ -3,11 +3,11 @@
 # Models with tables available at https://www.epa.gov/enviro/greenhouse-gas-model
 # Envirofacts web services documentation can be found at: https://www.epa.gov/enviro/web-services
 
-import StandardizedReleaseAndWasteInventories.globals as globals
-from StandardizedReleaseAndWasteInventories.globals import import_table
-from StandardizedReleaseAndWasteInventories.globals import drop_excel_sheets
-from StandardizedReleaseAndWasteInventories.globals import download_table
-from StandardizedReleaseAndWasteInventories.globals import set_dir
+import stewi.globals as globals
+from stewi.globals import import_table
+from stewi.globals import drop_excel_sheets
+from stewi.globals import download_table
+from stewi.globals import set_dir
 import pandas as pd
 import numpy as np
 import requests

@@ -5,7 +5,7 @@
 
 import requests
 import pandas as pd
-from StandardizedReleaseAndWasteInventories import globals
+from stewi import globals
 
 
 # appends form object to be used in query to sic code
