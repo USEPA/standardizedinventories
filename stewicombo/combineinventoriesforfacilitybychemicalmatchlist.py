@@ -1,26 +1,4 @@
-
-matchingfile = '../facilitymatcher/facilitymatcher/output/examplefilteredmatchingtable2.csv'
-
-#get matching lists
-matchingtable = pd.read_csv(matchingfile,header=0,nrows=1)
-inventoriesinbridge = matchingtable.columns[1:]
-#converterdict = {}
-#converterdict["FRS"]="str"
-#for c in inventoriesinbridge:
-#    converterdict[c] = ast.literal_eval
-
-matchingtable = pd.read_csv(matchingfile,header=0,converters={"EIS":ast.literal_eval,"NPDES":ast.literal_eval,"TRIS":ast.literal_eval},nrows=1)
-#matchingtable
-
-EIS = ast.literal_eval(matchingtable['EIS'])
-#iterate through
-
-for i in EIS.iteritems():
-    t = tuple(i[1])
-    print(t)
-
-
-#
+#Create .
 inventories_of_interest = ['DMR','TRI','NEI']
 
 #get chemicals of interest
