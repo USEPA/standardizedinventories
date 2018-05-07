@@ -1,0 +1,447 @@
+Q_UNIT_DETAILS.FACILITY_ID,Q_UNIT_DETAILS.REPORTING_YEAR,Q_UNIT_DETAILS.BASIS_MOLTEN_STEEL_CC,Q_UNIT_DETAILS.CARBON_CONTENT__DET_MTHD,Q_UNIT_DETAILS.CP_EF_CALC_CO2,Q_UNIT_DETAILS.DESC_OTHR_CC_BASIS,Q_UNIT_DETAILS.HOURLY_AVG_CO2_EMISSION_RATE,Q_UNIT_DETAILS.NUM_MOS_CC_MISS_DATA,Q_UNIT_DETAILS.NUM_MOS_MISS_DATA_METHD,Q_UNIT_DETAILS.Q1_CO2_EMISSIONS,Q_UNIT_DETAILS.Q2_CO2_EMISSIONS,Q_UNIT_DETAILS.Q3_CO2_EMISSIONS,Q_UNIT_DETAILS.Q4_CO2_EMISSIONS,Q_UNIT_DETAILS.Q5_CO2_EMISSIONS,Q_UNIT_DETAILS.Q6_CO2_EMISSIONS,Q_UNIT_DETAILS.Q7_CO2_EMISSIONS,Q_UNIT_DETAILS.SS_EF_CALC_CO2,Q_UNIT_DETAILS.UNIT_NAME,Q_UNIT_DETAILS.UNIT_TYPE
+1000156,2015,,Supplier,,,,,,,96934.7,,,,,,,SRC2SP10 Furnace147,Basic Oxygen Process Furnace
+1000156,2015,,Other (specify),,ASTM E415-08 (using OES ARL4460),,,,,131985.0,,,,,,,SRC4SP50 Furnace,Basic Oxygen Process Furnace
+1000156,2015,,Other (specify),,ASTM E415-08 (using OES ARL4460),,,,,,,,,693.1,,,SRC4SPRHOB 2,Decarburization Vessel
+1000156,2015,,Supplier,,,,,,,,,,,579.5,,,SRC4SPRHOB 1,Decarburization Vessel
+1000233,2015,,Supplier,,,,0,,,131794.9,,,,,,,ETBOP2,Basic Oxygen Process Furnace
+1000233,2015,,ASTM E1915-07a,,,,0,,,131794.9,,,,,,,ETBOP2,Basic Oxygen Process Furnace
+1000418,2015,,,1319.6,,,,,,,,,,,,,GW-COKEP,Coke Pushing Operation
+1001834,2015,,ASTM E1019-08,,,,,,,,,,,1588.7,,,GLWVD,Decarburization Vessel
+1001834,2015,,ASTM E1915-07a,,,,,,,,,,,1588.7,,,GLWVD,Decarburization Vessel
+1001834,2015,,ASTM E1019-08,,,,,,,191381.7,,,,,,,GLWBOFF2,Basic Oxygen Process Furnace
+1001834,2015,,Supplier,,,,,,,191381.7,,,,,,,GLWBOFF2,Basic Oxygen Process Furnace
+1001618,2015,,Supplier,,,,0,,67626.6,,,,,,,,KEEIFL1,Taconite Indurating Furnace
+1004036,2015,,,,,0.1399,,,,,,,,,,1725.9,PU-F00699,Decarburization Vessel
+1004036,2015,,,,,0.3156,,,,,,,,,,183.2,PU-F00135,Electric Arc Furnace (EAF)
+1005276,2015,,Supplier,,,,0,,47790.3,,,,,,,,Northshore Taconite Line 11,Taconite Indurating Furnace
+1005276,2015,,Supplier,,,,0,,21105.6,,,,,,,,Northshore Taconite Line 6,Taconite Indurating Furnace
+1005598,2015,,ASTM D5373-08,,,,0,,,,516655.8,,,,,,Coke Ovens,Non-Recovery Coke Oven Battery
+1005598,2015,,,7441.3,,,,,,,,,,,,,JWO001,Coke Pushing Operation
+1007177,2015,,,,,,,,,,,,,,,,SRC_BF C5 Gas Venting - BFG Bleeder,Flare
+1006041,2015,,ASTM E1915-07a,,,,0,,,87224.2,,,,,,,GCWBOF2,Basic Oxygen Process Furnace
+1008735,2015,,ASTM C25-06,,,,,,,,,,5335.7,,,,Finkl Sons Co 1355 E 93rd St,Electric Arc Furnace (EAF)
+1001563,2015,,,221.8,,,,,,,,,,,,,Old Block Batteries,Coke Pushing Operation
+1000159,2015,,ASTM E1915-07a,,,,0,,,14920.0,,,,,,,FFWCF,Basic Oxygen Process Furnace
+1001621,2015,,Supplier,,,,,,271616.2,,,,,,,,MINNIF7,Taconite Indurating Furnace
+1002977,2015,,ASTM E1915-07a,,,,,,,,,,,19201.1,,,AOD1,Decarburization Vessel
+1000029,2015,,,,,13.52,,,,,,,,,,72174.5,Melt Shop EAF,Electric Arc Furnace (EAF)
+1001958,2015,,ASTM E1019-08,,,,,,,,,,29.6,,,,EAF-C,Electric Arc Furnace (EAF)
+1001958,2015,,ASTM E1915-07a,,,,,,,,,,29.6,,,,EAF-C,Electric Arc Furnace (EAF)
+1002621,2015,,,,,14.53,,,,,,,,,,54963.4,EAF FURNACE,Electric Arc Furnace (EAF)
+1003577,2015,,Supplier,,,,0,,,,,,7182.1,,,,Wilton,Electric Arc Furnace (EAF)
+1003669,2015,,Supplier,,,,0,,231925.3,,,,,,,,UTC001 Taconite Indurating Process,Taconite Indurating Furnace
+1003380,2015,,,,,,,,,,,,,,,,SRC_P002_Excess COG Flare,Flare
+1005021,2015,,Supplier,,,,0,,,,,,3578.0,,,,SRCEAFFurnace141,Electric Arc Furnace (EAF)
+1005602,2015,,Supplier,,,,0,,,,,,58428.5,,,,Electric Arc Furnace Battery South,Electric Arc Furnace (EAF)
+1005584,2015,,ASTM E1019-08,,,,,,,,,,174962.2,,,,ELECTRIC ARC FURNACE BATTERY 2,Electric Arc Furnace (EAF)
+1005602,2015,,Other (specify),,Receiving EAF K061 Recycling Facility,,0,,,,,,58428.5,,,,Electric Arc Furnace Battery North,Electric Arc Furnace (EAF)
+1005144,2015,,ASTM E1019-08,,,,1,Preceeding month used for %C,,,,,,,88812.6,,RHF,Direct Reduction Furnace
+1003580,2015,,Other (specify),,E415-08,,0,,,,,,13095.7,,,,UTC001 EAF1,Electric Arc Furnace (EAF)
+1004453,2015,,ASTM D5373-08,,,,,,,,,,11133.6,,,,EAF 2,Electric Arc Furnace (EAF)
+1005116,2015,,Supplier,,,,0,,75023.8,,,,,,,,Hibbing Taconite Line 1,Taconite Indurating Furnace
+1006972,2015,,ASTM E1019-08,,,,,,,,,,7056.6,,,,Melt Shop EAF 1 EAF 2,Electric Arc Furnace (EAF)
+1011726,2015,,Supplier,,,,0,104.48,,,,,844.5,,,,EAF,Electric Arc Furnace (EAF)
+1004509,2015,,Other (specify),,ASTM D5865,,0,,164849.9,,,,,,,,Empire Taconite Unit 4,Taconite Indurating Furnace
+1004509,2015,,Supplier,,,,0,,99986.2,,,,,,,,Empire Taconite Unit 2,Taconite Indurating Furnace
+1002768,2015,,Supplier,,,,,,,,,,18443.8,,,,P905906,Electric Arc Furnace (EAF)
+1002958,2015,,,,,35.26,,,,,,,,,,203345.6,EAF 1,Electric Arc Furnace (EAF)
+1001673,2015,,ASTM E1019-08,,,,,,,,,,397.0,,,,Electric Arc Furnace,Electric Arc Furnace (EAF)
+1000802,2015,,,,,,,,,,,,,,,,IP-COGF-4,Flare
+1003688,2015,,Other (specify),,CEM/Calculation,,,,,,,,47503.1,,,,EAF,Electric Arc Furnace (EAF)
+1011242,2015,,ASTM E1915-07a,,,,,,,,,,7371.2,,,,50 Ton Fuchs Electric Arc Furnace,Electric Arc Furnace (EAF)
+1005800,2015,,ASTM E1019-08,,,,,,,,,,16383.6,,,,D4 EAF,Electric Arc Furnace (EAF)
+1004259,2015,,,,,16.56905,,,,,,,,,,98749.5,EAF  Primary Baghouse RABAGHOUSE,Electric Arc Furnace (EAF)
+1006269,2015,,ASTM C25-06,,,,0,,,,,,58022.3,,,,Furnace No. 8,Electric Arc Furnace (EAF)
+1006269,2015,,ASTM D5373-08,,,,0,,,,,,58022.3,,,,Furnace No. 8,Electric Arc Furnace (EAF)
+1003860,2015,,Other (specify),,Chemical Analysis,,,,,,,,9468.4,,,,HSP EAFs,Electric Arc Furnace (EAF)
+1000156,2015,,Other (specify),,ASTM E415-08 (using OES ARL4460),,,,,,,,,579.5,,,SRC4SPRHOB 1,Decarburization Vessel
+1000233,2015,,ASTM E1019-08,,,,0,,,131794.9,,,,,,,ETBOP2,Basic Oxygen Process Furnace
+1000233,2015,,ASTM C25-06,,,,0,,,131794.9,,,,,,,ETBOP2,Basic Oxygen Process Furnace
+1000418,2015,,Supplier,,,,0,,,,,209047.9,,,,,GWSP,Sinter Process
+1000418,2015,,ASTM E1915-07a,,,,0,,,105525.0,,,,,,,GWBOP1,Basic Oxygen Process Furnace
+1000418,2015,,,,,,,,,,,,,,,,GW-BFGF2,Flare
+1000418,2015,,ASTM E1019-08,,,,0,,,100093.3,,,,,,,GWBOP2,Basic Oxygen Process Furnace
+1000418,2015,,ASTM E1915-07a,,,,0,,,100093.3,,,,,,,GWBOP2,Basic Oxygen Process Furnace
+1000418,2015,,ASTM E1915-07a,,,,0,,,123023.5,,,,,,,GWQBOP1,Basic Oxygen Process Furnace
+1000418,2015,,ASTM E1019-08,,,,0,,,123023.5,,,,,,,GWQBOP1,Basic Oxygen Process Furnace
+1000274,2015,,,,,14.1636,,,,,,,,,,67046.6,BOF Vessel No. 16,Basic Oxygen Process Furnace
+1000588,2015,,Supplier,,,,,,,,,,,223.0,,,3SPVCP,Decarburization Vessel
+1000588,2015,,ASTM E1019-08,,,,,,,92300.0,,,,,,,SRC3SP2 Furnace,Basic Oxygen Process Furnace
+1005976,2015,,,,,25.96,,,,,,,,,,155300.3,North EAF,Electric Arc Furnace (EAF)
+1001834,2015,,ASTM C25-06,,,,,,,191381.7,,,,,,,GLWBOFF2,Basic Oxygen Process Furnace
+1004036,2015,,,,,0.3156,,,,,,,,,,870.0,PU-F00620,Electric Arc Furnace (EAF)
+1004811,2015,,Supplier,,,,,,,,,,69218.5,,,,EAF,Electric Arc Furnace (EAF)
+1005276,2015,,ASTM D5373-08,,,,0,,4621.9,,,,,,,,Northshore Taconite Line 5,Taconite Indurating Furnace
+1004616,2015,,,,,36.192,,,,,,,,,,238399.3,EAF Line B,Electric Arc Furnace (EAF)
+1004616,2015,,ASTM E1019-08,,,,0,,,,,,,96.0,,,VTD,Decarburization Vessel
+1007177,2015,,ASTM D5373-08,,,,0,,,,,,,472.9,,,East SP VOD,Decarburization Vessel
+1006041,2015,,,,,,,,,,,,,,,,GCW-COGF,Flare
+1003902,2015,,,,,14.41515,,,,,,,,,,97569.6,EAF 5,Electric Arc Furnace (EAF)
+1003962,2015,,,,,,,,,,,,,,,,Q_FLARE_C_FCE,Flare
+1001563,2015,,,4424.7,,,,,,,,,,,,,Battery No. 8,Coke Pushing Operation
+1000159,2015,,Supplier,,,,0,,,27865.5,,,,,,,FFWUF,Basic Oxygen Process Furnace
+1000159,2015,,ASTM E1915-07a,,,,0,,,27738.2,,,,,,,FFWXF,Basic Oxygen Process Furnace
+1001621,2015,,ASTM E1915-07a,,,,,,186276.3,,,,,,,,MINNIF5,Taconite Indurating Furnace
+1005755,2015,,ASTM E1019-08,,,,,,,,,,38813.9,,,,GU 3,Electric Arc Furnace (EAF)
+1002266,2015,,ASTM E1019-08,,,,,,,,,,,974.6,,,Vacuum Tank Degasser,Decarburization Vessel
+1001958,2015,,Supplier,,,,,,,,,,14.6,,,,EAF-B,Electric Arc Furnace (EAF)
+1003668,2015,,Other (specify),,Engineering Calculation,,0,,,,,,50667.2,,,,SRC104 D Electric Furnace,Electric Arc Furnace (EAF)
+1005515,2015,,ASTM E1915-07a,,,,,,,,,,27230.0,,,,Melt Shop Electric Arc Furnace,Electric Arc Furnace (EAF)
+1005536,2015,,Other (specify),,ASTM E-415,,,,,,,,4683.2,,,,104A No. 4 Electric Arc Furnace,Electric Arc Furnace (EAF)
+1005584,2015,,Other (specify),,ASTM E1915-97,,,,,,,,,,253250.5,,IDI ROTARY HEARTH FURNACE,Direct Reduction Furnace
+1005602,2015,,Other (specify),,ASTM A751 and ASTM E415,,0,,,,,,58428.5,,,,Electric Arc Furnace Battery North,Electric Arc Furnace (EAF)
+1004493,2015,,Supplier,,,,12,,,,,,25547.1,,,,Electric Arc Furnace EAF,Electric Arc Furnace (EAF)
+1000399,2015,,Supplier,,,,,,,,,,630.9,,,,Electric Arc Furnace,Electric Arc Furnace (EAF)
+1004453,2015,,Supplier,,,,,,,,,,11133.6,,,,EAF 2,Electric Arc Furnace (EAF)
+1003965,2015,,Other (specify),,Internal Carbon Content Monthly Calculation of Product Mix,,,,,,,,19358.1,,,,Stationary Combustion Emissions,Electric Arc Furnace (EAF)
+1011726,2015,,Supplier,,,,0,19101.92,,,,,844.5,,,,EAF,Electric Arc Furnace (EAF)
+1004509,2015,,Supplier,,,,0,,96655.6,,,,,,,,Empire Taconite Unit 3,Taconite Indurating Furnace
+1004509,2015,,ASTM E1915-07a,,,,0,,99986.2,,,,,,,,Empire Taconite Unit 2,Taconite Indurating Furnace
+1007620,2015,,,,,,,,,,,,,,,,Excess COG Flare,Flare
+1005025,2015,,,366.5,,,,,,,,,,,,,Battery_2,Coke Pushing Operation
+1004151,2015,,Supplier,,,,0,,,,,,,93.2,,,Castrip Vacuum Tank Degasser,Decarburization Vessel
+1001669,2015,,,,,3.868,,,,,,,,,,18528.1,EAF,Electric Arc Furnace (EAF)
+1001673,2015,,Other (specify),,assumed to be 100%,,,,,,,,397.0,,,,Electric Arc Furnace,Electric Arc Furnace (EAF)
+1000802,2015,,,,,,,,,,,,,,,,IP-COGF-1,Flare
+1000802,2015,,,,,,,,,,,,,,,,IP-COGF-3,Flare
+1003507,2015,,Supplier,,,,,,,,,,14766.2,,,,Charlotte Mill EAF,Electric Arc Furnace (EAF)
+1011242,2015,,Supplier,,,,,,,,,,7371.2,,,,50 Ton Fuchs Electric Arc Furnace,Electric Arc Furnace (EAF)
+1007392,2015,,,9705.5,,,,,,,,,,,,,EU-PUSHING,Coke Pushing Operation
+1005346,2015,,,,,12.01523,,,,,,,,,,73180.4,EF1,Electric Arc Furnace (EAF)
+1004458,2015,,ASTM E1915-07a,,,,0,,439220.9,,,,,,,,Tilden Taconite Unit 1,Taconite Indurating Furnace
+1004458,2015,,Supplier,,,,0,,439220.9,,,,,,,,Tilden Taconite Unit 1,Taconite Indurating Furnace
+1003474,2015,,ASM CS-104 UNS No. G10460,,,,0,,,,,,104025.4,,,,EAF,Electric Arc Furnace (EAF)
+1007287,2015,,,9928.9,,,,,,,,,,,,,Coke Ovens,Coke Pushing Operation
+1007287,2015,,ASTM D5373-08,,,,0,,,,1033851.2,,,,,,Indiana Harbor Operations,Non-Recovery Coke Oven Battery
+1003668,2015,,ASTM E1019-08,,,,0,,,,,,50667.2,,,,SRC104 D Electric Furnace,Electric Arc Furnace (EAF)
+1000156,2015,,Supplier,,,,,,,145085.0,,,,,,,SRC4SP60 Furnace,Basic Oxygen Process Furnace
+1000233,2015,,ASTM E1019-08,,,,0,,,,,,,837.5,,,ETVD,Decarburization Vessel
+1000233,2015,,Supplier,,,,0,,,148827.2,,,,,,,ETBOP1,Basic Oxygen Process Furnace
+1000274,2015,,,4087.2,,,,,,,,,,,,,Coke Pushing,Coke Pushing Operation
+1002769,2015,,ASTM C25-06,,,,,,,,,,689.0,,,,EAF,Electric Arc Furnace (EAF)
+1005976,2015,,,,,17.81,,,,,,,,,,116754.4,South EAF,Electric Arc Furnace (EAF)
+1001834,2015,,ASTM E1915-07a,,,,,,,191381.7,,,,,,,GLWBOFF2,Basic Oxygen Process Furnace
+1004036,2015,,,,,0.1399,,,,,,,,,,296.6,PU-F00563,Decarburization Vessel
+1004036,2015,,,,,0.3156,,,,,,,,,,125.6,PU-F00369,Electric Arc Furnace (EAF)
+1004036,2015,,,,,0.3156,,,,,,,,,,140.3,PU-F00134,Electric Arc Furnace (EAF)
+1005344,2015,,Supplier,,,,,,,,,,38224.0,,,,BElectricArcFurnace,Electric Arc Furnace (EAF)
+1004616,2015,,,,,39.502,,,,,,,,,,242598.9,EAF Line A,Electric Arc Furnace (EAF)
+1007177,2015,,,,,,,,,,,,,,,,SRC_BF C6 Gas Venting - BFG Bleeder,Flare
+1007177,2015,,ASTM D5373-08,,,,0,,,46647.7,,,,,,,West SP Vessel 95,Basic Oxygen Process Furnace
+1006041,2015,,Supplier,,,,0,,,87224.2,,,,,,,GCWBOF2,Basic Oxygen Process Furnace
+1003962,2015,,ASTM E1019-08,,,,0,NA,,230651.3,,,,,,,Q_BOF3,Basic Oxygen Process Furnace
+1003962,2015,,ASTM E1019-08,,,,0,NA,,212247.4,,,,,,,Q_BOF1,Basic Oxygen Process Furnace
+1000159,2015,,Supplier,,,,0,,,27738.2,,,,,,,FFWXF,Basic Oxygen Process Furnace
+1002903,2015,,,,,2.44001,,,,,,,,,,8980.4,AOD,Decarburization Vessel
+1001621,2015,,ASTM E1915-07a,,,,,,259357.2,,,,,,,,MINNIF6,Taconite Indurating Furnace
+1001958,2015,,Supplier,,,,,,,,,,29.6,,,,EAF-C,Electric Arc Furnace (EAF)
+1001958,2015,,Supplier,,,,,,,,,,,15.5,,,AOD,Decarburization Vessel
+1003577,2015,,Other (specify),,Lab Analysis,,0,,,,,,7182.1,,,,Wilton,Electric Arc Furnace (EAF)
+1005515,2015,,ASTM E1019-08,,,,,,,,,,27230.0,,,,Melt Shop Electric Arc Furnace,Electric Arc Furnace (EAF)
+1006901,2015,,Supplier,,,,,,,,,,55994.1,,,,P01Electric Arc Furnace,Electric Arc Furnace (EAF)
+1005294,2015,,ASTM D5373-08,,,,0,,50486.7,,,,,,,,United Taconite Line 1,Taconite Indurating Furnace
+1005584,2015,,Supplier,,,,,,,,,,174962.2,,,,ELECTRIC ARC FURNACE BATTERY 1,Electric Arc Furnace (EAF)
+1005584,2015,,ASTM E1019-08,,,,,,,,,,174962.2,,,,ELECTRIC ARC FURNACE BATTERY 1,Electric Arc Furnace (EAF)
+1003580,2015,,Supplier,,,,0,,,,,,13095.7,,,,UTC001 EAF1,Electric Arc Furnace (EAF)
+1001699,2015,,Supplier,,,,7,Average of previous year's production values,,,,,17097.3,,,,SRCEAFFce1,Electric Arc Furnace (EAF)
+1006585,2015,,,3289.4,,,,,,,,,,,,,Coke Pushing,Coke Pushing Operation
+1003965,2015,,Supplier,,,,0,,,,,,19358.1,,,,Stationary Combustion Emissions,Electric Arc Furnace (EAF)
+1006972,2015,,ASTM C25-06,,,,,,,,,,7056.6,,,,Melt Shop EAF 1 EAF 2,Electric Arc Furnace (EAF)
+1011726,2015,,Other (specify),,Published Document,,0,348.00,,,,,844.5,,,,EAF,Electric Arc Furnace (EAF)
+1000394,2015,,Supplier,,,,,,,,,,11013.2,,,,Chaparral Virginia Inc EAF,Electric Arc Furnace (EAF)
+1005025,2015,,,1391.6,,,,,,,,,,,,,Battery_1B,Coke Pushing Operation
+1005025,2015,,,,,,,,,,,,,,,,Excess_COG,Flare
+1002768,2015,,Other (specify),,The carbon content is provided in analytical results received from the disposal facility.,,,,,,,,18443.8,,,,P905906,Electric Arc Furnace (EAF)
+1005700,2015,,,,,27.52,,,,,,,,,,165314.2,Melt Shop Operations,Electric Arc Furnace (EAF)
+1003204,2015,,ASTM D5373-08,,,,,,,,516413.1,,,,,,NonRecovery Coke Oven Batteries,Non-Recovery Coke Oven Battery
+1003799,2015,,,,,18.26,,,,,,,,,,135.6,P905,Electric Arc Furnace (EAF)
+1005163,2015,,Supplier,,,,0,,,,,,166159.2,,,,Electric Arc Furnace,Electric Arc Furnace (EAF)
+1011242,2015,,ASTM E1019-08,,,,,,,,,,7371.2,,,,50 Ton Fuchs Electric Arc Furnace,Electric Arc Furnace (EAF)
+1007392,2015,,,,,,,,,,,,,,,,EU-COG FLARE,Flare
+1004152,2015,,,,,7.30739,,,,,,,,,,27378.9,EAF-1,Electric Arc Furnace (EAF)
+1003474,2015,,ASTM D5373-08,,,,0,,,,,,104025.4,,,,EAF,Electric Arc Furnace (EAF)
+1000156,2015,,ASTM E1019-08,,,,,,,131985.0,,,,,,,SRC4SP50 Furnace,Basic Oxygen Process Furnace
+1000156,2015,,ASTM E1019-08,,,,,,,145085.0,,,,,,,SRC4SP60 Furnace,Basic Oxygen Process Furnace
+1000156,2015,,Other (specify),,ASTM E415-08 (using OES ARL4460),,,,,145085.0,,,,,,,SRC4SP60 Furnace,Basic Oxygen Process Furnace
+1000156,2015,,,,,,,,,,,,,,,,SRC_IH7_BFG Flare 2_195,Flare
+1000233,2015,,,,,,,,,,,,,,,,ET-BFGFLARE,Flare
+1000418,2015,,ASTM E1019-08,,,,0,,,105525.0,,,,,,,GWBOP1,Basic Oxygen Process Furnace
+1000418,2015,,,,,,,,,,,,,,,,GW-BFGF3,Flare
+1000418,2015,,Supplier,,,,0,,,100093.3,,,,,,,GWBOP2,Basic Oxygen Process Furnace
+1000418,2015,,ASTM E1915-07a,,,,0,,,108751.0,,,,,,,GWBOP3,Basic Oxygen Process Furnace
+1000274,2015,,,,,,,,,,,,,,,,Coke Plant Flare - P067,Flare
+1000274,2015,,,,,42.6685,,,,,,,,,,161277.9,BOF Vessel No. 15,Basic Oxygen Process Furnace
+1004811,2015,,ASTM E1019-08,,,,,,,,,,69218.5,,,,EAF,Electric Arc Furnace (EAF)
+1004811,2015,,ASTM C25-06,,,,,,,,,,69218.5,,,,EAF,Electric Arc Furnace (EAF)
+1005344,2015,,Supplier,,,,,,,,,,39706.0,,,,AElectricArcFurnace,Electric Arc Furnace (EAF)
+1005276,2015,,ASTM D5373-08,,,,0,,47790.3,,,,,,,,Northshore Taconite Line 11,Taconite Indurating Furnace
+1005276,2015,,Supplier,,,,0,,44356.8,,,,,,,,Northshore Taconite Line 12,Taconite Indurating Furnace
+1004616,2015,,ASTM E1019-08,,,,,,,,,,,96.0,,,VTD,Decarburization Vessel
+1006041,2015,,,,,,,,,,,,,,,,GCW-BFGF2,Flare
+1006041,2015,,ASTM E1019-08,,,,0,,,87224.2,,,,,,,GCWBOF2,Basic Oxygen Process Furnace
+1003962,2015,,,8771.4,,,,,,,,,,,,,Q_COB1_Charging_Scales,Coke Pushing Operation
+1003962,2015,,,,,,,,,,,,,,,,Q_FLARE_COG_EMG,Flare
+1005003,2015,,,,,1.20022,,,,,,,,,,5494.8,113 - EAF 1 (Canopy Baghouse & AOD),EAF/Decarburization Vessel Exhausting to Common Stack/Vent
+1005003,2015,,,,,0.93260,,,,,,,,,,4298.6,110 - EAF 2 (Canopy Baghouse),Electric Arc Furnace (EAF)
+1008735,2015,,Supplier,,,,,,,,,,5335.7,,,,Finkl Sons Co 1355 E 93rd St,Electric Arc Furnace (EAF)
+1000159,2015,,ASTM E1915-07a,,,,0,,,27865.5,,,,,,,FFWUF,Basic Oxygen Process Furnace
+1000159,2015,,ASTM E1019-08,,,,0,,,27738.2,,,,,,,FFWXF,Basic Oxygen Process Furnace
+1002903,2015,,,,,19.25300,,,,,,,,,,52052.6,EAF #5,Electric Arc Furnace (EAF)
+1001621,2015,,ASTM E1915-07a,,,,,,121772.9,,,,,,,,MINNIF3,Taconite Indurating Furnace
+1001621,2015,,ASTM D5373-08,,,,,,179831.7,,,,,,,,MINNIF4,Taconite Indurating Furnace
+1001621,2015,,Supplier,,,,,,179831.7,,,,,,,,MINNIF4,Taconite Indurating Furnace
+1001621,2015,,ASTM D5373-08,,,,,,186276.3,,,,,,,,MINNIF5,Taconite Indurating Furnace
+1002977,2015,,ASTM E1915-07a,,,,,,,,,,4232.2,,,,EAF2,Electric Arc Furnace (EAF)
+1002977,2015,,ASTM E1915-07a,,,,,,,,,,,19201.1,,,AOD2,Decarburization Vessel
+1005423,2015,,ASTM E1915-07a,,,,0,,,,,,1163.8,,,,EAFAOD,Electric Arc Furnace (EAF)
+1005755,2015,,ASTM E1915-07a,,,,,,,,,,38813.9,,,,GU 3,Electric Arc Furnace (EAF)
+1005755,2015,,ASTM D5373-08,,,,,,,,,,38813.9,,,,GU 3,Electric Arc Furnace (EAF)
+1001958,2015,,ASTM E1915-07a,,,,,,,,,,,15.5,,,AOD,Decarburization Vessel
+1003668,2015,,Other (specify),,Engineering Calculation,,0,,,,,,,195.5,,,CVVOD,Decarburization Vessel
+1003380,2015,,,3782.2,,,,,,,,,,,,,SRCB901Charging,Coke Pushing Operation
+1006875,2015,,,,,,,,,,,,,,,,BP Flare,Flare
+1006875,2015,,,1440.5,,,,,,,,,,,,,Battery 2 Pushing,Coke Pushing Operation
+1005515,2015,,Supplier,,,,,,,,,,27230.0,,,,Melt Shop Electric Arc Furnace,Electric Arc Furnace (EAF)
+1004729,2015,,,,,8.99834,,,,,,,,,,26152.6,106,EAF/Decarburization Vessel Exhausting to Common Stack/Vent
+1005536,2015,,ASTM E1019-08,,,,,,,,,,763.2,,,,103A Ladel Metallurgical Furnace,Electric Arc Furnace (EAF)
+1005602,2015,,Supplier,,,,0,,,,,,58428.5,,,,Electric Arc Furnace Battery North,Electric Arc Furnace (EAF)
+1005584,2015,,Other (specify),,ASTM 1915-97,,,,,,,,174962.2,,,,ELECTRIC ARC FURNACE BATTERY 1,Electric Arc Furnace (EAF)
+1005584,2015,,Other (specify),,Analysis by Dust Processing Company,,,,,,,,174962.2,,,,ELECTRIC ARC FURNACE BATTERY 2,Electric Arc Furnace (EAF)
+1005584,2015,,Other (specify),,Analysis by Slag Processor Company,,,,,,,,174962.2,,,,ELECTRIC ARC FURNACE BATTERY 2,Electric Arc Furnace (EAF)
+1005602,2015,,Other (specify),,Receiving Slag Management Facility,,0,,,,,,58428.5,,,,Electric Arc Furnace Battery North,Electric Arc Furnace (EAF)
+1006530,2015,,,,,5.626,,,,,,,,,,36971.5,EAF #8 & AOD,Electric Arc Furnace (EAF)
+1000399,2015,,ASTM E1915-07a,,,,,,,,,,630.9,,,,Electric Arc Furnace,Electric Arc Furnace (EAF)
+1006585,2015,,,,,,,,,,,,,,,,COG Flare,Flare
+1003965,2015,,Supplier,,,,,,,,,,19358.1,,,,Stationary Combustion Emissions,Electric Arc Furnace (EAF)
+1003965,2015,,Other (specify),,Testing by Slag Processer,,,,,,,,19358.1,,,,Stationary Combustion Emissions,Electric Arc Furnace (EAF)
+1006159,2015,,ASTM D5373-08,,,,,,,,402391.4,,,,,,NonRecovery Coke Oven Batteries,Non-Recovery Coke Oven Battery
+1011726,2015,,Other (specify),,EPA Document,,0,167.10,,,,,844.5,,,,EAF,Electric Arc Furnace (EAF)
+1011726,2015,,Supplier,,,,0,316.36,,,,,844.5,,,,EAF,Electric Arc Furnace (EAF)
+1004509,2015,,ASTM E1915-07a,,,,0,,164849.9,,,,,,,,Empire Taconite Unit 4,Taconite Indurating Furnace
+1004509,2015,,ASTM E1915-07a,,,,0,,96655.6,,,,,,,,Empire Taconite Unit 3,Taconite Indurating Furnace
+1002768,2015,,Other (specify),,The carbon content is determined onsite with an analyzer,,,,,,,,18443.8,,,,P905906,Electric Arc Furnace (EAF)
+1001673,2015,,ASTM E1019-08,,,,,,,,,,,237.4,,,VOD,Decarburization Vessel
+1003688,2015,,ASTM E1019-08,,,,,,,,,,47503.1,,,,EAF,Electric Arc Furnace (EAF)
+1007921,2015,,ASTM E1019-08,,,,,,,,,,,79.3,,,VTD,Decarburization Vessel
+1004458,2015,,Other (specify),,ASTM 3172,,,,458898.1,,,,,,,,Tilden Taconite Unit 2,Taconite Indurating Furnace
+1004458,2015,,Supplier,,,,0,,458898.1,,,,,,,,Tilden Taconite Unit 2,Taconite Indurating Furnace
+1000156,2015,,Supplier,,,,,,,134069.6,,,,,,,SRC2SP20 Furnace148,Basic Oxygen Process Furnace
+1000156,2015,,Supplier,,,,,,,131985.0,,,,,,,SRC4SP50 Furnace,Basic Oxygen Process Furnace
+1000418,2015,,Supplier,,,,0,,,105525.0,,,,,,,GWBOP1,Basic Oxygen Process Furnace
+1000418,2015,,ASTM C25-06,,,,8,Average of available data.,,105525.0,,,,,,,GWBOP1,Basic Oxygen Process Furnace
+1000418,2015,,ASTM E1019-08,,,,0,,,108751.0,,,,,,,GWBOP3,Basic Oxygen Process Furnace
+1000418,2015,,ASTM C25-06,,,,8,Average of available data.,,108751.0,,,,,,,GWBOP3,Basic Oxygen Process Furnace
+1000418,2015,,ASTM E1019-08,,,,0,,,,,,,1060.0,,,GWVD,Decarburization Vessel
+1000588,2015,,,,,,,,,,,,,,,,SRC_IH4_BFG Flare_S1D,Flare
+1001834,2015,,Supplier,,,,,,,152269.5,,,,,,,GLWBOFF1,Basic Oxygen Process Furnace
+1001834,2015,,ASTM E1915-07a,,,,,,,152269.5,,,,,,,GLWBOFF1,Basic Oxygen Process Furnace
+1001834,2015,,,,,,,,,,,,,,,,GLW-BFD-F,Flare
+1001618,2015,,ASTM D5373-08,,,,0,,67626.6,,,,,,,,KEEIFL1,Taconite Indurating Furnace
+1005276,2015,,Supplier,,,,0,,4621.9,,,,,,,,Northshore Taconite Line 5,Taconite Indurating Furnace
+1005598,2015,,ASTM D5373-08,,,,,,,,516655.8,,,,,,Coke Ovens,Non-Recovery Coke Oven Battery
+1006041,2015,,ASTM E1915-07a,,,,0,,,74891.2,,,,,,,GCWBOF1,Basic Oxygen Process Furnace
+1005615,2015,,,,,11.9714,,,,,,,,,,67004.1,BOF #1 Vessel,Basic Oxygen Process Furnace
+1005615,2015,,,,,11.6037,,,,,,,,,,54704.2,BOF #2 Vessel,Basic Oxygen Process Furnace
+1005615,2015,,,,,,,,,,,,,,,,Amanda Blast Furnace Flare,Flare
+1005003,2015,,,,,0.54976,,,,,,,,,,2516.9,112 - EAF 1 (DEC Baghouse),Electric Arc Furnace (EAF)
+1005003,2015,,,,,0.89313,,,,,,,,,,4116.6,109 - EAF 2 (DEC Baghouse),Electric Arc Furnace (EAF)
+1001621,2015,,ASTM D5373-08,,,,,,121772.9,,,,,,,,MINNIF3,Taconite Indurating Furnace
+1001621,2015,,ASTM E1915-07a,,,,,,179831.7,,,,,,,,MINNIF4,Taconite Indurating Furnace
+1001621,2015,,Supplier,,,,,,259357.2,,,,,,,,MINNIF6,Taconite Indurating Furnace
+1001958,2015,,ASTM E1915-07a,,,,,,,,,,14.6,,,,EAF-B,Electric Arc Furnace (EAF)
+1003668,2015,,ASTM E1019-08,,,,0,,,,,,,195.5,,,CVVOD,Decarburization Vessel
+1005536,2015,,Other (specify),,ASTM E-415,,,,,,,,786.5,,,,102 No. 2 Electric Arc Furnace,Electric Arc Furnace (EAF)
+1005294,2015,,Supplier,,,,0,,120171.4,,,,,,,,United Taconite Line 2,Taconite Indurating Furnace
+1005283,2015,,,,,17.6424,,,,,,,,,,99190.1,Twin Shell EAF & LMF w/ Baghouse,Electric Arc Furnace (EAF)
+1005602,2015,,Other (specify),,ASTM A751 and ASTM E415,,0,,,,,,58428.5,,,,Electric Arc Furnace Battery South,Electric Arc Furnace (EAF)
+1005584,2015,,Other (specify),,ASTM E-415,,,,,,,,174962.2,,,,ELECTRIC ARC FURNACE BATTERY 1,Electric Arc Furnace (EAF)
+1005584,2015,,Supplier,,,,,,,,,,174962.2,,,,ELECTRIC ARC FURNACE BATTERY 2,Electric Arc Furnace (EAF)
+1000399,2015,,ASTM D5373-08,,,,,,,,,,630.9,,,,Electric Arc Furnace,Electric Arc Furnace (EAF)
+1003580,2015,,Other (specify),,E415-08,,0,,,,,,13680.7,,,,UTC002 EAF2,Electric Arc Furnace (EAF)
+1004434,2015,,,,,0.396,,,,,,,,,,1728.9,Argon Oxygen Decarburization,Decarburization Vessel
+1004434,2015,,,,,4.0,,,,,,,,,,19008.8,Electric Arc Furnace,Electric Arc Furnace (EAF)
+1000330,2015,,ASTM E1019-08,,,,0,,,,,,31809.7,,,,SRCEAF 1,Electric Arc Furnace (EAF)
+1001699,2015,,ASTM E1019-08,,,,7,Average of previous year's production values,,,,,17097.3,,,,SRCEAFFce1,Electric Arc Furnace (EAF)
+1006325,2015,,ASTM E1019-08,,,,,,,40823.1,,,,,,,NO 1 BASIC OXYGEN FURNACE,Basic Oxygen Process Furnace
+1003965,2015,,Other (specify),,Recycler Monthly Content Analysis Average,,,,,,,,19358.1,,,,Stationary Combustion Emissions,Electric Arc Furnace (EAF)
+1005116,2015,,Supplier,,,,0,,71757.8,,,,,,,,Hibbing Taconite Line 2,Taconite Indurating Furnace
+1007866,2015,,,,,13.8554325,,,,,,,,,,33853.9,Unit 1,Electric Arc Furnace (EAF)
+1006972,2015,,ASM CS-104 UNS No. G10460,,,,,,,,,,7056.6,,,,Melt Shop EAF 1 EAF 2,Electric Arc Furnace (EAF)
+1011726,2015,,Supplier,,,,0,135.36,,,,,844.5,,,,EAF,Electric Arc Furnace (EAF)
+1011726,2015,,Supplier,,,,0,78.11,,,,,844.5,,,,EAF,Electric Arc Furnace (EAF)
+1004509,2015,,Supplier,,,,0,,164849.9,,,,,,,,Empire Taconite Unit 4,Taconite Indurating Furnace
+1006906,2015,,Other (specify),,Known content in scrap,,,,,,,,38209.5,,,,Electric Arc Furnace (EAF),Electric Arc Furnace (EAF)
+1005752,2015,,Supplier,,,,0,N/A,,,,,,,31432.9,,Rotary Hearth Furnace 102,Direct Reduction Furnace
+1005190,2015,,,,,9.7,,,,,,,,,,34164.1,EAF Melt Shop,Electric Arc Furnace (EAF)
+1005025,2015,,,,,,,,,,,,,,,,Emergency_COG,Flare
+1007348,2015,,Supplier,,,,,,,,,,30854.7,,,,Electric Arc Furnace,Electric Arc Furnace (EAF)
+1001673,2015,,Supplier,,,,,,,,,,397.0,,,,Electric Arc Furnace,Electric Arc Furnace (EAF)
+1000802,2015,,,,,,,,,,,,,,,,IP-COGF-2,Flare
+1003204,2015,,,6498.0,,,,,,,,,,,,,Coke Oven Pushing  Emissions,Coke Pushing Operation
+1003268,2015,,,,,7.04,,,,,,,,,,13749.8,EAF #7,Electric Arc Furnace (EAF)
+1000714,2015,,ASM CS-104 UNS No. G10460,,,,,,,,,,40181.0,,,,EAF 5,Electric Arc Furnace (EAF)
+1005800,2015,,Supplier,,,,,,,,,,16383.6,,,,D4 EAF,Electric Arc Furnace (EAF)
+1006269,2015,,Supplier,,,,0,,,,,,58022.3,,,,Furnace No. 8,Electric Arc Furnace (EAF)
+1004458,2015,,ASTM E1915-07a,,,,0,,458898.1,,,,,,,,Tilden Taconite Unit 2,Taconite Indurating Furnace
+1004458,2015,,Other (specify),,ASTM D3172,,0,,439220.9,,,,,,,,Tilden Taconite Unit 1,Taconite Indurating Furnace
+1002777,2015,,,5436.7,,,,,,,,,,,,,P901P,Coke Pushing Operation
+1002777,2015,,,5533.9,,,,,,,,,,,,,P902P,Coke Pushing Operation
+1004511,2015,,,,,,,,,,,,,,,,COG Flare,Flare
+1003981,2015,,,,,10.67,,,,,,,,,,48407.8,EU-1,Electric Arc Furnace (EAF)
+1000156,2015,,Other (specify),,ASTM E415-08 (using OES ARL4460),,,,,96934.7,,,,,,,SRC2SP10 Furnace147,Basic Oxygen Process Furnace
+1000156,2015,,,,,,,,,,,,,,,,SRC_IH7_BFG Flare 3_195,Flare
+1000156,2015,,Supplier,,,,,,,,,,,693.1,,,SRC4SPRHOB 2,Decarburization Vessel
+1000233,2015,,ASTM E1019-08,,,,0,,,148827.2,,,,,,,ETBOP1,Basic Oxygen Process Furnace
+1000233,2015,,ASTM C25-06,,,,0,,,148827.2,,,,,,,ETBOP1,Basic Oxygen Process Furnace
+1000418,2015,,,,,,,,,,,,,,,,GW-BFGF1,Flare
+1000418,2015,,,,,,,,,,,,,,,,GW-COGF,Flare
+1000418,2015,,ASTM E1915-07a,,,,0,,,131255.3,,,,,,,GWQBOP3,Basic Oxygen Process Furnace
+1000418,2015,,Supplier,,,,0,,,131255.3,,,,,,,GWQBOP3,Basic Oxygen Process Furnace
+1000274,2015,,,,,,,,,,,,,,,,Blast Furnace Flambeau - P925,Flare
+1005276,2015,,ASTM D5373-08,,,,0,,44356.8,,,,,,,,Northshore Taconite Line 12,Taconite Indurating Furnace
+1006041,2015,,Supplier,,,,0,,,74891.2,,,,,,,GCWBOF1,Basic Oxygen Process Furnace
+1006041,2015,,ASTM E1019-08,,,,0,,,74891.2,,,,,,,GCWBOF1,Basic Oxygen Process Furnace
+1003962,2015,,,,,,,,,,,,,,,,Q_FLARE_D_FCE,Flare
+1001563,2015,,,,,,,,,,,,,,,,ECOG Flare,Flare
+1000159,2015,,ASTM E1019-08,,,,0,,,14920.0,,,,,,,FFWCF,Basic Oxygen Process Furnace
+1000159,2015,,ASTM E1019-08,,,,0,,,27865.5,,,,,,,FFWUF,Basic Oxygen Process Furnace
+1002903,2015,,,,,7.52419,,,,,,,,,,228.3,EAF #2,Electric Arc Furnace (EAF)
+1001621,2015,,Supplier,,,,,,121772.9,,,,,,,,MINNIF3,Taconite Indurating Furnace
+1001621,2015,,Supplier,,,,,,186276.3,,,,,,,,MINNIF5,Taconite Indurating Furnace
+1001621,2015,,ASTM D5373-08,,,,,,271616.2,,,,,,,,MINNIF7,Taconite Indurating Furnace
+1005755,2015,,ASTM C25-06,,,,,,,,,,38813.9,,,,GU 3,Electric Arc Furnace (EAF)
+1005515,2015,,ASTM D5373-08,,,,,,,,,,27230.0,,,,Melt Shop Electric Arc Furnace,Electric Arc Furnace (EAF)
+1005536,2015,,ASTM C25-06,,,,,,,,,,4683.2,,,,104A No. 4 Electric Arc Furnace,Electric Arc Furnace (EAF)
+1005536,2015,,Supplier,,,,,,,,,,4683.2,,,,104A No. 4 Electric Arc Furnace,Electric Arc Furnace (EAF)
+1005536,2015,,Supplier,,,,,,,,,,786.5,,,,102 No. 2 Electric Arc Furnace,Electric Arc Furnace (EAF)
+1005536,2015,,ASTM E1019-08,,,,,,,,,,786.5,,,,102 No. 2 Electric Arc Furnace,Electric Arc Furnace (EAF)
+1005536,2015,,Other (specify),,ASTM E-415,,,,,,,,763.2,,,,103A Ladel Metallurgical Furnace,Electric Arc Furnace (EAF)
+1004038,2015,,,,,4.90708,,,,,,,,,,33807.8,EAF-AZ,Electric Arc Furnace (EAF)
+1005021,2015,,Other (specify),,ASTM E1031 and ASTM E1024,,0,,,,,,3578.0,,,,SRCEAFFurnace141,Electric Arc Furnace (EAF)
+1005298,2015,,Supplier,,,,0,,,,,,13188.8,,,,528037,Electric Arc Furnace (EAF)
+1005602,2015,,Other (specify),,Receiving Slag Management Facility,,0,,,,,,58428.5,,,,Electric Arc Furnace Battery South,Electric Arc Furnace (EAF)
+1006901,2015,,Other (specify),,ASTM E415-08,,,,,,,,55994.1,,,,P01Electric Arc Furnace,Electric Arc Furnace (EAF)
+1005584,2015,,Other (specify),,Analysis by Dust Processing Company,,,,,,,,174962.2,,,,ELECTRIC ARC FURNACE BATTERY 1,Electric Arc Furnace (EAF)
+1005584,2015,,Other (specify),,Analysis by Slag Processor Company,,,,,,,,174962.2,,,,ELECTRIC ARC FURNACE BATTERY 1,Electric Arc Furnace (EAF)
+1006530,2015,,,,,2.51,,,,,,,,,,13121.8,EAF #9,Electric Arc Furnace (EAF)
+1004493,2015,,ASTM C25-06,,,,12,,,,,,25547.1,,,,Electric Arc Furnace EAF,Electric Arc Furnace (EAF)
+1003580,2015,,Supplier,,,,0,,,,,,13680.7,,,,UTC002 EAF2,Electric Arc Furnace (EAF)
+1005116,2015,,ASTM E1915-07a,,,,0,,75023.8,,,,,,,,Hibbing Taconite Line 1,Taconite Indurating Furnace
+1006906,2015,,Supplier,,,,,,,,,,38209.5,,,,Electric Arc Furnace (EAF),Electric Arc Furnace (EAF)
+1007620,2015,,,1308.0,,,,,,,,,,,,,Battery A and B Pushing,Coke Pushing Operation
+1005752,2015,,Supplier,,,,0,N/A,,,,,5735.1,,,,Electric Arc FurnaceSource 103,Electric Arc Furnace (EAF)
+1002714,2015,,,,,0.09538,,,,,,,,,,1418.1,#1 EAF P913,Electric Arc Furnace (EAF)
+1003688,2015,,ASTM E1915-07a,,,,,,,,,,47503.1,,,,EAF,Electric Arc Furnace (EAF)
+1003507,2015,,ASTM E1019-08,,,,,,,,,,14766.2,,,,Charlotte Mill EAF,Electric Arc Furnace (EAF)
+1003457,2015,,,,,37.04352,,,,,,,,,,155618.5,X0005 - Electric Arc Furnace(EAF),Electric Arc Furnace (EAF)
+1000235,2015,,,3425.2,,,,,,,,,,,,,Pushing,Coke Pushing Operation
+1003507,2015,,,,,,,,,,,,14766.2,,,,Charlotte Mill EAF,Electric Arc Furnace (EAF)
+1003204,2015,,ASTM C25-06,,,,,,,,516413.1,,,,,,NonRecovery Coke Oven Batteries,Non-Recovery Coke Oven Battery
+1003799,2015,,,,,12.27,,,,,,,,,,81107.5,P907,Electric Arc Furnace (EAF)
+1004411,2015,,Supplier,,,,0,,,,,,45734.4,,,,EUEAF,Electric Arc Furnace (EAF)
+1003860,2015,,Other (specify),,Engineering Judgement,,,,,,,,48722.1,,,,FSP EAF,Electric Arc Furnace (EAF)
+1003860,2015,,Other (specify),,Chemical Analysis,,,,,,,,48722.1,,,,FSP EAF,Electric Arc Furnace (EAF)
+1000233,2015,,ASTM E1915-07a,,,,0,,,148827.2,,,,,,,ETBOP1,Basic Oxygen Process Furnace
+1000418,2015,,ASTM E1019-08,,,,0,,,131255.3,,,,,,,GWQBOP3,Basic Oxygen Process Furnace
+1000418,2015,,ASTM E1915-07a,,,,0,,,141025.4,,,,,,,GWQBOP2,Basic Oxygen Process Furnace
+1000588,2015,,ASTM E1019-08,,,,,,,,,,,223.0,,,3SPVCP,Decarburization Vessel
+1000588,2015,,Supplier,,,,,,,122346.7,,,,,,,SRC3SP1 Furnace,Basic Oxygen Process Furnace
+1001834,2015,,ASTM E1019-08,,,,,,,152269.5,,,,,,,GLWBOFF1,Basic Oxygen Process Furnace
+1004036,2015,,,,,0.1399,,,,,,,,,,875.1,PU-F00579,Decarburization Vessel
+1007177,2015,,ASTM D5373-08,,,,0,,,171418.1,,,,,,,East SP Vessel 1,Basic Oxygen Process Furnace
+1007177,2015,,ASTM D5373-08,,,,0,,,47797.1,,,,,,,West SP Vessel 94,Basic Oxygen Process Furnace
+1006041,2015,,,,,,,,,,,,,,,,GCW-BFGF1,Flare
+1003962,2015,,ASTM E1019-08,,,,0,NA,,,,,,1404.6,,,Q_BOF_VDG,Decarburization Vessel
+1003962,2015,,ASTM E1915-07a,,,,0,NA,,220594.9,,,,,,,Q_BOF2,Basic Oxygen Process Furnace
+1000124,2015,,,36245.5,,,,,,,,,,,,,CW-COKEP,Coke Pushing Operation
+1000159,2015,,Supplier,,,,0,,,14920.0,,,,,,,FFWCF,Basic Oxygen Process Furnace
+1002977,2015,,ASTM E1915-07a,,,,,,,,,,4232.2,,,,EAF1,Electric Arc Furnace (EAF)
+1002977,2015,,Supplier,,,,,,,,,,4232.2,,,,EAF1,Electric Arc Furnace (EAF)
+1005423,2015,,ASTM D5373-08,,,,0,,,,,,1163.8,,,,EAFAOD,Electric Arc Furnace (EAF)
+1002147,2015,,,,,25.114,,,,,,,,,,157690.1,EP-1 EAF Furnace,Electric Arc Furnace (EAF)
+1001958,2015,,ASTM E1019-08,,,,,,,,,,14.6,,,,EAF-B,Electric Arc Furnace (EAF)
+1003052,2015,,Supplier,,,,,,,,,,32525.9,,,,Furnace Emissions,Electric Arc Furnace (EAF)
+1003668,2015,,Supplier,,,,0,,,,,,50667.2,,,,SRC104 D Electric Furnace,Electric Arc Furnace (EAF)
+1005801,2015,,,,,2.5948,,,,,,,,,,17320.5,EAF,Electric Arc Furnace (EAF)
+1005536,2015,,ASTM E1019-08,,,,,,,,,,4683.2,,,,104A No. 4 Electric Arc Furnace,Electric Arc Furnace (EAF)
+1005536,2015,,Supplier,,,,,,,,,,763.2,,,,103A Ladel Metallurgical Furnace,Electric Arc Furnace (EAF)
+1006901,2015,,ASTM E1915-07a,,,,,,,,,,55994.1,,,,P01Electric Arc Furnace,Electric Arc Furnace (EAF)
+1005294,2015,,Supplier,,,,0,,50486.7,,,,,,,,United Taconite Line 1,Taconite Indurating Furnace
+1005021,2015,,ASTM E1019-08,,,,0,,,,,,3578.0,,,,SRCEAFFurnace141,Electric Arc Furnace (EAF)
+1005602,2015,,Other (specify),,Receiving EAF K061 Recycling Facility,,0,,,,,,58428.5,,,,Electric Arc Furnace Battery South,Electric Arc Furnace (EAF)
+1005584,2015,,Supplier,,,,,,,,,,,,253250.5,,IDI ROTARY HEARTH FURNACE,Direct Reduction Furnace
+1005144,2015,,Supplier,,,,,,,,,,,,88812.6,,RHF,Direct Reduction Furnace
+1007577,2015,,,,,6.92788,,,,,,,,,,34416.5,P903,Electric Arc Furnace (EAF)
+1005116,2015,,Supplier,,,,0,,75420.4,,,,,,,,Hibbing Taconite Line 3,Taconite Indurating Furnace
+1001103,2015,,Supplier,,,,0,,,,,,28202.0,,,,CVL EAF,Electric Arc Furnace (EAF)
+1006159,2015,,,5628.8,,,,,,,,,,,,,Pushing,Coke Pushing Operation
+1004509,2015,,Other (specify),,ASTM D5865,,0,,96655.6,,,,,,,,Empire Taconite Unit 3,Taconite Indurating Furnace
+1006906,2015,,Other (specify),,Production Records,,,,,,,,38209.5,,,,Electric Arc Furnace (EAF),Electric Arc Furnace (EAF)
+1006906,2015,,Other (specify),,Analytical Data,,,,,,,,38209.5,,,,Electric Arc Furnace (EAF),Electric Arc Furnace (EAF)
+1000394,2015,,ISO/TR 15349-3:1998,,,,,,,,,,11013.2,,,,Chaparral Virginia Inc EAF,Electric Arc Furnace (EAF)
+1010763,2015,,Supplier,,,,,,,,,,,18403.2,,,AOD,Decarburization Vessel
+1002768,2015,,Other (specify),,The carbon content was calculated based on fuel analyses provided by the fuel supplier.,,,,,,,,18443.8,,,,P905906,Electric Arc Furnace (EAF)
+1004151,2015,,ASTM E1019-08,,,,0,,,,,,,93.2,,,Castrip Vacuum Tank Degasser,Decarburization Vessel
+1000235,2015,,,,,,,,,,,,,,,,Flare,Flare
+1000714,2015,,ASTM C25-06,,,,,,,,,,40181.0,,,,EAF 5,Electric Arc Furnace (EAF)
+1004411,2015,,Other (specify),,Analyzed by 3rd party lab using C IR07 (% Carbon),,,,,,,,45734.4,,,,EUEAF,Electric Arc Furnace (EAF)
+1004411,2015,,Other (specify),,Analytical from Disposal Company,,,,,,,,45734.4,,,,EUEAF,Electric Arc Furnace (EAF)
+1004411,2015,,Supplier,,,,,,,,,,45734.4,,,,EUEAF,Electric Arc Furnace (EAF)
+1002777,2015,,ASTM D5373-08,,,,,,,,418173.5,,,,,,P901,Non-Recovery Coke Oven Battery
+1002777,2015,,ASTM D5373-08,,,,,,,,425614.9,,,,,,P902,Non-Recovery Coke Oven Battery
+1003860,2015,,Other (specify),,Engineering Judgement,,,,,,,,9468.4,,,,HSP EAFs,Electric Arc Furnace (EAF)
+1000156,2015,,ASTM E1019-08,,,,,,,96934.7,,,,,,,SRC2SP10 Furnace147,Basic Oxygen Process Furnace
+1000156,2015,,Other (specify),,ASTM E415-08 (using OES ARL4460),,,,,134069.6,,,,,,,SRC2SP20 Furnace148,Basic Oxygen Process Furnace
+1000156,2015,,ASTM E1019-08,,,,,,,134069.6,,,,,,,SRC2SP20 Furnace148,Basic Oxygen Process Furnace
+1000156,2015,,,,,,,,,,,,,,,,SRC_IH7_BFG Flare 1_195,Flare
+1000418,2015,,ASTM E1019-08,,,,0,,,,,209047.9,,,,,GWSP,Sinter Process
+1000418,2015,,ASTM C25-06,,,,8,Average of available data.,,100093.3,,,,,,,GWBOP2,Basic Oxygen Process Furnace
+1000418,2015,,Supplier,,,,0,,,123023.5,,,,,,,GWQBOP1,Basic Oxygen Process Furnace
+1000418,2015,,Supplier,,,,0,,,108751.0,,,,,,,GWBOP3,Basic Oxygen Process Furnace
+1000418,2015,,ASTM E1019-08,,,,0,,,141025.4,,,,,,,GWQBOP2,Basic Oxygen Process Furnace
+1000418,2015,,Supplier,,,,0,,,141025.4,,,,,,,GWQBOP2,Basic Oxygen Process Furnace
+1000588,2015,,ASTM E1019-08,,,,,,,122346.7,,,,,,,SRC3SP1 Furnace,Basic Oxygen Process Furnace
+1000588,2015,,Supplier,,,,,,,92300.0,,,,,,,SRC3SP2 Furnace,Basic Oxygen Process Furnace
+1000588,2015,,,,,,,,,,,,,,,,SRC_IH3_BFG Flare_S1E,Flare
+1001834,2015,,ASTM C25-06,,,,,,,152269.5,,,,,,,GLWBOFF1,Basic Oxygen Process Furnace
+1001834,2015,,,,,,,,,,,,,,,,GLW-BFAB-F,Flare
+1001618,2015,,ASTM E1915-07a,,,,0,,67626.6,,,,,,,,KEEIFL1,Taconite Indurating Furnace
+1004036,2015,,,,,0.3156,,,,,,,,,,141.5,PU-F00140,Electric Arc Furnace (EAF)
+1005276,2015,,ASTM D5373-08,,,,0,,21105.6,,,,,,,,Northshore Taconite Line 6,Taconite Indurating Furnace
+1007177,2015,,ASTM D5373-08,,,,0,,,166836.8,,,,,,,East SP Vessel 2,Basic Oxygen Process Furnace
+1006041,2015,,,410.1,,,,,,,,,,,,,GCW-COKEP,Coke Pushing Operation
+1003962,2015,,,8995.3,,,,,,,,,,,,,Q_COB2_Charging_Scales,Coke Pushing Operation
+1003962,2015,,ASTM E1019-08,,,,0,NA,,220594.9,,,,,,,Q_BOF2,Basic Oxygen Process Furnace
+1003962,2015,,ASTM E1915-07a,,,,0,NA,,230651.3,,,,,,,Q_BOF3,Basic Oxygen Process Furnace
+1003962,2015,,ASTM E1915-07a,,,,0,NA,,212247.4,,,,,,,Q_BOF1,Basic Oxygen Process Furnace
+1001563,2015,,,,,,,,,,,,,,,,COG Flare,Flare
+1000159,2015,,,,,,,,,,,,,,,,FFW-FLARE,Flare
+1001621,2015,,ASTM E1915-07a,,,,,,271616.2,,,,,,,,MINNIF7,Taconite Indurating Furnace
+1002977,2015,,Supplier,,,,,,,,,,4232.2,,,,EAF2,Electric Arc Furnace (EAF)
+1005423,2015,,Supplier,,,,0,,,,,,1163.8,,,,EAFAOD,Electric Arc Furnace (EAF)
+1003052,2015,,ISO/TR 15349-3:1998,,,,,,,,,,32525.9,,,,Furnace Emissions,Electric Arc Furnace (EAF)
+1003669,2015,,ASTM E1915-07a,,,,0,,231925.3,,,,,,,,UTC001 Taconite Indurating Process,Taconite Indurating Furnace
+1005294,2015,,ASTM D5373-08,,,,0,,120171.4,,,,,,,,United Taconite Line 2,Taconite Indurating Furnace
+1005021,2015,,Other (specify),,ASTM E415,,0,,,,,,3578.0,,,,SRCEAFFurnace141,Electric Arc Furnace (EAF)
+1005584,2015,,Other (specify),,ASTM 1915-97,,,,,,,,174962.2,,,,ELECTRIC ARC FURNACE BATTERY 2,Electric Arc Furnace (EAF)
+1005584,2015,,Other (specify),,ASTM E-415,,,,,,,,174962.2,,,,ELECTRIC ARC FURNACE BATTERY 2,Electric Arc Furnace (EAF)
+1000330,2015,,Supplier,,,,0,,,,,,31809.7,,,,SRCEAF 1,Electric Arc Furnace (EAF)
+1006325,2015,,ASTM E1019-08,,,,,,,40065.6,,,,,,,NO 2 BASIC OXYGEN FURNACE,Basic Oxygen Process Furnace
+1005116,2015,,ASTM E1915-07a,,,,0,,71757.8,,,,,,,,Hibbing Taconite Line 2,Taconite Indurating Furnace
+1005116,2015,,ASTM E1915-07a,,,,0,,75420.4,,,,,,,,Hibbing Taconite Line 3,Taconite Indurating Furnace
+1002216,2015,,Other (specify),,carbon balance,,,,,,,,25651.4,,,,Jacksonville Mill EAF,Electric Arc Furnace (EAF)
+1002216,2015,,Other (specify),,carbon balance,,0,,,,,,25651.4,,,,Jacksonville Mill EAF,Electric Arc Furnace (EAF)
+1006972,2015,,Supplier,,,,,,,,,,7056.6,,,,Melt Shop EAF 1 EAF 2,Electric Arc Furnace (EAF)
+1011726,2015,,Other (specify),,Facility Sampling,,0,17409.67,,,,,844.5,,,,EAF,Electric Arc Furnace (EAF)
+1004509,2015,,Other (specify),,ASTM 5865,,0,,99986.2,,,,,,,,Empire Taconite Unit 2,Taconite Indurating Furnace
+1010763,2015,,Supplier,,,,,,,,,,65005.7,,,,EAF,Electric Arc Furnace (EAF)
+1003688,2015,,Supplier,,,,,,,,,,47503.1,,,,EAF,Electric Arc Furnace (EAF)
+1000714,2015,,Supplier,,,,,,,,,,40181.0,,,,EAF 5,Electric Arc Furnace (EAF)
+1000714,2015,,ASTM E1915-07a,,,,,,,,,,40181.0,,,,EAF 5,Electric Arc Furnace (EAF)
+1006708,2015,,Supplier,,,,,,,,,,25010.3,,,,EAF,Electric Arc Furnace (EAF)
+1004411,2015,,ASTM E1019-08,,,,,,,,,,45734.4,,,,EUEAF,Electric Arc Furnace (EAF)
+1004259,2015,,,,,0.88639,,,,,,,,,,5411.4,EAF Secondary Baghouse  EFURNBHSTK,Electric Arc Furnace (EAF)
+1006269,2015,,ASTM E1019-08,,,,0,,,,,,58022.3,,,,Furnace No. 8,Electric Arc Furnace (EAF)
+1003403,2015,,,,,45.85,,,,,,,,,,337370.4,BOF_Vessels,Basic Oxygen Process Furnace
+1003474,2015,,Supplier,,,,0,,,,,,104025.4,,,,EAF,Electric Arc Furnace (EAF)
+1004511,2015,,,5406.3,,,,,,,,,,,,,Coke Pushing,Coke Pushing Operation

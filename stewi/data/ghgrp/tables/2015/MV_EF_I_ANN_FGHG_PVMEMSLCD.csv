@@ -1,0 +1,22 @@
+MV_EF_I_ANN_FGHG_PVMEMSLCD.FACILITY_ID,MV_EF_I_ANN_FGHG_PVMEMSLCD.REPORTING_YEAR,MV_EF_I_ANN_FGHG_PVMEMSLCD.FACILITY_NAME,MV_EF_I_ANN_FGHG_PVMEMSLCD.ANN_FGHG_EMISSIONS_BY_PROCTYPE,MV_EF_I_ANN_FGHG_PVMEMSLCD.CAS_NUMBER,MV_EF_I_ANN_FGHG_PVMEMSLCD.FAB_NAME,MV_EF_I_ANN_FGHG_PVMEMSLCD.GAS_NAME,MV_EF_I_ANN_FGHG_PVMEMSLCD.PROCESS_TYPE
+1001199,2015,Eastman Kodak - Kodak Park,0.01,115-25-3,MEMS,Perfluorocyclobutane,Plasma etching
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,0.0787,2551-62-4,Building 4,Sulfur hexafluoride,Plasma etching
+1004412,2015,GE GLOBAL RESEARCH CENTER,0.005,75-46-7,K west MEMS Fab,HFC-23,Plasma etching
+1010241,2015,Honeywell Aerospace - Plymouth,0,115-25-3,MEMS,Perfluorocyclobutane,Plasma etching
+1010241,2015,Honeywell Aerospace - Plymouth,0,75-73-0,MEMS,PFC-14 (Perfluoromethane),Chamber cleaning
+1010241,2015,Honeywell Aerospace - Plymouth,0.0163,2551-62-4,MEMS,Sulfur hexafluoride,Plasma etching
+1010241,2015,Honeywell Aerospace - Plymouth,0,76-16-4,MEMS,PFC-116 (Perfluoroethane),Chamber cleaning
+1001199,2015,Eastman Kodak - Kodak Park,0.002,115-25-3,MEMS,Perfluorocyclobutane,Chamber cleaning
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,0.0250,115-25-3,Building 4,Perfluorocyclobutane,Plasma etching
+1010241,2015,Honeywell Aerospace - Plymouth,0,75-73-0,MEMS,PFC-14 (Perfluoromethane),Plasma etching
+1001199,2015,Eastman Kodak - Kodak Park,0.04,2551-62-4,MEMS,Sulfur hexafluoride,Plasma etching
+1001199,2015,Eastman Kodak - Kodak Park,0.0003,76-16-4,MEMS,PFC-116 (Perfluoroethane),Chamber cleaning
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,0.0256,75-73-0,Building 4,PFC-14 (Perfluoromethane),Plasma etching
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,0.0624,76-16-4,Building 4,PFC-116 (Perfluoroethane),Plasma etching
+1001199,2015,Eastman Kodak - Kodak Park,0.00002,75-73-0,MEMS,PFC-14 (Perfluoromethane),Chamber cleaning
+1004412,2015,GE GLOBAL RESEARCH CENTER,0.002,7783-54-2,K west MEMS Fab,Nitrogen trifluoride,Plasma etching
+1003759,2015,Analog Devices  Inc./ Wilmington Manufacturing,0.0036,75-46-7,Building 4,HFC-23,Plasma etching
+1010241,2015,Honeywell Aerospace - Plymouth,0,76-16-4,MEMS,PFC-116 (Perfluoroethane),Plasma etching
+1001199,2015,Eastman Kodak - Kodak Park,0.0003,75-73-0,MEMS,PFC-14 (Perfluoromethane),Plasma etching
+1004412,2015,GE GLOBAL RESEARCH CENTER,0.048,2551-62-4,K west MEMS Fab,Sulfur hexafluoride,Plasma etching
+1004412,2015,GE GLOBAL RESEARCH CENTER,0.008,75-73-0,K west MEMS Fab,PFC-14 (Perfluoromethane),Plasma etching
