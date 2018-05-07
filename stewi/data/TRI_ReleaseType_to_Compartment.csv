@@ -1,0 +1,12 @@
+ReleaseType,Compartment
+onsiteland,soil
+fug,air
+onsiteother,soil
+streamA,water
+streamC,water
+offsiteland,soil
+streamF,water
+offsiteother,soil
+stack,air
+streamB,water
+streamE,water

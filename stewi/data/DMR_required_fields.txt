@@ -1,0 +1,13 @@
+EstFactor
+ExternalPermitNmbr
+FacilityTypeIndicator
+NaicsCode
+ParameterDesc
+PollutantLoad
+Siccode
+StateCode
+TRIDirectPounds
+TRIFids
+TRIIndirectPounds
+Uin
+
