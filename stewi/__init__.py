@@ -6,7 +6,7 @@ import os
 from stewi.globals import get_required_fields
 
 #for testing
-#modulepath = './'
+#modulepath = 'stewi'
 
 modulepath = os.path.dirname(__file__)
 
@@ -14,12 +14,34 @@ output_dir = modulepath+'/output/'
 data_dir = modulepath+'/data/'
 formatpath = {'flowbyfacility':""}
 
-def seeAvailbleInventoriesandYears ():
+def seeAvailableInventoriesandYears(format='flowbyfacility'):
 # reads a list of available inventories and prints them here, like:
-# National Emissions Inventory: 2014
-# Greenhouse Gas Reporting Program: 2015, 2016
+# NEI: 2014
+# GHGRP: 2015, 2016
 # ....
-    print("Test")
+    files = os.listdir(output_dir)
+    outputfiles = []
+    existing_inventories = {}
+    for name in files:
+        if name.endswith(".csv"):
+            n = name.strip('.csv')
+            outputfiles.append(n)
+    for file in outputfiles:
+         length = len(file)
+         s_yr = length-4
+         e_acronym = length-5
+         year = file[s_yr:]
+         acronym = str.upper(file[:e_acronym])
+         if (acronym not in existing_inventories.keys()):
+             existing_inventories[acronym] = [year]
+         else:
+             existing_inventories[acronym].append(year)
+    print (format + ' inventories available (name, year):')
+    for i in existing_inventories.keys():
+        s = i + ": "
+        for y in existing_inventories[i]:
+            s = s + y + ","
+        print(s)
 
 def getInventory(inventory_acronym,year,format='flowbyfacility',filter_for_LCI=False,US_States_Only=False):
 #Returns an inventory file as a data frame
