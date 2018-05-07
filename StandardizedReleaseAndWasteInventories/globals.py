@@ -111,7 +111,7 @@ def filter_inventory(inventory_df, criteria_file, filter_type, marker=None):
                     if filter_type == 'drop': output_df = output_df[~output_df[column].isin(criteria)]
                     elif filter_type == 'keep': output_df = output_df[output_df[column].isin(criteria)]
     elif filter_type in ('mark_drop', 'mark_keep'):
-        standard_format = import_table('StandardizedReleaseAndWasteInventories/data/flowbyfacility_format.csv')
+        standard_format = import_table('stewi/data/flowbyfacility_format.csv')
         must_match = standard_format['Name'][standard_format['Name'].isin(criteria_table.keys())]
         for criteria_column in criteria_table:
             if criteria_column in must_match: continue
@@ -128,7 +128,7 @@ def filter_inventory(inventory_df, criteria_file, filter_type, marker=None):
 def set_dir(directory_name):
     import os
     path1 = './' + directory_name + '/'
-    path2 = 'StandardizedReleaseAndWasteInventories/' + directory_name + '/'
+    path2 = 'stewi/' + directory_name + '/'
     if os.path.exists(path1): pathname = path1
     elif os.path.exists(path2): pathname = path2
     else:
