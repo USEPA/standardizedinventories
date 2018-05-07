@@ -111,7 +111,7 @@ def filter_inventory(inventory_df, criteria_file, filter_type, marker=None):
                     if filter_type == 'drop': output_df = output_df[~output_df[column].isin(criteria)]
                     elif filter_type == 'keep': output_df = output_df[output_df[column].isin(criteria)]
     elif filter_type in ('mark_drop', 'mark_keep'):
-        standard_format = import_table('StandardizedReleaseAndWasteInventories/data/Standarized_Output_Format_EPA _Data_Sources.csv')
+        standard_format = import_table('StandardizedReleaseAndWasteInventories/data/flowbyfacility_format.csv')
         must_match = standard_format['Name'][standard_format['Name'].isin(criteria_table.keys())]
         for criteria_column in criteria_table:
             if criteria_column in must_match: continue
@@ -177,3 +177,10 @@ def read_metadata(inventoryname,report_year):
         file_contents = file.read()
         metadata = json.loads(file_contents)
         return metadata
+
+def get_required_fields(format='flowbyfacility'):
+    fields = pd.read_csv(data_dir+format+'_format.csv')
+    required_fields = fields[fields['required?']==1]
+    required_fields = dict(zip(required_fields['Name'],required_fields['Type']))
+    return required_fields
+
