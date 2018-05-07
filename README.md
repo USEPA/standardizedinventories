@@ -1,6 +1,6 @@
 # Standardized Emission and Waste Inventories (StEWI)
 Provides processed EPA release and waste generation inventories in standard tabular formats. 
-The standard output may be further aggregated or filtered based on given criteria. 
+The standard outputs may be further aggregated or filtered based on given criteria. 
 
 THIS CODE IS STILL IN EARLY DEVELOPMENT. OUTPUT FILES HAVE NOT YET BEEN TESTED.
 
@@ -13,13 +13,11 @@ THIS CODE IS STILL IN EARLY DEVELOPMENT. OUTPUT FILES HAVE NOT YET BEEN TESTED.
 |[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)|x||x||
 |[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)||x|||
 
-## FlowByFacility output format
-|FacilityID|FlowName|FlowAmount|DataReliability|...optional fields|
-|--|--|--|--|--|
-| | | | | |
-
-Each row represents the total amount of release or waste of a single type in a given year from the given facility.
-Descriptions of the fields can be found [here](FlowByFacilityFormat.md)
+## Current output formats
+[Flow-By-Facility](format specs/FlowByFacility.md): Each row represents the total amount of release or waste of a single type in a given year from the given facility.
+[Flow-By-Unit](format specs/FlowByUnit.md): Each row represents the total amount of release or waste of a single type in a given year from the given unit within a facility.Currently only for NEI. DRAFT.
+[Facility](format specs/Facility.md): Each row represents a unique facility in a given inventory and given year
+[Flow](format specs/Flow.md):  Each row represents a unique flow (substance or waste) in a given inventory and given year
 
 ## Use of the repository output
 The standard format files without any filtering are available in the output directory in csv format (can be opened in Excel). These can be downloaded and used without knowledge of Python.
