@@ -64,7 +64,7 @@ def standardize_output(source): # source as 'Point'/'NonPoint'/'OnRoad'/'NonRoad
     return(nei)
 
 def nei_aggregate_unit_to_facility_level(nei_unit):
-    grouping_vars = ['FacilityID','NAICS','FlowName','State']
+    grouping_vars = ['FacilityID','FlowName']
     neibyfacility = nei_unit.groupby(grouping_vars)[['FlowAmount']]
 
     neibyfacilityagg = neibyfacility.agg([('FlowAmount','sum')])
@@ -103,7 +103,7 @@ nonroad = standardize_output('NonRoad')
 #point5.to_csv(output_dir + 'NEIPoint5_2014.csv', index=False)
 #point6.to_csv(output_dir + 'NEIPoint6_2014.csv', index=False)
 
-nei_facility.to_csv(output_dir+'NEI_'+report_year+'.csv')
+nei_facility.to_csv(output_dir+'NEI_'+report_year+'.csv',index=False)
 
 nonpoint.to_csv(output_dir + 'NEINonPoint_2014.csv', index=False)
 onroad.to_csv(output_dir + 'NEIOnRoad_2014.csv', index=False)
