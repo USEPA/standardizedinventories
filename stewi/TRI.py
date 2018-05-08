@@ -28,23 +28,40 @@ tri_required_fields = (imp_fields(data_dir + 'TRI_required_fields.txt'))
 
 # Import in pieces grabbing main fields plus unique amount and basis of estimate fields
 # assigns fields to variables
-def concat_req_field(a, b):
-    source_name = tri_required_fields[0:5] + tri_required_fields[a:b]
+def concat_req_field(list):
+    source_name = ['TRIFID','CHEMICAL NAME','UNIT OF MEASURE'] + list
     return source_name
 
-import_fug = concat_req_field(5, 7)
-import_stack = concat_req_field(7, 9)
-import_streamA = concat_req_field(9, 11)
-import_streamB = concat_req_field(11, 13)
-import_streamC = concat_req_field(13, 15)
-import_streamD = concat_req_field(15, 17)
-import_streamE = concat_req_field(17, 19)
-import_streamF = concat_req_field(19, 21)
-import_onsiteland = concat_req_field(21, 23)
-import_onsiteother = concat_req_field(23, 25)
+facility_fields = ['FACILITY NAME','FACILITY STREET','FACILITY CITY','FACILITY COUNTY','FACILITY STATE',
+                   'FACILITY ZIP CODE','PRIMARY NAICS CODE','LATITUDE','LONGITUDE']
+
+fug_fields = ['TOTAL FUGITIVE AIR EMISSIONS','FUGITIVE OR NON-POINT AIR EMISSIONS - BASIS OF ESTIMATE']
+stack_fields = ['TOTAL STACK AIR EMISSIONS','STACK OR POINT AIR EMISSIONS - BASIS OF ESTIMATE']
+streamA_fields = ['TOTAL DISCHARGES TO STREAM A','DISCHARGES TO STREAM A - BASIS OF ESTIMATE']
+streamB_fields = ['TOTAL DISCHARGES TO STREAM B','DISCHARGES TO STREAM B - BASIS OF ESTIMATE']
+streamC_fields = ['TOTAL DISCHARGES TO STREAM C','DISCHARGES TO STREAM C - BASIS OF ESTIMATE']
+streamD_fields = ['TOTAL DISCHARGES TO STREAM D','DISCHARGES TO STREAM D - BASIS OF ESTIMATE']
+streamE_fields = ['TOTAL DISCHARGES TO STREAM E','DISCHARGES TO STREAM E - BASIS OF ESTIMATE']
+streamF_fields = ['TOTAL DISCHARGES TO STREAM F','DISCHARGES TO STREAM F - BASIS OF ESTIMATE']
+onsiteland_fields = ['TOTAL LAND TREATMENT','LAND TRTMT/APPL FARMING - BASIS OF ESTIMATE']
+onsiteother_fields = ['TOTAL OTHER DISPOSAL','OTHER DISPOSAL -BASIS OF ESTIMATE']
+offsiteland_fields  = ['LAND TREATMENT']
+offsiteother_fields  = ['OTHER LAND DISPOSAL']
+
+import_facility = ['TRIFID'] + facility_fields
+import_fug = concat_req_field(fug_fields)
+import_stack = concat_req_field(stack_fields)
+import_streamA = concat_req_field(streamA_fields)
+import_streamB = concat_req_field(streamB_fields)
+import_streamC = concat_req_field(streamC_fields)
+import_streamD = concat_req_field(streamD_fields)
+import_streamE = concat_req_field(streamE_fields)
+import_streamF = concat_req_field(streamF_fields)
+import_onsiteland = concat_req_field(onsiteland_fields)
+import_onsiteother = concat_req_field(onsiteother_fields)
 # Offsite treatment does not include basis of estimate codes
-import_offsiteland = concat_req_field(25, 26)
-import_offsiteother = concat_req_field(26, 27)
+import_offsiteland = concat_req_field(offsiteland_fields)
+import_offsiteother = concat_req_field(offsiteother_fields)
 
 keys = ['fug', 'stack', 'streamA', 'streamB', 'streamC', 'streamD', 'streamE', 'streamF', 'onsiteland', 'onsiteother',
         'offsiteland', 'offsiteother']
@@ -63,7 +80,7 @@ import_dict = dict_create(keys, values)
 # Import TRI file
 tri_csv = '../TRI/US_' + TRIyear + '_v15/US_1_' + TRIyear + '_v15.txt'
 
-fieldnames = ['FacilityID', 'State', 'NAICS', 'FlowName', 'Unit', 'FlowAmount','Basis of Estimate','ReleaseType']
+tri_release_output_fieldnames = ['FacilityID', 'FlowName', 'Unit', 'FlowAmount','Basis of Estimate','ReleaseType']
 
 # Cycle through file importing by release type, the dictionary key
 def import_TRI_by_release_type(d):
@@ -74,7 +91,7 @@ def import_TRI_by_release_type(d):
         tri_part['ReleaseType'] = k
         if k.startswith('offsite'):
             tri_part['Basis of Estimate'] = 'NA'
-        tri_part.columns = fieldnames
+        tri_part.columns = tri_release_output_fieldnames
         tri = pd.concat([tri,tri_part])
     return tri
 
@@ -132,3 +149,39 @@ tri.rename(columns={'DQI Reliability Score':'ReliabilityScore'},inplace=True)
 # Export it as a csv
 tri_file_name = 'TRI_' + TRIyear + '.csv'
 tri.to_csv(output_dir + tri_file_name, index=False)
+
+#FACILITY
+##Import and handle TRI facility data
+tri_facility = pd.read_csv(tri_csv, sep='\t', header=0, usecols=import_facility, error_bad_lines=False)
+#get unique facilities
+tri_facility_unique_ids = pd.unique(tri_facility['TRIFID'])
+len(tri_facility_unique_ids) #2016: 21670
+
+tri_facility_unique_rows  = tri_facility.drop_duplicates()
+len(tri_facility_unique_rows) #2016: 21738
+
+
+#Use group by to elimiate additional ID duplicates
+#tri_facility_unique_rows_agg = tri_facility_unique_rows.groupby(['TRIFID'])
+#tri_facility_final = tri_facility_unique_rows_agg.aggregate()
+
+tri_facility_final = tri_facility_unique_rows
+
+#rename columns
+
+TRI_facility_name_crosswalk = {
+                               'TRIFID':'FacilityID',
+                               'FACILITY NAME':'FacilityName',
+                               'FACILITY STREET':'Address',
+                               'FACILITY CITY':'City',
+                               'FACILITY COUNTY':'County',
+                               'FACILITY STATE': 'State',
+                               'FACILITY ZIP CODE':'Zip',
+                               'PRIMARY NAICS CODE':'NAICS',
+                               'LATITUDE': 'Latitude',
+                               'LONGITUDE':'Longitude'
+                              }
+
+tri_facility_final.rename(columns=TRI_facility_name_crosswalk,inplace=True)
+
+tri_facility_final.to_csv(output_dir+'facility/'+'TRI_'+ TRIyear + '.csv')
