@@ -4,4 +4,6 @@ Compartment,str,0
 FlowAmount,float,1
 FacilityID,str,1
 ReliabilityScore,int,1
+ReleaseType,str,0
+
 
