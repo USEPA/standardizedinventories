@@ -188,3 +188,9 @@ def get_required_fields(format='flowbyfacility'):
     required_fields = dict(zip(required_fields['Name'],required_fields['Type']))
     return required_fields
 
+def get_optional_fields(format='flowbyfacility'):
+    fields = pd.read_csv(data_dir+format+'_format.csv')
+    optional_fields = fields[fields['required?']==0]
+    optional_fields = dict(zip(optional_fields['Name'],optional_fields['Type']))
+    return optional_fields
+
