@@ -184,4 +184,4 @@ TRI_facility_name_crosswalk = {
 
 tri_facility_final.rename(columns=TRI_facility_name_crosswalk,inplace=True)
 
-tri_facility_final.to_csv(output_dir+'facility/'+'TRI_'+ TRIyear + '.csv')
+tri_facility_final.to_csv(output_dir+'facility/'+'TRI_'+ TRIyear + '.csv', index=False)
