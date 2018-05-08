@@ -1,1 +1,7 @@
-{"TRI": ["Compartment"],"NEI":"NA","RCRA_Info":"NA"}
+{
+	"TRI": ["Compartment"],
+	"NEI": "NA",
+	"RCRA_Info": "NA",
+    "GHGRP": "NA",
+    "DMR": "NA"
+}
