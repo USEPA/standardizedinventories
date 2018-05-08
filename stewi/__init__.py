@@ -3,7 +3,11 @@
 
 import pandas as pd
 import os
-from stewi.globals import get_required_fields
+import logging
+from stewi.globals import get_required_fields,get_optional_fields
+
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
 
 #for testing
 #modulepath = 'stewi'
@@ -43,13 +47,24 @@ def seeAvailableInventoriesandYears(format='flowbyfacility'):
             s = s + y + ","
         print(s)
 
-def getInventory(inventory_acronym,year,format='flowbyfacility',filter_for_LCI=False,US_States_Only=False):
+def getInventory(inventory_acronym,year,format='flowbyfacility',include_optional_fields=True,filter_for_LCI=False,US_States_Only=False):
 #Returns an inventory file as a data frame
     path = output_dir+formatpath[format]
     file = path+inventory_acronym+'_'+str(year)+'.csv'
-    required_fields = get_required_fields(format)
-    cols = list(required_fields.keys())
-    inventory = pd.read_csv(file,header=0,usecols=cols,dtype=required_fields)
+    fields = get_required_fields(format)
+    if include_optional_fields:
+        optional_fields_all_inventories =  get_optional_fields(format)
+        #check if inventory has optional fields
+        fields_file = data_dir+format+'_optional_output_fields.json'
+        outputoptionalfieldsdict =  pd.read_json(fields_file,typ='dict')
+        if outputoptionalfieldsdict[inventory_acronym] is not "NA":
+            optional_fields_present = outputoptionalfieldsdict[inventory_acronym]
+            log.debug('optional_fields_present: '+ str(optional_fields_present))
+            for v in optional_fields_all_inventories.keys():
+                if v in optional_fields_present:
+                    fields[v] = optional_fields_all_inventories[v]
+    cols = list(fields.keys())
+    inventory = pd.read_csv(file,header=0,usecols=cols,dtype=fields)
     return inventory
 
 
