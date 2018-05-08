@@ -1,5 +1,5 @@
 {
-	"TRI": ["Compartment"],
+	"TRI": ["Compartment","ReleaseType"],
 	"NEI": "NA",
 	"RCRA_Info": "NA",
     "GHGRP": "NA",
