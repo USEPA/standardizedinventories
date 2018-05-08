@@ -1,5 +1,5 @@
 #Create .
-inventories_of_interest = ['DMR','TRI','NEI']
+#inventories_of_interest = ['DMR','TRI','NEI']
 
 #get chemicals of interest
 chemicalmatchlistfile = '../Federal-LCA-Commons-Elementary-Flow-List/chemicalmatcher/output/examplesynonymnlistfromCASlist.csv'
@@ -21,9 +21,8 @@ tri_chemicals_of_interest = list(chemicalmatchlist["TRI"])
 nei_chemicals_of_interest = list(chemicalmatchlist["NEI"])
 
 #read in inventory
-import StandardizedReleaseAndWasteInventories as stewi
-import StandardizedReleaseAndWasteInventories.globals as globals
-from StandardizedReleaseAndWasteInventories.globals import filter_inventory
+import stewi as stewi
+import stewi.globals as globals
 data_dir = globals.data_dir
 output_dir = globals.output_dir
 year = 2011
@@ -43,7 +42,6 @@ TRI = stewi.getInventory('TRI',year)
 
 #See unique chems
 #nei_flows = pd.unique(NEI['FlowName'])
-
 
 DMR_w_chemicals_of_interest = DMR[DMR["FlowName"].isin(dmr_chemicals_of_interest)]
 TRI_w_chemicals_of_interest = TRI[TRI["FlowName"].isin(tri_chemicals_of_interest)]
@@ -94,8 +92,8 @@ chem_facility_tri = master[master["PGM_SYS_ACRNM"]=="TRIS"]
 tri_facilities_of_interest = list(chem_facility_tri["PGM_SYS_ID"])
 TRI_w_chemicals_and_facilities_of_interest = TRI_w_chemicals_of_interest[TRI_w_chemicals_of_interest["FacilityID"].isin(tri_facilities_of_interest)]
 chem_facility_tri_withchem = pd.merge(chem_facility_tri,TRI_w_chemicals_and_facilities_of_interest,left_on=['PGM_SYS_ID','TRI'],right_on=['FacilityID','FlowName'])
-chem_facility_tri_withchem = chem_facility_tri_withchem[['CAS','FRS','TRI','ReleaseType','FacilityID','FlowAmount']]
-chem_facility_tri_withchem.rename(columns={'FRS':'FRS_ID','TRI':'TRI_Chemical_Name','FacilityID':'TRI_ID','FlowAmount':'TRI_Amount_kg','ReleaseType':'TRI_Release_Type'},inplace=True)
+chem_facility_tri_withchem = chem_facility_tri_withchem[['CAS','FRS','TRI','Compartment','FacilityID','FlowAmount']]
+chem_facility_tri_withchem.rename(columns={'FRS':'FRS_ID','TRI':'TRI_Chemical_Name','FacilityID':'TRI_ID','FlowAmount':'TRI_Amount_kg','Compartment':'TRI_Compartment'},inplace=True)
 #Needs to be unstacked to diff emissions
 
 #export pieces
