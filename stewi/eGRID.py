@@ -1,55 +1,44 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed May  9 15:24:31 2018
-
-@author: TGhosh
-"""
-
-#!/usr/bin/env python
-
 # egrid import and processing
-# This script uses the egrid Basic Plus National Data File.
-# Data files:https://www.epa.gov/toxics-release-inventory-egrid-program/egrid-basic-plus-data-files-calendar-years-1987-2016
-# Documentation on file format: https://www.epa.gov/toxics-release-inventory-egrid-program/egrid-basic-plus-data-files-guides
+# This script uses the egrid excel files found here:
+# https://www.epa.gov/sites/production/files/2018-02/egrid2016_all_files_since_1996.zip
 # The format may change from yr to yr requiring code updates.
 # This code has been tested for 2014.
 
 import pandas as pd
-import os
+from stewi import globals
+from stewi.globals import unit_convert
 
+# Set some metadata
+eGRIDyear = '2014'
+output_dir = globals.output_dir
+data_dir = globals.data_dir
 
+#filepath
+eGRIDfilepath = '../eGRID/'
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
+#filename for 2014
+eGRIDfile = eGRIDfilepath + 'eGRID2014_Data_v2.xlsx'
 
+pltsheetname = 'PLNT14'
 
 # Import list of fields from egrid that are desired for LCI
-def imp_fields(egrid_fields_txt):
-    egrid_required_fields_csv = egrid_fields_txt
-    egrid_req_fields = pd.read_table(egrid_required_fields_csv, header=None)
-    #egrid_req_fields = list(egrid_req_fields[2])
+def imp_fields(fields_txt):
+    egrid_req_fields_df = pd.read_csv(fields_txt, header=None)
+    egrid_req_fields = list(egrid_req_fields_df[0])
     return egrid_req_fields
 
-egrid_required_fields = (imp_fields('egrid_required_fields.txt'))
-
-# Import in pieces grabbing main fields plus unique amount and basis of estimate fields
-# assigns fields to variables
+egrid_required_fields = (imp_fields(data_dir+'eGRID_required_fields.txt'))
 
 # Import egrid file
+egrid = pd.read_excel(eGRIDfile, sheet_name=pltsheetname)
+#drop first row which are column name abbreviations
+egrid = egrid.drop([0])
 
+#use_cols not working so drop them after import
+#get list of columns not in the required fields and drop them
+colstodrop = list(set(list(egrid.columns)) - set(egrid_required_fields))
+egrid2 = egrid.drop(colstodrop,axis=1)
 
-fieldnames = egrid_required_fields;
-
-
-
-
-#Read egrid Database
-#Need to change the file name over here 
-def import_egrid_by_release_type():
-    
-     egrid1 = pd.read_excel('egrid.xlsx', header=0, usecols=fieldnames, error_bad_lines=False,skiplinespaces = True)
-     return egrid1
-
-egrid = import_egrid_by_release_type()
 
 #Need to change column names manually
 egrid = egrid.drop(['eGRID2014 Plant file sequence number','NERC region acronym','Plant name'],axis = 1)
