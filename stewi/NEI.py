@@ -103,6 +103,10 @@ nonroad = standardize_output('NonRoad')
 #point5.to_csv(output_dir + 'NEIPoint5_2014.csv', index=False)
 #point6.to_csv(output_dir + 'NEIPoint6_2014.csv', index=False)
 
+#Prepare unit for export
+nei_unit = nei_unit.drop(columns=['Unitid','Unittype'])
+nei_unit.to_csv(output_dir+'flowbyunit/'+'NEI_'+report_year+'.csv',index=False)
+
 nei_facility.to_csv(output_dir+'NEI_'+report_year+'.csv',index=False)
 
 nonpoint.to_csv(output_dir + 'NEINonPoint_2014.csv', index=False)
