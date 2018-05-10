@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed May  9 15:24:31 2018
-
 @author: TGhosh
 """
 
@@ -25,7 +24,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 # Import list of fields from egrid that are desired for LCI
 def imp_fields(egrid_fields_txt):
     egrid_required_fields_csv = egrid_fields_txt
-    egrid_req_fields = pd.read_table(egrid_required_fields_csv, header=None)
+    egrid_req_fields = pd.read_csv(egrid_required_fields_csv, header=None)
     #egrid_req_fields = list(egrid_req_fields[2])
     return egrid_req_fields
 
@@ -37,7 +36,8 @@ egrid_required_fields = (imp_fields('egrid_required_fields.txt'))
 # Import egrid file
 
 
-fieldnames = egrid_required_fields;
+fieldnames = list(egrid_required_fields.values);
+
 
 
 
@@ -46,13 +46,13 @@ fieldnames = egrid_required_fields;
 #Need to change the file name over here 
 def import_egrid_by_release_type():
     
-     egrid1 = pd.read_excel('egrid.xlsx', header=0, usecols=fieldnames, error_bad_lines=False,skiplinespaces = True)
+     egrid1 = pd.read_excel('egrid.xlsx', header=0,error_bad_lines=False,skiplinespaces = True)
      return egrid1
 
 egrid = import_egrid_by_release_type()
-
+egrid = egrid[fieldnames[0]]
 #Need to change column names manually
-egrid = egrid.drop(['eGRID2014 Plant file sequence number','NERC region acronym','Plant name'],axis = 1)
+#egrid = egrid.drop(['eGRID2014 Plant file sequence number','NERC region acronym','Plant name'],axis = 1)
 egrid = egrid.dropna(subset=['Plant primary fuel'])
 egrid = egrid[egrid['Plant primary fuel'] != 0]
 egrid = egrid.dropna(subset=['eGRID subregion acronym'])
@@ -126,7 +126,4 @@ os.chdir(newpath)
 flow6.to_csv('egrid_2014.csv', index=False)
 
 createfacilityfile()
-
-
-
 
