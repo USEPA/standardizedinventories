@@ -94,6 +94,7 @@ def set_dir(directory_name):
         os.makedirs(pathname)
     return pathname
 
+
 def import_table(filepath, skip_lines=0):
     if filepath[-3:].lower() == 'csv':
         # import_file = read_iso_csv(filepath)
@@ -268,18 +269,6 @@ def validation_summary(validation_df):
     return validation_summary_df
 
 
-def set_dir(directory_name):
-    import os
-    path1 = './' + directory_name + '/'
-    path2 = 'StandardizedReleaseAndWasteInventories/' + directory_name + '/'
-    if os.path.exists(path1): pathname = path1
-    elif os.path.exists(path2): pathname = path2
-    else:
-        pathname = path1
-        os.makedirs(pathname)
-    return pathname
-
-
 # Convert amounts. Note this could be replaced with a conversion utility
 def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
     df[coln1][df[coln2] == unit] = conversion_factor * df[coln3]
@@ -291,6 +280,7 @@ def write_metadata(inventoryname,report_year, metadata_dict):
     with open(output_dir + inventoryname + '_' + report_year + '_metadata.json', 'w') as file:
         file.write(json.dumps(metadata_dict))
 
+        
 #Returns the metadata dictionary for an inventory
 def read_metadata(inventoryname,report_year):
     with open(output_dir + 'RCRAInfo_' + report_year + '_metadata.json', 'r') as file:
@@ -298,11 +288,13 @@ def read_metadata(inventoryname,report_year):
         metadata = json.loads(file_contents)
         return metadata
 
+    
 def get_required_fields(format='flowbyfacility'):
     fields = pd.read_csv(data_dir+format+'_format.csv')
     required_fields = fields[fields['required?']==1]
     required_fields = dict(zip(required_fields['Name'],required_fields['Type']))
     return required_fields
+
 
 def get_optional_fields(format='flowbyfacility'):
     fields = pd.read_csv(data_dir+format+'_format.csv')
