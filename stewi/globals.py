@@ -164,6 +164,122 @@ def filter_inventory(inventory_df, criteria_file, filter_type, marker=None):
     return output_df.reset_index(drop=True)
 
 
+def validate_inventory(inventory_df, reference_df, group_by='emission', tolerance=5.0):
+    """
+    Compare inventory resulting from script output with a reference DataFrame from another source
+    :param inventory_df: DataFrame of inventory resulting from script output
+    :param reference_df: Reference DataFrame to compare emission quantities against. Must have same keys as inventory_df
+    :param group_by: 'emission' for species summed across facilities, 'facility' to check species by facility,
+                      or 'overall' for summed mass of all species
+    :param tolerance: Maximum acceptable percent difference between inventory and reference values
+    :return: DataFrame containing 'Conclusion' of statistical comparison and 'Percent_Difference'
+    """
+    import numpy as np
+    if pd.api.types.is_string_dtype(inventory_df['Amount']):
+        inventory_df['Amount'] = inventory_df['Amount'].str.replace(',', '')
+        inventory_df['Amount'] = pd.to_numeric(inventory_df['Amount'])
+    if pd.api.types.is_string_dtype(reference_df['Amount']):
+        reference_df['Amount'] = reference_df['Amount'].str.replace(',', '')
+        reference_df['Amount'] = pd.to_numeric(reference_df['Amount'])
+    if group_by == 'overall':
+        inventory_sums = inventory_df['Amount'].sum()
+        reference_sums = reference_df['Amount'].sum()
+    else:
+        if group_by == 'emission': group_by_columns = ['FlowName']
+        elif group_by == 'facility': group_by_columns = ['FlowName', 'FacilityID']
+        inventory_df = inventory_df.fillna(-np.pi)
+        reference_df = reference_df.fillna(-np.pi)
+        inventory_sums = inventory_df[group_by_columns + ['Amount']].groupby(group_by_columns).sum().reset_index()
+        reference_sums = reference_df[group_by_columns + ['Amount']].groupby(group_by_columns).sum().reset_index()
+    validation_df = inventory_sums.merge(reference_sums, how='outer', on=group_by_columns)
+    amount_x_list = []
+    amount_y_list = []
+    pct_diff_list = []
+    conclusion = []
+    for index, row in validation_df.iterrows():
+        amount_x = float(row['Amount_x'])
+        amount_y = float(row['Amount_y'])
+        if amount_x == -np.pi:
+            amount_x_list.append(np.nan)
+            if amount_y == -np.pi:
+                pct_diff_list.append(0.0)
+                amount_y_list.append(np.nan)
+                conclusion.append('Both inventory and reference are null')
+            else:
+                amount_y_list.append(amount_y)
+                if amount_y == 0.0:
+                    pct_diff_list.append(0.0)
+                    conclusion.append('Inventory is null, reference is zero')
+                else:
+                    pct_diff_list.append(100.0)
+                    conclusion.append('Emission missing from inventory')
+            continue
+        elif amount_x == 0.0:
+            if amount_y == 0.0:
+                pct_diff_list.append(0.0)
+                conclusion.append('Identical')
+            else:
+                pct_diff_list.append(100.0)
+                conclusion.append('Inventory value is zero')
+            amount_x_list.append(amount_x)
+            amount_y_list.append(amount_y)
+            continue
+        if amount_y == -np.pi:
+            amount_x_list.append(amount_x)
+            amount_y_list.append(np.nan)
+            if amount_x == 0.0:
+                pct_diff_list.append(0.0)
+                conclusion.append('Inventory is zero, reference is null')
+            else:
+                pct_diff_list.append(100.0)
+                conclusion.append('Emission not found in reference')
+            continue
+        elif amount_y == 0.0:
+            pct_diff_list.append(100.0)
+            conclusion.append('Reference value is zero')
+            amount_x_list.append(amount_x)
+            amount_y_list.append(amount_y)
+            continue
+        pct_diff = 100.0 * abs(amount_y - amount_x) / amount_y
+        pct_diff_list.append(pct_diff)
+        amount_x_list.append(amount_x)
+        amount_y_list.append(amount_y)
+        if pct_diff == 0.0: conclusion.append('Identical')
+        elif pct_diff <= tolerance: conclusion.append('Statistically similar')
+        elif pct_diff > tolerance: conclusion.append('Percent difference exceeds tolerance')
+    validation_df['Inventory_Amount'] = amount_x_list
+    validation_df['Reference_Amount'] = amount_y_list
+    validation_df['Percent_Difference'] = pct_diff_list
+    validation_df['Conclusion'] = conclusion
+    validation_df = validation_df.drop(['Amount_x', 'Amount_y'], axis=1)
+    return validation_df
+
+
+def validation_summary(validation_df):
+    """
+    Summarized output of validate_inventory function
+    :param validation_df:
+    :return: DataFrame containing 'Count' of each statistical conclusion and 'Avg_Pct_Difference'
+    """
+    validation_df['Count'] = validation_df['Conclusion']
+    validation_summary_df = validation_df[['Count', 'Conclusion']].groupby('Conclusion').count()
+    validation_summary_df['Avg_Pct_Difference'] = validation_df[['Percent_Difference', 'Conclusion']].groupby('Conclusion').mean()
+    validation_summary_df.reset_index(inplace=True)
+    return validation_summary_df
+
+
+def set_dir(directory_name):
+    import os
+    path1 = './' + directory_name + '/'
+    path2 = 'StandardizedReleaseAndWasteInventories/' + directory_name + '/'
+    if os.path.exists(path1): pathname = path1
+    elif os.path.exists(path2): pathname = path2
+    else:
+        pathname = path1
+        os.makedirs(pathname)
+    return pathname
+
+
 # Convert amounts. Note this could be replaced with a conversion utility
 def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
     df[coln1][df[coln2] == unit] = conversion_factor * df[coln3]
