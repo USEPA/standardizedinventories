@@ -4,7 +4,7 @@
 import pandas as pd
 import os
 import logging
-from stewi.globals import get_required_fields, get_optional_fields, filter_states
+from stewi.globals import get_required_fields, get_optional_fields, filter_inventory, filter_states
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
@@ -70,6 +70,20 @@ def getInventory(inventory_acronym, year, format='flowbyfacility', include_optio
     cols = list(fields.keys())
     inventory = pd.read_csv(file,header=0,usecols=cols,dtype=fields)
     if US_States_Only: inventory = filter_states(inventory)
+    if filter_for_LCI:
+        inventory_acronym = inventory_acronym.lower()
+        if inventory_acronym == 'dmr': filter_ext = '.xlsx'
+        else: filter_ext = '.csv'
+        filter_path = data_dir + inventory_acronym + '_filter' + filter_ext
+        if not os.exists(filter_path): print('No filter criteria file for this source in data directory')
+        else:
+            if inventory_acronym == 'tri': filter_type = 'drop'
+            elif inventory_acronym == 'ghgrp': filter_type = 'keep'
+            elif inventory_acronym == 'dmr': filter_type = 'mark_drop'
+            elif inventory_acronym == 'rcrainfo': filter_type = ''
+            elif inventory_acronym == 'egrid': filter_type = ''
+            elif inventory_acronym == 'nei': filter_type = ''
+            inventory = filter_inventory(inventory, filter_path, filter_type=filter_type)
     return inventory
 
 
