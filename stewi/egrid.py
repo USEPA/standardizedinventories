@@ -6,27 +6,27 @@ Created on Thu May 10 15:33:39 2018
 """
 
 import pandas as pd 
-#from stewi import globals #@author: Wes
-#from stewi.globals import unit_convert #@author: Wes
+from stewi import globals #@author: Wes
+from stewi.globals import unit_convert #@author: Wes
 import os
 
 
 # Set some metadata
 eGRIDyear = '2016'
 #eGRIDyear = '2014'
-#output_dir = globals.output_dir #@author: Wes
-#data_dir = globals.data_dir #@author: Wes
-data_dir = os.path.dirname(os.path.realpath(__file__))
+output_dir = globals.output_dir #@author: Wes
+data_dir = globals.data_dir #@author: Wes
+#data_dir = os.path.dirname(os.path.realpath(__file__))@author:TJ
 
 #filepath
-#eGRIDfilepath = '../eGRID/' #@author: Wes
-eGRIDfilepath = os.path.dirname(os.path.realpath(__file__))
+eGRIDfilepath = '../eGRID/' #@author: Wes
+#eGRIDfilepath = os.path.dirname(os.path.realpath(__file__))@author:TJ
 
 
 #filename for 2014
-#eGRIDfile = eGRIDfilepath + 'eGRID2014_Data_v2.xlsx' #@author: Wes
-#eGRIDfile = eGRIDfilepath + '\\data\\eGRID2014_Data_v2.xlsx'
-eGRIDfile = eGRIDfilepath + '\\data\\eGRID2016.xlsx'
+eGRIDfile = eGRIDfilepath + 'eGRID2014_Data_v2.xlsx' #@author: Wes
+#eGRIDfile = eGRIDfilepath + '\\data\\eGRID2014_Data_v2.xlsx' #author:TJ
+#eGRIDfile = eGRIDfilepath + '\\data\\eGRID2016.xlsx' #@author:TJ
 
 pltsheetname = 'PLNT16'
 #pltsheetname = 'PLNT14'
