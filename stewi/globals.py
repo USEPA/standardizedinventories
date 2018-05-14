@@ -9,22 +9,14 @@ global output_dir
 global data_dir
 global reliability_table
 
-try:
-    modulepath = os.path.dirname(__file__)
-except NameError:
-    modulepath = 'stewi/'
+try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
+except NameError: modulepath = 'stewi/'
 
-output_dir = modulepath+'/output/'
-data_dir = modulepath+'/data/'
+output_dir = modulepath + 'output/'
+data_dir = modulepath + 'data/'
 
 reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',
                                 usecols=['Source', 'Code', 'DQI Reliability Score'])
-
-US_States_withDC = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
-                    'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME',
-                    'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM',
-                    'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX',
-                    'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY']
 
 inventory_metadata = {
 'SourceType': 'Static File',  #Other types are "Web service"
@@ -34,6 +26,7 @@ inventory_metadata = {
 'SourceAquisitionTime':'NA',
 'StEWI_versions_version': '0.9'
 }
+
 
 def url_is_alive(url):
     """
@@ -86,6 +79,7 @@ def download_table(filepath, url):
 #         for column in output_df: output_df = output_df.rename(columns={column: column.encode("latin1", errors="ignore").decode()})
 #     return output_df
 
+
 def set_dir(directory_name):
     path = 'stewi/' + directory_name + '/'
     if os.path.exists(path): pathname = path
@@ -95,12 +89,13 @@ def set_dir(directory_name):
     return pathname
 
 
-def import_table(filepath, skip_lines=0):
-    if filepath[-3:].lower() == 'csv':
+def import_table(path_or_reference, skip_lines=0):
+    if '.core.frame.DataFrame' in str(type(path_or_reference)): import_file = path_or_reference
+    elif path_or_reference[-3:].lower() == 'csv':
         # import_file = read_iso_csv(filepath)
-        import_file = pd.read_csv(filepath)
-    elif 'xls' in filepath[-4:].lower():
-        import_file = pd.ExcelFile(filepath)
+        import_file = pd.read_csv(path_or_reference)
+    elif 'xls' in path_or_reference[-4:].lower():
+        import_file = pd.ExcelFile(path_or_reference)
         import_file = {sheet: import_file.parse(sheet, skiprows=skip_lines) for sheet in import_file.sheet_names}
     return import_file
 
@@ -130,39 +125,48 @@ def drop_excel_sheets(excel_dict, drop_sheets):
     return excel_dict
 
 
-def filter_inventory(inventory_df, criteria_file, filter_type, marker=None):
+def filter_inventory(inventory, criteria_table, filter_type, marker=None):
     """
     :param inventory_df: DataFrame to be filtered
-    :param criteria_file: Can be a list of items to drop/keep, or a table of FlowName, FacilityID, etc. with columns marking rows to drop
+    :param criteria_file: Can be a list of items to drop/keep, or a table of FlowName, FacilityID, etc. with columns
+                          marking rows to drop
     :param filter_type: drop, keep, mark_drop, mark_keep
     :param marker: Non-empty fields are considered marked by default. Option to specify 'x', 'yes', '1', etc.
     :return: DataFrame
     """
-    if type(inventory_df) == pd.core.frame.DataFrame: output_df = inventory_df
-    else:
-        print('The exclude_params function only accepts CSV (*.csv), JSON (*.json), and DataFrames as input.')
-        return
-    criteria_table = globals.import_table(criteria_file)
+    inventory = import_table(inventory); criteria_table = import_table(criteria_table)
     if filter_type in ('drop', 'keep'):
         for criteria_column in criteria_table:
-            for column in output_df:
+            for column in inventory:
                 if column == criteria_column:
                     criteria = set(criteria_table[criteria_column])
-                    if filter_type == 'drop': output_df = output_df[~output_df[column].isin(criteria)]
-                    elif filter_type == 'keep': output_df = output_df[output_df[column].isin(criteria)]
+                    if filter_type == 'drop': inventory = inventory[~inventory[column].isin(criteria)]
+                    elif filter_type == 'keep': inventory = inventory[inventory[column].isin(criteria)]
     elif filter_type in ('mark_drop', 'mark_keep'):
-        standard_format = import_table('stewi/data/flowbyfacility_format.csv')
+        standard_format = import_table(data_dir + 'flowbyfacility_format.csv')
         must_match = standard_format['Name'][standard_format['Name'].isin(criteria_table.keys())]
         for criteria_column in criteria_table:
             if criteria_column in must_match: continue
             for field in must_match:
                 if filter_type == 'mark_drop':
-                    if marker is None: output_df = output_df[~output_df[field].isin(criteria_table[field][criteria_table[criteria_column] != ''])]
-                    else: output_df = output_df[~output_df[field].isin(criteria_table[field][criteria_table[criteria_column] == marker])]
+                    if marker is None: inventory = inventory[~inventory[field].isin(criteria_table[field][criteria_table[criteria_column] != ''])]
+                    else: inventory = inventory[~inventory[field].isin(criteria_table[field][criteria_table[criteria_column] == marker])]
                 if filter_type == 'mark_keep':
-                    if marker is None: output_df = output_df[output_df[field].isin(criteria_table[field][criteria_table[criteria_column] != ''])]
-                    else: output_df = output_df[output_df[field].isin(criteria_table[field][criteria_table[criteria_column] == marker])]
-    return output_df.reset_index(drop=True)
+                    if marker is None: inventory = inventory[inventory[field].isin(criteria_table[field][criteria_table[criteria_column] != ''])]
+                    else: inventory = inventory[inventory[field].isin(criteria_table[field][criteria_table[criteria_column] == marker])]
+    return inventory.reset_index(drop=True)
+
+
+def filter_states(inventory_df, include_states=True, include_dc=True, include_territories=False):
+    states_df = pd.read_csv(data_dir + 'state_codes.csv')
+    states_filter = pd.DataFrame()
+    states_list = []
+    if include_states: states_list += list(states_df['states'].dropna())
+    if include_dc: states_list += list(states_df['dc'].dropna())
+    if include_territories: states_list += list(states_df['territories'].dropna())
+    states_filter['State'] = states_list
+    output_inventory = filter_inventory(inventory_df, states_filter, filter_type='keep')
+    return output_inventory
 
 
 def validate_inventory(inventory_df, reference_df, group_by='emission', tolerance=5.0):
@@ -280,7 +284,7 @@ def write_metadata(inventoryname,report_year, metadata_dict):
     with open(output_dir + inventoryname + '_' + report_year + '_metadata.json', 'w') as file:
         file.write(json.dumps(metadata_dict))
 
-        
+
 #Returns the metadata dictionary for an inventory
 def read_metadata(inventoryname,report_year):
     with open(output_dir + 'RCRAInfo_' + report_year + '_metadata.json', 'r') as file:
@@ -288,17 +292,17 @@ def read_metadata(inventoryname,report_year):
         metadata = json.loads(file_contents)
         return metadata
 
-    
+
 def get_required_fields(format='flowbyfacility'):
-    fields = pd.read_csv(data_dir+format+'_format.csv')
-    required_fields = fields[fields['required?']==1]
-    required_fields = dict(zip(required_fields['Name'],required_fields['Type']))
+    fields = pd.read_csv(data_dir + format + '_format.csv')
+    required_fields = fields[fields['required?'] == 1]
+    required_fields = dict(zip(required_fields['Name'], required_fields['Type']))
     return required_fields
 
 
 def get_optional_fields(format='flowbyfacility'):
-    fields = pd.read_csv(data_dir+format+'_format.csv')
-    optional_fields = fields[fields['required?']==0]
-    optional_fields = dict(zip(optional_fields['Name'],optional_fields['Type']))
+    fields = pd.read_csv(data_dir + format + '_format.csv')
+    optional_fields = fields[fields['required?'] == 0]
+    optional_fields = dict(zip(optional_fields['Name'], optional_fields['Type']))
     return optional_fields
 

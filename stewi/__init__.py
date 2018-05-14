@@ -4,7 +4,7 @@
 import pandas as pd
 import os
 import logging
-from stewi.globals import get_required_fields,get_optional_fields
+from stewi.globals import get_required_fields, get_optional_fields, filter_states
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
@@ -12,11 +12,13 @@ log.setLevel(logging.INFO)
 #for testing
 #modulepath = 'stewi'
 
-modulepath = os.path.dirname(__file__)
+try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
+except NameError: modulepath = 'stewi/'
 
-output_dir = modulepath+'/output/'
-data_dir = modulepath+'/data/'
+output_dir = modulepath + 'output/'
+data_dir = modulepath + 'data/'
 formatpath = {'flowbyfacility':""}
+
 
 def seeAvailableInventoriesandYears(format='flowbyfacility'):
 # reads a list of available inventories and prints them here, like:
@@ -47,8 +49,10 @@ def seeAvailableInventoriesandYears(format='flowbyfacility'):
             s = s + y + ","
         print(s)
 
-def getInventory(inventory_acronym,year,format='flowbyfacility',include_optional_fields=True,filter_for_LCI=False,US_States_Only=False):
-#Returns an inventory file as a data frame
+
+def getInventory(inventory_acronym, year, format='flowbyfacility', include_optional_fields=True,
+                 filter_for_LCI=False, US_States_Only=False):
+    # Returns an inventory file as a data frame
     path = output_dir+formatpath[format]
     file = path+inventory_acronym+'_'+str(year)+'.csv'
     fields = get_required_fields(format)
@@ -56,7 +60,7 @@ def getInventory(inventory_acronym,year,format='flowbyfacility',include_optional
         optional_fields_all_inventories =  get_optional_fields(format)
         #check if inventory has optional fields
         fields_file = data_dir+format+'_optional_output_fields.json'
-        outputoptionalfieldsdict =  pd.read_json(fields_file,typ='dict')
+        outputoptionalfieldsdict = pd.read_json(fields_file, typ='dict')
         if outputoptionalfieldsdict[inventory_acronym] is not "NA":
             optional_fields_present = outputoptionalfieldsdict[inventory_acronym]
             log.debug('optional_fields_present: '+ str(optional_fields_present))
@@ -65,6 +69,7 @@ def getInventory(inventory_acronym,year,format='flowbyfacility',include_optional
                     fields[v] = optional_fields_all_inventories[v]
     cols = list(fields.keys())
     inventory = pd.read_csv(file,header=0,usecols=cols,dtype=fields)
+    if US_States_Only: inventory = filter_states(inventory)
     return inventory
 
 
