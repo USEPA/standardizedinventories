@@ -68,22 +68,26 @@ def getInventory(inventory_acronym, year, format='flowbyfacility', include_optio
                 if v in optional_fields_present:
                     fields[v] = optional_fields_all_inventories[v]
     cols = list(fields.keys())
-    inventory = pd.read_csv(file,header=0,usecols=cols,dtype=fields)
+    inventory = pd.read_csv(file, header=0, usecols=cols, dtype=fields)
     if US_States_Only: inventory = filter_states(inventory)
     if filter_for_LCI:
         inventory_acronym = inventory_acronym.lower()
-        if inventory_acronym == 'dmr': filter_ext = '.xlsx'
-        else: filter_ext = '.csv'
-        filter_path = data_dir + inventory_acronym + '_filter' + filter_ext
-        if not os.exists(filter_path): print('No filter criteria file for this source in data directory')
-        else:
-            if inventory_acronym == 'tri': filter_type = 'drop'
-            elif inventory_acronym == 'ghgrp': filter_type = 'keep'
-            elif inventory_acronym == 'dmr': filter_type = 'mark_drop'
-            elif inventory_acronym == 'rcrainfo': filter_type = ''
-            elif inventory_acronym == 'egrid': filter_type = ''
-            elif inventory_acronym == 'nei': filter_type = ''
-            inventory = filter_inventory(inventory, filter_path, filter_type=filter_type)
+        filter_path = data_dir
+        if inventory_acronym == 'tri':
+            filter_path += 'TRI_pollutant_omit_list.csv'
+            filter_type = 'drop'
+        elif inventory_acronym == 'ghgrp':
+            filter_path += 'ghg_mapping.csv'
+            filter_type = 'keep'
+        elif inventory_acronym == 'dmr':
+            filter_path += 'DMR_Pollutant_ListwithExclusionsforLCI.xlsx'
+            filter_type = 'mark_drop'
+        elif inventory_acronym == 'rcrainfo': filter_type = ''
+        elif inventory_acronym == 'egrid': filter_type = ''
+        elif inventory_acronym == 'nei': filter_type = ''
+        if (not os.path.exists(filter_path)) or filter_path == data_dir:
+            print('No filter criteria file for this source in data directory')
+        else: inventory = filter_inventory(inventory, filter_path, filter_type=filter_type)
     return inventory
 
 
