@@ -6,30 +6,30 @@ Created on Thu May 10 15:33:39 2018
 """
 
 import pandas as pd 
-from stewi import globals #@author: Wes
-from stewi.globals import unit_convert #@author: Wes
+#from stewi import globals #@author: Wes
+#from stewi.globals import unit_convert #@author: Wes
 import os
 
 
 # Set some metadata
-eGRIDyear = '2016'
-#eGRIDyear = '2014'
-output_dir = globals.output_dir #@author: Wes
-data_dir = globals.data_dir #@author: Wes
-#data_dir = os.path.dirname(os.path.realpath(__file__))@author:TJ
+#eGRIDyear = '2016'
+eGRIDyear = '2014'
+#output_dir = globals.output_dir #@author: Wes
+#data_dir = globals.data_dir #@author: Wes
+data_dir = os.path.dirname(os.path.realpath(__file__))#@author:TJ
 
 #filepath
-eGRIDfilepath = '../eGRID/' #@author: Wes
-#eGRIDfilepath = os.path.dirname(os.path.realpath(__file__))@author:TJ
+#eGRIDfilepath = '../eGRID/' #@author: Wes
+eGRIDfilepath = os.path.dirname(os.path.realpath(__file__))#@author:TJ
 
 
 #filename for 2014
-eGRIDfile = eGRIDfilepath + 'eGRID2014_Data_v2.xlsx' #@author: Wes
-#eGRIDfile = eGRIDfilepath + '\\data\\eGRID2014_Data_v2.xlsx' #author:TJ
+#eGRIDfile = eGRIDfilepath + 'eGRID2014_Data_v2.xlsx' #@author: Wes
+eGRIDfile = eGRIDfilepath + '\\data\\eGRID2014_Data_v2.xlsx' #author:TJ
 #eGRIDfile = eGRIDfilepath + '\\data\\eGRID2016.xlsx' #@author:TJ
 
-pltsheetname = 'PLNT16'
-#pltsheetname = 'PLNT14'
+#pltsheetname = 'PLNT16'
+pltsheetname = 'PLNT14'
 
 # Import list of fields from egrid that are desired for LCI
 def imp_fields(fields_txt):
@@ -64,13 +64,13 @@ def createfacilityfile():
    
    
     facility1=egrid2[['DOE/EIA ORIS plant or facility code','Plant state abbreviation']]   
-    facility2=egrid2[['DOE/EIA ORIS plant or facility code','Plant state abbreviation','eGRID subregion acronym','Plant county name','Plant latitude', 'Plant longitude','Plant primary fuel','Plant primary coal/oil/gas/ other fossil fuel category']]
+    facility2=egrid2[['DOE/EIA ORIS plant or facility code','Plant state abbreviation','eGRID subregion acronym','Plant county name','Plant latitude', 'Plant longitude','Plant primary fuel','Plant primary coal/oil/gas/ other fossil fuel category','NERC region acronym']]
     os.chdir(data_dir)
     
     #facility1.rename(columns={'DOE/EIA ORIS plant or facility code':'FacilityID','Plant state abbreviation':'State'},inplace=True)    
     facility2.rename(columns={'DOE/EIA ORIS plant or facility code':'FacilityID','Plant state abbreviation':'State'},inplace=True)
-    facility2.to_csv('eGRID_2016.csv', index=False)
-    #facility2.to_csv('eGRID_2014.csv', index=False)
+    facility2.to_csv('eGRID_2014.csv', index=False)
+    #facility2.to_csv('eGRID_2016.csv', index=False)
 
 #Use this line for printing the column headers. Already done. 
 #names = egrid.columns.values
@@ -104,8 +104,8 @@ flow7['ReliabilityScore'] = 0;
 flowbyfac = flow7.dropna(subset=['FlowAmount'])
 flowbyfac = flowbyfac.sort_values(by = ['FacilityID'], axis=0, ascending=True, inplace=False, kind='quicksort', na_position='last')
 os.chdir(newpath)
-#flowbyfac.to_csv('eGRID_2014.csv', index=False)
-flowbyfac.to_csv('eGRID_2016.csv', index=False)
+flowbyfac.to_csv('eGRID_2014.csv', index=False)
+#flowbyfac.to_csv('eGRID_2016.csv', index=False)
 
 createfacilityfile()
 
