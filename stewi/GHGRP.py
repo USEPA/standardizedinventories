@@ -268,7 +268,7 @@ ghgrp_reliability_table = reliability_table[reliability_table['Source'] == 'GHGR
 ghgrp_reliability_table.drop('Source', axis=1, inplace=True)
 
 # Map flow descriptions to standard gas names from GHGRP
-ghg_mapping = pd.read_csv(ghgrp_data_dir + 'ghg_mapping.csv', usecols=['Flow Description', 'OriginalFlowID'])
+ghg_mapping = pd.read_csv(ghgrp_data_dir + 'ghg_mapping.csv', usecols=['Flow Description', 'FlowName'])
 
 # Merge tables
 ghgrp = pd.concat([ghgrp1, ghgrp2, ghgrp3]).reset_index(drop=True)
