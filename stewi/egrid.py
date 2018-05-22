@@ -18,8 +18,6 @@ eGRIDfilepath = '../eGRID/' #@author: Wes
 
 #filename for 2014
 eGRIDfile = eGRIDfilepath + 'eGRID2014_Data_v2.xlsx' #@author: Wes
-#eGRIDfile = eGRIDfilepath + '\\data\\eGRID2014_Data_v2.xlsx' #author:TJ
-#eGRIDfile = eGRIDfilepath + '\\data\\eGRID2016.xlsx' #@author:TJ
 
 #pltsheetname = 'PLNT16'
 pltsheetname = 'PLNT14'
