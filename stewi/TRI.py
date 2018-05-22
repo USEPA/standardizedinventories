@@ -12,7 +12,7 @@ from stewi import globals
 from stewi.globals import unit_convert
 
 # Set some metadata
-TRIyear = '2011'
+TRIyear = '2016'
 output_dir = globals.output_dir
 data_dir = globals.data_dir
 
@@ -146,7 +146,15 @@ tri.drop('Unit',axis=1,inplace=True)
 tri.rename(columns={'Amount_kg':'FlowAmount'},inplace=True)
 tri.rename(columns={'DQI Reliability Score':'ReliabilityScore'},inplace=True)
 
-# Export it as a csv
+#FLOWS
+flows = tri.groupby(['FlowName','Compartment']).count().reset_index()
+#stack by compartment
+flowsdf = flows[['FlowName','Compartment']]
+#export chemicals
+#!!!Still needs CAS number and FlowID
+flowsdf.to_csv(output_dir+'flow/'+'TRI_'+ TRIyear + '.csv', index=False)
+
+#FLOW BY FACILITY
 tri_file_name = 'TRI_' + TRIyear + '.csv'
 tri.to_csv(output_dir + tri_file_name, index=False)
 
