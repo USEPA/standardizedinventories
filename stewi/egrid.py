@@ -63,7 +63,7 @@ def createfacilityfile():
     #facility1.rename(columns={'DOE/EIA ORIS plant or facility code':'FacilityID','Plant state abbreviation':'State'},inplace=True)    
     facility2.rename(columns={'DOE/EIA ORIS plant or facility code':'FacilityID','Plant state abbreviation':'State'},inplace=True)
     
-    facility2.to_csv(output_dir+'\\facility\\eGRID_2014.csv', index=False)
+    facility2.to_csv(output_dir+'/facility/eGRID_2014.csv', index=False)
     #facility2.to_csv('eGRID_2016.csv', index=False)
 
 #Use this line for printing the column headers. Already done. 
@@ -87,9 +87,6 @@ def createflowbyfacility():
     flow6 = pd.melt(flow5, id_vars=['FacilityID'], value_vars=list(flow5.columns[1:]), var_name='FlowName', value_name='FlowAmount')    
     return flow6;
 
-
-newpath = data_dir+'\\output\\facility'
-#os.mkdir(newpath)
 
 flow7 = createflowbyfacility();
 #flow6.rename(columns={'DOE/EIA ORIS plant or facility code':'FacilityID', 'Plant annual NOx total output emission rate (lb/MWh)':'Plant annual NOx total output emission rate (kg/MWh)','Plant annual SO2 total output emission rate (lb/MWh)':'Plant annual SO2 total output emission rate (kg/MWh)','Plant annual CO2 total output emission rate (lb/MWh)':'Plant annual CO2 total output emission rate (kg/MWh)','Plant annual CH4 total output emission rate (lb/GWh)':'Plant annual CH4 total output emission rate (kg/GWh)','Plant annual N2O total output emission rate (lb/GWh)':'Plant annual N2O total output emission rate (kg/GWh)'},inplace=True)
