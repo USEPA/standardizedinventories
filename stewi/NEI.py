@@ -63,13 +63,28 @@ def standardize_output(source): # source as 'Point'/'NonPoint'/'OnRoad'/'NonRoad
     return(nei)
 
 def nei_aggregate_unit_to_facility_level(nei_unit):
-    grouping_vars = ['FacilityID','FlowName']
+
+    #drop zeroes from flow amount
+    nei_unit = nei_unit[nei_unit['FlowAmount'] > 0]
+
+    grouping_vars = ['FacilityID', 'FlowName']
+
+    #Do groupby with sum of flow amount and weighted avg of reliabilty
+    #Too slow right now
+    # Define a lambda function to compute the weighted mean
+    #wm = lambda x: np.average(x, weights=nei_unit.loc[x.index, "FlowAmount"])
+    # Define a dictionary with the functions to apply for a given column:
+    #f = {'FlowAmount': ['sum'], 'ReliabilityScore': {'weighted_mean': wm}}
+    # Groupby and aggregate with your dictionary:
+    #neibyfacility = nei_unit.groupby(grouping_vars).agg(f)
+
+    #Procedure without weighted avg for the groupby
     neibyfacility = nei_unit.groupby(grouping_vars)[['FlowAmount']]
-
-    neibyfacilityagg = neibyfacility.agg([('FlowAmount','sum')])
     neibyfacilityagg = neibyfacility.agg(sum)
-
     neibyfacilityaggref = neibyfacilityagg.reset_index()
+    #Temp placeholder for now for reliability
+    neibyfacilityaggref['ReliabilityScore'] = 0
+
     return(neibyfacilityaggref)
 
 #NEIPoint
