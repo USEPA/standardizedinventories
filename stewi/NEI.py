@@ -1,12 +1,11 @@
 #NEI import and process to Standardized EPA output format
-#This script uses the NEI National Data File.
+#This script uses the NEI data exports from EIS.
 
 import stewi.globals as globals
 import pandas as pd
 import numpy as np
-import math
 
-report_year = '2011'
+report_year = '2014'
 
 output_dir = globals.output_dir
 data_dir = globals.data_dir
@@ -75,40 +74,25 @@ def nei_aggregate_unit_to_facility_level(nei_unit):
 
 #NEIPoint
 nei_unit = standardize_output('Point')
+len(nei_unit)
+
 nei_facility = nei_aggregate_unit_to_facility_level(nei_unit)
-
-#For use in NEI flowbyunitprocess
-#Needs revision
-#point_row = math.floor(len(point)/6)
-#break down NEIPoint into 6 parts
-#point1 = point.iloc[:point_row,]
-#point2 = point.iloc[point_row:point_row*2,]
-#point3 = point.iloc[point_row*2:point_row*3,]
-#point4 = point.iloc[point_row*3:point_row*4,]
-#point5 = point.iloc[point_row*4:point_row*5,]
-#point6 = point.iloc[point_row*5:,]
-
-#NEINonPoint
-nonpoint = standardize_output('NonPoint')
-#NEIOnRoad
-onroad = standardize_output('OnRoad')
-#NEINonRoad
-nonroad = standardize_output('NonRoad')
-
-#Output to CSV
-#point1.to_csv(output_dir + 'NEIPoint1_2014.csv', index=False)
-#point2.to_csv(output_dir + 'NEIPoint2_2014.csv', index=False)
-#point3.to_csv(output_dir + 'NEIPoint3_2014.csv', index=False)
-#point4.to_csv(output_dir + 'NEIPoint4_2014.csv', index=False)
-#point5.to_csv(output_dir + 'NEIPoint5_2014.csv', index=False)
-#point6.to_csv(output_dir + 'NEIPoint6_2014.csv', index=False)
+len(nei_facility)
 
 #Prepare unit for export
 nei_unit = nei_unit.drop(columns=['Unitid','Unittype'])
 nei_unit.to_csv(output_dir+'flowbyunit/'+'NEI_'+report_year+'.csv',index=False)
 
+#Export flowbyfacility
 nei_facility.to_csv(output_dir+'NEI_'+report_year+'.csv',index=False)
 
-nonpoint.to_csv(output_dir + 'NEINonPoint_2014.csv', index=False)
-onroad.to_csv(output_dir + 'NEIOnRoad_2014.csv', index=False)
-nonroad.to_csv(output_dir + 'NEINonRoad_2014.csv', index=False)
+#Needs a new format to output these data
+#NEINonPoint
+#nonpoint = standardize_output('NonPoint')
+#NEIOnRoad
+#onroad = standardize_output('OnRoad')
+#NEINonRoad
+#nonroad = standardize_output('NonRoad')
+#nonpoint.to_csv(output_dir + 'NEINonPoint_2014.csv', index=False)
+#onroad.to_csv(output_dir + 'NEIOnRoad_2014.csv', index=False)
+#nonroad.to_csv(output_dir + 'NEINonRoad_2014.csv', index=False)
