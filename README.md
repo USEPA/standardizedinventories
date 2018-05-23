@@ -5,13 +5,13 @@ The standard outputs may be further aggregated or filtered based on given criter
 THIS CODE IS STILL IN EARLY DEVELOPMENT. OUTPUT FILES HAVE NOT YET BEEN TESTED.
 
 ## USEPA Inventories Covered By Data Reporting Year (current version)
-|Source|2013|2014|2015|2016|
-|--|--|--|--|--|
-|[Discharge Monitoring Report](https://echo.epa.gov/tools/data-downloads/icis-npdes-dmr-and-limit-data-set)|||||
-|[Greenhouse Gas Reporting Program](https://www.epa.gov/ghgreporting)|||x||
-|[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program)|x|x|x|x|
-|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)|x||x||
-|[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)||x|||
+|Source|2011|2012|2013|2014|2015|2016|
+|--|--|--|--|--|--|--|
+|[Discharge Monitoring Report](https://echo.epa.gov/tools/data-downloads/icis-npdes-dmr-and-limit-data-set)|||||||
+|[Greenhouse Gas Reporting Program](https://www.epa.gov/ghgreporting)|||||x||
+|[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program)|x|||x||x|
+|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)|||x||x||
+|[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)|x|||x|||
 
 ## Current output formats
 [Flow-By-Facility](format specs/FlowByFacility.md): Each row represents the total amount of release or waste of a single type in a given year from the given facility.
