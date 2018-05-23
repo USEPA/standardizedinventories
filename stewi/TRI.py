@@ -12,10 +12,9 @@ from stewi import globals
 from stewi.globals import unit_convert
 
 # Set some metadata
-TRIyear = '2016'
+TRIyear = '2014'
 output_dir = globals.output_dir
 data_dir = globals.data_dir
-
 
 # Import list of fields from TRI that are desired for LCI
 def imp_fields(tri_fields_txt):
@@ -96,7 +95,9 @@ def import_TRI_by_release_type(d):
     return tri
 
 tri = import_TRI_by_release_type(import_dict)
-#len(tri) = 953004 for 2016
+len(tri)
+# 953004 for 2016
+# 994032 for 2014
 
 # drop NA for Amount, but leave in zeros
 tri = tri.dropna(subset=['FlowAmount'])
@@ -166,8 +167,9 @@ tri_facility_unique_ids = pd.unique(tri_facility['TRIFID'])
 len(tri_facility_unique_ids) #2016: 21670
 
 tri_facility_unique_rows  = tri_facility.drop_duplicates()
-len(tri_facility_unique_rows) #2016: 21738
-
+len(tri_facility_unique_rows)
+#2016: 21738
+#2014: 22291
 
 #Use group by to elimiate additional ID duplicates
 #tri_facility_unique_rows_agg = tri_facility_unique_rows.groupby(['TRIFID'])
