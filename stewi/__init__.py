@@ -37,7 +37,7 @@ def seeAvailableInventoriesandYears(format='flowbyfacility'):
          s_yr = length-4
          e_acronym = length-5
          year = file[s_yr:]
-         #acronym = str.upper(file[:e_acronym])
+         acronym = file[:e_acronym]
          if (acronym not in existing_inventories.keys()):
              existing_inventories[acronym] = [year]
          else:
