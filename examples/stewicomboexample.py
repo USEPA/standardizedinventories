@@ -7,3 +7,5 @@ inventories_to_get = {"TRI":"2014","NEI":"2014"}
 
 inventories = stewicombo.combineInventories(inventories_to_get)
 
+pivotofinventories =  stewicombo.pivotCombinedInventories(inventories)
+
