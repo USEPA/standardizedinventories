@@ -8,6 +8,7 @@
 # This code has been tested for 2014.
 
 import pandas as pd
+import numpy as np
 from stewi import globals
 from stewi.globals import unit_convert
 
@@ -69,24 +70,28 @@ values = [import_fug, import_stack, import_streamA, import_streamB,
           import_streamC, import_streamD, import_streamE, import_streamF,
           import_onsiteland, import_onsiteother, import_offsiteland, import_offsiteother]
 
-def dict_create(k, v):
-    dictionary = dict(zip(k, v))
-    return dictionary
-
 # Create a dictionary that had the import fields for each release type to use in import process
 import_dict = dict_create(keys, values)
+
+dtype_dict = dict_create(values,)
 
 # Import TRI file
 tri_csv = '../TRI/US_' + TRIyear + '_v15/US_1_' + TRIyear + '_v15.txt'
 
 tri_release_output_fieldnames = ['FacilityID', 'FlowName', 'Unit', 'FlowAmount','Basis of Estimate','ReleaseType']
 
+
+
 # Cycle through file importing by release type, the dictionary key
 def import_TRI_by_release_type(d):
     tri = pd.DataFrame()
     for k, v in d.items():
-        tri_part = pd.read_csv(tri_csv, sep='\t', header=0, usecols=v, error_bad_lines=False)
-        #print(k + ', ' + str(v))
+        #create a data type dictionary
+        dtype_dict = {'TRIFID':"str", 'CHEMICAL NAME':"str", 'UNIT OF MEASURE':"str"}
+        dtype_dict[v[3]] = "float"
+        if len(v) > 4:
+            dtype_dict[v[4]] = "str"
+        tri_part = pd.read_csv(tri_csv, sep='\t', header=0, usecols=v, dtype=dtype_dict, error_bad_lines=False)
         tri_part['ReleaseType'] = k
         if k.startswith('offsite'):
             tri_part['Basis of Estimate'] = 'NA'
@@ -101,6 +106,8 @@ len(tri)
 
 # drop NA for Amount, but leave in zeros
 tri = tri.dropna(subset=['FlowAmount'])
+len(tri)
+#553481 for 2014
 
 # There is white space after some basis of estimate codes...remove it here
 def strip_coln_white_space(df, coln):
@@ -113,7 +120,9 @@ tri = strip_coln_white_space(tri, 'Basis of Estimate')
 tri['FlowAmount'] = pd.to_numeric(tri['FlowAmount'], errors='coerce')
 #Drop 0 for FlowAmount
 tri = tri[tri['FlowAmount'] != 0]
-#len(tri) = 522700 for 2016
+len(tri)
+#522700 for 2016
+#104432 for 2014
 
 # Import reliability scores for TRI
 reliability_table = globals.reliability_table
@@ -146,6 +155,20 @@ tri.drop('Unit',axis=1,inplace=True)
 # Rename cols to match reference format
 tri.rename(columns={'Amount_kg':'FlowAmount'},inplace=True)
 tri.rename(columns={'DQI Reliability Score':'ReliabilityScore'},inplace=True)
+
+#Drop release type
+tri.drop('ReleaseType',axis=1,inplace=True)
+
+#Group by facility, flow and compartment to aggregate different release types
+grouping_vars = ['FacilityID', 'FlowName','Compartment']
+wm = lambda x: np.average(x, weights=tri.loc[x.index, "FlowAmount"])
+# Define a dictionary with the functions to apply for a given column:
+f = {'FlowAmount': ['sum'], 'ReliabilityScore': {'weighted_mean': wm}}
+# Groupby and aggregate with your dictionary:
+tri = tri.groupby(grouping_vars).agg(f)
+tri = tri.reset_index()
+tri.columns = tri.columns.droplevel(level=1)
+
 
 #FLOWS
 flows = tri.groupby(['FlowName','Compartment']).count().reset_index()
