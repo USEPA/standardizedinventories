@@ -72,18 +72,21 @@ def nei_aggregate_unit_to_facility_level(nei_unit):
     #Do groupby with sum of flow amount and weighted avg of reliabilty
     #Too slow right now
     # Define a lambda function to compute the weighted mean
-    #wm = lambda x: np.average(x, weights=nei_unit.loc[x.index, "FlowAmount"])
+    wm = lambda x: np.average(x, weights=nei_unit.loc[x.index, "FlowAmount"])
     # Define a dictionary with the functions to apply for a given column:
-    #f = {'FlowAmount': ['sum'], 'ReliabilityScore': {'weighted_mean': wm}}
+    f = {'FlowAmount': ['sum'], 'ReliabilityScore': {'weighted_mean': wm}}
     # Groupby and aggregate with your dictionary:
-    #neibyfacility = nei_unit.groupby(grouping_vars).agg(f)
+    neibyfacility = nei_unit.groupby(grouping_vars).agg(f)
 
     #Procedure without weighted avg for the groupby
-    neibyfacility = nei_unit.groupby(grouping_vars)[['FlowAmount']]
-    neibyfacilityagg = neibyfacility.agg(sum)
-    neibyfacilityaggref = neibyfacilityagg.reset_index()
+    #neibyfacility = nei_unit.groupby(grouping_vars)[['FlowAmount']]
+    #neibyfacilityagg = neibyfacility.agg(sum)
+
     #Temp placeholder for now for reliability
-    neibyfacilityaggref['ReliabilityScore'] = 0
+    #neibyfacilityaggref['ReliabilityScore'] = 0
+
+    neibyfacility = neibyfacility.reset_index()
+    neibyfacility.columns = neibyfacility.columns.droplevel(level=1)
 
     return(neibyfacilityaggref)
 
@@ -100,6 +103,10 @@ nei_unit.to_csv(output_dir+'flowbyunit/'+'NEI_'+report_year+'.csv',index=False)
 
 #Export flowbyfacility
 nei_facility.to_csv(output_dir+'NEI_'+report_year+'.csv',index=False)
+
+#Get flows
+nei_flows = pd.DataFrame(pd.unique(nei_facility['FlowName']),columns=['FlowName'])
+nei_flows.to_csv(output_dir+'flow/'+'NEI_'+report_year+'.csv',index=False)
 
 #Needs a new format to output these data
 #NEINonPoint
