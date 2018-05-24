@@ -17,7 +17,7 @@ except NameError: modulepath = 'stewi/'
 
 output_dir = modulepath + 'output/'
 data_dir = modulepath + 'data/'
-formatpath = {'flowbyfacility':""}
+formatpath = {'flowbyfacility':"",'flow':"flow/",'facility':"facility/"}
 
 
 def seeAvailableInventoriesandYears(format='flowbyfacility'):
@@ -91,3 +91,14 @@ def getInventory(inventory_acronym, year, format='flowbyfacility', include_optio
     return inventory
 
 
+def getInventoryFlows(inventory_acronym, year):
+    path = output_dir + formatpath['flow']
+    file = path + inventory_acronym + '_' + str(year) + '.csv'
+    flows = pd.read_csv(file, header=0)
+    return flows
+
+def getInventoryFacilities(inventory_acronym, year):
+    path = output_dir + formatpath['flow']
+    file = path + inventory_acronym + '_' + str(year) + '.csv'
+    flows = pd.read_csv(file, header=0)
+    return flows
