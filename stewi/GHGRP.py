@@ -17,7 +17,7 @@ from datetime import datetime
 
 
 # Set reporting year to be used in API requests
-data_source = 'ghgrp'
+data_source = 'GHGRP'
 report_year = '2013'
 output_dir = globals.output_dir
 data_dir = globals.data_dir
