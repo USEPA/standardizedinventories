@@ -12,8 +12,12 @@ import numpy as np
 from stewi import globals
 from stewi.globals import unit_convert
 
+import logging
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
+
 # Set some metadata
-TRIyear = '2014'
+TRIyear = '2012'
 output_dir = globals.output_dir
 data_dir = globals.data_dir
 
@@ -70,17 +74,17 @@ values = [import_fug, import_stack, import_streamA, import_streamB,
           import_streamC, import_streamD, import_streamE, import_streamF,
           import_onsiteland, import_onsiteother, import_offsiteland, import_offsiteother]
 
+def dict_create(k, v):
+    dictionary = dict(zip(k, v))
+    return dictionary
+
 # Create a dictionary that had the import fields for each release type to use in import process
 import_dict = dict_create(keys, values)
-
-dtype_dict = dict_create(values,)
 
 # Import TRI file
 tri_csv = '../TRI/US_' + TRIyear + '_v15/US_1_' + TRIyear + '_v15.txt'
 
 tri_release_output_fieldnames = ['FacilityID', 'FlowName', 'Unit', 'FlowAmount','Basis of Estimate','ReleaseType']
-
-
 
 # Cycle through file importing by release type, the dictionary key
 def import_TRI_by_release_type(d):
@@ -91,10 +95,11 @@ def import_TRI_by_release_type(d):
         dtype_dict[v[3]] = "float"
         if len(v) > 4:
             dtype_dict[v[4]] = "str"
-        tri_part = pd.read_csv(tri_csv, sep='\t', header=0, usecols=v, dtype=dtype_dict, error_bad_lines=False)
-        tri_part['ReleaseType'] = k
+        log.info('Importing '+k+' releases')
+        tri_part = pd.read_csv(tri_csv, sep='\t', header=0, usecols=v, dtype=dtype_dict, error_bad_lines=False,na_values=['NO'])
         if k.startswith('offsite'):
             tri_part['Basis of Estimate'] = 'NA'
+        tri_part['ReleaseType'] = k
         tri_part.columns = tri_release_output_fieldnames
         tri = pd.concat([tri,tri_part])
     return tri
@@ -102,12 +107,21 @@ def import_TRI_by_release_type(d):
 tri = import_TRI_by_release_type(import_dict)
 len(tri)
 # 953004 for 2016
+# 980196 for 2015
 # 994032 for 2014
+# 995712 for 2013
+# 992364 for 2012
+# 988848 for 2011
 
 # drop NA for Amount, but leave in zeros
 tri = tri.dropna(subset=['FlowAmount'])
 len(tri)
+#531157 for 2016
+#553481 for 2015
 #553481 for 2014
+#554590 for 2013
+#553041 for 2012
+#551027 for 2011
 
 # There is white space after some basis of estimate codes...remove it here
 def strip_coln_white_space(df, coln):
@@ -117,12 +131,17 @@ def strip_coln_white_space(df, coln):
 tri = strip_coln_white_space(tri, 'Basis of Estimate')
 
 #Convert to float
-tri['FlowAmount'] = pd.to_numeric(tri['FlowAmount'], errors='coerce')
+#Should not be needed because dtype is set to float upon import
+#tri['FlowAmount'] = pd.to_numeric(tri['FlowAmount'], errors='coerce')
+
 #Drop 0 for FlowAmount
 tri = tri[tri['FlowAmount'] != 0]
 len(tri)
-#522700 for 2016
+#100853 for 2016
+#103619 for 2015
 #104432 for 2014
+#105011 for 2012
+#104399 for 2011
 
 # Import reliability scores for TRI
 reliability_table = globals.reliability_table
@@ -155,6 +174,11 @@ tri.drop('Unit',axis=1,inplace=True)
 # Rename cols to match reference format
 tri.rename(columns={'Amount_kg':'FlowAmount'},inplace=True)
 tri.rename(columns={'DQI Reliability Score':'ReliabilityScore'},inplace=True)
+
+#Store totals by releasetype
+tri_totals_by_releasetype = tri.groupby('ReleaseType')['FlowAmount'].sum()
+tri_totals_by_releasetype.to_csv('tri_totals_by_releasetype_'+TRIyear+'.csv')
+
 
 #Drop release type
 tri.drop('ReleaseType',axis=1,inplace=True)
@@ -192,6 +216,7 @@ len(tri_facility_unique_ids) #2016: 21670
 tri_facility_unique_rows  = tri_facility.drop_duplicates()
 len(tri_facility_unique_rows)
 #2016: 21738
+#2015: 22195
 #2014: 22291
 
 #Use group by to elimiate additional ID duplicates
