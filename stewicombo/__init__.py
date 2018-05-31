@@ -11,12 +11,15 @@ log.setLevel(logging.INFO)
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'stewicombo/'
 
-inventory_to_FRS_pgm_acrynoym = {"NEI":"EIS","TRI":"TRIS","eGRID":"EGRID"}
+inventory_to_FRS_pgm_acrynoym = {"NEI":"EIS","TRI":"TRIS","eGRID":"EGRID","GHGRP":"E-GGRT","RCRAInfo":"RCRAINFO"}
 
-compartments = {"NEI":"air"}
+compartments = {"NEI":"air","RCRAInfo":"waste","eGRID":"air"}
 columns_to_keep = ['Compartment', 'FacilityID', 'FlowAmount', 'FlowName', 'ReliabilityScore', 'Source']
 
-def combineInventories(inventory_dict):
+#For testing
+inventory_dict = {"TRI":"2014","NEI":"2014","RCRAInfo":"2015"}
+
+def combineFullInventories(inventory_dict):
     inventories = pd.DataFrame()
     for k in inventory_dict.keys():
         inventory = stewi.getInventory(k,inventory_dict[k],include_optional_fields=True)
@@ -29,24 +32,8 @@ def combineInventories(inventory_dict):
 
     #Bring in facility matches
     #get only those inventorytoFRS_pgm correspondence that are needed
-    inventory_to_FRS_keylist = list(inventory_to_FRS_pgm_acrynoym.keys())
     inventory_dict_keylist = list(inventory_dict.keys())
-    ununsed_inventory_to_FRS = set(inventory_to_FRS_keylist)-set(inventory_dict_keylist)
-    if len(ununsed_inventory_to_FRS) > 0:
-        for i in list(ununsed_inventory_to_FRS):
-            inventory_to_FRS_pgm_acrynoym.pop(i)
-
-    program_list = []
-    for k in inventory_dict.keys():
-        pgm_acronym = inventory_to_FRS_pgm_acrynoym[k]
-        program_list.append(pgm_acronym)
-    facilitymatches = facilitymatcher.get_matches_for_StEWI(program_list)
-
-    #Invert the inventory_to_FRS_pgm_acrynoym dict
-    FRS_to_inventory_pgm_acrynoym = {v: k for k, v in inventory_to_FRS_pgm_acrynoym.items()}
-
-    #Substitute in inventory acronym for frs program acrynoym
-    facilitymatches['PGM_SYS_ACRNM'].replace(FRS_to_inventory_pgm_acrynoym, inplace=True)
+    facilitymatches = facilitymatcher.get_matches_for_inventories(inventory_dict_keylist)
 
     facilitymatches.rename(columns={"REGISTRY_ID":"FRS_ID"},inplace=True)
     inventories = pd.merge(inventories,facilitymatches,left_on=(['FacilityID','Source']),right_on=(['PGM_SYS_ID','PGM_SYS_ACRNM']),how='left')
@@ -56,6 +43,46 @@ def combineInventories(inventory_dict):
     chemicalmatches = chemicalmatcher.get_matches_for_StEWI()
     inventories = pd.merge(inventories,chemicalmatches,on=(['FlowName','Source']),how='left')
     return(inventories)
+
+#For testing
+base_inventory = "eGRID"
+def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict):
+    #Bring in facility matches
+    #get only those inventorytoFRS_pgm correspondence that are needed
+    inventory_acronyms = list(inventory_dict.keys())
+    facilitymatches = facilitymatcher.get_table_of_matches_from_inventory_to_inventories_of_interest(base_inventory,inventory_dict)
+    facilitymatches.rename(columns={"REGISTRY_ID":"FRS_ID"},inplace=True)
+
+    inventories = pd.DataFrame()
+    for k in inventory_dict.keys():
+        inventory = stewi.getInventory(k,inventory_dict[k],include_optional_fields=True)
+        #Get facilities from that matching table to filter this with
+        inventory_facilitymatches = facilitymatches[facilitymatches['PGM_SYS_ACRNM_y'] == k]
+        inventory_facilitylist = list(inventory_facilitymatches['PGM_SYS_ID_y'])
+        #Filter inventory by facility list
+        inventory = inventory[inventory['FacilityID'].isin(inventory_facilitylist)]
+        #Add metadata
+        inventory["Source"] = k
+        inventory["Year"] = inventory_dict[k]
+        if 'Compartment' not in inventory.columns:
+            inventory["Compartment"] = compartments[k]
+        inventory = inventory[columns_to_keep]
+        inventories = pd.concat([inventories,inventory])
+
+    #Merge inventories based on facility matches
+    inventories = pd.merge(inventories,facilitymatches,left_on=(['FacilityID','Source']),right_on=(['PGM_SYS_ID_y','PGM_SYS_ACRNM_y']),how='left')
+    #drop duplicates - not sure why there are duplicates
+    inventories = inventories.drop_duplicates()
+    inventories.drop(columns=['PGM_SYS_ID_y','PGM_SYS_ACRNM_y'],inplace=True)
+
+    #Bring in chemical matches
+    chemicalmatches = chemicalmatcher.get_matches_for_StEWI()
+    inventories = pd.merge(inventories,chemicalmatches,on=(['FlowName','Source']),how='left')
+    colname_base_inventory_id = base_inventory + '_ID'
+    inventories.rename(columns={"PGM_SYS_ID_x":colname_base_inventory_id},inplace=True)
+    return(inventories)
+
+
 
 
 def pivotCombinedInventories(combinedinventory_df):
