@@ -34,13 +34,15 @@ pip can be called to install the downloaded package.
 If you've downladed and unzipped the file, open the command line and type
 >pip install -e `directory_of_unzipped_folder`
 
-where `directory_of_unzipped_folder` is a directory like `C:/Users/username/lci-primer`
-This will install the module as `StandardizedReleaseandWasteInventories`.
+where `directory_of_unzipped_folder` is a directory like `C:/Users/username/standardizedinventories`
+This will install two python libraries, `stewi` and `stewicombo`.
 
 You can test the installation by opening up a Python console and entering
->> import StandardizedReleaseandWasteInventories
+>> import stewi
 
-If no error code is returned, the module is installed
+>> import stewicombo
+
+If no error code is returned, the libraries are installed.
 
 ## Disclaimer
 The United States Environmental Protection Agency (EPA) GitHub project code is provided on an "as is" basis 
