@@ -10,7 +10,7 @@ setup(
     license="CC0",
     keywords="USEPA data",
     url="http://www.github.com/usepa/standardizedinventories",
-    packages=['stewi'],
+    packages=['stewi','stewicombo'],
     package_data={'stewi': ["data/*.*","output/*.*"]},
     install_requires=['numpy', 'pandas', 'requests'],
     long_description=open('README.md').read(),
