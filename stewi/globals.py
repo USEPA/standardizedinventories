@@ -306,3 +306,9 @@ def get_optional_fields(format='flowbyfacility'):
     optional_fields = dict(zip(optional_fields['Name'], optional_fields['Type']))
     return optional_fields
 
+def checkforFile(filepath):
+    if os.path.exists(filepath):
+        return True
+    else:
+        return False
+
