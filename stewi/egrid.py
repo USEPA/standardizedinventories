@@ -87,7 +87,7 @@ flowbyfac = flowbyfac.sort_values(by = ['FacilityID'], axis=0, ascending=True, i
 flowbyfac.head()
 
 os.chdir(output_dir)
-flowbyfac.to_csv('eGRID_' + eGRIDyear '.csv', index=False)
+flowbyfac.to_csv('eGRID_'+ eGRIDyear+'.csv', index=False)
 #flowbyfac.to_csv('eGRID_2016.csv', index=False)
 
 facility = createfacilityfile()
