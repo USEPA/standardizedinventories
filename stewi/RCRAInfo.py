@@ -11,6 +11,7 @@ from stewi.globals import write_metadata
 import os
 import gzip
 import shutil
+import urllib
 
 #Valid years are every other year since 2015
 report_year = '2013'
@@ -30,13 +31,7 @@ RCRAfieldstokeepdf = pd.read_table(data_dir + 'RCRA_required_fields.txt', header
 RCRAfieldstokeep = list(RCRAfieldstokeepdf[0])
 
 #Read in flat file for 2015 biennial report
-def checkforFile(filepath):
-    if os.path.exists(filepath):
-        return True
-    else:
-        return False
-
-
+from stewi.globals import checkforFile
 
 RCRAfInfoflatfileURL = 'ftp://ftp.epa.gov/rcrainfodata/rcra_flatfiles/Baseline/biennial_report.zip'
 RCRAInfopath = "../RCRAInfo/"
