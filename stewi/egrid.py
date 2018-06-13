@@ -7,7 +7,7 @@ import os
 from stewi.globals import write_metadata
 
 # Set the year
-eGRIDyear = '2016'
+eGRIDyear = '2014'
 
 year_last2 = eGRIDyear[2:]
 output_dir = globals.output_dir
@@ -87,7 +87,7 @@ flowbyfac = flowbyfac.sort_values(by = ['FacilityID'], axis=0, ascending=True, i
 flowbyfac.head()
 
 os.chdir(output_dir)
-flowbyfac.to_csv('eGRID_' + eGRIDyear + '.csv', index=False)
+flowbyfac.to_csv('eGRID_'+ eGRIDyear+'.csv', index=False)
 #flowbyfac.to_csv('eGRID_2016.csv', index=False)
 
 facility = createfacilityfile()
