@@ -28,7 +28,7 @@ def imp_fields(fields_txt):
     egrid_req_fields = list(egrid_req_fields_df.loc[0,:])
     return egrid_req_fields
 
-egrid_required_fields = (imp_fields(data_dir+'eGRID_required_fields.txt')) #@author: Wes
+egrid_required_fields = (imp_fields(data_dir+'egrid_required_fields.txt')) #@author: Wes
 #egrid_required_fields = (imp_fields(data_dir+'\\data\\eGRID_required_fields.txt'))
 
 # Import egrid file
@@ -58,20 +58,21 @@ def createfacilityfile():
 
 #Need to change column names manually
 def createflowbyfacility():
-    flow = egrid2[['DOE/EIA ORIS plant or facility code','Plant total annual heat input (MMBtu)','Plant annual net generation (MWh)', 'Plant annual NOx emissions (tons)','Plant annual SO2 emissions (tons)','Plant annual CO2 emissions (tons)','Plant annual CH4 emissions (lbs)','Plant annual N2O emissions (lbs)']]
+    flow = egrid2[['DOE/EIA ORIS plant or facility code','Plant total annual heat input (MMBtu)','Plant annual net generation (MWh)', 'Plant annual NOx emissions (tons)','Plant annual SO2 emissions (tons)','Plant annual CO2 emissions (tons)','Plant annual CH4 emissions (lbs)','Plant annual N2O emissions (lbs)','CHP plant useful thermal output (MMBtu)']]
     flow.rename(columns={'DOE/EIA ORIS plant or facility code':'FacilityID',
                          'Plant total annual heat input (MMBtu)':'Heat input',
                          'Plant annual net generation (MWh)':'Net generation',
                          'Plant annual NOx emissions (tons)':'Nitrogen oxides',
                          'Plant annual SO2 emissions (tons)':'Sulfur dioxide',
                          'Plant annual CO2 emissions (tons)':'Carbon dioxide',
-                         'Plant annual CH4 emissions (lbs)':'Methane','Plant annual N2O emissions (lbs)':'Nitrous oxide'},inplace=True)
+                         'Plant annual CH4 emissions (lbs)':'Methane','Plant annual N2O emissions (lbs)':'Nitrous oxide','CHP plant useful thermal output (MMBtu)':'CHP steam output'},inplace=True)
     flow1 = unit_convert(flow[flow.columns[3:6]],1000)
     flow1_1 = unit_convert(flow[flow.columns[6:8]],0.4535924)
     flow2 = unit_convert(flow[flow.columns[1]],1055.056)
     flow3 = unit_convert(flow[flow.columns[2]],3600)
     flow4 = flow[['FacilityID']]
-    frames = [flow4,flow2,flow3,flow1,flow1_1]
+    flow4_4 = unit_convert(flow[flow.columns[8]],1055.056)
+    frames = [flow4,flow2,flow4_4,flow3,flow1,flow1_1]
     flow5 = pd.concat(frames,axis = 1)
     flow6 = pd.melt(flow5, id_vars=['FacilityID'], value_vars=list(flow5.columns[1:]), var_name='FlowName', value_name='FlowAmount')    
     return flow6;
