@@ -4,6 +4,7 @@ Plant operator name
 DOE/EIA ORIS plant or facility code
 Plant total annual heat input (MMBtu)
 Plant annual net generation (MWh)
+CHP plant useful thermal output (MMBtu)
 Plant annual NOx emissions (tons)
 Plant annual SO2 emissions (tons)
 Plant annual CO2 emissions (tons)
