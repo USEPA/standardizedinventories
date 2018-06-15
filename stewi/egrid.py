@@ -25,7 +25,7 @@ pltsheetname = 'PLNT'+ year_last2
 # Import list of fields from egrid that are desired for LCI
 def imp_fields(fields_txt):
     egrid_req_fields_df = pd.read_csv(fields_txt, header=None)
-    egrid_req_fields = list(egrid_req_fields_df.loc[0,:])
+    egrid_req_fields = list(egrid_req_fields_df[0])
     return egrid_req_fields
 
 egrid_required_fields = (imp_fields(data_dir+'egrid_required_fields.txt')) #@author: Wes
