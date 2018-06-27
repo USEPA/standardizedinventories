@@ -14,10 +14,10 @@ THIS CODE IS STILL IN EARLY DEVELOPMENT. OUTPUT FILES HAVE NOT YET BEEN TESTED.
 |[Emissions & Generation Resource Integrated Database](https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid)||||x||x|
 
 ## Current output formats
-[Flow-By-Facility](./format specs/FlowByFacility.md): Each row represents the total amount of release or waste of a single type in a given year from the given facility.
-[Flow-By-Unit](./format specs/FlowByUnit.md): Each row represents the total amount of release or waste of a single type in a given year from the given unit within a facility.Currently only for NEI. DRAFT.
-[Facility](./format specs/Facility.md): Each row represents a unique facility in a given inventory and given year
-[Flow](./format specs/Flow.md):  Each row represents a unique flow (substance or waste) in a given inventory and given year
+[Flow-By-Facility](./format%20specs/FlowByFacility.md): Each row represents the total amount of release or waste of a single type in a given year from the given facility.
+[Flow-By-Unit](./format%20specs/FlowByUnit.md): Each row represents the total amount of release or waste of a single type in a given year from the given unit within a facility.Currently only for NEI. DRAFT.
+[Facility](./format%20specs/Facility.md): Each row represents a unique facility in a given inventory and given year
+[Flow](./format%20specs/Flow.md):  Each row represents a unique flow (substance or waste) in a given inventory and given year
 
 ## Use of the repository output
 The standard format files without any filtering are available in the output directory in csv format (can be opened in Excel). These can be downloaded and used without knowledge of Python.
