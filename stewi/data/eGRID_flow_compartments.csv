@@ -1,0 +1,9 @@
+﻿OriginalName,FlowName,Compartment,Unit
+Plant total annual heat input (MMBtu),Heat,input,MJ
+Plant annual net generation (MWh),Electricity,product,MJ
+CHP plant useful thermal output (MMBtu),Steam,output,MJ
+Plant annual NOx emissions (tons),Nitrogen oxides,air,kg
+Plant annual SO2 emissions (tons),Sulfur dioxide,air,kg
+Plant annual CO2 emissions (tons),Carbon dioxide,air,kg
+Plant annual CH4 emissions (lbs),Methane,air,kg
+Plant annual N2O emissions (lbs),Nitrous oxide,air,kg
