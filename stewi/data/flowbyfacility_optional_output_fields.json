@@ -3,6 +3,6 @@
 	"NEI": "NA",
 	"RCRA_Info": "NA",
     "GHGRP": "NA",
-	"eGRID": "NA",
+	"eGRID": ["Compartment","Unit"],
 	"RCRAInfo": "NA"
 }

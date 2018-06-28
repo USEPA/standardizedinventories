@@ -1,0 +1,9 @@
+FlowName,Compartment,Unit
+Carbon dioxide,air,kg
+Methane,air,kg
+Electricity,product,MJ
+Nitrous oxide,air,kg
+Heat,input,MJ
+Sulfur dioxide,air,kg
+Nitrogen oxides,air,kg
+Steam,output,MJ

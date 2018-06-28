@@ -60,12 +60,14 @@ def createfacilityfile():
 def createflowbyfacility():
     flow = egrid2[['DOE/EIA ORIS plant or facility code','Plant total annual heat input (MMBtu)','Plant annual net generation (MWh)', 'Plant annual NOx emissions (tons)','Plant annual SO2 emissions (tons)','Plant annual CO2 emissions (tons)','Plant annual CH4 emissions (lbs)','Plant annual N2O emissions (lbs)','CHP plant useful thermal output (MMBtu)']]
     flow.rename(columns={'DOE/EIA ORIS plant or facility code':'FacilityID',
-                         'Plant total annual heat input (MMBtu)':'Heat input',
-                         'Plant annual net generation (MWh)':'Net generation',
+                         'Plant total annual heat input (MMBtu)':'Heat',
+                         'Plant annual net generation (MWh)':'Electricity',
                          'Plant annual NOx emissions (tons)':'Nitrogen oxides',
                          'Plant annual SO2 emissions (tons)':'Sulfur dioxide',
                          'Plant annual CO2 emissions (tons)':'Carbon dioxide',
-                         'Plant annual CH4 emissions (lbs)':'Methane','Plant annual N2O emissions (lbs)':'Nitrous oxide','CHP plant useful thermal output (MMBtu)':'CHP steam output'},inplace=True)
+                         'Plant annual CH4 emissions (lbs)':'Methane',
+                         'Plant annual N2O emissions (lbs)':'Nitrous oxide',
+                         'CHP plant useful thermal output (MMBtu)':'Steam'},inplace=True)
     flow1 = unit_convert(flow[flow.columns[3:6]],1000)
     flow1_1 = unit_convert(flow[flow.columns[6:8]],0.4535924)
     flow2 = unit_convert(flow[flow.columns[1]],1055.056)
@@ -85,16 +87,27 @@ flowbyfac['ReliabilityScore'] = 0;
 flowbyfac = flowbyfac.dropna(subset=['FlowAmount'])
 flowbyfac = flowbyfac.sort_values(by = ['FacilityID'], axis=0, ascending=True, inplace=False, kind='quicksort', na_position='last')
 
-flowbyfac.head()
+#Import flow compartments
+flow_compartments = pd.read_csv(data_dir+'eGRID_flow_compartments.csv',header=0)
+#Merge in with flowbyfacility
+flowbyfac = pd.merge(flowbyfac,flow_compartments,on='FlowName',how='left')
+#Drop original name
+flowbyfac.drop(columns='OriginalName', inplace=True)
 
-os.chdir(output_dir)
-flowbyfac.to_csv('eGRID_'+ eGRIDyear+'.csv', index=False)
-#flowbyfac.to_csv('eGRID_2016.csv', index=False)
+
+#os.chdir(output_dir)
+#Write flowbyfacility file to output
+flowbyfac.to_csv(output_dir + 'eGRID_'+ eGRIDyear+'.csv', index=False)
 
 facility = createfacilityfile()
 len(facility)
 facility.head()
 facility.to_csv(output_dir + '/facility/eGRID_' + eGRIDyear + '.csv', index=False)
+
+##Write flows file
+flows = flowbyfac[['FlowName','Compartment','Unit']]
+flows.drop_duplicates(inplace=True)
+flows.to_csv(output_dir + '/flow/eGRID_' + eGRIDyear + '.csv', index=False)
 
 #Write metadata
 eGRID_meta = globals.inventory_metadata
