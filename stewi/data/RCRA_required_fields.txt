@@ -1,4 +1,12 @@
 Handler ID
+Handler Name
+Location Street Number
+Location Street 1
+Location Street 2
+Location City
+Location State
+Location Zip
+County Name
 State
 Generator ID Included in NBR
 Generator Waste Stream Included in NBR
@@ -10,6 +18,7 @@ Management Method
 Generation Tons
 Federal Waste Flag
 Waste Code Group
+Management Category
 
 
 

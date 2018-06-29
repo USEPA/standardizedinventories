@@ -14,12 +14,12 @@ import shutil
 import urllib
 
 #Valid years are every other year since 2015
-report_year = '2013'
+report_year = '2011'
 
 #Get file columns widths
 output_dir = globals.output_dir
 data_dir = globals.data_dir
-linewidthsdf = pd.read_csv(data_dir + 'RCRA_FlatFile_LineComponents_2015.csv')
+linewidthsdf = pd.read_csv(data_dir + 'RCRA_FlatFile_LineComponents.csv')
 BRwidths = linewidthsdf['Size']
 BRnames = linewidthsdf['Data Element Name']
 
@@ -64,14 +64,13 @@ with open(RCRAInfoBRtextfile, 'rb') as rcrafile:
 #Test 10 records
 BRtest = pd.read_fwf(RCRAInfoBRtextfile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep, nrows=10)
 
-
-#Read in one hundred thousand records at a time saving them in separate dataframes to avoid memory error
+#Read in one hundred thousand records at a time
 BR = pd.DataFrame()
 for chunk in pd.read_fwf(RCRAInfoBRtextfile,widths=BRwidths,header=None,names=BRnames,usecols=RCRAfieldstokeep,chunksize=100000):
     BR = pd.concat([BR,chunk])
 
 #Pickle as a backup
-#BR.to_pickle('BR_'+report_year+'.pk')
+BR.to_pickle('BR_'+report_year+'.pk')
 
 #Validate correct import - number of states should be 50+ (includes PR and territories)
 states = BR['State'].unique()
@@ -89,7 +88,7 @@ BR = BR[BR['Generator ID Included in NBR'] == 'Y']
 
 BR = BR[BR['Generator Waste Stream Included in NBR'] == 'Y']
 
-#Remove imported wastes, waste codes G63-G75
+#Remove imported wastes, source codes G63-G75
 ImportSourceCodes = pd.read_csv(data_dir + 'RCRAImportSourceCodes.txt', header=None)
 ImportSourceCodes = ImportSourceCodes[0].tolist()
 SourceCodesPresent = BR['Source Code'].unique().tolist()
@@ -118,33 +117,111 @@ BR['Amount_kg'] = 0.0
 #Convert amounts from tons. Note this could be replaced with a conversion utility
 BR['Amount_kg'] = 907.18474*BR['Generation Tons']
 
+##Read in waste descriptions
+linewidthsdf = pd.read_csv(data_dir + 'RCRAInfo_LU_WasteCode_LineComponents.csv')
+widths = linewidthsdf['Size']
+names = linewidthsdf['Data Element Name']
+wastecodesfile = '../RCRAInfo/lu_waste_code.txt'
+WasteCodesTest = pd.read_fwf(wastecodesfile,widths=widths,header=None,names=names,nrows=10)
+WasteCodes = pd.read_fwf(wastecodesfile,widths=widths,header=None,names=names)
+WasteCodes = WasteCodes[['Waste Code', 'Code Type', 'Waste Code Description']]
+#Remove rows where any fields are na description is missing
+WasteCodes.dropna(inplace=True)
+
+#Bring in form codes
+#Replace form code with the code name
+form_code_name_file = data_dir + 'RCRA_LU_FORM_CODE.csv'
+form_code_table_cols_needed = ['FORM_CODE','FORM_CODE_NAME']
+form_code_name_df = pd.read_csv(form_code_name_file,header=0,usecols=form_code_table_cols_needed)
+
+#Merge waste codes with BR records
+BR = pd.merge(BR,WasteCodes,left_on='Waste Code Group',right_on='Waste Code',how='left')
+#Rename code type to make it clear
+BR.rename(columns={'Code Type':'Waste Code Type'},inplace=True)
+#Merge form codes with BR
+BR = pd.merge(BR,form_code_name_df,left_on='Form Code',right_on='FORM_CODE',how='left')
+#Drop duplicates from merge
+BR.drop(columns=['FORM_CODE','Waste Code Group'], inplace=True)
+
+#Set flow name to Waste Code Description
+BR['FlowName'] = BR['Waste Code Description']
+#BR['FlowNameSource'] = 'Waste Code Description'
+#If a useful Waste Code Description is present, use it
+def waste_description_cleaner(x):
+    if (x == 'from br conversion') or (x =='From 1989 BR data'):
+        x = None
+    return x
+BR['FlowName'] = BR['FlowName'].apply(waste_description_cleaner)
+
+#If there is not useful waste code, fill it with the Form Code Name
+#Find the NAs in FlowName and then give that source of Form Code
+BR.loc[BR['FlowName'].isnull(),'FlowNameSource'] = 'Form Code'
+#Now for those source name rows that are blank, tell it its a waste code
+BR.loc[BR['FlowNameSource'].isnull(),'FlowNameSource'] = 'Waste Code'
+
+#Set FlowIDs to the appropriate code
+BR.loc[BR['FlowName'].isnull(),'FlowID'] = BR['Form Code']
+BR.loc[BR['FlowID'].isnull(),'FlowID'] = BR['Waste Code']
+
+#Now finally fill names that are blank with the form code name
+BR['FlowName'].fillna(BR['FORM_CODE_NAME'], inplace=True)
+
 #Drop unneeded fields
 BR.drop('Generation Tons', axis=1, inplace=True)
 BR.drop('Generator ID Included in NBR', axis=1, inplace=True)
 BR.drop('Generator Waste Stream Included in NBR', axis=1, inplace=True)
 BR.drop('Source Code', axis=1, inplace=True)
 BR.drop('Management Method', axis=1, inplace=True)
-BR.drop('Waste Code Group', axis=1, inplace=True)
 BR.drop('Waste Description', axis=1, inplace=True)
+BR.drop('Waste Code Description', axis=1, inplace=True)
+BR.drop('FORM_CODE_NAME', axis=1, inplace=True)
 
-#Replace form code with the code name
-form_code_name_file = data_dir + 'RCRA_LU_FORM_CODE.csv'
-form_code_table_cols_needed = ['FORM_CODE','FORM_CODE_NAME']
-form_code_name_df = pd.read_csv(form_code_name_file,header=0,usecols=form_code_table_cols_needed)
-#Merge with BR
-BR = pd.merge(BR,form_code_name_df,left_on='Form Code',right_on='FORM_CODE',how='left')
-#drop codes no longer needed
-BR.drop('Form Code', axis=1, inplace=True)
-BR.drop('FORM_CODE', axis=1, inplace=True)
-
-#rename new name; drop codes and replace with names
-BR.rename(columns={'FORM_CODE_NAME':'FlowName'}, inplace=True)
-BR.rename(columns={'Amount_kg':'FlowAmount'}, inplace=True)
+#Rename cols used by multiple tables
 BR.rename(columns={'Handler ID':'FacilityID'}, inplace=True)
-BR.rename(columns={'Primary NAICS':'NAICS'}, inplace=True)
+#rename new name
+BR.rename(columns={'Amount_kg':'FlowAmount'}, inplace=True)
+
+#Prepare flows file
+flows = BR[['FlowName','FlowID','Waste Code Type','FlowNameSource']]
+#Drop duplicates
+flows.drop_duplicates(inplace=True)
+flows['Compartment']='Waste'
+flows['Unit']='kg'
+#Sort them by the flow names
+flows.sort_values(by='FlowName',axis=0,inplace=True)
+#Export them
+flows.to_csv(output_dir + 'flow/RCRAInfo_' + report_year + '.csv',index=False)
+
+#Prepare facilities file
+facilities = BR[['Handler ID', 'Handler Name','Location Street Number',
+       'Location Street 1', 'Location Street 2', 'Location City',
+       'Location State', 'Location Zip', 'County Name','NAICS']]
+
+
+
+#Drop duplicates
+facilities.drop_duplicates(inplace=True)
+
+facilities['Location Street Number'] = facilities['Location Street Number'].apply(str)
+facilities['Location Street Number'].fillna('',inplace=True)
+
+facilities['Address'] = facilities['Location Street Number'] + ' ' + facilities['Location Street 1'] + ' ' + facilities['Location Street 2']
+facilities.drop(columns=['Location Street Number','Location Street 1','Location Street 2'],inplace=True)
+
+facilities.rename(columns={'Primary NAICS':'NAICS',
+                           'Handler Name':'FacilityName',
+                           'Location City':'City',
+                           'Location State':'State',
+                           'Location Zip':'Zip',
+                           'County Name':'County'}, inplace=True)
+facilities.to_csv(output_dir + 'facility/RCRAInfo_' + report_year + '.csv',index=False)
+
+#Prepare flow by facility
+
+flowbyfacility = BR[['FacilityID','ReliabilityScore','FlowAmount','FlowName']]
 
 #Export to csv
-BR.to_csv(output_dir + 'RCRAInfo_' + report_year + '.csv',index=False)
+flowbyfacility.to_csv(output_dir + 'RCRAInfo_' + report_year + '.csv',index=False)
 
 #Record metadata
 if retrieval_time is not None:
