@@ -79,9 +79,6 @@ def getInventory(inventory_acronym, year, format='flowbyfacility', include_optio
         elif inventory_acronym == 'GHGRP':
             filter_path += 'ghg_mapping.csv'
             filter_type = 'keep'
-        elif inventory_acronym == 'dmr':
-            filter_path += 'DMR_Pollutant_ListwithExclusionsforLCI.xlsx'
-            filter_type = 'mark_drop'
         elif inventory_acronym == 'rcrainfo': filter_type = ''
         elif inventory_acronym == 'egrid': filter_type = ''
         elif inventory_acronym == 'nei': filter_type = ''
