@@ -10,8 +10,9 @@ setup(
     license="CC0",
     keywords="USEPA data",
     url="http://www.github.com/usepa/standardizedinventories",
-    packages=['stewi','stewicombo'],
-    package_data={'stewi': ["data/*.*","output/*.*"]},
+    packages=['chemicalmatcher','stewi','stewicombo'],
+    package_data={'stewi': ["data/*.*","output/*.*"],
+                  'chemicalmatcher': ["data/*.*", "output/*.*"]},
     install_requires=['numpy', 'pandas', 'requests'],
     long_description=open('README.md').read(),
     classifiers=[
