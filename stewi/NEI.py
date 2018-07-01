@@ -105,7 +105,11 @@ nei_unit.to_csv(output_dir+'flowbyunit/'+'NEI_'+report_year+'.csv',index=False)
 nei_facility.to_csv(output_dir+'NEI_'+report_year+'.csv',index=False)
 
 #Get flows
-nei_flows = pd.DataFrame(pd.unique(nei_facility['FlowName']),columns=['FlowName'])
+#nei_flows = pd.DataFrame(pd.unique(nei_facility['FlowName','FlowID']),columns=['FlowName','FlowID'])
+nei_flows = nei_unit[[['FlowName','FlowID']]]
+nei_flows = nei_flows.drop_duplicates()
+nei_flows['Compartment']='air'
+nei_flows['Unit']='kg'
 nei_flows.to_csv(output_dir+'flow/'+'NEI_'+report_year+'.csv',index=False)
 
 #Needs a new format to output these data
