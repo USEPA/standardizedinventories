@@ -12,6 +12,7 @@ Plant annual CH4 emissions (lbs)
 Plant annual N2O emissions (lbs)
 Plant primary fuel
 Plant nameplate capacity (MW)
+Plant capacity factor
 Plant primary coal/oil/gas/ other fossil fuel category
 Prime Mover
 NERC region acronym
@@ -20,3 +21,14 @@ Balancing Authority Name
 Plant county name
 Plant latitude
 Plant longitude
+Plant coal generation percent (resource mix)
+Plant oil generation percent (resource mix)
+Plant gas generation percent (resource mix)
+Plant nuclear generation percent (resource mix)
+Plant  hydro generation percent (resource mix)
+Plant biomass generation percent (resource mix)
+Plant wind generation percent (resource mix)
+Plant solar generation percent (resource mix)
+Plant geothermal generation percent (resource mix)
+Plant other fossil generation percent (resource mix)
+Plant other unknown / purchased fuel generation percent (resource mix)
