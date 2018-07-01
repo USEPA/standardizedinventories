@@ -17,7 +17,7 @@ log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
 # Set some metadata
-TRIyear = '2012'
+TRIyear = '2015'
 output_dir = globals.output_dir
 data_dir = globals.data_dir
 
@@ -33,7 +33,7 @@ tri_required_fields = (imp_fields(data_dir + 'TRI_required_fields.txt'))
 # Import in pieces grabbing main fields plus unique amount and basis of estimate fields
 # assigns fields to variables
 def concat_req_field(list):
-    source_name = ['TRIFID','CHEMICAL NAME','UNIT OF MEASURE'] + list
+    source_name = ['TRIFID','CHEMICAL NAME', 'CAS NUMBER','UNIT OF MEASURE'] + list
     return source_name
 
 facility_fields = ['FACILITY NAME','FACILITY STREET','FACILITY CITY','FACILITY COUNTY','FACILITY STATE',
@@ -84,15 +84,15 @@ import_dict = dict_create(keys, values)
 # Import TRI file
 tri_csv = '../TRI/US_' + TRIyear + '_v15/US_1_' + TRIyear + '_v15.txt'
 
-tri_release_output_fieldnames = ['FacilityID', 'FlowName', 'Unit', 'FlowAmount','Basis of Estimate','ReleaseType']
+tri_release_output_fieldnames = ['FacilityID', 'CAS', 'FlowName', 'Unit', 'FlowAmount','Basis of Estimate','ReleaseType']
 
 # Cycle through file importing by release type, the dictionary key
 def import_TRI_by_release_type(d):
     tri = pd.DataFrame()
     for k, v in d.items():
         #create a data type dictionary
-        dtype_dict = {'TRIFID':"str", 'CHEMICAL NAME':"str", 'UNIT OF MEASURE':"str"}
-        dtype_dict[v[3]] = "float"
+        dtype_dict = {'TRIFID':"str", 'CHEMICAL NAME':"str", 'CAS NUMBER':"str",'UNIT OF MEASURE':"str"}
+        dtype_dict[v[4]] = "float"
         if len(v) > 4:
             dtype_dict[v[4]] = "str"
         log.info('Importing '+k+' releases')
@@ -117,7 +117,7 @@ len(tri)
 tri = tri.dropna(subset=['FlowAmount'])
 len(tri)
 #531157 for 2016
-#553481 for 2015
+#546111 for 2015
 #553481 for 2014
 #554590 for 2013
 #553041 for 2012
@@ -131,8 +131,7 @@ def strip_coln_white_space(df, coln):
 tri = strip_coln_white_space(tri, 'Basis of Estimate')
 
 #Convert to float
-#Should not be needed because dtype is set to float upon import
-#tri['FlowAmount'] = pd.to_numeric(tri['FlowAmount'], errors='coerce')
+tri['FlowAmount'] = pd.to_numeric(tri['FlowAmount'], errors='coerce')
 
 #Drop 0 for FlowAmount
 tri = tri[tri['FlowAmount'] != 0]
@@ -184,7 +183,7 @@ tri_totals_by_releasetype.to_csv('tri_totals_by_releasetype_'+TRIyear+'.csv')
 tri.drop('ReleaseType',axis=1,inplace=True)
 
 #Group by facility, flow and compartment to aggregate different release types
-grouping_vars = ['FacilityID', 'FlowName','Compartment']
+grouping_vars = ['FacilityID', 'FlowName','CAS','Compartment']
 wm = lambda x: np.average(x, weights=tri.loc[x.index, "FlowAmount"])
 # Define a dictionary with the functions to apply for a given column:
 f = {'FlowAmount': ['sum'], 'ReliabilityScore': {'weighted_mean': wm}}
@@ -193,16 +192,18 @@ tri = tri.groupby(grouping_vars).agg(f)
 tri = tri.reset_index()
 tri.columns = tri.columns.droplevel(level=1)
 
-
 #FLOWS
-flows = tri.groupby(['FlowName','Compartment']).count().reset_index()
+flows = tri.groupby(['FlowName','CAS','Compartment']).count().reset_index()
 #stack by compartment
-flowsdf = flows[['FlowName','Compartment']]
+flowsdf = flows[['FlowName','CAS','Compartment']]
+flowsdf['FlowID'] = flowsdf['CAS']
 #export chemicals
 #!!!Still needs CAS number and FlowID
 flowsdf.to_csv(output_dir+'flow/'+'TRI_'+ TRIyear + '.csv', index=False)
 
 #FLOW BY FACILITY
+#drop CAS
+tri.drop(columns=['CAS'],inplace=True)
 tri_file_name = 'TRI_' + TRIyear + '.csv'
 tri.to_csv(output_dir + tri_file_name, index=False)
 
@@ -211,7 +212,9 @@ tri.to_csv(output_dir + tri_file_name, index=False)
 tri_facility = pd.read_csv(tri_csv, sep='\t', header=0, usecols=import_facility, error_bad_lines=False)
 #get unique facilities
 tri_facility_unique_ids = pd.unique(tri_facility['TRIFID'])
-len(tri_facility_unique_ids) #2016: 21670
+len(tri_facility_unique_ids)
+#2016: 21670
+#2015: 22131
 
 tri_facility_unique_rows  = tri_facility.drop_duplicates()
 len(tri_facility_unique_rows)
