@@ -48,7 +48,21 @@ def unit_convert(value,factor):
 #Creation of the facility file
 #Need to change column names manually
 def createfacilityfile(): 
-    facility=egrid2[['Plant name','Plant operator name','DOE/EIA ORIS plant or facility code','Plant state abbreviation','eGRID subregion acronym','Plant county name','Plant latitude', 'Plant longitude','Plant primary fuel','Plant primary coal/oil/gas/ other fossil fuel category','NERC region acronym']]
+    facility=egrid2[['Plant name','Plant operator name','DOE/EIA ORIS plant or facility code',
+                     'Plant state abbreviation','eGRID subregion acronym','Plant county name',
+                     'Plant latitude', 'Plant longitude','Plant primary fuel',
+                     'Plant primary coal/oil/gas/ other fossil fuel category','NERC region acronym',
+                     'Plant coal generation percent (resource mix)',
+                     'Plant oil generation percent (resource mix)',
+                     'Plant gas generation percent (resource mix)',
+                     'Plant nuclear generation percent (resource mix)',
+                     'Plant  hydro generation percent (resource mix)',
+                     'Plant biomass generation percent (resource mix)',
+                     'Plant wind generation percent (resource mix)',
+                     'Plant solar generation percent (resource mix)',
+                     'Plant geothermal generation percent (resource mix)',
+                     'Plant other fossil generation percent (resource mix)',
+                     'Plant other unknown / purchased fuel generation percent (resource mix)']]
     facility.rename(columns={'Plant name':'FacilityName','DOE/EIA ORIS plant or facility code':'FacilityID','Plant state abbreviation':'State'},inplace=True)
     return facility
 
@@ -97,7 +111,7 @@ flowbyfac.drop(columns='OriginalName', inplace=True)
 
 #os.chdir(output_dir)
 #Write flowbyfacility file to output
-flowbyfac.to_csv(output_dir + 'eGRID_'+ eGRIDyear+'.csv', index=False)
+flowbyfac.to_csv(output_dir + 'eGRID_'+ eGRIDyear +'.csv', index=False)
 
 facility = createfacilityfile()
 len(facility)
