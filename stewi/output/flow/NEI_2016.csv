@@ -1,0 +1,275 @@
+FlowName,FlowID,Compartment,Unit
+Arsenic,7440382,air,kg
+Elemental Carbon portion of PM2.5-PRI,EC,air,kg
+Manganese,7439965,air,kg
+Nitrate portion of PM2.5-PRI,NO3,air,kg
+Nitrogen Oxides,NOX,air,kg
+Organic Carbon portion of PM2.5-PRI,OC,air,kg
+PM Condensible,PM-CON,air,kg
+PM10 Filterable,PM10-FIL,air,kg
+PM10 Primary (Filt + Cond),PM10-PRI,air,kg
+PM2.5 Filterable,PM25-FIL,air,kg
+PM2.5 Primary (Filt + Cond),PM25-PRI,air,kg
+Remaining PMFINE portion of PM2.5-PRI,PMFINE,air,kg
+Sulfate Portion of PM2.5-PRI,SO4,air,kg
+Volatile Organic Compounds,VOC,air,kg
+Carbon Monoxide,CO,air,kg
+Acrolein,107028,air,kg
+Ammonia,NH3,air,kg
+Benzene,71432,air,kg
+Toluene,108883,air,kg
+Xylenes (Mixed Isomers),1330207,air,kg
+Acetaldehyde,75070,air,kg
+Ethyl Benzene,100414,air,kg
+Formaldehyde,50000,air,kg
+Hexane,110543,air,kg
+Naphthalene,91203,air,kg
+"PAH, total",130498292,air,kg
+Sulfur Dioxide,SO2,air,kg
+Chloroform,67663,air,kg
+"1,1,2-Trichloroethane",79005,air,kg
+"1,3-Butadiene",106990,air,kg
+"1,4-Dichlorobenzene",106467,air,kg
+Anthracene,120127,air,kg
+Benz[a]Anthracene,56553,air,kg
+Chlorobenzene,108907,air,kg
+Chrysene,218019,air,kg
+Ethylene Dichloride,107062,air,kg
+Fluoranthene,206440,air,kg
+Fluorene,86737,air,kg
+Hydrochloric Acid,7647010,air,kg
+Hydrogen Sulfide,7783064,air,kg
+Methylene Chloride,75092,air,kg
+Phenanthrene,85018,air,kg
+Propylene Oxide,75569,air,kg
+Pyrene,129000,air,kg
+Tetrachloroethylene,127184,air,kg
+Trichloroethylene,79016,air,kg
+Benzo[b]Fluoranthene,205992,air,kg
+Cadmium,7440439,air,kg
+Chromium (VI),18540299,air,kg
+Nickel,7440020,air,kg
+Chromium III,16065831,air,kg
+Cobalt,7440484,air,kg
+Lead,7439921,air,kg
+Methanol,67561,air,kg
+Selenium,7782492,air,kg
+2-Methylnaphthalene,91576,air,kg
+Benzo[a]Pyrene,50328,air,kg
+Phosphine,7803512,air,kg
+Carbon Dioxide,CO2,air,kg
+Methane,CH4,air,kg
+Nitrous Oxide,N2O,air,kg
+Methyl Bromide,74839,air,kg
+"1,1,2,2-Tetrachloroethane",79345,air,kg
+Carbon Tetrachloride,56235,air,kg
+Ethylene Dibromide,106934,air,kg
+Ethylidene Dichloride,75343,air,kg
+Propylene Dichloride,78875,air,kg
+Styrene,100425,air,kg
+Vinyl Chloride,75014,air,kg
+Phenol,108952,air,kg
+Methyl Chloroform,71556,air,kg
+Antimony,7440360,air,kg
+Chlorine,7782505,air,kg
+Mercury,7439976,air,kg
+Phosphorus,7723140,air,kg
+Beryllium,7440417,air,kg
+"2,2,4-Trimethylpentane",540841,air,kg
+Biphenyl,92524,air,kg
+Ethyl Chloride,75003,air,kg
+m-Xylene,108383,air,kg
+o-Xylene,95476,air,kg
+p-Xylene,106423,air,kg
+Acenaphthene,83329,air,kg
+Acenaphthylene,208968,air,kg
+"Benzo[g,h,i,]Perylene",191242,air,kg
+Benzo[k]Fluoranthene,207089,air,kg
+"Dibenzo[a,h]Anthracene",53703,air,kg
+"Indeno[1,2,3-c,d]Pyrene",193395,air,kg
+p-Dioxane,123911,air,kg
+Asbestos,1332214,air,kg
+Benzo[e]Pyrene,192972,air,kg
+"4,4 -Methylenediphenyl Diisocyanate",101688,air,kg
+Cumene,98828,air,kg
+Methyl Methacrylate,80626,air,kg
+Perylene,198550,air,kg
+Carbon Disulfide,75150,air,kg
+Methyl Chloride,74873,air,kg
+Vinylidene Chloride,75354,air,kg
+Diethylene Glycol Monobutyl Ether,112345,air,kg
+Glycol Ethers,171,air,kg
+"2,4-Dinitrophenol",51285,air,kg
+2-Chloronaphthalene,91587,air,kg
+4-Nitrophenol,100027,air,kg
+Acetophenone,98862,air,kg
+Bis(2-Ethylhexyl)Phthalate,117817,air,kg
+Pentachlorophenol,87865,air,kg
+Propionaldehyde,123386,air,kg
+Acrylonitrile,107131,air,kg
+Carbonyl Sulfide,463581,air,kg
+Methyl Isobutyl Ketone,108101,air,kg
+"7,12-Dimethylbenz[a]Anthracene",57976,air,kg
+Methyl Tert-Butyl Ether,1634044,air,kg
+Tert-butyl Acetate,540885,air,kg
+Ethylene Oxide,75218,air,kg
+Diethylene Glycol Monoethyl Ether,111900,air,kg
+PAH/POM - Unspecified,250,air,kg
+Isophorone,78591,air,kg
+Acrylic Acid,79107,air,kg
+Triethylamine,121448,air,kg
+Ethylene Glycol,107211,air,kg
+Nickel Oxide,1313991,air,kg
+3-Methylcholanthrene,56495,air,kg
+Acrylamide,79061,air,kg
+Cresol/Cresylic Acid (Mixed Isomers),1319773,air,kg
+Cellosolve Solvent,110805,air,kg
+Ethylene Glycol Methyl Ether,109864,air,kg
+Hydrazine,302012,air,kg
+"1,3-Dichloropropene",542756,air,kg
+1-Methylnaphthalene,90120,air,kg
+PM10-Primary from certain diesel engines,DIESEL-PM10,air,kg
+PM25-Primary from certain diesel engines,DIESEL-PM25,air,kg
+Polychlorinated Biphenyls,1336363,air,kg
+Vinyl Acetate,108054,air,kg
+"2,4-Dinitrotoluene",121142,air,kg
+2-Chloroacetophenone,532274,air,kg
+Benzyl Chloride,100447,air,kg
+Bromoform,75252,air,kg
+Cyanide,57125,air,kg
+Dimethyl Sulfate,77781,air,kg
+Hydrogen Fluoride,7664393,air,kg
+Methylhydrazine,60344,air,kg
+"2,4-Toluene Diisocyanate",584849,air,kg
+"4,4 -Methylenebis(2-Chloraniline)",101144,air,kg
+"N,N-Dimethylformamide",68122,air,kg
+Acetonitrile,75058,air,kg
+Maleic Anhydride,108316,air,kg
+Dibenzofuran,132649,air,kg
+Quinoline,91225,air,kg
+Diethanolamine,111422,air,kg
+Hydrogen Cyanide,74908,air,kg
+Ethyl Acrylate,140885,air,kg
+Hexamethylene Diisocyanate,822060,air,kg
+Dibutyl Phthalate,84742,air,kg
+o-Cresol,95487,air,kg
+m-Cresol,108394,air,kg
+p-Cresol,106445,air,kg
+2-Butoxyethyl Acetate,112072,air,kg
+Phthalic Anhydride,85449,air,kg
+Methyl Iodide,74884,air,kg
+2-Nitropropane,79469,air,kg
+Epichlorohydrin,106898,air,kg
+Titanium Tetrachloride,7550450,air,kg
+"Benzo(g,h,i)Fluoranthene",203123,air,kg
+5-Methylchrysene,3697243,air,kg
+Benzidine,92875,air,kg
+Dimethyl Phthalate,131113,air,kg
+Hexachlorobenzene,118741,air,kg
+N-Nitrosodimethylamine,62759,air,kg
+"4,4 -Methylenedianiline",101779,air,kg
+Allyl Chloride,107051,air,kg
+"1,2,4-Trichlorobenzene",120821,air,kg
+"2,4,5-Trichlorophenol",95954,air,kg
+"2,4,6-Trichlorophenol",88062,air,kg
+Chloroacetic Acid,79118,air,kg
+Hexachlorobutadiene,87683,air,kg
+Hexachlorocyclopentadiene,77474,air,kg
+Hexachloroethane,67721,air,kg
+Nitrobenzene,98953,air,kg
+Catechol,120809,air,kg
+Sulfur Hexafluoride,SF6,air,kg
+"1,2-Epoxybutane",106887,air,kg
+Hydroquinone,123319,air,kg
+p-Phenylenediamine,106503,air,kg
+Aniline,62533,air,kg
+"N,N-Dimethylaniline",121697,air,kg
+Benzo(a)Fluoranthene,203338,air,kg
+Benzofluoranthenes,56832736,air,kg
+"3,3 -Dichlorobenzidine",91941,air,kg
+4-Aminobiphenyl,92671,air,kg
+4-Nitrobiphenyl,92933,air,kg
+Dichloroethyl Ether,111444,air,kg
+Pentachloronitrobenzene,82688,air,kg
+Vinyl Bromide,593602,air,kg
+o-Anisidine,90040,air,kg
+o-Toluidine,95534,air,kg
+"Toluene-2,4-Diamine",95807,air,kg
+Propyl Cellosolve,2807309,air,kg
+Butyl Carbitol Acetate,124174,air,kg
+Carbitol Acetate,112152,air,kg
+"1,2,3,4,5,6-Hexachlorocyclohexane",58899,air,kg
+"2,4-Dichlorophenoxy Acetic Acid",94757,air,kg
+Calcium Cyanamide,156627,air,kg
+Chlordane,57749,air,kg
+Ethyl Carbamate,51796,air,kg
+Heptachlor,76448,air,kg
+Methoxychlor,72435,air,kg
+Propoxur,114261,air,kg
+Toxaphene,8001352,air,kg
+Trifluralin,1582098,air,kg
+"1,2-Dimethoxyethane",110714,air,kg
+"1,2-Dibromo-3-Chloropropane",96128,air,kg
+Phosgene,75445,air,kg
+Dichlorvos,62737,air,kg
+Quinone,106514,air,kg
+"1,2-Propylenimine",75558,air,kg
+Cellosolve Acetate,111159,air,kg
+Benzo[j]fluoranthene,205823,air,kg
+2-(Hexyloxy)Ethanol,112254,air,kg
+N-Hexyl Carbitol,112594,air,kg
+"2,4,4 -Trichlorobiphenyl (PCB-28)",7012375,air,kg
+Hexamethylphosphoramide,680319,air,kg
+Methyl Isocyanate,624839,air,kg
+Ethyleneimine,151564,air,kg
+Captan,133062,air,kg
+Carbaryl,63252,air,kg
+Coal Tar,8007452,air,kg
+Diethylene Glycol Monomethyl Ether,111773,air,kg
+Diethyl Sulfate,64675,air,kg
+"4,4 -Dichlorobiphenyl (PCB-15)",2050682,air,kg
+Carbazole,86748,air,kg
+Decachlorobiphenyl (PCB-209),2051243,air,kg
+Chromic Acid (VI),7738945,air,kg
+Acetamide,60355,air,kg
+Chloroprene,126998,air,kg
+Coke Oven Emissions,140,air,kg
+Phenyl Cellosolve,122996,air,kg
+"3,3 -Dimethoxybenzidine",119904,air,kg
+"3,3 -Dimethylbenzidine",119937,air,kg
+4-Dimethylaminoazobenzene,60117,air,kg
+"4,6-Dinitro-o-Cresol",534521,air,kg
+"1,1-Dimethyl Hydrazine",57147,air,kg
+Benzotrichloride,98077,air,kg
+Chromium Trioxide,1333820,air,kg
+Ethylene Thiourea,96457,air,kg
+Heptachlorobiphenyl,28655712,air,kg
+Hexachlorobiphenyl,26601649,air,kg
+Pentachlorobiphenyl,25429292,air,kg
+Tetrachlorobiphenyl,26914330,air,kg
+Methylchrysene,41637905,air,kg
+Dimethylcarbamoyl Chloride,79447,air,kg
+"1,2-Diphenylhydrazine",122667,air,kg
+Methoxytriglycol,112356,air,kg
+Diethylene Glycol Dimethyl Ether,111966,air,kg
+Styrene Oxide,96093,air,kg
+Ethylene Glycol Monomethyl Ether Acetate,110496,air,kg
+"Dibenzo[a,h]Pyrene",189640,air,kg
+Rockwool (Man-Made Fibers),617,air,kg
+"Dibenzo[a,e]Pyrene",192654,air,kg
+N-Nitrosomorpholine,59892,air,kg
+2-Acetylaminofluorene,53963,air,kg
+Bis(Chloromethyl)Ether,542881,air,kg
+Chlorobenzilate,510156,air,kg
+Chloromethyl Methyl Ether,107302,air,kg
+Parathion,56382,air,kg
+Fine Mineral Fibers,383,air,kg
+Triglycol Monobutyl Ether,143226,air,kg
+Ethoxytriglycol,112505,air,kg
+Triethylene Glycol Dimethyl Ether,112492,air,kg
+N-Nitroso-N-Methylurea,684935,air,kg
+Nickel Refinery Dust,604,air,kg
+"Dibenzo[a,j]Acridine",224420,air,kg
+"1,3-Propanesultone",1120714,air,kg
+Diethylene Glycol Diethyl Ether,112367,air,kg
+2-Chlorobiphenyl (PCB-1),2051607,air,kg
