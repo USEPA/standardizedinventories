@@ -5,7 +5,7 @@ import stewi.globals as globals
 import pandas as pd
 import numpy as np
 
-report_year = '2014'
+report_year = '2016'
 
 output_dir = globals.output_dir
 data_dir = globals.data_dir
@@ -62,55 +62,65 @@ def standardize_output(source): # source as 'Point'/'NonPoint'/'OnRoad'/'NonRoad
     nei = nei.drop(['UOM','sum'],1)
     return(nei)
 
-def nei_aggregate_unit_to_facility_level(nei_unit):
-
-    #drop zeroes from flow amount
-    nei_unit = nei_unit[nei_unit['FlowAmount'] > 0]
+def nei_aggregate_unit_to_facility_level(nei_):
+    #drop zeroes from flow amount and reliability score
+    nei_ = nei_[(nei_['FlowAmount'] > 0) & (nei_['ReliabilityScore'] > 0)]
 
     grouping_vars = ['FacilityID', 'FlowName']
 
     #Do groupby with sum of flow amount and weighted avg of reliabilty
     #Too slow right now
     # Define a lambda function to compute the weighted mean
-    wm = lambda x: np.average(x, weights=nei_unit.loc[x.index, "FlowAmount"])
+    wm = lambda x: np.average(x, weights=nei_.loc[x.index, "FlowAmount"])
     # Define a dictionary with the functions to apply for a given column:
     f = {'FlowAmount': ['sum'], 'ReliabilityScore': {'weighted_mean': wm}}
     # Groupby and aggregate with your dictionary:
-    neibyfacility = nei_unit.groupby(grouping_vars).agg(f)
+    neibyfacility = nei_.groupby(grouping_vars).agg(f)
 
     #Procedure without weighted avg for the groupby
-    #neibyfacility = nei_unit.groupby(grouping_vars)[['FlowAmount']]
+    #neibyfacility = nei_point.groupby(grouping_vars)[['FlowAmount']]
     #neibyfacilityagg = neibyfacility.agg(sum)
-
-    #Temp placeholder for now for reliability
-    #neibyfacilityaggref['ReliabilityScore'] = 0
 
     neibyfacility = neibyfacility.reset_index()
     neibyfacility.columns = neibyfacility.columns.droplevel(level=1)
 
-    return(neibyfacilityaggref)
+    return(neibyfacility)
 
 #NEIPoint
-nei_unit = standardize_output('Point')
-len(nei_unit)
+nei_point = standardize_output('Point')
 
-nei_facility = nei_aggregate_unit_to_facility_level(nei_unit)
-len(nei_facility)
-
-#Prepare unit for export
-nei_unit = nei_unit.drop(columns=['Unitid','Unittype'])
+##FlowByUnit output
+nei_unit = nei_point.drop(columns=['FacilityName', 'CompanyName', 'Address', 'City', 'State',
+                                   'Zip', 'Latitude', 'Longitude', 'NAICS', 'County','Source'])
 nei_unit.to_csv(output_dir+'flowbyunit/'+'NEI_'+report_year+'.csv',index=False)
+len(nei_unit)
+#2016: 4103556
 
-#Export flowbyfacility
-nei_facility.to_csv(output_dir+'NEI_'+report_year+'.csv',index=False)
+#Flowbyfacility output
+#re_idex nei_point
+nei_point = nei_point.reset_index()
+nei_flowbyfacility = nei_aggregate_unit_to_facility_level(nei_point)
+nei_flowbyfacility.to_csv(output_dir+'NEI_'+report_year+'.csv',index=False)
+len(nei_flowbyfacility)
+#2016: 841735
 
-#Get flows
+##Flows output
 #nei_flows = pd.DataFrame(pd.unique(nei_facility['FlowName','FlowID']),columns=['FlowName','FlowID'])
-nei_flows = nei_unit[[['FlowName','FlowID']]]
+nei_flows = nei_point[['FlowName', 'FlowID']]
 nei_flows = nei_flows.drop_duplicates()
 nei_flows['Compartment']='air'
 nei_flows['Unit']='kg'
 nei_flows.to_csv(output_dir+'flow/'+'NEI_'+report_year+'.csv',index=False)
+len(flows)
+#2016: 274
+
+##Facility output
+facility = nei_point[['FacilityID', 'FacilityName', 'CompanyName', 'Address', 'City', 'State',
+       'Zip', 'Latitude', 'Longitude', 'NAICS', 'County']]
+facility = facility.drop_duplicates()
+facility.to_csv(output_dir+'facility/'+'NEI_'+report_year+'.csv',index=False)
+len(facility)
+#2016: 48087
 
 #Needs a new format to output these data
 #NEINonPoint
