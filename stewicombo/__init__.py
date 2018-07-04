@@ -13,7 +13,7 @@ except NameError: modulepath = 'stewicombo/'
 
 inventory_to_FRS_pgm_acrynoym = {"NEI":"EIS","TRI":"TRIS","eGRID":"EGRID","GHGRP":"E-GGRT","RCRAInfo":"RCRAINFO"}
 
-compartments = {"NEI":"air","RCRAInfo":"waste","eGRID":"air"}
+compartments = {"NEI":"air","RCRAInfo":"waste"}
 columns_to_keep = ['Compartment', 'FacilityID', 'FlowAmount', 'FlowName', 'ReliabilityScore', 'Source']
 
 #For testing
@@ -81,8 +81,6 @@ def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict
     colname_base_inventory_id = base_inventory + '_ID'
     inventories.rename(columns={"PGM_SYS_ID_x":colname_base_inventory_id},inplace=True)
     return(inventories)
-
-
 
 
 def pivotCombinedInventories(combinedinventory_df):
