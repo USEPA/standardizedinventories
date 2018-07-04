@@ -17,7 +17,7 @@ compartments = {"NEI":"air","RCRAInfo":"waste","eGRID":"air"}
 columns_to_keep = ['Compartment', 'FacilityID', 'FlowAmount', 'FlowName', 'ReliabilityScore', 'Source']
 
 #For testing
-inventory_dict = {"TRI":"2014","NEI":"2014","RCRAInfo":"2015"}
+#inventory_dict = {"TRI":"2014","NEI":"2014","RCRAInfo":"2015"}
 
 def combineFullInventories(inventory_dict):
     inventories = pd.DataFrame()
@@ -45,7 +45,7 @@ def combineFullInventories(inventory_dict):
     return(inventories)
 
 #For testing
-base_inventory = "eGRID"
+#base_inventory = "eGRID"
 def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict):
     #Bring in facility matches
     #get only those inventorytoFRS_pgm correspondence that are needed
