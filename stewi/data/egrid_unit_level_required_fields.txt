@@ -1,0 +1,17 @@
+DOE/EIA ORIS plant or facility code
+Unit ID
+Prime Mover
+Unit primary fuel
+Unit unadjusted annual heat input (MMBtu)
+Unit unadjusted annual NOx emissions (tons)
+Unit unadjusted annual SO2 emissions (tons)
+Unit unadjusted annual CO2 emissions (tons)
+Unit unadjusted annual heat input source
+Unit unadjusted annual NOx emissions source
+Unit unadjusted annual SO2 emissions source
+Unit unadjusted annual CO2 emissions source
+
+
+
+
+
