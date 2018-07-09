@@ -1,0 +1,12 @@
+FlowName,FlowID,Compartment,Unit
+Methane,2.0,air,kg
+Biogenic CO2,8.0,air,kg
+Nitrous Oxide,3.0,air,kg
+Carbon Dioxide,1.0,air,kg
+PFCs,11.0,air,kg
+Fluoroform,7.0,air,kg
+HFCs,10.0,air,kg
+Sulfur Hexafluoride,6.0,air,kg
+,,air,kg
+Nitrogen Triflouride,9.0,air,kg
+Other,13.0,air,kg

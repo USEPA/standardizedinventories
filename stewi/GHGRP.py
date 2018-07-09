@@ -8,6 +8,8 @@ from stewi.globals import import_table
 from stewi.globals import drop_excel_sheets
 from stewi.globals import download_table
 from stewi.globals import set_dir
+from stewi.globals import validate_inventory
+from stewi.globals import validation_summary
 import pandas as pd
 import numpy as np
 import requests
@@ -18,10 +20,12 @@ from datetime import datetime
 
 # Set reporting year to be used in API requests
 data_source = 'GHGRP'
-report_year = '2013'
+report_year = '2016'
+output_format = 'facility'
 output_dir = globals.output_dir
 data_dir = globals.data_dir
-ghgrp_data_dir = set_dir(data_dir + data_source + '/')
+ghgrp_data_dir = data_dir + data_source.lower() + '/'
+ghgrp_external_dir = set_dir('../../GHGRP Data Files')
 
 ghgrp_columns = import_table(ghgrp_data_dir + 'ghgrp_columns.csv')
 # Column groupings handled based on table structure, which varies by subpart
@@ -155,33 +159,54 @@ def get_most_recent_year(report_year=report_year):
     return most_recent_year
 
 
+def get_facilities(facilities_file):
+    keep_columns = ['Address', 'City', 'County', 'FRS Id', 'Facility Id', 'Facility Name', 'Industry Type (sectors)',
+                    'Industry Type (subparts)', 'Latitude', 'Longitude', 'Primary NAICS Code', 'Reported Address',
+                    'Reported City', 'Reported County', 'Reported Latitude', 'Reported Longitude', 'Reported State',
+                    'Reported Zip Code', 'State', 'State where Emissions Occur', 'Zip Code']
+    facilities_df = pd.DataFrame()
+    facilities_dict = import_table(facilities_file, skip_lines=3)
+    facilities_dict = drop_excel_sheets(facilities_dict, drop_sheets=['Industry Type', 'FAQs about this Data'])
+    for s in facilities_dict.keys():
+        facilities_df = pd.concat([facilities_df, facilities_dict[s]]).reset_index(drop=True)
+    facilities_df = facilities_df[keep_columns]
+    facilities_df['Address'] = facilities_df[['Reported Address', 'Address']].fillna('').sum(axis=1)
+    facilities_df['City'] = facilities_df[['Reported City', 'City']].fillna('').sum(axis=1)
+    facilities_df['County'] = facilities_df[['Reported County', 'County']].fillna('').sum(axis=1)
+    facilities_df['Latitude'] = facilities_df[['Reported Latitude', 'Latitude']].fillna('').sum(axis=1)
+    facilities_df['Longitude'] = facilities_df[['Reported Longitude', 'Longitude']].fillna('').sum(axis=1)
+    facilities_df['State'] = facilities_df[['Reported State', 'State', 'State where Emissions Occur']].fillna('').sum(
+        axis=1)
+    facilities_df['Zip Code'] = facilities_df[['Reported Zip Code', 'Zip Code']].fillna('').sum(axis=1)
+    facilities_df.drop(
+        ['Reported Address', 'Reported City', 'Reported County', 'Reported Latitude', 'Reported Longitude',
+         'Reported State', 'Reported Zip Code', 'State where Emissions Occur', 'FRS Id', 'Industry Type (sectors)',
+         'Industry Type (subparts)'], axis=1, inplace=True)
+    facilities_df = facilities_df.rename(columns={'Facility Id': 'FACILITY_ID'})
+    # facilities_df = facilities_df.rename(columns={'State': 'STATE'})
+    facilities_df = facilities_df.rename(columns={'Primary NAICS Code': 'NAICS_CODE'})
+    facilities_df = facilities_df.rename(columns={'Facility Name': 'FacilityName'})
+    facilities_df = facilities_df.rename(columns={'Zip Code': 'Zip'})
+    facilities_df.drop_duplicates(inplace=True)
+    return facilities_df
+
+
 most_recent_year = get_most_recent_year()
-facilities_file = ghgrp_data_dir + most_recent_year + '_ghgrp_data_summary_spreadsheets/' + most_recent_year + ' Data Summary Spreadsheets/ghgp_data_' + report_year + '_8_5_' + str(int(most_recent_year[-2:])+1) + '.xlsx'
+facilities_file = ghgrp_external_dir + most_recent_year + '_ghgrp_data_summary_spreadsheets/' + most_recent_year + ' Data Summary Spreadsheets/ghgp_data_' + report_year + '_8_5_' + str(int(most_recent_year[-2:])+1) + '.xlsx'
 facilities_url = 'https://www.epa.gov/sites/production/files/' + str(int(most_recent_year)+1) + '-12/' + most_recent_year + '_ghgrp_data_summary_spreadsheets.zip'
 enviro_url = 'https://iaspub.epa.gov/enviro/efservice/'
 subparts_url = enviro_url + 'PUB_DIM_SUBPART/JSON'
-subparts_file = ghgrp_data_dir + 'subparts.csv'
+subparts_file = ghgrp_external_dir + 'subparts.csv'
 ghgs_url = enviro_url + 'PUB_DIM_GHG/JSON'
-ghgs_file = ghgrp_data_dir + 'ghgs.csv'
+ghgs_file = ghgrp_external_dir + 'ghgs.csv'
 # Download link comes from 'https://www.epa.gov/ghgreporting/ghg-reporting-program-data-sets' -- May need to update before running
 excel_subparts_url = 'https://www.epa.gov/sites/production/files/' + str(int(most_recent_year)+1) + '-09/e_o_s_cems_bb_cc_ll_rr_full_data_set_8_5_' + str(int(most_recent_year[-2:])+1) + '_final_0.xlsx'
-excel_subparts_file = ghgrp_data_dir + 'e_o_s_cems_bb_cc_ll_rr_full_data_set_8_5_' + str(int(most_recent_year[-2:])+1) + '_final_0.xlsx'
+excel_subparts_file = ghgrp_external_dir + 'e_o_s_cems_bb_cc_ll_rr_full_data_set_8_5_' + str(int(most_recent_year[-2:])+1) + '_final_0.xlsx'
 
 required_tables = [[facilities_file, facilities_url], [subparts_file, subparts_url], [ghgs_file, ghgs_url], [excel_subparts_file, excel_subparts_url]]
 for table in required_tables: download_table(table[0], url=table[1])
 
-facilities_df = pd.DataFrame()
-facilities_dict = import_table(facilities_file, skip_lines=3)
-facilities_dict = drop_excel_sheets(facilities_dict, drop_sheets=['Industry Type', 'FAQs about this Data'])
-for s in facilities_dict.keys():
-    try: facilities_dict[s] = facilities_dict[s][['Facility Id', 'State', 'Primary NAICS Code']]
-    except:
-        facilities_dict[s] = facilities_dict[s][['Facility Id', 'Reported State', 'Primary NAICS Code']]
-        facilities_dict[s].rename(columns={'Reported State': 'State'}, inplace=True)
-    facilities_df = pd.concat([facilities_df, facilities_dict[s]]).reset_index(drop=True)
-facilities_df = facilities_df.rename(columns={'Facility Id': 'FACILITY_ID'})
-facilities_df = facilities_df.rename(columns={'State': 'STATE'})
-facilities_df = facilities_df.rename(columns={'Primary NAICS Code': 'NAICS_CODE'})
+facilities_df = get_facilities(facilities_file)
 
 excel_subparts_dict = import_table(excel_subparts_file)
 excel_subparts_dict = drop_excel_sheets(excel_subparts_dict, drop_sheets=['READ ME', None])
@@ -194,13 +219,13 @@ for table in [subparts, ghgs]:
 
 
 ghgrp0 = pd.DataFrame(columns=ghg_cols)
-ghgrp_tables_df = import_table(ghgrp_data_dir + 'all_ghgrp_tables_years.csv').fillna('')
+ghgrp_tables_df = import_table(ghgrp_external_dir + 'all_ghgrp_tables_years.csv').fillna('')
 year_tables = ghgrp_tables_df[ghgrp_tables_df['REPORTING_YEAR'].str.contains(report_year)]
 year_tables = year_tables[year_tables['PrimaryEmissions'] == 1].reset_index(drop=True)
 for index, row in year_tables.iterrows():
     subpart_emissions_table = row['TABLE']
     print(subpart_emissions_table)
-    filepath = set_dir(ghgrp_data_dir + 'tables/' + report_year + '/') + subpart_emissions_table + '.csv'
+    filepath = ghgrp_external_dir + 'tables/' + report_year + '/' + subpart_emissions_table + '.csv'
     if os.path.exists(filepath): temp_df = import_table(filepath)
     else:
         subpart_count = get_row_count(subpart_emissions_table, report_year=report_year)
@@ -221,7 +246,7 @@ for index, row in year_tables.iterrows():
 
 # Combine equivalent columns from different tables into one, delete old columns
 ghgrp1 = ghgrp0[ghg_cols]
-ghgrp1['Amount'] = ghgrp1[quantity_cols].fillna(0).sum(axis=1)
+ghgrp1['FlowAmount'] = ghgrp1[quantity_cols].fillna(0).sum(axis=1)
 ghgrp1['Flow Description'] = ghgrp1[name_cols].fillna('').sum(axis=1)
 ghgrp1['METHOD'] = ghgrp1[method_cols].fillna('').sum(axis=1)
 
@@ -239,7 +264,7 @@ for group in group_list:
         temp_df['Flow Description'] = group[i]
         temp_df['METHOD'] = temp_df[method_cols].fillna('').sum(axis=1)
         temp_df.drop(method_cols, axis=1, inplace=True)
-        temp_df.rename(columns={group[i]: 'Amount'}, inplace=True)
+        temp_df.rename(columns={group[i]: 'FlowAmount'}, inplace=True)
         ghgrp2 = pd.concat([ghgrp2, temp_df])
 
 ghgrp3 = pd.DataFrame()
@@ -257,7 +282,7 @@ for key in excel_keys:
         col_df = col_df[col_df['Year'] == int(report_year)]
         col_df['SUBPART_NAME'] = excel_dict[key]
         col_df['Flow Description'] = col
-        col_df['Amount'] = col_df[col]
+        col_df['FlowAmount'] = col_df[col]
         col_df.drop(excel_method_cols, axis=1, inplace=True)
         col_df.drop(excel_quant_cols, axis=1, inplace=True)
         ghgrp3 = pd.concat([ghgrp3, col_df])
@@ -268,7 +293,7 @@ ghgrp_reliability_table = reliability_table[reliability_table['Source'] == 'GHGR
 ghgrp_reliability_table.drop('Source', axis=1, inplace=True)
 
 # Map flow descriptions to standard gas names from GHGRP
-ghg_mapping = pd.read_csv(ghgrp_data_dir + 'ghg_mapping.csv', usecols=['Flow Description', 'FlowName'])
+ghg_mapping = pd.read_csv(ghgrp_data_dir + 'ghg_mapping.csv', usecols=['Flow Description', 'FlowName', 'FlowID'])
 
 # Merge tables
 ghgrp = pd.concat([ghgrp1, ghgrp2, ghgrp3]).reset_index(drop=True)
@@ -279,23 +304,54 @@ ghgrp = pd.merge(ghgrp, ghg_mapping, on='Flow Description', how='left')
 # Fill NAs with 5 for DQI reliability score
 ghgrp.replace('', np.nan)
 ghgrp['DQI Reliability Score'] = ghgrp['DQI Reliability Score'].fillna(value=5)
-ghgrp.drop('Code', axis=1, inplace=True)
-ghgrp['Amount'] = 1000 * ghgrp['Amount']
-ghgrp.drop('METHOD', axis=1, inplace=True)
+ghgrp['FlowAmount'] = 1000 * ghgrp['FlowAmount']
+ghgrp.drop(['METHOD', 'Flow Description', 'REPORTING_YEAR', 'Code', 'SUBPART_NAME'], axis=1, inplace=True)
 ghgrp.rename(columns={'FACILITY_ID': 'FacilityID'}, inplace=True)
 ghgrp.rename(columns={'DQI Reliability Score': 'ReliabilityScore'}, inplace=True)
 ghgrp.rename(columns={'NAICS_CODE': 'NAICS'}, inplace=True)
+# TODO: Fix decimal format issue for NAICS, Zip, and any other integer fields
 
-# TODO: Validation
-# Compare with national totals if available.
-# Also, check that all expected facilities are accounted for in each subpart based on 'PUB_DIM_FACILITY'
-# Compare amounts at facility level
+co2e_df = import_table(ghgrp_data_dir + 'ghgs_co2e.csv')
+# co2e_df['CO2e'].fillna(0, inplace=True)
+validation_table = 'PUB_FACTS_SUBP_GHG_EMISSION'
+ref_filepath = ghgrp_external_dir + 'ghgrp_reference_co2e.csv'
+if os.path.exists(ref_filepath): reference_df = import_table(ref_filepath)
+else: reference_df = download_chunks(validation_table, get_row_count(validation_table), filepath=ref_filepath)
+for col in reference_df:
+    exec("reference_df = reference_df.rename(columns={'" + col + "':'" + col[len(validation_table) + 1:] + "'})")
+if 'unnamed' in reference_df.columns[len(reference_df.columns) - 1].lower() or reference_df.columns[
+    len(reference_df.columns) - 1] == '':
+    reference_df.drop(reference_df.columns[len(reference_df.columns) - 1], axis=1, inplace=True)
 
-# validation_table = 'PUB_FACTS_SUBP_GHG_EMISSION'
-# validation_df = download_chunks(validation_table, get_row_count(validation_table), report_year=report_year)
-# validation_df = validation_df.merge()
+reference_df['YEAR'] = reference_df['YEAR'].astype('str')
+reference_df = reference_df[reference_df['YEAR'] == report_year]
+reference_df = reference_df.merge(ghgs[['GAS_ID', 'GAS_NAME']], how='left', on='GAS_ID')
+reference_df = reference_df.merge(co2e_df, how='left', on='GAS_ID')
+reference_df['FlowAmount'] = reference_df['CO2E_EMISSION'].astype(float) / reference_df['CO2e'].astype(float) * 1000
+reference_df = reference_df[['FlowAmount', 'GAS_ID', 'GAS_NAME', 'FACILITY_ID']]
+reference_df.rename(columns={'FACILITY_ID': 'FacilityID'}, inplace=True)
+reference_df.rename(columns={'GAS_ID': 'FlowID'}, inplace=True)
+reference_df.rename(columns={'GAS_NAME': 'FlowName'}, inplace=True)
+reference_df.reset_index(drop=True, inplace=True)
+reference_df.to_csv(ghgrp_external_dir + '_' + report_year + 'GHGRP_totals_from_CO2e.csv', index=False)
 
+# TODO: Figure out index issue with validation
+validation_df = validate_inventory(ghgrp, reference_df)
+validation_sum = validation_summary(validation_df)
+validation_df.to_csv(ghgrp_external_dir + 'GHGRP_val_' + report_year + '.csv', index=False)
+validation_sum.to_csv(ghgrp_external_dir + 'GHGRP_val_summary_' + report_year + '.csv', index=False)
 
-output_file = output_dir + data_source + '_' + report_year + '.csv'
-ghgrp.to_csv(output_file, index=False)
+# if output_format == 'facility':
+facility_columns = ['FacilityID', 'FacilityName', 'Address', 'City', 'State', 'Zip', 'Latitude', 'Longitude', 'County', 'NAICS']
+ghgrp_facility = ghgrp[facility_columns].drop_duplicates()
+ghgrp_facility.to_csv(output_dir + 'facility/GHGRP_' + report_year + '.csv', index=False)
+# elif output_format == 'flow':
+flow_columns = ['FlowName', 'FlowID']
+ghgrp_flow = ghgrp[flow_columns].drop_duplicates()
+ghgrp_flow['Compartment'] = 'air'
+ghgrp_flow['Unit'] = 'kg'
+ghgrp_flow.to_csv(output_dir + 'flow/GHGRP_' + report_year + '.csv', index=False)
+# elif output_format == 'flowbyfacility':
+fbf_columns = ['FlowName', 'FlowAmount', 'FacilityID', 'ReliabilityScore']
+ghgrp[fbf_columns].to_csv(output_dir + 'GHGRP_' + report_year + '.csv', index=False)
 
