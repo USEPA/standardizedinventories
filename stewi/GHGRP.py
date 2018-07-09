@@ -312,6 +312,7 @@ ghgrp.rename(columns={'NAICS_CODE': 'NAICS'}, inplace=True)
 # TODO: Fix decimal format issue for NAICS, Zip, and any other integer fields
 
 co2e_df = import_table(ghgrp_data_dir + 'ghgs_co2e.csv')
+# co2e_df['CO2e'].fillna(0, inplace=True)
 validation_table = 'PUB_FACTS_SUBP_GHG_EMISSION'
 ref_filepath = ghgrp_external_dir + 'ghgrp_reference_co2e.csv'
 if os.path.exists(ref_filepath): reference_df = import_table(ref_filepath)
@@ -332,13 +333,13 @@ reference_df.rename(columns={'FACILITY_ID': 'FacilityID'}, inplace=True)
 reference_df.rename(columns={'GAS_ID': 'FlowID'}, inplace=True)
 reference_df.rename(columns={'GAS_NAME': 'FlowName'}, inplace=True)
 reference_df.reset_index(drop=True, inplace=True)
-reference_df.to_csv(ghgrp_external_dir + 'GHGRP_val_reference_' + report_year + '.csv', index=False)
+reference_df.to_csv(ghgrp_external_dir + '_' + report_year + 'GHGRP_totals_from_CO2e.csv', index=False)
 
 # TODO: Figure out index issue with validation
-# validation_df = validate_inventory(ghgrp, reference_df)
-# validation_sum = validation_summary(validation_df)
-# validation_df.to_csv(ghgrp_external_dir + 'GHGRP_val_' + report_year + '.csv', index=False)
-# validation_sum.to_csv(ghgrp_external_dir + 'GHGRP_val_summary_' + report_year + '.csv', index=False)
+validation_df = validate_inventory(ghgrp, reference_df)
+validation_sum = validation_summary(validation_df)
+validation_df.to_csv(ghgrp_external_dir + 'GHGRP_val_' + report_year + '.csv', index=False)
+validation_sum.to_csv(ghgrp_external_dir + 'GHGRP_val_summary_' + report_year + '.csv', index=False)
 
 # if output_format == 'facility':
 facility_columns = ['FacilityID', 'FacilityName', 'Address', 'City', 'State', 'Zip', 'Latitude', 'Longitude', 'County', 'NAICS']

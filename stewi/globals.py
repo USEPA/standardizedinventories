@@ -137,12 +137,12 @@ def filter_states(inventory_df, include_states=True, include_dc=True, include_te
     return output_inventory
 
 
-def validate_inventory(inventory_df, reference_df, group_by='emission', tolerance=5.0):
+def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.0):
     """
     Compare inventory resulting from script output with a reference DataFrame from another source
     :param inventory_df: DataFrame of inventory resulting from script output
     :param reference_df: Reference DataFrame to compare emission quantities against. Must have same keys as inventory_df
-    :param group_by: 'emission' for species summed across facilities, 'facility' to check species by facility,
+    :param group_by: 'flow' for species summed across facilities, 'facility' to check species by facility,
                       or 'overall' for summed mass of all species
     :param tolerance: Maximum acceptable percent difference between inventory and reference values
     :return: DataFrame containing 'Conclusion' of statistical comparison and 'Percent_Difference'
@@ -158,13 +158,13 @@ def validate_inventory(inventory_df, reference_df, group_by='emission', toleranc
         inventory_sums = inventory_df['FlowAmount'].sum()
         reference_sums = reference_df['FlowAmount'].sum()
     else:
-        if group_by == 'emission': group_by_columns = ['FlowName']
+        if group_by == 'flow': group_by_columns = ['FlowName']
         elif group_by == 'facility': group_by_columns = ['FlowName', 'FacilityID']
         inventory_df = inventory_df.fillna(-np.pi)
         reference_df = reference_df.fillna(-np.pi)
         inventory_sums = inventory_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index(drop=True)
         reference_sums = reference_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index(drop=True)
-    validation_df = inventory_sums.merge(reference_sums, how='outer', on=group_by_columns)
+    validation_df = inventory_sums.merge(reference_sums, how='left', on=[group_by_columns])
     amount_x_list = []
     amount_y_list = []
     pct_diff_list = []
