@@ -326,7 +326,7 @@ reference_df['YEAR'] = reference_df['YEAR'].astype('str')
 reference_df = reference_df[reference_df['YEAR'] == report_year]
 reference_df = reference_df.merge(ghgs[['GAS_ID', 'GAS_NAME']], how='left', on='GAS_ID')
 reference_df = reference_df.merge(co2e_df, how='left', on='GAS_ID')
-reference_df['FlowAmount'] = reference_df['CO2E_EMISSION'] / reference_df['CO2e'] * 1000
+reference_df['FlowAmount'] = reference_df['CO2E_EMISSION'].astype(float) / reference_df['CO2e'].astype(float) * 1000
 reference_df = reference_df[['FlowAmount', 'GAS_ID', 'GAS_NAME', 'FACILITY_ID']]
 reference_df.rename(columns={'FACILITY_ID': 'FacilityID'}, inplace=True)
 reference_df.rename(columns={'GAS_ID': 'FlowID'}, inplace=True)

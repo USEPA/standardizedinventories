@@ -1,15 +1,15 @@
-,GAS_CODE,GAS_ID,GAS_LABEL,GAS_NAME
-0,CO2,1,Carbon Dioxide (CO%3Csub%3E2%3C/sub%3E),Carbon Dioxide
-1,CH4,2,Methane (CH%3Csub%3E4%3C/sub%3E),Methane
-2,N2O,3,Nitrous Oxide (N%3Csub%3E2%3C/sub%3EO),Nitrous Oxide
-3,SF6,6,Sulfur hexafluoride (SF%3Csub%3E6%3C/sub%3E),Sulfur Hexafluoride
-4,CHF3,7,HFC-23,Fluoroform
-5,BIOCO2,8,Biogenic Carbon Dioxide (CO%3Csub%3E2%3C/sub%3E),Biogenic CO2
-6,NF3,9,Nitrogen trifluoride (NF%3Csub%3E3%3C/sub%3E),Nitrogen Triflouride
-7,HFC,10,Hydrofluorocarbons (HFCs),HFCs
-8,PFC,11,Perfluorocarbons (PFCs),PFCs
-9,HFE,12,HFEs,HFEs
-10,Other,13,Other,Other
-11,Other_L,14,Fluorinated GHG Production (CO%3Csub%3E2%3C/sub%3Ee),Fluorinated GHG Production (CO%3Csub%3E2%3C/sub%3Ee)
-12,Very_Short,15,Very Short-lived Compounds,Very Short-lived Compounds
-13,Other_Full,16,Other Fully Fluorinated GHGs,Other Fully Fluorinated GHGs
+GAS_CODE,GAS_ID,GAS_LABEL,GAS_NAME
+CO2,1,Carbon Dioxide (CO%3Csub%3E2%3C/sub%3E),Carbon Dioxide
+CH4,2,Methane (CH%3Csub%3E4%3C/sub%3E),Methane
+N2O,3,Nitrous Oxide (N%3Csub%3E2%3C/sub%3EO),Nitrous Oxide
+SF6,6,Sulfur hexafluoride (SF%3Csub%3E6%3C/sub%3E),Sulfur Hexafluoride
+CHF3,7,HFC-23,Fluoroform
+BIOCO2,8,Biogenic Carbon Dioxide (CO%3Csub%3E2%3C/sub%3E),Biogenic CO2
+NF3,9,Nitrogen trifluoride (NF%3Csub%3E3%3C/sub%3E),Nitrogen Triflouride
+HFC,10,Hydrofluorocarbons (HFCs),HFCs
+PFC,11,Perfluorocarbons (PFCs),PFCs
+HFE,12,HFEs,HFEs
+Other,13,Other,Other
+Other_L,14,Fluorinated GHG Production (CO%3Csub%3E2%3C/sub%3Ee),Fluorinated GHG Production (CO%3Csub%3E2%3C/sub%3Ee)
+Very_Short,15,Very Short-lived Compounds,Very Short-lived Compounds
+Other_Full,16,Other Fully Fluorinated GHGs,Other Fully Fluorinated GHGs
