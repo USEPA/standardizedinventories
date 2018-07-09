@@ -64,24 +64,8 @@ def download_table(filepath, url):
             pd.read_json(url).to_csv(filepath, index=False)
 
 
-# def read_iso_csv(filepath_or_buffer, sep=',', delimiter=None, header='infer', names=None, index_col=None, usecols=None, squeeze=False, prefix=None, mangle_dupe_cols=True, dtype=None, engine='python', converters=None, true_values=None, false_values=None, skipinitialspace=False, skiprows=None, nrows=None, na_values=None, keep_default_na=True, na_filter=True, verbose=False, skip_blank_lines=True, parse_dates=False, infer_datetime_format=False, keep_date_col=False, date_parser=None, dayfirst=False, iterator=False, chunksize=None, compression='infer', thousands=None, decimal=b'.', lineterminator=None, quotechar='"', quoting=0, escapechar=None, comment=None, encoding=None, dialect=None, tupleize_cols=None, error_bad_lines=True, warn_bad_lines=True, skipfooter=0, skip_footer=0, doublequote=True, delim_whitespace=False, as_recarray=None, compact_ints=None, use_unsigned=None, low_memory=True, buffer_lines=None, memory_map=False, float_precision=None):
-#     # Try UTF-8 by default, then ISO 8859-1 (i.e. latin1). Cleanup extra characters if read as ISO.
-#     try: output_df = pd.read_csv(filepath_or_buffer=filepath_or_buffer, sep=sep, delimiter=delimiter, header=header, names=names, index_col=index_col, usecols=usecols, squeeze=squeeze, prefix=prefix, mangle_dupe_cols=mangle_dupe_cols, dtype=dtype, engine=engine, converters=converters, true_values=true_values, false_values=false_values, skipinitialspace=skipinitialspace, skiprows=skiprows, nrows=nrows, na_values=na_values, keep_default_na=keep_default_na, na_filter=na_filter, verbose=verbose, skip_blank_lines=skip_blank_lines, parse_dates=parse_dates, infer_datetime_format=infer_datetime_format, keep_date_col=keep_date_col, date_parser=date_parser, dayfirst=dayfirst, iterator=iterator, chunksize=chunksize, compression=compression, thousands=thousands, decimal=decimal, lineterminator=lineterminator, quotechar=quotechar, quoting=quoting, escapechar=escapechar, comment=comment, encoding=encoding, dialect=dialect, tupleize_cols=tupleize_cols, error_bad_lines=error_bad_lines, warn_bad_lines=warn_bad_lines, skipfooter=skipfooter, skip_footer=skip_footer, doublequote=doublequote, delim_whitespace=delim_whitespace, as_recarray=as_recarray, compact_ints=compact_ints, use_unsigned=use_unsigned, low_memory=low_memory, buffer_lines=buffer_lines, memory_map=memory_map, float_precision=float_precision)
-#     except UnicodeDecodeError:
-#         import numpy as np
-#         output_df = pd.read_csv(filepath_or_buffer=filepath_or_buffer, sep=sep, delimiter=delimiter, header=header, names=names, index_col=index_col, usecols=usecols, squeeze=squeeze, prefix=prefix, mangle_dupe_cols=mangle_dupe_cols, dtype=dtype, engine=engine, converters=converters, true_values=true_values, false_values=false_values, skipinitialspace=skipinitialspace, skiprows=skiprows, nrows=nrows, na_values=na_values, keep_default_na=keep_default_na, na_filter=na_filter, verbose=verbose, skip_blank_lines=skip_blank_lines, parse_dates=parse_dates, infer_datetime_format=infer_datetime_format, keep_date_col=keep_date_col, date_parser=date_parser, dayfirst=dayfirst, iterator=iterator, chunksize=chunksize, compression=compression, thousands=thousands, decimal=decimal, lineterminator=lineterminator, quotechar=quotechar, quoting=quoting, escapechar=escapechar, comment=comment, encoding="latin1", dialect=dialect, tupleize_cols=tupleize_cols, error_bad_lines=error_bad_lines, warn_bad_lines=warn_bad_lines, skipfooter=skipfooter, skip_footer=skip_footer, doublequote=doublequote, delim_whitespace=delim_whitespace, as_recarray=as_recarray, compact_ints=compact_ints, use_unsigned=use_unsigned, low_memory=low_memory, buffer_lines=buffer_lines, memory_map=memory_map, float_precision=float_precision)
-#         del_chars = ''.join(chr(i) for i in list(range(32)) + list(range(127, 256)))
-#         trans = str.maketrans(del_chars, ' ' * len(del_chars))
-#         for column in output_df.select_dtypes([np.object]):
-#             output_df[column] = output_df[column].str.replace('%3Csub%3E', '').str.replace('%3C/sub%3E', '')
-#             for i in range(len(output_df[column])):
-#                 output_df[column][i] = str(output_df[column][i]).encode("ascii", errors="ignore").decode()
-#         for column in output_df: output_df = output_df.rename(columns={column: column.encode("latin1", errors="ignore").decode()})
-#     return output_df
-
-
 def set_dir(directory_name):
-    path = 'stewi/' + directory_name + '/'
+    path = modulepath + directory_name + '/'
     if os.path.exists(path): pathname = path
     else:
         pathname = path
@@ -98,22 +82,6 @@ def import_table(path_or_reference, skip_lines=0):
         import_file = pd.ExcelFile(path_or_reference)
         import_file = {sheet: import_file.parse(sheet, skiprows=skip_lines) for sheet in import_file.sheet_names}
     return import_file
-
-
-def get_local_file(filename, data_source=''):
-    filepath = data_dir
-    if data_source != '': filepath += data_source + '/'
-    filepath += filename
-    output_file = import_table(filepath)
-    return output_file
-
-
-# def get_data_file(filepath, data_source, url=''):
-#     try: output_file = get_local_file(filename=filename, data_source=data_source)
-#     except:
-#         download_table(url=url, filepath=data_dir + data_source + '/' + filename)
-#         output_file = get_local_file(filename=filename, data_source=data_source)
-#     return output_file
 
 
 def drop_excel_sheets(excel_dict, drop_sheets):
@@ -180,30 +148,30 @@ def validate_inventory(inventory_df, reference_df, group_by='emission', toleranc
     :return: DataFrame containing 'Conclusion' of statistical comparison and 'Percent_Difference'
     """
     import numpy as np
-    if pd.api.types.is_string_dtype(inventory_df['Amount']):
-        inventory_df['Amount'] = inventory_df['Amount'].str.replace(',', '')
-        inventory_df['Amount'] = pd.to_numeric(inventory_df['Amount'])
-    if pd.api.types.is_string_dtype(reference_df['Amount']):
-        reference_df['Amount'] = reference_df['Amount'].str.replace(',', '')
-        reference_df['Amount'] = pd.to_numeric(reference_df['Amount'])
+    if pd.api.types.is_string_dtype(inventory_df['FlowAmount']):
+        inventory_df['FlowAmount'] = inventory_df['FlowAmount'].str.replace(',', '')
+        inventory_df['FlowAmount'] = pd.to_numeric(inventory_df['FlowAmount'])
+    if pd.api.types.is_string_dtype(reference_df['FlowAmount']):
+        reference_df['FlowAmount'] = reference_df['FlowAmount'].str.replace(',', '')
+        reference_df['FlowAmount'] = pd.to_numeric(reference_df['FlowAmount'])
     if group_by == 'overall':
-        inventory_sums = inventory_df['Amount'].sum()
-        reference_sums = reference_df['Amount'].sum()
+        inventory_sums = inventory_df['FlowAmount'].sum()
+        reference_sums = reference_df['FlowAmount'].sum()
     else:
         if group_by == 'emission': group_by_columns = ['FlowName']
         elif group_by == 'facility': group_by_columns = ['FlowName', 'FacilityID']
         inventory_df = inventory_df.fillna(-np.pi)
         reference_df = reference_df.fillna(-np.pi)
-        inventory_sums = inventory_df[group_by_columns + ['Amount']].groupby(group_by_columns).sum().reset_index()
-        reference_sums = reference_df[group_by_columns + ['Amount']].groupby(group_by_columns).sum().reset_index()
+        inventory_sums = inventory_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index(drop=True)
+        reference_sums = reference_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index(drop=True)
     validation_df = inventory_sums.merge(reference_sums, how='outer', on=group_by_columns)
     amount_x_list = []
     amount_y_list = []
     pct_diff_list = []
     conclusion = []
     for index, row in validation_df.iterrows():
-        amount_x = float(row['Amount_x'])
-        amount_y = float(row['Amount_y'])
+        amount_x = float(row['FlowAmount_x'])
+        amount_y = float(row['FlowAmount_y'])
         if amount_x == -np.pi:
             amount_x_list.append(np.nan)
             if amount_y == -np.pi:
@@ -256,7 +224,7 @@ def validate_inventory(inventory_df, reference_df, group_by='emission', toleranc
     validation_df['Reference_Amount'] = amount_y_list
     validation_df['Percent_Difference'] = pct_diff_list
     validation_df['Conclusion'] = conclusion
-    validation_df = validation_df.drop(['Amount_x', 'Amount_y'], axis=1)
+    validation_df = validation_df.drop(['FlowAmount_x', 'FlowAmount_y'], axis=1)
     return validation_df
 
 
@@ -279,14 +247,14 @@ def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
     return df
 
 
-#Writes the metadata dictionary to a JSON file
-def write_metadata(inventoryname,report_year, metadata_dict):
+# Writes the metadata dictionary to a JSON file
+def write_metadata(inventoryname, report_year, metadata_dict):
     with open(output_dir + inventoryname + '_' + report_year + '_metadata.json', 'w') as file:
         file.write(json.dumps(metadata_dict))
 
 
-#Returns the metadata dictionary for an inventory
-def read_metadata(inventoryname,report_year):
+# Returns the metadata dictionary for an inventory
+def read_metadata(inventoryname, report_year):
     with open(output_dir + 'RCRAInfo_' + report_year + '_metadata.json', 'r') as file:
         file_contents = file.read()
         metadata = json.loads(file_contents)
@@ -305,6 +273,7 @@ def get_optional_fields(format='flowbyfacility'):
     optional_fields = fields[fields['required?'] == 0]
     optional_fields = dict(zip(optional_fields['Name'], optional_fields['Type']))
     return optional_fields
+
 
 def checkforFile(filepath):
     if os.path.exists(filepath):
