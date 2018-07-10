@@ -35,7 +35,7 @@ Use of Python permits further customization the output.
 This repository contains three libraries: `chemicalmatcher`,`stewi`, and `stewicombo`. If you have Python 3.x installed, 
 pip can be called to install the downloaded package. 
 
-If you've downladed and unzipped the file, open the command line and type
+If you've downloaded and unzipped the file, open the command line and type
 >pip install -e `directory_of_unzipped_folder`
 
 where `directory_of_unzipped_folder` is a directory like `C:/Users/username/standardizedinventories`
