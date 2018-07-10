@@ -14,7 +14,7 @@ except NameError: modulepath = 'stewicombo/'
 inventory_to_FRS_pgm_acrynoym = {"NEI":"EIS","TRI":"TRIS","eGRID":"EGRID","GHGRP":"E-GGRT","RCRAInfo":"RCRAINFO"}
 
 compartments = {"NEI":"air","RCRAInfo":"waste"}
-columns_to_keep = ['Compartment', 'FacilityID', 'FlowAmount', 'FlowName', 'ReliabilityScore', 'Source']
+columns_to_keep = ['FacilityID', 'FlowAmount', 'FlowName','Compartment','ReliabilityScore','Source','Year']
 
 #For testing
 #inventory_dict = {"TRI":"2014","NEI":"2014","RCRAInfo":"2015"}
@@ -80,6 +80,7 @@ def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict
     inventories = pd.merge(inventories,chemicalmatches,on=(['FlowName','Source']),how='left')
     colname_base_inventory_id = base_inventory + '_ID'
     inventories.rename(columns={"PGM_SYS_ID_x":colname_base_inventory_id},inplace=True)
+    inventories.drop(columns=['PGM_ID','PGM_SYS_ACRNM_x'],inplace=True)
     return(inventories)
 
 

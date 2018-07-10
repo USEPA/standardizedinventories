@@ -1,0 +1,7 @@
+No.,Pos.,Data Element Name,Type,Size
+1,1,Waste Code Owner,Alphanumeric,2
+2,3,Waste Code,Alphanumeric,6
+3,9,Code Type,Alphanumeric,1
+4,10,Waste Code Description,Alphanumeric,2000
+5,2010,Waste Code Active Status,Alphanumeric,1
+6,2011,BR Waste Code Active Status,Alphanumeric,1
