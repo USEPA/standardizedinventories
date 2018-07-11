@@ -1,11 +1,17 @@
-﻿FlowID,FlowName
-8007452,Coal Tar
-140,Coke Oven Emissions
-284,Extractable Organic Matter (EOM)
-383,Fine Mineral Fibers
-604,Nickel Refinery Dust
-PM-CON,PM Condensible
-PM10-FIL,PM10 Filterable
-PM25-FIL,PM2.5 Filterable
-617,Rockwool (Man-Made Fibers)
-616,Slagwool (Man-Made Fibers)
+﻿FlowName
+Coal Tar
+Coke Oven Emissions
+Extractable Organic Matter (EOM)
+Fine Mineral Fibers
+Nickel Refinery Dust
+Nitrate portion of PM2.5-PRI
+Organic Carbon portion of PM2.5-PRI
+"PAH, total"
+PAH/POM - Unspecified
+PM Condensible
+PM10 Filterable
+PM2.5 Filterable
+Remaining PMFINE portion of PM2.5-PRI
+Rockwool (Man-Made Fibers)
+Slagwool (Man-Made Fibers)
+Sulfate Portion of PM2.5-PRI
