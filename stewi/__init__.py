@@ -71,17 +71,18 @@ def getInventory(inventory_acronym, year, format='flowbyfacility', include_optio
     inventory = pd.read_csv(file, header=0, usecols=cols, dtype=fields)
     if US_States_Only: inventory = filter_states(inventory)
     if filter_for_LCI:
-        inventory_acronym = inventory_acronym.lower()
         filter_path = data_dir
-        if inventory_acronym == 'tri':
+        if inventory_acronym == 'TRI':
             filter_path += 'TRI_pollutant_omit_list.csv'
             filter_type = 'drop'
         elif inventory_acronym == 'GHGRP':
             filter_path += 'ghg_mapping.csv'
             filter_type = 'keep'
-        elif inventory_acronym == 'rcrainfo': filter_type = ''
-        elif inventory_acronym == 'egrid': filter_type = ''
-        elif inventory_acronym == 'nei': filter_type = ''
+        elif inventory_acronym == 'RCRAinfo': filter_type = ''
+        elif inventory_acronym == 'eGRID': filter_type = ''
+        elif inventory_acronym == 'NEI':
+            filter_path += 'NEI_pollutant_omit_list.csv'
+            filter_type = 'drop'
         if (not os.path.exists(filter_path)) or filter_path == data_dir:
             print('No filter criteria file for this source in data directory')
         else: inventory = filter_inventory(inventory, filter_path, filter_type=filter_type)
