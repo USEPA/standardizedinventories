@@ -5,6 +5,8 @@ import stewi
 import facilitymatcher
 import chemicalmatcher
 
+from stewicombo.globals import inventory_preference_by_compartment
+
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
