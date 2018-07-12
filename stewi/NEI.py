@@ -2,10 +2,14 @@
 #This script uses the NEI data exports from EIS.
 
 import stewi.globals as globals
+from stewi.globals import write_metadata
+from stewi.globals import inventory_metadata
 import pandas as pd
 import numpy as np
+import os
+import time
 
-report_year = '2016'
+report_year = '2011'
 
 output_dir = globals.output_dir
 data_dir = globals.data_dir
@@ -89,12 +93,16 @@ def nei_aggregate_unit_to_facility_level(nei_):
 #NEIPoint
 nei_point = standardize_output('Point')
 
+#Pickle it
+nei_point.to_pickle('NEI_' + report_year + '.pk')
+
 ##FlowByUnit output
 nei_unit = nei_point.drop(columns=['FacilityName', 'CompanyName', 'Address', 'City', 'State',
                                    'Zip', 'Latitude', 'Longitude', 'NAICS', 'County','Source'])
 nei_unit.to_csv(output_dir+'flowbyunit/'+'NEI_'+report_year+'.csv',index=False)
 len(nei_unit)
 #2016: 4103556
+#2011: 3449947
 
 #Flowbyfacility output
 #re_idex nei_point
@@ -103,6 +111,7 @@ nei_flowbyfacility = nei_aggregate_unit_to_facility_level(nei_point)
 nei_flowbyfacility.to_csv(output_dir+'NEI_'+report_year+'.csv',index=False)
 len(nei_flowbyfacility)
 #2016: 841735
+#2011: 847136
 
 ##Flows output
 #nei_flows = pd.DataFrame(pd.unique(nei_facility['FlowName','FlowID']),columns=['FlowName','FlowID'])
@@ -110,9 +119,11 @@ nei_flows = nei_point[['FlowName', 'FlowID']]
 nei_flows = nei_flows.drop_duplicates()
 nei_flows['Compartment']='air'
 nei_flows['Unit']='kg'
+nei_flows = nei_flows.sort_values(by='FlowName',axis=0)
 nei_flows.to_csv(output_dir+'flow/'+'NEI_'+report_year+'.csv',index=False)
-len(flows)
+len(nei_flows)
 #2016: 274
+#2011: 273
 
 ##Facility output
 facility = nei_point[['FacilityID', 'FacilityName', 'CompanyName', 'Address', 'City', 'State',
@@ -121,6 +132,30 @@ facility = facility.drop_duplicates()
 facility.to_csv(output_dir+'facility/'+'NEI_'+report_year+'.csv',index=False)
 len(facility)
 #2016: 48087
+#2011: 55520
+
+#Write metadata
+NEI_meta = inventory_metadata
+
+#Get time info from first point file
+point_1_path = nei_file_path['Point'][0]
+nei_retrieval_time = time.ctime(os.path.getctime(point_1_path))
+
+if nei_retrieval_time is not None:
+    NEI_meta['SourceAquisitionTime'] = nei_retrieval_time
+NEI_meta['SourceFileName'] = point_1_path
+NEI_meta['SourceURL'] = 'http://eis.epa.gov'
+
+#extract version from filepath using regex
+import re
+pattern = 'V[0-9]'
+version = re.search(pattern,point_1_path,flags=re.IGNORECASE)
+if version is not None:
+    NEI_meta['SourceVersion'] = version.group(0)
+
+#Write metadata to json
+write_metadata('NEI',report_year, NEI_meta)
+
 
 #Needs a new format to output these data
 #NEINonPoint
