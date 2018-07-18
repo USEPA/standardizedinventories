@@ -20,7 +20,7 @@ from datetime import datetime
 
 # Set reporting year to be used in API requests
 data_source = 'GHGRP'
-report_year = '2013'
+report_year = '2016'
 output_format = 'facility'
 output_dir = globals.output_dir
 data_dir = globals.data_dir
@@ -381,9 +381,9 @@ reference_df.rename(columns={'FACILITY_ID': 'FacilityID'}, inplace=True)
 reference_df.rename(columns={'GAS_ID': 'FlowID'}, inplace=True)
 reference_df.rename(columns={'GAS_NAME': 'FlowName'}, inplace=True)
 reference_df.reset_index(drop=True, inplace=True)
-reference_df.to_csv(ghgrp_external_dir + '_' + report_year + 'GHGRP_totals_from_CO2e.csv', index=False)
+# reference_df.to_csv(ghgrp_external_dir + '_' + report_year + 'GHGRP_ref_flows_CO2e.csv', index=False)
 
-validation_df = validate_inventory(ghgrp, reference_df)
+validation_df = validate_inventory(ghgrp, reference_df, filepath=output_dir + data_source + '_' + report_year + '_totals.csv')
 validation_sum = validation_summary(validation_df)
 validation_df.to_csv(ghgrp_external_dir + 'GHGRP_val_' + report_year + '.csv', index=False)
 validation_sum.to_csv(ghgrp_external_dir + 'GHGRP_val_summary_' + report_year + '.csv', index=False)

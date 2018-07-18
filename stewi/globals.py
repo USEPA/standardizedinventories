@@ -137,7 +137,7 @@ def filter_states(inventory_df, include_states=True, include_dc=True, include_te
     return output_inventory
 
 
-def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.0):
+def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.0, filepath=''):
     """
     Compare inventory resulting from script output with a reference DataFrame from another source
     :param inventory_df: DataFrame of inventory resulting from script output
@@ -165,6 +165,7 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
         reference_df['FlowAmount'] = reference_df['FlowAmount'].fillna(0.0)
         inventory_sums = inventory_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
         reference_sums = reference_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
+        if filepath: reference_sums.to_csv(filepath, index=False)
     validation_df = inventory_sums.merge(reference_sums, how='outer', on=group_by_columns)
     amount_x_list = []
     amount_y_list = []
