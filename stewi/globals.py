@@ -39,28 +39,29 @@ def url_is_alive(url):
         return False
 
 
-def download_table(filepath, url):
-    import os
+def download_table(filepath, url, get_time=False, zip_dir=''):
+    import os.path, time
     if not os.path.exists(filepath):
         if url[-4:].lower() == '.zip':
-            import zipfile
-            import requests
-            import io
+            import zipfile, requests, io
             table_request = requests.get(url).content
             zip_file = zipfile.ZipFile(io.BytesIO(table_request))
-            zip_file.extractall(filepath)
+            zip_file.extractall(zip_dir)
         elif 'xls' in url.lower() or url.lower()[-5:] == 'excel':
-            import urllib
-            import shutil
+            import urllib, shutil
             with urllib.request.urlopen(url) as response, open(filepath, 'wb') as out_file:
                 shutil.copyfileobj(response, out_file)
         elif 'json' in url.lower():
             import pandas as pd
             pd.read_json(url).to_csv(filepath, index=False)
+        if get_time:
+            try: retrieval_time = os.path.getctime(filepath)
+            except: retrieval_time = time.time()
+            return time.ctime(retrieval_time)
 
 
 def set_dir(directory_name):
-    path = modulepath + directory_name + '/'
+    path = os.path.realpath(directory_name + '/').replace('\\', '/') + '/'
     if os.path.exists(path): pathname = path
     else:
         pathname = path
@@ -68,14 +69,18 @@ def set_dir(directory_name):
     return pathname
 
 
-def import_table(path_or_reference, skip_lines=0):
+def import_table(path_or_reference, skip_lines=0, get_time=False):
+    import time
     if '.core.frame.DataFrame' in str(type(path_or_reference)): import_file = path_or_reference
     elif path_or_reference[-3:].lower() == 'csv':
-        # import_file = read_iso_csv(filepath)
         import_file = pd.read_csv(path_or_reference)
     elif 'xls' in path_or_reference[-4:].lower():
         import_file = pd.ExcelFile(path_or_reference)
         import_file = {sheet: import_file.parse(sheet, skiprows=skip_lines) for sheet in import_file.sheet_names}
+    if get_time:
+        try: retrieval_time = os.path.getctime(path_or_reference)
+        except: retrieval_time = time.time()
+        return import_file, retrieval_time
     return import_file
 
 
@@ -142,7 +147,6 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
     :param tolerance: Maximum acceptable percent difference between inventory and reference values
     :return: DataFrame containing 'Conclusion' of statistical comparison and 'Percent_Difference'
     """
-    import numpy as np
     if pd.api.types.is_string_dtype(inventory_df['FlowAmount']):
         inventory_df['FlowAmount'] = inventory_df['FlowAmount'].str.replace(',', '')
         inventory_df['FlowAmount'] = pd.to_numeric(inventory_df['FlowAmount'])
@@ -153,14 +157,15 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
         inventory_sums = inventory_df['FlowAmount'].sum()
         reference_sums = reference_df['FlowAmount'].sum()
     else:
-        if group_by == 'flow': group_by_columns = ['FlowName','Compartment']
+        if group_by == 'flow':
+            group_by_columns = ['FlowName']
+            if 'Compartment' in inventory_df.keys(): group_by_columns += ['Compartment']
         elif group_by == 'facility': group_by_columns = ['FlowName', 'FacilityID']
-        inventory_df = inventory_df.fillna(-np.pi)
-        reference_df = reference_df.fillna(-np.pi)
+        inventory_df['FlowAmount'] = inventory_df['FlowAmount'].fillna(0.0)
+        reference_df['FlowAmount'] = reference_df['FlowAmount'].fillna(0.0)
         inventory_sums = inventory_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
         reference_sums = reference_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
-    validation_df = inventory_sums.merge(reference_sums, how='left', on=group_by_columns)
-    validation_df = validation_df.fillna(0.0)
+    validation_df = inventory_sums.merge(reference_sums, how='outer', on=group_by_columns)
     amount_x_list = []
     amount_y_list = []
     pct_diff_list = []
@@ -168,59 +173,37 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
     for index, row in validation_df.iterrows():
         amount_x = float(row['FlowAmount_x'])
         amount_y = float(row['FlowAmount_y'])
-        if amount_x == -np.pi:
-            amount_x_list.append(np.nan)
-            if amount_y == -np.pi:
-                pct_diff_list.append(0.0)
-                amount_y_list.append(np.nan)
-                conclusion.append('Both inventory and reference are null')
-            else:
-                amount_y_list.append(amount_y)
-                if amount_y == 0.0:
-                    pct_diff_list.append(0.0)
-                    conclusion.append('Inventory is null, reference is zero')
-                else:
-                    pct_diff_list.append(100.0)
-                    conclusion.append('Emission missing from inventory')
-            continue
-        elif amount_x == 0.0:
+        if amount_x == 0.0:
+            amount_x_list.append(amount_x)
             if amount_y == 0.0:
                 pct_diff_list.append(0.0)
-                conclusion.append('Identical')
+                amount_y_list.append(amount_y)
+                conclusion.append('Both inventory and reference are zero or null')
             else:
+                amount_y_list.append(amount_y)
                 pct_diff_list.append(100.0)
-                conclusion.append('Inventory value is zero')
-            amount_x_list.append(amount_x)
-            amount_y_list.append(amount_y)
-            continue
-        if amount_y == -np.pi:
-            amount_x_list.append(amount_x)
-            amount_y_list.append(np.nan)
-            if amount_x == 0.0:
-                pct_diff_list.append(0.0)
-                conclusion.append('Inventory is zero, reference is null')
-            else:
-                pct_diff_list.append(100.0)
-                conclusion.append('Emission not found in reference')
+                conclusion.append('Inventory value is zero or null')
             continue
         elif amount_y == 0.0:
-            pct_diff_list.append(100.0)
-            conclusion.append('Reference value is zero')
             amount_x_list.append(amount_x)
             amount_y_list.append(amount_y)
+            pct_diff_list.append(100.0)
+            conclusion.append('Reference value is zero or null')
             continue
-        pct_diff = 100.0 * abs(amount_y - amount_x) / amount_y
-        pct_diff_list.append(pct_diff)
-        amount_x_list.append(amount_x)
-        amount_y_list.append(amount_y)
-        if pct_diff == 0.0: conclusion.append('Identical')
-        elif pct_diff <= tolerance: conclusion.append('Statistically similar')
-        elif pct_diff > tolerance: conclusion.append('Percent difference exceeds tolerance')
+        else:
+            pct_diff = 100.0 * abs(amount_y - amount_x) / amount_y
+            pct_diff_list.append(pct_diff)
+            amount_x_list.append(amount_x)
+            amount_y_list.append(amount_y)
+            if pct_diff == 0.0: conclusion.append('Identical')
+            elif pct_diff <= tolerance: conclusion.append('Statistically similar')
+            elif pct_diff > tolerance: conclusion.append('Percent difference exceeds tolerance')
     validation_df['Inventory_Amount'] = amount_x_list
     validation_df['Reference_Amount'] = amount_y_list
     validation_df['Percent_Difference'] = pct_diff_list
     validation_df['Conclusion'] = conclusion
     validation_df = validation_df.drop(['FlowAmount_x', 'FlowAmount_y'], axis=1)
+    validation_df.to_csv(output_dir + 'test_validation_result.csv', index=False)
     return validation_df
 
 
@@ -234,6 +217,7 @@ def validation_summary(validation_df):
     validation_summary_df = validation_df[['Count', 'Conclusion']].groupby('Conclusion').count()
     validation_summary_df['Avg_Pct_Difference'] = validation_df[['Percent_Difference', 'Conclusion']].groupby('Conclusion').mean()
     validation_summary_df.reset_index(inplace=True)
+    validation_summary_df.to_csv(output_dir + 'test_validation_summary.csv', index=False)
     return validation_summary_df
 
 
