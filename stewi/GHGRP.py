@@ -20,7 +20,7 @@ from datetime import datetime
 
 # Set reporting year to be used in API requests
 data_source = 'GHGRP'
-report_year = '2016'
+report_year = '2013'
 output_format = 'facility'
 output_dir = globals.output_dir
 data_dir = globals.data_dir
@@ -309,6 +309,7 @@ ghgrp.drop(['METHOD', 'Flow Description', 'REPORTING_YEAR', 'Code', 'SUBPART_NAM
 ghgrp.rename(columns={'FACILITY_ID': 'FacilityID'}, inplace=True)
 ghgrp.rename(columns={'DQI Reliability Score': 'ReliabilityScore'}, inplace=True)
 ghgrp.rename(columns={'NAICS_CODE': 'NAICS'}, inplace=True)
+
 # TODO: Fix decimal format issue for NAICS, Zip, and any other integer fields
 
 co2e_df = import_table(ghgrp_data_dir + 'ghgs_co2e.csv')
@@ -355,3 +356,43 @@ ghgrp_flow.to_csv(output_dir + 'flow/GHGRP_' + report_year + '.csv', index=False
 fbf_columns = ['FlowName', 'FlowAmount', 'FacilityID', 'ReliabilityScore']
 ghgrp[fbf_columns].to_csv(output_dir + 'GHGRP_' + report_year + '.csv', index=False)
 
+
+# Validation of results using CO2E values for comparison
+#TODO: Validation metadata?
+co2e_df = import_table(ghgrp_data_dir + 'ghgs_co2e.csv')
+# co2e_df['CO2e'].fillna(0, inplace=True)
+validation_table = 'PUB_FACTS_SUBP_GHG_EMISSION'
+ref_filepath = ghgrp_external_dir + 'ghgrp_reference_co2e.csv'
+if os.path.exists(ref_filepath): reference_df = import_table(ref_filepath)
+else: reference_df = download_chunks(validation_table, get_row_count(validation_table), filepath=ref_filepath)
+for col in reference_df:# This for loop breaks when used inside a function
+    exec("reference_df = reference_df.rename(columns={'" + col + "':'" + col[len(validation_table) + 1:] + "'})")
+if 'unnamed' in reference_df.columns[len(reference_df.columns) - 1].lower() or reference_df.columns[
+    len(reference_df.columns) - 1] == '':
+    reference_df.drop(reference_df.columns[len(reference_df.columns) - 1], axis=1, inplace=True)
+reference_df['YEAR'] = reference_df['YEAR'].astype('str')
+reference_df = reference_df[reference_df['YEAR'] == report_year]
+reference_df = reference_df.merge(ghgs[['GAS_ID', 'GAS_NAME']], how='left', on='GAS_ID').reset_index(drop=True)
+reference_df = reference_df.merge(co2e_df, how='left', on='GAS_NAME')
+reference_df = reference_df[reference_df['CO2e'] != 0]
+reference_df['FlowAmount'] = reference_df['CO2E_EMISSION'].astype(float) / reference_df['CO2e'].astype(float) * 1000
+reference_df = reference_df[['FlowAmount', 'GAS_ID', 'GAS_NAME', 'FACILITY_ID']]
+reference_df.rename(columns={'FACILITY_ID': 'FacilityID'}, inplace=True)
+reference_df.rename(columns={'GAS_ID': 'FlowID'}, inplace=True)
+reference_df.rename(columns={'GAS_NAME': 'FlowName'}, inplace=True)
+reference_df.reset_index(drop=True, inplace=True)
+reference_df.to_csv(ghgrp_external_dir + '_' + report_year + 'GHGRP_totals_from_CO2e.csv', index=False)
+
+validation_df = validate_inventory(ghgrp, reference_df)
+validation_sum = validation_summary(validation_df)
+validation_df.to_csv(ghgrp_external_dir + 'GHGRP_val_' + report_year + '.csv', index=False)
+validation_sum.to_csv(ghgrp_external_dir + 'GHGRP_val_summary_' + report_year + '.csv', index=False)
+
+
+# Record metadata compiled from all GHGRP files and tables
+ghgrp_metadata['SourceAquisitionTime'] = time_meta
+ghgrp_metadata['SourceFileName'] = filename_meta
+ghgrp_metadata['SourceType'] = type_meta
+ghgrp_metadata['SourceURL'] = url_meta
+ghgrp_metadata['SourceVersion'] = version_meta
+write_metadata('GHGRP', report_year, ghgrp_metadata)
