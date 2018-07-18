@@ -4,11 +4,6 @@ import pandas as pd
 import json
 import os
 
-
-global output_dir
-global data_dir
-global reliability_table
-
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'stewi/'
 
@@ -158,13 +153,14 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
         inventory_sums = inventory_df['FlowAmount'].sum()
         reference_sums = reference_df['FlowAmount'].sum()
     else:
-        if group_by == 'flow': group_by_columns = ['FlowName']
+        if group_by == 'flow': group_by_columns = ['FlowName','Compartment']
         elif group_by == 'facility': group_by_columns = ['FlowName', 'FacilityID']
         inventory_df = inventory_df.fillna(-np.pi)
         reference_df = reference_df.fillna(-np.pi)
-        inventory_sums = inventory_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index(drop=True)
-        reference_sums = reference_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index(drop=True)
-    validation_df = inventory_sums.merge(reference_sums, how='left', on=[group_by_columns])
+        inventory_sums = inventory_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
+        reference_sums = reference_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
+    validation_df = inventory_sums.merge(reference_sums, how='left', on=group_by_columns)
+    validation_df = validation_df.fillna(0.0)
     amount_x_list = []
     amount_y_list = []
     pct_diff_list = []
