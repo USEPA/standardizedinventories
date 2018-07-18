@@ -7,34 +7,25 @@ import os
 from chemicalmatcher.globals import get_SRSInfo_for_substance_name
 from chemicalmatcher.globals import get_SRSInfo_for_program_list
 
-
-#datapath = 'chemicalmatcher/data/'
 outputpath = 'chemicalmatcher/output/'
-#outputfilename = 'SRSlistfomCASlist.csv'
-#outputfilename = 'SRSlistfromCASlist2.csv'
+stewi_flow_dir = 'stewi/output/flow/'
 
-#import list of names
-#filename = 'examplecaslistforepaNamelookup.csv'
-#filename = '../standardizedinventories/stewi/output/flow/TRI_2016.csv'
-
-stewi_facility_dir = 'stewi/output/flow/'
-
-try: flowlists = os.listdir(stewi_facility_dir)
+try: flowlists = os.listdir(stewi_flow_dir)
 except: print('Directory missing')
 
 all_list_names = pd.DataFrame(columns=["FlowName","FlowID","Source","Waste Code Type"])
 
 flowlist_cols = {"RCRAInfo":['FlowName','FlowID','Waste Code Type'],
-                 "eGRID": ['FlowName'],
-                 "TRI": ['FlowName','FlowID'],
-                 "NEI":['FlowName','FlowID'],
-                 "GHGRP":['FlowName']}
+                 "eGRID": ['FlowName','Compartment'],
+                 "TRI": ['FlowName','FlowID','Compartment'],
+                 "NEI":['FlowName','FlowID','Compartment'],
+                 "GHGRP":['FlowName','FlowID','Compartment']}
 
 #First loop through flows lists to create a list of all unique flows
 for l in flowlists:
     source_name = l[0:l.find("_")]
     source_cols = flowlist_cols[source_name]
-    list_names = pd.read_csv(stewi_facility_dir+l,header=0,usecols=source_cols, dtype="str")
+    list_names = pd.read_csv(stewi_flow_dir+l,header=0,usecols=source_cols, dtype="str")
     #fix for TRI
     if source_name == 'TRI':
         list_names['FlowID']= list_names['FlowID'].apply(lambda x: x.lstrip('0'))
