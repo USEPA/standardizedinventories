@@ -206,12 +206,27 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
     validation_df['Percent_Difference'] = pct_diff_list
     validation_df['Conclusion'] = conclusion
     validation_df = validation_df.drop(['FlowAmount_x', 'FlowAmount_y'], axis=1)
-    validation_df.to_csv(output_dir + 'test_validation_result.csv', index=False)
     return validation_df
 
 #Writes the validation result and associated metadata to the output
 def write_validation_result(inventory_acronym,year,validation_df):
     validation_df.to_csv(output_dir + 'validation/' + inventory_acronym + '_' + year + '.csv',index=False)
+    #Get metadata on validation dataset
+    validation_set_info_table = pd.read_csv(data_dir + 'ValidationSets_Sources.csv',header=0,dtype={"Year":"str"})
+    #Get record for year and
+    validation_set_info = validation_set_info_table[(validation_set_info_table['Inventory']==inventory_acronym)&
+                                                     (validation_set_info_table['Year']==year)]
+    #Convert to Series
+    validation_set_info = validation_set_info.loc[0,]
+    #Use the same format an inventory metadata to described the validation set data
+    validation_metadata = inventory_metadata
+    validation_metadata['SourceFileName'] = validation_set_info['Name']
+    validation_metadata['SourceVersion'] = validation_set_info['Version']
+    validation_metadata['SourceURL'] = validation_set_info['URL']
+    validation_metadata['SourceAquisitionTime'] = validation_set_info['Date Acquired']
+    #Write metadata to file
+    write_metadata(inventory_acronym, year, validation_metadata, datatype="validation")
+
 
 def validation_summary(validation_df):
     """
@@ -223,7 +238,6 @@ def validation_summary(validation_df):
     validation_summary_df = validation_df[['Count', 'Conclusion']].groupby('Conclusion').count()
     validation_summary_df['Avg_Pct_Difference'] = validation_df[['Percent_Difference', 'Conclusion']].groupby('Conclusion').mean()
     validation_summary_df.reset_index(inplace=True)
-    validation_summary_df.to_csv(output_dir + 'test_validation_summary.csv', index=False)
     return validation_summary_df
 
 
@@ -234,10 +248,13 @@ def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
 
 
 # Writes the metadata dictionary to a JSON file
-def write_metadata(inventoryname, report_year, metadata_dict):
-    with open(output_dir + inventoryname + '_' + report_year + '_metadata.json', 'w') as file:
-        file.write(json.dumps(metadata_dict))
-
+def write_metadata(inventoryname, report_year, metadata_dict, datatype="inventory"):
+    if datatype == "inventory":
+        with open(output_dir + inventoryname + '_' + report_year + '_metadata.json', 'w') as file:
+            file.write(json.dumps(metadata_dict))
+    if datatype == "validation":
+        with open(output_dir + 'validation/' + inventoryname + '_' + report_year + '_validationset_metadata.json', 'w') as file:
+            file.write(json.dumps(metadata_dict))
 
 # Returns the metadata dictionary for an inventory
 def read_metadata(inventoryname, report_year):
