@@ -1,0 +1,4 @@
+Conclusion,Count,Avg_Pct_Difference
+Inventory value is zero or null,2,100.0
+Percent difference exceeds tolerance,1,6.0
+Statistically similar,1,4.0
