@@ -1,3 +1,11 @@
-﻿Inventory,Version,Year,Source,Criteria
-TRI,v15,2016,https://www.epa.gov/sites/production/files/2018-01/releases_1.xlsx,NA
-NEI,v2,2014,Emissions Inventory System,Report Type: National By Sector;Data Set: 2014NEIV2;Reporting Period Type: Annual;Tagged Data Handling: Not Tagged and Tagged included; Emissions Operating Type: Routine
+﻿Inventory,Version,Year,Name,URL,Criteria
+TRI,v15,2016,TRI National Analysis Supporting Tables,https://www.epa.gov/sites/production/files/2018-01/releases_1.xlsx,NA
+NEI,v2,2014,,,
+TRI,v15,2015,,,
+TRI,v15,2014,,,
+TRI,v15,2013,,,
+TRI,v15,2012,,,
+TRI,v15,2011,,,
+NEI,v3,2011,,,
+eGRID,v2,2014,,,
+eGRID,,2016,,,
