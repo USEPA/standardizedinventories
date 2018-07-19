@@ -1,0 +1,278 @@
+﻿FlowID,FlowName,FlowAmount,Unit
+100027,4-Nitrophenol,5816.452463,LB
+100414,Ethyl Benzene,5056875.316,LB
+100425,Styrene,24858421.53,LB
+100447,Benzyl Chloride,579017.1324,LB
+101144,"4,4-Methylenebis(2-Chloraniline)",9509.146,LB
+101688,"4,4-Methylenediphenyl Diisocyanate",185772.6661,LB
+101779,"4,4-Methylenedianiline",8771.19163,LB
+106423,p-Xylene,534667.7912,LB
+106445,p-Cresol,9764.633516,LB
+106467,"1,4-Dichlorobenzene",100621.1177,LB
+106503,p-Phenylenediamine,44313.80039,LB
+106514,Quinone,7765.717516,LB
+106887,"1,2-Epoxybutane",14338.28251,LB
+106898,Epichlorohydrin,78299.57716,LB
+106934,Ethylene Dibromide,28102.94967,LB
+106990,"1,3-Butadiene",2602931.598,LB
+107028,Acrolein,7140636.732,LB
+107051,Allyl Chloride,49908.00045,LB
+107062,Ethylene Dichloride,484415.5091,LB
+107131,Acrylonitrile,659803.3742,LB
+107211,Ethylene Glycol,2947876.987,LB
+107302,Chloromethyl Methyl Ether,1114.7483,LB
+108054,Vinyl Acetate,1682565.036,LB
+108101,Methyl Isobutyl Ketone,5025017.563,LB
+108316,Maleic Anhydride,291965.9387,LB
+108383,m-Xylene,466508.0426,LB
+108394,m-Cresol,13982.34253,LB
+108883,Toluene,38000047.71,LB
+108907,Chlorobenzene,361235.5921,LB
+108952,Phenol,6908404.623,LB
+109864,Ethylene Glycol Methyl Ether,66290.40318,LB
+110496,Ethylene Glycol Monomethyl Ether Acetate,157.82,LB
+110543,Hexane,45797106.62,LB
+110714,"1,2-Dimethoxyethane",7698.5816,LB
+110805,Cellosolve Solvent,15748.99183,LB
+111159,Cellosolve Acetate,7397.592315,LB
+111422,Diethanolamine,211690.5538,LB
+111444,Dichloroethyl Ether,4215.784755,LB
+111773,Diethylene Glycol Monomethyl Ether,6718.991183,LB
+111900,Diethylene Glycol Monoethyl Ether,17474.04296,LB
+111966,Diethylene Glycol Dimethyl Ether,342.8,LB
+1120714,"1,3-Propanesultone",207.2,LB
+112072,2-Butoxyethyl Acetate,45736.89722,LB
+112152,Carbitol Acetate,1492.37,LB
+112254,2-(Hexyloxy)Ethanol,53546.89,LB
+112276,Triethylene glycol,2485.2358,LB
+112345,Diethylene Glycol Monobutyl Ether,153924.6432,LB
+112356,Methoxytriglycol,20148.233,LB
+112367,Diethylene Glycol Diethyl Ether,3389.07125,LB
+112492,Triethylene Glycol Dimethyl Ether,1,LB
+112594,N-Hexyl Carbitol,1019.853,LB
+114261,Propoxur,16.2,LB
+117817,Bis(2-Ethylhexyl)Phthalate,224233.5942,LB
+118741,Hexachlorobenzene,2377.087851,LB
+119904,"3,3-Dimethoxybenzidine",102.916,LB
+119937,"3,3-Dimethylbenzidine",70.387039,LB
+120127,Anthracene,11441.50424,LB
+120809,Catechol,7795.355568,LB
+120821,"1,2,4-Trichlorobenzene",215489.9092,LB
+121142,"2,4-Dinitrotoluene",8909.916871,LB
+121448,Triethylamine,477835.8582,LB
+121697,"N,N-Dimethylaniline",13670.60654,LB
+122667,"1,2-Diphenylhydrazine",15.19,LB
+122996,Phenyl Cellosolve,5275.6,LB
+123319,Hydroquinone,50268.33401,LB
+123386,Propionaldehyde,1299421.757,LB
+123911,p-Dioxane,123440.5382,LB
+124174,Butyl Carbitol Acetate,13445.8305,LB
+126998,Chloroprene,262957.301,LB
+127184,Tetrachloroethylene,3349608.988,LB
+129000,Pyrene,15969.14543,LB
+130498292,"PAH, total",452521.9034,LB
+131113,Dimethyl Phthalate,212211.3033,LB
+1313991,Nickel Oxide,2097.944431,LB
+1319773,Cresol/Cresylic Acid (Mixed Isomers),1116981.12,LB
+132649,Dibenzofuran,60318.56563,LB
+1330207,Xylenes (Mixed Isomers),22784635.34,LB
+133062,Captan,208.5500002,LB
+1332214,Asbestos,1570.876508,LB
+1333820,Chromium Trioxide,1712.106728,LB
+1336363,Polychlorinated Biphenyls,2133.759117,LB
+133904,Chloramben,2.2553,LB
+140,Coke Oven Emissions,428859.9528,LB
+140885,Ethyl Acrylate,74670.76591,LB
+143226,Triglycol Monobutyl Ether,3209.5,LB
+151564,Ethyleneimine,792.7594,LB
+156627,Calcium Cyanamide,2419.24,LB
+1582098,Trifluralin,675.7188001,LB
+16065831,Chromium III,732176.8798,LB
+1634044,Methyl Tert-Butyl Ether,568229.1665,LB
+16672392,Di(Ethylene Glycol Monobutyl Ether) Phthalate,1280,LB
+171,Glycol Ethers,3799584.202,LB
+18540299,Chromium (VI),124587.5665,LB
+189559,"Dibenzo[a,i]Pyrene",39.884734,LB
+189640,"Dibenzo[a,h]Pyrene",44.7153482,LB
+191242,"Benzo[g,h,i,]Perylene",54851.72957,LB
+191300,"Dibenzo[a,l]Pyrene",33.397334,LB
+192654,"Dibenzo[a,e]Pyrene",38.24162209,LB
+192972,Benzo[e]Pyrene,38.52796376,LB
+193395,"Indeno[1,2,3-c,d]Pyrene",802.0555012,LB
+194592,"7H-Dibenzo[c,g]carbazole",35.54836,LB
+198550,Perylene,28.78880456,LB
+203123,"Benzo(g,h,i)Fluoranthene",1.755284018,LB
+203338,Benzo(a)Fluoranthene,0.000004516,LB
+2050682,"4,4-Dichlorobiphenyl (PCB-15)",0.00267212,LB
+2051243,Decachlorobiphenyl (PCB-209),0.001361867,LB
+2051607,2-Chlorobiphenyl (PCB-1),0.006632331,LB
+205823,Benzo[j]fluoranthene,48.35710552,LB
+205992,Benzo[b]Fluoranthene,1547.649861,LB
+206440,Fluoranthene,97028.45136,LB
+20706256,2-Propoxyethyl Acetate,800,LB
+207089,Benzo[k]Fluoranthene,1193.728376,LB
+208968,Acenaphthylene,57354.77701,LB
+218019,Chrysene,7644.444518,LB
+224420,"Dibenzo[a,j]Acridine",32.08964534,LB
+226368,"Dibenz[a,h]acridine",4.89191652,LB
+250,PAH/POM - Unspecified,452462.6703,LB
+25429292,Pentachlorobiphenyl,0.036746502,LB
+26601649,Hexachlorobiphenyl,0.016842185,LB
+26914181,Methylanthracene,7.047669,LB
+26914330,Tetrachlorobiphenyl,0.081854007,LB
+2807309,Propyl Cellosolve,97829.13165,LB
+284,Extractable Organic Matter (EOM),102784.83,LB
+28655712,Heptachlorobiphenyl,9.45777E-05,LB
+302012,Hydrazine,2795.319924,LB
+334883,Diazomethane,0,LB
+3697243,5-Methylchrysene,240.7719663,LB
+383,Fine Mineral Fibers,784.33,LB
+463581,Carbonyl Sulfide,20634585.02,LB
+50000,Formaldehyde,46197478.64,LB
+50328,Benzo[a]Pyrene,31519.63985,LB
+510156,Chlorobenzilate,3.2,LB
+51285,"2,4-Dinitrophenol",14218.55568,LB
+51796,Ethyl Carbamate,425.3031541,LB
+532274,2-Chloroacetophenone,6758.29905,LB
+534521,"4,6-Dinitro-o-Cresol",4663.749756,LB
+53703,"Dibenzo[a,h]Anthracene",143.3626783,LB
+53963,2-Acetylaminofluorene,157.1,LB
+540841,"2,2,4-Trimethylpentane",1000408.149,LB
+540885,Tert-butyl Acetate,74.4812583,TON
+542756,"1,3-Dichloropropene",21046.31977,LB
+542881,Bis(Chloromethyl)Ether,7.1801,LB
+5522430,1-Nitropyrene,0.014384536,LB
+56235,Carbon Tetrachloride,185430.9419,LB
+56382,Parathion,3,LB
+56495,3-Methylcholanthrene,47.66909281,LB
+56553,Benz[a]Anthracene,10953.98112,LB
+56832736,Benzofluoranthenes,81.79957481,LB
+57125,Cyanide,4263095.099,LB
+57147,"1,1-Dimethyl Hydrazine",46.5389632,LB
+57578,Beta-Propiolactone,3.6,LB
+57749,Chlordane,40.57,LB
+57976,"7,12-Dimethylbenz[a]Anthracene",82.83270677,LB
+584849,"2,4-Toluene Diisocyanate",17517.5746,LB
+58899,"1,2,3,4,5,6-Hexachlorocyclohexane",59.42,LB
+593602,Vinyl Bromide,170.59718,LB
+59892,N-Nitrosomorpholine,15.94938053,LB
+60117,4-Dimethylaminoazobenzene,89.690648,LB
+60344,Methylhydrazine,162136.3294,LB
+60355,Acetamide,523.76,LB
+604,Nickel Refinery Dust,274.8397,LB
+616,Slagwool (Man-Made Fibers),0.6,LB
+617,Rockwool (Man-Made Fibers),0,LB
+624839,Methyl Isocyanate,18668.9246,LB
+62533,Aniline,168525.0577,LB
+62737,Dichlorvos,1615.09,LB
+62759,N-Nitrosodimethylamine,162.9022032,LB
+63252,Carbaryl,298.328,LB
+64675,Diethyl Sulfate,6190.6749,LB
+67425,(Ethylenebis(Oxyethylenenitrilo)) Tetraacetic Acid,0,LB
+67561,Methanol,117536152.8,LB
+67663,Chloroform,1052908.657,LB
+67721,Hexachloroethane,156959.1679,LB
+680319,Hexamethylphosphoramide,0,LB
+68122,"N,N-Dimethylformamide",244832.6295,LB
+684935,N-Nitroso-N-Methylurea,13.66,LB
+7012375,"2,4,4-Trichlorobiphenyl (PCB-28)",0.078378938,LB
+71432,Benzene,13374466.38,LB
+71556,Methyl Chloroform,473594.649,LB
+72435,Methoxychlor,48.09,LB
+7439921,Lead,555.264976,TON
+7439965,Manganese,1867219.956,LB
+7439976,Mercury,96504.01221,LB
+7440020,Nickel,933431.8554,LB
+7440360,Antimony,77823.79583,LB
+7440382,Arsenic,186655.9325,LB
+7440417,Beryllium,8098.24721,LB
+7440439,Cadmium,43298.6898,LB
+7440484,Cobalt,90947.52255,LB
+74839,Methyl Bromide,768835.6912,LB
+74873,Methyl Chloride,1583645.327,LB
+74884,Methyl Iodide,40033.80723,LB
+74908,Hydrogen Cyanide,2218180.153,LB
+75003,Ethyl Chloride,312640.3316,LB
+75014,Vinyl Chloride,665054.3428,LB
+75058,Acetonitrile,845349.8063,LB
+75070,Acetaldehyde,17723028.86,LB
+75092,Methylene Chloride,5604317.77,LB
+75150,Carbon Disulfide,9445120.081,LB
+75218,Ethylene Oxide,412915.0495,LB
+75252,Bromoform,67657.34665,LB
+75343,Ethylidene Dichloride,106970.1338,LB
+75354,Vinylidene Chloride,68014.31271,LB
+75445,Phosgene,14267.20515,LB
+7550450,Titanium Tetrachloride,27266.171,LB
+75558,"1,2-Propylenimine",284.1528,LB
+75569,Propylene Oxide,774239.3534,LB
+76448,Heptachlor,11.7782,LB
+7647010,Hydrochloric Acid,196076362.8,LB
+7664393,Hydrogen Fluoride,48994791.55,LB
+7723140,Phosphorus,281735.6092,LB
+7738945,Chromic Acid (VI),1437.99738,LB
+77474,Hexachlorocyclopentadiene,35875.39589,LB
+77781,Dimethyl Sulfate,55062.61187,LB
+7782492,Selenium,538987.4785,LB
+7782505,Chlorine,9970234.507,LB
+7783064,Hydrogen Sulfide,2122.755055,TON
+7795917,Ethylene Glycol Mono-Sec-Butyl Ether,0,LB
+7803512,Phosphine,53954.93914,LB
+78591,Isophorone,588486.8611,LB
+78875,Propylene Dichloride,105138.5316,LB
+79005,"1,1,2-Trichloroethane",85201.28835,LB
+79016,Trichloroethylene,3185308.067,LB
+79061,Acrylamide,32177.17919,LB
+79107,Acrylic Acid,277955.801,LB
+79118,Chloroacetic Acid,7359.419264,LB
+79345,"1,1,2,2-Tetrachloroethane",92029.24964,LB
+79447,Dimethylcarbamoyl Chloride,14.0815565,LB
+79469,2-Nitropropane,61401.32449,LB
+8001352,Toxaphene,28.09,LB
+8007452,Coal Tar,49857.7,LB
+80626,Methyl Methacrylate,1994627.966,LB
+822060,Hexamethylene Diisocyanate,24499.26801,LB
+82688,Pentachloronitrobenzene,57.776,LB
+83329,Acenaphthene,10826.94503,LB
+84742,Dibutyl Phthalate,80650.3613,LB
+85018,Phenanthrene,75532.97543,LB
+85449,Phthalic Anhydride,189555.7897,LB
+86737,Fluorene,23187.56638,LB
+86748,Carbazole,51.855726,LB
+87683,Hexachlorobutadiene,2340.344282,LB
+87865,Pentachlorophenol,5996.03972,LB
+88062,"2,4,6-Trichlorophenol",265.8989365,LB
+90040,o-Anisidine,266.5846,LB
+90120,1-Methylnaphthalene,121317.1503,LB
+91203,Naphthalene,3250009.047,LB
+91225,Quinoline,4791.412219,LB
+91576,2-Methylnaphthalene,115472.4109,LB
+91587,2-Chloronaphthalene,14.56786045,LB
+91941,"3,3-Dichlorobenzidine",98.75035027,LB
+92524,Biphenyl,473489.6428,LB
+92671,4-Aminobiphenyl,315.400954,LB
+92875,Benzidine,305.0670861,LB
+92933,4-Nitrobiphenyl,4.5715837,LB
+94757,"2,4-Dichlorophenoxy Acetic Acid",2320.7383,LB
+95476,o-Xylene,302537.5494,LB
+95487,o-Cresol,76083.11133,LB
+95534,o-Toluidine,8985.156813,LB
+95807,"Toluene-2,4-Diamine",4519.994,LB
+95954,"2,4,5-Trichlorophenol",15906.71187,LB
+96093,Styrene Oxide,316,LB
+96128,"1,2-Dibromo-3-Chloropropane",449.4374812,LB
+96457,Ethylene Thiourea,629.16,LB
+98077,Benzotrichloride,42.65,LB
+98828,Cumene,1416358.915,LB
+98862,Acetophenone,310048.1467,LB
+98953,Nitrobenzene,60362.01528,LB
+CO,Carbon Monoxide,3459591.729,TON
+NH3,Ammonia,98383.56564,TON
+NOX,Nitrogen Oxides,4036578.528,TON
+PM10-FIL,PM10 Filterable,546114.1794,TON
+PM10-PRI,PM10 Primary (Filt + Cond),788657.9307,TON
+PM25-FIL,PM2.5 Filterable,308755.7846,TON
+PM25-PRI,PM2.5 Primary (Filt + Cond),551863.3046,TON
+PM-CON,PM Condensible,218992.1625,TON
+SO2,Sulfur Dioxide,5836353.514,TON
+VOC,Volatile Organic Compounds,1069058.849,TON
