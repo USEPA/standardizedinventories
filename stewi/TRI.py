@@ -4,22 +4,17 @@
 # This script uses the TRI Basic Plus National Data File.
 # Data files:https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-calendar-years-1987-2016
 # Documentation on file format: https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-guides
-# The format may change from yr to yr requiring code updates.
-# This code has been tested for 2014.
 
 import pandas as pd
 import numpy as np
-from stewi import globals
-from stewi.globals import unit_convert
+from stewi.globals import unit_convert,output_dir,data_dir,reliability_table
 
 import logging
 log = logging.getLogger(__name__)
-log.setLevel(logging.INFO)
+log = log.setLevel(logging.INFO)
 
 # Set some metadata
-TRIyear = '2015'
-output_dir = globals.output_dir
-data_dir = globals.data_dir
+TRIyear = '2016'
 
 # Import list of fields from TRI that are desired for LCI
 def imp_fields(tri_fields_txt):
@@ -95,7 +90,7 @@ def import_TRI_by_release_type(d):
         dtype_dict[v[4]] = "float"
         if len(v) > 4:
             dtype_dict[v[4]] = "str"
-        log.info('Importing '+k+' releases')
+        #log.info('Importing '+k+' releases')
         tri_part = pd.read_csv(tri_csv, sep='\t', header=0, usecols=v, dtype=dtype_dict, error_bad_lines=False,na_values=['NO'])
         if k.startswith('offsite'):
             tri_part['Basis of Estimate'] = 'NA'
@@ -139,11 +134,11 @@ len(tri)
 #100853 for 2016
 #103619 for 2015
 #104432 for 2014
+#104643 for 2013
 #105011 for 2012
 #104399 for 2011
 
 # Import reliability scores for TRI
-reliability_table = globals.reliability_table
 tri_reliability_table = reliability_table[reliability_table['Source']=='TRI']
 tri_reliability_table.drop('Source', axis=1, inplace=True)
 
@@ -191,6 +186,22 @@ f = {'FlowAmount': ['sum'], 'ReliabilityScore': {'weighted_mean': wm}}
 tri = tri.groupby(grouping_vars).agg(f)
 tri = tri.reset_index()
 tri.columns = tri.columns.droplevel(level=1)
+
+#VALIDATE
+tri_national_totals = pd.read_csv('stewi/data/TRI_'+ TRIyear + '_NationalTotals.csv',header=0,dtype={"FlowAmount":np.float})
+tri_national_totals['FlowAmount_kg']=0
+tri_national_totals = unit_convert(tri_national_totals, 'FlowAmount_kg', 'Unit', 'lb', 0.4535924, 'FlowAmount')
+# drop old amount and units
+tri_national_totals.drop('FlowAmount',axis=1,inplace=True)
+tri_national_totals.drop('Unit',axis=1,inplace=True)
+# Rename cols to match reference format
+tri_national_totals.rename(columns={'FlowAmount_kg':'FlowAmount'},inplace=True)
+
+#convert to kg
+
+from stewi.globals import validate_inventory, validation_summary
+validation_result = validate_inventory(tri, tri_national_totals, group_by='flow', tolerance=5.0)
+
 
 #FLOWS
 flows = tri.groupby(['FlowName','CAS','Compartment']).count().reset_index()
