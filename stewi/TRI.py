@@ -7,7 +7,7 @@
 
 import pandas as pd
 import numpy as np
-from stewi.globals import unit_convert,output_dir,data_dir,reliability_table
+from stewi.globals import unit_convert,output_dir,data_dir,reliability_table,validate_inventory,write_validation_result
 
 import logging
 log = logging.getLogger(__name__)
@@ -190,18 +190,14 @@ tri.columns = tri.columns.droplevel(level=1)
 #VALIDATE
 tri_national_totals = pd.read_csv('stewi/data/TRI_'+ TRIyear + '_NationalTotals.csv',header=0,dtype={"FlowAmount":np.float})
 tri_national_totals['FlowAmount_kg']=0
-tri_national_totals = unit_convert(tri_national_totals, 'FlowAmount_kg', 'Unit', 'lb', 0.4535924, 'FlowAmount')
+tri_national_totals = unit_convert(tri_national_totals, 'FlowAmount_kg', 'Unit', 'Pounds', 0.4535924, 'FlowAmount')
 # drop old amount and units
 tri_national_totals.drop('FlowAmount',axis=1,inplace=True)
 tri_national_totals.drop('Unit',axis=1,inplace=True)
 # Rename cols to match reference format
 tri_national_totals.rename(columns={'FlowAmount_kg':'FlowAmount'},inplace=True)
-
-#convert to kg
-
-from stewi.globals import validate_inventory, validation_summary
 validation_result = validate_inventory(tri, tri_national_totals, group_by='flow', tolerance=5.0)
-
+write_validation_result('TRI',TRIyear,validation_result)
 
 #FLOWS
 flows = tri.groupby(['FlowName','CAS','Compartment']).count().reset_index()
