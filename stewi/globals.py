@@ -23,6 +23,7 @@ inventory_metadata = {
 }
 
 
+
 def url_is_alive(url):
     """
     Checks that a given URL is reachable.
@@ -167,6 +168,7 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
         reference_sums = reference_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
         if filepath: reference_sums.to_csv(filepath, index=False)
     validation_df = inventory_sums.merge(reference_sums, how='outer', on=group_by_columns)
+    validation_df = validation_df.fillna(0.0)
     amount_x_list = []
     amount_y_list = []
     pct_diff_list = []
@@ -207,6 +209,9 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
     validation_df.to_csv(output_dir + 'test_validation_result.csv', index=False)
     return validation_df
 
+#Writes the validation result and associated metadata to the output
+def write_validation_result(inventory_acronym,year,validation_df):
+    validation_df.to_csv(output_dir + 'validation/' + inventory_acronym + '_' + year + '.csv',index=False)
 
 def validation_summary(validation_df):
     """
