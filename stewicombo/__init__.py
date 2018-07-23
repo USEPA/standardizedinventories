@@ -81,7 +81,7 @@ def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict
     #Bring in chemical matches
     chemicalmatches = chemicalmatcher.get_matches_for_StEWI()
     inventories = pd.merge(inventories,chemicalmatches,on=(['FlowName','Source']),how='left')
-    inventories.drop(columns=['PGM_ID','Flow_ID'], inplace=True)
+    inventories.drop(columns=['PGM_ID','FlowID'], inplace=True)
 
     #Mike to bring in duplicate id and overlap handling here
 
