@@ -48,7 +48,7 @@ def combineFullInventories(inventory_dict):
 
 #For testing
 #base_inventory = "eGRID"
-def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict):
+def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict, filter_for_LCI=True):
     #Bring in facility matches
     #get only those inventorytoFRS_pgm correspondence that are needed
     inventory_acronyms = list(inventory_dict.keys())
@@ -57,7 +57,7 @@ def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict
 
     inventories = pd.DataFrame()
     for k in inventory_dict.keys():
-        inventory = stewi.getInventory(k,inventory_dict[k],include_optional_fields=True)
+        inventory = stewi.getInventory(k,inventory_dict[k],include_optional_fields=True,filter_for_LCI=True)
         #Get facilities from that matching table to filter this with
         inventory_facilitymatches = facilitymatches[facilitymatches['PGM_SYS_ACRNM_y'] == k]
         inventory_facilitylist = list(inventory_facilitymatches['PGM_SYS_ID_y'])
