@@ -58,7 +58,7 @@ def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict
 
     inventories = pd.DataFrame()
     for k in inventory_dict.keys():
-        inventory = stewi.getInventory(k,inventory_dict[k],include_optional_fields=True,filter_for_LCI=True)
+        inventory = stewi.getInventory(k,inventory_dict[k],include_optional_fields=True,filter_for_LCI=filter_for_LCI)
         #Get facilities from that matching table to filter this with
         inventory_facilitymatches = facilitymatches[facilitymatches['PGM_SYS_ACRNM'] == k]
         inventory_facilitylist = list(inventory_facilitymatches['PGM_SYS_ID'])
