@@ -110,5 +110,3 @@ def pivotCombinedInventories(combinedinventory_df):
     #len(inventories_withFRSID_SRSID_pt[(inventories_withFRSID_SRSID_pt['FlowAmount']['TRI'] > 0) & (inventories_withFRSID_SRSID_pt['FlowAmount']['NEI'] > 0)])
     #inventories_withFRSID_SRSID_pt.to_csv('inventories_withFRSID_SRSID_pt.csv')
 
-
-def addBaseInventoryID(combined_inventory_df,fac_matches_df):
