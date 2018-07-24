@@ -85,10 +85,20 @@ def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict
 
     #Mike to bring in duplicate id and overlap handling here
 
-    #WES to add back in base program ids here
-    #colname_base_inventory_id = base_inventory + '_ID'
-    #inventories.rename(columns={"PGM_SYS_ID_x":colname_base_inventory_id},inplace=True)
-    #inventories.drop(columns=['PGM_ID','PGM_SYS_ACRNM_x'],inplace=True)
+    #Add in base program ids
+    base_inventory_FRS = facilitymatches[facilitymatches['PGM_SYS_ACRNM']==base_inventory]
+    base_inventory_FRS = base_inventory_FRS[['PGM_SYS_ID','FRS_ID']]
+    #If there are more than one PGM_SYS_ID duplicates, choose only the first
+    base_inventory_FRS_first = base_inventory_FRS.drop_duplicates(subset='FRS_ID',keep='first')
+    colname_base_inventory_id = base_inventory + '_ID'
+    base_inventory_FRS_first = base_inventory_FRS_first.rename(columns={"PGM_SYS_ID":colname_base_inventory_id})
+    #Merge this based with inventories
+    inventories = pd.merge(inventories,base_inventory_FRS_first,on='FRS_ID')
+    #Put original facilityID into the new column when its is the source of the emission. This corrects mismatches
+    #in the case of more than one base inventory id to FRS_ID
+    if base_inventory in inventory_acronyms:
+        inventories.loc[inventories['Source']==base_inventory,colname_base_inventory_id] = inventories['FacilityID']
+
     return(inventories)
 
 
@@ -99,3 +109,6 @@ def pivotCombinedInventories(combinedinventory_df):
     return(combinedinventory_df_pt)
     #len(inventories_withFRSID_SRSID_pt[(inventories_withFRSID_SRSID_pt['FlowAmount']['TRI'] > 0) & (inventories_withFRSID_SRSID_pt['FlowAmount']['NEI'] > 0)])
     #inventories_withFRSID_SRSID_pt.to_csv('inventories_withFRSID_SRSID_pt.csv')
+
+
+def addBaseInventoryID(combined_inventory_df,fac_matches_df):
