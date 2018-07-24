@@ -96,6 +96,10 @@ def createflowbyfacility():
 
 flowbyfac = createflowbyfacility();
 #flow6.rename(columns={'DOE/EIA ORIS plant or facility code':'FacilityID', 'Plant annual NOx total output emission rate (lb/MWh)':'Plant annual NOx total output emission rate (kg/MWh)','Plant annual SO2 total output emission rate (lb/MWh)':'Plant annual SO2 total output emission rate (kg/MWh)','Plant annual CO2 total output emission rate (lb/MWh)':'Plant annual CO2 total output emission rate (kg/MWh)','Plant annual CH4 total output emission rate (lb/GWh)':'Plant annual CH4 total output emission rate (kg/GWh)','Plant annual N2O total output emission rate (lb/GWh)':'Plant annual N2O total output emission rate (kg/GWh)'},inplace=True)
+
+#Merge flowbyfac with output of data reliability scores from unit sheet, merge based on FacilityID & FlowName
+
+
 flowbyfac['ReliabilityScore'] = 0;
 #Dropping na emissions
 flowbyfac = flowbyfac.dropna(subset=['FlowAmount'])
