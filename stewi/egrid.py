@@ -82,7 +82,7 @@ def createflowbyfacility():
                          'Plant annual CH4 emissions (lbs)':'Methane',
                          'Plant annual N2O emissions (lbs)':'Nitrous oxide',
                          'CHP plant useful thermal output (MMBtu)':'Steam'},inplace=True)
-    flow1 = unit_convert(flow[['Nitrogen oxides','Sulfur dioxide','Carbon dioxide']],907.1874)
+    flow1 = unit_convert(flow[['Nitrogen oxides','Sulfur dioxide','Carbon dioxide']],907.18474)
     flow1_1 = unit_convert(flow[['Methane','Nitrous oxide']],0.4535924)
     flow2 = unit_convert(flow[['Heat']],1055.056)
     flow3 = unit_convert(flow[['Electricity']],3600)
