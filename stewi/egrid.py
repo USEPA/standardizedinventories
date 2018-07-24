@@ -7,7 +7,7 @@ import os
 from stewi.globals import write_metadata
 
 # Set the year
-eGRIDyear = '2014'
+eGRIDyear = '2016'
 
 year_last2 = eGRIDyear[2:]
 output_dir = globals.output_dir
@@ -82,12 +82,12 @@ def createflowbyfacility():
                          'Plant annual CH4 emissions (lbs)':'Methane',
                          'Plant annual N2O emissions (lbs)':'Nitrous oxide',
                          'CHP plant useful thermal output (MMBtu)':'Steam'},inplace=True)
-    flow1 = unit_convert(flow[flow.columns[3:6]],1000)
-    flow1_1 = unit_convert(flow[flow.columns[6:8]],0.4535924)
-    flow2 = unit_convert(flow[flow.columns[1]],1055.056)
-    flow3 = unit_convert(flow[flow.columns[2]],3600)
+    flow1 = unit_convert(flow[['Nitrogen oxides','Sulfur dioxide','Carbon dioxide']],907.1874)
+    flow1_1 = unit_convert(flow[['Methane','Nitrous oxide']],0.4535924)
+    flow2 = unit_convert(flow[['Heat']],1055.056)
+    flow3 = unit_convert(flow[['Electricity']],3600)
     flow4 = flow[['FacilityID']]
-    flow4_4 = unit_convert(flow[flow.columns[8]],1055.056)
+    flow4_4 = unit_convert(flow['Steam'],1055.056)
     frames = [flow4,flow2,flow4_4,flow3,flow1,flow1_1]
     flow5 = pd.concat(frames,axis = 1)
     flow6 = pd.melt(flow5, id_vars=['FacilityID'], value_vars=list(flow5.columns[1:]), var_name='FlowName', value_name='FlowAmount')    
