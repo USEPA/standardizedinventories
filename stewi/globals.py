@@ -23,7 +23,6 @@ inventory_metadata = {
 }
 
 
-
 def url_is_alive(url):
     """
     Checks that a given URL is reachable.
@@ -208,6 +207,7 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
     validation_df = validation_df.drop(['FlowAmount_x', 'FlowAmount_y'], axis=1)
     return validation_df
 
+
 #Writes the validation result and associated metadata to the output
 def write_validation_result(inventory_acronym,year,validation_df):
     validation_df.to_csv(output_dir + 'validation/' + inventory_acronym + '_' + year + '.csv',index=False)
@@ -256,6 +256,7 @@ def write_metadata(inventoryname, report_year, metadata_dict, datatype="inventor
         with open(output_dir + 'validation/' + inventoryname + '_' + report_year + '_validationset_metadata.json', 'w') as file:
             file.write(json.dumps(metadata_dict))
 
+
 # Returns the metadata dictionary for an inventory
 def read_metadata(inventoryname, report_year):
     with open(output_dir + 'RCRAInfo_' + report_year + '_metadata.json', 'r') as file:
@@ -279,8 +280,8 @@ def get_optional_fields(format='flowbyfacility'):
 
 
 def checkforFile(filepath):
-    if os.path.exists(filepath):
-        return True
-    else:
-        return False
+    return os.path.exists(filepath)
 
+
+def get_relpath(filepath):
+    return os.path.relpath(filepath, '.').replace('\\', '/') + '/'
