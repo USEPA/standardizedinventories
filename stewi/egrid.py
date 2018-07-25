@@ -1,5 +1,5 @@
 #Data source:
-#url = 'https://www.epa.gov/sites/production/files/2018-02/egrid2016_all_files_since_1996.zip'
+url = 'https://www.epa.gov/sites/production/files/2018-02/egrid2016_all_files_since_1996.zip'
 
 import pandas as pd
 from stewi import globals #@author: Wes
@@ -138,11 +138,6 @@ def createfacilityfile():
 
 
 
-
-
-
-
-
 #Need to change column names manually
 def createflowbyfacility():
     flow = egrid2[['DOE/EIA ORIS plant or facility code','Plant total annual heat input (MMBtu)','Plant annual net generation (MWh)', 'Plant annual NOx emissions (tons)','Plant annual SO2 emissions (tons)','Plant annual CO2 emissions (tons)','Plant annual CH4 emissions (lbs)','Plant annual N2O emissions (lbs)','CHP plant useful thermal output (MMBtu)']]
@@ -155,7 +150,7 @@ def createflowbyfacility():
                          'Plant annual CH4 emissions (lbs)':'Methane',
                          'Plant annual N2O emissions (lbs)':'Nitrous oxide',
                          'CHP plant useful thermal output (MMBtu)':'Steam'},inplace=True)
-
+    
     nox_so2_co2 = unit_convert(flow[['Nitrogen oxides','Sulfur dioxide','Carbon dioxide']],907.18474)
     ch4_n2o = unit_convert(flow[['Methane','Nitrous oxide']],0.4535924)
     heat_steam = unit_convert(flow[['Heat','Steam']],1055.056)
@@ -168,10 +163,11 @@ def createflowbyfacility():
     return flowbyfac;
 
 
+
 flowbyfac_1 = createflowbyfacility();
 
-#Merge flowbyfac with output of data reliability scores from unit sheet, merge based on FacilityID & FlowName
-flowbyfac = flowbyfac_1.merge(unit_egrid6,left_on = ['FacilityID','FlowName'],right_on = ['FacilityID','FlowName'], how = 'inner')
+#flow6.rename(columns={'DOE/EIA ORIS plant or facility code':'FacilityID', 'Plant annual NOx total output emission rate (lb/MWh)':'Plant annual NOx total output emission rate (kg/MWh)','Plant annual SO2 total output emission rate (lb/MWh)':'Plant annual SO2 total output emission rate (kg/MWh)','Plant annual CO2 total output emission rate (lb/MWh)':'Plant annual CO2 total output emission rate (kg/MWh)','Plant annual CH4 total output emission rate (lb/GWh)':'Plant annual CH4 total output emission rate (kg/GWh)','Plant annual N2O total output emission rate (lb/GWh)':'Plant annual N2O total output emission rate (kg/GWh)'},inplace=True)
+flowbyfac = flowbyfac_1.merge(unit_egrid6,left_on = ['FacilityID','FlowName'],right_on = ['FacilityID','FlowName'], how = 'left')
 
 
 #Dropping na emissions
