@@ -5,3 +5,6 @@ EPA/CAMD,1
 Estimated based on unit-level NOx emission rates,2
 Estimated using emissions factor,2
 Estimated using emissions factor and plant-specific sulfur content,2
+EIA non-ozone season distributed and EPA/CAMD ozone season,3
+Estimated based on unit-level NOx emission rates and EPA/CAMD ozone season emissions,2
+Estimated using emissions factor and EIA data for non-ozone season and EPA/CAMD ozone season emissions,3

@@ -57,7 +57,6 @@ unit_egrid_required_fields = (imp_fields(data_dir+'egrid_unit_level_required_fie
 unit_egrid = pd.read_excel(eGRIDfile, sheet_name=untsheetname, skipinitialspace = True)
 #drop first row which are column name abbreviations
 unit_egrid = unit_egrid.drop([0])
-
 #use_cols not working so drop them after import
 #get list of columns not in the required fields and drop them
 colstodrop = list(set(list(unit_egrid.columns)) - set(unit_egrid_required_fields))
@@ -83,10 +82,7 @@ unit_egrid2 = unit_egrid2.merge(rel_scores, left_on =['Unit unadjusted annual CO
 unit_egrid2 = unit_egrid2.rename(columns= {'ReliabilityScore':'ReliabilityScore_CO2'})
 del unit_egrid2['Source']
 
-#unit_egrid2 = unit_egrid2.replace({0:None})
-
-emissions = ['Heat','Nitrogen oxides','Sulfur oxide','Carbon dioxide']
-
+emissions = ['Heat','Nitrogen oxides','Sulfur dioxide','Carbon dioxide']
 
 cols = ['ReliabilityScore_heat','ReliabilityScore_NOx','ReliabilityScore_SO2','ReliabilityScore_CO2']
 flow = ['Unit unadjusted annual heat input (MMBtu)','Unit unadjusted annual NOx emissions (tons)','Unit unadjusted annual SO2 emissions (tons)','Unit unadjusted annual CO2 emissions (tons)']
@@ -99,9 +95,14 @@ unit_egrid4 = unit_egrid2.groupby(['DOE/EIA ORIS plant or facility code'])['Unit
 unit_egrid3 = unit_egrid3.reset_index()
 unit_egrid4 = unit_egrid4.reset_index()
 
+
 unit_egrid5 = unit_egrid3.merge(unit_egrid4, left_on = ['DOE/EIA ORIS plant or facility code'],right_on = ['DOE/EIA ORIS plant or facility code'], how = 'inner')
 
+
 unit_egrid5[cols] = np.divide(unit_egrid5[cols],unit_egrid5[flow])
+
+
+
 
 unit_egrid5[emissions] = unit_egrid5[cols]
 
@@ -170,17 +171,28 @@ flowbyfac_1 = createflowbyfacility();
 flowbyfac = flowbyfac_1.merge(unit_egrid6,left_on = ['FacilityID','FlowName'],right_on = ['FacilityID','FlowName'], how = 'left')
 
 
+
+#Dropping zero emissions by changing name to NA
+flowbyfac['FlowAmount'] = flowbyfac['FlowAmount'].replace({0:None})
+
 #Dropping na emissions
 flowbyfac = flowbyfac.dropna(subset=['FlowAmount'])
+
+
+ 
 flowbyfac = flowbyfac.sort_values(by = ['FacilityID'], axis=0, ascending=True, inplace=False, kind='quicksort', na_position='last')
 
 #Import flow compartments
 flow_compartments = pd.read_csv(data_dir+'eGRID_flow_compartments.csv',header=0)
+
 #Merge in with flowbyfacility
 flowbyfac = pd.merge(flowbyfac,flow_compartments,on='FlowName',how='left')
+
 #Drop original name
 flowbyfac.drop(columns='OriginalName', inplace=True)
 
+#Replacing no reliability score by a value. 
+flowbyfac['ReliabilityScore']=flowbyfac['ReliabilityScore'].replace({None:5})
 
 #os.chdir(output_dir)
 #Write flowbyfacility file to output
