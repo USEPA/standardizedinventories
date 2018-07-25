@@ -1,5 +1,0 @@
-FlowName,Inventory_Amount,Reference_Amount,Percent_Difference,Conclusion
-CH4,0.0,100.0,100.0,Inventory value is zero or null
-CO2,96.0,100.0,4.0,Statistically similar
-N2O,0.0,100.0,100.0,Inventory value is zero or null
-SF6,94.0,100.0,6.0,Percent difference exceeds tolerance

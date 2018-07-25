@@ -1,5 +1,5 @@
 #Data source:
-url = 'https://www.epa.gov/sites/production/files/2018-02/egrid2016_all_files_since_1996.zip'
+#url = 'https://www.epa.gov/sites/production/files/2018-02/egrid2016_all_files_since_1996.zip'
 
 import pandas as pd
 from stewi import globals #@author: Wes
@@ -155,22 +155,22 @@ def createflowbyfacility():
                          'Plant annual CH4 emissions (lbs)':'Methane',
                          'Plant annual N2O emissions (lbs)':'Nitrous oxide',
                          'CHP plant useful thermal output (MMBtu)':'Steam'},inplace=True)
-    flow1 = unit_convert(flow[['Nitrogen oxides','Sulfur dioxide','Carbon dioxide']],907.1874)
-    flow1_1 = unit_convert(flow[['Methane','Nitrous oxide']],0.4535924)
-    flow2 = unit_convert(flow[['Heat']],1055.056)
-    flow3 = unit_convert(flow[['Electricity']],3600)
-    flow4 = flow[['FacilityID']]
-    flow4_4 = unit_convert(flow['Steam'],1055.056)
-    frames = [flow4,flow2,flow4_4,flow3,flow1,flow1_1]
-    flow5 = pd.concat(frames,axis = 1)
-    
-    flow6 = pd.melt(flow5, id_vars=['FacilityID'], value_vars=list(flow5.columns[1:]), var_name='FlowName', value_name='FlowAmount')    
-    return flow6;
+
+    nox_so2_co2 = unit_convert(flow[['Nitrogen oxides','Sulfur dioxide','Carbon dioxide']],907.18474)
+    ch4_n2o = unit_convert(flow[['Methane','Nitrous oxide']],0.4535924)
+    heat_steam = unit_convert(flow[['Heat','Steam']],1055.056)
+    electricity = unit_convert(flow[['Electricity']],3600)
+    facilityid = flow[['FacilityID']]
+    frames = [facilityid,nox_so2_co2,ch4_n2o,heat_steam,electricity]
+    flowbyfac_stacked = pd.concat(frames,axis = 1)
+    flowbyfac = pd.melt(flowbyfac_stacked, id_vars=['FacilityID'], value_vars=list(flowbyfac_stacked.columns[1:]),
+                        var_name='FlowName', value_name='FlowAmount')
+    return flowbyfac;
 
 
 flowbyfac_1 = createflowbyfacility();
 
-#flow6.rename(columns={'DOE/EIA ORIS plant or facility code':'FacilityID', 'Plant annual NOx total output emission rate (lb/MWh)':'Plant annual NOx total output emission rate (kg/MWh)','Plant annual SO2 total output emission rate (lb/MWh)':'Plant annual SO2 total output emission rate (kg/MWh)','Plant annual CO2 total output emission rate (lb/MWh)':'Plant annual CO2 total output emission rate (kg/MWh)','Plant annual CH4 total output emission rate (lb/GWh)':'Plant annual CH4 total output emission rate (kg/GWh)','Plant annual N2O total output emission rate (lb/GWh)':'Plant annual N2O total output emission rate (kg/GWh)'},inplace=True)
+#Merge flowbyfac with output of data reliability scores from unit sheet, merge based on FacilityID & FlowName
 flowbyfac = flowbyfac_1.merge(unit_egrid6,left_on = ['FacilityID','FlowName'],right_on = ['FacilityID','FlowName'], how = 'inner')
 
 

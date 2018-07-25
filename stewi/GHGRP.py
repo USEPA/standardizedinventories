@@ -354,37 +354,45 @@ ghgrp_flow['Unit'] = 'kg'
 ghgrp_flow.to_csv(output_dir + 'flow/GHGRP_' + report_year + '.csv', index=False)
 # elif output_format == 'flowbyfacility':
 fbf_columns = ['FlowName', 'FlowAmount', 'FacilityID', 'ReliabilityScore']
-ghgrp[fbf_columns].to_csv(output_dir + 'GHGRP_' + report_year + '.csv', index=False)
+ghgrp_fbf = ghgrp[fbf_columns].drop_duplicates()
+ghgrp_fbf.to_csv(output_dir + 'GHGRP_' + report_year + '.csv', index=False)
 
 
 # Validation of results using CO2E values for comparison
-#TODO: Validation metadata?
-co2e_df = import_table(ghgrp_data_dir + 'ghgs_co2e.csv')
-# co2e_df['CO2e'].fillna(0, inplace=True)
-validation_table = 'PUB_FACTS_SUBP_GHG_EMISSION'
-ref_filepath = ghgrp_external_dir + 'ghgrp_reference_co2e.csv'
-if os.path.exists(ref_filepath): reference_df = import_table(ref_filepath)
-else: reference_df = download_chunks(validation_table, get_row_count(validation_table), filepath=ref_filepath)
-for col in reference_df:# This for loop breaks when used inside a function
-    exec("reference_df = reference_df.rename(columns={'" + col + "':'" + col[len(validation_table) + 1:] + "'})")
+ref_totals_path = data_dir + data_source + '_' + report_year + '_NationalTotals_from_CO2e.csv'
+if os.path.exists(ref_totals_path): reference_df = import_table(ref_totals_path)
+else:
+    validation_table = 'PUB_FACTS_SUBP_GHG_EMISSION'
+    ref_filepath = ghgrp_external_dir + validation_table + '.csv'
+    if os.path.exists(ref_filepath): reference_df = import_table(ref_filepath)
+    else: reference_df = download_chunks(validation_table, get_row_count(validation_table), filepath=ref_filepath)
+    for col in reference_df:# This for loop breaks when used inside a function
+        if validation_table in col:
+            exec("reference_df = reference_df.rename(columns={'" + col + "':'" + col[len(validation_table) + 1:] + "'})")
+# The conditional statement below breaks when nested
 if 'unnamed' in reference_df.columns[len(reference_df.columns) - 1].lower() or reference_df.columns[
     len(reference_df.columns) - 1] == '':
     reference_df.drop(reference_df.columns[len(reference_df.columns) - 1], axis=1, inplace=True)
-reference_df['YEAR'] = reference_df['YEAR'].astype('str')
-reference_df = reference_df[reference_df['YEAR'] == report_year]
-reference_df = reference_df.merge(ghgs[['GAS_ID', 'GAS_NAME']], how='left', on='GAS_ID').reset_index(drop=True)
-reference_df = reference_df.merge(co2e_df, how='left', on='GAS_NAME')
-reference_df = reference_df[reference_df['CO2e'] != 0]
-reference_df['FlowAmount'] = reference_df['CO2E_EMISSION'].astype(float) / reference_df['CO2e'].astype(float) * 1000
-reference_df = reference_df[['FlowAmount', 'GAS_ID', 'GAS_NAME', 'FACILITY_ID']]
-reference_df.rename(columns={'FACILITY_ID': 'FacilityID'}, inplace=True)
-reference_df.rename(columns={'GAS_ID': 'FlowID'}, inplace=True)
-reference_df.rename(columns={'GAS_NAME': 'FlowName'}, inplace=True)
-reference_df.reset_index(drop=True, inplace=True)
-# reference_df.to_csv(ghgrp_external_dir + '_' + report_year + 'GHGRP_ref_flows_CO2e.csv', index=False)
+if not os.path.exists(ref_totals_path):
+    co2e_df = import_table(ghgrp_data_dir + 'ghgs_co2e_factors.csv')
+    # co2e_df['CO2e'].fillna(0, inplace=True)
+    reference_df['YEAR'] = reference_df['YEAR'].astype('str')
+    reference_df = reference_df[reference_df['YEAR'] == report_year]
+    reference_df = reference_df.merge(ghgs[['GAS_ID', 'GAS_NAME']], how='left', on='GAS_ID')
+    reference_df = reference_df.merge(co2e_df, how='left', on='GAS_NAME')
+    reference_df = reference_df[reference_df['CO2e'] != 0]
+    reference_df['FlowAmount'] = reference_df['CO2E_EMISSION'].astype(float) / reference_df['CO2e'].astype(float) * 1000
+    reference_df = reference_df[['FlowAmount', 'GAS_ID', 'GAS_NAME']]
+    reference_df = reference_df.groupby(['GAS_ID', 'GAS_NAME']).sum().reset_index()
+    reference_df.rename(columns={'GAS_ID': 'FlowID'}, inplace=True)
+    reference_df.rename(columns={'GAS_NAME': 'FlowName'}, inplace=True)
+    reference_df.to_csv(ref_totals_path, index=False)
 
-validation_df = validate_inventory(ghgrp, reference_df, filepath=output_dir + data_source + '_' + report_year + '_totals.csv')
+validation_df = validate_inventory(ghgrp_fbf[['FlowName', 'FlowAmount']].groupby(['FlowName']).sum().reset_index(), reference_df)
 validation_sum = validation_summary(validation_df)
+write_validation_result(data_source, report_year, validation_df)# Generates "KeyError: 'the label [0] is not in the [index]'"
+
+
 validation_df.to_csv(ghgrp_external_dir + 'GHGRP_val_' + report_year + '.csv', index=False)
 validation_sum.to_csv(ghgrp_external_dir + 'GHGRP_val_summary_' + report_year + '.csv', index=False)
 

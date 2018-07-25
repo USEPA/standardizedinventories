@@ -165,7 +165,7 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
         reference_df['FlowAmount'] = reference_df['FlowAmount'].fillna(0.0)
         inventory_sums = inventory_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
         reference_sums = reference_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
-        if filepath: reference_sums.to_csv(filepath, index=False)
+    if filepath: reference_sums.to_csv(filepath, index=False)
     validation_df = inventory_sums.merge(reference_sums, how='outer', on=group_by_columns)
     validation_df = validation_df.fillna(0.0)
     amount_x_list = []
@@ -228,7 +228,7 @@ def write_validation_result(inventory_acronym,year,validation_df):
     write_metadata(inventory_acronym, year, validation_metadata, datatype="validation")
 
 
-def validation_summary(validation_df):
+def validation_summary(validation_df, filepath=''):
     """
     Summarized output of validate_inventory function
     :param validation_df:
@@ -238,6 +238,7 @@ def validation_summary(validation_df):
     validation_summary_df = validation_df[['Count', 'Conclusion']].groupby('Conclusion').count()
     validation_summary_df['Avg_Pct_Difference'] = validation_df[['Percent_Difference', 'Conclusion']].groupby('Conclusion').mean()
     validation_summary_df.reset_index(inplace=True)
+    if filepath: validation_summary_df.to_csv(filepath, index=False)
     return validation_summary_df
 
 
