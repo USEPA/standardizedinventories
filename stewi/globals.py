@@ -219,8 +219,12 @@ def write_validation_result(inventory_acronym,year,validation_df):
     #Convert to Series
     validation_set_info = validation_set_info.iloc[0,]
     #Use the same format an inventory metadata to described the validation set data
-    from stewi.globals import inventory_metadata
-    validation_metadata = inventory_metadata
+    validation_metadata = {'SourceType': 'Static File',  #Other types are "Web service"
+                           'SourceFileName':'NA',
+                           'SourceURL':'NA',
+                           'SourceVersion':'NA',
+                           'SourceAquisitionTime':'NA',
+                           'StEWI_versions_version': '0.9'}
     validation_metadata['SourceFileName'] = validation_set_info['Name']
     validation_metadata['SourceVersion'] = validation_set_info['Version']
     validation_metadata['SourceURL'] = validation_set_info['URL']
