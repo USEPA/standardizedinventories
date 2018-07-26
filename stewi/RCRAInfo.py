@@ -7,14 +7,14 @@
 
 import pandas as pd
 import stewi.globals as globals
-from stewi.globals import write_metadata
-import os
+from stewi.globals import write_metadata,unit_convert,validate_inventory,write_validation_result
 import gzip
 import shutil
 import urllib
+import numpy as np
 
 #Valid years are every other year since 2015
-report_year = '2011'
+report_year = '2015'
 
 #Get file columns widths
 output_dir = globals.output_dir
@@ -71,9 +71,13 @@ for chunk in pd.read_fwf(RCRAInfoBRtextfile,widths=BRwidths,header=None,names=BR
 
 #Pickle as a backup
 BR.to_pickle('BR_'+report_year+'.pk')
+#Read in to start from a pickle
+#BR = pd.read_pickle('BR_2015.pk')
 
 #Validate correct import - number of states should be 50+ (includes PR and territories)
 states = BR['State'].unique()
+len(states)
+#2015: 57
 
 #Filtering to remove double counting and non BR waste records
 #Do not double count generation from sources that receive it only
@@ -152,6 +156,8 @@ def waste_description_cleaner(x):
         x = None
     return x
 BR['FlowName'] = BR['FlowName'].apply(waste_description_cleaner)
+#Check unique flow names
+pd.unique(BR['FlowName'])
 
 #If there is not useful waste code, fill it with the Form Code Name
 #Find the NAs in FlowName and then give that source of Form Code
@@ -219,6 +225,24 @@ facilities.to_csv(output_dir + 'facility/RCRAInfo_' + report_year + '.csv',index
 #Prepare flow by facility
 
 flowbyfacility = BR[['FacilityID','ReliabilityScore','FlowAmount','FlowName']]
+
+##VALIDATION
+BR_national_total = pd.read_csv('stewi/data/RCRAInfo_'+ report_year + '_NationalTotals.csv',header=0,dtype={"FlowAmount":np.float})
+BR_national_total['FlowAmount_kg']=0
+BR_national_total = unit_convert(BR_national_total, 'FlowAmount_kg', 'Unit', 'Tons', 907.18474, 'FlowAmount')
+BR_national_total.drop('FlowAmount',axis=1,inplace=True)
+BR_national_total.drop('Unit',axis=1,inplace=True)
+# Rename cols to match reference format
+BR_national_total.rename(columns={'FlowAmount_kg':'FlowAmount'},inplace=True)
+
+#Validate total waste generated against national totals
+sum_of_flowbyfacility = flowbyfacility['FlowAmount'].sum()
+sum_of_flowbyfacility_df = pd.DataFrame({'FlowAmount':[sum_of_flowbyfacility],'FlowName':'ALL','Compartment':'waste'})
+validation_df = validate_inventory(sum_of_flowbyfacility_df,BR_national_total,group_by='flow')
+write_validation_result('RCRAInfo', report_year, validation_df)# Generates "KeyError: 'the label [0] is not in the [index]'"
+
+
+
 
 #Export to csv
 flowbyfacility.to_csv(output_dir + 'RCRAInfo_' + report_year + '.csv',index=False)
