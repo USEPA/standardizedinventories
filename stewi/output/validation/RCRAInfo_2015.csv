@@ -1,0 +1,2 @@
+FlowName,Compartment,Inventory_Amount,Reference_Amount,Percent_Difference,Conclusion
+ALL,waste,30431292876.092766,30523983258.21768,0.303664110089439,Statistically similar
