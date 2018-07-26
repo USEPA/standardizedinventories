@@ -1,0 +1,3 @@
+FacilityID,FlowAmount,FlowName,Compartment,ReliabilityScore,Source,Year,FRS_ID,eGRID_ID,FlowID,SRS_CAS,SRS_ID,Waste Code Type
+3881711,162560.9,PM10 Primary (Filt + Cond),air,5,NEI,2016,1.1E+11,3148,PM10-PRI,,77683,
+12796811,10.43262,PM10 Primary (Filt + Cond),air,4.347826,NEI,2016,1.1E+11,3148,PM10-PRI,,77683,
