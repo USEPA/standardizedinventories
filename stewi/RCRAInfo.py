@@ -73,6 +73,8 @@ for chunk in pd.read_fwf(RCRAInfoBRtextfile,widths=BRwidths,header=None,names=BR
 BR.to_pickle('BR_'+report_year+'.pk')
 #Read in to start from a pickle
 #BR = pd.read_pickle('BR_2015.pk')
+len(BR)
+#2015:2053108
 
 #Validate correct import - number of states should be 50+ (includes PR and territories)
 states = BR['State'].unique()
@@ -86,11 +88,17 @@ len(states)
 
 #Drop lines with source code G61
 BR = BR[BR['Source Code'] != 'G61']
+len(BR)
+#2015:1959883
 
 #Only include wastes that are included in the National Biennial Report
 BR = BR[BR['Generator ID Included in NBR'] == 'Y']
+len(BR)
+#2015:1759711
 
 BR = BR[BR['Generator Waste Stream Included in NBR'] == 'Y']
+len(BR)
+#2015:288980
 
 #Remove imported wastes, source codes G63-G75
 ImportSourceCodes = pd.read_csv(data_dir + 'RCRAImportSourceCodes.txt', header=None)
@@ -104,6 +112,8 @@ for item in SourceCodesPresent:
         SourceCodestoKeep.append(item)
 
 BR = BR[BR['Source Code'].isin(SourceCodestoKeep)]
+len(BR)
+#2015:286813
 
 #Reassign the NAICS to a string
 BR['NAICS'] = BR['Primary NAICS'].astype('str')
@@ -239,7 +249,7 @@ BR_national_total.rename(columns={'FlowAmount_kg':'FlowAmount'},inplace=True)
 sum_of_flowbyfacility = flowbyfacility['FlowAmount'].sum()
 sum_of_flowbyfacility_df = pd.DataFrame({'FlowAmount':[sum_of_flowbyfacility],'FlowName':'ALL','Compartment':'waste'})
 validation_df = validate_inventory(sum_of_flowbyfacility_df,BR_national_total,group_by='flow')
-write_validation_result('RCRAInfo', report_year, validation_df)# Generates "KeyError: 'the label [0] is not in the [index]'"
+write_validation_result('RCRAInfo', report_year, validation_df)
 
 
 
