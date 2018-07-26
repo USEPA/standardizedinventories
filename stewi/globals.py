@@ -217,8 +217,9 @@ def write_validation_result(inventory_acronym,year,validation_df):
     validation_set_info = validation_set_info_table[(validation_set_info_table['Inventory']==inventory_acronym)&
                                                      (validation_set_info_table['Year']==year)]
     #Convert to Series
-    validation_set_info = validation_set_info.loc[0,]
+    validation_set_info = validation_set_info.iloc[0,]
     #Use the same format an inventory metadata to described the validation set data
+    from stewi.globals import inventory_metadata
     validation_metadata = inventory_metadata
     validation_metadata['SourceFileName'] = validation_set_info['Name']
     validation_metadata['SourceVersion'] = validation_set_info['Version']
