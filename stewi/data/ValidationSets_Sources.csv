@@ -1,11 +1,14 @@
 ﻿Inventory,Version,Year,Name,URL,Criteria,Date Acquired
-TRI,v15,2016,TRI Basic Plus Data File,https://www.epa.gov/sites/production/files/2018-01/releases_1.xlsx,"Use File Type 1, downloaded individual zip files for each year, summed to national level",Apr-18
-TRI,v15,2015,TRI Basic Plus Data File,https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-calendar-years-1987-2016,"Use File Type 1, downloaded individual zip files for each year, summed to national level",May-18
-TRI,v15,2014,TRI Basic Plus Data File,https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-calendar-years-1987-2016,"Use File Type 1, downloaded individual zip files for each year, summed to national level",Jun-18
-TRI,v15,2013,TRI Basic Plus Data File,https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-calendar-years-1987-2016,"Use File Type 1, downloaded individual zip files for each year, summed to national level",Jul-18
-TRI,v15,2012,TRI Basic Plus Data File,https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-calendar-years-1987-2016,"Use File Type 1, downloaded individual zip files for each year, summed to national level",Aug-18
-TRI,v15,2011,TRI Basic Plus Data File,https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-calendar-years-1987-2016,"Use File Type 1, downloaded individual zip files for each year, summed to national level",Sep-18
+TRI,v15,2016,TRI Basic Plus Data File,https://www.epa.gov/sites/production/files/2018-01/releases_1.xlsx,"Use File Type 1, downloaded individual zip files for each year, summed to national level",18-Apr
+TRI,v15,2015,TRI Basic Plus Data File,https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-calendar-years-1987-2016,"Use File Type 1, downloaded individual zip files for each year, summed to national level",18-May
+TRI,v15,2014,TRI Basic Plus Data File,https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-calendar-years-1987-2016,"Use File Type 1, downloaded individual zip files for each year, summed to national level",18-Jun
+TRI,v15,2013,TRI Basic Plus Data File,https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-calendar-years-1987-2016,"Use File Type 1, downloaded individual zip files for each year, summed to national level",18-Jul
+TRI,v15,2012,TRI Basic Plus Data File,https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-calendar-years-1987-2016,"Use File Type 1, downloaded individual zip files for each year, summed to national level",18-Aug
+TRI,v15,2011,TRI Basic Plus Data File,https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-calendar-years-1987-2016,"Use File Type 1, downloaded individual zip files for each year, summed to national level",18-Sep
 NEI,v2,2014,NEI Data,https://www.epa.gov/air-emissions-inventories/2014-national-emissions-inventory-nei-data,"Data Summaries tab, Facility-level by Pollutant zip file download, summed to national level",19-Jul-18
 NEI,v3,2011,NEI Data,https://www.epa.gov/air-emissions-inventories/2011-national-emissions-inventory-nei-data,"Data Summaries tab, Facility-level by Pollutant zip file download, summed to national level",19-Jul-18
 eGRID,v2,2014,,,,
 eGRID,,2016,,,,
+RCRAInfo,,2011,2011 Biennial Report Summary Results for National,https://rcrainfo.epa.gov/rcrainfoweb/action/modules/br/summary/summarysearch,"Location':'National','Report Cycle':'2011'",27-Jul-18
+RCRAInfo,,2013,2013 Biennial Report Summary Results for National,https://rcrainfo.epa.gov/rcrainfoweb/action/modules/br/summary/summarysearch,"Location':'National','Report Cycle':'2013'",27-Jul-18
+RCRAInfo,,2015,2015 Biennial Report Summary Results for National,https://rcrainfo.epa.gov/rcrainfoweb/action/modules/br/summary/summarysearch,"Location':'National','Report Cycle':'2015'",27-Jul-18
