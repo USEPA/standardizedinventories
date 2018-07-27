@@ -7,7 +7,7 @@
 
 import pandas as pd
 import stewi.globals as globals
-from stewi.globals import write_metadata,unit_convert,validate_inventory,write_validation_result
+from stewi.globals import write_metadata,unit_convert,validate_inventory,write_validation_result,set_dir
 import gzip
 import shutil
 import urllib
@@ -34,12 +34,19 @@ RCRAfieldstokeep = list(RCRAfieldstokeepdf[0])
 from stewi.globals import checkforFile
 
 RCRAfInfoflatfileURL = 'ftp://ftp.epa.gov/rcrainfodata/rcra_flatfiles/Baseline/biennial_report.zip'
-RCRAInfopath = "../RCRAInfo/"
-RCRAInfoBRzip = RCRAInfopath+'biennial_report.zip'
-RCRAInfoBRarchivefile = RCRAInfopath+'br_reporting_' + report_year + '.txt.gz'
-RCRAInfoBRtextfile =  RCRAInfopath+'br_reporting_' + report_year + '.txt'
+RCRAInfopath = set_dir(data_dir + "../../../RCRAInfo/")
+RCRAInfoBRzip = RCRAInfopath + 'biennial_report.zip'
+RCRAInfoBRarchivefile = RCRAInfopath + 'br_reporting_' + report_year + '.txt.gz'
+RCRAInfoBRtextfile = RCRAInfopath + 'br_reporting_' + report_year + '.txt'
 
 retrieval_time = None
+
+
+def extract_gzip(input_path, output_path):
+    with gzip.open(input_path, 'rb') as f_in:
+        with open(output_path, 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
+
 
 if checkforFile(RCRAInfoBRtextfile) is False:
     while checkforFile(RCRAInfoBRarchivefile) is False:
@@ -52,9 +59,7 @@ if checkforFile(RCRAInfoBRtextfile) is False:
         break
 
         #unzip it
-    with gzip.open(RCRAInfoBRarchivefile, 'rb') as f_in:
-        with open(RCRAInfoBRtextfile, 'wb') as f_out:
-            shutil.copyfileobj(f_in, f_out)
+    extract_gzip(RCRAInfoBRarchivefile, RCRAInfoBRtextfile)
 
 #Get total tow count of the file
 with open(RCRAInfoBRtextfile, 'rb') as rcrafile:
@@ -135,7 +140,9 @@ BR['Amount_kg'] = 907.18474*BR['Generation Tons']
 linewidthsdf = pd.read_csv(data_dir + 'RCRAInfo_LU_WasteCode_LineComponents.csv')
 widths = linewidthsdf['Size']
 names = linewidthsdf['Data Element Name']
-wastecodesfile = '../RCRAInfo/lu_waste_code.txt'
+wastecodesfile = RCRAInfopath + 'lu_waste_code.txt'
+if not checkforFile(wastecodesfile):
+    if checkforFile(wastecodesfile + '.gz'): extract_gzip(wastecodesfile + '.gz', wastecodesfile)
 WasteCodesTest = pd.read_fwf(wastecodesfile,widths=widths,header=None,names=names,nrows=10)
 WasteCodes = pd.read_fwf(wastecodesfile,widths=widths,header=None,names=names)
 WasteCodes = WasteCodes[['Waste Code', 'Code Type', 'Waste Code Description']]
@@ -209,7 +216,7 @@ flows.sort_values(by='FlowName',axis=0,inplace=True)
 flows.to_csv(output_dir + 'flow/RCRAInfo_' + report_year + '.csv',index=False)
 
 #Prepare facilities file
-facilities = BR[['Handler ID', 'Handler Name','Location Street Number',
+facilities = BR[['FacilityID', 'Handler Name','Location Street Number',
        'Location Street 1', 'Location Street 2', 'Location City',
        'Location State', 'Location Zip', 'County Name','NAICS']]
 
@@ -237,8 +244,8 @@ facilities.to_csv(output_dir + 'facility/RCRAInfo_' + report_year + '.csv',index
 flowbyfacility = BR[['FacilityID','ReliabilityScore','FlowAmount','FlowName']]
 
 ##VALIDATION
-BR_national_total = pd.read_csv('stewi/data/RCRAInfo_'+ report_year + '_NationalTotals.csv',header=0,dtype={"FlowAmount":np.float})
-BR_national_total['FlowAmount_kg']=0
+BR_national_total = pd.read_csv(data_dir + 'RCRAInfo_' + report_year + '_NationalTotals.csv', header=0, dtype={"FlowAmount":np.float})
+BR_national_total['FlowAmount_kg'] = 0
 BR_national_total = unit_convert(BR_national_total, 'FlowAmount_kg', 'Unit', 'Tons', 907.18474, 'FlowAmount')
 BR_national_total.drop('FlowAmount',axis=1,inplace=True)
 BR_national_total.drop('Unit',axis=1,inplace=True)
