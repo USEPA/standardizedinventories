@@ -32,7 +32,8 @@ def reliablity_weighted_sum(df, weights_col_name, items):
         first_index = x
         break
 
-    group_name = df.iloc[first_index].loc[fields["SOURCE_COL"]]
+    # group_name = df.iloc[first_index].loc[fields["SOURCE_COL"]]
+    group_name = df.loc[first_index, fields["SOURCE_COL"]]
     group = grouped.get_group(group_name)
 
     new_reliability_col = items * (group[weights_col_name] / sum(group[weights_col_name]))
@@ -64,7 +65,6 @@ def get_by_preference(group):
 
 
 def main():
-
     if not fields["INCLUDE_ORIGINAL"] and not fields["KEEP_REPEATED_DUPLICATES"]:
         raise ValueError("Cannot have both INCLUDE_ORIGINAL and KEEP_REPEATED_DUPLICATES fields as False")
 
@@ -84,9 +84,6 @@ def main():
         keep = 'first'
 
     df_chunk_filtered = df[fields["LOOKUP_FIELDS"]]
-    # print(df_chunk_filtered)
-    #df_chunk.loc[num_unique[num_unique == n].index].to_csv(output_csvfilepath, index=False, header=True, mode="w")
-    #df_chunk.loc[num_unique[num_unique == n].index].to_csv(output_csvfilepath, index=False, header=False, mode="a", na_rep="NaN")
 
     if not fields["KEEP_ALL_DUPLICATES"]:
         # from a set of duplicates a logic is applied to figure out what is sent to write to output file
@@ -99,11 +96,15 @@ def main():
         # all duplicates found are sent to be written to output file
         df = df[df_chunk_filtered.duplicated(keep=keep)]
 
+    # Duplicates found
     # print(df)
+
+    print("Grouping duplicates by LOOKUP_FIELDS")
+    grouped = df.groupby(fields["LOOKUP_FIELDS"])
+
     print("Grouping duplicates by SOURCE_COL")
     if fields["SOURCE_COL"] not in df.columns: raise ("SOURCE_COL not found in input file's header")
 
-    grouped = df.groupby(fields["SOURCE_COL"])
 
     print("Combining each group to a single row")
     funcname_cols_map = fields["COL_FUNC_PAIRS"]
@@ -111,22 +112,32 @@ def main():
             fields["COL_FUNC_PAIRS"].keys())):  # col names in columns, not in key of COL_FUNC_PAIRS
         funcname_cols_map[col] = fields["COL_FUNC_DEFAULT"]
 
-    func_cols_map = {}
-    for key, val in funcname_cols_map.items():
-        if "reliablity_weighted_sum" in val:
-            args = val.split(":")
-            if len(args) > 1:
-                weights_col_name = args[1]
-            func_cols_map[key] = partial(reliablity_weighted_sum, df, weights_col_name)
-        else:
-            func_cols_map[key] = eval(val)
+    to_be_concat = []
+    for name, df in grouped:
+        # print(name, df)
+        # find functions mapping for this df
+        func_cols_map = {}
+        for key, val in funcname_cols_map.items():
+            if "reliablity_weighted_sum" in val:
+                args = val.split(":")
+                if len(args) > 1:
+                    weights_col_name = args[1]
+                func_cols_map[key] = lambda items: reliablity_weighted_sum(df, weights_col_name, items)
+            else:
+                func_cols_map[key] = eval(val)
+        grouped_by_src = df.groupby(fields["SOURCE_COL"])
+        df_new = grouped_by_src.agg(func_cols_map)
 
-    df = grouped.agg(func_cols_map)
+        # If we have 2 or more duplicates with same compartment use `inventory_preference_by_compartment`
+        grouped = df_new.groupby(fields["COMPARTMENT_COL"])
+        df_new = grouped.apply(get_by_preference)
+        # print(df_new)
+        # print(name)
+        to_be_concat.append(df_new)
 
-    # If we have 2 or more duplicates with same compartment use `inventory_preference_by_compartment`
-    grouped = df.groupby(fields["COMPARTMENT_COL"])
-    df = grouped.apply(get_by_preference)
+    df = pd.concat(to_be_concat)
 
+    #
     # print(df)
     print("Writing to output")
     if os.path.splitext(output_csvfilepath)[-1].lower() == ".csv":
@@ -137,9 +148,6 @@ def main():
         writer.save()
 
     print("Process completed. Check the output file for results")
-
-
-
 
 if __name__ == "__main__":
     main()
