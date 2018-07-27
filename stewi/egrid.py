@@ -88,7 +88,9 @@ cols = ['ReliabilityScore_heat','ReliabilityScore_NOx','ReliabilityScore_SO2','R
 flow = ['Unit unadjusted annual heat input (MMBtu)','Unit unadjusted annual NOx emissions (tons)','Unit unadjusted annual SO2 emissions (tons)','Unit unadjusted annual CO2 emissions (tons)']
 unit_egrid2[cols] = np.multiply(unit_egrid2[cols],unit_egrid2[flow])
 
-unit_egrid3 = unit_egrid2.groupby(['DOE/EIA ORIS plant or facility code'])['ReliabilityScore_heat','ReliabilityScore_NOx','ReliabilityScore_SO2','ReliabilityScore_CO2'].sum()
+
+
+unit_egrid3 = unit_egrid2.groupby(['DOE/EIA ORIS plant or facility code','Unit primary fuel','Prime Mover'])['ReliabilityScore_heat','ReliabilityScore_NOx','ReliabilityScore_SO2','ReliabilityScore_CO2'].sum()
 unit_egrid4 = unit_egrid2.groupby(['DOE/EIA ORIS plant or facility code'])['Unit unadjusted annual heat input (MMBtu)','Unit unadjusted annual NOx emissions (tons)','Unit unadjusted annual SO2 emissions (tons)','Unit unadjusted annual CO2 emissions (tons)'].sum()
 
 
@@ -108,9 +110,8 @@ unit_egrid5[emissions] = unit_egrid5[cols]
 
 unit_egrid5['FacilityID'] = unit_egrid5['DOE/EIA ORIS plant or facility code']
 
-unit_egrid6 = pd.melt(unit_egrid5, id_vars=['FacilityID'], value_vars=emissions, var_name='FlowName', value_name='ReliabilityScore') 
 
-
+unit_egrid6 = pd.melt(unit_egrid5, id_vars=['FacilityID','Unit primary fuel','Prime Mover'], value_vars=emissions, var_name='FlowName', value_name='ReliabilityScore') 
 
 #Creation of the facility file
 #Need to change column names manually
@@ -179,7 +180,7 @@ flowbyfac['FlowAmount'] = flowbyfac['FlowAmount'].replace({0:None})
 flowbyfac = flowbyfac.dropna(subset=['FlowAmount'])
 
 
- 
+
 flowbyfac = flowbyfac.sort_values(by = ['FacilityID'], axis=0, ascending=True, inplace=False, kind='quicksort', na_position='last')
 
 #Import flow compartments
@@ -191,8 +192,24 @@ flowbyfac = pd.merge(flowbyfac,flow_compartments,on='FlowName',how='left')
 #Drop original name
 flowbyfac.drop(columns='OriginalName', inplace=True)
 
-#Replacing no reliability score by a value. 
-flowbyfac['ReliabilityScore']=flowbyfac['ReliabilityScore'].replace({None:5})
+#Replacing no reliability score by a value. This affects electricity and Methane and Nitrous Oxide. 
+flowbyfac['ReliabilityScore'].loc[flowbyfac['FlowName']=='Electricity'] = 3
+
+
+#Not able to implement the code here. Wes please edit this part. All we need is to compare that the flow name is methane and the primary fuels are not these given values. 
+#I can do this by loop but probably you will find a better way to do it one line
+#MEthane and Nitrous Oxide reliability Scores
+#flowbyfac['ReliabilityScore'].loc[flowbyfac[['FlowName']]=='Methane' & (flowbyfac[['Unit primary fuel']] != 'PG' | flowbyfac[['Unit primary fuel']] != 'RC' | flowbyfac[['Unit primary fuel']] != 'WC' | flowbyfac[['Unit primary fuel']] != 'SLW')] = 2
+#flowbyfac['ReliabilityScore'].loc[flowbyfac['FlowName']=='Nitrous oxide' & (flowbyfac['Unit primary fuel'] != 'PG' | flowbyfac['Unit primary fuel'] != 'RC' | flowbyfac['Unit primary fuel'] != 'WC' | flowbyfac['Unit primary fuel'] != 'SLW')] = 2
+
+
+flowbyfac = flowbyfac.drop(columns = ['Unit primary fuel','Prime Mover'])
+
+flowbyfac['ReliabilityScore']=flowbyfac['ReliabilityScore'].replace({None:2})
+
+
+
+
 
 #os.chdir(output_dir)
 #Write flowbyfacility file to output
