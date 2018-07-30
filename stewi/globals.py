@@ -251,6 +251,7 @@ def validation_summary(validation_df, filepath=''):
 def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
     df[coln1][df[coln2] == unit] = conversion_factor * df[coln3]
     return df
+UStons_to_kg = 907.18474
 
 
 # Writes the metadata dictionary to a JSON file
