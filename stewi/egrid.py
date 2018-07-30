@@ -1,17 +1,14 @@
 #Data source:
-url = 'https://www.epa.gov/sites/production/files/2018-02/egrid2016_all_files_since_1996.zip'
+#url = 'https://www.epa.gov/sites/production/files/2018-02/egrid2016_all_files_since_1996.zip'
 
 import pandas as pd
-from stewi import globals
 import numpy as np
-from stewi.globals import write_metadata
+from stewi.globals import *
 
 # Set the year
-eGRIDyear = '2014'
+eGRIDyear = '2016'
 year_last2 = eGRIDyear[2:]
 
-output_dir = globals.output_dir
-data_dir = globals.data_dir
 
 #filepath
 eGRIDfilepath = '../eGRID/'
@@ -29,7 +26,7 @@ def imp_fields(fields_txt):
     egrid_req_fields = list(egrid_req_fields_df[0])
     return egrid_req_fields
 
-egrid_required_fields = (imp_fields(data_dir+'egrid_required_fields.txt')) #@author: Wes
+egrid_required_fields = (imp_fields(data_dir+'egrid_required_fields.txt'))
 
 # Import egrid file
 egrid = pd.read_excel(eGRIDfile, sheet_name=pltsheetname, skipinitialspace = True)
@@ -41,7 +38,7 @@ egrid = egrid.drop([0])
 colstodrop = list(set(list(egrid.columns)) - set(egrid_required_fields))
 egrid2 = egrid.drop(colstodrop,axis=1)
 
-def unit_convert(value,factor):
+def egrid_unit_convert(value,factor):
     new_val = value*factor;
     return new_val;
 
@@ -113,10 +110,10 @@ flowbyfac_prelim = flowbyfac_prelim.rename(columns={'DOE/EIA ORIS plant or facil
                      'Plant annual CH4 emissions (lbs)':'Methane',
                      'Plant annual N2O emissions (lbs)':'Nitrous oxide',
                      'CHP plant useful thermal output (MMBtu)':'Steam'})
-nox_so2_co2 = unit_convert(flowbyfac_prelim[['Nitrogen oxides','Sulfur dioxide','Carbon dioxide']],907.18474)
-ch4_n2o = unit_convert(flowbyfac_prelim[['Methane','Nitrous oxide']],0.4535924)
-heat_steam = unit_convert(flowbyfac_prelim[['Heat','Steam']],1055.056)
-electricity = unit_convert(flowbyfac_prelim[['Electricity']],3600)
+nox_so2_co2 = egrid_unit_convert(flowbyfac_prelim[['Nitrogen oxides','Sulfur dioxide','Carbon dioxide']],USton_kg)
+ch4_n2o = egrid_unit_convert(flowbyfac_prelim[['Methane','Nitrous oxide']],lb_kg)
+heat_steam = egrid_unit_convert(flowbyfac_prelim[['Heat','Steam']],MMBtu_MJ)
+electricity = egrid_unit_convert(flowbyfac_prelim[['Electricity']],MWh_MJ)
 facilityid = flowbyfac_prelim[['FacilityID','Plant primary fuel']]
 frames = [facilityid,nox_so2_co2,ch4_n2o,heat_steam,electricity]
 flowbyfac_stacked = pd.concat(frames,axis = 1)
@@ -203,3 +200,14 @@ eGRID_meta['SourceFileName'] = eGRIDfile
 eGRID_meta['SourceURL'] = url
 eGRID_meta['SourceVersion'] = egrid_file_version[eGRIDyear]
 write_metadata('eGRID',eGRIDyear, eGRID_meta)
+
+#VALIDATE
+egrid_national_totals = pd.read_csv(data_dir + 'eGRID_'+ eGRIDyear + '_NationalTotals.csv',header=0,dtype={"FlowAmount":np.float})
+egrid_national_totals = unit_convert(egrid_national_totals, 'FlowAmount', 'Unit', 'lbs', lb_kg, 'FlowAmount')
+egrid_national_totals = unit_convert(egrid_national_totals, 'FlowAmount', 'Unit', 'tons', USton_kg, 'FlowAmount')
+egrid_national_totals = unit_convert(egrid_national_totals, 'FlowAmount', 'Unit', 'MMBtu', MMBtu_MJ, 'FlowAmount')
+egrid_national_totals = unit_convert(egrid_national_totals, 'FlowAmount', 'Unit', 'MWh', MWh_MJ, 'FlowAmount')
+# drop old unit
+egrid_national_totals.drop('Unit',axis=1,inplace=True)
+validation_result = validate_inventory(flowbyfac, egrid_national_totals, group_by='flow', tolerance=5.0)
+write_validation_result('eGRID',eGRIDyear,validation_result)
