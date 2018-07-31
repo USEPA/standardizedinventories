@@ -9,7 +9,7 @@ import numpy as np
 import os
 import time
 
-report_year = '2011'
+report_year = '2014'
 
 output_dir = globals.output_dir
 data_dir = globals.data_dir
@@ -97,10 +97,10 @@ nei_point = standardize_output('Point')
 nei_point.to_pickle('NEI_' + report_year + '.pk')
 
 ##FlowByUnit output
-nei_unit = nei_point.drop(columns=['FacilityName', 'CompanyName', 'Address', 'City', 'State',
-                                   'Zip', 'Latitude', 'Longitude', 'NAICS', 'County','Source'])
-nei_unit.to_csv(output_dir+'flowbyunit/'+'NEI_'+report_year+'.csv',index=False)
-len(nei_unit)
+#nei_unit = nei_point.drop(columns=['FacilityName', 'CompanyName', 'Address', 'City', 'State',
+#                                   'Zip', 'Latitude', 'Longitude', 'NAICS', 'County','Source'])
+#nei_unit.to_csv(output_dir+'flowbyunit/'+'NEI_'+report_year+'.csv',index=False)
+#len(nei_unit)
 #2016: 4103556
 #2011: 3449947
 
@@ -123,6 +123,7 @@ nei_flows = nei_flows.sort_values(by='FlowName',axis=0)
 nei_flows.to_csv(output_dir+'flow/'+'NEI_'+report_year+'.csv',index=False)
 len(nei_flows)
 #2016: 274
+#2014: 274
 #2011: 273
 
 ##Facility output
@@ -132,6 +133,7 @@ facility = facility.drop_duplicates()
 facility.to_csv(output_dir+'facility/'+'NEI_'+report_year+'.csv',index=False)
 len(facility)
 #2016: 48087
+#2014: 48004
 #2011: 55520
 
 #Write metadata
@@ -155,15 +157,3 @@ if version is not None:
 
 #Write metadata to json
 write_metadata('NEI',report_year, NEI_meta)
-
-
-#Needs a new format to output these data
-#NEINonPoint
-#nonpoint = standardize_output('NonPoint')
-#NEIOnRoad
-#onroad = standardize_output('OnRoad')
-#NEINonRoad
-#nonroad = standardize_output('NonRoad')
-#nonpoint.to_csv(output_dir + 'NEINonPoint_2014.csv', index=False)
-#onroad.to_csv(output_dir + 'NEIOnRoad_2014.csv', index=False)
-#nonroad.to_csv(output_dir + 'NEINonRoad_2014.csv', index=False)
