@@ -10,13 +10,13 @@ stewi_flow_dir = 'stewi/output/flow/'
 try: flowlists = os.listdir(stewi_flow_dir)
 except: print('Directory missing')
 
-all_list_names = pd.DataFrame(columns=["FlowName","FlowID","Source"])
+all_list_names = pd.DataFrame(columns=["FlowName","FlowID"])
 
-flowlist_cols = {"RCRAInfo":['FlowName','FlowID','Waste Code Type'],
-                 "eGRID": ['FlowName','Compartment'],
-                 "TRI": ['FlowName','FlowID','Compartment'],
-                 "NEI":['FlowName','FlowID','Compartment'],
-                 "GHGRP":['FlowName','FlowID','Compartment']}
+flowlist_cols = {"RCRAInfo":['FlowName','FlowID'],
+                 "eGRID": ['FlowName'],
+                 "TRI": ['FlowName','FlowID'],
+                 "NEI":['FlowName','FlowID'],
+                 "GHGRP":['FlowName','FlowID']}
 
 #First loop through flows lists to create a list of all unique flows
 for l in flowlists:
@@ -95,14 +95,8 @@ for source in sources:
     all_lists_srs_info = pd.concat([all_lists_srs_info,list_srs_info])
 
 #Remove waste code and PGM_ID
-all_lists_srs_info = all_lists_srs_info.drop(columns=['PGM_ID','Waste Code Type'])
-#drop duplicates
-all_lists_srs_info = all_lists_srs_info.drop_duplicates()
+all_lists_srs_info = all_lists_srs_info.drop(columns=['PGM_ID'])
 
 #Write to csv
 all_lists_srs_info.to_csv(outputpath+'ChemicalsByInventorywithSRS_IDS_forStEWI.csv', index=False)
 #errors_srs.to_csv('work/ErrorsSRS.csv',index=False)
-
-
-
-
