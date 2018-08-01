@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 import logging
-from facilitymatcher.globals import filter_by_inventory_list,filter_bridges_by_program_list,\
+from facilitymatcher.globals import filter_by_inventory_list,\
     get_programs_for_inventory_list,invert_inventory_to_FRS,stewi_inventories, filter_by_facility_list
 
 log = logging.getLogger(__name__)
