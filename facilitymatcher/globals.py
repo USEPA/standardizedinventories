@@ -13,17 +13,19 @@ def download_extract_FRS_combined_national(FRSpath):
     zip_file = zipfile.ZipFile(io.BytesIO(request))
     zip_file.extractall(FRSpath)
 
-def filter_bridges_by_program_list(bridges,program_list):
-    bridges = bridges[bridges['PGM_SYS_ACRNM'].isin(program_list)]
-    return bridges
+#Only can be applied before renaming the programs to inventories
+def filter_by_program_list(df,program_list):
+    df = df[df['PGM_SYS_ACRNM'].isin(program_list)]
+    return df
 
-def filter_bridges_by_inventory_list(bridges,inventory_list):
-    bridges = bridges[bridges['PGM_SYS_ACRNM'].isin(inventory_list)]
-    return bridges
+#Only can be applied after renaming the programs to inventories
+def filter_by_inventory_list(df,inventory_list):
+    df = df[df['Source'].isin(inventory_list)]
+    return df
 
-def filter_bridges_by_facility_list(bridges,facility_list):
-    bridges = bridges[bridges['REGISTRY_ID'].isin(facility_list)]
-    return bridges
+def filter_by_facility_list(df,facility_list):
+    df = df[df['FRS_ID'].isin(facility_list)]
+    return df
 
 def list_facilities_not_in_bridge(bridges, facility_list):
     facilities = bridges[bridges['REGISTRY_ID'].isin(facility_list)]
