@@ -1,0 +1,286 @@
+FlowName,Inventory_Amount,Reference_Amount,Percent_Difference,Conclusion
+"1,1,2,2-Tetrachloroethane",25452.64632649056,41743.76821440674,39.026476489234945,Percent difference exceeds tolerance
+"1,1,2-Trichloroethane",28272.85538506827,38646.65686576854,26.84268788560833,Percent difference exceeds tolerance
+"1,1-Dimethyl Hydrazine",17.8755904358144,21.109720011399684,15.320570684209875,Percent difference exceeds tolerance
+"1,2,3,4,5,6-Hexachlorocyclohexane",25.13806864,26.952460408,6.731822403350806,Percent difference exceeds tolerance
+"1,2,4-Trichlorobenzene",55710.64447956249,97744.58508981008,43.00385599020732,Percent difference exceeds tolerance
+"1,2-Dibromo-3-Chloropropane",170.05049828339855,203.86142574746287,16.585250171824185,Percent difference exceeds tolerance
+"1,2-Dimethoxyethane",3364.2200150272,3492.0181045398404,3.6597201299298754,Statistically similar
+"1,2-Diphenylhydrazine",6.89006248,6.890068556,8.81848990418305e-05,Statistically similar
+"1,2-Epoxybutane",5163.225293381771,6503.735975588924,20.611394546743846,Percent difference exceeds tolerance
+"1,2-Propylenimine",97.94412055999999,128.88955051872,24.00926206521721,Percent difference exceeds tolerance
+"1,3-Butadiene",779589.4912715423,1180669.9905726553,33.97058471068437,Percent difference exceeds tolerance
+"1,3-Dichloropropene",7218.0427335805,9546.450695641748,24.390299979491214,Percent difference exceeds tolerance
+"1,3-Propanesultone",0.5443104,93.98434528,99.42084993157277,Percent difference exceeds tolerance
+"1,4-Dichlorobenzene",41560.67963990769,45640.97426822548,8.939981439349825,Percent difference exceeds tolerance
+1-Methylnaphthalene,6525.553482055002,55028.53736573772,88.14151021553775,Percent difference exceeds tolerance
+1-Nitropyrene,0.006524710226516,0.006524716207126401,9.16608510034206e-05,Statistically similar
+"2,2,4-Trimethylpentane",384427.0721259333,453777.53328446764,15.282920830516167,Percent difference exceeds tolerance
+"2,4,4 -Trichlorobiphenyl (PCB-28)",0.011117918252015357,0.0,100.0,Reference value is zero or null
+"2,4,5-Trichlorophenol",7215.125896361986,7215.163613221788,0.0005227443454413432,Statistically similar
+"2,4,6-Trichlorophenol",17.521219284861225,120.60973676448262,85.47279866875483,Percent difference exceeds tolerance
+"2,4-Dichlorophenoxy Acetic Acid",968.7500421599998,1052.66925526892,7.972039906065452,Percent difference exceeds tolerance
+"2,4-Dinitrophenol",6436.155958665856,6449.428795424833,0.2057986401585315,Statistically similar
+"2,4-Dinitrotoluene",2040.81804823629,4041.47057731738,49.50308287061859,Percent difference exceeds tolerance
+"2,4-Toluene Diisocyanate",4948.673785523797,7945.83870499304,37.7199315358097,Percent difference exceeds tolerance
+2-(Hexyloxy)Ethanol,17460.06696088,24288.462347636,28.113740956601177,Percent difference exceeds tolerance
+2-Acetylaminofluorene,9.1171992,71.25936604,87.20561281041674,Percent difference exceeds tolerance
+2-Butoxyethyl Acetate,19212.02138211336,20745.908978573127,7.39368710257046,Percent difference exceeds tolerance
+2-Chloroacetophenone,2923.85139614659,3065.51308600722,4.621141253881968,Statistically similar
+2-Chlorobiphenyl (PCB-1),0.0009407734628227999,0.0030083749358844,68.7281843894823,Percent difference exceeds tolerance
+2-Chloronaphthalene,0.0651511322603179,6.60787078438058,99.01403743526102,Percent difference exceeds tolerance
+2-Methylnaphthalene,7979.5345530804425,52377.407993917164,84.76531226209754,Percent difference exceeds tolerance
+2-Nitropropane,15184.731641585624,27851.174138597875,45.479025171360064,Percent difference exceeds tolerance
+2-Propoxyethyl Acetate,362.8736,362.87392,8.818489903817985e-05,Statistically similar
+"3,3 -Dichlorobenzidine",28.31790743740188,0.0,100.0,Reference value is zero or null
+"3,3 -Dimethoxybenzidine",46.681874272,0.0,100.0,Reference value is zero or null
+"3,3 -Dimethylbenzidine",31.926997794088,0.0,100.0,Reference value is zero or null
+3-Methylcholanthrene,3.3207018887960777,21.622338213510645,84.642262756203,Percent difference exceeds tolerance
+"4,4 -Dichlorobiphenyl (PCB-15)",0.00121205225504,0.0,100.0,Reference value is zero or null
+"4,4 -Methylenebis(2-Chloraniline)",4308.635935008,0.0,100.0,Reference value is zero or null
+"4,4 -Methylenedianiline",3977.2124311628,0.0,100.0,Reference value is zero or null
+"4,4 -Methylenediphenyl Diisocyanate",56825.29081637153,0.0,100.0,Reference value is zero or null
+"4,6-Dinitro-o-Cresol",1590.1800432419052,2115.4414448234547,24.829871933675076,Percent difference exceeds tolerance
+4-Aminobiphenyl,143.06317988335994,143.0634756871496,0.00020676401733440498,Statistically similar
+4-Dimethylaminoazobenzene,9.3164168064,40.6829962838752,77.09997380381596,Percent difference exceeds tolerance
+4-Nitrobiphenyl,1.8193492112664,2.07363562228388,12.262829992157037,Percent difference exceeds tolerance
+4-Nitrophenol,1737.613863088776,2638.2986321780813,34.138848351133525,Percent difference exceeds tolerance
+5-Methylchrysene,5.069478538094187,109.21233404673613,95.35814467995459,Percent difference exceeds tolerance
+"7,12-Dimethylbenz[a]Anthracene",6.594079854756246,37.57228626230055,82.4496177615557,Percent difference exceeds tolerance
+Acenaphthene,1742.44660998509,4911.019980825771,64.51965952514607,Percent difference exceeds tolerance
+Acenaphthylene,5331.14301026722,26015.690955430728,79.50797071121283,Percent difference exceeds tolerance
+Acetaldehyde,5111214.714500793,8039031.195876664,36.42001641786874,Percent difference exceeds tolerance
+Acetamide,233.49101792,237.573555424,1.7184309494016992,Statistically similar
+Acetonitrile,318909.4299050263,383444.24747915217,16.830300101877167,Percent difference exceeds tolerance
+Acetophenone,108349.51962095364,140635.48297720507,22.957195917252626,Percent difference exceeds tolerance
+Acrolein,2106093.1210245015,3238938.5527960374,34.97582350840212,Percent difference exceeds tolerance
+Acrylamide,13140.645086379407,14595.323934022155,9.966745885316367,Percent difference exceeds tolerance
+Acrylic Acid,102627.83519884957,126078.63886951242,18.600140262406956,Percent difference exceeds tolerance
+Acrylonitrile,138762.5151098334,299281.79603147606,53.63482946512408,Percent difference exceeds tolerance
+Allyl Chloride,21201.30555514925,22637.88970331658,6.345927853676496,Percent difference exceeds tolerance
+Ammonia,71576721.66473885,89252069.41539633,19.803852018705594,Percent difference exceeds tolerance
+Aniline,58858.137122604865,76441.68538228149,23.002564859398476,Percent difference exceeds tolerance
+Anthracene,2049.2107456722433,5189.779367831776,60.51449203459342,Percent difference exceeds tolerance
+Antimony,27989.19407596004,35300.28232763969,20.711132516793374,Percent difference exceeds tolerance
+Arsenic,71765.20991615963,84665.712396913,15.236985688227366,Percent difference exceeds tolerance
+Asbestos,704.061700321504,712.5376453673392,1.1895434719755194,Statistically similar
+Benz[a]Anthracene,2778.579200344318,4968.642585775488,44.077700249581405,Percent difference exceeds tolerance
+Benzene,4243278.4418396205,6066556.304023513,30.0545774375265,Percent difference exceeds tolerance
+Benzidine,129.16244758926462,138.37611174510565,6.658421052336671,Percent difference exceeds tolerance
+"Benzo(g,h,i)Fluoranthene",0.7961727002610847,0.7961834904062634,0.0013552334742810773,Statistically similar
+Benzo[a]Pyrene,3383.6188210499176,14297.06908669714,76.33347925696015,Percent difference exceeds tolerance
+Benzo[b]Fluoranthene,298.6033704349097,702.0022148106564,57.46404154644315,Percent difference exceeds tolerance
+Benzo[e]Pyrene,10.235102151407807,17.475991549011425,41.43335373730607,Percent difference exceeds tolerance
+"Benzo[g,h,i,]Perylene",8874.713937224458,24880.32765980727,64.33039765966971,Percent difference exceeds tolerance
+Benzo[j]fluoranthene,3.208101199047057,21.934415549870046,85.37412044668743,Percent difference exceeds tolerance
+Benzo[k]Fluoranthene,152.57454125230257,541.4661190179424,71.82195969546034,Percent difference exceeds tolerance
+Benzofluoranthenes,2.619351776074684,37.10366545704744,92.9404501042978,Percent difference exceeds tolerance
+Benzotrichloride,19.3456988,19.34571586,8.818489902896096e-05,Statistically similar
+Benzyl Chloride,251588.63659696173,262637.7707264338,4.206985955946505,Statistically similar
+Beryllium,2958.4398827732193,3673.3033877772036,19.46105261500232,Percent difference exceeds tolerance
+Beta-Propiolactone,1.6329312,1.6329326400000002,8.81848990494933e-05,Statistically similar
+Biphenyl,134994.2534047992,214771.3034527947,37.14511611442073,Percent difference exceeds tolerance
+Bis(2-Ethylhexyl)Phthalate,84019.31620843068,101710.65415380408,17.393790348276628,Percent difference exceeds tolerance
+Bis(Chloromethyl)Ether,3.25679056,3.2568387912400003,0.0014809219335712256,Statistically similar
+Bromoform,29567.084889976875,30688.858244605464,3.655311467398029,Statistically similar
+Butyl Carbitol Acetate,3750.7571921527997,6098.9265264882,38.501354691470446,Percent difference exceeds tolerance
+Cadmium,11701.095173695794,19639.956623237522,40.421990749962546,Percent difference exceeds tolerance
+Calcium Cyanamide,1088.6208,1097.3488777759999,0.7953785667224798,Statistically similar
+Captan,51.5053716907184,94.59669511071849,45.552673240396885,Percent difference exceeds tolerance
+Carbaryl,135.319194176,135.31931350719998,8.818489902877285e-05,Statistically similar
+Carbazole,16.464353595871998,23.521363210082402,30.002553641046735,Percent difference exceeds tolerance
+Carbitol Acetate,676.92709304,676.927689988,8.818489903444748e-05,Statistically similar
+Carbon Disulfide,1703617.22046779,4284234.685828985,60.23520312500934,Percent difference exceeds tolerance
+Carbon Monoxide,1973796085.254129,3138488823.1790156,37.10998520444481,Percent difference exceeds tolerance
+Carbon Tetrachloride,57079.058609224194,84110.06597068156,32.1376603971273,Percent difference exceeds tolerance
+Carbonyl Sulfide,4932780.273692714,9359690.942225847,47.29761587064071,Percent difference exceeds tolerance
+Catechol,3533.6429628002556,3535.9140409424836,0.06422888441096154,Statistically similar
+Cellosolve Acetate,1997.0534549567346,3355.4916523824063,40.48402851669077,Percent difference exceeds tolerance
+Cellosolve Solvent,6341.557061626198,7143.623001750092,11.227719322917773,Percent difference exceeds tolerance
+Chloramben,0.9979024000000001,1.02298693972,2.4520879735635486,Statistically similar
+Chlordane,15.045646639999998,18.402243668,18.240150975920677,Percent difference exceeds tolerance
+Chlorine,4266494.233075681,4522422.598592947,5.659098855487159,Percent difference exceeds tolerance
+Chloroacetic Acid,2543.9341108870067,3338.176646563994,23.792705412833865,Percent difference exceeds tolerance
+Chlorobenzene,110374.16875499235,163853.71918606004,32.6385941660197,Percent difference exceeds tolerance
+Chlorobenzilate,1.4514944,1.45149568,8.818489904099461e-05,Statistically similar
+Chloroform,315900.1370200946,477591.36470940686,33.8555592996733,Percent difference exceeds tolerance
+Chloromethyl Methyl Ether,6.17792304,505.64135679292,98.77820060463723,Percent difference exceeds tolerance
+Chloroprene,119250.33740620753,119275.43325811242,0.021040252145284384,Statistically similar
+Chromic Acid (VI),640.284108021597,652.264682787912,1.8367658225963601,Statistically similar
+Chromium (VI),38658.34451790557,56511.9732988946,31.592647962512846,Percent difference exceeds tolerance
+Chromium III,249120.07506596396,332109.8681329935,24.98865617380459,Percent difference exceeds tolerance
+Chromium Trioxide,22.85976581888669,776.5985998096673,97.05642453843089,Percent difference exceeds tolerance
+Chrysene,2423.194639143727,3467.461935586464,30.116186301151608,Percent difference exceeds tolerance
+Coal Tar,22615.053858400002,22615.073801479997,8.81848990187278e-05,Statistically similar
+Cobalt,30626.456273728567,41253.105027508616,25.75963372137426,Percent difference exceeds tolerance
+Coke Oven Emissions,140184.97535024,194527.61525443874,27.935694288504745,Percent difference exceeds tolerance
+Cresol/Cresylic Acid (Mixed Isomers),293496.5084372014,506654.14697548805,42.07162613999077,Percent difference exceeds tolerance
+Cumene,507299.26820317475,642449.639516246,21.036726149435975,Percent difference exceeds tolerance
+Cyanide,1284838.6394883527,1933707.5373836474,33.55568954203022,Percent difference exceeds tolerance
+Decachlorobiphenyl (PCB-209),0.0005830462453522352,0.0006177325210108001,5.61509625586937,Percent difference exceeds tolerance
+Di(Ethylene Glycol Monobutyl Ether) Phthalate,580.59776,580.598272,8.818489903426367e-05,Statistically similar
+"Dibenz[a,h]acridine",9.412941183999999e-05,2.218936154906448,99.99575790355067,Percent difference exceeds tolerance
+"Dibenzo[a,e]Pyrene",0.7356754603783259,17.346109143696115,95.75884450925594,Percent difference exceeds tolerance
+"Dibenzo[a,h]Anthracene",39.77400102640758,65.02822132052492,38.83578511188084,Percent difference exceeds tolerance
+"Dibenzo[a,h]Pyrene",3.6804519280992163,20.28254210687368,81.85408954801615,Percent difference exceeds tolerance
+"Dibenzo[a,j]Acridine",0.036882175147647994,14.555619244919415,99.74661211916133,Percent difference exceeds tolerance
+Dibenzofuran,6012.0303377306445,27360.042948669212,78.0262393995143,Percent difference exceeds tolerance
+Dibutyl Phthalate,29478.40294653691,36582.39094293412,19.419146243007788,Percent difference exceeds tolerance
+Dichloroethyl Ether,398.1268951048058,1912.247924903862,79.18016330833139,Percent difference exceeds tolerance
+Dichlorvos,732.59190328,732.5925493159999,8.818489903073043e-05,Statistically similar
+Diethanolamine,87978.59809338028,96021.22635547112,8.375885798747237,Percent difference exceeds tolerance
+Diethyl Sulfate,2299.4869210318398,2808.04308551076,18.110696630796824,Percent difference exceeds tolerance
+Diethylene Glycol Diethyl Ether,1537.25560643,1537.2569620585,8.81848990447997e-05,Statistically similar
+Diethylene Glycol Dimethyl Ether,155.49133759999998,155.49147472,8.818489906307534e-05,Statistically similar
+Diethylene Glycol Monobutyl Ether,46967.638137006776,69819.04832823167,32.72947818451547,Percent difference exceeds tolerance
+Diethylene Glycol Monoethyl Ether,7731.280577296319,7926.093083929503,2.45786296691588,Statistically similar
+Diethylene Glycol Monomethyl Ether,2977.1547343437596,3047.6833362758093,2.3141709341179073,Statistically similar
+Dimethyl Phthalate,68668.82704564175,96257.43437097492,28.661274327141353,Percent difference exceeds tolerance
+Dimethyl Sulfate,24173.439384680445,24975.98226838179,3.2132585420567055,Statistically similar
+Dimethylcarbamoyl Chloride,6.387281375948,6.3872870085706,8.818489904680714e-05,Statistically similar
+Epichlorohydrin,26484.691418544306,35516.09312298959,25.429040500513977,Percent difference exceeds tolerance
+Ethyl Acrylate,31013.90373285185,33870.091918955084,8.432773648614738,Percent difference exceeds tolerance
+Ethyl Benzene,1628423.6985118187,2293760.211085199,29.006367333340545,Percent difference exceeds tolerance
+Ethyl Carbamate,66.359127958768,192.91427839578887,65.601754048177,Percent difference exceeds tolerance
+Ethyl Chloride,111116.58758569576,141811.27834723983,21.644745833532994,Percent difference exceeds tolerance
+Ethylene Dibromide,10562.925325283155,12747.284387894508,17.135877698670747,Percent difference exceeds tolerance
+Ethylene Dichloride,192436.66651993757,219727.19336989085,12.42018633716044,Percent difference exceeds tolerance
+Ethylene Glycol,819913.1531266163,1337134.5974380986,38.68132986031922,Percent difference exceeds tolerance
+Ethylene Glycol Methyl Ether,30068.796556923306,30068.82307538383,8.819254567010419e-05,Statistically similar
+Ethylene Glycol Monomethyl Ether Acetate,71.58588944,71.585952568,8.818489903263335e-05,Statistically similar
+Ethylene Oxide,124687.0827722034,187295.1282988238,33.42748212154837,Percent difference exceeds tolerance
+Ethylene Thiourea,285.38194272000004,285.382194384,8.818489902793585e-05,Statistically similar
+Ethyleneimine,359.44898040912625,359.58963886856003,0.039116382740158606,Statistically similar
+Ethylidene Dichloride,31188.509228675746,48520.83971866312,35.72141494352712,Percent difference exceeds tolerance
+Extractable Organic Matter (EOM),45851.923381839995,46622.417723292005,1.6526263095684108,Statistically similar
+Fine Mineral Fibers,355.76581336000004,355.76612709200003,8.818489904013273e-05,Statistically similar
+Fluoranthene,38871.335243150046,44011.36812066567,11.678875474680154,Percent difference exceeds tolerance
+Fluorene,4235.081011803049,10517.703884463512,59.73378735201887,Percent difference exceeds tolerance
+Formaldehyde,13888284.648149345,20954825.210266337,33.72273684561636,Percent difference exceeds tolerance
+Glycol Ethers,1386093.840040167,1723462.5171872647,19.575051605862136,Percent difference exceeds tolerance
+Heptachlor,4.1503668,5.34250200568,22.31417422796576,Percent difference exceeds tolerance
+Heptachlorobiphenyl,3.442203166454719e-05,4.2899725929480004e-05,19.761651342175778,Percent difference exceeds tolerance
+Hexachlorobenzene,863.9384900253111,1078.2289833459324,19.874302827182454,Percent difference exceeds tolerance
+Hexachlorobiphenyl,0.0024706039723292003,0.007639487115393999,67.66008064401609,Percent difference exceeds tolerance
+Hexachlorobutadiene,942.0868306688113,1061.5623796986567,11.254689438388034,Percent difference exceeds tolerance
+Hexachlorocyclopentadiene,7570.213521807387,16272.806922695236,53.47936248632423,Percent difference exceeds tolerance
+Hexachloroethane,47096.96783560742,71195.48566976396,33.848379019332896,Percent difference exceeds tolerance
+Hexamethylene Diisocyanate,8914.268818135284,11112.681774899123,19.782920102414213,Percent difference exceeds tolerance
+Hexane,15494622.095576763,20773219.504821688,25.410588897978503,Percent difference exceeds tolerance
+Hydrazine,944.3414055653304,1267.9358730949775,25.521359115723,Percent difference exceeds tolerance
+Hydrochloric Acid,74827550.58615415,88938747.98572272,15.866197488898576,Percent difference exceeds tolerance
+Hydrogen Cyanide,936968.6768730686,1006149.6592316371,6.875814320843659,Percent difference exceeds tolerance
+Hydrogen Fluoride,20587318.03844795,22223665.08666422,7.363083640052662,Percent difference exceeds tolerance
+Hydrogen Sulfide,1511351.284486067,1925730.992653861,21.518047419319707,Percent difference exceeds tolerance
+Hydroquinone,17493.485910534862,22801.334267597525,23.27867437391824,Percent difference exceeds tolerance
+"Indeno[1,2,3-c,d]Pyrene",85.79390357273651,363.80627972251085,76.41769580278415,Percent difference exceeds tolerance
+Isophorone,249863.90844707616,266933.1676948156,6.394581608252863,Percent difference exceeds tolerance
+Lead,215439.1992287998,503727.91288366617,57.23103808254625,Percent difference exceeds tolerance
+Maleic Anhydride,98091.13498614564,132433.5308531859,25.931798122268436,Percent difference exceeds tolerance
+Manganese,505293.93206739955,846956.7811699344,40.34005709601648,Percent difference exceeds tolerance
+Mercury,37295.73027683214,43773.48650796321,14.79835568947117,Percent difference exceeds tolerance
+Methanol,33550741.076743152,53313505.63531872,37.06896465176974,Percent difference exceeds tolerance
+Methoxychlor,21.22356968,21.813258516,2.7033505130261233,Statistically similar
+Methoxytriglycol,9139.077302936,9139.0853622292,8.818489903100885e-05,Statistically similar
+Methyl Bromide,276083.32440475596,348738.0263770669,20.833604733931228,Percent difference exceeds tolerance
+Methyl Chloride,559780.0725120198,718329.4846227147,22.071962171226925,Percent difference exceeds tolerance
+Methyl Chloroform,196238.57774901396,214818.9334670676,8.649310104177605,Percent difference exceeds tolerance
+Methyl Iodide,8720.6712440037,18159.030702593052,51.97611928285128,Percent difference exceeds tolerance
+Methyl Isobutyl Ketone,1650132.085909419,2279309.7764433213,27.603869251843566,Percent difference exceeds tolerance
+Methyl Isocyanate,330.63436716319995,8468.08231473304,96.0955225176785,Percent difference exceeds tolerance
+Methyl Methacrylate,714415.3317013688,904748.0862050584,21.03709943195738,Percent difference exceeds tolerance
+Methyl Tert-Butyl Ether,239258.15650477543,257744.43138273462,7.172327556713809,Percent difference exceeds tolerance
+Methylanthracene,1.6963433615999999,3.1967690961156,46.93569317655036,Percent difference exceeds tolerance
+Methylene Chloride,1985273.208343704,2542075.9476569477,21.90346593800446,Percent difference exceeds tolerance
+Methylhydrazine,71384.66227198605,73543.80677973655,2.9358617704100296,Statistically similar
+"N,N-Dimethylaniline",5900.905608523353,6200.883229934297,4.837659576668433,Statistically similar
+"N,N-Dimethylformamide",92934.10593311889,111054.2200132158,16.316457022471155,Percent difference exceeds tolerance
+N-Hexyl Carbitol,334.14308272,462.5975699172,27.768085167458185,Percent difference exceeds tolerance
+N-Nitroso-N-Methylurea,6.19606672,6.196072184,8.818489904168895e-05,Statistically similar
+N-Nitrosodimethylamine,73.85450949846013,73.89120131477569,0.049656543218517264,Statistically similar
+N-Nitrosomorpholine,7.234511412960063,7.234517793115971,8.819047918510758e-05,Statistically similar
+Naphthalene,595491.3248137039,1474179.4036504428,59.60523370906444,Percent difference exceeds tolerance
+Nickel,322788.82837926806,423397.59552733897,23.762243387982245,Percent difference exceeds tolerance
+Nickel Oxide,474.33630890871996,951.6116495239244,50.154423903277916,Percent difference exceeds tolerance
+Nickel Refinery Dust,124.6650892024,124.66519913828,8.818489904532147e-05,Statistically similar
+Nitrobenzene,26435.78590872711,27379.75137969187,3.447677292149984,Statistically similar
+Nitrogen Oxides,2875544098.2131376,3661922442.413263,21.4744674844039,Percent difference exceeds tolerance
+"PAH, total",194238.7092952079,205260.49621577415,5.369658128946508,Percent difference exceeds tolerance
+PAH/POM - Unspecified,113003.17614873216,205233.6285317857,44.93924949963514,Percent difference exceeds tolerance
+PM Condensible,160477323.7137642,198666347.99960026,19.222694064881544,Percent difference exceeds tolerance
+PM10 Filterable,397925360.384018,495426449.8493024,19.680234976340493,Percent difference exceeds tolerance
+PM10 Primary (Filt + Cond),566786279.9220698,715458439.8110175,20.77998547731413,Percent difference exceeds tolerance
+PM2.5 Filterable,223920530.46379548,280098536.17584705,20.05651528174456,Percent difference exceeds tolerance
+PM2.5 Primary (Filt + Cond),393340164.6966179,500641968.49909186,21.43284234123664,Percent difference exceeds tolerance
+Parathion,1.360776,1.3607772,8.818489904405415e-05,Statistically similar
+Pentachlorobiphenyl,0.0053901341612688,0.0166679340337848,67.66165410576167,Percent difference exceeds tolerance
+Pentachloronitrobenzene,26.206731392000002,26.206754502400003,8.818489904458285e-05,Statistically similar
+Pentachlorophenol,2517.743061435419,2719.7580470901285,7.427682248089884,Percent difference exceeds tolerance
+Perylene,1.6130193947698723,13.058382953501344,87.64763293806318,Percent difference exceeds tolerance
+Phenanthrene,15659.894076183522,34261.18360443473,54.292606300511686,Percent difference exceeds tolerance
+Phenol,1764265.8459960371,3133599.8331176653,43.6984318370753,Percent difference exceeds tolerance
+Phenyl Cellosolve,1219.0738592,2392.9720654400003,49.056076466323205,Percent difference exceeds tolerance
+Phosgene,6138.190717705984,6471.49582528086,5.150356526119076,Percent difference exceeds tolerance
+Phosphine,21034.84780243624,24473.550336366534,14.05068936328598,Percent difference exceeds tolerance
+Phosphorus,98590.18533668348,127793.13114249008,22.85173353585424,Percent difference exceeds tolerance
+Phthalic Anhydride,62484.21646060547,85981.06558391827,27.327934311746432,Percent difference exceeds tolerance
+Polychlorinated Biphenyls,949.8269446560618,967.8569189019108,1.8628759988930095,Statistically similar
+Propionaldehyde,310792.4754287766,589407.8333698468,47.27038599879656,Percent difference exceeds tolerance
+Propoxur,5.9874144000000005,7.34819688,18.51859037288069,Percent difference exceeds tolerance
+Propyl Cellosolve,44265.8879937767,44374.55061503946,0.24487599256032075,Statistically similar
+Propylene Dichloride,41747.84122736035,47690.03888091984,12.460039440095494,Percent difference exceeds tolerance
+Propylene Oxide,275824.15234064736,351189.08648315415,21.459930573930833,Percent difference exceeds tolerance
+Pyrene,2352.8460819390234,7243.483001542732,67.51775242051497,Percent difference exceeds tolerance
+Quinoline,1645.9999289572881,2173.3481678055355,24.264323897110298,Percent difference exceeds tolerance
+Quinone,2360.9788264370704,3522.4704458044785,32.973778978070065,Percent difference exceeds tolerance
+Selenium,231244.54836434068,244480.6239427634,5.413956887447035,Percent difference exceeds tolerance
+Styrene,8454112.02688809,11275591.082004372,25.022892676724588,Percent difference exceeds tolerance
+Styrene Oxide,143.335072,143.3351984,8.81848990409559e-05,Statistically similar
+Sulfur Dioxide,4848610813.411804,5294650845.146176,8.424352139164668,Percent difference exceeds tolerance
+Tert-butyl Acetate,30867.089821325357,67568.26094575833,54.31717586145294,Percent difference exceeds tolerance
+Tetrachlorobiphenyl,0.01363422874427488,0.0371283554847468,63.27812377826391,Percent difference exceeds tolerance
+Tetrachloroethylene,1186637.926960896,1519357.1799284911,21.898685665424285,Percent difference exceeds tolerance
+Titanium Tetrachloride,9970.936908231999,12367.727942700401,19.379396487153656,Percent difference exceeds tolerance
+Toluene,12264723.802106183,17236532.840893406,28.844600504526547,Percent difference exceeds tolerance
+"Toluene-2,4-Diamine",2050.233118493359,2050.2349264456,8.818268666342766e-05,Statistically similar
+Toxaphene,12.106370479999999,12.741410516,4.984063853861008,Statistically similar
+Trichloroethylene,1125240.10484393,1444831.5308498908,22.119632578752483,Percent difference exceeds tolerance
+Triethylamine,165492.97731068707,216742.7137269977,23.645425276377768,Percent difference exceeds tolerance
+Triethylene Glycol Dimethyl Ether,0.453592,0.4535924,8.818489904405415e-05,Statistically similar
+Triethylene glycol,1127.2178504640003,1127.28407108792,0.005874351072463382,Statistically similar
+Trifluralin,301.5111299749592,306.5009122624793,1.6279828502588496,Statistically similar
+Triglycol Monobutyl Ether,1455.8035240000002,1455.8048078,8.818489902659783e-05,Statistically similar
+Vinyl Acetate,624655.6341052644,763198.7128353263,18.15294973642795,Percent difference exceeds tolerance
+Vinyl Bromide,77.38151607056001,77.381584309432,8.81848990279219e-05,Statistically similar
+Vinyl Chloride,245798.5939206917,301663.5954810747,18.51897358423144,Percent difference exceeds tolerance
+Vinylidene Chloride,26247.59668695557,30850.775336479404,14.920787563095114,Percent difference exceeds tolerance
+Volatile Organic Compounds,655639644.772042,969833873.9747645,32.39670603739893,Percent difference exceeds tolerance
+Xylenes (Mixed Isomers),7200029.502176489,10334937.426995415,30.333109870896532,Percent difference exceeds tolerance
+m-Cresol,5311.980695117121,6342.284305804773,16.244992513890725,Percent difference exceeds tolerance
+m-Xylene,78245.99895768237,211604.50266223625,63.0225264711976,Percent difference exceeds tolerance
+o-Anisidine,1.6259458832,120.92074851704001,98.6553623731738,Percent difference exceeds tolerance
+o-Cresol,14960.827203787634,34510.72106764189,56.64875510869787,Percent difference exceeds tolerance
+o-Toluidine,3760.874392700792,4075.598843185021,7.722164584733179,Percent difference exceeds tolerance
+o-Xylene,69503.05848843942,137228.73312246456,49.352400982661514,Percent difference exceeds tolerance
+p-Cresol,4429.150573867827,4429.163551642879,0.00029300735681529093,Statistically similar
+p-Dioxane,32148.388870039824,55991.68997942968,42.583642533649986,Percent difference exceeds tolerance
+p-Phenylenediamine,19902.527763591756,20100.403072021036,0.984434529597642,Statistically similar
+p-Xylene,155600.8776850155,242521.24661310686,35.84031095912808,Percent difference exceeds tolerance
+(Ethylenebis(Oxyethylenenitrilo)) Tetraacetic Acid,0.0,0.0,0.0,Both inventory and reference are zero or null
+"2,4,4-Trichlorobiphenyl (PCB-28)",0.0,0.0355520905968712,100.0,Inventory value is zero or null
+"3,3-Dichlorobenzidine",0.0,44.79240837980995,100.0,Inventory value is zero or null
+"3,3-Dimethoxybenzidine",0.0,46.6819154384,100.0,Inventory value is zero or null
+"3,3-Dimethylbenzidine",0.0,31.9270259489036,100.0,Inventory value is zero or null
+"4,4-Dichlorobiphenyl (PCB-15)",0.0,0.001212053323888,100.0,Inventory value is zero or null
+"4,4-Methylenebis(2-Chloraniline)",0.0,4313.2763560904,100.0,Inventory value is zero or null
+"4,4-Methylenedianiline",0.0,3978.545862311612,100.0,Inventory value is zero or null
+"4,4-Methylenediphenyl Diisocyanate",0.0,84265.06947069764,100.0,Inventory value is zero or null
+"7H-Dibenzo[c,g]carbazole",0.0,16.124465928463998,100.0,Inventory value is zero or null
+Benzo(a)Fluoranthene,0.0,2.0484232784000004e-06,100.0,Inventory value is zero or null
+Diazomethane,0.0,0.0,0.0,Both inventory and reference are zero or null
+"Dibenzo[a,i]Pyrene",0.0,18.091412218421603,100.0,Inventory value is zero or null
+"Dibenzo[a,l]Pyrene",0.0,15.1487768826616,100.0,Inventory value is zero or null
+Ethylene Glycol Mono-Sec-Butyl Ether,0.0,0.0,0.0,Both inventory and reference are zero or null
+Hexamethylphosphoramide,0.0,0.0,0.0,Both inventory and reference are zero or null
+Rockwool (Man-Made Fibers),0.0,0.0,0.0,Both inventory and reference are zero or null
+Slagwool (Man-Made Fibers),0.0,0.27215543999999997,100.0,Inventory value is zero or null

@@ -13,8 +13,6 @@ log.setLevel(logging.INFO)
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'stewicombo/'
 
-inventory_to_FRS_pgm_acrynoym = {"NEI":"EIS","TRI":"TRIS","eGRID":"EGRID","GHGRP":"E-GGRT","RCRAInfo":"RCRAINFO"}
-
 compartments = {"NEI":"air","RCRAInfo":"waste"}
 columns_to_keep = ['FacilityID', 'FlowAmount', 'FlowName','Compartment','ReliabilityScore','Source','Year']
 
@@ -46,22 +44,20 @@ columns_to_keep = ['FacilityID', 'FlowAmount', 'FlowName','Compartment','Reliabi
 #     inventories = pd.merge(inventories,chemicalmatches,on=(['FlowName','Source']),how='left')
 #     return(inventories)
 
-#For testing
-#base_inventory = "eGRID"
 def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict, filter_for_LCI=True):
     #Bring in facility matches
     #get only those inventorytoFRS_pgm correspondence that are needed
     inventory_acronyms = list(inventory_dict.keys())
     #facilitymatches = facilitymatcher.get_table_of_matches_from_inventory_to_inventories_of_interest(base_inventory,inventory_dict)
     facilitymatches = facilitymatcher.get_matches_for_inventories(inventory_acronyms)
-    facilitymatches.rename(columns={"REGISTRY_ID":"FRS_ID"},inplace=True)
+    #facilitymatches.rename(columns={"REGISTRY_ID":"FRS_ID"},inplace=True)
 
     inventories = pd.DataFrame()
     for k in inventory_dict.keys():
         inventory = stewi.getInventory(k,inventory_dict[k],include_optional_fields=True,filter_for_LCI=filter_for_LCI)
         #Get facilities from that matching table to filter this with
-        inventory_facilitymatches = facilitymatches[facilitymatches['PGM_SYS_ACRNM'] == k]
-        inventory_facilitylist = list(inventory_facilitymatches['PGM_SYS_ID'])
+        inventory_facilitymatches = facilitymatches[facilitymatches['Source'] == k]
+        inventory_facilitylist = list(inventory_facilitymatches['FacilityID'])
         #Filter inventory by facility list
         inventory = inventory[inventory['FacilityID'].isin(inventory_facilitylist)]
         #Add metadata
@@ -73,25 +69,24 @@ def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict
         inventories = pd.concat([inventories,inventory])
 
     #Merge inventories based on facility matches
-    inventories = pd.merge(inventories,facilitymatches,left_on=(['FacilityID','Source']),right_on=(['PGM_SYS_ID','PGM_SYS_ACRNM']),how='left')
+    inventories = pd.merge(inventories,facilitymatches,on=['FacilityID','Source'],how='left')
     #drop duplicates - not sure why there are duplicates
     inventories = inventories.drop_duplicates()
-    inventories.drop(columns=['PGM_SYS_ID','PGM_SYS_ACRNM'],inplace=True)
 
     #Bring in chemical matches
     chemicalmatches = chemicalmatcher.get_matches_for_StEWI()
     inventories = pd.merge(inventories,chemicalmatches,on=(['FlowName','Source']),how='left')
-    inventories.drop(columns=['PGM_ID','FlowID'], inplace=True)
+    inventories.drop(columns=['FlowID'], inplace=True)
 
     #Mike to bring in duplicate id and overlap handling here
 
     #Add in base program ids
-    base_inventory_FRS = facilitymatches[facilitymatches['PGM_SYS_ACRNM']==base_inventory]
-    base_inventory_FRS = base_inventory_FRS[['PGM_SYS_ID','FRS_ID']]
+    base_inventory_FRS = facilitymatches[facilitymatches['Source']==base_inventory]
+    base_inventory_FRS = base_inventory_FRS[['FacilityID','FRS_ID']]
     #If there are more than one PGM_SYS_ID duplicates, choose only the first
     base_inventory_FRS_first = base_inventory_FRS.drop_duplicates(subset='FRS_ID',keep='first')
     colname_base_inventory_id = base_inventory + '_ID'
-    base_inventory_FRS_first = base_inventory_FRS_first.rename(columns={"PGM_SYS_ID":colname_base_inventory_id})
+    base_inventory_FRS_first = base_inventory_FRS_first.rename(columns={"FacilityID":colname_base_inventory_id})
     #Merge this based with inventories
     inventories = pd.merge(inventories,base_inventory_FRS_first,on='FRS_ID')
     #Put original facilityID into the new column when its is the source of the emission. This corrects mismatches

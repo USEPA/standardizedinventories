@@ -229,6 +229,7 @@ def write_validation_result(inventory_acronym,year,validation_df):
     validation_metadata['SourceVersion'] = validation_set_info['Version']
     validation_metadata['SourceURL'] = validation_set_info['URL']
     validation_metadata['SourceAquisitionTime'] = validation_set_info['Date Acquired']
+    validation_metadata['Criteria'] = validation_set_info['Criteria']
     #Write metadata to file
     write_metadata(inventory_acronym, year, validation_metadata, datatype="validation")
 
@@ -251,8 +252,11 @@ def validation_summary(validation_df, filepath=''):
 def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
     df[coln1][df[coln2] == unit] = conversion_factor * df[coln3]
     return df
-UStons_to_kg = 907.18474
-
+#Conversion factors
+USton_kg = 907.18474
+lb_kg = 0.4535924
+MMBtu_MJ = 1055.056
+MWh_MJ = 3600
 
 # Writes the metadata dictionary to a JSON file
 def write_metadata(inventoryname, report_year, metadata_dict, datatype="inventory"):
