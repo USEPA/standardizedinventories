@@ -2,25 +2,33 @@
 #This script uses the NEI data exports from EIS.
 
 import stewi.globals as globals
+from stewi.globals import set_dir
 from stewi.globals import write_metadata
 from stewi.globals import inventory_metadata
+from stewi.globals import get_relpath
+from stewi.globals import unit_convert
+from stewi.globals import validate_inventory
+from stewi.globals import write_validation_result
 import pandas as pd
 import numpy as np
 import os
 import time
 
-report_year = '2014'
+report_year = '2011'
 
 output_dir = globals.output_dir
 data_dir = globals.data_dir
+external_dir = set_dir(data_dir + '../../../')
+
 nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields.csv',sep=',').fillna('Null')
 nei_file_path = pd.read_table(data_dir + 'NEI_' + report_year + '_file_path.csv',sep=',').fillna('Null')
+
 
 def read_data(source,file):
     tmp = pd.Series(list(nei_required_fields[source]), index=list(nei_required_fields['StandardizedEPA']))
     file_result = pd.DataFrame(columns=[x for x in tmp[tmp!='Null'].index if x!='FlowAmount']+['sum'])
     # read nei file by chunks
-    for file_chunk in pd.read_table(file,sep=',',usecols=list(set(nei_required_fields[source])-set(['Null'])),chunksize=100000,engine='python'):
+    for file_chunk in pd.read_table(external_dir + file,sep=',',usecols=list(set(nei_required_fields[source])-set(['Null'])),chunksize=100000,engine='python'):
         # change column names to Standardized EPA names
         file_chunk = file_chunk.rename(columns=pd.Series(list(nei_required_fields['StandardizedEPA']),index=list(nei_required_fields[source])).to_dict())
         # aggregate
@@ -29,11 +37,12 @@ def read_data(source,file):
         file_result = pd.concat([file_result,file_chunk])
     return file_result.groupby(file_result.columns[:-1].tolist())['sum'].agg(['sum']).reset_index()
 
+
 def standardize_output(source): # source as 'Point'/'NonPoint'/'OnRoad'/'NonRoad'
     # extract file paths
     file_path = list(set(nei_file_path[source]) - set(['Null']))
     # read in first nei file by chunks
-    nei = read_data(source,file_path[0])
+    nei = read_data(source, file_path[0])
     print(file_path[0])
     print(len(nei))
     # read in other nei files and concatenate all nei files into one dataframe
@@ -66,6 +75,7 @@ def standardize_output(source): # source as 'Point'/'NonPoint'/'OnRoad'/'NonRoad
     nei = nei.drop(['UOM','sum'],1)
     return(nei)
 
+
 def nei_aggregate_unit_to_facility_level(nei_):
     #drop zeroes from flow amount and reliability score
     nei_ = nei_[(nei_['FlowAmount'] > 0) & (nei_['ReliabilityScore'] > 0)]
@@ -89,6 +99,7 @@ def nei_aggregate_unit_to_facility_level(nei_):
     neibyfacility.columns = neibyfacility.columns.droplevel(level=1)
 
     return(neibyfacility)
+
 
 #NEIPoint
 nei_point = standardize_output('Point')
@@ -140,12 +151,12 @@ len(facility)
 NEI_meta = inventory_metadata
 
 #Get time info from first point file
-point_1_path = nei_file_path['Point'][0]
+point_1_path = external_dir + nei_file_path['Point'][0]
 nei_retrieval_time = time.ctime(os.path.getctime(point_1_path))
 
 if nei_retrieval_time is not None:
     NEI_meta['SourceAquisitionTime'] = nei_retrieval_time
-NEI_meta['SourceFileName'] = point_1_path
+NEI_meta['SourceFileName'] = get_relpath(point_1_path)
 NEI_meta['SourceURL'] = 'http://eis.epa.gov'
 
 #extract version from filepath using regex
@@ -157,3 +168,16 @@ if version is not None:
 
 #Write metadata to json
 write_metadata('NEI',report_year, NEI_meta)
+
+#VALIDATE
+nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ report_year + '_NationalTotals.csv',header=0,dtype={"FlowAmount":np.float})
+nei_national_totals['FlowAmount_kg']=0
+nei_national_totals = unit_convert(nei_national_totals, 'FlowAmount_kg', 'Unit', 'LB', 0.4535924, 'FlowAmount')
+nei_national_totals = unit_convert(nei_national_totals, 'FlowAmount_kg', 'Unit', 'TON', 907.18474, 'FlowAmount')
+# drop old amount and units
+nei_national_totals.drop('FlowAmount',axis=1,inplace=True)
+nei_national_totals.drop('Unit',axis=1,inplace=True)
+# Rename cols to match reference format
+nei_national_totals.rename(columns={'FlowAmount_kg':'FlowAmount'},inplace=True)
+validation_result = validate_inventory(nei_flowbyfacility, nei_national_totals, group_by='flow', tolerance=5.0)
+write_validation_result('NEI',report_year,validation_result)
