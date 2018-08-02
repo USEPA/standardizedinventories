@@ -13,8 +13,7 @@ log.setLevel(logging.INFO)
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'stewicombo/'
 
-compartments = {"NEI":"air","RCRAInfo":"waste"}
-columns_to_keep = ['FacilityID', 'FlowAmount', 'FlowName','Compartment','ReliabilityScore','Source','Year']
+columns_to_keep = ['FacilityID', 'FlowAmount', 'FlowName','Compartment','Unit','ReliabilityScore','Source','Year']
 
 #For testing
 #inventory_dict = {"TRI":"2014","NEI":"2014","RCRAInfo":"2015"}
@@ -63,8 +62,6 @@ def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict
         #Add metadata
         inventory["Source"] = k
         inventory["Year"] = inventory_dict[k]
-        if 'Compartment' not in inventory.columns:
-            inventory["Compartment"] = compartments[k]
         inventory = inventory[columns_to_keep]
         inventories = pd.concat([inventories,inventory])
 
