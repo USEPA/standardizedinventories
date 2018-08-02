@@ -1,0 +1,14 @@
+FlowName,Inventory_Amount,Reference_Amount,Percent_Difference,Conclusion,Count
+Biogenic CO2,87556916000.0,152811639249.284,42.702717914590885,Percent difference exceeds tolerance,Percent difference exceeds tolerance
+Carbon Dioxide,0.0,2787201253769.59,100.0,Inventory value is zero or null,Inventory value is zero or null
+Fluoroform,21448.999999999996,0.0,100.0,Reference value is zero or null,Reference value is zero or null
+HFCs,357679.69999999995,1961749.1450283597,81.76730695122444,Percent difference exceeds tolerance,Percent difference exceeds tolerance
+HFEs,8527.1,22854.012136030233,62.68882702413246,Percent difference exceeds tolerance,Percent difference exceeds tolerance
+Methane,8740081416.674013,8742107947.644012,0.023181262255466212,Statistically similar,Statistically similar
+Nitrogen Triflouride,32505.300000000003,47695.299999999996,31.848001794726095,Percent difference exceeds tolerance,Percent difference exceeds tolerance
+Nitrous Oxide,87262964.0906345,87510691.73066129,0.28308271266926355,Statistically similar,Statistically similar
+Other,84173.59999999996,0.0,100.0,Reference value is zero or null,Reference value is zero or null
+PFCs,575947.3,663392.1800724503,13.181475859860187,Percent difference exceeds tolerance,Percent difference exceeds tolerance
+Sulfur Hexafluoride,192119.37585599997,193139.375856,0.5281160278577871,Statistically similar,Statistically similar
+Other Fully Fluorinated GHGs,0.0,0.0,0.0,Both inventory and reference are zero or null,Both inventory and reference are zero or null
+Very Short-lived Compounds,0.0,0.0,0.0,Both inventory and reference are zero or null,Both inventory and reference are zero or null
