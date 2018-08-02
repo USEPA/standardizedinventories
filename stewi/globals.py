@@ -22,6 +22,7 @@ inventory_metadata = {
 'StEWI_versions_version': '0.9'
 }
 
+inventory_single_compartments = {"NEI":"air","RCRAInfo":"waste"}
 
 def url_is_alive(url):
     """
