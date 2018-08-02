@@ -1,9 +1,7 @@
-#v 1.2 
-
 import pandas as pd
 import json
 import os
-from functools import partial
+from globals import *
 
 with open("config.json") as cfg:
     fields = json.load(cfg)
@@ -12,7 +10,7 @@ with open("config.json") as cfg:
 if not fields:
     raise ValueError("No fields specified in config file")
 
-if not "LOOKUP_FIELDS" in fields and fields["LOOKUP_FIELDS"]:
+if not "LOOKUP_FIELDS" in locals() and LOOKUP_FIELDS:
     raise ValueError("Not sure which fields to lookup in each row. Please update config.json with LOOKUP_FIELDS")
 
 
@@ -28,14 +26,14 @@ def join_with_underscore(items):
     return "_".join(items)
 
 def reliablity_weighted_sum(df, weights_col_name, items):
-    grouped = df.groupby(fields["SOURCE_COL"])
+    grouped = df.groupby(SOURCE_COL)
 
     for x, y in items.items():
         first_index = x
         break
 
-    # group_name = df.iloc[first_index].loc[fields["SOURCE_COL"]]
-    group_name = df.loc[first_index, fields["SOURCE_COL"]]
+    # group_name = df.iloc[first_index].loc[SOURCE_COL]
+    group_name = df.loc[first_index, SOURCE_COL]
     group = grouped.get_group(group_name)
 
     new_reliability_col = items * (group[weights_col_name] / sum(group[weights_col_name]))
@@ -45,75 +43,76 @@ def get_first_item(items):
     return items.iloc[0]
 
 def get_by_preference(group):
-    # print(group.columns)
-    # print(group.name)
-    # print(group)
-    preferences = fields["inventory_preference_by_compartment"][group.name]
-    # print(preferences)
+    preferences = INVENTORY_PREFERENCE_BY_COMPARTMENT[group.name]
 
     for pref in preferences:
         for index, row in group.iterrows():
-            # print(pref, index, row)
-            if pref == row[fields["SOURCE_COL"]]:
+            if pref == row[SOURCE_COL]:
                 return row
-    #         if item[compartment] == pref:
-    #             first_index = index
-    #             break
-    #         first_index = index
-    #
-    # return subframe.iloc[first_index]
 
 
 
 
 def main():
-    if not fields["INCLUDE_ORIGINAL"] and not fields["KEEP_REPEATED_DUPLICATES"]:
+    if not INCLUDE_ORIGINAL and not KEEP_ALL_DUPLICATES:
         raise ValueError("Cannot have both INCLUDE_ORIGINAL and KEEP_REPEATED_DUPLICATES fields as False")
 
-    datafilepath = fields["DATA_FILEPATH"]
+    # 1
+    # Load file to dataframe
+    datafilepath = DATA_FILEPATH
     if os.path.splitext(datafilepath)[-1].lower() == ".csv":
         df = pd.read_csv(datafilepath)
     elif os.path.splitext(datafilepath)[-1].lower() == ".xlsx":
         df = pd.read_excel(datafilepath)
 
-    output_csvfilepath = fields["OUTPUT_FILEPATH"]
+    output_csvfilepath = OUTPUT_FILEPATH
     print("Starting processing data...")
 
-
-    if fields["INCLUDE_ORIGINAL"]:
+    if INCLUDE_ORIGINAL:
         keep = False
     else:
         keep = 'first'
 
-    df_chunk_filtered = df[fields["LOOKUP_FIELDS"]]
+    # force cast skeptical columns
+    for col_name, dtype in FORCE_COLUMN_TYPES.items():
+        df[col_name] = df[col_name].astype(dtype)
 
-    if not fields["KEEP_ALL_DUPLICATES"]:
-        # from a set of duplicates a logic is applied to figure out what is sent to write to output file
-        # for example only the first duplicate is kept
-        # or duplicates are filtered preferentially and high priority one is kept etc
-        df_dups = df[df_chunk_filtered.duplicated(keep=keep)]
-        df_dups_filtered = df_dups[fields["LOOKUP_FIELDS"]]
-        df = df_dups[df_dups_filtered.duplicated(keep=keep).apply(lambda x: not x)]
-    else:
-        # all duplicates found are sent to be written to output file
-        df = df[df_chunk_filtered.duplicated(keep=keep)]
+    # 2
+    # if you wish to also keep row that doesn't have any duplicates, don't find duplicates
+    # go ahead with next step of processing
+    if not KEEP_ROW_WITHOUT_DUPS:
+
+        df_chunk_filtered = df[LOOKUP_FIELDS]
+
+        if not KEEP_ALL_DUPLICATES:
+            # from a set of duplicates a logic is applied to figure out what is sent to write to output file
+            # for example only the first duplicate is kept
+            # or duplicates are filtered preferentially and high priority one is kept etc
+            df_dups = df[df_chunk_filtered.duplicated(keep=keep)]
+            df_dups_filtered = df_dups[LOOKUP_FIELDS]
+            df = df_dups[df_dups_filtered.duplicated(keep=keep).apply(lambda x: not x)]
+        else:
+            # all duplicates found are sent to be written to output file
+            df = df[df_chunk_filtered.duplicated(keep=keep)]
 
     # Duplicates found
     # print(df)
 
+    # 3
     print("Grouping duplicates by LOOKUP_FIELDS")
-    grouped = df.groupby(fields["LOOKUP_FIELDS"])
+    grouped = df.groupby(LOOKUP_FIELDS)
+    # print(grouped.groups.keys())
+
+    if SOURCE_COL not in df.columns: raise ("SOURCE_COL not found in input file's header")
+
+
+    funcname_cols_map = COL_FUNC_PAIRS
+    for col in list(set(df.columns) - set(
+            COL_FUNC_PAIRS.keys())):  # col names in columns, not in key of COL_FUNC_PAIRS
+        funcname_cols_map[col] = COL_FUNC_DEFAULT
 
     print("Grouping duplicates by SOURCE_COL")
-    if fields["SOURCE_COL"] not in df.columns: raise ("SOURCE_COL not found in input file's header")
-
-
     print("Combining each group to a single row")
-    funcname_cols_map = fields["COL_FUNC_PAIRS"]
-    for col in list(set(df.columns) - set(
-            fields["COL_FUNC_PAIRS"].keys())):  # col names in columns, not in key of COL_FUNC_PAIRS
-        funcname_cols_map[col] = fields["COL_FUNC_DEFAULT"]
-
     to_be_concat = []
     for name, df in grouped:
         # print(name, df)
@@ -127,15 +126,17 @@ def main():
                 func_cols_map[key] = lambda items: reliablity_weighted_sum(df, weights_col_name, items)
             else:
                 func_cols_map[key] = eval(val)
-        grouped_by_src = df.groupby(fields["SOURCE_COL"])
+        grouped_by_src = df.groupby(SOURCE_COL)
         df_new = grouped_by_src.agg(func_cols_map)
-
-        # If we have 2 or more duplicates with same compartment use `inventory_preference_by_compartment`
-        grouped = df_new.groupby(fields["COMPARTMENT_COL"])
-        df_new = grouped.apply(get_by_preference)
         # print(df_new)
+        # If we have 2 or more duplicates with same compartment use `INVENTORY_PREFERENCE_BY_COMPARTMENT`
+        if len(df_new.index) > 1:
+            grouped = df_new.groupby(COMPARTMENT_COL)
+            df_new = grouped.apply(get_by_preference)
+
         # print(name)
         to_be_concat.append(df_new)
+        # print(to_be_concat)
 
     df = pd.concat(to_be_concat)
 
