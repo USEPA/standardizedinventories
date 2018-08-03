@@ -13,14 +13,14 @@ except NameError: modulepath = 'stewi/'
 
 output_dir = modulepath + 'output/'
 data_dir = modulepath + 'data/'
-formatpath = {'flowbyfacility':"",'flow':"flow/",'facility':"facility/"}
+formatpath = {'flowbyfacility':"flowbyfacility/",'flow':"flow/",'facility':"facility/"}
 
 def seeAvailableInventoriesandYears(format='flowbyfacility'):
 # reads a list of available inventories and prints them here, like:
 # NEI: 2014
 # GHGRP: 2015, 2016
 # ....
-    files = os.listdir(output_dir)
+    files = os.listdir(output_dir+formatpath[format])
     outputfiles = []
     existing_inventories = {}
     for name in files:
