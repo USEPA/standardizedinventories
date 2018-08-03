@@ -1,16 +1,7 @@
 import pandas as pd
-import os
-import logging
 
 from chemicalmatcher.programsynonymlookupbyCAS import programsynonymlookupbyCAS
-
-log = logging.getLogger(__name__)
-log.setLevel(logging.INFO)
-
-try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
-except NameError: modulepath = 'chemicalmatcher/'
-
-output_dir = modulepath + 'output/'
+from chemicalmatcher.globals import output_dir
 
 def get_matches_for_StEWI():
     chemicalmatches = pd.read_csv(output_dir+'ChemicalsByInventorywithSRS_IDS_forStEWI.csv',dtype={"SRS_ID":"str"})
