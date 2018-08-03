@@ -111,7 +111,7 @@ nei_point.to_pickle('NEI_' + report_year + '.pk')
 #re_idex nei_point
 nei_point = nei_point.reset_index()
 nei_flowbyfacility = nei_aggregate_unit_to_facility_level(nei_point)
-nei_flowbyfacility.to_csv(output_dir+'NEI_'+report_year+'.csv',index=False)
+nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+report_year+'.csv',index=False)
 len(nei_flowbyfacility)
 #2016: 841735
 #2011: 847136
