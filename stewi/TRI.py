@@ -7,14 +7,14 @@
 
 import pandas as pd
 import numpy as np
-from stewi.globals import unit_convert,output_dir,data_dir,reliability_table,validate_inventory,write_validation_result
+from stewi.globals import unit_convert,set_dir,output_dir,data_dir,reliability_table,validate_inventory,write_validation_result
 
 import logging
 log = logging.getLogger(__name__)
 log = log.setLevel(logging.INFO)
 
 # Set some metadata
-TRIyear = '2016'
+TRIyear = '2014'
 
 # Import list of fields from TRI that are desired for LCI
 def imp_fields(tri_fields_txt):
@@ -77,7 +77,8 @@ def dict_create(k, v):
 import_dict = dict_create(keys, values)
 
 # Import TRI file
-tri_csv = '../TRI/US_' + TRIyear + '_v15/US_1_' + TRIyear + '_v15.txt'
+external_dir = set_dir(data_dir + '../../../')
+tri_csv = external_dir + 'TRI/US_' + TRIyear + '_v15/US_1_' + TRIyear + '_v15.txt'
 
 tri_release_output_fieldnames = ['FacilityID', 'CAS', 'FlowName', 'Unit', 'FlowAmount','Basis of Estimate','ReleaseType']
 
@@ -188,7 +189,7 @@ tri = tri.reset_index()
 tri.columns = tri.columns.droplevel(level=1)
 
 #VALIDATE
-tri_national_totals = pd.read_csv('stewi/data/TRI_'+ TRIyear + '_NationalTotals.csv',header=0,dtype={"FlowAmount":np.float})
+tri_national_totals = pd.read_csv(data_dir + 'TRI_'+ TRIyear + '_NationalTotals.csv',header=0,dtype={"FlowAmount":np.float})
 tri_national_totals['FlowAmount_kg']=0
 tri_national_totals = unit_convert(tri_national_totals, 'FlowAmount_kg', 'Unit', 'Pounds', 0.4535924, 'FlowAmount')
 # drop old amount and units
