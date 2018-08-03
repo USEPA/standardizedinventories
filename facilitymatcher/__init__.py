@@ -1,16 +1,6 @@
 import pandas as pd
-import os
-import logging
 from facilitymatcher.globals import filter_by_inventory_list,\
-    get_programs_for_inventory_list,invert_inventory_to_FRS,stewi_inventories, filter_by_facility_list
-
-log = logging.getLogger(__name__)
-log.setLevel(logging.INFO)
-
-try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
-except NameError: modulepath = 'facilitymatcher/'
-
-output_dir = modulepath + 'output/'
+    get_programs_for_inventory_list,invert_inventory_to_FRS,stewi_inventories, filter_by_facility_list,output_dir
 
 def get_matches_for_inventories(inventory_list=stewi_inventories):
     facilitymatches = pd.read_csv(output_dir+'FacilityMatchList_forStEWI.csv',dtype={"FRS_ID":"str","FacilityID":"str"})
