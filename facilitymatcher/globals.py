@@ -2,6 +2,13 @@ import zipfile
 import io
 import requests
 import json
+import pandas as pd
+
+try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
+except NameError: modulepath = 'facilitymatcher/'
+
+output_dir = modulepath + 'output/'
+data_dir = modulepath + 'data/'
 
 stewi_inventories = ["NEI","TRI","eGRID","RCRAInfo"]
 
@@ -64,3 +71,11 @@ def callFRSforProgramAcronymandIDfromAPI(program_acronym, id):
 def getFRSIDfromAPIfaciltyinfo(facilityinfo):
     FRSID = facilityinfo[0]['RegistryId']
     return FRSID
+
+def add_manual_matches(df_matches):
+    #Read in manual matches
+    manual_matches = pd.read_csv(data_dir+'facilitymatches_manual.csv',header=0,dtype={'FacilityID':'str','FRS_ID':'str'})
+    #Append with list
+    df_matches = pd.concat([df_matches,manual_matches])
+    return df_matches
+
