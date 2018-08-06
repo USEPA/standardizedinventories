@@ -2,7 +2,7 @@
 #This script uses the NEI data exports from EIS.
 
 from stewi.globals import set_dir,output_dir,data_dir, write_metadata,inventory_metadata,get_relpath,unit_convert,\
-    validate_inventory,write_validation_result
+    validate_inventory,write_validation_result,USton_kg,lb_kg
 import pandas as pd
 import numpy as np
 import os
@@ -15,19 +15,18 @@ external_dir = set_dir(data_dir + '../../../')
 nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields.csv',sep=',').fillna('Null')
 nei_file_path = pd.read_table(data_dir + 'NEI_' + report_year + '_file_path.csv',sep=',').fillna('Null')
 
-
 def read_data(source,file):
-    tmp = pd.Series(list(nei_required_fields[source]), index=list(nei_required_fields['StandardizedEPA']))
-    file_result = pd.DataFrame(columns=[x for x in tmp[tmp!='Null'].index if x!='FlowAmount']+['sum'])
+    #tmp = pd.Series(list(nei_required_fields[source]), index=list(nei_required_fields['StandardizedEPA']))
+    file_result = pd.DataFrame(columns=list(nei_required_fields['StandardizedEPA']))
     # read nei file by chunks
-    for file_chunk in pd.read_table(external_dir + file,sep=',',usecols=list(set(nei_required_fields[source])-set(['Null'])),chunksize=100000,engine='python'):
+    for file_chunk in pd.read_table(external_dir + 'data' + file,sep=',',usecols=list(set(nei_required_fields[source])-set(['Null'])),chunksize=100000,engine='python'):
         # change column names to Standardized EPA names
         file_chunk = file_chunk.rename(columns=pd.Series(list(nei_required_fields['StandardizedEPA']),index=list(nei_required_fields[source])).to_dict())
-        # aggregate
-        file_chunk = file_chunk.groupby([x for x in tmp[tmp!='Null'].index if x!='FlowAmount'])['FlowAmount'].agg(['sum']).reset_index()
+        # adjust column order
+        file_chunk = file_chunk[file_result.columns.tolist()]
         # concatenate all chunks
         file_result = pd.concat([file_result,file_chunk])
-    return file_result.groupby(file_result.columns[:-1].tolist())['sum'].agg(['sum']).reset_index()
+    return(file_result)
 
 
 def standardize_output(source): # source as 'Point'/'NonPoint'/'OnRoad'/'NonRoad'
@@ -42,19 +41,21 @@ def standardize_output(source): # source as 'Point'/'NonPoint'/'OnRoad'/'NonRoad
         # concatenate all other files
         nei = pd.concat([nei,read_data(source,file)])
         # aggregate
-        nei = nei.groupby(nei.columns[:-1].tolist())['sum'].agg(['sum']).reset_index()
+        #nei = nei.groupby(nei.columns[:-1].tolist())['sum'].agg(['sum']).reset_index()
         print(file)
         print(len(nei))
     # convert LB/TON to KG
-    nei['FlowAmount'] = np.where(nei['UOM']=='LB',nei['sum']*0.453592,nei['sum']*907.184)
+    nei['FlowAmount'] = np.where(nei['UOM']=='LB',nei['FlowAmount']*lb_kg,nei['FlowAmount']*USton_kg)
+    nei = temp
     # add not included standardized columns as empty columns
-    nei = pd.concat([nei,pd.DataFrame(columns=list(set(nei_required_fields['StandardizedEPA']) - set(nei.columns)))])
-    nei = nei.fillna('')
+    #nei = pd.concat([nei,pd.DataFrame(columns=list(set(nei_required_fields['StandardizedEPA']) - set(nei.columns)))])
+    #nei = nei.fillna('')
     # add Reliability Score
     if source == 'Point':
         reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',usecols=['Source','Code','DQI Reliability Score'])
         nei_reliability_table = reliability_table[reliability_table['Source'] == 'NEI']
-        nei_reliability_table['Code'] = nei_reliability_table.Code.astype(float)
+        nei_reliability_table['Code'] = nei_reliability_table['Code'].astype(float)
+        nei['ReliabilityScore'] = nei['ReliabilityScore'].astype(float)
         nei = nei.merge(nei_reliability_table, left_on='ReliabilityScore', right_on='Code', how='left')
         nei['ReliabilityScore'] = nei['DQI Reliability Score']
         # drop Code and DQI Reliability Score columns
@@ -64,7 +65,7 @@ def standardize_output(source): # source as 'Point'/'NonPoint'/'OnRoad'/'NonRoad
     # add Source column
     nei['Source'] = source
     # drop UOM and sum columns
-    nei = nei.drop(['UOM','sum'],1)
+    nei = nei.drop(['UOM'],1)
     return(nei)
 
 
@@ -108,12 +109,13 @@ nei_point.to_pickle('NEI_' + report_year + '.pk')
 #2011: 3449947
 
 #Flowbyfacility output
-#re_idex nei_point
+#re_index nei_point
 nei_point = nei_point.reset_index()
 nei_flowbyfacility = nei_aggregate_unit_to_facility_level(nei_point)
 nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+report_year+'.csv',index=False)
 len(nei_flowbyfacility)
 #2016: 841735
+#2014: 2057249
 #2011: 847136
 
 ##Flows output
@@ -126,7 +128,7 @@ nei_flows = nei_flows.sort_values(by='FlowName',axis=0)
 nei_flows.to_csv(output_dir+'flow/'+'NEI_'+report_year+'.csv',index=False)
 len(nei_flows)
 #2016: 274
-#2014: 274
+#2014: 279
 #2011: 273
 
 ##Facility output
@@ -136,14 +138,14 @@ facility = facility.drop_duplicates()
 facility.to_csv(output_dir+'facility/'+'NEI_'+report_year+'.csv',index=False)
 len(facility)
 #2016: 48087
-#2014: 48004
+#2014: 85125
 #2011: 55520
 
 #Write metadata
 NEI_meta = inventory_metadata
 
 #Get time info from first point file
-point_1_path = external_dir + nei_file_path['Point'][0]
+point_1_path = external_dir + 'data' + nei_file_path['Point'][0]
 nei_retrieval_time = time.ctime(os.path.getctime(point_1_path))
 
 if nei_retrieval_time is not None:
@@ -164,8 +166,8 @@ write_metadata('NEI',report_year, NEI_meta)
 #VALIDATE
 nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ report_year + '_NationalTotals.csv',header=0,dtype={"FlowAmount":np.float})
 nei_national_totals['FlowAmount_kg']=0
-nei_national_totals = unit_convert(nei_national_totals, 'FlowAmount_kg', 'Unit', 'LB', 0.4535924, 'FlowAmount')
-nei_national_totals = unit_convert(nei_national_totals, 'FlowAmount_kg', 'Unit', 'TON', 907.18474, 'FlowAmount')
+nei_national_totals = unit_convert(nei_national_totals, 'FlowAmount_kg', 'Unit', 'LB', lb_kg, 'FlowAmount')
+nei_national_totals = unit_convert(nei_national_totals, 'FlowAmount_kg', 'Unit', 'TON', USton_kg, 'FlowAmount')
 # drop old amount and units
 nei_national_totals.drop('FlowAmount',axis=1,inplace=True)
 nei_national_totals.drop('Unit',axis=1,inplace=True)
