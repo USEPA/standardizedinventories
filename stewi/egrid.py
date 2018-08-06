@@ -157,7 +157,7 @@ flowbyfac = pd.merge(flowbyfac,flow_compartments,on='FlowName',how='left')
 flowbyfac = flowbyfac.drop(columns='OriginalName')
 
 #Write flowbyfacility file to output
-flowbyfac.to_csv(output_dir + 'eGRID_'+ eGRIDyear +'.csv', index=False)
+flowbyfac.to_csv(output_dir + 'flowbyfacility/eGRID_'+ eGRIDyear +'.csv', index=False)
 
 ##Creation of the facility file
 #Need to change column names manually

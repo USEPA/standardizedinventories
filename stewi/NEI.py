@@ -1,23 +1,15 @@
 #NEI import and process to Standardized EPA output format
 #This script uses the NEI data exports from EIS.
 
-import stewi.globals as globals
-from stewi.globals import set_dir
-from stewi.globals import write_metadata
-from stewi.globals import inventory_metadata
-from stewi.globals import get_relpath
-from stewi.globals import unit_convert
-from stewi.globals import validate_inventory
-from stewi.globals import write_validation_result
+from stewi.globals import set_dir,output_dir,data_dir, write_metadata,inventory_metadata,get_relpath,unit_convert,\
+    validate_inventory,write_validation_result
 import pandas as pd
 import numpy as np
 import os
 import time
 
-report_year = '2011'
+report_year = '2014'
 
-output_dir = globals.output_dir
-data_dir = globals.data_dir
 external_dir = set_dir(data_dir + '../../../')
 
 nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields.csv',sep=',').fillna('Null')
@@ -119,7 +111,7 @@ nei_point.to_pickle('NEI_' + report_year + '.pk')
 #re_idex nei_point
 nei_point = nei_point.reset_index()
 nei_flowbyfacility = nei_aggregate_unit_to_facility_level(nei_point)
-nei_flowbyfacility.to_csv(output_dir+'NEI_'+report_year+'.csv',index=False)
+nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+report_year+'.csv',index=False)
 len(nei_flowbyfacility)
 #2016: 841735
 #2011: 847136

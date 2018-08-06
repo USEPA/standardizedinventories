@@ -3,6 +3,12 @@ import requests
 import json
 import urllib
 
+try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
+except NameError: modulepath = 'chemicalmatcher/'
+
+output_dir = modulepath + 'output/'
+data_dir = modulepath + 'data/'
+
 #SRS web service docs at https://cdxnodengn.epa.gov/cdx-srs-rest/
 #Base URL for queries
 base =  'https://cdxnodengn.epa.gov/cdx-srs-rest/'
@@ -164,6 +170,22 @@ def process_single_SRS_json_response(srs_json_response):
     chemical_srs_info.loc[0, "SRS_ID"] = srs_json_response[0]['subsKey']
     chemical_srs_info.loc[0, "SRS_CAS"] = srs_json_response[0]['currentCasNumber']
     return chemical_srs_info
+
+
+def add_manual_matches(df_matches,include_proxies=True):
+    #Read in manual matches
+    manual_matches = pd.read_csv(data_dir+'chemicalmatches_manual.csv',header=0,dtype={'FlowID':'str','SRS_ID':'str'})
+    if not include_proxies:
+        manual_matches = manual_matches[manual_matches['Proxy_Used']==0]
+    #drop unneded columns
+    manual_matches = manual_matches.drop(columns=['Proxy_Used','Proxy_Name','FlowName'])
+    manual_matches = manual_matches.rename(columns={'SRS_ID':'SRS_ID_Manual'})
+    #Merge with list
+    df_matches = pd.merge(df_matches,manual_matches,on=['FlowID','Source'],how='left')
+    #Set null SRS_IDs to those manually found. Replaces null with null if not
+    df_matches.loc[df_matches['SRS_ID'].isnull(),'SRS_ID'] = df_matches['SRS_ID_Manual']
+    df_matches = df_matches.drop(columns=['SRS_ID_Manual'])
+    return df_matches
 
 
 

@@ -14,7 +14,7 @@ import urllib
 import numpy as np
 
 #Valid years are every other year since 2015
-report_year = '2015'
+report_year = '2011'
 
 #Get file columns widths
 output_dir = globals.output_dir
@@ -258,11 +258,8 @@ sum_of_flowbyfacility_df = pd.DataFrame({'FlowAmount':[sum_of_flowbyfacility],'F
 validation_df = validate_inventory(sum_of_flowbyfacility_df,BR_national_total,group_by='flow')
 write_validation_result('RCRAInfo', report_year, validation_df)
 
-
-
-
 #Export to csv
-flowbyfacility.to_csv(output_dir + 'RCRAInfo_' + report_year + '.csv',index=False)
+flowbyfacility.to_csv(output_dir + 'flowbyfacility/RCRAInfo_' + report_year + '.csv',index=False)
 
 #Record metadata
 if retrieval_time is not None:

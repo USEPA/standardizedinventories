@@ -1,13 +1,13 @@
 #This script gets FRS data in the form of the FRS combined national files
 #https://www.epa.gov/enviro/epa-state-combined-csv-download-files
 #It uses the bridges in the 'NATIONAL_ENVIRONMENTAL_INTEREST_FILE.CSV'
-#It writes facility matching file for StEWI (github.com/usepa/standardizedinventories) programs
+#It writes facility matching file for StEWI (github.com/usepa/standardizedinventories) inventories
 
 import pandas as pd
 import os
 
 from facilitymatcher.globals import stewi_inventories,get_programs_for_inventory_list, \
-    filter_by_program_list,download_extract_FRS_combined_national,invert_inventory_to_FRS
+    filter_by_program_list,download_extract_FRS_combined_national,invert_inventory_to_FRS,output_dir,add_manual_matches
 
 FRSpath = '../FRS/'
 
@@ -61,11 +61,11 @@ stewi_bridges['PGM_SYS_ACRNM'] = stewi_bridges['PGM_SYS_ACRNM'].replace(to_repla
 #Rename fields
 stewi_bridges = stewi_bridges.rename(columns={'REGISTRY_ID':'FRS_ID','PGM_SYS_ACRNM':'Source','PGM_SYS_ID':'FacilityID'})
 
+#Add in manual matches
+stewi_bridges = add_manual_matches(stewi_bridges)
+
 #Add in smart matching here
 
-
-
-
 #Write matches to bridge
-stewi_bridges.to_csv('facilitymatcher/output/FacilityMatchList_forStEWI.csv',index=False)
+stewi_bridges.to_csv(output_dir+'FacilityMatchList_forStEWI.csv',index=False)
 
