@@ -78,11 +78,15 @@ for chunk in pd.read_fwf(RCRAInfoBRtextfile,widths=BRwidths,header=None,names=BR
 #BR = pd.read_pickle('work/BR_'+report_year+'.pk')
 len(BR)
 #2015:2053108
+#2013:1581899
+#2011: 1590067
 
 #Validate correct import - number of states should be 50+ (includes PR and territories)
 states = BR['State'].unique()
 len(states)
 #2015: 57
+#2015: 56
+#2011: 56
 
 #Filtering to remove double counting and non BR waste records
 #Do not double count generation from sources that receive it only
@@ -93,15 +97,21 @@ len(states)
 BR = BR[BR['Source Code'] != 'G61']
 len(BR)
 #2015:1959883
+#2013:1492245
+#2011:1496275
 
 #Only include wastes that are included in the National Biennial Report
 BR = BR[BR['Generator ID Included in NBR'] == 'Y']
 len(BR)
 #2015:1759711
+#2013:1283457
+#2011:1284796
 
 BR = BR[BR['Generator Waste Stream Included in NBR'] == 'Y']
 len(BR)
 #2015:288980
+#2013:256978
+#2011:209342
 
 #Remove imported wastes, source codes G63-G75
 ImportSourceCodes = pd.read_csv(data_dir + 'RCRAImportSourceCodes.txt', header=None)
@@ -117,6 +127,8 @@ for item in SourceCodesPresent:
 BR = BR[BR['Source Code'].isin(SourceCodestoKeep)]
 len(BR)
 #2015:286813
+#2013:256844
+#2011:209306
 
 #Reassign the NAICS to a string
 BR['NAICS'] = BR['Primary NAICS'].astype('str')
