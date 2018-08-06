@@ -71,18 +71,24 @@ def aggregate_and_remove_overlap(df):
     else:
         keep = 'first'
 
-    df_chunk_filtered = df[LOOKUP_FIELDS]
+    # force cast skeptical columns
+    for col_name, dtype in FORCE_COLUMN_TYPES.items():
+        df[col_name] = df[col_name].astype(dtype)
 
-    if not KEEP_ALL_DUPLICATES:
-        # from a set of duplicates a logic is applied to figure out what is sent to write to output file
-        # for example only the first duplicate is kept
-        # or duplicates are filtered preferentially and high priority one is kept etc
-        df_dups = df[df_chunk_filtered.duplicated(keep=keep)]
-        df_dups_filtered = df_dups[LOOKUP_FIELDS]
-        df = df_dups[df_dups_filtered.duplicated(keep=keep).apply(lambda x: not x)]
-    else:
-        # all duplicates found are sent to be written to output file
-        df = df[df_chunk_filtered.duplicated(keep=keep)]
+    # 2
+    # if you wish to also keep row that doesn't have any duplicates, don't find duplicates
+    # go ahead with next step of processing
+    if not KEEP_ROW_WITHOUT_DUPS:
+
+        df_chunk_filtered = df[LOOKUP_FIELDS]
+
+        if not KEEP_ALL_DUPLICATES:
+            # from a set of duplicates a logic is applied to figure out what is sent to write to output file
+            # for example only the first duplicate is kept
+            # or duplicates are filtered preferentially and high priority one is kept etc
+            df_dups = df[df_chunk_filtered.duplicated(keep=keep)]
+            df_dups_filtered = df_dups[LOOKUP_FIELDS]
+            df = df_dups[df_dups_filtered.duplicated(keep=keep).apply(lambda x: not x)]
 
     # Duplicates found
     # print(df)
@@ -101,7 +107,7 @@ def aggregate_and_remove_overlap(df):
         funcname_cols_map[col] = COL_FUNC_DEFAULT
 
     to_be_concat = []
-    for name, df in grouped:
+    for name, frame in grouped:
         # print(name, df)
         # find functions mapping for this df
         func_cols_map = {}
@@ -110,10 +116,10 @@ def aggregate_and_remove_overlap(df):
                 args = val.split(":")
                 if len(args) > 1:
                     weights_col_name = args[1]
-                func_cols_map[key] = lambda items: reliablity_weighted_sum(df, weights_col_name, items)
+                func_cols_map[key] = lambda items: reliablity_weighted_sum(frame, weights_col_name, items)
             else:
                 func_cols_map[key] = eval(val)
-        grouped_by_src = df.groupby(SOURCE_COL)
+        grouped_by_src = frame.groupby(SOURCE_COL)
         df_new = grouped_by_src.agg(func_cols_map)
 
         # If we have 2 or more duplicates with same compartment use `INVENTORY_PREFERENCE_BY_COMPARTMENT`
