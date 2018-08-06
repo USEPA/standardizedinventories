@@ -84,7 +84,7 @@ def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict
     colname_base_inventory_id = base_inventory + '_ID'
     base_inventory_FRS_first = base_inventory_FRS_first.rename(columns={"FacilityID":colname_base_inventory_id})
     #Merge this based with inventories
-    inventories = pd.merge(inventories,base_inventory_FRS_first,on='FRS_ID')
+    inventories = pd.merge(inventories,base_inventory_FRS_first,on='FRS_ID',how='left')
     #Put original facilityID into the new column when its is the source of the emission. This corrects mismatches
     #in the case of more than one base inventory id to FRS_ID
     if base_inventory in inventory_acronyms:
