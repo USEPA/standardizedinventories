@@ -177,7 +177,7 @@ def main():
                                                 df.loc[ids, "Compartment"] + "_" + \
                                                 df.loc[ids, "FRS_ID"].astype(str)
 
-        # concatenate for the comparing row with SRS_ID 83723 as well
+        #  concatenate for the comparing row with SRS_ID 83723 as well
         ids = (df["SRS_ID"] == 83723) & (df["FRS_ID"] == row["FRS_ID"])
         df.loc[ids, "CombinedFlowLookup"] = "SRS_" + df.loc[ids, "SRS_ID"].astype(str) + "_" + \
                                             df.loc[ids, "Source"] + "_" + \
