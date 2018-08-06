@@ -72,8 +72,8 @@ def getInventory(inventory_acronym, year, format='flowbyfacility', include_optio
         elif inventory_acronym == 'NEI':
             filter_path += 'NEI_pollutant_omit_list.csv'
             filter_type = 'drop'
-        if (not os.path.exists(filter_path)) or filter_path == data_dir:
-            print('No filter criteria file for this source in data directory')
+        #if (not os.path.exists(filter_path)) or filter_path == data_dir:
+        #    print('No filter criteria file for this source in data directory')
         else: inventory = filter_inventory(inventory, filter_path, filter_type=filter_type)
     return inventory
 
