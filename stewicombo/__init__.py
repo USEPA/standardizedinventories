@@ -1,17 +1,14 @@
 import pandas as pd
-import os
-import logging
+#import os
 import stewi
 import facilitymatcher
 import chemicalmatcher
 
-from stewicombo.globals import inventory_preference_by_compartment
+from stewicombo.overlaphandler import aggregate_and_remove_overlap
+from stewicombo.globals import get_id_before_underscore
 
-log = logging.getLogger(__name__)
-log.setLevel(logging.INFO)
-
-try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
-except NameError: modulepath = 'stewicombo/'
+#try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
+#except NameError: modulepath = 'stewicombo/'
 
 columns_to_keep = ['FacilityID', 'FlowAmount', 'FlowName','Compartment','Unit','ReliabilityScore','Source','Year']
 
@@ -43,7 +40,7 @@ columns_to_keep = ['FacilityID', 'FlowAmount', 'FlowName','Compartment','Unit','
 #     inventories = pd.merge(inventories,chemicalmatches,on=(['FlowName','Source']),how='left')
 #     return(inventories)
 
-def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict, filter_for_LCI=True):
+def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict, filter_for_LCI=True,remove_overlap=True ):
     #Bring in facility matches
     #get only those inventorytoFRS_pgm correspondence that are needed
     inventory_acronyms = list(inventory_dict.keys())
@@ -75,7 +72,9 @@ def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict
     inventories = pd.merge(inventories,chemicalmatches,on=(['FlowName','Source']),how='left')
     inventories.drop(columns=['FlowID'], inplace=True)
 
-    #Mike to bring in duplicate id and overlap handling here
+    #Aggregate and remove overlap if requested
+    if remove_overlap:
+        inventories = aggregate_and_remove_overlap(inventories)
 
     #Add in base program ids
     base_inventory_FRS = facilitymatches[facilitymatches['Source']==base_inventory]
@@ -89,8 +88,11 @@ def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict
     #Put original facilityID into the new column when its is the source of the emission. This corrects mismatches
     #in the case of more than one base inventory id to FRS_ID
     if base_inventory in inventory_acronyms:
-        inventories.loc[inventories['Source']==base_inventory,colname_base_inventory_id] = inventories['FacilityID']
-
+        #The presence of an underscore indicates more than one facilityid was used. If this is the case, get it before the underscore
+        inventories['FacilityID_first'] = inventories['FacilityID']
+        inventories['FacilityID_first'] = inventories['FacilityID_first'].apply(lambda x: get_id_before_underscore(x))
+        inventories.loc[inventories['Source']==base_inventory,colname_base_inventory_id] = inventories['FacilityID_first']
+        inventories = inventories.drop(columns='FacilityID_first')
     return(inventories)
 
 
