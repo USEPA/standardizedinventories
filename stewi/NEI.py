@@ -40,13 +40,10 @@ def standardize_output(source): # source as 'Point'/'NonPoint'/'OnRoad'/'NonRoad
     for file in file_path[1:]:
         # concatenate all other files
         nei = pd.concat([nei,read_data(source,file)])
-        # aggregate
-        #nei = nei.groupby(nei.columns[:-1].tolist())['sum'].agg(['sum']).reset_index()
         print(file)
         print(len(nei))
     # convert LB/TON to KG
     nei['FlowAmount'] = np.where(nei['UOM']=='LB',nei['FlowAmount']*lb_kg,nei['FlowAmount']*USton_kg)
-    nei = temp
     # add not included standardized columns as empty columns
     #nei = pd.concat([nei,pd.DataFrame(columns=list(set(nei_required_fields['StandardizedEPA']) - set(nei.columns)))])
     #nei = nei.fillna('')
