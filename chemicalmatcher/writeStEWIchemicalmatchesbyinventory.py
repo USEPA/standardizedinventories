@@ -26,10 +26,12 @@ for l in flowlists:
     if source_name == 'TRI':
         list_names['FlowID']= list_names['FlowID'].apply(lambda x: x.lstrip('0'))
     list_names['Source'] = source_name
+    #Drop duplicates for flowname and ids with multiple compartments
+    list_names = list_names.drop_duplicates()
+    #Add to others
     all_list_names = pd.concat([all_list_names,list_names])
-    #namelist_unique = pd.unique(namelist['FlowName'])
 
-#Drop duplicates
+#Drop duplicates from lists with same names
 all_list_names.drop_duplicates(inplace=True)
 
 #Reset index after removing flows

@@ -7,18 +7,16 @@
 
 import pandas as pd
 import stewi.globals as globals
-from stewi.globals import write_metadata,unit_convert,validate_inventory,write_validation_result,set_dir
+from stewi.globals import write_metadata,unit_convert,validate_inventory,write_validation_result,set_dir,output_dir,data_dir
 import gzip
 import shutil
 import urllib
 import numpy as np
 
 #Valid years are every other year since 2015
-report_year = '2011'
+report_year = '2015'
 
 #Get file columns widths
-output_dir = globals.output_dir
-data_dir = globals.data_dir
 linewidthsdf = pd.read_csv(data_dir + 'RCRA_FlatFile_LineComponents.csv')
 BRwidths = linewidthsdf['Size']
 BRnames = linewidthsdf['Data Element Name']
@@ -75,16 +73,20 @@ for chunk in pd.read_fwf(RCRAInfoBRtextfile,widths=BRwidths,header=None,names=BR
     BR = pd.concat([BR,chunk])
 
 #Pickle as a backup
-BR.to_pickle('BR_'+report_year+'.pk')
+#BR.to_pickle('work/BR_'+report_year+'.pk')
 #Read in to start from a pickle
-#BR = pd.read_pickle('BR_2015.pk')
+#BR = pd.read_pickle('work/BR_'+report_year+'.pk')
 len(BR)
 #2015:2053108
+#2013:1581899
+#2011: 1590067
 
 #Validate correct import - number of states should be 50+ (includes PR and territories)
 states = BR['State'].unique()
 len(states)
 #2015: 57
+#2015: 56
+#2011: 56
 
 #Filtering to remove double counting and non BR waste records
 #Do not double count generation from sources that receive it only
@@ -95,15 +97,21 @@ len(states)
 BR = BR[BR['Source Code'] != 'G61']
 len(BR)
 #2015:1959883
+#2013:1492245
+#2011:1496275
 
 #Only include wastes that are included in the National Biennial Report
 BR = BR[BR['Generator ID Included in NBR'] == 'Y']
 len(BR)
 #2015:1759711
+#2013:1283457
+#2011:1284796
 
 BR = BR[BR['Generator Waste Stream Included in NBR'] == 'Y']
 len(BR)
 #2015:288980
+#2013:256978
+#2011:209342
 
 #Remove imported wastes, source codes G63-G75
 ImportSourceCodes = pd.read_csv(data_dir + 'RCRAImportSourceCodes.txt', header=None)
@@ -119,6 +127,8 @@ for item in SourceCodesPresent:
 BR = BR[BR['Source Code'].isin(SourceCodestoKeep)]
 len(BR)
 #2015:286813
+#2013:256844
+#2011:209306
 
 #Reassign the NAICS to a string
 BR['NAICS'] = BR['Primary NAICS'].astype('str')
@@ -134,7 +144,8 @@ BR['ReliabilityScore'] = float(rcrainfo_reliability_table['DQI Reliability Score
 #Create a new field to put converted amount in
 BR['Amount_kg'] = 0.0
 #Convert amounts from tons. Note this could be replaced with a conversion utility
-BR['Amount_kg'] = 907.18474*BR['Generation Tons']
+from stewi.globals import USton_kg
+BR['Amount_kg'] = USton_kg*BR['Generation Tons']
 
 ##Read in waste descriptions
 linewidthsdf = pd.read_csv(data_dir + 'RCRAInfo_LU_WasteCode_LineComponents.csv')
@@ -205,9 +216,9 @@ BR.rename(columns={'Handler ID':'FacilityID'}, inplace=True)
 BR.rename(columns={'Amount_kg':'FlowAmount'}, inplace=True)
 
 #Prepare flows file
-flows = BR[['FlowName','FlowID','Waste Code Type','FlowNameSource']]
+flows = BR[['FlowName','FlowID','FlowNameSource']]
 #Drop duplicates
-flows.drop_duplicates(inplace=True)
+flows = flows.drop_duplicates()
 flows['Compartment']='Waste'
 flows['Unit']='kg'
 #Sort them by the flow names
@@ -219,9 +230,6 @@ flows.to_csv(output_dir + 'flow/RCRAInfo_' + report_year + '.csv',index=False)
 facilities = BR[['FacilityID', 'Handler Name','Location Street Number',
        'Location Street 1', 'Location Street 2', 'Location City',
        'Location State', 'Location Zip', 'County Name','NAICS']]
-
-
-
 #Drop duplicates
 facilities.drop_duplicates(inplace=True)
 
@@ -241,7 +249,7 @@ facilities.to_csv(output_dir + 'facility/RCRAInfo_' + report_year + '.csv',index
 
 #Prepare flow by facility
 
-flowbyfacility = BR[['FacilityID','ReliabilityScore','FlowAmount','FlowName']]
+flowbyfacility = BR.groupby(['FacilityID','ReliabilityScore','FlowName'])['FlowAmount'].sum().reset_index()
 
 ##VALIDATION
 BR_national_total = pd.read_csv(data_dir + 'RCRAInfo_' + report_year + '_NationalTotals.csv', header=0, dtype={"FlowAmount":np.float})
