@@ -24,6 +24,7 @@ inventory_metadata = {
 
 inventory_single_compartments = {"NEI":"air","RCRAInfo":"waste"}
 
+
 def url_is_alive(url):
     """
     Checks that a given URL is reachable.
@@ -37,6 +38,8 @@ def url_is_alive(url):
         urllib.request.urlopen(request)
         return True
     except urllib.request.HTTPError:
+        return False
+    except urllib.error.URLError:
         return False
 
 
