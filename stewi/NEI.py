@@ -19,7 +19,7 @@ def read_data(source,file):
     #tmp = pd.Series(list(nei_required_fields[source]), index=list(nei_required_fields['StandardizedEPA']))
     file_result = pd.DataFrame(columns=list(nei_required_fields['StandardizedEPA']))
     # read nei file by chunks
-    for file_chunk in pd.read_table(external_dir + 'data' + file,sep=',',usecols=list(set(nei_required_fields[source])-set(['Null'])),chunksize=100000,engine='python'):
+    for file_chunk in pd.read_table(external_dir + file,sep=',',usecols=list(set(nei_required_fields[source])-set(['Null'])),chunksize=100000,engine='python'):
         # change column names to Standardized EPA names
         file_chunk = file_chunk.rename(columns=pd.Series(list(nei_required_fields['StandardizedEPA']),index=list(nei_required_fields[source])).to_dict())
         # adjust column order
@@ -113,7 +113,7 @@ nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+report_year+'.csv',in
 len(nei_flowbyfacility)
 #2016: 841735
 #2014: 2057249
-#2011: 847136
+#2011: 1840866
 
 ##Flows output
 #nei_flows = pd.DataFrame(pd.unique(nei_facility['FlowName','FlowID']),columns=['FlowName','FlowID'])
@@ -126,7 +126,7 @@ nei_flows.to_csv(output_dir+'flow/'+'NEI_'+report_year+'.csv',index=False)
 len(nei_flows)
 #2016: 274
 #2014: 279
-#2011: 273
+#2011: 277
 
 ##Facility output
 facility = nei_point[['FacilityID', 'FacilityName', 'CompanyName', 'Address', 'City', 'State',
@@ -136,13 +136,13 @@ facility.to_csv(output_dir+'facility/'+'NEI_'+report_year+'.csv',index=False)
 len(facility)
 #2016: 48087
 #2014: 85125
-#2011: 55520
+#2011: 95565
 
 #Write metadata
 NEI_meta = inventory_metadata
 
 #Get time info from first point file
-point_1_path = external_dir + 'data' + nei_file_path['Point'][0]
+point_1_path = external_dir + nei_file_path['Point'][0]
 nei_retrieval_time = time.ctime(os.path.getctime(point_1_path))
 
 if nei_retrieval_time is not None:
