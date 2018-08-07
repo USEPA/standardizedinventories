@@ -12,7 +12,7 @@ setup(
     url="http://www.github.com/usepa/standardizedinventories",
     packages=['chemicalmatcher','facilitymatcher','stewi','stewicombo'],
     package_data={'stewi': ["data/*.*","output/*.*"],
-                  'chemicalmatcher': ["data/*.*", "output/*.*"]
+                  'chemicalmatcher': ["data/*.*", "output/*.*"],
                   'facilitymatcher': ["data/*.*", "output/*.*"]},
     install_requires=['numpy', 'pandas', 'requests'],
     long_description=open('README.md').read(),
