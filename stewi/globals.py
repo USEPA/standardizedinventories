@@ -261,6 +261,7 @@ USton_kg = 907.18474
 lb_kg = 0.4535924
 MMBtu_MJ = 1055.056
 MWh_MJ = 3600
+g_kg = 0.001
 
 # Writes the metadata dictionary to a JSON file
 def write_metadata(inventoryname, report_year, metadata_dict, datatype="inventory"):
