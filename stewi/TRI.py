@@ -10,11 +10,9 @@ import numpy as np
 import time
 import os.path
 from stewi.globals import unit_convert,set_dir,output_dir,data_dir,reliability_table,inventory_metadata,\
-    validate_inventory,write_validation_result,write_metadata,url_is_alive,get_relpath
+    validate_inventory,write_validation_result,write_metadata,url_is_alive,get_relpath,lb_kg,g_kg
 
 import logging
-log = logging.getLogger(__name__)
-log = log.setLevel(logging.INFO)
 
 # Set some metadata
 TRIyear = '2016'
@@ -108,11 +106,14 @@ def import_TRI_by_release_type(d):
     for k, v in d.items():
         #create a data type dictionary
         dtype_dict = {'TRIFID':"str", 'CHEMICAL NAME':"str", 'CAS NUMBER':"str",'UNIT OF MEASURE':"str"}
+        #The amount column will have the index of 4 - set to float
         dtype_dict[v[4]] = "float"
-        if len(v) > 4:
-            dtype_dict[v[4]] = "str"
+        #If a basis of estimate field is present, set its type to string
+        if len(v) > 5:
+            dtype_dict[v[5]] = "str"
         #log.info('Importing '+k+' releases')
-        tri_part = pd.read_csv(tri_csv, sep='\t', header=0, usecols=v, dtype=dtype_dict, error_bad_lines=False,na_values=['NO'])
+        tri_part = pd.read_csv(tri_csv, sep='\t', header=0, usecols=v, dtype=dtype_dict,na_values=['NO'])
+        #If errors are produced on import, can add param above error_bad_lines=False
         if k.startswith('offsite'):
             tri_part['Basis of Estimate'] = 'NA'
         tri_part['ReleaseType'] = k
@@ -149,8 +150,9 @@ def strip_coln_white_space(df, coln):
 
 tri = strip_coln_white_space(tri, 'Basis of Estimate')
 
-#Convert to float
-tri['FlowAmount'] = pd.to_numeric(tri['FlowAmount'], errors='coerce')
+#Convert to float if there are errors - be careful with this line
+if tri['FlowAmount'].values.dtype != 'float64':
+    tri['FlowAmount'] = pd.to_numeric(tri['FlowAmount'], errors='coerce')
 
 #Drop 0 for FlowAmount
 tri = tri[tri['FlowAmount'] != 0]
@@ -183,8 +185,8 @@ tri = pd.merge(tri, source_to_context, how='left')
 # Convert units to ref mass unit of kg
 # Create a new field to put converted amount in
 tri['Amount_kg'] = 0.0
-tri = unit_convert(tri, 'Amount_kg', 'Unit', 'Pounds', 0.4535924, 'FlowAmount')
-tri = unit_convert(tri, 'Amount_kg', 'Unit', 'Grams', 0.001, 'FlowAmount')
+tri = unit_convert(tri, 'Amount_kg', 'Unit', 'Pounds', lb_kg, 'FlowAmount')
+tri = unit_convert(tri, 'Amount_kg', 'Unit', 'Grams', g_kg, 'FlowAmount')
 # drop old amount and units
 tri.drop('FlowAmount',axis=1,inplace=True)
 tri.drop('Unit',axis=1,inplace=True)
@@ -194,8 +196,8 @@ tri.rename(columns={'Amount_kg':'FlowAmount'},inplace=True)
 tri.rename(columns={'DQI Reliability Score':'ReliabilityScore'},inplace=True)
 
 #Store totals by releasetype
-tri_totals_by_releasetype = tri.groupby('ReleaseType')['FlowAmount'].sum()
-tri_totals_by_releasetype.to_csv('tri_totals_by_releasetype_'+TRIyear+'.csv')
+#tri_totals_by_releasetype = tri.groupby('ReleaseType')['FlowAmount'].sum()
+#tri_totals_by_releasetype.to_csv('tri_totals_by_releasetype_'+TRIyear+'.csv')
 
 
 #Drop release type
