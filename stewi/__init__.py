@@ -45,8 +45,7 @@ def seeAvailableInventoriesandYears(format='flowbyfacility'):
         print(s)
 
 #Only functions for flowbyfacility at this time
-def getInventory(inventory_acronym, year, format='flowbyfacility', include_optional_fields=True,
-                 filter_for_LCI=False, US_States_Only=False):
+def getInventory(inventory_acronym, year, format='flowbyfacility', filter_for_LCI=False, US_States_Only=False):
     # Returns an inventory file as a data frame
     path = output_dir+formatpath[format]
     file = path+inventory_acronym+'_'+str(year)+'.csv'
@@ -67,7 +66,7 @@ def getInventory(inventory_acronym, year, format='flowbyfacility', include_optio
         elif inventory_acronym == 'GHGRP':
             filter_path += 'ghg_mapping.csv'
             filter_type = 'keep'
-        elif inventory_acronym == 'RCRAinfo': filter_type = ''
+        elif inventory_acronym == 'RCRAInfo': filter_type = ''
         elif inventory_acronym == 'eGRID': filter_type = ''
         elif inventory_acronym == 'NEI':
             filter_path += 'NEI_pollutant_omit_list.csv'
