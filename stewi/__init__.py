@@ -63,17 +63,17 @@ def getInventory(inventory_acronym, year, format='flowbyfacility', filter_for_LC
         if inventory_acronym == 'TRI':
             filter_path += 'TRI_pollutant_omit_list.csv'
             filter_type = 'drop'
+            inventory = filter_inventory(inventory, filter_path, filter_type=filter_type)
         elif inventory_acronym == 'GHGRP':
             filter_path += 'ghg_mapping.csv'
             filter_type = 'keep'
+            inventory = filter_inventory(inventory, filter_path, filter_type=filter_type)
         elif inventory_acronym == 'RCRAInfo': filter_type = ''
         elif inventory_acronym == 'eGRID': filter_type = ''
         elif inventory_acronym == 'NEI':
             filter_path += 'NEI_pollutant_omit_list.csv'
             filter_type = 'drop'
-        #if (not os.path.exists(filter_path)) or filter_path == data_dir:
-        #    print('No filter criteria file for this source in data directory')
-        else: inventory = filter_inventory(inventory, filter_path, filter_type=filter_type)
+            inventory = filter_inventory(inventory, filter_path, filter_type=filter_type)
     return inventory
 
 
