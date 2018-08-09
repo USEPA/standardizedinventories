@@ -19,8 +19,7 @@ COMPARTMENT_COL = "Compartment"
 COL_FUNC_PAIRS = {
     "FacilityID": "join_with_underscore",
     "FlowAmount": "sum",
-    "ReliabilityScore": "reliablity_weighted_sum:FlowAmount",
-#    "eGRID_ID": "join_with_underscore"
+    "ReliabilityScore": "reliablity_weighted_sum:FlowAmount"
 }
 COL_FUNC_DEFAULT = "get_first_item"
 
