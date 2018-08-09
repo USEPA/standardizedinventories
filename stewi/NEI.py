@@ -8,9 +8,9 @@ import numpy as np
 import os
 import time
 
-report_year = '2014'
+report_year = '2016'
 
-external_dir = set_dir(data_dir + '../../../')
+external_dir = set_dir('../NEI/')
 
 nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields.csv',sep=',').fillna('Null')
 nei_file_path = pd.read_table(data_dir + 'NEI_' + report_year + '_file_path.csv',sep=',').fillna('Null')
@@ -95,7 +95,7 @@ def nei_aggregate_unit_to_facility_level(nei_):
 nei_point = standardize_output('Point')
 
 #Pickle it
-nei_point.to_pickle('NEI_' + report_year + '.pk')
+nei_point.to_pickle('work/NEI_' + report_year + '.pk')
 
 ##FlowByUnit output
 #nei_unit = nei_point.drop(columns=['FacilityName', 'CompanyName', 'Address', 'City', 'State',
@@ -111,7 +111,7 @@ nei_point = nei_point.reset_index()
 nei_flowbyfacility = nei_aggregate_unit_to_facility_level(nei_point)
 nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+report_year+'.csv',index=False)
 len(nei_flowbyfacility)
-#2016: 841735
+#2016: 1965918
 #2014: 2057249
 #2011: 1840866
 
@@ -124,7 +124,7 @@ nei_flows['Unit']='kg'
 nei_flows = nei_flows.sort_values(by='FlowName',axis=0)
 nei_flows.to_csv(output_dir+'flow/'+'NEI_'+report_year+'.csv',index=False)
 len(nei_flows)
-#2016: 274
+#2016: 282
 #2014: 279
 #2011: 277
 
@@ -134,7 +134,7 @@ facility = nei_point[['FacilityID', 'FacilityName', 'CompanyName', 'Address', 'C
 facility = facility.drop_duplicates()
 facility.to_csv(output_dir+'facility/'+'NEI_'+report_year+'.csv',index=False)
 len(facility)
-#2016: 48087
+#2016: 85802
 #2014: 85125
 #2011: 95565
 
