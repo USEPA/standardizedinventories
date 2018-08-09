@@ -90,8 +90,13 @@ def aggregate_and_remove_overlap(df):
             df_dups_filtered = df_dups[LOOKUP_FIELDS]
             df = df_dups[df_dups_filtered.duplicated(keep=keep).apply(lambda x: not x)]
 
-    # Duplicates found
-    # print(df)
+    # 3
+    # if any row has FRS_ID or SRS_ID as NaN, extract them and add to the output
+    rows_with_nans_srs_frs = df[df.loc[:, "FRS_ID"].isnull() | df.loc[:, "SRS_ID"].isnull()]
+    # print(rows_with_nans_srs_frs)
+
+    # remaining rows
+    df = df[~(df.loc[:, "FRS_ID"].isnull() | df.loc[:, "SRS_ID"].isnull())]
 
     #print("Grouping duplicates by LOOKUP_FIELDS")
     grouped = df.groupby(LOOKUP_FIELDS)
@@ -131,15 +136,8 @@ def aggregate_and_remove_overlap(df):
 
     df = pd.concat(to_be_concat)
 
-    #
-    # print(df)
-    # print("Writing to output")
-    # if os.path.splitext(output_csvfilepath)[-1].lower() == ".csv":
-    #     df.to_csv(output_csvfilepath, header=df.columns, index=False, mode='w')
-    # elif os.path.splitext(output_csvfilepath)[-1].lower() == ".xlsx":
-    #     writer = pd.ExcelWriter(output_csvfilepath)
-    #     df.to_excel(writer, columns=df.columns, index=False)
-    #     writer.save()
+    print("Adding any rows with NaN FRS_ID or SRS_ID")
+    df = df.append(rows_with_nans_srs_frs, ignore_index=True)
 
     print("Overlap removed.")
     return df
