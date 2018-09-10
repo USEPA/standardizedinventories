@@ -11,83 +11,70 @@ columns_to_keep = ['FacilityID', 'FlowAmount', 'FlowName','Compartment','Unit','
 
 #For testing
 #inventory_dict = {"TRI":"2014","NEI":"2014","RCRAInfo":"2015"}
-#This function has not been updated
-# def combineFullInventories(inventory_dict):
-#     inventories = pd.DataFrame()
-#     for k in inventory_dict.keys():
-#         inventory = stewi.getInventory(k,inventory_dict[k],include_optional_fields=True)
-#         inventory["Source"] = k
-#         inventory["Year"] = inventory_dict[k]
-#         if 'Compartment' not in inventory.columns:
-#             inventory["Compartment"] = compartments[k]
-#         inventory = inventory[columns_to_keep]
-#         inventories = pd.concat([inventories,inventory])
-#
-#     #Bring in facility matches
-#     #get only those inventorytoFRS_pgm correspondence that are needed
-#     inventory_dict_keylist = list(inventory_dict.keys())
-#     facilitymatches = facilitymatcher.get_matches_for_inventories(inventory_dict_keylist)
-#
-#     facilitymatches.rename(columns={"REGISTRY_ID":"FRS_ID"},inplace=True)
-#     inventories = pd.merge(inventories,facilitymatches,left_on=(['FacilityID','Source']),right_on=(['PGM_SYS_ID','PGM_SYS_ACRNM']),how='left')
-#     inventories.drop(columns=['PGM_SYS_ID','PGM_SYS_ACRNM'],inplace=True)
-#
-#     #Bring in chemical matches
-#     chemicalmatches = chemicalmatcher.get_matches_for_StEWI()
-#     inventories = pd.merge(inventories,chemicalmatches,on=(['FlowName','Source']),how='left')
-#     return(inventories)
-
-def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict, filter_for_LCI=True,remove_overlap=True ):
-    #Bring in facility matches
-    #get only those inventorytoFRS_pgm correspondence that are needed
-    inventory_acronyms = list(inventory_dict.keys())
-    #facilitymatches = facilitymatcher.get_table_of_matches_from_inventory_to_inventories_of_interest(base_inventory,inventory_dict)
-    facilitymatches = facilitymatcher.get_matches_for_inventories(inventory_acronyms)
-    #facilitymatches.rename(columns={"REGISTRY_ID":"FRS_ID"},inplace=True)
-
-    #Get FRS ids for the base inventory
-    base_inventory_FRS = facilitymatches[facilitymatches['Source']==base_inventory]
-    base_inventory_FRS_list = list(pd.unique(base_inventory_FRS['FRS_ID']))
+def getInventoriesforFacilityMatches(inventory_dict,facilitymatches,filter_for_LCI,base_inventory_FRS=None):
 
     inventories = pd.DataFrame()
     for k in inventory_dict.keys():
-        inventory = stewi.getInventory(k,inventory_dict[k],filter_for_LCI=filter_for_LCI)
+        inventory = stewi.getInventory(k,inventory_dict[k],'flowbyfacility',filter_for_LCI)
         #Get facilities from that matching table to filter this with
         inventory_facilitymatches = facilitymatches[facilitymatches['Source'] == k]
-        inventory_facilitylist = list(inventory_facilitymatches['FacilityID'])
-        #Filter inventory by facility list
-        #inventory = inventory[inventory['FacilityID'].isin(inventory_facilitylist)]
         inventory["Source"] = k
 
-        #Bring in facility matches
         # Merge inventories based on facility matches
         inventory = pd.merge(inventory, inventory_facilitymatches, on=['FacilityID', 'Source'], how='left')
 
         # Filter out inventories based on FRS_IDs present in base inventory matches
-        if k is not base_inventory:
-            inventory = inventory[inventory['FRS_ID'].isin(base_inventory_FRS_list)]
+        if base_inventory_FRS is not None:
+            base_inventory_FRS_list = list(pd.unique(base_inventory_FRS['FRS_ID']))
+            base_inventory = pd.unique(base_inventory_FRS['Source'])
+            if k is not base_inventory:
+                inventory = inventory[inventory['FRS_ID'].isin(base_inventory_FRS_list)]
 
         #Add metadata
         inventory["Year"] = inventory_dict[k]
         inventory = inventory[columns_to_keep]
         inventories = pd.concat([inventories,inventory])
 
-
     #drop duplicates - not sure why there are duplicates
     inventories = inventories.drop_duplicates()
+    return inventories
 
-    #Bring in chemical matches
-    chemicalmatches = chemicalmatcher.get_matches_for_StEWI()
-    chemicalmatches = chemicalmatches.drop_duplicates()
-    inventories = pd.merge(inventories,chemicalmatches,on=(['FlowName','Source']),how='left')
-    inventories = inventories.drop(columns=['FlowID'])
+def combineFullInventories(inventory_dict,filter_for_LCI=True,remove_overlap=True):
+    #Bring in facility matches
+    #get only those inventorytoFRS_pgm correspondence that are needed
+    inventory_acronyms = list(inventory_dict.keys())
+    #facilitymatches = facilitymatcher.get_table_of_matches_from_inventory_to_inventories_of_interest(base_inventory,inventory_dict)
+    facilitymatches = facilitymatcher.get_matches_for_inventories(inventory_acronyms)
+    inventories = getInventoriesforFacilityMatches(inventory_dict,facilitymatches,filter_for_LCI)
+    inventories = addChemicalMatches(inventories)
+
+    #Aggregate and remove overlap if requested
+    if remove_overlap:
+        inventories = aggregate_and_remove_overlap(inventories)
+        #For combined records, preserve record of that in 'FacilityIDs_Combined'
+        inventories['FacilityIDs_Combined'] = inventories['FacilityID']
+        #Otherwise take the first ID as the facility ID
+        inventories['FacilityID'] = inventories['FacilityID'].apply(lambda x: get_id_before_underscore(x))
+
+    return inventories
+
+
+def combineInventoriesforFacilitiesinOneInventory(base_inventory, inventory_dict, filter_for_LCI=True,remove_overlap=True):
+    #Bring in facility matches
+    #get only those inventorytoFRS_pgm correspondence that are needed
+    inventory_acronyms = list(inventory_dict.keys())
+    #facilitymatches = facilitymatcher.get_table_of_matches_from_inventory_to_inventories_of_interest(base_inventory,inventory_dict)
+    facilitymatches = facilitymatcher.get_matches_for_inventories(inventory_acronyms)
+    base_inventory_FRS = facilitymatches[facilitymatches['Source'] == base_inventory]
+
+    inventories = getInventoriesforFacilityMatches(inventory_dict,facilitymatches,filter_for_LCI, base_inventory_FRS)
+    inventories = addChemicalMatches(inventories)
 
     #Aggregate and remove overlap if requested
     if remove_overlap:
         inventories = aggregate_and_remove_overlap(inventories)
 
     #Add in base program ids
-
     base_inventory_FRS = base_inventory_FRS[['FacilityID','FRS_ID']]
     #If there are more than one PGM_SYS_ID duplicates, choose only the first
     base_inventory_FRS_first = base_inventory_FRS.drop_duplicates(subset='FRS_ID',keep='first')
@@ -113,4 +100,12 @@ def pivotCombinedInventories(combinedinventory_df):
     return(combinedinventory_df_pt)
     #len(inventories_withFRSID_SRSID_pt[(inventories_withFRSID_SRSID_pt['FlowAmount']['TRI'] > 0) & (inventories_withFRSID_SRSID_pt['FlowAmount']['NEI'] > 0)])
     #inventories_withFRSID_SRSID_pt.to_csv('inventories_withFRSID_SRSID_pt.csv')
+
+def addChemicalMatches(inventories_df):
+    #Bring in chemical matches
+    chemicalmatches = chemicalmatcher.get_matches_for_StEWI()
+    chemicalmatches = chemicalmatches.drop_duplicates()
+    inventories = pd.merge(inventories_df,chemicalmatches,on=(['FlowName','Source']),how='left')
+    inventories = inventories.drop(columns=['FlowID'])
+    return inventories
 
