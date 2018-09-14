@@ -1,11 +1,11 @@
+***
+![StEWI](https://www.epa.gov/sites/production/files/2013-06/epa_seal_verysmall_trim.gif)
 # Standardized Emission and Waste Inventories (StEWI)
-Provides processed EPA emission and waste generation inventories in standard tabular formats. The standard outputs may be
- further aggregated or filtered based on given criteria, and can be combined based on common facility and flows
-  across the inventories. 
+***
+## About
+“Standardized Emission and Waste Inventories” (StEWI) Provides processed EPA emission and waste generation inventories in standard tabular formats. The standard outputs may be  further aggregated or filtered based on given criteria, and can be combined based on common facility and flows across the inventories. This software is developed using Visual Studio Professional 2017 in Windows 10.
 
-StEWI consists of a core module, `stewi`, that digests and provides the USEPA inventory data in standard formats. Two matcher modules, the `facilitymatcher` 
-and `chemicalmatcher`, provide commons IDs for facilities and flows across inventories, which is used by the `stewicombo` module
-to combine the data, and optionally remove overlaps and remove double counting of groups of chemicals based on user preferences.
+StEWI consists of a core module, `stewi`, that digests and provides the USEPA inventory data in standard formats. Two matcher modules, the `facilitymatcher` and `chemicalmatcher`, provide commons IDs for facilities and flows across inventories, which is used by the `stewicombo` module to combine the data, and optionally remove overlaps and remove double counting of groups of chemicals based on user preferences.
 
 ## USEPA Inventories Covered By Data Reporting Year (current version)
 |Source|2011|2012|2013|2014|2015|2016|
@@ -28,7 +28,6 @@ The `facilitymatcher` module produces:
 [Facility Matches](./format%20specs/FacilityMatches.md): Each row provides a common identifier for an inventory facility
 The `stewicombo` module produces:
 [Flow-By-Facility Combined](./format%20specs/FlowByFacilityCombined.md): Analagous to the flowbyfacility, with chemical and facilitymatches added 
-
 
 ## Use of the repository output
 The standard format files without any filtering are available in the module output directories in csv format (can be opened in Excel).
@@ -58,6 +57,28 @@ You can test the installation by opening up a Python console and entering
 >> import stewicombo
 
 If no error code is returned, the libraries are installed.
+
+***
+## Home
+See [Wiki/Home](https://github.com/USEPA/standardizedinventories/wiki).
+***
+## Local Installation for Programmers
+See [Wiki/Local Installation for Programmers](https://github.com/USEPA/standardizedinventories/wiki/Local-Installation-for-Programmers).
+***
+## Build & run
+See [Wiki/Build & run](https://github.com/USEPA/standardizedinventories/wiki/Build-&-Run).
+***
+## Testing
+See [Wiki/Testing](https://github.com/USEPA/standardizedinventories/wiki/Testing).
+***
+## Contributing
+See [Wiki/Contributing & Collaboration](https://github.com/USEPA/standardizedinventories/wiki/Contributing).
+***
+## License
+See [Wiki/License](https://github.com/USEPA/standardizedinventories/wiki/License).
+***
+
+https://www.epa.gov/webguide/github-guidance#open
 
 ## Disclaimer
 The United States Environmental Protection Agency (EPA) GitHub project code is provided on an "as is" basis 
