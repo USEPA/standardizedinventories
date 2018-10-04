@@ -86,5 +86,5 @@ def getInventoryFlows(inventory_acronym, year):
 def getInventoryFacilities(inventory_acronym, year):
     path = output_dir + formatpath['facility']
     file = path + inventory_acronym + '_' + str(year) + '.csv'
-    facilities = pd.read_csv(file, header=0, dtype={"FacilityID":"str"})
+    facilities = pd.read_csv(file, header=0, dtype={"FacilityID":"str","NAICS":"str"})
     return facilities
