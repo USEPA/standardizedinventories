@@ -1,56 +1,32 @@
+***
+![StEWI](https://www.epa.gov/sites/production/files/2013-06/epa_seal_verysmall_trim.gif)
 # Standardized Emission and Waste Inventories (StEWI)
-Provides processed EPA release and waste generation inventories in standard tabular formats. 
-The standard outputs may be further aggregated or filtered based on given criteria. 
+***
+## About
+“Standardized Emission and Waste Inventories” (StEWI) Provides processed EPA emission and waste generation inventories in standard tabular formats. The standard outputs may be  further aggregated or filtered based on given criteria, and can be combined based on common facility and flows across the inventories. This software is developed using Visual Studio Professional 2017 in Windows 10.
 
-THIS CODE IS STILL IN EARLY DEVELOPMENT. OUTPUT FILES HAVE NOT YET BEEN TESTED.
+StEWI consists of a core module, `stewi`, that digests and provides the USEPA inventory data in standard formats. Two matcher modules, the `facilitymatcher` and `chemicalmatcher`, provide commons IDs for facilities and flows across inventories, which is used by the `stewicombo` module to combine the data, and optionally remove overlaps and remove double counting of groups of chemicals based on user preferences.
+***
+## Home
+See [Wiki/Home](https://github.com/USEPA/standardizedinventories/wiki).
+***
+## Local Installation for Programmers
+See [Wiki/Local Installation for Programmers](https://github.com/USEPA/standardizedinventories/wiki/Local-Installation-for-Programmers).
+***
+## Build & run
+See [Wiki/Build & run](https://github.com/USEPA/standardizedinventories/wiki/Build-&-Run).
+***
+## Testing
+See [Wiki/Testing](https://github.com/USEPA/standardizedinventories/wiki/Testing).
+***
+## Contributing
+See [Wiki/Contributing & Collaboration](https://github.com/USEPA/standardizedinventories/wiki/Contributing).
+***
+## License
+See [Wiki/License](https://github.com/USEPA/standardizedinventories/wiki/License).
+***
 
-## USEPA Inventories Covered By Data Reporting Year (current version)
-|Source|2011|2012|2013|2014|2015|2016|
-|--|--|--|--|--|--|--|
-|[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program)|x|x|x|x|x|x|
-|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)|x||x||x||
-|[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)*|x|||x||x|
-|[Emissions & Generation Resource Integrated Database](https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid)||||x||x|
-
-*Only point sources included at this time from NEI
-
-## Current output formats
-[Flow-By-Facility](./format%20specs/FlowByFacility.md): Each row represents the total amount of release or waste of a single type in a given year from the given facility.
-[Flow-By-Unit](./format%20specs/FlowByUnit.md)*: Each row represents the total amount of release or waste of a single type in a given year from the given unit within a facility.Currently only for NEI. DRAFT.
-[Facility](./format%20specs/Facility.md): Each row represents a unique facility in a given inventory and given year
-[Flow](./format%20specs/Flow.md):  Each row represents a unique flow (substance or waste) in a given inventory and given year
-
-* not available for all inventories
-
-## Use of the repository output
-The standard format files without any filtering are available in the output directory in csv format (can be opened in Excel). These can be downloaded and used without knowledge of Python.
-Within github, to get all files, select 'Clone or download', and you can download all files in the repository as a .zip.
-To download an individual file, browse and click on the .csv file of interest, then click download. 
-If the file is displayed in your browser you can use your browser's > File > Save as 
-commands to save it, but make sure you use a .csv extension with no other extension added.
-
-## Installation of python module
-Use of Python permits further customization the output.
-This repository contains three libraries: `chemicalmatcher`,`stewi`, and `stewicombo`. If you have Python 3.x installed, 
-pip can be called to install the downloaded package. 
-
-If you've downloaded and unzipped the file, open the command line and type
->pip install -e `directory_of_unzipped_folder`
-
-where `directory_of_unzipped_folder` is a directory like `C:/Users/username/standardizedinventories`
-This will install the three python libraries.
-
-You can test the installation by opening up a Python console and entering
->> import stewi
-
->> import stewicombo
-
->> import chemicalmatcher
-
-If no error code is returned, the libraries are installed.
-
-`stewicombo` requires the `facilitymatcher` library, which can be retrieved from the [FacilityMatcher](http://www.github.com/useps/facilitymatcher) repository
-Place the `facilitymatcher` folder into this folder where these modules are located so that it is on the same level as `chemicalmatcher`,`stewi`, and `stewicombo` to use it.
+https://www.epa.gov/webguide/github-guidance#open
 
 ## Disclaimer
 The United States Environmental Protection Agency (EPA) GitHub project code is provided on an "as is" basis 

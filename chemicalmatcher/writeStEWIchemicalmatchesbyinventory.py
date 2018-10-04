@@ -2,9 +2,8 @@
 import pandas as pd
 import os
 
-from chemicalmatcher.globals import get_SRSInfo_for_substance_name,get_SRSInfo_for_program_list
+from chemicalmatcher.globals import output_dir,get_SRSInfo_for_substance_name,get_SRSInfo_for_program_list,add_manual_matches
 
-outputpath = 'chemicalmatcher/output/'
 stewi_flow_dir = 'stewi/output/flow/'
 
 try: flowlists = os.listdir(stewi_flow_dir)
@@ -27,10 +26,12 @@ for l in flowlists:
     if source_name == 'TRI':
         list_names['FlowID']= list_names['FlowID'].apply(lambda x: x.lstrip('0'))
     list_names['Source'] = source_name
+    #Drop duplicates for flowname and ids with multiple compartments
+    list_names = list_names.drop_duplicates()
+    #Add to others
     all_list_names = pd.concat([all_list_names,list_names])
-    #namelist_unique = pd.unique(namelist['FlowName'])
 
-#Drop duplicates
+#Drop duplicates from lists with same names
 all_list_names.drop_duplicates(inplace=True)
 
 #Reset index after removing flows
@@ -97,6 +98,14 @@ for source in sources:
 #Remove waste code and PGM_ID
 all_lists_srs_info = all_lists_srs_info.drop(columns=['PGM_ID'])
 
+#Add in manually found matches
+all_lists_srs_info = add_manual_matches(all_lists_srs_info)
+
+
 #Write to csv
-all_lists_srs_info.to_csv(outputpath+'ChemicalsByInventorywithSRS_IDS_forStEWI.csv', index=False)
+all_lists_srs_info.to_csv(output_dir+'ChemicalsByInventorywithSRS_IDS_forStEWI.csv', index=False)
 #errors_srs.to_csv('work/ErrorsSRS.csv',index=False)
+
+#Write flows missing srs_ids to file for more inspection
+flows_missing_SRS_ID = all_lists_srs_info[all_lists_srs_info['SRS_ID'].isnull()]
+flows_missing_SRS_ID.to_csv('flows_missing_SRS_ID.csv',index=False)

@@ -1,9 +1,9 @@
 ﻿Name,Type,required?
 FlowName,str,1
-Compartment,str,0
+Compartment,str,1
 FlowAmount,float,1
 FacilityID,str,1
 ReliabilityScore,float,1
-ReleaseType,str,0
+Unit,str,1
 
 

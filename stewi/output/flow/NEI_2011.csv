@@ -48,6 +48,7 @@ FlowName,FlowID,Compartment,Unit
 4-Nitrophenol,100027,air,kg
 5-Methylchrysene,3697243,air,kg
 "7,12-Dimethylbenz[a]Anthracene",57976,air,kg
+"7H-Dibenzo[c,g]carbazole",194592,air,kg
 Acenaphthene,83329,air,kg
 Acenaphthylene,208968,air,kg
 Acetaldehyde,75070,air,kg
@@ -126,7 +127,9 @@ Diazomethane,334883,air,kg
 "Dibenzo[a,e]Pyrene",192654,air,kg
 "Dibenzo[a,h]Anthracene",53703,air,kg
 "Dibenzo[a,h]Pyrene",189640,air,kg
+"Dibenzo[a,i]Pyrene",189559,air,kg
 "Dibenzo[a,j]Acridine",224420,air,kg
+"Dibenzo[a,l]Pyrene",191300,air,kg
 Dibenzofuran,132649,air,kg
 Dibutyl Phthalate,84742,air,kg
 Dichloroethyl Ether,111444,air,kg
@@ -240,6 +243,7 @@ Quinoline,91225,air,kg
 Quinone,106514,air,kg
 Rockwool (Man-Made Fibers),617,air,kg
 Selenium,7782492,air,kg
+Slagwool (Man-Made Fibers),616,air,kg
 Styrene,100425,air,kg
 Styrene Oxide,96093,air,kg
 Sulfur Dioxide,SO2,air,kg

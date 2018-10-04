@@ -157,7 +157,7 @@ flowbyfac = pd.merge(flowbyfac,flow_compartments,on='FlowName',how='left')
 flowbyfac = flowbyfac.drop(columns='OriginalName')
 
 #Write flowbyfacility file to output
-flowbyfac.to_csv(output_dir + 'eGRID_'+ eGRIDyear +'.csv', index=False)
+flowbyfac.to_csv(output_dir + 'flowbyfacility/eGRID_'+ eGRIDyear +'.csv', index=False)
 
 ##Creation of the facility file
 #Need to change column names manually
@@ -165,6 +165,7 @@ facility=egrid2[['Plant name','Plant operator name','DOE/EIA ORIS plant or facil
                  'Plant state abbreviation','eGRID subregion acronym','Plant county name',
                  'Plant latitude', 'Plant longitude','Plant primary fuel',
                  'Plant primary coal/oil/gas/ other fossil fuel category','NERC region acronym',
+                 'Balancing Authority Name','Balancing Authority Code',
                  'Plant coal generation percent (resource mix)',
                  'Plant oil generation percent (resource mix)',
                  'Plant gas generation percent (resource mix)',
