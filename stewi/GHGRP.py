@@ -10,6 +10,9 @@ from stewi.globals import download_table
 from stewi.globals import set_dir
 from stewi.globals import validate_inventory
 from stewi.globals import validation_summary
+from stewi.globals import write_validation_result
+from stewi.globals import inventory_metadata, write_metadata
+from stewi.globals import get_relpath
 import pandas as pd
 import numpy as np
 import requests
@@ -24,8 +27,13 @@ report_year = '2016'
 output_format = 'facility'
 output_dir = globals.output_dir
 data_dir = globals.data_dir
-ghgrp_data_dir = data_dir + data_source.lower() + '/'
-ghgrp_external_dir = set_dir('../../GHGRP Data Files')
+ghgrp_data_dir = set_dir(data_dir + data_source.lower() + '/')
+ghgrp_external_dir = set_dir(data_dir + '/../../../GHGRP Data Files')
+ghgrp_metadata = inventory_metadata
+time_meta = []
+filename_meta = []
+type_meta = []
+url_meta = []
 
 ghgrp_columns = import_table(ghgrp_data_dir + 'ghgrp_columns.csv')
 # Column groupings handled based on table structure, which varies by subpart
@@ -77,7 +85,11 @@ def download_chunks(table, table_count, row_start=0, report_year='', output_ext=
         print('url: ' + table_url)
         while True:
             try:
-                table_temp = import_table(table_url)
+                table_temp, temp_time = import_table(table_url, get_time=True)
+                time_meta.append(temp_time)
+                url_meta.append(table_url)
+                type_meta.append('Database')
+                filename_meta.append(get_relpath(filepath))
                 break
             except ValueError: continue
             except: break
@@ -170,14 +182,14 @@ def get_facilities(facilities_file):
     for s in facilities_dict.keys():
         facilities_df = pd.concat([facilities_df, facilities_dict[s]]).reset_index(drop=True)
     facilities_df = facilities_df[keep_columns]
-    facilities_df['Address'] = facilities_df[['Reported Address', 'Address']].fillna('').sum(axis=1)
-    facilities_df['City'] = facilities_df[['Reported City', 'City']].fillna('').sum(axis=1)
-    facilities_df['County'] = facilities_df[['Reported County', 'County']].fillna('').sum(axis=1)
-    facilities_df['Latitude'] = facilities_df[['Reported Latitude', 'Latitude']].fillna('').sum(axis=1)
-    facilities_df['Longitude'] = facilities_df[['Reported Longitude', 'Longitude']].fillna('').sum(axis=1)
-    facilities_df['State'] = facilities_df[['Reported State', 'State', 'State where Emissions Occur']].fillna('').sum(
+    facilities_df['Address'] = facilities_df[['Reported Address', 'Address']].fillna('').astype('str').sum(axis=1)
+    facilities_df['City'] = facilities_df[['Reported City', 'City']].fillna('').astype('str').sum(axis=1)
+    facilities_df['County'] = facilities_df[['Reported County', 'County']].fillna('').astype('str').sum(axis=1)
+    facilities_df['Latitude'] = facilities_df[['Reported Latitude', 'Latitude']].fillna('').astype('str').sum(axis=1)
+    facilities_df['Longitude'] = facilities_df[['Reported Longitude', 'Longitude']].fillna('').astype('str').sum(axis=1)
+    facilities_df['State'] = facilities_df[['Reported State', 'State', 'State where Emissions Occur']].fillna('').astype('str').sum(
         axis=1)
-    facilities_df['Zip Code'] = facilities_df[['Reported Zip Code', 'Zip Code']].fillna('').sum(axis=1)
+    facilities_df['Zip Code'] = facilities_df[['Reported Zip Code', 'Zip Code']].fillna('').astype('str').sum(axis=1)
     facilities_df.drop(
         ['Reported Address', 'Reported City', 'Reported County', 'Reported Latitude', 'Reported Longitude',
          'Reported State', 'Reported Zip Code', 'State where Emissions Occur', 'FRS Id', 'Industry Type (sectors)',
@@ -203,8 +215,13 @@ ghgs_file = ghgrp_external_dir + 'ghgs.csv'
 excel_subparts_url = 'https://www.epa.gov/sites/production/files/' + str(int(most_recent_year)+1) + '-09/e_o_s_cems_bb_cc_ll_rr_full_data_set_8_5_' + str(int(most_recent_year[-2:])+1) + '_final_0.xlsx'
 excel_subparts_file = ghgrp_external_dir + 'e_o_s_cems_bb_cc_ll_rr_full_data_set_8_5_' + str(int(most_recent_year[-2:])+1) + '_final_0.xlsx'
 
-required_tables = [[facilities_file, facilities_url], [subparts_file, subparts_url], [ghgs_file, ghgs_url], [excel_subparts_file, excel_subparts_url]]
-for table in required_tables: download_table(table[0], url=table[1])
+required_tables = [[facilities_file, facilities_url, 'Static File'], [subparts_file, subparts_url, 'Database'], [ghgs_file, ghgs_url, 'Database'], [excel_subparts_file, excel_subparts_url, 'Static File']]
+for table in required_tables:
+    temp_time = download_table(table[0], url=table[1], get_time=True)
+    time_meta.append(temp_time)
+    url_meta.append(table[1])
+    type_meta.append(table[2])
+    filename_meta.append(get_relpath(table[0]))
 
 facilities_df = get_facilities(facilities_file)
 
@@ -219,14 +236,23 @@ for table in [subparts, ghgs]:
 
 
 ghgrp0 = pd.DataFrame(columns=ghg_cols)
-ghgrp_tables_df = import_table(ghgrp_external_dir + 'all_ghgrp_tables_years.csv').fillna('')
+ghgrp_tables_df = import_table(ghgrp_data_dir + 'all_ghgrp_tables_years.csv').fillna('')
 year_tables = ghgrp_tables_df[ghgrp_tables_df['REPORTING_YEAR'].str.contains(report_year)]
 year_tables = year_tables[year_tables['PrimaryEmissions'] == 1].reset_index(drop=True)
 for index, row in year_tables.iterrows():
     subpart_emissions_table = row['TABLE']
     print(subpart_emissions_table)
     filepath = ghgrp_external_dir + 'tables/' + report_year + '/' + subpart_emissions_table + '.csv'
-    if os.path.exists(filepath): temp_df = import_table(filepath)
+    if os.path.exists(filepath):
+        temp_df, temp_time = import_table(filepath, get_time=True)
+        table_length = len(temp_df)
+        row_start = 0
+        while row_start < table_length:
+            time_meta.append(temp_time)
+            filename_meta.append(get_relpath(filepath))
+            type_meta.append('Database')
+            url_meta.append(generate_url(row['TABLE'],report_year=report_year,row_start=row_start, row_end=row_start + 10000, output_ext='CSV'))
+            row_start += 10000
     else:
         subpart_count = get_row_count(subpart_emissions_table, report_year=report_year)
         print('Downloading ' + subpart_emissions_table + '(rows: ' + str(subpart_count) + ')')
@@ -300,6 +326,7 @@ ghgrp = pd.concat([ghgrp1, ghgrp2, ghgrp3]).reset_index(drop=True)
 ghgrp = ghgrp.merge(facilities_df, on='FACILITY_ID', how='left')
 ghgrp = pd.merge(ghgrp, ghgrp_reliability_table, left_on='METHOD', right_on='Code', how='left')
 ghgrp = pd.merge(ghgrp, ghg_mapping, on='Flow Description', how='left')
+ghgrp = ghgrp[pd.notnull(ghgrp['FlowName'])]
 
 # Fill NAs with 5 for DQI reliability score
 ghgrp.replace('', np.nan)
@@ -312,11 +339,22 @@ ghgrp.rename(columns={'NAICS_CODE': 'NAICS'}, inplace=True)
 
 # TODO: Fix decimal format issue for NAICS, Zip, and any other integer fields
 
-co2e_df = import_table(ghgrp_data_dir + 'ghgs_co2e.csv')
+## co2e_df = import_table(ghgrp_data_dir + 'ghgs_co2e_factors.csv')
 # co2e_df['CO2e'].fillna(0, inplace=True)
-validation_table = 'PUB_FACTS_SUBP_GHG_EMISSION'
-ref_filepath = ghgrp_external_dir + 'ghgrp_reference_co2e.csv'
-if os.path.exists(ref_filepath): reference_df = import_table(ref_filepath)
+## validation_table = 'PUB_FACTS_SUBP_GHG_EMISSION'
+## ref_filepath = ghgrp_external_dir + 'ghgrp_reference_co2e.csv'
+validation_table = 'V_GHG_EMITTER_SUBPART'#
+ref_filepath = ghgrp_external_dir + data_source + '_reference' + report_year + '.csv'#
+if os.path.exists(ref_filepath):
+    reference_df, temp_time = import_table(ref_filepath, get_time=True)
+    table_length = len(reference_df)
+    row_start = 0
+    while row_start < table_length:
+        time_meta.append(temp_time)
+        filename_meta.append(get_relpath(ref_filepath))
+        type_meta.append('Database')
+        url_meta.append(generate_url(validation_table, report_year=report_year, row_start=row_start, row_end=row_start + 10000, output_ext='CSV'))
+        row_start += 10000
 else: reference_df = download_chunks(validation_table, get_row_count(validation_table), filepath=ref_filepath)
 for col in reference_df:
     exec("reference_df = reference_df.rename(columns={'" + col + "':'" + col[len(validation_table) + 1:] + "'})")
@@ -326,21 +364,23 @@ if 'unnamed' in reference_df.columns[len(reference_df.columns) - 1].lower() or r
 
 reference_df['YEAR'] = reference_df['YEAR'].astype('str')
 reference_df = reference_df[reference_df['YEAR'] == report_year]
-reference_df = reference_df.merge(ghgs[['GAS_ID', 'GAS_NAME']], how='left', on='GAS_ID')
-reference_df = reference_df.merge(co2e_df, how='left', on='GAS_ID')
-reference_df['FlowAmount'] = reference_df['CO2E_EMISSION'].astype(float) / reference_df['CO2e'].astype(float) * 1000
+reference_df = reference_df.merge(ghgs[['GAS_ID', 'GAS_NAME']], how='left', on='GAS_NAME')
+## reference_df = reference_df.merge(co2e_df, how='left', on='GAS_NAME')
+## reference_df['FlowAmount'] = reference_df['CO2E_EMISSION'].astype(float) / reference_df['CO2e'].astype(float) * 1000
+reference_df['FlowAmount'] = reference_df['GHG_QUANTITY'].astype(float) * 1000#
 reference_df = reference_df[['FlowAmount', 'GAS_ID', 'GAS_NAME', 'FACILITY_ID']]
 reference_df.rename(columns={'FACILITY_ID': 'FacilityID'}, inplace=True)
 reference_df.rename(columns={'GAS_ID': 'FlowID'}, inplace=True)
 reference_df.rename(columns={'GAS_NAME': 'FlowName'}, inplace=True)
 reference_df.reset_index(drop=True, inplace=True)
-reference_df.to_csv(ghgrp_external_dir + '_' + report_year + 'GHGRP_totals_from_CO2e.csv', index=False)
+##reference_df.to_csv(ghgrp_external_dir + '_' + report_year + '_GHGRP_totals_from_CO2e.csv', index=False)reference_df.to_csv(ghgrp_external_dir + '_' + report_year + '_GHGRP_totals_from_CO2e.csv', index=False)
+reference_df.to_csv(ghgrp_external_dir + report_year + '_GHGRP_NationalTotals.csv', index=False)
 
 # TODO: Figure out index issue with validation
-validation_df = validate_inventory(ghgrp, reference_df)
-validation_sum = validation_summary(validation_df)
-validation_df.to_csv(ghgrp_external_dir + 'GHGRP_val_' + report_year + '.csv', index=False)
-validation_sum.to_csv(ghgrp_external_dir + 'GHGRP_val_summary_' + report_year + '.csv', index=False)
+# validation_df = validate_inventory(ghgrp, reference_df)
+# validation_sum = validation_summary(validation_df)
+# validation_df.to_csv(ghgrp_external_dir + 'GHGRP_val_' + report_year + '.csv', index=False)
+# validation_sum.to_csv(ghgrp_external_dir + 'GHGRP_val_summary_' + report_year + '.csv', index=False)
 
 # if output_format == 'facility':
 facility_columns = ['FacilityID', 'FacilityName', 'Address', 'City', 'State', 'Zip', 'Latitude', 'Longitude', 'County', 'NAICS']
@@ -355,42 +395,12 @@ ghgrp_flow.to_csv(output_dir + 'flow/GHGRP_' + report_year + '.csv', index=False
 # elif output_format == 'flowbyfacility':
 fbf_columns = ['FlowName', 'FlowAmount', 'FacilityID', 'ReliabilityScore']
 ghgrp_fbf = ghgrp[fbf_columns].drop_duplicates()
-ghgrp_fbf.to_csv(output_dir + 'GHGRP_' + report_year + '.csv', index=False)
+ghgrp_fbf.to_csv(output_dir + 'flowbyfacility/GHGRP_' + report_year + '.csv', index=False)
 
-
-# Validation of results using CO2E values for comparison
-ref_totals_path = data_dir + data_source + '_' + report_year + '_NationalTotals_from_CO2e.csv'
-if os.path.exists(ref_totals_path): reference_df = import_table(ref_totals_path)
-else:
-    validation_table = 'PUB_FACTS_SUBP_GHG_EMISSION'
-    ref_filepath = ghgrp_external_dir + validation_table + '.csv'
-    if os.path.exists(ref_filepath): reference_df = import_table(ref_filepath)
-    else: reference_df = download_chunks(validation_table, get_row_count(validation_table), filepath=ref_filepath)
-    for col in reference_df:# This for loop breaks when used inside a function
-        if validation_table in col:
-            exec("reference_df = reference_df.rename(columns={'" + col + "':'" + col[len(validation_table) + 1:] + "'})")
-# The conditional statement below breaks when nested
-if 'unnamed' in reference_df.columns[len(reference_df.columns) - 1].lower() or reference_df.columns[
-    len(reference_df.columns) - 1] == '':
-    reference_df.drop(reference_df.columns[len(reference_df.columns) - 1], axis=1, inplace=True)
-if not os.path.exists(ref_totals_path):
-    co2e_df = import_table(ghgrp_data_dir + 'ghgs_co2e_factors.csv')
-    # co2e_df['CO2e'].fillna(0, inplace=True)
-    reference_df['YEAR'] = reference_df['YEAR'].astype('str')
-    reference_df = reference_df[reference_df['YEAR'] == report_year]
-    reference_df = reference_df.merge(ghgs[['GAS_ID', 'GAS_NAME']], how='left', on='GAS_ID')
-    reference_df = reference_df.merge(co2e_df, how='left', on='GAS_NAME')
-    reference_df = reference_df[reference_df['CO2e'] != 0]
-    reference_df['FlowAmount'] = reference_df['CO2E_EMISSION'].astype(float) / reference_df['CO2e'].astype(float) * 1000
-    reference_df = reference_df[['FlowAmount', 'GAS_ID', 'GAS_NAME']]
-    reference_df = reference_df.groupby(['GAS_ID', 'GAS_NAME']).sum().reset_index()
-    reference_df.rename(columns={'GAS_ID': 'FlowID'}, inplace=True)
-    reference_df.rename(columns={'GAS_NAME': 'FlowName'}, inplace=True)
-    reference_df.to_csv(ref_totals_path, index=False)
 
 validation_df = validate_inventory(ghgrp_fbf[['FlowName', 'FlowAmount']].groupby(['FlowName']).sum().reset_index(), reference_df)
 validation_sum = validation_summary(validation_df)
-write_validation_result(data_source, report_year, validation_df)# Generates "KeyError: 'the label [0] is not in the [index]'"
+#write_validation_result(data_source, report_year, validation_df)# Generates "KeyError: 'the label [0] is not in the [index]'"
 
 
 validation_df.to_csv(ghgrp_external_dir + 'GHGRP_val_' + report_year + '.csv', index=False)
@@ -402,5 +412,4 @@ ghgrp_metadata['SourceAquisitionTime'] = time_meta
 ghgrp_metadata['SourceFileName'] = filename_meta
 ghgrp_metadata['SourceType'] = type_meta
 ghgrp_metadata['SourceURL'] = url_meta
-ghgrp_metadata['SourceVersion'] = version_meta
-write_metadata('GHGRP', report_year, ghgrp_metadata)
+write_metadata(data_source, report_year, ghgrp_metadata)
