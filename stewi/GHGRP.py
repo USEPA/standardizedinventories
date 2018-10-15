@@ -376,12 +376,6 @@ reference_df.reset_index(drop=True, inplace=True)
 ##reference_df.to_csv(ghgrp_external_dir + '_' + report_year + '_GHGRP_totals_from_CO2e.csv', index=False)reference_df.to_csv(ghgrp_external_dir + '_' + report_year + '_GHGRP_totals_from_CO2e.csv', index=False)
 reference_df.to_csv(ghgrp_external_dir + report_year + '_GHGRP_NationalTotals.csv', index=False)
 
-# TODO: Figure out index issue with validation
-# validation_df = validate_inventory(ghgrp, reference_df)
-# validation_sum = validation_summary(validation_df)
-# validation_df.to_csv(ghgrp_external_dir + 'GHGRP_val_' + report_year + '.csv', index=False)
-# validation_sum.to_csv(ghgrp_external_dir + 'GHGRP_val_summary_' + report_year + '.csv', index=False)
-
 # if output_format == 'facility':
 facility_columns = ['FacilityID', 'FacilityName', 'Address', 'City', 'State', 'Zip', 'Latitude', 'Longitude', 'County', 'NAICS']
 ghgrp_facility = ghgrp[facility_columns].drop_duplicates()
@@ -397,13 +391,11 @@ fbf_columns = ['FlowName', 'FlowAmount', 'FacilityID', 'ReliabilityScore']
 ghgrp_fbf = ghgrp[fbf_columns].drop_duplicates()
 ghgrp_fbf.to_csv(output_dir + 'flowbyfacility/GHGRP_' + report_year + '.csv', index=False)
 
-
-validation_df = validate_inventory(ghgrp_fbf[['FlowName', 'FlowAmount']].groupby(['FlowName']).sum().reset_index(), reference_df)
+# Perform validation on the flowbyfacility file
+validation_df = validate_inventory(ghgrp_fbf, reference_df)
+write_validation_result = globals.write_validation_result
+write_validation_result('GHGRP',report_year,validation_df)
 validation_sum = validation_summary(validation_df)
-#write_validation_result(data_source, report_year, validation_df)# Generates "KeyError: 'the label [0] is not in the [index]'"
-
-
-validation_df.to_csv(ghgrp_external_dir + 'GHGRP_val_' + report_year + '.csv', index=False)
 validation_sum.to_csv(ghgrp_external_dir + 'GHGRP_val_summary_' + report_year + '.csv', index=False)
 
 
