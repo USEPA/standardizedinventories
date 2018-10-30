@@ -18,6 +18,7 @@ Prime Mover
 NERC region acronym
 eGRID subregion acronym
 Balancing Authority Name
+Balancing Authority Code
 Plant county name
 Plant latitude
 Plant longitude

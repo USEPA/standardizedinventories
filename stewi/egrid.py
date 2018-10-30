@@ -165,6 +165,7 @@ facility=egrid2[['Plant name','Plant operator name','DOE/EIA ORIS plant or facil
                  'Plant state abbreviation','eGRID subregion acronym','Plant county name',
                  'Plant latitude', 'Plant longitude','Plant primary fuel',
                  'Plant primary coal/oil/gas/ other fossil fuel category','NERC region acronym',
+                 'Balancing Authority Name','Balancing Authority Code',
                  'Plant coal generation percent (resource mix)',
                  'Plant oil generation percent (resource mix)',
                  'Plant gas generation percent (resource mix)',
