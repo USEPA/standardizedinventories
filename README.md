@@ -1,8 +1,9 @@
 ***
+![StEWI](https://www.epa.gov/sites/production/files/2013-06/epa_seal_verysmall_trim.gif)
 # Standardized Emission and Waste Inventories (StEWI)
 ***
-## About StEWI
-Provides processed EPA emission and waste generation inventories in standard tabular formats. The standard outputs may be  further aggregated or filtered based on given criteria, and can be combined based on common facility and flows across the inventories. This software is developed using Visual Studio Professional 2017 in Windows 10.
+## About
+“Standardized Emission and Waste Inventories” (StEWI) Provides processed EPA emission and waste generation inventories in standard tabular formats. The standard outputs may be  further aggregated or filtered based on given criteria, and can be combined based on common facility and flows across the inventories. This software is developed using Visual Studio Professional 2017 in Windows 10.
 
 StEWI consists of a core module, `stewi`, that digests and provides the USEPA inventory data in standard formats. Two matcher modules, the `facilitymatcher` and `chemicalmatcher`, provide commons IDs for facilities and flows across inventories, which is used by the `stewicombo` module to combine the data, and optionally remove overlaps and remove double counting of groups of chemicals based on user preferences.
 ***
