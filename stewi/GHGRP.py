@@ -23,7 +23,7 @@ from datetime import datetime
 
 # Set reporting year to be used in API requests
 data_source = 'GHGRP'
-report_year = '2016'
+report_year = '2014'
 output_format = 'facility'
 output_dir = globals.output_dir
 data_dir = globals.data_dir
@@ -42,6 +42,7 @@ quantity_cols = list(ghgrp_columns[ghgrp_columns['ghg_quantity'] == 1]['column_n
 ch4_cols = list(ghgrp_columns[ghgrp_columns['ch4'] == 1]['column_name'])
 n2o_cols = list(ghgrp_columns[ghgrp_columns['n2o'] == 1]['column_name'])
 co2_cols = list(ghgrp_columns[ghgrp_columns['co2'] == 1]['column_name'])
+subpart_c_cols = list(ghgrp_columns[ghgrp_columns['subpart_c'] == 1]['column_name'])
 co2e_cols = list(ghgrp_columns[ghgrp_columns['co2e_quantity'] == 1]['column_name'])
 method_cols = list(ghgrp_columns[ghgrp_columns['method'] == 1]['column_name'])
 base_cols = list(ghgrp_columns[ghgrp_columns['base_columns'] == 1]['column_name'])
@@ -270,9 +271,22 @@ for index, row in year_tables.iterrows():
     temp_df['SUBPART_NAME'] = row['SUBPART']
     ghgrp0 = pd.concat([ghgrp0, temp_df])
 
+ghgrp0['c_co2'] = ghgrp0['TIER1_CO2_COMBUSTION_EMISSIONS'] + ghgrp0['TIER2_CO2_COMBUSTION_EMISSIONS'] + \
+                  ghgrp0['TIER3_CO2_COMBUSTION_EMISSIONS'] + ghgrp0['TIER4_NONBIOGENIC_CO2EMISSION'] - \
+                  ghgrp0['TIER4_CH4_EMISSIONS_CO2E'] - ghgrp0['TIER4_N2O_EMISSIONS_CO2E']
+ghgrp0['c_ch4'] = ghgrp0['TIER1_CH4_COMBUSTION_EMISSIONS'] + ghgrp0['TIER2_CH4_COMBUSTION_EMISSIONS'] + \
+                 ghgrp0['TIER3_CH4_COMBUSTION_EMISSIONS'] + ghgrp0['T4CH4COMBUSTIONEMISSIONS'] + \
+                 (ghgrp0['PART_75_CH4_EMISSIONS_CO2E']/25)
+ghgrp0['c_n2o'] = ghgrp0['TIER1_N2O_COMBUSTION_EMISSIONS'] + ghgrp0['TIER2_N2O_COMBUSTION_EMISSIONS'] + \
+                  ghgrp0['TIER3_N2O_COMBUSTION_EMISSIONS'] + ghgrp0['T4N2OCOMBUSTIONEMISSIONS'] + \
+                  (ghgrp0['PART_75_N2O_EMISSIONS_CO2E']/298)
+ghgrp0.drop(subpart_c_cols, axis=1, inplace=True)
+# quantity_cols += ['c_co2', 'c_ch4', 'c_n2o']
+# ghg_cols += ['c_co2', 'c_ch4', 'c_n2o']
+
 # Combine equivalent columns from different tables into one, delete old columns
 ghgrp1 = ghgrp0[ghg_cols]
-ghgrp1['FlowAmount'] = ghgrp1[quantity_cols].fillna(0).sum(axis=1)
+ghgrp1['FlowAmount'] = ghgrp1[quantity_cols].astype('float').fillna(0).sum(axis=1)
 ghgrp1['Flow Description'] = ghgrp1[name_cols].fillna('').sum(axis=1)
 ghgrp1['METHOD'] = ghgrp1[method_cols].fillna('').sum(axis=1)
 
@@ -281,7 +295,7 @@ ghgrp1.drop(group_cols, axis=1, inplace=True)
 ghgrp1 = ghgrp1[ghgrp1['Flow Description'] != '']
 
 ghgrp2 = pd.DataFrame()
-group_list = [ch4_cols, n2o_cols, co2_cols]#, co2e_cols]
+group_list = [ch4_cols, n2o_cols, co2_cols, ['c_co2', 'c_ch4', 'c_n2o']]#, co2e_cols]
 for group in group_list:
     for i in range(0, len(group)):
         ghg_cols2 = base_cols + [group[i]] + method_cols
@@ -292,6 +306,7 @@ for group in group_list:
         temp_df.drop(method_cols, axis=1, inplace=True)
         temp_df.rename(columns={group[i]: 'FlowAmount'}, inplace=True)
         ghgrp2 = pd.concat([ghgrp2, temp_df])
+ghgrp2['FlowAmount'] = pd.to_numeric(ghgrp2['FlowAmount'], errors='coerce')
 
 ghgrp3 = pd.DataFrame()
 excel_dict = {'Adipic Acid': 'E', 'HCFC-22 Prod. HFC-23 Dest.': 'O', 'Lime': 'S', 'Silicon Carbide': 'BB',
@@ -308,7 +323,7 @@ for key in excel_keys:
         col_df = col_df[col_df['Year'] == int(report_year)]
         col_df['SUBPART_NAME'] = excel_dict[key]
         col_df['Flow Description'] = col
-        col_df['FlowAmount'] = col_df[col]
+        col_df['FlowAmount'] = col_df[col].astype('float')
         col_df.drop(excel_method_cols, axis=1, inplace=True)
         col_df.drop(excel_quant_cols, axis=1, inplace=True)
         ghgrp3 = pd.concat([ghgrp3, col_df])
@@ -322,17 +337,19 @@ ghgrp_reliability_table.drop('Source', axis=1, inplace=True)
 ghg_mapping = pd.read_csv(ghgrp_data_dir + 'ghg_mapping.csv', usecols=['Flow Description', 'FlowName', 'FlowID'])
 
 # Merge tables
-ghgrp = pd.concat([ghgrp1, ghgrp2, ghgrp3]).reset_index(drop=True)
+# ghgrp = pd.concat([ghgrp1, ghgrp2, ghgrp3]).reset_index(drop=True)
+ghgrp = pd.concat([ghgrp1, ghgrp2]).reset_index(drop=True)
 ghgrp = ghgrp.merge(facilities_df, on='FACILITY_ID', how='left')
 ghgrp = pd.merge(ghgrp, ghgrp_reliability_table, left_on='METHOD', right_on='Code', how='left')
 ghgrp = pd.merge(ghgrp, ghg_mapping, on='Flow Description', how='left')
 ghgrp = ghgrp[pd.notnull(ghgrp['FlowName'])]
 
 # Fill NAs with 5 for DQI reliability score
-ghgrp.replace('', np.nan)
+ghgrp.replace('', np.nan, inplace=True)
 ghgrp['DQI Reliability Score'] = ghgrp['DQI Reliability Score'].fillna(value=5)
-ghgrp['FlowAmount'] = 1000 * ghgrp['FlowAmount']
-ghgrp.drop(['METHOD', 'Flow Description', 'REPORTING_YEAR', 'Code', 'SUBPART_NAME'], axis=1, inplace=True)
+ghgrp['FlowAmount'] = 1000 * ghgrp['FlowAmount'].astype('float')
+ghgrp.drop(['METHOD', 'Flow Description', 'REPORTING_YEAR', 'Code'], axis=1, inplace=True)
+# ghgrp.drop(['METHOD', 'Flow Description', 'REPORTING_YEAR', 'Code', 'SUBPART_NAME'], axis=1, inplace=True)
 ghgrp.rename(columns={'FACILITY_ID': 'FacilityID'}, inplace=True)
 ghgrp.rename(columns={'DQI Reliability Score': 'ReliabilityScore'}, inplace=True)
 ghgrp.rename(columns={'NAICS_CODE': 'NAICS'}, inplace=True)
@@ -396,7 +413,7 @@ validation_df = validate_inventory(ghgrp_fbf, reference_df)
 write_validation_result = globals.write_validation_result
 write_validation_result('GHGRP',report_year,validation_df)
 validation_sum = validation_summary(validation_df)
-validation_sum.to_csv(ghgrp_external_dir + 'GHGRP_val_summary_' + report_year + '.csv', index=False)
+#write_validation_result(data_source, report_year, validation_df)# Generates "KeyError: 'the label [0] is not in the [index]'"
 
 
 # Record metadata compiled from all GHGRP files and tables
