@@ -15,7 +15,6 @@ setup(
                   'chemicalmatcher': ["data/*.*", "output/*.*"],
                   'facilitymatcher': ["data/*.*", "output/*.*"]},
     install_requires=['numpy', 'pandas', 'requests'],
-    long_description=open('README.md').read(),
     classifiers=[
         "Development Status :: Alpha",
         "Environment :: Console",
