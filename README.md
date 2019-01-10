@@ -1,12 +1,34 @@
-***
-![StEWI](https://www.epa.gov/sites/production/files/2013-06/epa_seal_verysmall_trim.gif)
 # Standardized Emission and Waste Inventories (StEWI)
-***
-## About
-“Standardized Emission and Waste Inventories” (StEWI) Provides processed EPA emission and waste generation inventories in standard tabular formats. The standard outputs may be  further aggregated or filtered based on given criteria, and can be combined based on common facility and flows across the inventories. This software is developed using Visual Studio Professional 2017 in Windows 10.
+Provides processed EPA emission and waste generation inventories in standard tabular formats. The standard outputs may be
+ further aggregated or filtered based on given criteria, and can be combined based on common facility and flows
+  across the inventories.
 
-StEWI consists of a core module, `stewi`, that digests and provides the USEPA inventory data in standard formats. Two matcher modules, the `facilitymatcher` and `chemicalmatcher`, provide commons IDs for facilities and flows across inventories, which is used by the `stewicombo` module to combine the data, and optionally remove overlaps and remove double counting of groups of chemicals based on user preferences.
-***
+StEWI consists of a core module, `stewi`, that digests and provides the USEPA inventory data in standard formats. Two matcher modules, the `facilitymatcher`
+and `chemicalmatcher`, provide commons IDs for facilities and flows across inventories, which is used by the `stewicombo` module
+to combine the data, and optionally remove overlaps and remove double counting of groups of chemicals based on user preferences.
+
+## USEPA Inventories Covered By Data Reporting Year (current version)
+|Source|2011|2012|2013|2014|2015|2016|
+|--|--|--|--|--|--|--|
+|[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program)|x|x|x|x|x|x|
+|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)|x||x||x||
+|[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)*|x|||x||x|
+|[Emissions & Generation Resource Integrated Database](https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid)||||x||x|
+
+*Only point sources included at this time from NEI
+
+## Current output formats
+The core `stewi` module produces the following output formats:
+[Flow-By-Facility](./format%20specs/FlowByFacility.md): Each row represents the total amount of release or waste of a single type in a given year from the given facility.
+[Facility](./format%20specs/Facility.md): Each row represents a unique facility in a given inventory and given year
+[Flow](./format%20specs/Flow.md):  Each row represents a unique flow (substance or waste) in a given inventory and given year
+The `chemicalmatcher` module produces:
+[Chemical Matches](./format%20specs/ChemicalMatches.md): Each row provides a common identifier for an inventory flow chemical
+The `facilitymatcher` module produces:
+[Facility Matches](./format%20specs/FacilityMatches.md): Each row provides a common identifier for an inventory facility
+The `stewicombo` module produces:
+[Flow-By-Facility Combined](./format%20specs/FlowByFacilityCombined.md): Analagous to the flowbyfacility, with chemical and facilitymatches added***
+
 ## Home
 See [Wiki/Home](https://github.com/USEPA/standardizedinventories/wiki).
 ***
