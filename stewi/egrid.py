@@ -122,7 +122,9 @@ flowbyfac = pd.melt(flowbyfac_stacked, id_vars=['FacilityID','Plant primary fuel
                     var_name='FlowName', value_name='FlowAmount')
 
 #Dropping zero emissions by changing name to NA
-flowbyfac['FlowAmount'] = flowbyfac['FlowAmount'].replace({0:None})
+#Do not drop zeroes - WI 1/16/2019
+#flowbyfac['FlowAmount'] = flowbyfac['FlowAmount'].replace({0:None})
+
 #Dropping na emissions
 flowbyfac = flowbyfac.dropna(subset=['FlowAmount'])
 flowbyfac = flowbyfac.sort_values(by = ['FacilityID'], axis=0, ascending=True, inplace=False, kind='quicksort', na_position='last')
