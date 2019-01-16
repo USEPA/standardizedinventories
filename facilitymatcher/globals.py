@@ -31,6 +31,14 @@ def filter_by_inventory_list(df,inventory_list):
     df = df[df['Source'].isin(inventory_list)]
     return df
 
+#Only can be applied after renaming the programs to inventories
+def filter_by_inventory_id_list(df,inventories_of_interest,base_inventory,id_list):
+    #Find FRS_IDs first
+    FRS_ID_list = list(df.loc[(df['Source'] == base_inventory) & (df['FacilityID'].isin(id_list)),"FRS_ID"])
+    #Now use that FRS_ID list and list of inventories of interest to get decired matches
+    df = df.loc[(df['Source'].isin(inventories_of_interest)) & (df['FRS_ID'].isin(FRS_ID_list))]
+    return df
+
 def filter_by_facility_list(df,facility_list):
     df = df[df['FRS_ID'].isin(facility_list)]
     return df
