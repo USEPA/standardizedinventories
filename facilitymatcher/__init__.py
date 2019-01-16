@@ -1,6 +1,7 @@
 import pandas as pd
 from facilitymatcher.globals import filter_by_inventory_list,\
-    get_programs_for_inventory_list,invert_inventory_to_FRS,stewi_inventories, filter_by_facility_list,output_dir
+    get_programs_for_inventory_list,invert_inventory_to_FRS,stewi_inventories, filter_by_facility_list,output_dir,\
+    filter_by_inventory_id_list
 
 def get_matches_for_inventories(inventory_list=stewi_inventories):
     facilitymatches = pd.read_csv(output_dir+'FacilityMatchList_forStEWI.csv',dtype={"FRS_ID":"str","FacilityID":"str"})
@@ -14,6 +15,20 @@ def get_FRS_NAICSInfo_for_facility_list(frs_id_list,inventories_of_interest_list
     if inventories_of_interest_list is not None:
         NAICS_of_interest = filter_by_inventory_list(NAICS_of_interest,inventories_of_interest_list)
     return NAICS_of_interest
+
+def get_matches_for_id_list(base_inventory, id_list, inventory_list=stewi_inventories):
+    """Returns facility matches given a list of inventories of interest, a base inventory and list of ids from that inventory.
+
+    :param inventory_list: list of inventories for desired matches using StEWI inventory names (e.g. ['NEI','TRI'])
+    :param inventory: str base inventory corresponding to id_list (e.g. 'NEI)
+    :param id_list: list of ids (e.g. ['661411', '677611'])
+    :return: pandas df in standard facilitymatches format
+    """
+    facilitymatches = pd.read_csv(output_dir+'FacilityMatchList_forStEWI.csv',dtype={"FRS_ID":"str","FacilityID":"str"})
+    facilitymatches = filter_by_inventory_id_list(facilitymatches,inventory_list,base_inventory,id_list)
+    return facilitymatches
+
+
 
 # def get_matches_from_inventory_to_inventories_of_interest(from_inventory_acronym,list_of_to_inventory_acronyms):
 #     inventory_acronyms = []
