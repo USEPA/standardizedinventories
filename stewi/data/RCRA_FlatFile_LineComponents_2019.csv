@@ -1,0 +1,52 @@
+No.,Pos.,Data Element Name,Type,Size,KeepforUSEEIO
+1,1,Handler ID,object,12,1
+2,13,Activity Location,object,2,
+3,15,Source Type,object,1,
+4,16,Sequence Number,int,6,
+5,22,Hazardous Waste Page Number,int,5,
+6,27,Hazardous Waste Sub-Page Number,int,5,
+7,32,BR Form,object,2,
+8,34,Management Location,object,7,
+9,41,Report Cycle,int,4,
+10,45,State,object,2,1
+11,47,State Name,object,30,
+12,77,Region,object,2,
+13,79,Handler Name,object,80,
+14,159,Location Street Number,object,12,
+15,171,Location Street 1,object,30,
+16,201,Location Street 2,object,30,
+17,231,Location City,object,25,
+18,256,Location State,object,2,
+19,258,Location Zip,object,14,
+20,272,County Code,object,5,
+21,277,County Name,object,27,
+22,304,State District,object,10,
+23,314,Generator ID Included in NBR,object,1,
+24,315,Generator Waste Stream Included in NBR,object,1,
+25,316,Manager ID Included in NBR,object,1,
+26,317,Manager Waste Stream Included in NBR,object,1,
+27,318,Shipper ID Included in NBR,object,1,
+28,319,Shipper Waste Stream Included in NBR,object,1,
+29,320,Receiver ID Included in NBR,object,1,
+30,321,Receiver Waste Stream Included in NBR,object,1,
+31,322,Waste Description,object,240,
+32,562,Primary NAICS,object,6,1
+33,568,Source Code,object,3,1
+34,571,Form Code,object,4,1
+35,575,Management Method,object,4,
+36,579,Federal Waste Flag,object,1,
+37,580,Wastewater Characteristic Indicator,object,1,
+38,581,Generation Tons,float,19,1
+39,600,Managed Tons,float,19,1
+40,619,Shipped Tons,float,19,1
+41,638,Received Tons,float,19,
+42,657,Receiver ID,object,12,
+43,669,Receiver State,object,2,
+44,671,Receiver State Name,object,30,
+45,701,Receiver Region,object,2,
+46,703,Shipper ID,object,12,
+47,715,Shipper State,object,2,
+48,717,Shipper State Name,object,30,
+49,747,Shipper Region,object,2,
+50,749,Waste Minimization Code,object,1,
+51,750,Waste Code Group,object,9,

@@ -16,7 +16,7 @@ FRS_bridge_file_path = FRSpath + FRS_bridge_file
 
 #Check to see if file exists
 if not(os.path.exists(FRS_bridge_file_path)):
-    download_extract_FRS_combined_national()
+    download_extract_FRS_combined_national(FRSpath)
 
 #Import FRS bridge which provides ID matches
 FRS_Bridges = pd.read_csv(FRS_bridge_file_path, header=0,usecols=['REGISTRY_ID','PGM_SYS_ACRNM', 'PGM_SYS_ID'],dtype={'REGISTRY_ID':"str",'PGM_SYS_ACRNM':"str",'PGM_SYS_ID':"str"})
@@ -68,4 +68,3 @@ stewi_bridges = add_manual_matches(stewi_bridges)
 
 #Write matches to bridge
 stewi_bridges.to_csv(output_dir+'FacilityMatchList_forStEWI.csv',index=False)
-

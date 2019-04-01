@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import pandas as pd
+pd.options.mode.chained_assignment = None
 import json
 import os
 

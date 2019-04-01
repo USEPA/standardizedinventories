@@ -18,11 +18,3 @@ Management Method
 Generation Tons
 Federal Waste Flag
 Waste Code Group
-Management Category
-
-
-
-
-
-
-

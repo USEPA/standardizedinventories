@@ -1,0 +1,19 @@
+web_sites:
+  TRI:
+    url: https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-calendar-years-1987-2017
+    queries:
+      TRI_year_reported: 'option'
+      TRI_zip: 'value'
+  RCRAInfo:
+    url: https://rcrapublic.epa.gov/rcra-public-export
+    queries:
+      Table_of_tables: "//table[@id='tables']"
+  FRS:
+    url: https://www3.epa.gov/enviro/html/fii/downloads/state_files/national_combined.zip
+  SRS:
+    url: https://cdxnodengn.epa.gov/cdx-srs-rest/
+    queries:
+      caslistprefix: substances/cas?casList=
+      sep: '%7c'
+  NEI:
+  EGRID:

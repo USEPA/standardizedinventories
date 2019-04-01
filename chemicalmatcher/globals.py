@@ -1,8 +1,11 @@
-import os
+import os, sys
 import pandas as pd
 import requests
 import json
 import urllib
+
+sys.path.insert(0, '/../')
+from common import config
 
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'chemicalmatcher/'
@@ -12,7 +15,8 @@ data_dir = modulepath + 'data/'
 
 #SRS web service docs at https://cdxnodengn.epa.gov/cdx-srs-rest/
 #Base URL for queries
-base =  'https://cdxnodengn.epa.gov/cdx-srs-rest/'
+_config = config()['web_sites']['SRS']
+base  = _config['url']
 
 #for querying more than 1 name at a time
 #namelistprefix = 'substances/name?nameList='
