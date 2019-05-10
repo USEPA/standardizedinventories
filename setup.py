@@ -15,7 +15,7 @@ setup(
                   'chemicalmatcher': ["data/*.*", "output/*.*"],
                   'facilitymatcher': ["data/*.*", "output/*.*"]},
     install_requires=['numpy', 'pandas', 'requests',
-                    'bs4', 'argparse', 'regex', 'selenium'],
+                    'bs4', 'argparse', 'regex', 'selenium','PyYAML'],
     classifiers=[
         "Development Status :: Alpha",
         "Environment :: Console",
