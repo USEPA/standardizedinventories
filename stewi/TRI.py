@@ -13,12 +13,12 @@ import numpy as np
 import time
 import os.path, os, io, sys
 from stewi.globals import unit_convert,set_dir,output_dir,data_dir,reliability_table,inventory_metadata,\
-    validate_inventory,write_validation_result,write_metadata,url_is_alive,get_relpath,lb_kg,g_kg
+    validate_inventory,write_validation_result,write_metadata,url_is_alive,get_relpath,lb_kg,g_kg,config
 import argparse
 import re
 
-sys.path.insert(0, '/../')
-from common import config
+#sys.path.insert(0, '/../')
+#from common import config
 
 def visit(url):
     html  = requests.get(url).text
@@ -127,6 +127,7 @@ def import_TRI_by_release_type(d, year):
         tri_part = pd.read_csv(tri_csv, sep='\t', header=0, usecols = v, dtype = dtype_dict, na_values = ['NO'],
                                 error_bad_lines = False, low_memory = False,
                                 converters = {v[4]: lambda x:  pd.to_numeric(x, errors = 'coerce')})
+
         tri_part['ReleaseType'] = k
         tri_part.columns = tri_release_output_fieldnames
         tri = pd.concat([tri,tri_part])
