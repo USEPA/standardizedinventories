@@ -1,0 +1,17 @@
+Metadata-Version: 1.1
+Name: StEWI
+Version: 0.1
+Summary: Standardized Emission And Waste Inventories (StEWI) provides processed EPA release and emissions inventories in standard tabular format
+Home-page: http://www.github.com/usepa/standardizedinventories
+Author: Wesley Ingwersen
+Author-email: ingwersen.wesley@epa.gov
+License: CC0
+Description: UNKNOWN
+Keywords: USEPA data
+Platform: UNKNOWN
+Classifier: Development Status :: Alpha
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: CC0
+Classifier: Programming Language :: Python :: 3.x
+Classifier: Topic :: Utilities
