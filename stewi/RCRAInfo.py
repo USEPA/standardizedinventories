@@ -168,7 +168,7 @@ def organizing_files_by_year(Tables, Path, Years_saved):
     for Table  in Tables:
         # Get file columns widths
         dir_RCRA_by_year = set_dir(Path + 'RCRAInfo_by_year/')
-        linewidthsdf = pd.read_csv(data_dir + 'RCRA_FlatFile_LineComponents_2019.csv')
+        linewidthsdf = pd.read_csv(data_dir + 'Flat_file.csv')
         BRwidths = linewidthsdf['Size'].astype(int)
         BRnames = linewidthsdf['Data Element Name']
         Files = [file for file in os.listdir(Path) if ((file.startswith(Table)) & file.endswith('.txt'))]
@@ -185,15 +185,15 @@ def organizing_files_by_year(Tables, Path, Years_saved):
             for Year in Years:
                 if re.match(r'\d{4}', str(int(Year))):
                     df_year = df[df['Report Cycle'] == Year]
-                    Path_directory = dir_RCRA_by_year + 'br_reporting_' + str(int(Year)) + '.csv'
+                    Path_directory = dir_RCRA_by_year + 'br_reporting_' + str(int(Year)) + '.txt'
                     condition = True
                     while condition:
                         try:
                             if os.path.exists(Path_directory):
                                 with open(Path_directory, 'a') as f:
-                                    df_year.to_csv(f, header = False, sep = ',', index = False)
+                                    df_year.to_csv(f, header = False, sep = '\t', index = False)
                             else:
-                                df_year.to_csv(Path_directory, sep = ',', index = False)
+                                df_year.to_csv(Path_directory, sep = '\t', index = False)
                             condition = False
                         except UnicodeEncodeError:
                             for column in df_year:
@@ -203,6 +203,232 @@ def organizing_files_by_year(Tables, Path, Years_saved):
                             condition = True
                 else:
                     continue
+
+
+def Generate_RCRAInfo_files_csv(report_year, RCRAInfopath, RCRAfInfoflatfileURL):
+    RCRAInfoBRtextfile = RCRAInfopath + 'RCRAInfo_by_year/br_reporting_' + report_year + '.txt'
+    #Get file columns widths
+    linewidthsdf = pd.read_csv(data_dir + 'RCRA_FlatFile_LineComponents_2019.csv')
+    BRwidths = linewidthsdf['Size']
+    #Metadata
+    BR_meta = globals.inventory_metadata
+    #Get columns to keep
+    RCRAfieldstokeepdf = pd.read_csv(data_dir + 'RCRA_required_fields.txt', header = None)
+    RCRAfieldstokeep = list(RCRAfieldstokeepdf[0])
+    #Get total row count of the file
+    with open(RCRAInfoBRtextfile, 'rb') as rcrafile:
+        row_count = sum([1 for row in rcrafile]) - 1
+    BR = pd.read_csv(RCRAInfoBRtextfile, header = 0, usecols = RCRAfieldstokeep, sep = '\t',
+                    low_memory = False, error_bad_lines = False, encoding = 'ISO-8859-1')
+    # Checking the Waste Generation Data Health
+    BR = BR[pd.to_numeric(BR['Generation Tons'], errors = 'coerce').notnull()]
+    BR['Generation Tons'] = BR['Generation Tons'].astype(float)
+    print(BR.head())
+    #Pickle as a backup
+    # BR.to_pickle('work/BR_'+ report_year + '.pk')
+    #Read in to start from a pickle
+    # BR = pd.read_pickle('work/BR_'+report_year+'.pk')
+    print(len(BR))
+    #2001:838497
+    #2003:770727
+    #2005:697706
+    #2007:765764
+    #2009:919906
+    #2011:1590067
+    #2013:1581899
+    #2015:2053108
+    #2017:1446613
+    #Validate correct import - number of states should be 50+ (includes PR and territories)
+    states = BR['State'].unique()
+    print(len(states))
+    #2001: 46
+    #2003: 46
+    #2005: 46
+    #2007: 46
+    #2009: 46
+    #2011: 56
+    #2013: 56
+    #2015: 57
+    #2017: 45
+    #Filtering to remove double counting and non BR waste records
+    #Do not double count generation from sources that receive it only
+    #Check sum of tons and number of records after each filter step
+    #See EPA 2013. Biennial Report Analytical Methodologies: Data Selection
+    #Logic and Assumptions used to Analyze the Biennial Report. Office of Resource Conservation and Recovery
+    #Drop lines with source code G61
+    BR = BR[BR['Source Code'] != 'G61']
+    print(len(BR))
+    #2001:798905
+    #2003:722958
+    #2005:650413
+    #2007:722383
+    #2009:879845
+    #2011:1496275
+    #2013:1492245
+    #2015:1959883
+    #2017:1375562
+    #Only include wastes that are included in the National Biennial Report
+    BR = BR[BR['Generator ID Included in NBR'] == 'Y']
+    print(len(BR))
+    #2001:734349
+    #2003:629802
+    #2005:482345
+    #2007:598748
+    #2009:704233
+    #2011:1284796
+    #2013:1283457
+    #2015:1759711
+    #2017:1269987
+    BR = BR[BR['Generator Waste Stream Included in NBR'] == 'Y']
+    print(len(BR))
+    #2001:172539
+    #2003:167488
+    #2005:152036
+    #2007:151729
+    #2009:142918
+    #2011:209342
+    #2013:256978
+    #2015:288980
+    #2017:202842
+    #Remove imported wastes, source codes G63-G75
+    ImportSourceCodes = pd.read_csv(data_dir + 'RCRAImportSourceCodes.txt', header=None)
+    ImportSourceCodes = ImportSourceCodes[0].tolist()
+    SourceCodesPresent = BR['Source Code'].unique().tolist()
+    SourceCodestoKeep = []
+    for item in SourceCodesPresent:
+        if item not in ImportSourceCodes:
+            #print(item)
+            SourceCodestoKeep.append(item)
+    BR = BR[BR['Source Code'].isin(SourceCodestoKeep)]
+    print(len(BR))
+    #2001:172539
+    #2003:167264
+    #2005:151638
+    #2007:151695
+    #2009:142825
+    #2011:209306
+    #2013:256844
+    #2015:286813
+    #2017:202513
+    #Reassign the NAICS to a string
+    BR['NAICS'] = BR['Primary NAICS'].astype('str')
+    BR.drop('Primary NAICS', axis=1, inplace=True)
+    #Create field for DQI Reliability Score with fixed value from CSV
+    #Currently generating a warning
+    reliability_table = globals.reliability_table
+    rcrainfo_reliability_table = reliability_table[reliability_table['Source']=='RCRAInfo']
+    rcrainfo_reliability_table.drop('Source', axis=1, inplace=True)
+    BR['ReliabilityScore'] = float(rcrainfo_reliability_table['DQI Reliability Score'])
+    #Create a new field to put converted amount in
+    BR['Amount_kg'] = 0.0
+    #Convert amounts from tons. Note this could be replaced with a conversion utility
+    BR['Amount_kg'] = USton_kg*BR['Generation Tons']
+    ##Read in waste descriptions
+    linewidthsdf = pd.read_csv(data_dir + 'RCRAInfo_LU_WasteCode_LineComponents.csv')
+    widths = linewidthsdf['Size']
+    names = linewidthsdf['Data Element Name']
+    File_lu = [file for file in os.listdir(RCRAInfopath) if 'lu_waste_code' in file.lower()][0]
+    os.listdir(RCRAInfopath)
+    wastecodesfile = RCRAInfopath + File_lu
+    WasteCodesTest = pd.read_fwf(wastecodesfile,widths=widths,header=None,names=names,nrows=10)
+    WasteCodes = pd.read_fwf(wastecodesfile,widths=widths,header=None,names=names)
+    WasteCodes = WasteCodes[['Waste Code', 'Code Type', 'Waste Code Description']]
+    #Remove rows where any fields are na description is missing
+    WasteCodes.dropna(inplace=True)
+    #Bring in form codes
+    #Replace form code with the code name
+    form_code_name_file = data_dir + 'RCRA_LU_FORM_CODE.csv'
+    form_code_table_cols_needed = ['FORM_CODE','FORM_CODE_NAME']
+    form_code_name_df = pd.read_csv(form_code_name_file,header=0,usecols=form_code_table_cols_needed)
+    #Merge waste codes with BR records
+    BR = pd.merge(BR,WasteCodes,left_on='Waste Code Group',right_on='Waste Code',how='left')
+    #Rename code type to make it clear
+    BR.rename(columns={'Code Type':'Waste Code Type'},inplace=True)
+    #Merge form codes with BR
+    BR = pd.merge(BR,form_code_name_df,left_on='Form Code',right_on='FORM_CODE',how='left')
+    #Drop duplicates from merge
+    BR.drop(columns=['FORM_CODE','Waste Code Group'], inplace=True)
+    #Set flow name to Waste Code Description
+    BR['FlowName'] = BR['Waste Code Description']
+    #BR['FlowNameSource'] = 'Waste Code Description'
+    #If a useful Waste Code Description is present, use it
+    BR['FlowName'] = BR['FlowName'].apply(waste_description_cleaner)
+    #Check unique flow names
+    pd.unique(BR['FlowName'])
+    #If there is not useful waste code, fill it with the Form Code Name
+    #Find the NAs in FlowName and then give that source of Form Code
+    BR.loc[BR['FlowName'].isnull(),'FlowNameSource'] = 'Form Code'
+    #Now for those source name rows that are blank, tell it its a waste code
+    BR.loc[BR['FlowNameSource'].isnull(),'FlowNameSource'] = 'Waste Code'
+    #Set FlowIDs to the appropriate code
+    BR.loc[BR['FlowName'].isnull(),'FlowID'] = BR['Form Code']
+    BR.loc[BR['FlowID'].isnull(),'FlowID'] = BR['Waste Code']
+    #Now finally fill names that are blank with the form code name
+    BR['FlowName'].fillna(BR['FORM_CODE_NAME'], inplace=True)
+    #Drop unneeded fields
+    BR.drop('Generation Tons', axis=1, inplace=True)
+    BR.drop('Generator ID Included in NBR', axis=1, inplace=True)
+    BR.drop('Generator Waste Stream Included in NBR', axis=1, inplace=True)
+    BR.drop('Source Code', axis=1, inplace=True)
+    BR.drop('Management Method', axis=1, inplace=True)
+    BR.drop('Waste Description', axis=1, inplace=True)
+    BR.drop('Waste Code Description', axis=1, inplace=True)
+    BR.drop('FORM_CODE_NAME', axis=1, inplace=True)
+    #Rename cols used by multiple tables
+    BR.rename(columns={'Handler ID':'FacilityID'}, inplace=True)
+    #rename new name
+    BR.rename(columns={'Amount_kg':'FlowAmount'}, inplace=True)
+    #Prepare flows file
+    flows = BR[['FlowName','FlowID','FlowNameSource']]
+    #Drop duplicates
+    flows = flows.drop_duplicates()
+    flows['Compartment']='Waste'
+    flows['Unit']='kg'
+    #Sort them by the flow names
+    flows.sort_values(by='FlowName',axis=0,inplace=True)
+    #Export them
+    flows.to_csv(output_dir + 'flow/RCRAInfo_' + report_year + '.csv',index=False)
+    #Prepare facilities file
+    facilities = BR[['FacilityID', 'Handler Name','Location Street Number',
+           'Location Street 1', 'Location Street 2', 'Location City',
+           'Location State', 'Location Zip', 'County Name','NAICS']]
+    #Drop duplicates
+    facilities.drop_duplicates(inplace=True)
+    facilities['Location Street Number'] = facilities['Location Street Number'].apply(str)
+    facilities['Location Street Number'].fillna('',inplace=True)
+    facilities['Address'] = facilities['Location Street Number'] + ' ' + facilities['Location Street 1'] + ' ' + facilities['Location Street 2']
+    facilities.drop(columns=['Location Street Number','Location Street 1','Location Street 2'],inplace=True)
+    facilities.rename(columns={'Primary NAICS':'NAICS',
+                            'Handler Name':'FacilityName',
+                            'Location City':'City',
+                            'Location State':'State',
+                            'Location Zip':'Zip',
+                            'County Name':'County'}, inplace=True)
+    facilities.to_csv(output_dir + 'facility/RCRAInfo_' + report_year + '.csv',index=False)
+    #Prepare flow by facility
+    flowbyfacility = BR.groupby(['FacilityID','ReliabilityScore','FlowName'])['FlowAmount'].sum().reset_index()
+    ##VALIDATION
+    BR_national_total = pd.read_csv(data_dir + 'RCRAInfo_' + report_year + '_NationalTotals.csv', header=0, dtype={"FlowAmount":np.float})
+    BR_national_total['FlowAmount_kg'] = 0
+    BR_national_total = unit_convert(BR_national_total, 'FlowAmount_kg', 'Unit', 'Tons', 907.18474, 'FlowAmount')
+    BR_national_total.drop('FlowAmount',axis=1,inplace=True)
+    BR_national_total.drop('Unit',axis=1,inplace=True)
+    # Rename cols to match reference format
+    BR_national_total.rename(columns={'FlowAmount_kg':'FlowAmount'},inplace=True)
+    #Validate total waste generated against national totals
+    sum_of_flowbyfacility = flowbyfacility['FlowAmount'].sum()
+    sum_of_flowbyfacility_df = pd.DataFrame({'FlowAmount':[sum_of_flowbyfacility],'FlowName':'ALL','Compartment':'waste'})
+    validation_df = validate_inventory(sum_of_flowbyfacility_df,BR_national_total,group_by='flow')
+    write_validation_result('RCRAInfo', report_year, validation_df)
+    #Export to csv
+    flowbyfacility.to_csv(output_dir + 'flowbyfacility/RCRAInfo_' + report_year + '.csv',index=False)
+    #Record metadata
+    try: retrieval_time = os.path.getctime(RCRAInfoBRtextfile)
+    except: retrieval_time = time.time()
+    BR_meta['SourceAquisitionTime'] = time.ctime(retrieval_time)
+    BR_meta['SourceFileName'] = RCRAInfoBRtextfile
+    BR_meta['SourceURL'] = RCRAfInfoflatfileURL
+    write_metadata('RCRAInfo', report_year, BR_meta)
 
 
 if __name__ == '__main__':
@@ -257,272 +483,4 @@ if __name__ == '__main__':
 
     elif args.Option == 'C':
 
-        report_year = args.Year
-        RCRAInfoBRtextfile = RCRAInfopath + 'RCRAInfo_by_year/br_reporting_' + report_year + '.txt'
-
-        #Get file columns widths
-        linewidthsdf = pd.read_csv(data_dir + 'RCRA_FlatFile_LineComponents_2019.csv')
-        BRwidths = linewidthsdf['Size']
-
-        #Metadata
-        BR_meta = globals.inventory_metadata
-
-        #Get columns to keep
-        RCRAfieldstokeepdf = pd.read_csv(data_dir + 'RCRA_required_fields.txt', header = None)
-        RCRAfieldstokeep = list(RCRAfieldstokeepdf[0])
-
-        #Get total row count of the file
-        with open(RCRAInfoBRtextfile, 'rb') as rcrafile:
-            row_count = sum([1 for row in rcrafile]) - 1
-
-        BR = pd.read_csv(RCRAInfoBRtextfile, header = 0, usecols = RCRAfieldstokeep, sep = '\t',
-                        low_memory = False, error_bad_lines = False, encoding = 'ISO-8859-1')
-        # Checking the Waste Generation Data Health
-        BR = BR[pd.to_numeric(BR['Generation Tons'], errors = 'coerce').notnull()]
-        BR['Generation Tons'] = BR['Generation Tons'].astype(float)
-        print(BR.head())
-
-        #Pickle as a backup
-        # BR.to_pickle('work/BR_'+ report_year + '.pk')
-        #Read in to start from a pickle
-        # BR = pd.read_pickle('work/BR_'+report_year+'.pk')
-        print(len(BR))
-        #2001:838497
-        #2003:770727
-        #2005:697706
-        #2007:765764
-        #2009:919906
-        #2011:1590067
-        #2013:1581899
-        #2015:2053108
-        #2017:1446613
-
-        #Validate correct import - number of states should be 50+ (includes PR and territories)
-        states = BR['State'].unique()
-        print(len(states))
-        #2001: 46
-        #2003: 46
-        #2005: 46
-        #2007: 46
-        #2009: 46
-        #2011: 56
-        #2013: 56
-        #2015: 57
-        #2017: 45
-
-        #Filtering to remove double counting and non BR waste records
-        #Do not double count generation from sources that receive it only
-        #Check sum of tons and number of records after each filter step
-        #See EPA 2013. Biennial Report Analytical Methodologies: Data Selection
-        #Logic and Assumptions used to Analyze the Biennial Report. Office of Resource Conservation and Recovery
-
-        #Drop lines with source code G61
-        BR = BR[BR['Source Code'] != 'G61']
-        print(len(BR))
-        #2001:798905
-        #2003:722958
-        #2005:650413
-        #2007:722383
-        #2009:879845
-        #2011:1496275
-        #2013:1492245
-        #2015:1959883
-        #2017:1375562
-
-        #Only include wastes that are included in the National Biennial Report
-        BR = BR[BR['Generator ID Included in NBR'] == 'Y']
-        print(len(BR))
-        #2001:734349
-        #2003:629802
-        #2005:482345
-        #2007:598748
-        #2009:704233
-        #2011:1284796
-        #2013:1283457
-        #2015:1759711
-        #2017:1269987
-
-        BR = BR[BR['Generator Waste Stream Included in NBR'] == 'Y']
-        print(len(BR))
-        #2001:172539
-        #2003:167488
-        #2005:152036
-        #2007:151729
-        #2009:142918
-        #2011:209342
-        #2013:256978
-        #2015:288980
-        #2017:202842
-
-        #Remove imported wastes, source codes G63-G75
-        ImportSourceCodes = pd.read_csv(data_dir + 'RCRAImportSourceCodes.txt', header=None)
-        ImportSourceCodes = ImportSourceCodes[0].tolist()
-        SourceCodesPresent = BR['Source Code'].unique().tolist()
-
-        SourceCodestoKeep = []
-        for item in SourceCodesPresent:
-            if item not in ImportSourceCodes:
-                #print(item)
-                SourceCodestoKeep.append(item)
-
-        BR = BR[BR['Source Code'].isin(SourceCodestoKeep)]
-        print(len(BR))
-        #2001:172539
-        #2003:167264
-        #2005:151638
-        #2007:151695
-        #2009:142825
-        #2011:209306
-        #2013:256844
-        #2015:286813
-        #2017:202513
-
-        #Reassign the NAICS to a string
-        BR['NAICS'] = BR['Primary NAICS'].astype('str')
-        BR.drop('Primary NAICS', axis=1, inplace=True)
-
-        #Create field for DQI Reliability Score with fixed value from CSV
-        #Currently generating a warning
-        reliability_table = globals.reliability_table
-        rcrainfo_reliability_table = reliability_table[reliability_table['Source']=='RCRAInfo']
-        rcrainfo_reliability_table.drop('Source', axis=1, inplace=True)
-        BR['ReliabilityScore'] = float(rcrainfo_reliability_table['DQI Reliability Score'])
-
-        #Create a new field to put converted amount in
-        BR['Amount_kg'] = 0.0
-
-        #Convert amounts from tons. Note this could be replaced with a conversion utility
-        BR['Amount_kg'] = USton_kg*BR['Generation Tons']
-
-        ##Read in waste descriptions
-        linewidthsdf = pd.read_csv(data_dir + 'RCRAInfo_LU_WasteCode_LineComponents.csv')
-        widths = linewidthsdf['Size']
-        names = linewidthsdf['Data Element Name']
-
-        File_lu = [file for file in os.listdir(RCRAInfopath) if 'lu_waste_code' in file.lower()][0]
-
-        os.listdir(RCRAInfopath)
-        wastecodesfile = RCRAInfopath + File_lu
-
-        WasteCodesTest = pd.read_fwf(wastecodesfile,widths=widths,header=None,names=names,nrows=10)
-        WasteCodes = pd.read_fwf(wastecodesfile,widths=widths,header=None,names=names)
-        WasteCodes = WasteCodes[['Waste Code', 'Code Type', 'Waste Code Description']]
-        #Remove rows where any fields are na description is missing
-        WasteCodes.dropna(inplace=True)
-
-        #Bring in form codes
-        #Replace form code with the code name
-        form_code_name_file = data_dir + 'RCRA_LU_FORM_CODE.csv'
-        form_code_table_cols_needed = ['FORM_CODE','FORM_CODE_NAME']
-        form_code_name_df = pd.read_csv(form_code_name_file,header=0,usecols=form_code_table_cols_needed)
-
-        #Merge waste codes with BR records
-        BR = pd.merge(BR,WasteCodes,left_on='Waste Code Group',right_on='Waste Code',how='left')
-        #Rename code type to make it clear
-        BR.rename(columns={'Code Type':'Waste Code Type'},inplace=True)
-        #Merge form codes with BR
-        BR = pd.merge(BR,form_code_name_df,left_on='Form Code',right_on='FORM_CODE',how='left')
-        #Drop duplicates from merge
-        BR.drop(columns=['FORM_CODE','Waste Code Group'], inplace=True)
-
-        #Set flow name to Waste Code Description
-        BR['FlowName'] = BR['Waste Code Description']
-        #BR['FlowNameSource'] = 'Waste Code Description'
-        #If a useful Waste Code Description is present, use it
-
-
-        BR['FlowName'] = BR['FlowName'].apply(waste_description_cleaner)
-        #Check unique flow names
-        pd.unique(BR['FlowName'])
-
-        #If there is not useful waste code, fill it with the Form Code Name
-        #Find the NAs in FlowName and then give that source of Form Code
-        BR.loc[BR['FlowName'].isnull(),'FlowNameSource'] = 'Form Code'
-        #Now for those source name rows that are blank, tell it its a waste code
-        BR.loc[BR['FlowNameSource'].isnull(),'FlowNameSource'] = 'Waste Code'
-
-        #Set FlowIDs to the appropriate code
-        BR.loc[BR['FlowName'].isnull(),'FlowID'] = BR['Form Code']
-        BR.loc[BR['FlowID'].isnull(),'FlowID'] = BR['Waste Code']
-
-        #Now finally fill names that are blank with the form code name
-        BR['FlowName'].fillna(BR['FORM_CODE_NAME'], inplace=True)
-
-        #Drop unneeded fields
-        BR.drop('Generation Tons', axis=1, inplace=True)
-        BR.drop('Generator ID Included in NBR', axis=1, inplace=True)
-        BR.drop('Generator Waste Stream Included in NBR', axis=1, inplace=True)
-        BR.drop('Source Code', axis=1, inplace=True)
-        BR.drop('Management Method', axis=1, inplace=True)
-        BR.drop('Waste Description', axis=1, inplace=True)
-        BR.drop('Waste Code Description', axis=1, inplace=True)
-        BR.drop('FORM_CODE_NAME', axis=1, inplace=True)
-
-        #Rename cols used by multiple tables
-        BR.rename(columns={'Handler ID':'FacilityID'}, inplace=True)
-        #rename new name
-        BR.rename(columns={'Amount_kg':'FlowAmount'}, inplace=True)
-
-        #Prepare flows file
-        flows = BR[['FlowName','FlowID','FlowNameSource']]
-        #Drop duplicates
-        flows = flows.drop_duplicates()
-        flows['Compartment']='Waste'
-        flows['Unit']='kg'
-        #Sort them by the flow names
-        flows.sort_values(by='FlowName',axis=0,inplace=True)
-        #Export them
-        flows.to_csv(output_dir + 'flow/RCRAInfo_' + report_year + '.csv',index=False)
-
-        #Prepare facilities file
-        facilities = BR[['FacilityID', 'Handler Name','Location Street Number',
-           'Location Street 1', 'Location Street 2', 'Location City',
-           'Location State', 'Location Zip', 'County Name','NAICS']]
-
-        #Drop duplicates
-        facilities.drop_duplicates(inplace=True)
-
-        facilities['Location Street Number'] = facilities['Location Street Number'].apply(str)
-        facilities['Location Street Number'].fillna('',inplace=True)
-
-        facilities['Address'] = facilities['Location Street Number'] + ' ' + facilities['Location Street 1'] + ' ' + facilities['Location Street 2']
-        facilities.drop(columns=['Location Street Number','Location Street 1','Location Street 2'],inplace=True)
-
-        facilities.rename(columns={'Primary NAICS':'NAICS',
-                            'Handler Name':'FacilityName',
-                            'Location City':'City',
-                            'Location State':'State',
-                            'Location Zip':'Zip',
-                            'County Name':'County'}, inplace=True)
-        facilities.to_csv(output_dir + 'facility/RCRAInfo_' + report_year + '.csv',index=False)
-
-        #Prepare flow by facility
-
-        flowbyfacility = BR.groupby(['FacilityID','ReliabilityScore','FlowName'])['FlowAmount'].sum().reset_index()
-
-        ##VALIDATION
-        BR_national_total = pd.read_csv(data_dir + 'RCRAInfo_' + report_year + '_NationalTotals.csv', header=0, dtype={"FlowAmount":np.float})
-        BR_national_total['FlowAmount_kg'] = 0
-        BR_national_total = unit_convert(BR_national_total, 'FlowAmount_kg', 'Unit', 'Tons', 907.18474, 'FlowAmount')
-        BR_national_total.drop('FlowAmount',axis=1,inplace=True)
-        BR_national_total.drop('Unit',axis=1,inplace=True)
-        # Rename cols to match reference format
-        BR_national_total.rename(columns={'FlowAmount_kg':'FlowAmount'},inplace=True)
-
-        #Validate total waste generated against national totals
-        sum_of_flowbyfacility = flowbyfacility['FlowAmount'].sum()
-        sum_of_flowbyfacility_df = pd.DataFrame({'FlowAmount':[sum_of_flowbyfacility],'FlowName':'ALL','Compartment':'waste'})
-        validation_df = validate_inventory(sum_of_flowbyfacility_df,BR_national_total,group_by='flow')
-        write_validation_result('RCRAInfo', report_year, validation_df)
-
-        #Export to csv
-        flowbyfacility.to_csv(output_dir + 'flowbyfacility/RCRAInfo_' + report_year + '.csv',index=False)
-
-        #Record metadata
-        try: retrieval_time = os.path.getctime(RCRAInfoBRtextfile)
-        except: retrieval_time = time.time()
-        BR_meta['SourceAquisitionTime'] = time.ctime(retrieval_time)
-        BR_meta['SourceFileName'] = RCRAInfoBRtextfile
-        BR_meta['SourceURL'] = RCRAfInfoflatfileURL
-
-        write_metadata('RCRAInfo', report_year, BR_meta)
+        Generate_RCRAInfo_files_csv(args.Year, RCRAInfopath, RCRAfInfoflatfileURL)
