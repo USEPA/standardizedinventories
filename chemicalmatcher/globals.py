@@ -22,7 +22,6 @@ base  = config()['databases']['SRS']['url']
 #for querying more than 1 name at a time
 #namelistprefix = 'substances/name?nameList='
 #excludeSynonyms = '&excludeSynonyms=True'
-sep='%7c' # This is the code for a pipe seperator required between CAS numbers
 
 #Certain characters return errors or missing results but if replaces with '_' this work
 #per advice from Tim Bazel (CGI Federal) on 6/27/2018
