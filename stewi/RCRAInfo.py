@@ -6,8 +6,7 @@
         ### BR_LU_SOURCE_CODE
         ### BR_LU_UOM
         ### BR_LU_WASTE_MINIMIZATION
-        ### BR_REPORTING
-        ### BR_REPORTING_2001
+        ### BR_REPORTING_year
         ### BR_WR_WASTE_CODE
         ### CE_CITATION
         ### CE_LU_CITATION
@@ -85,7 +84,7 @@
 
 import pandas as pd
 import stewi.globals as globals
-from stewi.globals import write_metadata,unit_convert,validate_inventory,write_validation_result,set_dir,output_dir,data_dir
+from stewi.globals import write_metadata,unit_convert,validate_inventory,write_validation_result,set_dir,output_dir,data_dir, config
 from stewi.globals import checkforFile
 import zipfile
 import shutil
@@ -93,12 +92,9 @@ import numpy as np
 import argparse
 from selenium import webdriver
 import re
-import os
+import os, platform
 import time, datetime
 from stewi.globals import USton_kg
-
-sys.path.insert(0, '/../')
-from common import config
 
 def waste_description_cleaner(x):
     if (x == 'from br conversion') or (x =='From 1989 BR data'):
@@ -128,8 +124,13 @@ def download_zip(url, dir_path, Tables, query):
             'safebrowsing_for_trusted_sources_enabled': False,
             'safebrowsing.enabled': False}
     options.add_experimental_option('prefs', prefs)
+    Operating_system = platform.system()
+    if Operating_system == 'Linux':
+        driver_name = 'chromedriver_linux'
+    elif Operating_system == 'Windows':
+        driver_name = 'chomedriver_win.exe'
     browser = webdriver.Chrome(executable_path = os.path.dirname(os.path.realpath(__file__)) + \
-                            '/chromedriver.exe', options = options)
+                            '/' + driver_name, options = options)
     browser.maximize_window()
     browser.set_page_load_timeout(180)
     browser.get(url)
@@ -174,8 +175,8 @@ def organizing_files_by_year(Tables, Path, Years_saved):
         Files.sort()
         for File in Files:
             print('Processing file {}'.format(File))
-            df = pd.read_fwf(Path + File, widths = BRwidths, \
-                     header = None, names = BRnames)
+            df = pd.read_fwf(Path + File, widths = BRwidths,\
+                        header = None, names = BRnames)
             df.sort_values(by=['Report Cycle'])
             df = df[df['Report Cycle'].apply(lambda x: str(x).isnumeric())]
             df['Report Cycle'] = df['Report Cycle'].astype(int)
@@ -184,15 +185,15 @@ def organizing_files_by_year(Tables, Path, Years_saved):
             for Year in Years:
                 if re.match(r'\d{4}', str(int(Year))):
                     df_year = df[df['Report Cycle'] == Year]
-                    Path_directory = dir_RCRA_by_year + 'br_reporting_' + str(int(Year)) + '.txt'
+                    Path_directory = dir_RCRA_by_year + 'br_reporting_' + str(int(Year)) + '.csv'
                     condition = True
                     while condition:
                         try:
                             if os.path.exists(Path_directory):
                                 with open(Path_directory, 'a') as f:
-                                    df_year.to_csv(f, header = False, sep = '\t', index = False)
+                                    df_year.to_csv(f, header = False, sep = ',', index = False)
                             else:
-                                df_year.to_csv(Path_directory, sep = '\t', index = False)
+                                df_year.to_csv(Path_directory, sep = ',', index = False)
                             condition = False
                         except UnicodeEncodeError:
                             for column in df_year:
@@ -209,7 +210,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(argument_default = argparse.SUPPRESS)
 
     parser.add_argument('Option',
-                        help = 'What do you want to do:\n[E]xtract information from RCRAInfo.\n[O]rganize files for each year.\n[C]reate RCRAInfo for StEWI',
+                        help = 'What do you want to do:\
+                        [A] Extract information from RCRAInfo.\
+                        [B] Organize files for each year.\
+                        [C] Create RCRAInfo for StEWI',
                         type = str)
 
     parser.add_argument('Year',
@@ -219,7 +223,9 @@ if __name__ == '__main__':
                         default = None)
 
     parser.add_argument('-T', '--Tables', nargs = '+',
-                        help = 'What RCRAInfo tables you want.\nCheck:\nhttps://rcrainfopreprod.epa.gov/rcrainfo-help/application/publicHelp/index.htm',
+                        help = 'What RCRAInfo tables you want.\
+                        Check:\
+                        https://rcrainfopreprod.epa.gov/rcrainfo-help/application/publicHelp/index.htm',
                         required = False)
 
     args = parser.parse_args()
@@ -228,17 +234,17 @@ if __name__ == '__main__':
     BR_meta = globals.inventory_metadata
 
     #RCRAInfo url
-    config = config()['web_sites']['RCRAInfo']
+    config = config()['databases']['RCRAInfo']
     RCRAfInfoflatfileURL = config['url']
 
     RCRAInfopath = set_dir(data_dir + "../../../RCRAInfo/")
 
-    if args.Option == 'E':
+    if args.Option == 'A':
 
         query = config['queries']['Table_of_tables']
         download_zip(RCRAfInfoflatfileURL, RCRAInfopath, args.Tables, query)
 
-    elif args.Option == 'O':
+    elif args.Option == 'B':
 
         regex =  re.compile(r'RCRAInfo_(\d{4})')
         PathWithSavingData = output_dir + 'flowbyfacility'
@@ -249,7 +255,7 @@ if __name__ == '__main__':
                 RCRAInfo_years_saved.append(int(re.search(regex, file).group(1)))
         organizing_files_by_year(args.Tables, RCRAInfopath, RCRAInfo_years_saved)
 
-    elif args.Option == 'G':
+    elif args.Option == 'C':
 
         report_year = args.Year
         RCRAInfoBRtextfile = RCRAInfopath + 'RCRAInfo_by_year/br_reporting_' + report_year + '.txt'
@@ -274,7 +280,7 @@ if __name__ == '__main__':
         # Checking the Waste Generation Data Health
         BR = BR[pd.to_numeric(BR['Generation Tons'], errors = 'coerce').notnull()]
         BR['Generation Tons'] = BR['Generation Tons'].astype(float)
-
+        print(BR.head())
 
         #Pickle as a backup
         # BR.to_pickle('work/BR_'+ report_year + '.pk')
