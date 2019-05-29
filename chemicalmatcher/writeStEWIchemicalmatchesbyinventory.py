@@ -69,10 +69,10 @@ for source in sources:
         list_srs_info = pd.DataFrame(columns=["FlowName", "SRS_ID", "SRS_CAS", "Source"])
         errors_srs = pd.DataFrame(columns=["FlowName", "Source", "ErrorType"])
         # Cycle through names one by one
-        for r in range(0, len(inventory_flows) - 1):
+        for index, row in inventory_flows.iterrows():
             chemical_srs_info = pd.DataFrame(columns=["FlowName", "SRS_ID", "SRS_CAS", "Source"])
             error_srs = pd.DataFrame(columns=["FlowName", "Source", "ErrorDescription"])
-            name = inventory_flows["FlowName"][r]
+            name = row["FlowName"]
             #id = all_list_names["FlowID"][r]
             #source = all_list_names["Source"][r]
             #if inventory_query_type[source] == 'id':

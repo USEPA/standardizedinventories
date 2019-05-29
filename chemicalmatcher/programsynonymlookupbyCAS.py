@@ -3,7 +3,7 @@
 import requests
 import pandas as pd
 import json
-from chemicalmatcher.globals import base, _config
+from chemicalmatcher.globals import base, config
 
 #datapath = 'chemicalmatcher/data/'
 #outputpath = 'chemicalmatcher/output/'
@@ -12,7 +12,7 @@ from chemicalmatcher.globals import base, _config
 
 #SRS web service docs at https://cdxnodengn.epa.gov/cdx-srs-rest/
 #Base URL for queries
-queries = _config['queries']
+queries = config()['databases']['SRS']['queries']
 caslistprefix = queries['caslistprefix']
 sep= queries['sep']# This is the code for a pipe seperator required between CAS numbers
 
