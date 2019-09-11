@@ -1,5 +1,5 @@
 """
-Functions to allow direct access to main components of inventory processing scripts
+Functions to return inventory data for a single inventory in standard formats
 """
 
 import os
