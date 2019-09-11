@@ -22,7 +22,6 @@ setup(
                             "output/validation/*.*"],
                   'chemicalmatcher': ["data/*.*", "output/*.*"],
                   'facilitymatcher': ["data/*.*", "output/*.*"]},
-    include_package_data=True,
     install_requires=['numpy>=1.16','pandas>=0.22', 'requests>=2.20'],
     classifiers=[
         "Development Status :: Beta",
