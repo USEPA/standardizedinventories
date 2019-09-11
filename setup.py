@@ -14,6 +14,7 @@ setup(
     package_data={'stewi': ["data/*.*","output/*.*"],
                   'chemicalmatcher': ["data/*.*", "output/*.*"],
                   'facilitymatcher': ["data/*.*", "output/*.*"]},
+    include_package_data=True, #https://python-packaging.readthedocs.io/en/latest/non-code-files.html
     install_requires=['numpy>=1.16','pandas>=0.22', 'requests>=2.20'],
     classifiers=[
         "Development Status :: Beta",
