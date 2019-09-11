@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="StEWI",
-    version="0.1",
+    version="0.9.1",
     author="Wesley Ingwersen",
     author_email="ingwersen.wesley@epa.gov",
     description="Standardized Emission And Waste Inventories (StEWI) provides processed EPA release and emissions inventories "
@@ -14,9 +14,9 @@ setup(
     package_data={'stewi': ["data/*.*","output/*.*"],
                   'chemicalmatcher': ["data/*.*", "output/*.*"],
                   'facilitymatcher': ["data/*.*", "output/*.*"]},
-    install_requires=['numpy', 'pandas', 'requests'],
+    install_requires=['numpy>=1.16','pandas>=0.22', 'requests>=2.20'],
     classifiers=[
-        "Development Status :: Alpha",
+        "Development Status :: Beta",
         "Environment :: Console",
         "Intended Audience :: Science/Research",
         "License :: CC0",
