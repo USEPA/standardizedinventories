@@ -5,4 +5,4 @@ bs4
 argparse
 regex
 selenium
-PyYAML
+PyYAML>=5.1

@@ -93,8 +93,10 @@ import argparse
 from selenium import webdriver
 import re
 import os, platform
+from io import StringIO
 import time, datetime
 from stewi.globals import USton_kg
+import codecs
 
 def waste_description_cleaner(x):
     if (x == 'from br conversion') or (x =='From 1989 BR data'):
@@ -116,7 +118,7 @@ def download_zip(url, dir_path, Tables, query):
     options.add_argument('--verbose')
     options.add_argument('--disable-gpu')
     options.add_argument('--disable-software-rasterizer')
-    options.add_argument("--log-level=3")
+    options.add_argument('--log-level=3')
     options.add_argument('--hide-scrollbars')
     prefs = {'download.default_directory' : dir_path,
             'download.prompt_for_download': False,
@@ -168,15 +170,15 @@ def organizing_files_by_year(Tables, Path, Years_saved):
     for Table  in Tables:
         # Get file columns widths
         dir_RCRA_by_year = set_dir(Path + 'RCRAInfo_by_year/')
-        linewidthsdf = pd.read_csv(data_dir + 'Flat_file.csv')
-        BRwidths = linewidthsdf['Size'].astype(int)
-        BRnames = linewidthsdf['Data Element Name']
+        linewidthsdf = pd.read_csv(data_dir + 'RCRA_FlatFile_LineComponents_2019.csv')
+        BRwidths = linewidthsdf['Size'].astype(int).tolist()
+        BRnames = linewidthsdf['Data Element Name'].tolist()
         Files = [file for file in os.listdir(Path) if ((file.startswith(Table)) & file.endswith('.txt'))]
         Files.sort()
         for File in Files:
-            print('Processing file {}'.format(File))
             df = pd.read_fwf(Path + File, widths = BRwidths,\
-                        header = None, names = BRnames)
+                        header = None, names = BRnames,
+                        encoding = 'utf-8')
             df.sort_values(by=['Report Cycle'])
             df = df[df['Report Cycle'].apply(lambda x: str(x).isnumeric())]
             df['Report Cycle'] = df['Report Cycle'].astype(int)
@@ -328,7 +330,6 @@ def Generate_RCRAInfo_files_csv(report_year, RCRAInfopath, RCRAfInfoflatfileURL)
     widths = linewidthsdf['Size']
     names = linewidthsdf['Data Element Name']
     File_lu = [file for file in os.listdir(RCRAInfopath) if 'lu_waste_code' in file.lower()][0]
-    os.listdir(RCRAInfopath)
     wastecodesfile = RCRAInfopath + File_lu
     WasteCodesTest = pd.read_fwf(wastecodesfile,widths=widths,header=None,names=names,nrows=10)
     WasteCodes = pd.read_fwf(wastecodesfile,widths=widths,header=None,names=names)

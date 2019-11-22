@@ -6,6 +6,9 @@ streamC
 streamD
 streamE
 streamF
+streamG
+streamH
+streamI
 onsiteland
 onsiteother
 offsiteland
