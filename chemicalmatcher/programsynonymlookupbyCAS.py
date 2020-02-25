@@ -3,6 +3,7 @@
 import requests
 import pandas as pd
 import json
+from chemicalmatcher.globals import inventory_to_SRSlist
 
 #SRS web service docs at https://cdxnodengn.epa.gov/cdx-srs-rest/
 #Base URL for queries
@@ -26,7 +27,7 @@ def programsynonymlookupbyCAS(cas_list,inventories_of_interest):
     inventory_to_program_of_interest_mapping = {
     'TRI':'Toxics Release Inventory Program System',
     'NEI':'Emissions Inventory System',
-    'DMR':'Permit Compliance System',
+    'DMR':'Permit Compliance System'
     }
 
     #Invert this dictionary for later use in lookups
