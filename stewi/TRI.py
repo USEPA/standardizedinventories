@@ -291,7 +291,7 @@ if __name__ == '__main__':
                         type = str)
 
     parser.add_argument('-F', '--Files', nargs = '+',
-                        help = 'What TRI Files you want (e.g., 1a, 3a, etc).\
+                        help = 'What TRI Files you want (e.g., 1a, 2a, etc).\
                         Check:\
                         https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-guides',
                         required = False)
