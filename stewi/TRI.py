@@ -119,7 +119,7 @@ def import_TRI_by_release_type(d, year):
         if (k == 'offsiteland') | (k == 'offsiteother'):
             file = '3a'
         else:
-            file = '1'
+            file = '1a'
         tri_csv = external_dir + 'TRI/US_' + file + '_' + year + '.txt'
         tri_part = pd.read_csv(tri_csv, sep='\t', header=0, usecols = v, dtype = dtype_dict, na_values = ['NO'],
                                 error_bad_lines = False, low_memory = False,
@@ -281,7 +281,7 @@ if __name__ == '__main__':
                         type = str)
 
     parser.add_argument('-F', '--Files', nargs = '+',
-                        help = 'What TRI Files you want (e.g., 1, 2a, etc).\
+                        help = 'What TRI Files you want (e.g., 1a, 2a, etc).\
                         Check:\
                         https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-guides',
                         required = False)
