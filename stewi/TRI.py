@@ -1,9 +1,19 @@
 #!/usr/bin/env python
-
-# TRI import and processing
-# This script uses the TRI Basic Plus National Data File.
-# Data files:https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-calendar-years-1987-2017
-# Documentation on file format: https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-guides
+"""
+Downloads TRI Basic Plus files specified in paramaters for specified year
+This file requires parameters be passed like:
+Option Year -F File1 File2 … FileN
+where Option is either A, B, C:
+Options
+A - for extracting files from TRI Data Plus web site
+B - for organizing TRI National Totals files from TRI_chem_release_Year.csv (this is expected to be download before and to be organized as it is described in TRI.py).
+C - for organizing TRI as required by StEWI
+Year is like 2010 with coverage up to 2018
+Files are:
+1a - Releases and Other Waste Mgmt
+3a - Off Site Transfers
+See more documentation of files at https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-guides
+"""
 
 import requests
 import zipfile
