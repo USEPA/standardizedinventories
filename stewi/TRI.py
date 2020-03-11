@@ -203,13 +203,12 @@ def Generate_TRI_files_csv(TRIyear, Files):
     tri.drop('ReleaseType',axis=1,inplace=True)
     #Group by facility, flow and compartment to aggregate different release types
     grouping_vars = ['FacilityID', 'FlowName','CAS','Compartment']
+    # Create a specialized weighted mean function to use for aggregation of reliability
     wm = lambda x: weight_mean(x, tri.loc[x.index, "FlowAmount"])
-    # Define a dictionary with the functions to apply for a given column:
-    f = {'FlowAmount': ['sum'], 'ReliabilityScore': {'weighted_mean': wm}}
     # Groupby and aggregate with your dictionary:
-    tri = tri.groupby(grouping_vars).agg(f)
+    tri = tri.groupby(grouping_vars).agg({'FlowAmount':'sum','ReliabilityScore': wm})
     tri = tri.reset_index()
-    tri.columns = tri.columns.droplevel(level=1)
+
     #VALIDATE
     tri_national_totals = pd.read_csv(data_dir + 'TRI_'+ TRIyear + '_NationalTotals.csv',header=0,dtype={"FlowAmount":np.float})
     tri_national_totals['FlowAmount_kg']=0
@@ -236,7 +235,7 @@ def Generate_TRI_files_csv(TRIyear, Files):
     tri.to_csv(output_dir + 'flowbyfacility/' + tri_file_name, index=False)
     #FACILITY
     ##Import and handle TRI facility data
-    tri_facility = pd.read_csv(set_dir(data_dir + '../../../') + 'TRI/US_1_' + TRIyear + '.txt',
+    tri_facility = pd.read_csv(set_dir(data_dir + '../../../') + 'TRI/US_1a_' + TRIyear + '.txt',
                                     sep='\t', header=0, usecols=import_facility,
                                     error_bad_lines=False,
                                     low_memory = False)
