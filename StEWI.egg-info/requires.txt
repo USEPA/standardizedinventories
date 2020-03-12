@@ -1,8 +1,0 @@
-numpy
-pandas
-requests
-bs4
-argparse
-regex
-selenium
-PyYAML>=5.1
