@@ -37,7 +37,7 @@ def programsynonymlookupbyCAS(cas_list,inventories_of_interest):
     inventory_to_program_of_interest_mapping = {
     'TRI':'Toxics Release Inventory Program System',
     'NEI':'Emissions Inventory System',
-    'DMR':'Permit Compliance System',
+    'DMR':'Permit Compliance System'
     }
 
     #Invert this dictionary for later use in lookups
@@ -75,7 +75,8 @@ def programsynonymlookupbyCAS(cas_list,inventories_of_interest):
     #Write it into a df
     all_chemical_synonyms = pd.DataFrame(all_chemical_list)
 
-    #Write to csv
-    #all_chemical_synonyms.to_csv(outputpath+outputfilename, index=False)
-
     return all_chemical_synonyms
+
+
+
+

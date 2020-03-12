@@ -1,65 +1,82 @@
-## Functions to allow direct access to main components of inventory processing scripts
+"""
+Functions to return inventory data for a single inventory in standard formats
+"""
 
-import pandas as pd
 import os
 import logging
-from stewi.globals import get_required_fields, get_optional_fields, filter_inventory, filter_states,inventory_single_compartments
+import pandas as pd
+from stewi.globals import get_required_fields, get_optional_fields, filter_inventory,\
+    filter_states, inventory_single_compartments
 
-log = logging.getLogger(__name__)
-log.setLevel(logging.INFO)
+LOG = logging.getLogger(__name__)
+LOG.setLevel(logging.INFO)
 
-try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
-except NameError: modulepath = 'stewi/'
+try:
+    MODULEPATH = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
+except NameError:
+    MODULEPATH = 'stewi/'
 
-output_dir = modulepath + 'output/'
-data_dir = modulepath + 'data/'
-formatpath = {'flowbyfacility':"flowbyfacility/",'flow':"flow/",'facility':"facility/"}
+OUTPUT_DIR = MODULEPATH + 'output/'
+DATA_DIR = MODULEPATH + 'data/'
+FORMATPATH = {'flowbyfacility': "flowbyfacility/", 'flow': "flow/", 'facility': "facility/"}
 
-def seeAvailableInventoriesandYears(format='flowbyfacility'):
-# reads a list of available inventories and prints them here, like:
-# NEI: 2014
-# GHGRP: 2015, 2016
-# ....
-    files = os.listdir(output_dir+formatpath[format])
+
+def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
+    """Prints available inventories and years for a given output format
+    :param stewiformat: 'flowbyfacility' only current option
+    :return: prints like
+    NEI: 2014
+    TRI: 2015, 2016
+    """
+    files = os.listdir(OUTPUT_DIR + FORMATPATH[stewiformat])
     outputfiles = []
     existing_inventories = {}
     for name in files:
         if name.endswith(".csv"):
-            n = name.strip('.csv')
-            outputfiles.append(n)
+            _n = name.strip('.csv')
+            outputfiles.append(_n)
     for file in outputfiles:
-         length = len(file)
-         s_yr = length-4
-         e_acronym = length-5
-         year = file[s_yr:]
-         acronym = file[:e_acronym]
-         if (acronym not in existing_inventories.keys()):
-             existing_inventories[acronym] = [year]
-         else:
-             existing_inventories[acronym].append(year)
-    print (format + ' inventories available (name, year):')
+        length = len(file)
+        s_yr = length - 4
+        e_acronym = length - 5
+        year = file[s_yr:]
+        acronym = file[:e_acronym]
+        if acronym not in existing_inventories.keys():
+            existing_inventories[acronym] = [year]
+        else:
+            existing_inventories[acronym].append(year)
+    print(stewiformat + ' inventories available (name, year):')
     for i in existing_inventories.keys():
-        s = i + ": "
-        for y in existing_inventories[i]:
-            s = s + y + ","
-        print(s)
+        _s = i + ": "
+        for _y in existing_inventories[i]:
+            _s = _s + _y + ","
+        print(_s)
 
-#Only functions for flowbyfacility at this time
-def getInventory(inventory_acronym, year, format='flowbyfacility', filter_for_LCI=False, US_States_Only=False):
-    # Returns an inventory file as a data frame
-    path = output_dir+formatpath[format]
-    file = path+inventory_acronym+'_'+str(year)+'.csv'
-    fields = get_required_fields(format)
+
+def getInventory(inventory_acronym, year, stewiformat='flowbyfacility', filter_for_LCI=False,
+                 US_States_Only=False):
+    """Returns an inventory in a standard output format
+    :param inventory_acronym: like 'TRI'
+    :param year: year as number like 2010
+    :param stewiformat: standard output format for returning..'flowbyfacility' is only current
+    :param filter_for_LCI: whether or not to filter inventory for life cycle inventory creation
+    :param US_States_Only: includes only US states
+    :return: dataframe with standard fields depending on output format
+    """
+    path = OUTPUT_DIR + FORMATPATH[stewiformat]
+    file = path + inventory_acronym + '_' + str(year) + '.csv'
+    fields = get_required_fields(stewiformat)
     inventory = pd.read_csv(file, header=0, dtype=fields)
-    #Add in units and compartment if not present
+    # Add in units and compartment if not present
     if 'Unit' not in inventory.columns:
         inventory['Unit'] = 'kg'
     if 'Compartment' not in inventory.columns:
         inventory['Compartment'] = inventory_single_compartments[inventory_acronym]
-    #Apply filters if present
-    if US_States_Only: inventory = filter_states(inventory)
+    # Apply filters if present
+    if US_States_Only:
+        inventory = filter_states(inventory)
     if filter_for_LCI:
-        filter_path = data_dir
+        filter_path = DATA_DIR
         if inventory_acronym == 'TRI':
             filter_path += 'TRI_pollutant_omit_list.csv'
             filter_type = 'drop'
@@ -68,8 +85,10 @@ def getInventory(inventory_acronym, year, format='flowbyfacility', filter_for_LC
             filter_path += 'ghg_mapping.csv'
             filter_type = 'keep'
             inventory = filter_inventory(inventory, filter_path, filter_type=filter_type)
-        elif inventory_acronym == 'RCRAInfo': filter_type = ''
-        elif inventory_acronym == 'eGRID': filter_type = ''
+        elif inventory_acronym == 'RCRAInfo':
+            filter_type = ''
+        elif inventory_acronym == 'eGRID':
+            filter_type = ''
         elif inventory_acronym == 'NEI':
             filter_path += 'NEI_pollutant_omit_list.csv'
             filter_type = 'drop'
@@ -78,13 +97,24 @@ def getInventory(inventory_acronym, year, format='flowbyfacility', filter_for_LC
 
 
 def getInventoryFlows(inventory_acronym, year):
-    path = output_dir + formatpath['flow']
+    """Returns flows for an inventory
+    :param inventory_acronym: e.g. 'TRI'
+    :param year: e.g. 2014
+    :return: dataframe with standard flows format
+    """
+    path = OUTPUT_DIR + FORMATPATH['flow']
     file = path + inventory_acronym + '_' + str(year) + '.csv'
     flows = pd.read_csv(file, header=0)
     return flows
 
+
 def getInventoryFacilities(inventory_acronym, year):
-    path = output_dir + formatpath['facility']
+    """Returns flows for an inventory
+    :param inventory_acronym: e.g. 'TRI'
+    :param year: e.g. 2014
+    :return: dataframe with standard flows format
+    """
+    path = OUTPUT_DIR + FORMATPATH['facility']
     file = path + inventory_acronym + '_' + str(year) + '.csv'
-    facilities = pd.read_csv(file, header=0, dtype={"FacilityID":"str"})
+    facilities = pd.read_csv(file, header=0, dtype={"FacilityID": "str"})
     return facilities
