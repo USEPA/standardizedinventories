@@ -1,3 +1,14 @@
+#!/usr/bin/env python
+"""
+Download specified Biennial Report files from EPA RCRAInfo system   for specified year
+This file requires parameters be passed like:
+Option Year -T Table1 Table2 … TableN
+where Option is either A, B, C:
+Options
+A - for extracting files from RCRAInfo site
+B - organize files by year
+C - for processing Biennial Report into flowbyfacility, validation, and metadata saving
+Year is like 2015 with coverage up for 2011, 2013, 2015
 # List of tables:
         ### BR_GM_WASTE_CODE
         ### BR_LU_DENSITY_UOM
@@ -81,22 +92,23 @@
         ### PM_UNIT
         ### PM_UNIT_DETAIL
         ### PM_UNIT_DETAIL_WASTE
+See more documentation of files at https://rcrapublic.epa.gov/rcrainfoweb/
+"""
 
 import pandas as pd
 import stewi.globals as globals
-from stewi.globals import write_metadata,unit_convert,validate_inventory,write_validation_result,set_dir,output_dir,data_dir, config
+from stewi.globals import write_metadata,unit_convert,validate_inventory,write_validation_result,\
+    set_dir,output_dir,data_dir, config
 from stewi.globals import checkforFile
 import zipfile
-import shutil
 import numpy as np
 import argparse
 from selenium import webdriver
 import re
-import os, platform
-from io import StringIO
+import os
 import time, datetime
 from stewi.globals import USton_kg
-import codecs
+
 
 def waste_description_cleaner(x):
     if (x == 'from br conversion') or (x =='From 1989 BR data'):
@@ -126,13 +138,7 @@ def download_zip(url, dir_path, Tables, query):
             'safebrowsing_for_trusted_sources_enabled': False,
             'safebrowsing.enabled': False}
     options.add_experimental_option('prefs', prefs)
-    Operating_system = platform.system()
-    if Operating_system == 'Linux':
-        driver_name = 'chromedriver_linux'
-    elif Operating_system == 'Windows':
-        driver_name = 'chomedriver_win.exe'
-    browser = webdriver.Chrome(executable_path = os.path.dirname(os.path.realpath(__file__)) + \
-                            '/' + driver_name, options = options)
+    browser = webdriver.Chrome(options = options)
     browser.maximize_window()
     browser.set_page_load_timeout(180)
     browser.get(url)
@@ -465,6 +471,12 @@ if __name__ == '__main__':
     RCRAfInfoflatfileURL = config['url']
 
     RCRAInfopath = set_dir(data_dir + "../../../RCRAInfo/")
+
+    ##Adds sepcified Year to BR_REPORTING table
+    tables = args.Tables
+    for i in range(0,len(tables)):
+        if tables[i] == 'BR_REPORTING':
+            args.Tables[i] = 'BR_REPORTING' + '_' + args.Year
 
     if args.Option == 'A':
 
