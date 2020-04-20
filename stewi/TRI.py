@@ -314,13 +314,13 @@ if __name__ == '__main__':
     elif args.Option == 'B':
 
         # Website for National Totals
-        # https://iaspub.epa.gov/triexplorer/tri_release.chemical (3/17/2019)
+        # https://enviro.epa.gov/triexplorer/tri_release.chemical (revised as of 4/20/2020)
         # Steps:
         # (1) Select Year of Data, All of United States, All Chemicals, All Industry,
         #  and other needed option (this is based on the desired year)
         # (2) Export to CSV
         # (3) Drop the not needed rows
-        # (4) Organize the columns as they are needed (check excisting files)
+        # (4) Organize the columns as they are needed (check existing files)
         # (5) Save the file like TRI_chem_release_year.csv in data folder
         # (6) Run this code
 
