@@ -64,7 +64,7 @@ def extacting_TRI_data_files(link_zip, files, year):
 
 # National Totals
 def Generate_National_Total(year):
-    df = pd.read_csv(data_dir + '/TRI_chem_release_' + year + '.csv', header = 0)
+    df = pd.read_csv(data_dir + 'TRI_chem_release_' + year + '.csv', header = 0)
     cols = ['Compartment', 'FlowName', 'Unit', 'FlowAmount']
     df_National = pd.DataFrame(columns = cols)
     regex = re.compile(r'[\d\,]*\d+\.?\d*')
