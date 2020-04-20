@@ -45,7 +45,7 @@ def extacting_TRI_data_files(link_zip, files, year):
     external_dir = set_dir(data_dir + '../../../')
     r_file = requests.get(link_zip)
     for file in files:
-        df_columns = pd.read_csv(data_dir + '/TRI_File_' + file + '_columns.txt', header = 0)
+        df_columns = pd.read_csv(data_dir + 'TRI_File_' + file + '_columns.txt', header = 0)
         columns = list(df_columns['Names'])
         n_columns = len(columns)
         with zipfile.ZipFile(io.BytesIO(r_file.content)) as z:
