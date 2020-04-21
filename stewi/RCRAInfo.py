@@ -461,7 +461,8 @@ if __name__ == '__main__':
                         help = 'What RCRAInfo tables you want.\
                         Check:\
                         https://rcrainfopreprod.epa.gov/rcrainfo-help/application/publicHelp/index.htm',
-                        required = False)
+                        required = False,
+                        default = [None])
 
     args = parser.parse_args()
 
