@@ -68,4 +68,3 @@ stewi_bridges = add_manual_matches(stewi_bridges)
 
 #Write matches to bridge
 stewi_bridges.to_csv(output_dir+'FacilityMatchList_forStEWI.csv',index=False)
-

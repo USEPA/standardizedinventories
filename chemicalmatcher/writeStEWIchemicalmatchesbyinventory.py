@@ -1,10 +1,11 @@
 #Retrieves all unique flow names from the StEWI flow list, uses SRS web serive to find their SRSname and CAS
 import pandas as pd
+pd.options.mode.chained_assignment = None
 import os
 
-from chemicalmatcher.globals import output_dir,get_SRSInfo_for_substance_name,get_SRSInfo_for_program_list,add_manual_matches
+from chemicalmatcher.globals import output_dir,get_SRSInfo_for_substance_name,get_SRSInfo_for_program_list,add_manual_matches, modulepath
 
-stewi_flow_dir = 'stewi/output/flow/'
+stewi_flow_dir = modulepath + '../stewi/output/flow/'
 
 try: flowlists = os.listdir(stewi_flow_dir)
 except: print('Directory missing')
@@ -29,7 +30,7 @@ for l in flowlists:
     #Drop duplicates for flowname and ids with multiple compartments
     list_names = list_names.drop_duplicates()
     #Add to others
-    all_list_names = pd.concat([all_list_names,list_names])
+    all_list_names = pd.concat([all_list_names,list_names], sort = False)
 
 #Drop duplicates from lists with same names
 all_list_names.drop_duplicates(inplace=True)
@@ -68,10 +69,10 @@ for source in sources:
         list_srs_info = pd.DataFrame(columns=["FlowName", "SRS_ID", "SRS_CAS", "Source"])
         errors_srs = pd.DataFrame(columns=["FlowName", "Source", "ErrorType"])
         # Cycle through names one by one
-        for r in range(0, len(inventory_flows) - 1):
+        for index, row in inventory_flows.iterrows():
             chemical_srs_info = pd.DataFrame(columns=["FlowName", "SRS_ID", "SRS_CAS", "Source"])
             error_srs = pd.DataFrame(columns=["FlowName", "Source", "ErrorDescription"])
-            name = inventory_flows["FlowName"][r]
+            name = row["FlowName"]
             #id = all_list_names["FlowID"][r]
             #source = all_list_names["Source"][r]
             #if inventory_query_type[source] == 'id':
@@ -90,10 +91,10 @@ for source in sources:
                 #chemical_srs_info.loc[0, "FlowID"] = name
                 chemical_srs_info.loc[0, "Source"] = source
 
-            errors_srs = pd.concat([errors_srs, error_srs])
-            list_srs_info = pd.concat([list_srs_info, chemical_srs_info])
+            errors_srs = pd.concat([errors_srs, error_srs], sort = False)
+            list_srs_info = pd.concat([list_srs_info, chemical_srs_info], sort = False)
 
-    all_lists_srs_info = pd.concat([all_lists_srs_info,list_srs_info])
+    all_lists_srs_info = pd.concat([all_lists_srs_info,list_srs_info], sort = False)
 
 #Remove waste code and PGM_ID
 all_lists_srs_info = all_lists_srs_info.drop(columns=['PGM_ID'])

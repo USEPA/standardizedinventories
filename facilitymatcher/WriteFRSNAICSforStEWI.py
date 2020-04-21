@@ -1,6 +1,8 @@
+# link: https://www.epa.gov/frs/epa-state-combined-csv-download-files
+
 import pandas as pd
 from facilitymatcher.globals import stewi_inventories,get_programs_for_inventory_list,\
-    filter_by_program_list,invert_inventory_to_FRS
+    filter_by_program_list,invert_inventory_to_FRS, output_dir
 
 FRSpath = '../FRS/'
 FRS_NAICS_file = 'NATIONAL_NAICS_FILE.CSV'
@@ -31,5 +33,4 @@ stewi_NAICS['PGM_SYS_ACRNM'] = stewi_NAICS['PGM_SYS_ACRNM'].replace(to_replace=p
 #Rename columns to be consistent with standards
 stewi_NAICS = stewi_NAICS.rename(columns={'REGISTRY_ID':'FRS_ID','PGM_SYS_ACRNM':'Source','NAICS_CODE':'NAICS'})
 
-stewi_NAICS.to_csv('facilitymatcher/output/FRS_NAICSforStEWI.csv',index=False)
-
+stewi_NAICS.to_csv(output_dir + 'FRS_NAICSforStEWI.csv',index=False)

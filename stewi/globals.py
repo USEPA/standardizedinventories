@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
 import pandas as pd
+pd.options.mode.chained_assignment = None
 import json
 import os
+import yaml
 
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'stewi/'
@@ -12,6 +14,13 @@ data_dir = modulepath + 'data/'
 
 reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',
                                 usecols=['Source', 'Code', 'DQI Reliability Score'])
+
+def config():
+    configfile = None
+    print(modulepath)
+    with open(modulepath + 'config.yaml', mode='r') as f:
+        configfile = yaml.load(f,Loader=yaml.FullLoader)
+    return configfile
 
 inventory_metadata = {
 'SourceType': 'Static File',  #Other types are "Web service"

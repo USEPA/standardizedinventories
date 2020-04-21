@@ -3,13 +3,23 @@
 import requests
 import pandas as pd
 import json
-from chemicalmatcher.globals import inventory_to_SRSlist
+from chemicalmatcher.globals import base, config
+
+#datapath = 'chemicalmatcher/data/'
+#outputpath = 'chemicalmatcher/output/'
+#outputfilename = 'examplesynonymnlistfromCASlist.csv'
+
 
 #SRS web service docs at https://cdxnodengn.epa.gov/cdx-srs-rest/
 #Base URL for queries
-base =  'https://cdxnodengn.epa.gov/cdx-srs-rest/'
-caslistprefix = 'substances/cas?casList='
-sep='%7c' # This is the code for a pipe seperator required between CAS numbers
+queries = config()['databases']['SRS']['queries']
+caslistprefix = queries['caslistprefix']
+sep= queries['sep']# This is the code for a pipe seperator required between CAS numbers
+
+#import list of CAS
+#filename = 'examplecaslist.csv'
+#caslist = pd.read_csv(datapath+filename,header=None)
+#caslist_unique = list(pd.unique(caslist[0]))
 
 def programsynonymlookupbyCAS(cas_list,inventories_of_interest):
     caslist_for_query  = ''
