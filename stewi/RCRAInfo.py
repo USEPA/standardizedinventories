@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #!/usr/bin/env python
 """
 Download specified Biennial Report files from EPA RCRAInfo system   for specified year
@@ -104,6 +105,7 @@ import zipfile
 import numpy as np
 import argparse
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 import re
 import os
 import time, datetime
@@ -138,7 +140,7 @@ def download_zip(url, dir_path, Tables, query):
             'safebrowsing_for_trusted_sources_enabled': False,
             'safebrowsing.enabled': False}
     options.add_experimental_option('prefs', prefs)
-    browser = webdriver.Chrome(options = options)
+    browser = webdriver.Chrome(ChromeDriverManager().install(), options = options)
     browser.maximize_window()
     browser.set_page_load_timeout(180)
     browser.get(url)
@@ -176,7 +178,7 @@ def organizing_files_by_year(Tables, Path, Years_saved):
     for Table  in Tables:
         # Get file columns widths
         dir_RCRA_by_year = set_dir(Path + 'RCRAInfo_by_year/')
-        linewidthsdf = pd.read_csv(data_dir + 'RCRA_FlatFile_LineComponents_2019.csv')
+        linewidthsdf = pd.read_csv(data_dir + 'RCRA_FlatFile_LineComponents.csv')
         BRwidths = linewidthsdf['Size'].astype(int).tolist()
         BRnames = linewidthsdf['Data Element Name'].tolist()
         Files = [file for file in os.listdir(Path) if ((file.startswith(Table)) & file.endswith('.txt'))]
@@ -216,7 +218,7 @@ def organizing_files_by_year(Tables, Path, Years_saved):
 def Generate_RCRAInfo_files_csv(report_year, RCRAInfopath, RCRAfInfoflatfileURL):
     RCRAInfoBRtextfile = RCRAInfopath + 'RCRAInfo_by_year/br_reporting_' + report_year + '.txt'
     #Get file columns widths
-    linewidthsdf = pd.read_csv(data_dir + 'RCRA_FlatFile_LineComponents_2019.csv')
+    linewidthsdf = pd.read_csv(data_dir + 'RCRA_FlatFile_LineComponents.csv')
     BRwidths = linewidthsdf['Size']
     #Metadata
     BR_meta = globals.inventory_metadata
@@ -449,7 +451,7 @@ if __name__ == '__main__':
                         [C] Create RCRAInfo for StEWI',
                         type = str)
 
-    parser.add_argument('Year',
+    parser.add_argument('-Y', '--Year',
                         help = 'What RCRA Biennial Report year you want to retrieve or generate for StEWI',
                         nargs= '?',
                         type = str,
@@ -467,20 +469,19 @@ if __name__ == '__main__':
     BR_meta = globals.inventory_metadata
 
     #RCRAInfo url
-    config = config()['databases']['RCRAInfo']
-    RCRAfInfoflatfileURL = config['url']
+    _config = config()['databases']['RCRAInfo']
+    RCRAfInfoflatfileURL = _config['url']
 
     RCRAInfopath = set_dir(data_dir + "../../../RCRAInfo/")
 
     ##Adds sepcified Year to BR_REPORTING table
     tables = args.Tables
-    for i in range(0,len(tables)):
-        if tables[i] == 'BR_REPORTING':
-            args.Tables[i] = 'BR_REPORTING' + '_' + args.Year
+    if 'BR_REPORTING' in tables:
+        args.Tables[tables.index('BR_REPORTING')] = 'BR_REPORTING' + '_' + args.Year
 
     if args.Option == 'A':
 
-        query = config['queries']['Table_of_tables']
+        query = _config['queries']['Table_of_tables']
         download_zip(RCRAfInfoflatfileURL, RCRAInfopath, args.Tables, query)
 
     elif args.Option == 'B':
@@ -488,10 +489,7 @@ if __name__ == '__main__':
         regex =  re.compile(r'RCRAInfo_(\d{4})')
         PathWithSavingData = output_dir + 'flowbyfacility'
         files = os.listdir(PathWithSavingData)
-        RCRAInfo_years_saved = list()
-        for file in files:
-            if re.match(regex, file):
-                RCRAInfo_years_saved.append(int(re.search(regex, file).group(1)))
+        RCRAInfo_years_saved = [int(re.search(regex, file).group(1)) for file in files if re.match(regex, file)]
         organizing_files_by_year(args.Tables, RCRAInfopath, RCRAInfo_years_saved)
 
     elif args.Option == 'C':

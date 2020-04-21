@@ -1,0 +1,9 @@
+numpy>=1.16
+pandas>=0.22
+requests>=2.20
+bs4
+argparse
+regex
+selenium
+PyYAML>=5.1
+webdriver-manager

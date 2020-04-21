@@ -24,7 +24,8 @@ setup(
                   'facilitymatcher': ["data/*.*", "output/*.*"]},
     include_package_data=True,
     install_requires=['numpy>=1.16', 'pandas>=0.22', 'requests>=2.20',
-                      'bs4', 'argparse', 'regex', 'selenium','PyYAML>=5.1'],
+                      'bs4', 'argparse', 'regex', 'selenium','PyYAML>=5.1',
+                      'webdriver-manager'],
     classifiers=[
         "Development Status :: Beta",
         "Environment :: Console",

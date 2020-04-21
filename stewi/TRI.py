@@ -65,23 +65,25 @@ def extacting_TRI_data_files(link_zip, files, year):
 # National Totals
 def Generate_National_Total(year):
     df = pd.read_csv(data_dir + 'TRI_chem_release_' + year + '.csv', header = 0)
+    df.replace(',', 0.0, inplace = True)
+    print(df.info())
     cols = ['Compartment', 'FlowName', 'Unit', 'FlowAmount']
-    df_National = pd.DataFrame(columns = cols)
-    regex = re.compile(r'[\d\,]*\d+\.?\d*')
-    for index, row in df.iterrows():
-        df_aux = pd.DataFrame({'FlowName': [row[0]]*3, 'Unit': ['Pounds']*3,
-                'Compartment': ['air', 'water', 'soil']})
-        Amount = []
-        for f in row[1:8]:
-            if re.match(regex, f):
-                Amount.append(float(f.replace(',','')))
-            else:
-                Amount.append(0.0)
-        df_aux['FlowAmount'] = pd.Series([sum(Amount[0:2]), # air
-                                Amount[2], # water
-                                sum(Amount[3:7])]) # soil
-
-        df_National = df_National.append(df_aux, ignore_index = True, sort = True)
+    compartments = {'air': ['Fugitive Air Emissions', 'Point Source Air Emissions'],
+     	        'water': ['Surface Water Discharges'],
+                'soil': ['On-site Land Treatment', 'Other On-site Land Disposal',
+                        'Off-site Land Treatment', 'Other Off-site Land Disposal']}
+    df_National = pd.DataFrame()
+    for compartment, columns in compartments.items():
+        df_aux = df[['Chemical'] + columns]
+        df_aux['FlowAmount'] = df_aux[columns].astype('float').sum(axis = 1)
+        df_aux.rename(columns = {'Chemical': 'FlowName'}, inplace = True)
+        df_aux['Unit'] = 'Pounds'
+        df_aux['Compartment'] = compartment
+        df_National = pd.concat([df_National, df_aux], axis = 0,
+                                ignore_index = True,
+                                sort = True)
+        del df_aux
+    del df
     df_National['FlowAmount'] = df_National['FlowAmount'].round(3)
     df_National = df_National[cols]
     df_National.to_csv(data_dir + 'TRI_' + year + '_NationalTotals.csv', index = False)
@@ -285,7 +287,7 @@ if __name__ == '__main__':
                         [C] Organize files',
                         type = str)
 
-    parser.add_argument('Year',
+    parser.add_argument('-Y', '--Year', nargs = '+',
                         help = 'What TRI year you want to retrieve',
                         type = str)
 
@@ -298,34 +300,36 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Set some metadata
-    TRIyear = args.Year
+    TRIyears = args.Year
     tri_metadata = inventory_metadata
 
-    if args.Option == 'A':
+    for TRIyear in TRIyears:
 
-        config = config()['databases']['TRI']
-        tri_url = config['url']
-        if url_is_alive(tri_url):
-            link_zip_TRI = link_zip(tri_url, config['queries'], TRIyear)
-            extacting_TRI_data_files(link_zip_TRI, args.Files, TRIyear)
-        else:
-            print('The URL in config.yaml ({}) for TRI is not reachable.'.format(tri_url))
+        if args.Option == 'A':
 
-    elif args.Option == 'B':
+            _config = config()['databases']['TRI']
+            tri_url = _config['url']
+            if url_is_alive(tri_url):
+                link_zip_TRI = link_zip(tri_url, _config['queries'], TRIyear)
+                extacting_TRI_data_files(link_zip_TRI, args.Files, TRIyear)
+            else:
+                print('The URL in config.yaml ({}) for TRI is not reachable.'.format(tri_url))
 
-        # Website for National Totals
-        # https://enviro.epa.gov/triexplorer/tri_release.chemical (revised as of 4/20/2020)
-        # Steps:
-        # (1) Select Year of Data, All of United States, All Chemicals, All Industry,
-        #  and other needed option (this is based on the desired year)
-        # (2) Export to CSV
-        # (3) Drop the not needed rows
-        # (4) Organize the columns as they are needed (check existing files)
-        # (5) Save the file like TRI_chem_release_year.csv in data folder
-        # (6) Run this code
+        elif args.Option == 'B':
 
-        Generate_National_Total(TRIyear)
+            # Website for National Totals
+            # https://enviro.epa.gov/triexplorer/tri_release.chemical (revised as of 4/20/2020)
+            # Steps:
+            # (1) Select Year of Data, All of United States, All Chemicals, All Industry,
+            #  and other needed option (this is based on the desired year)
+            # (2) Export to CSV
+            # (3) Drop the not needed rows
+            # (4) Organize the columns as they are needed (check existing files)
+            # (5) Save the file like TRI_chem_release_year.csv in data folder
+            # (6) Run this code
 
-    elif args.Option == 'C':
+            Generate_National_Total(TRIyear)
 
-        Generate_TRI_files_csv(TRIyear, args.Files)
+        elif args.Option == 'C':
+
+            Generate_TRI_files_csv(TRIyear, args.Files)
