@@ -1,3 +1,9 @@
 pandas>=0.22                   # Powerful data structures for data analysis, time series, and statistics.
 numpy>=1.16                    # NumPy is the fundamental package for array computing with Python
 requests>=2.20                 # Python HTTP for Humans; used for webservice calls
+bs4
+argparse
+regex
+selenium
+pyYAML>=5.1
+webdriver-manager
