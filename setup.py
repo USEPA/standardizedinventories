@@ -2,8 +2,8 @@ from setuptools import setup
 
 setup(
     name="StEWI",
-    version="0.9.1",
-    author="Wesley Ingwersen",
+    version="0.9.2",
+    author="Wesley Ingwersen, Matthew Bergman, Jose Hernandez-Betancur, Tapajyoti Ghosh, Mo Li",
     author_email="ingwersen.wesley@epa.gov",
     description="Standardized Emission And Waste Inventories (StEWI)"
                 "provides processed EPA release and emissions inventories "
