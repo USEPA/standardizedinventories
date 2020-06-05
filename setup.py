@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="StEWI",
-    version="0.9.2",
+    version="0.9.3",
     author="Wesley Ingwersen, Matthew Bergman, Jose Hernandez-Betancur, Tapajyoti Ghosh, Mo Li",
     author_email="ingwersen.wesley@epa.gov",
     description="Standardized Emission And Waste Inventories (StEWI)"
@@ -20,8 +20,8 @@ setup(
                             "output/flow/*.*",
                             "output/flowbyfacility/*.*",
                             "output/validation/*.*"],
-                  'chemicalmatcher': ["data/*.*", "output/*.*"],
-                  'facilitymatcher': ["data/*.*", "output/*.*"]},
+                  'chemicalmatcher': ["data/*.*", "output/*.*", "config.yaml"],
+                  'facilitymatcher': ["data/*.*", "output/*.*", "config.yaml"]},
     include_package_data=True,
     install_requires=['numpy>=1.16', 'pandas>=0.22', 'requests>=2.20',
                       'bs4', 'argparse', 'regex', 'selenium', 'PyYAML>=5.1',
