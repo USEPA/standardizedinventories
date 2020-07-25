@@ -35,6 +35,9 @@ def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
         if name.endswith(".csv"):
             _n = name.strip('.csv')
             outputfiles.append(_n)
+        elif name.endswith(".parquet"):
+            _n = name.strip('.parquet')
+            outputfiles.append(_n)
     for file in outputfiles:
         length = len(file)
         s_yr = length - 4
@@ -66,7 +69,11 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility', filter_f
     path = OUTPUT_DIR + FORMATPATH[stewiformat]
     file = path + inventory_acronym + '_' + str(year) + '.csv'
     fields = get_required_fields(stewiformat)
-    inventory = pd.read_csv(file, header=0, dtype=fields)
+    if os.path.exists(file):
+        inventory = pd.read_csv(file, header=0, dtype=fields)
+    else:
+        file = file[:-3]+'.parquet'
+        inventory = pd.read_parquet(file)
     # Add in units and compartment if not present
     if 'Unit' not in inventory.columns:
         inventory['Unit'] = 'kg'
