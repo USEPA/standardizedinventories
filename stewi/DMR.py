@@ -17,7 +17,7 @@ import pandas as pd
 import stewi.globals as globals
 from stewi.globals import set_dir, filter_inventory, filter_states,\
     validate_inventory, write_validation_result, unit_convert, modulepath,\
-    output_dir, data_dir    
+    output_dir, data_dir, lb_kg    
 import argparse
 
 dmr_data_dir = data_dir + 'DMR/'
@@ -25,6 +25,7 @@ dmr_external_dir = set_dir(modulepath+'../../DMR Data Files')
 
 # two digit SIC codes from advanced search drop down stripped and formatted as a list
 sic2 = list(pd.read_csv(dmr_data_dir + '2_digit_SIC.csv', dtype={'SIC2': str})['SIC2'])
+#sic2 = sic2[0:5] # for QA
 epa_region = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10']
 states_df = pd.read_csv(data_dir + 'state_codes.csv')
 states = list(states_df['states']) + list(states_df['dc']) + list(states_df['territories'])
@@ -67,7 +68,6 @@ def query_dmr(year, sic_list=sic2, region_list=[], state_list=[], nutrient='', p
     if param_list:
         print('Breaking up queries further')
         for params in param_list:
-            print(params)
             sic = params[0]
             state_or_region = params[1]
             if params in (['12', 'KY'], ['12', 'WV']): # Pagination for SIC 12 (coal mining) in KY and WV
@@ -92,13 +92,13 @@ def query_dmr(year, sic_list=sic2, region_list=[], state_list=[], nutrient='', p
                             filepath = path + 'sic_' + sic + '_' + state_or_region + '_' + page + '.pickle'
                             url = generate_url(report_year=year, sic=sic, state=state_or_region, responseset=500, pageno=page)
                     if os.path.exists(filepath):
-                        print('file already exists, skipping')
+                        print('file already exists for '+params +' page '+counter+', skipping query')
                         if counter == 1:
                             result = pd.read_pickle(filepath)
                             pages = int(result['Results']['PageCount'])
                         success_list.append(sic + '_' + state_or_region + '_' + page)
                     else:
-                        print(url)
+                        print('executing query for '+ params +' page '+counter)
                         result = execute_query(url)
                         if str(type(result)) == "<class 'str'>":
                             if result == 'no_data': no_data_list.append(sic + '_' + state_or_region + '_' + page)
@@ -124,10 +124,10 @@ def query_dmr(year, sic_list=sic2, region_list=[], state_list=[], nutrient='', p
                         filepath = path + 'sic_' + sic + '_' + state_or_region + '.pickle'
                         url = generate_url(report_year=year, sic=sic, state=state_or_region)
                 if os.path.exists(filepath):
-                    print('file already exists, skipping')
+                    print('file already exists for '+params +', , skipping')
                     success_list.append(sic + '_' + state_or_region)
                 else:
-                    print(url)
+                    print('executing query for '+ params)
                     result = execute_query(url)
                     if str(type(result)) == "<class 'str'>":
                         if result == 'no_data': no_data_list.append(sic + '_' + state_or_region)
@@ -140,7 +140,6 @@ def query_dmr(year, sic_list=sic2, region_list=[], state_list=[], nutrient='', p
             if sic in ['12', '49']: # Assuming SIC 12 & 49 are too big for all reporting years. Skipped for now, broken up by state later.
                 max_error_list.append(sic)
                 continue
-            print(sic)
             if nutrient:
                 filepath = path + nutrient + '_sic_' + sic + '.pickle'
                 url = generate_url(report_year=year, sic=sic, nutrient=nutrient, nutrient_agg=True)
@@ -148,10 +147,10 @@ def query_dmr(year, sic_list=sic2, region_list=[], state_list=[], nutrient='', p
                 filepath = path + 'sic_' + sic + '.pickle'
                 url = generate_url(report_year=year, sic=sic)
             if os.path.exists(filepath):
-                print('file already exists, skipping')
+                print('file already exists for '+ sic +', skipping')
                 success_list.append(sic)
             else:
-                print(url)
+                print('executing query for '+ sic)
                 result = execute_query(url)
                 if str(type(result)) == "<class 'str'>":
                     if result == 'no_data': no_data_list.append(sic)
@@ -213,7 +212,7 @@ def generateDMR(year, nutrient='', path=dmr_external_dir):
     if nutrient:
         path += nutrient+'_'
     for sic in sic2:
-        print(sic)
+        print('accessing data for ' + sic)
         # cycle through combination of options:
         filepath = path + 'sic_' + sic + '.pickle'
         if sic == '12' or sic == '49':
@@ -276,23 +275,21 @@ if __name__ == '__main__':
             # TODO: generate state totals
         
         if args.Option == 'C':
-            '''
+            
             sic_df = generateDMR(DMRyear)
-            sic_df.to_csv(output_dir+'DMR_sic_df.csv')
             sic_df = filter_states(standardize_df(sic_df))# TODO: Skip querying of US territories for optimization
-            sic_df.to_csv(output_dir+'DMR_sic_df_standardized.csv')
             
             P_df = generateDMR(DMRyear, nutrient='P')
             N_df = generateDMR(DMRyear, nutrient='N')
             nutrient_agg_df = pd.concat([P_df, N_df])
-            nutrient_agg_df.to_csv(output_dir+'DMR_nut_df.csv')
+            
             # Filter out nitrogen and phosphorus flows before combining with aggregated nutrients
             nutrient_agg_df = filter_states(standardize_df(nutrient_agg_df))# TODO: Skip querying of US territories for optimization
-            nutrient_agg_df.to_csv(output_dir+'DMR_nut_df_standardized.csv')
-            '''
-            sic_df = pd.read_csv(output_dir+'DMR_sic_df_standardized.csv')
-            nutrient_agg_df = pd.read_csv(output_dir+'DMR_nut_df_standardized.csv')
             
+            #sic_df.to_csv(output_dir+'DMR_sic_df_standardized.csv')
+            #nutrient_agg_df.to_csv(output_dir+'DMR_nut_df_standardized.csv')
+            #sic_df = pd.read_csv(output_dir+'DMR_sic_df_standardized.csv')
+            #nutrient_agg_df = pd.read_csv(output_dir+'DMR_nut_df_standardized.csv')
             
             nut_drop_list = pd.read_csv(dmr_data_dir + 'DMR_Parameter_List_10302018.csv')
             nut_drop_list.rename(columns={'PARAMETER_DESC': 'ParameterDesc'}, inplace=True)
@@ -308,7 +305,7 @@ if __name__ == '__main__':
             if os.path.exists(filepath):
                 reference_df = pd.read_csv(filepath)
                 reference_df['FlowAmount'] = 0.0
-                reference_df = unit_convert(reference_df, 'FlowAmount', 'Unit', 'lb', 0.4535924, 'Amount')
+                reference_df = unit_convert(reference_df, 'FlowAmount', 'Unit', 'lb', lb_kg, 'Amount')
                 reference_df = reference_df[['FlowName', 'State', 'FlowAmount']]
                 dmr_by_state = sic_df[['State', 'FlowAmount','PermitTypeCode']]
                 dmr_by_state = dmr_by_state[dmr_by_state['PermitTypeCode']=='NPD']
