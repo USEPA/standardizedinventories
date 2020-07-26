@@ -4,6 +4,7 @@ EstFactor
 ExternalPermitNmbr
 FacilityName
 FacilityTypeIndicator
+PermitTypeCode
 GeocodeLatitude
 GeocodeLongitude
 NaicsCode
