@@ -1,0 +1,1907 @@
+FlowName
+% Coefficient Of Variation 21 Day Chronic Daphnia Magna
+% Growth Reduction Static Renewal 7 Day Chronic Mysidopsis Bahia
+% Mortality 21 Day Chronic Daphnia Magna
+% Mortality Static 48Hr Acute Ceriodaphnia
+% Mortality Static 48Hr Acute Mysid. Bahia
+% Mortality Static 48Hr Acute Pimephales Promelas
+% of fecal coliform samples < detectable
+% of time exceeding pH limits
+% Surv Statre 48Hr Acute Pimepha Promelas
+% Surv Statre 96Hr Acute Atherinops Affns
+% Survial Static 96Hr Acute Americamysis bahia
+% Survival Flow Through 96Hr Acute Atherinops affinis
+% Survival Flow Through 96Hr Acute Menidia beryllina
+% Survival Static 24Hr Acute Tripneustes gratilla
+% Survival Static 48Hr Acute Pimephales promelas
+% Survival Static 96Hr Acute Americamysis bahia
+% Survival Static 96Hr Acute Daphnia Magna
+% Survival Static Renewal 96Hr  Acute Daphnia Magna
+% Survival Static Renewal 96Hr Acute Americamysis bahia
+% Survival Static Renewal 96Hr Acute Holmesimysis costata
+%Eff 7D Chronic Statre D. Ambigua
+%Effect Flth 48Hr Acute Lepomis Macrochi
+%Effect Flth 4Day Chronic Lepomis Macrochi
+%Effect Flth 7Day Chronic Lepomis Macrochi
+%Effect Flth 96Hr Acute Lepomis Macrochi
+%Effect Static 20Min Chronic Dendraster excentricus
+%Effect Static 20Min Chronic Strongylocentrotus purpuratus
+%Effect Static 24Hr Acute Ceriodaphnia
+%Effect Static 24Hr Acute Lepomis Macrochi
+%Effect Static 24Hr Acute Pimephales
+%Effect Static 4 Day Chronic Raphidocelis subcapitata
+%Effect Static 48Hr Acute Ceriodaphnia
+%Effect Static 48Hr Acute Lepomis Macrochirus
+%Effect Static 48Hr Chronic Crassostrea gigas
+%Effect Static 48Hr Chronic Haliotis rufescens
+%Effect Static 48Hr Chronic Macrocystis pyrifera
+%Effect Static 48Hr Chronic Mytilus edulis
+%Effect Static 48Hr Chronic Mytilus Species
+"%Effect Static 48Hr Chronic, 5-7 Day Rec. Champia parvula"
+%Effect Static 4Day Chronic Lepomis Macrochi
+%Effect Static 72Hr Chronic Dendraster excentricus
+%Effect Static 72Hr Chronic Strongylocentrotus purpuratus
+%Effect Static 7Day Chronic Lepomis Macrochi
+%Effect Static 96Hr Acute Lepomis Macrochi
+%Effect Static Renewal 48Hr Acute Lepomis Macrochirus
+%Effect Static Renewal 7 Day Chronic Atherinops affinis
+%Effect Static Renewal 7 Day Chronic Holmesimysis costata
+%Effect Static Renewal 7 Day Chronic Menidia beryllina
+%Effect Static Renewal 96Hr Acute Americamysis bahia
+%Effect Static Renewal 96Hr Acute Atherinops affinis
+%Effect Static Renewal 96Hr Acute Menidia beryllina
+%Effect Statre 48Hr Acu. Champia
+%Effect Statre 48Hr Acute Arbacia
+%Effect Statre 48Hr Acute Ceriodaphnia
+%Effect Statre 48Hr Acute Cyprinodon
+%Effect Statre 48Hr Acute D. Magna
+%Effect Statre 48Hr Acute D. Pulex
+%Effect Statre 48Hr Acute L. Minor
+%Effect Statre 48Hr Acute Menidia
+%Effect Statre 48Hr Acute Mysid. Bahia
+%Effect Statre 48Hr Acute Pimephales
+%Effect Statre 48Hr Acute Selen. Capr.
+%Effect Statre 4Day Chronic Arbacia
+%Effect Statre 4Day Chronic Ceriodaphnia
+%Effect Statre 4Day Chronic Champia
+%Effect Statre 4Day Chronic Cyprinodon
+%Effect Statre 4Day Chronic D. Magna
+%Effect Statre 4Day Chronic D. Pulex
+%Effect Statre 4Day Chronic L. Minor
+%Effect Statre 4Day Chronic Lepomis Macrochi
+%Effect Statre 4Day Chronic Menidia
+%Effect Statre 4Day Chronic Mysid. Bahia
+%Effect Statre 4Day Chronic Pimephales
+%Effect Statre 4Day Chronic Selen. Capr.
+%Effect Statre 7Day Chronic Arbacia
+%Effect Statre 7Day Chronic Ceriodaphnia
+%Effect Statre 7Day Chronic Champia
+%Effect Statre 7Day Chronic Cyprinodon
+%Effect Statre 7Day Chronic D. Magna
+%Effect Statre 7Day Chronic D. Pulex
+%Effect Statre 7Day Chronic L. Minor
+%Effect Statre 7Day Chronic Lepomis Macrochi
+%Effect Statre 7Day Chronic Menidia
+%Effect Statre 7Day Chronic Mysid. Bahia
+%Effect Statre 7Day Chronic Pimephales
+%Effect Statre 7Day Chronic Selen. Capr.
+%Effect Statre 96Hr Acu. Champia
+%Effect Statre 96Hr Acute Arbacia
+%Effect Statre 96Hr Acute Ceriodaphnia
+%Effect Statre 96Hr Acute Cyprinodon
+%Effect Statre 96Hr Acute D. Magna
+%Effect Statre 96Hr Acute D. Pulex
+%Effect Statre 96Hr Acute L. Minor
+%Effect Statre 96Hr Acute Lepomis Macrochi
+%Effect Statre 96Hr Acute Menidia
+%Effect Statre 96Hr Acute Mysid. Bahia
+%Effect Statre 96Hr Acute Pimephales
+%Effect Statre 96Hr Acute Selen. Capr.
+%Fert Static 1Hr Chronic Colobocentr. Atratus
+%Fert Static 1Hr Chronic Tripneustes Gratilla
+%Fert Statre 7Da Chronic Ceriodaphnia
+%Mort 48 Hr Acute Statre M. Beryllina'
+%Mort 48 Hr Acute Statre Mysid. Bahia'
+%Mortality 1Hr Chronic L. Minor
+%Mortality 1Hr Chronic Selen. Capr.
+%Mortality 48Hr Acute P. Promelas Test
+%Mortality 7Day Chronic Ceriodaphnia
+%Mortality 7Day Chronic Mysid. Bahia
+%Mortality 96Hr Acute L. Minor
+%Mortality Static 24Hr Acute Ceriodaphnia
+%Mortality Static 24Hr Acute Pimephales
+%Mortality Static Renewal 48Hr Acute Ceriodaphnia dubia
+%Mortality Static Renewal 48Hr Acute Daphnia Pulex
+%Mortality Static Renewal 7Day Chronic Daphnia Ambigua
+%Mortality Static Renewal 7Day Chronic Pimephales Promelas
+%Repr 7D Chronic Statre D. Ambigua
+%Repro Reduc Statre 7D Mysid. Bahia
+%Repro Reduc Statre7D Chronic Ceriodaphnia
+%Srv Statre 48Hr Acute Ceriodaphnia Dubia
+%Srv Statre 96Hr Acute Pimephales Promelas
+%Surv Flth 96Hr Acute Pimephales Promelas
+%Surv Flth 96Hr Gasterost. Aculeatus
+%Surv Flth 96Hr Oncorhynchus Mykiss
+%Surv Static 48Hr Acute Daphnia Pulex
+%Surv Static 96Hr Acute Atherinops Affinis
+%Surv Static 96Hr Acute Ceriodaphnia Dubia
+%Surv Static 96Hr Acute Gasterost. Aculeatus
+%Surv Static 96Hr Acute Menidia Beryllina'
+%Surv Static 96Hr Acute Mysidopsis Bahia
+%Surv Static 96Hr Acute Oncorhynchus Mykiss
+%Surv Static 96Hr Acute Penaeus Vannamei
+%Surv Static 96Hr Acute Pimphales Promelas
+%Surv Static 96Hr Acute Tilapia Mossambica
+%Surv Statre 48Hr Acute Daphnia Magna
+%Surv Statre 48Hr Acute Daphnia Pulex
+%Surv Statre 96 Hr Acute Salmo Gairderi
+%Surv Statre 96Hr Acute Menid Beryllina
+%Surv Statre 96Hr Acute Mysidopsis Bahia
+%Surv Statre 96Hr Acute Panaeus Vannamei
+%Surv Statre 96Hr Gasterost. Aculeatus
+%Surv Statre 96Hr Oncorhynchus Mykiss
+1 Hr Fert. Test Chronic Selen. Capr.
+"1,2-Dichloro-1,1,2-T"
+10:2 Fluorotelomer Acrylate
+1-Methyl-4-Isopropylbenzene
+2-(N-ethylperfluorooctanesulfonamido) acetic acid
+2-(N-methylperfluorooctanesulfonamido) acetic acid
+"2,3,7,8-TCDD TTE, total sludge"
+"2,4,5-TP(silvex) acids/salts, whole water sample"
+"2,4-D SALTS AND ESTERS"
+"2-Ethyl-9,10-Anthraquinone"
+3-Phenoxylbenzyl
+3-TRIFLUOROMETHYL-4-NPNL (TFM)
+48Hr Acute Cyprinodon Variegatu
+48Hr Acute Cyprinodon Variegatu
+48Hr Acute Mysidopsis Bahia
+48Hr Acute Oncorhynchus
+48Hr Acute Oncorhyncus Myriss
+"48Hr Chr, 5-7 Day Rec. L. Minor"
+"48Hr Chr, 5-7 Day Rec. Selen. Capr."
+48-Hr Cyprinodon Var(Lethal Effects)
+48-Hr Daphnia Pulex (Lethal Effects)
+48-Hr Menidia Beryll(Lethal Effects)
+48-Hr Mysidopsis Bah(Lethal Effects)
+48-Hr Pimephales (Lethal Effects)
+5-Day sum of WLA values
+7-Day Chr. Ceriodph (Lethal Effects)
+7-Day Chr. Ceriodphn(Sub-Lethal Effect)
+7-Day Chr. Cyprinodovar. (Lethal Effect)
+7-Day Chr. Cyprinodovar. (Sub-Lethal Ef)
+7-Day Chr. Menidia (Lethal Effects)
+7-Day Chr. Menidia (Sub-Lethal Effect)
+7-Day Chr. Mysidopsi(Lethal Effects)
+7-Day Chr. Mysidopsi(Sub-Lethal Effect)
+7-Day Chr. Pimephale(Lethal Effects)
+7-Day Chr. Pimephale(Sub-Lethal Effect)
+7-Day sum of WLA values
+8:2 Fluorotelomer Acrylate
+96Hr Acute Ceriodaphn. Dubia % Srv
+96Hr Acute Cyprinodon Variegatu
+96Hr Acute Noael Statroncorhynchus Mysiss
+Acidity
+"Acidity, CO2 phenol (as CaCO3)"
+"Acidity, total (as CaCO3)"
+Acidity-mineral methyl orange (as CaCO3)
+"Acids, total volatile (as acetic acid)"
+Acrylic polymer in drilling fluids
+Adsorbable organic halides (AOX)
+Aldrin + Dieldrin
+"Algae, floating mats (severity)"
+"Algae, presence"
+"Algae, total (cells/mL)"
+Algal growth potential
+"Algal, biomass percent"
+"Alkalinity, bicarbonate (as CaCO3)"
+"Alkalinity, carbonate (as CaCO3)"
+"Alkalinity, phenolphthaline method"
+"Alkalinity, total (as CaCO3)"
+Alkyl dimethyl ethyl ammonium bromide
+"Alpha emitting radium isotopes, dissolved"
+"Alpha, total, counting error"
+"Amines, organic total"
+Aminotrol methylene phosphate
+Analytical Chemistry
+"Animals, total estimated no. of"
+Ann. amt sludge disposed by other method
+Annual amount of sludge land applied
+Annual amt of sludge incinerated
+Annual amt sludge disposed in landfill
+Annual amt sludge transported interstate
+Annual amt. sludge disposed surface unit
+"Annual sludge production, total"
+Annual whole sludge application rate
+APELs Requested?
+Apparent Color (Admi Units)
+Applicable temperature limitation
+Application daily spray irrigation
+Application monthly spray irrigation
+Application period spray irrigation
+Application rate area sprayed
+"Application rate, daily spray irrigation."
+"Application rate, gallons spray irrigation"
+"Application rate, rate/area sprayed"
+"Application rate, weekly spray irrigation."
+Application weekly spray irrigation
+Are You In Compliance
+Area inspection visual
+Area of disposal- used
+Area of disposal-used
+"Aromatic, purgeable scan, effluent"
+"Aromatic, purgeable scan, sludge"
+"Aromatics, total purgeable"
+Azithromycin
+"Backwash cycles, total number of"
+Baitfish
+Ballast water flow
+"Baroid nos. 2,4,5,6 imco no. 1,2,3,6"
+"Baroid nos. 3, 7"
+"Base neutrals & acid (Method 625), efflnt"
+"Base neutrals & acid (Method 625), total"
+Benomyl and carbendazim
+"Benzene, halogenated"
+"Benzene, toluene, xylene in combination"
+"Benzoic acids, total"
+"Beta, total, counting error"
+Betz clam-trol CT-4
+"Betz slimicide C-31, total"
+"Betz slimicide C-74, total"
+Betzdearborn DG5671
+Bioaccumulation testing performed
+Bioassay (24 hr)
+Bioassay (24 hr.)
+Bioassay (48 hr)
+Bioassay (48 hr.)
+Bioassay (96 hr)
+Bioassay (96 hr.)
+"Biological diversity, Shannon-Weaver index"
+"Biomass, plankton"
+Biosolids weight indluding admixtures
+Biotic Index
+"Bisazer, total, water, ug/L"
+Bleached kraft
+Blend ratio
+BMP Certification Submittal?
+BOD 5-Day (lbs/1000 lbs Product)
+BOD excursions
+"BOD, % over influent"
+"BOD, 20-day, percent removal"
+"BOD, 5 day carbonaceous, % rmvl, dry"
+"BOD, 5 day carbonaceous, % rmvl, wet"
+"BOD, 5 day percent removal, dry"
+"BOD, 5 day percent removal, wet"
+"BOD, 5-day, 20 deg. C per production"
+"BOD, 5-day, percent removal"
+"BOD, carb-5 day, 20 deg C, percent removal"
+"BOD, carbonaceous, 05 day, 20 C [per discharge]"
+"BOD, carbonaceous, 20-day, % Removal"
+"BOD, carbonaceous, percent removal"
+"BOD, mass, times flow prop. multiplier"
+"BOD, percent removal (total)"
+Boundary areas
+Bypass of treatment
+Bypass valve
+BYPASS VALVE (OPEN/CLOSED)
+Bypass Volume
+C11-C22 Aromatics
+C19-C36 Aliphatics
+C3 Dimer Acid/Salt
+C5-C8 Aliphatics
+C9-C10 Aromatics
+C9-C12 Aliphatics
+C9-C18 Aliphatics
+Cable Test Tank Drainage Volume (Mgd)
+"Cable Test Tank, Drainage, Process Discharge"
+"Calcium hypochlorite, number of applications"
+"Calcium hypochlorite, weight/application grams"
+"Calcium, pct exchange"
+Calculated limit
+Carbamates
+Carbamazepine
+"Carbonaceous oxygen demand, % removal"
+Carcinogen additivity factor
+Cation exchange capacity
+"Cations, total"
+Caustic in drilling fluids
+Cefadroxil
+Cefdinir
+Cefprozil
+Cephalexin
+Ceriodaphnia
+Certified operator certification exp.
+Certified operator class
+Certified operator name
+Certified operator number
+Chem. oxygen demand (COD) % removal
+Chem. oxygen demand per production
+Chemi-mechanical pulp
+Chiral (Stereoisomer of MP062)
+"Chlor, phenoxy acid gp, none found"
+"Chlordane - Nonachlor, Cis"
+"Chlordane (tech mix & metabs), dry wgt"
+Chlordane (tech mix. and metabolites)
+"Chlordane, CA Ocean Plan definition"
+"Chlordene, Alpha"
+"Chlordene, Gamma"
+Chlorides & sulfates
+"Chlorinated hydrocarbons, general"
+"Chlorinated hydrocarbons, total"
+Chlorinated methanes
+Chlorinated paraffin in sludge
+"Chlorinated pesticides, total"
+"Chlorinated pesticides, total & PCB's"
+Chlorination
+Chlorination duration
+Chlorination frequency
+Chlorine addition rate
+"Chlorine demand, 1 hr"
+Chlorine dose
+Chlorine produced oxidants
+Chlorine rate
+Chlorine Residual * Detention Time Product
+Chlorine usage
+"Chlorine, total residual, duration of violation"
+"Chloroform extractables, total"
+"Choloroneb, Total"
+"Chronic toxicity, daphnia magnia 21 dy"
+Chronic Value Static 48Hr Acute Lepomis Macrochirus
+Chronic Value Static Renewal 48Hr Acute Lepomis Macrochirus
+Chv Flth 48Hr Acute Lepomis Macrochi
+Chv Flth 4Day Chronic Lepomis Macrochi
+Chv Flth 7Day Chronic Lepomis Macrochi
+Chv Flth 96Hr Acute Lepomis Macrochi
+Chv Static 1Hr Chronic Salmo Gair.
+Chv Static 24Hr Acute Lepomis Macrochirus
+Chv Static 48Hr Chronic Salmo Gair.
+Chv Static 4Day Chronic Lepomis Macrochirus
+Chv Static 7Day Chronic Lepomis Macrochirus
+Chv Static 96Hr Acute Lepomis Macrochirus
+Chv Statre 4Day Chronic Lepomis Macrochi
+Chv Statre 7Day Chronic Ceriodaphnia
+Chv Statre 7Day Chronic Lepomis Macrochi
+Chv Statre 7Day Chronic Pimephales
+Chv Statre 96Hr Acute Lepomis Macrochi
+Ciprofloxacin
+"CLAMTROL CT-1, TOTAL WATER"
+Clostridium perfringens
+Cloud cover (percent)
+Coagulants added
+Coagulants added [mass]
+Coagulants added [volume]
+Coal ash
+Coef Of Var 1Hr Chronic L. Minor
+Coef Of Var 1Hr Chronic Selen. Capr.
+Coef Of Var 1Hr Fert Test Chronic L. Minor
+Coef Of Var 1Hr Fert Test Chronic Selen. Capr.
+"Coef Of Var 48Hr Chr, 5-7 Day Rec. L. Minor"
+"Coef Of Var 48Hr Chr, 5-7 Day Rec. Selen. Capr"
+Coef Of Var 4Day Chronic L. Minor
+Coef Of Var 4Day Chronic Selen. Capr.
+Coef Of Var 96Hr Acute L. Minor
+Coef Of Var 96Hr Acute Selen. Capr.
+Coef Of Var Statre 48Hr Acute Cyprinodon
+Coef Of Var Statre 48Hr Acute D. Pulex
+Coef Of Var Statre 48Hr Acute Menidia
+Coef Of Var Statre 48Hr Acute Mysid. Bahia
+Coef Of Var Statre 48Hr Acute Pimephales
+Coef Of Var Statre 7Day Chronic Ceriodaphnia
+Coef Of Var Statre 7Day Chronic Cyprinodon
+Coef Of Var Statre 7Day Chronic Menidia
+Coef Of Var Statre 7Day Chronic Mysid. Bahia
+Coef Of Var Statre 7Day Chronic Pimephales
+"Coliform, fecal - % sample exceeds limit"
+"Coliform, fecal 10/mL"
+"Coliform, fecal general"
+"Coliform, fecal MF, MFC agar, 44.5 C, 24hr"
+"Coliform, fecal MF, MFC broth, 44.5 C"
+"Coliform, fecal MF, MFC, 0.7um"
+"Coliform, fecal MPN + membrane ftl 44.5 C"
+"Coliform, fecal, colony forming units"
+"Coliform, tot, MPN, completed, (100 mL)"
+"Coliform, total - % samples exceeding limit"
+"Coliform, total 10/mL"
+"Coliform, total colony forming units"
+"Coliform, total general"
+"Coliform, total MF, delayed, m-endo med"
+"Coliform, total MF, immed, les endo agar"
+"Coliform, total MF, immed, m-endo med 35 C"
+Color
+Color
+Color (admi units)
+Color (PT-CO units)
+"Color, apparent (unfiltered sample)"
+"Color, concentration at wavelength"
+"Color, spectrophoto, water smpl at 7.6 pH"
+"Color, spectrophoto, water smpl at 7.6 pH"
+"Color, spectrophoto-metric filter"
+Combined metals sum
+Compliance w/part 258 sludge requirement
+Compliance With Best Management Practices
+Compliance With Part I.B.10.A.?
+Condenser cooling water temp. increase
+"Condenser cooling, water pumping rate"
+Conductivity
+Conductivity Excursions
+"Conductivity, net"
+Contact Cooling Water Process Operatng Days
+Contact Cooling Water Volume (MGD)
+Cooling Water Baseline Study
+Cooling Water Entrain. Mon. Study
+Cooling Water Intake Inspection
+Cooling Water Intake Velocity
+Corrosion Inhibitor
+Corrugated media - markt pulp air-dried
+Critical Dilution
+Crop yield
+Crop yield per day
+Cryptosporidium
+Current direction deg from true north
+Cyanide and thiocyanate - total
+Cycles Of Concentration
+Daily excursion time (min)
+Daphnia Magna % Mortality 48 Hr Acute
+Daphnia Magna % Noec48 Hour Acute Wet
+Daphnia Magna Survi-Val 24 Hr. Acute Wet
+Day - max excursion time (min)
+"DDT/DDD/DDE, sum of p,p' & o,p' isomers"
+"Debris, floating (severity)"
+"Dechlorination reagent, gen"
+"Deck drainage, free oil"
+"Deck drainage, volume"
+De-inked floatation fiber
+De-inked washed fiber
+Delta pH
+Density of water at 20 deg. C
+Depth of pond or reservoir in feet
+Depth to water level ft below landsurface
+"Depth, max of sample"
+"Desalinization unit, free oil"
+Description of pathogen option used
+Detention time
+"Detergents, Total"
+Dewatering effluent chlorides tidal
+Dewatering effluent free oil
+Dewatering effluent oil & grease
+Dewatering effluent pH
+Dewatering effluent TDS
+Diclofenac
+Dicloxacillin
+Diesel Oil Content
+"Diesel oil, no. 2"
+"Diesel range organics diesel, total, wtr"
+Diethylmethylbenzenesulfonamide
+Differential pressure annular well head
+Diffuser validation rpt % effl mix zone
+DIFOLATAN
+"Digester solids content, percent"
+Dilution factor
+Dimethyl Benzyl Ammonium Chloride
+Dioxin laboratory - alpha code
+"Discharge drill cuttings, base fluids retained"
+"Discharge drill cuttings, formation oil"
+"Discharge drill cuttings, formation oil cert"
+"Discharge drill cuttings, sediment toxicity"
+Discharge event observation
+Discharge flow as % of stream flow
+Dissolved oxygen injected
+Dissolved radioactive gasses
+Distance from shore
+Dixylylethane [DEX]
+DMR submitted
+Dodecylguanidine salts
+"Domestic waste, solids"
+DOS-3 in drilling fluids
+Drain field insp assessment
+"Drill cutting, (oil rigs)"
+"Drill cuttings, free oil"
+Drilled solids in drilling fluids
+"Drilling cuttings, volume"
+"Drilling fluid, end of well, 96-hr IC50"
+"Drilling fluid, toxicity"
+"Drilling fluids, discharge rate"
+"Drilling Fluids, Discharge Rate Occurrences"
+"Drilling fluids, end of well toxicity"
+"Drilling fluids, free oil"
+"Drilling fluids, oil content"
+"Drilling fluids, toxicity"
+"Drilling fluids, volume"
+Dry days preceding precipitation event
+Duration of discharge
+Duration of discharge
+Duration of discharge
+Duration of Land Application
+Duration of Oxidant Addition
+E. coli
+E. coli - % samples exceeding limit
+"E. coli, colony forming units (CFU)"
+"E. coli, MTEC-MF"
+"E. coli, thermotol, MF, MTEC"
+"Effluent back pressure, discharge pipe"
+Effluent dilution ratio
+Elevation of original ground
+Elevation of original ground
+Elevation of top of well casing
+"Elevation, top of mine pool"
+Endothall salts & esters
+Endothall salts and esters
+Endrin Sulfate
+Enteric Viruses
+Enteric viruses
+"Enteric viruses, dry weight"
+Enterococci
+Enterococci - % of upper confidence limit
+"Enterococci: group D, MF trans, M-E, EIA"
+Equipment inspection - visual
+"Equipment outage, length of downtime"
+"Equipment outage, number of occurrences"
+Ethoxylated alkyl quaternary ammonium compound [generic]
+Evaporation Total
+"Evaporation, Accumulated [Inches]"
+Evaporator/bed obsv - assessment
+"Excess cement slurry, free oil"
+Excess thermal load
+"Explosive limit, lower"
+"Explosives, combined TNT + RDX + tetryl"
+"Extrusion Lines In Operation, Number"
+"Facility operated during mnth, # days"
+"Fats, oils & grease (total o & g less TPH)"
+Fecal coliform
+"Fecal coliform in sludge, CFU/gram"
+"Fecal coliform, MPN, EC med, 44.5 C"
+Fecal Matter
+"Fecal streptococci, MF m-enterococcus ag"
+Ferrochrome lignosulfonated frwtr mud
+Fillet Operation
+Fillet Production
+Filter backwash discharges per day
+Fine bleached kraft
+Fine paper machine - dried
+"First stage oxygen demand, % removal"
+Fish feed used efficiency
+Fish food fed per day
+Fish on hand
+Fish Waste Weight
+"Fish, dead (severity)"
+"Fish, presence"
+Fish/Shellfish Impinged
+"Flash point, deg C (40 CFR 403/261.21)"
+"Flash point, deg F [40 CFR 403/261.21]"
+Flashpoint temp of oil/solv ASTM 93-77
+Flashpoint temp of oil/solvents ASTM
+Floating solids or visible foam-visual
+Floating solids or visible foam-visual/days
+Florfenicol
+Flow
+Flow
+Flow (dry weather)
+Flow meter calibration
+Flow rate
+Flow rate
+Flow rate
+"Flow rate, deck drainage"
+"Flow rate, domestic "
+"Flow rate, instantaneous"
+Flow Through 96Hr Acute Atherinops Affinis
+Flow Thru 48Hr Chronic Dendraster Excentri.
+Flow Thru 96 Hr Acute Cyprinodon Variegatus
+Flow Thru 96 Hr Acute Menidia Beryllina
+"Flow volume daily, into a well"
+"Flow, as a portion of stream flow"
+"Flow, augmented water"
+"Flow, average stream per composite sampl"
+"Flow, direction"
+"Flow, discharge"
+"Flow, gallons/batch"
+"Flow, in conduit or thru treatment plant"
+"Flow, in conduit or thru treatment plant"
+"Flow, irrigation"
+"Flow, maximum during 24 hour period"
+"Flow, maximum during 24 hr period"
+"Flow, maximum flow range"
+"Flow, minimum flow range"
+"Flow, process wastewater"
+"Flow, pump out"
+"Flow, reclamation"
+"Flow, recycled"
+"Flow, restrictive"
+"Flow, return factor"
+"Flow, total"
+"Flow, total"
+"Flow, wastewater by-passing trtmnt plant"
+"Flow, well water"
+"Flowing, Receiving Stream"
+Flth 96Hr Acute Gasterost Aculeatus
+Fly ash
+Foaming agents
+Folpet Water Total
+"Formation test fluids, free oil"
+"Formation test fluids, pH"
+Free acid
+"Free acid, total"
+Free cationic polymer
+Free liquids in sludge
+Free Oil
+Free Oil Visual Sheen
+"Free oil, dewatering effluent"
+Freeboard
+"Freon, total"
+"Fuel oil, no. 2"
+"Fuel oil, no. 4"
+"Fuel oil, no. 5"
+"Fuel oil, no. 6"
+"Fuel, diesel, #1"
+"Fuel, Diesel, #1 Occurrences"
+Galaxolide
+Gallons distilled
+"Gamma, total"
+"Gamma, total counting error"
+Gas bubble severity
+"Gas, digester, volume of"
+"Gases, total dissolved"
+Gasoline
+"Gasoline, regular"
+GB Agent
+Giardia
+Glycol mix applied
+Half Low Flow Pass/Fail Static 48Hr Acute Lepomis Macrochirus
+Half Low Flow Pass/Fail Static Renewal 48Hr Acute Lepomis Macrochirus
+Half Low Flow Pass/Fail Static Renewal 7 Day Chronic Menidia menidia
+"Halocarbons, purgeable scan, effluent"
+"Halocarbons, purgeable scan, sludge"
+"Halogen, total organic"
+"Halogen, total residual"
+"Halogenated hydrocarbons, total"
+Halogenated toluene
+"Halogens, adsorbable organic"
+"Halogens, adsorbable organic (AOX)"
+"Halogens, tot organics bottom sediment"
+"Halogens, total combined"
+"Halomethanes, sum"
+"Hardness, Ca Mg Calculated (mg/L as CaCO3)"
+"Hardness, tot calc. (Ca, Mg, Fe) as CaC03"
+"Hardness, total (as CaCO3)"
+Hatchery flow
+Hatchery flow treated
+Hatchery flow treated (GPM)
+Head Loss
+Heat (summer) (per day)
+Heat (summer) (per hour)
+Heat (winter) (per day)
+Heat (winter) (per hour)
+Heptachlor + Heptachlor Epoxide
+"Herbaceous vegetation, presence"
+"Herbicides, total"
+"Heterotrophic bacteria, total"
+HLF Pass/Fail Flth 48Hr Acute Lepomis Macrochi
+HLF Pass/Fail Flth 4Day Chronic Lepomis Macrochi
+HLF Pass/Fail Flth 7Day Chronic Lepomis Macrochi
+HLF Pass/Fail Flth 96Hr Acute Lepomis Macrochi
+HLF Pass/Fail Static 24Hr Acute Lepomis Macrochiru
+HLF Pass/Fail Static 4Day Chronic Lepomis Macrochiru
+HLF Pass/Fail Static 7Day Chronic Lepomis Macrochiru
+HLF Pass/Fail Static 96Hr Acute Lepomis Macrochiru
+HLF Pass/Fail Statre 48Hr Acute Cyprinodon Varie
+HLF Pass/Fail Statre 48Hr Acute Daphnia Magna
+HLF Pass/Fail Statre 48Hr Acute Daphnia Pulex
+HLF Pass/Fail Statre 48Hr Acute Mysidopis Bahia
+HLF Pass/Fail Statre 48Hr Acute Pimephales Prome
+HLF Pass/Fail Statre 4Day Chronic Lepomis Macrochi
+HLF Pass/Fail Statre 7Day Chronic Ceriodaphnia
+HLF Pass/Fail Statre 7Day Chronic Cyprinodon Varie
+HLF Pass/Fail Statre 7Day Chronic Lepomis Macrochi
+HLF Pass/Fail Statre 7Day Chronic Mysidopsis Bahia
+HLF Pass/Fail Statre 7Day Chronic Pimephales
+HLF Pass/Fail Statre 96Hr Acute Lepomis Macrochi
+Human enteric virus
+"Hydrocarbons, in H2O, IR, CC14 extractible chromatograph"
+"Hydrocarbons, nitrated, total"
+"Hydrocarbons, total petroleum"
+IC25 Lethal Static Renewal 48HR Acute Americamysis bahia
+IC25 Lethal Static Renewal 48HR Acute Ceriodaphnia dubia
+IC25 Lethal Static Renewal 48HR Acute Daphnia magna
+IC25 Lethal Static Renewal 48HR Acute Daphnia pulex
+IC25 Lethal Static Renewal 48HR Acute Menidia menidia
+IC25 Lethal Static Renewal 48HR Acute Pimephales promelas
+IC25 Lethal Static Renewal 7 Day Chronic Americamysis bahia
+IC25 Lethal Static Renewal 7 Day Chronic Ceriodaphnia dubia
+IC25 Lethal Static Renewal 7 Day Chronic Menidia beryllina
+IC25 Lethal Static Renewal 7 Day Chronic Pimephales promelas
+IC25 Lethal Static Renewal 96Hr Acute Daphnia magna
+IC25 Low Flow Pass/Fail Lethal Static Renewal 48Hr Acute Ceriodaphnia dubia
+IC25 Low Flow Pass/Fail Lethal Static Renewal 48Hr Acute Ceriodaphnia dubia
+IC25 Low Flow Pass/Fail Lethal Static Renewal 7 Day Chronic Americamysis bahia
+IC25 Low Flow Pass/Fail Lethal Static Renewal 7 Day Chronic Menidia beryllina
+IC25 Low Flow Pass/Fail Lethal Static Renewal 7 Day Chronic Pimephales promelas
+IC25 Low Flow Pass/Fail Lethal Static Renewal 96Hr Acute Daphnia magna
+IC25 Low Flow Pass/Fail Static Renewal 48Hr Acute Americamysis bahia
+IC25 Low Flow Pass/Fail Static Renewal 48Hr Acute Daphnia magna
+IC25 Low Flow Pass/Fail Static Renewal 48Hr Acute Daphnia pulex
+IC25 Low Flow Pass/Fail Static Renewal 48Hr Acute Menidia beryllina
+IC25 Low Flow Pass/Fail Static Renewal 48Hr Acute Pimephales promelas
+IC25 Low Flow Pass/Fail Sub-Lethal Static Renewal 7 Day Chronic Americamysis bahia
+IC25 Low Flow Pass/Fail Sub-Lethal Static Renewal 7 Day Chronic Ceriodaphnia dubia
+IC25 Low Flow Pass/Fail Sub-Lethal Static Renewal 7 Day Chronic Menidia beryllina
+IC25 Low Flow Pass/Fail Sub-Lethal Static Renewal 7 Day Chronic Pimephales promelas
+IC25 Low Flow Pass/Fail Sub-Lethal Static Renewal 96Hr Acute Daphnia magna
+IC25 Pass/Fail Static 24Hr Acute Americamysis bahia
+IC25 Pass/Fail Static 24Hr Acute Daphnia magna
+IC25 Pass/Fail Static 24Hr Acute Daphnia pulex
+IC25 Pass/Fail Static 24Hr Acute Menidia beryllina
+IC25 Pass/Fail Static 24Hr Acute Pimephales promelas
+IC25 Static Renewal 7 Day Chronic Daphnia ambigua
+IC25 Static Renewal 7 Day Chronic Menidia menidia
+IC25 Static Renewal 7 Day Chronic Mysidopsis bahia
+IC25 Statre 7Day Chrceriodaphnia
+IC25 Statre 7Day Chrpimephales
+IC25 Sub-Lethal Static Renewal 7 Day Chronic Americamysis bahia
+IC25 Sub-Lethal Static Renewal 7 Day Chronic Ceriodaphnia dubia
+IC25 Sub-Lethal Static Renewal 7 Day Chronic Menidia beryllina
+IC25 Sub-Lethal Static Renewal 7 Day Chronic Pimephales promelas
+IC25 Sub-Lethal Static Renewal 96Hr Acute Daphnia magna
+"Ice cover, floating or solid (severity)"
+Imco Lube 106 in drilling fluids
+Imco Lubrikleen in drilling fluids
+Imco phos in drilling fluids
+Industrial contribution % of influent
+Inert plastic spheres in drill fluids
+Infiltration capacity
+"Injection pressure, at well head"
+Intake Velocity Excusions
+Intermittent discharge-assessment
+Iohexol
+Iopromide
+Isoeugenol
+Isolation Time Met
+"Isopropyl-1,2-diphenylethane"
+Kappa Factor
+Kappa number
+Kerosene
+Klebsiella species
+Kwik Seal in drilling fluids
+Lagoon freeboard
+Lagoon observation visual
+LC10 1Hr Chronic L. Minor
+LC10 1Hr Chronic Selen. Capr
+LC10 1Hr Fert. Test Chronic L. Minor
+LC10 1Hr Fert. Test Chronic Selen. Capr.
+"LC10 48Hr Chr, 5-7 Day Rec L. Minor"
+"LC10 48Hr Chr, 5-7 Day Rec Selen. Capr."
+LC10 96Hr Acute L. Minor
+LC10 96Hr Acute Selen. Capr.
+LC10 Statre 48Hr Acute Ceriodaphnia
+LC10 Statre 48Hr Acute D. Magna
+LC10 Statre 96Hr Acuceriodaphnia
+LC10 Statre 96Hr Acumenidia
+LC10 Statre 96Hr Acumysid. Bahia
+LC10 Statre 96Hr Acute Pimephales
+LC20 1Hr Chronic L. Minor
+LC20 1Hr Chronic Selen. Capr.
+LC20 1Hr Fert. Test Chronic L. Minor
+LC20 1Hr Fert. Test Chronic Selen Capr.
+"LC20 48Hr Chr, 5-7 Day Rec. L. Minor"
+"LC20 48Hr Chr, 5-7 Day Rec. Selen. Capr."
+LC20 4Day Chr. L. Minor
+LC20 4Day Chronic Selen. Capr.
+LC20 96Hr Acute L. Minor
+LC20 96Hr Acute Selen. Capr.
+LC20 Static 48Hr Acute Ceriodaphnia
+LC20 Static 48Hr Acute Mysid. Bahia
+LC20 Static 96Hr Acute Ceriodaphnia
+LC20 Static 96Hr Acute Cyprinella Leedsi
+LC20 Static 96Hr Acute Menidia
+LC20 Static 96Hr Acute Mysid. Bahia
+LC20 Static 96Hr Acute Pimephales
+LC20 Static Renewal 96Hr Acupimephales
+LC20 Statre 7Day Chrceriodaphnia
+LC20 Statre 7Day Chrmysid. Bahia
+LC20 Statre 96Hr Acucyprinella Leedsi
+LC20 Statre 96Hr Acumenidia
+LC20 Statre 96Hr Acumysid Bahia
+LC20 Statre 96Hr Acute Ceriodaphnia
+LC50 Flth 48Hr Acute Arbacia
+LC50 Flth 48Hr Acute Ceriodaphnia
+LC50 Flth 48Hr Acute Champia
+LC50 Flth 48Hr Acute Cyprinodon
+LC50 Flth 48Hr Acute D. Magna
+LC50 Flth 48Hr Acute D. Pulex
+LC50 Flth 48Hr Acute L. Minor
+LC50 Flth 48Hr Acute Lepomis Macrochi
+LC50 Flth 48Hr Acute Menidia
+LC50 Flth 48Hr Acute Mysid. Bahia
+LC50 Flth 48Hr Acute Pimephales
+LC50 Flth 48Hr Acute Salmo Gair.
+LC50 Flth 48Hr Acute Selen. Capr.
+LC50 Flth 4Day Chronic Lepomis Macrochi
+LC50 Flth 7Day Chronic Lepomis Macrochi
+LC50 Flth 96Hr Acute Arbacia
+LC50 Flth 96Hr Acute Ceriodaphnia
+LC50 Flth 96Hr Acute Champia
+LC50 Flth 96Hr Acute Cyprinodon
+LC50 Flth 96Hr Acute D. Magna
+LC50 Flth 96Hr Acute D. Pulex
+LC50 Flth 96Hr Acute Lepomis Macrochi
+LC50 Flth 96Hr Acute Menidia
+LC50 Flth 96Hr Acute Mysid. Bahia
+LC50 Flth 96Hr Acute Pimephales
+LC50 Flth 96Hr Acute Salmo Gair.
+LC50 Flth 96Hr Acute Selen. Capr.
+LC50 Flth 96Hracu L. Minor
+LC50 Fthd Minnow Fl-Thru Defn
+LC50 Fthd Minnow Static Defn
+LC50 Mycd Shrimp Fl-Thru Defn
+LC50 Mycd Shrimp Static Defn
+LC50 Pass/Fail 1Hr Fert. Test Chr.
+LC50 Pass/Fail Flth 48Hr Acute Lepomis Macrochi
+LC50 Pass/Fail Flth 4Day Chronic Lepomis Macrochi
+LC50 Pass/Fail Flth 7Day Chronic Lepomis Macrochi
+LC50 Pass/Fail Flth 96Hr Acute Lepomis Macrochi
+LC50 Pass/Fail Static 24Hr Acute Ceriodaphnia
+LC50 Pass/Fail Static 24Hr Acute Cyprinodon
+LC50 Pass/Fail Static 24Hr Acute D. Pulex
+LC50 Pass/Fail Static 24Hr Acute Lepomis Macrochiru
+LC50 Pass/Fail Static 24Hr Acute Menidia
+LC50 Pass/Fail Static 24Hr Acute Mysid. Bahia
+LC50 Pass/Fail Static 24Hr Acute Pimphales
+LC50 Pass/Fail Static 48Hr Acute Lepomis Macrochirus
+LC50 Pass/Fail Static 48Hr Acute Oyster Embryo
+LC50 Pass/Fail Static 4Day Chronic Lepomis Macrochiru
+LC50 Pass/Fail Static 7Day Chronic Lepomis Macrochiru
+LC50 Pass/Fail Static 96Hr Acute Lepomis Macrochiru
+LC50 Pass/Fail Static Renewal 48Hr Acute Daphnia Pulex
+LC50 Pass/Fail Static Renewal 48Hr Acute Lepomis Macrochirus
+LC50 Pass/Fail Statre 4Day Chronic Lepomis Macrochi
+LC50 Pass/Fail Statre 7Day Chronic Lepomis Macrochi
+LC50 Pass/Fail Statre 96Hr Acute Lepomis Macrochi
+LC50 Shee Minnow Fl-Thru Defn
+LC50 Shee Minnow Static Defn
+LC50 Static 1Hr Chronic Ceriodaphnia
+LC50 Static 1Hr Chronic Ceriodaphnia Dubia
+LC50 Static 1Hr Chronic Cyprinella Leedsi
+LC50 Static 1Hr Chronic Lepomis Macrochiru
+LC50 Static 1Hr Chronic Menidia Menidia
+LC50 Static 1Hr Chronic Pimephales
+LC50 Static 48Hr Acute Arbacia
+LC50 Static 48Hr Acute Ceriodaphnia
+LC50 Static 48Hr Acute Champia
+LC50 Static 48Hr Acute Cyprinella Leedsi
+LC50 Static 48Hr Acute Cyprinodon
+LC50 Static 48Hr Acute D. Magna
+LC50 Static 48Hr Acute D. Pulex
+LC50 Static 48Hr Acute L. Minor
+LC50 Static 48Hr Acute Lepomis Macrochirus
+LC50 Static 48Hr Acute Menidia
+LC50 Static 48Hr Acute Mysid. Bahia
+LC50 Static 48Hr Acute Pimephales
+LC50 Static 48Hr Acute Salmo Gair.
+LC50 Static 48Hr Acute Salvel. Salmonid
+LC50 Static 48Hr Acute Selen. Capr.
+LC50 Static 4Day Chronic Lepomis Macrochirus
+LC50 Static 7Day Chronic Lepomis Macrochirus
+LC50 Static 96Hr Acute Arbacia
+LC50 Static 96Hr Acute Ceriodaphnia
+LC50 Static 96Hr Acute Champia
+LC50 Static 96Hr Acute Cyprinella Leedsi
+LC50 Static 96Hr Acute Cyprinodon
+LC50 Static 96Hr Acute D. Magna
+LC50 Static 96Hr Acute D. Pulex
+LC50 Static 96Hr Acute L. Minor
+LC50 Static 96Hr Acute Lepomis Macrochirus
+LC50 Static 96Hr Acute Menidia
+LC50 Static 96Hr Acute Mysid. Bahia
+LC50 Static 96Hr Acute Pimephales
+LC50 Static 96Hr Acute Salmo Gair.
+LC50 Static 96Hr Acute Selen. Capr.
+LC50 Static Renewal 48Hr Acute Daphnia ambigua
+LC50 Static Renewal 48Hr Acute Daphnia Pulex
+LC50 Static Renewal 48Hr Acute Lepomis Macrochirus
+LC50 Statre 48Hr Acuc. Dubia
+LC50 Statre 48Hr Acupenaeus Vannamei
+LC50 Statre 48Hr Acute Arbacia
+LC50 Statre 48Hr Acute Ceriodaphnia
+LC50 Statre 48Hr Acute Champia
+LC50 Statre 48Hr Acute Cyprinodon
+LC50 Statre 48Hr Acute D. Magna
+LC50 Statre 48Hr Acute L. Minor
+LC50 Statre 48Hr Acute Menidia
+LC50 Statre 48Hr Acute Mysid. Bahia
+LC50 Statre 48Hr Acute P. Promelas
+LC50 Statre 48Hr Acute Pimephales
+LC50 Statre 48Hr Acute Salmo Gair.
+LC50 Statre 48Hr Acute Selen. Capr.
+LC50 Statre 4Day Chronic Lepomis Macrochi
+LC50 Statre 7Day Chrceriodaphnia
+LC50 Statre 7Day Chronic Lepomis Macrochi
+LC50 Statre 96Hr Acucyprinella Leedsi
+LC50 Statre 96Hr Acumenidia Beryllina
+LC50 Statre 96Hr Acute Arbacia
+LC50 Statre 96Hr Acute Cancer Magister
+LC50 Statre 96Hr Acute Ceriodaphnia
+LC50 Statre 96Hr Acute Champia
+LC50 Statre 96Hr Acute Cyprinodon
+LC50 Statre 96Hr Acute D. Magna
+LC50 Statre 96Hr Acute D. Pulex
+LC50 Statre 96Hr Acute L. Minor
+LC50 Statre 96Hr Acute Lepomis Macrochi
+LC50 Statre 96Hr Acute Menidia
+LC50 Statre 96Hr Acute Mysid. Bahia
+LC50 Statre 96Hr Acute Orcorhynchus Gorbus
+LC50 Statre 96Hr Acute Pandulas Borealis
+LC50 Statre 96Hr Acute Pandulas Hypsinotus
+LC50 Statre 96Hr Acute Pimephales
+LC50 Statre 96Hr Acute Salmo Gair.
+LC50 Statre 96Hr Acute Selen. Capr.
+Length of longest pH excursion
+Level of pathogen requirements achieved
+LF Pass/Fail Flth 48Hr Acute Lepomis Macrochi
+LF Pass/Fail Flth 4Day Chronic Lepomis Macrochi
+LF Pass/Fail Flth 7Day Chronic Lepomis Macrochi
+LF Pass/Fail Flth 96Hr Acute Lepomis Macrochi
+LF Pass/Fail Leth Statre 7Day Chronic Ceriodaphnia
+LF Pass/Fail Leth Statre 7Day Chronic Cyprinodon
+LF Pass/Fail Leth Statre 7Day Chronic Menidia
+LF Pass/Fail Leth Statre 7Day Chronic Mysid. Bahia
+LF Pass/Fail Leth Statre 7Day Chronic Pimephales
+LF Pass/Fail Static 24Hr Acute Daphnia Pulex
+LF Pass/Fail Static 24Hr Acute Lepomis Macrochirus
+LF Pass/Fail Static 24Hr Acute Pimephales
+LF Pass/Fail Static 4Day Chronic Lepomis Macrochirus
+LF Pass/Fail Static 7Day Chronic Lepomis Macrochirus
+LF Pass/Fail Static 96Hr Acute Lepomis Macrochirus
+LF Pass/Fail Statre 48Hr Acute Cyprinodon Variega
+LF Pass/Fail Statre 48Hr Acute Daphnia Magna
+LF Pass/Fail Statre 48Hr Acute Daphnia Pulex
+LF Pass/Fail Statre 48Hr Acute Menidia
+LF Pass/Fail Statre 48Hr Acute Mysidopis Bahia
+LF Pass/Fail Statre 48Hr Acute Pimephales Promela
+LF Pass/Fail Statre 4Day Chronic Lepomis Macrochi
+LF Pass/Fail Statre 7Day Chronic Cyprinodon
+LF Pass/Fail Statre 7Day Chronic Cyprinodon Variega
+LF Pass/Fail Statre 7Day Chronic Lepomis Macrochi
+LF Pass/Fail Statre 7Day Chronic Mysid. Bahia
+LF Pass/Fail Statre 7Day Chronic Mysidopsis Bahia
+LF Pass/Fail Statre 7Day Chronic Pimephales
+LF Pass/Fail Statre 7Day Chronic Pimephales
+LF Pass/Fail Statre 96Hr Acute Lepomis Macrochi
+LF Pass/Fail Survival Test 1Hr Chronic L. Minor
+LF Pass/Fail Survival Test 1Hr Chronic Selen. Capr.
+LF Pass/Fail Survival Test 1Hr Fert. Test Chronic L. Minor
+LF Pass/Fail Survival Test 1Hr Fert. Test Chronic Selen. Capr
+"LF Pass/Fail Survival Test 48Hr Chr, 5-7 Day Rec L. Minor"
+"LF Pass/Fail Survival Test 48Hr Chr, 5-7 Day Rec Selen. Capr."
+LF Pass/Fail Survival Test 96Hr Acute Selen. Capr
+Lightly treated lignosulfonated mud
+Lignite in drilling fluids
+Liner Leakage Rate
+Lipitor (Atorvastatin Calcium)
+LOEC Lethal Survival Static Renewal 48HR Acute Daphnia magna
+LOEC Lethal Survival Static Renewal 48HR Acute Menidia beryllina
+LOEC Lethal Survival Static Renewal 7 Day Chronic  Menidia beryllina
+LOEC Lethal Survival Static Renewal 7 Day Chronic Daphnia magna
+LOEC Sub-Lethal Reproduction Static Renewal 7 Day Chronic Daphnia magna
+LOEC Sub-Lethal Reproduction Static Renewal 7 Day Chronic Menidia beryllina
+Low Flow Pass/Fail Static 24Hr Acute Ceriodaphnia Dubia
+Low Flow Pass/Fail Static 48Hr Acute Lepomis Macrochirus
+Low Flow Pass/Fail Static Renewal 48Hr Acute Lepomis Macrochirus
+Low Flow Pass/Fail Static Renewal 7Day Chronic Ceriodaphnia Dubia
+Low Flow Pass/Fail Survival Test Static Renewal 7 Day Chronic Daphnia magna
+Macroinvertebrate assessment
+"Magnesium, pct exchange"
+Maint. Waste Are You Using Bmp?
+Maint. Waste Do You Have A Bmp?
+"Manure remaining, gallons"
+"Manure removed, gallons"
+"Manure solids, percent total"
+"Manure, wet tons remaining"
+"Manure, wet tons removed"
+"Manure, wet tons total"
+MARINE SANITATION DEVISE USED
+MB 121
+Meprobamate
+"Mercaptans, total"
+Metals toxicity ratio
+"Metals, total"
+"Metals, tox priority pollutants, total"
+Methadone
+Methanesulfonate
+Methylene blue active substances
+MICA IN DRILLING FLUIDS
+Microscopic analysis
+"Misc. discharges, free oil"
+"Misc. free oil in Western GOM, OCS"
+Mix ratio
+Mixed liquor
+Moisture content
+Monitoring well level from the surface
+Month excursion time (min)
+Morphine
+Nalco H150M
+Nalco Macrotrol 9210
+Net rate of additionof heat
+Nitrated Esters [NE]
+Nitrite plus nitrate in bottom deposits
+"Nitrobodies, total"
+Nitrofurans
+"Nitrogenous oxygen demand, % removal"
+Nitrotriazolone [NTO]
+N-Nitroso-N-Methylethylamine
+No Observed Effect Concentration (NOEC) Lethal Survival 21 Day Chronic Daphnia Magna
+No Observed Effect Concentration (NOEC) Sub-Lethal Reproduction 21 Day Chronic Daphnia Magna
+Noael 1Hr Chronic L. Minor
+Noael Flth 48Hr Acute Lepomis Macrochi
+Noael Flth 4Day Chronic Lepomis Macrochi
+Noael Flth 7Day Chronic Lepomis Macrochi
+Noael Flth 96Hr Acute Lepomis Macrochi
+Noael Static 24Hr Acute Lepomis Macrochirus
+NOAEL Static 48Hr Acute Americamysis bahia
+Noael Static 48Hr Acute Ceriodaphnia
+Noael Static 48Hr Acute D. Pulex
+Noael Static 48Hr Acute Menidia
+Noael Static 48Hr Acute Mysid. Bahia
+Noael Static 48Hr Acute Pimephales
+Noael Static 48Hr Acute Salvel. Salmonid
+Noael Static 4Day Chronic Lepomis Macrochirus
+Noael Static 7Day Chronic Lepomis Macrochirus
+Noael Static 96Hr Acute Lepomis Macrochirus
+Noael Statre 48Hr Acu. Champia
+Noael Statre 48Hr Acute Arbacia
+Noael Statre 48Hr Acute Ceriodaphnia
+Noael Statre 48Hr Acute Cyprinodon
+Noael Statre 48Hr Acute D. Magna
+Noael Statre 48Hr Acute D. Pulex
+Noael Statre 48Hr Acute L. Minor
+Noael Statre 48Hr Acute Menidia
+Noael Statre 48Hr Acute Mysid. Bahia
+Noael Statre 48Hr Acute Pimephales
+Noael Statre 48Hr Acute Selen. Capr.
+Noael Statre 4Day Chronic Arbacia
+Noael Statre 4Day Chronic Ceriodaphnia
+Noael Statre 4Day Chronic Champia
+Noael Statre 4Day Chronic Cyprinodon
+Noael Statre 4Day Chronic D. Magna
+Noael Statre 4Day Chronic D. Pulex
+Noael Statre 4Day Chronic L. Minor
+Noael Statre 4Day Chronic Lepomis Macrochi
+Noael Statre 4Day Chronic Menidia
+Noael Statre 4Day Chronic Mysid. Bahia
+Noael Statre 4Day Chronic Pimephales
+Noael Statre 4Day Chronic Selen. Capr.
+Noael Statre 7Day Chronic Arbacia
+Noael Statre 7Day Chronic Ceriodaphnia
+Noael Statre 7Day Chronic Champia
+Noael Statre 7Day Chronic Cyprinodon
+Noael Statre 7Day Chronic D. Magna
+Noael Statre 7Day Chronic D. Pulex
+Noael Statre 7Day Chronic L. Minor
+Noael Statre 7Day Chronic Lepomis Macrochi
+Noael Statre 7Day Chronic Menidia
+Noael Statre 7Day Chronic Mysid. Bahia
+Noael Statre 7Day Chronic Pimephales
+Noael Statre 7Day Chronic Selen. Capr.
+Noael Statre 96Hr Acu. Champia
+Noael Statre 96Hr Acute Arbacia
+Noael Statre 96Hr Acute Ceriodaphnia
+Noael Statre 96Hr Acute Cyprinodon
+Noael Statre 96Hr Acute D. Magna
+Noael Statre 96Hr Acute D. Pulex
+Noael Statre 96Hr Acute L. Minor
+Noael Statre 96Hr Acute Lepomis Macrochi
+Noael Statre 96Hr Acute Menidia
+Noael Statre 96Hr Acute Mysid. Bahia
+Noael Statre 96Hr Acute Pimephales
+Noael Statre 96Hr Acute Selen. Capr.
+NOEAL Static 48Hr Acute Lepomis Macrochirus
+NOEAL Static Renewal 48Hr Acute Lepomis Macrochirus
+NOEC Lethal Static Renewal 7 Day Chronic Daphnia magna
+NOEC Static Renewal 7Day Chronic Ceriodaphnia dubia
+NOEC Static Renewal 7Day Chronic Pimephales promelas
+NOEC Sub-Lethal Static Renewal 7 Day Chronic Daphnia magna
+Noel Flth 48Hr Acute Lepomis Macrochi
+Noel Flth 4Day Chronic Arbacia
+Noel Flth 4Day Chronic Ceriodaphnia
+Noel Flth 4Day Chronic Champia
+Noel Flth 4Day Chronic Cyprinodon
+Noel Flth 4Day Chronic D. Magna
+Noel Flth 4Day Chronic D. Pulex
+Noel Flth 4Day Chronic L. Minor
+Noel Flth 4Day Chronic Lepomis Macrochi
+Noel Flth 4Day Chronic Menidia
+Noel Flth 4Day Chronic Mysid. Bahia
+Noel Flth 4Day Chronic Pimephales
+Noel Flth 4Day Chronic Salmo Gair.
+Noel Flth 4Day Chronic Selen. Capr.
+Noel Flth 7Day Chronic Arbacia
+Noel Flth 7Day Chronic Ceriodaphnia
+Noel Flth 7Day Chronic Champia
+Noel Flth 7Day Chronic Cyprinodon
+Noel Flth 7Day Chronic D. Magna
+Noel Flth 7Day Chronic D. Pulex
+Noel Flth 7Day Chronic L. Minor
+Noel Flth 7Day Chronic Lepomis Macrochi
+Noel Flth 7Day Chronic Menidia
+Noel Flth 7Day Chronic Mysid. Bahia
+Noel Flth 7Day Chronic Pimephales
+Noel Flth 7Day Chronic Salmo Gair.
+Noel Flth 7Day Chronic Selen. Capr.
+Noel Flth 96Hr Acute Lepomis Macrochi
+Noel Lethal Statre 48Hr Acute Cyprinodon
+Noel Lethal Statre 48Hr Acute D. Pulex
+Noel Lethal Statre 48Hr Acute Menidia
+Noel Lethal Statre 48Hr Acute Mysid. Bahia
+Noel Lethal Statre 48Hr Acute Pimephales
+Noel Lethal Statre 7Day Chronic Ceriodaphnia
+Noel Lethal Statre 7Day Chronic Cyprinodon
+Noel Lethal Statre 7Day Chronic Menidia
+Noel Lethal Statre 7Day Chronic Mysid. Bahia
+Noel Lethal Statre 7Day Chronic Pimephales
+Noel Static 1Hr Chronic Dendraster Excent
+Noel Static 1Hr Chronic Green Sea Urchin
+Noel Static 1Hr Chronic Purple Sea Urchin
+Noel Static 1Hr Chronic Red Sea Urchin
+Noel Static 1Hr Fert. Chronic Arbacia
+Noel Static 24Hr Acute Lepomis Macrochirus
+Noel Static 48Hr Acute Ceriodaphnia
+NOEL Static 48Hr Acute Lepomis Macrochirus
+Noel Static 48Hr Chronic Champia
+Noel Static 48Hr Chronic Crassostrea Gigas
+Noel Static 48Hr Chronic Mytilus Edulis
+Noel Static 4Day Chronic Arbacia
+Noel Static 4Day Chronic Ceriodaphnia
+Noel Static 4Day Chronic Champia
+Noel Static 4Day Chronic Cyprinodon
+Noel Static 4Day Chronic D. Magna
+Noel Static 4Day Chronic D. Pulex
+Noel Static 4Day Chronic L. Minor
+Noel Static 4Day Chronic Lepomis Macrochirus
+Noel Static 4Day Chronic Menidia
+Noel Static 4Day Chronic Mysid. Bahia
+Noel Static 4Day Chronic Pimephales
+Noel Static 4Day Chronic Salmo Gair.
+Noel Static 4Day Chronic Selen. Capr.
+Noel Static 7Day Chronic Arbacia
+Noel Static 7Day Chronic Ceriodaphnia
+Noel Static 7Day Chronic Champia
+Noel Static 7Day Chronic Cyprinodon
+Noel Static 7Day Chronic D. Magna
+Noel Static 7Day Chronic D. Pulex
+Noel Static 7Day Chronic L. Minor
+Noel Static 7Day Chronic Lepomis Macrochirus
+Noel Static 7Day Chronic Menidia
+Noel Static 7Day Chronic Mysid. Bahia
+Noel Static 7Day Chronic Pimephales
+Noel Static 7Day Chronic Salmo Gair.
+Noel Static 7Day Chronic Selen. Capr.
+Noel Static 96Hr Acute Lepomis Macrochirus
+NOEL Static Renewal 48Hr Acute Lepomis Macrochirus
+Noel Statre 10Day Chronic Salvel. Salmonid
+Noel Statre 4Day Chronic Arbacia
+Noel Statre 4Day Chronic Ceriodaphnia
+Noel Statre 4Day Chronic Champia
+Noel Statre 4Day Chronic Cyprinodon
+Noel Statre 4Day Chronic D. Magna
+Noel Statre 4Day Chronic D. Pulex
+Noel Statre 4Day Chronic L. Minor
+Noel Statre 4Day Chronic Lepomis Macrochi
+Noel Statre 4Day Chronic Menidia
+Noel Statre 4Day Chronic Mysid. Bahia
+Noel Statre 4Day Chronic Pimephales
+Noel Statre 4Day Chronic Salmo Gair.
+Noel Statre 4Day Chronic Selen. Capr.
+Noel Statre 7 Day Chronic Cyprinella Leedsi
+Noel Statre 7Day Chronic Arbacia
+Noel Statre 7Day Chronic Ceriodaphnia
+Noel Statre 7Day Chronic Champia
+Noel Statre 7Day Chronic Cyprinodon
+Noel Statre 7Day Chronic D. Magna
+Noel Statre 7Day Chronic D. Pulex
+Noel Statre 7Day Chronic L. Minor
+Noel Statre 7Day Chronic Lepomis Macrochi
+Noel Statre 7Day Chronic Menidia
+Noel Statre 7Day Chronic Mysid. Bahia
+Noel Statre 7Day Chronic Pimephales
+Noel Statre 7Day Chronic Salmo Gair.
+Noel Statre 7Day Chronic Selen. Capr.
+Noel Statre 96Hr Acute Lepomis Macrochi
+Noel Statre 96Hr Acute Mysidopsis Bahia
+Noel Sub-Leth 1Hr Chronic L. Minor
+Noel Sub-Leth 1Hr Chronic Selen. Capr.
+Noel Sub-Leth 1Hr Fert. Test Chronic L. Minor
+Noel Sub-Leth 1Hr Fert. Test Chronic Selen. Capr.
+"Noel Sub-Leth 48Hr Chr, 5-7 Day Rec. L. Minor"
+"Noel Sub-Leth 48Hr Chr, 5-7 Day Rec. Selen. Capr."
+Noel Sub-Leth 4Day Chronic L. Minor
+Noel Sub-Leth 4Day Chronic Selen. Capr
+Noel Sub-Leth 96Hr Acute L. Minor
+Noel Sub-Leth 96Hr Acute Selen. Capr.
+Noel Sub-Leth Statre 7Day Chronic Cyprinodon
+Noel Sub-Leth Statre 7Day Chronic Menidia
+Noel Sub-Leth Statre 7Day Chronic Mysid. Bahia
+Noel Sub-Lth Statre 7Day Chronic Ceriodaphnia
+Noel Sub-Lth Statre 7Day Chronic Pimephales
+Non-Halogenated Volatile Organics
+Non-integrated fine paper
+Non-ionic dispersant (Nalsperse 7348)
+Nonpurgeable Organic Halides
+Nonyl phenoxypoly ethanol
+Nonylphenol diethoxylate
+Nonylphenol monoethoxylate
+Nonylphenol Polyethoxylates
+Number of batches
+Number of Events
+Number of operating tubes
+Number of pumps in operation
+Nutshells in drilling fluids
+Octylphenol diethoxylate
+Octylphenol monoethoxylate
+Octylphenol Polyethoxylates
+Odor (threshold no. at 40 deg cent)
+Odor (threshold no. at 60 deg. C)
+Odor (threshold no. at room temperature)
+"Odor, atmospheric (severity)"
+Offensive Conditions
+Oil - separator obsv - assessment
+Oil & grease
+Oil & grease % removal
+"Oil & grease (freon extr.-IR meth) tot, RC"
+Oil & Grease (lbs/1000 lbs Product)
+Oil & grease (polar)
+Oil & grease aromatic
+Oil & grease severity
+"Oil & grease, dry weight"
+"Oil & grease, non-polar material"
+"Oil & grease, total recoverable"
+Oil and grease
+Oil And Grease
+Oil and grease
+Oil and grease (soxhlet extr.) tot.
+Oil and grease per cfs of streamflw
+Oil and grease per production
+Oil and grease visual
+"Oil and Grease, calculated limit"
+"Oil and grease, hexane extr method"
+"Oil and grease, per 1000 gallons"
+"Oil Based, Aqueous Based Fluids and Cuttings"
+"Oil petroleum, total recoverable"
+"Oil, petroleum ether extractables"
+Operation of turbines
+Organic active ingredients (40 CFR455)
+"Organic compounds, chloroform extract."
+Organic matter %
+"Organic nitrogen sludge, tot dry wt."
+Organic pesticide chemicals (40 CFR455)
+"Organics, gasoline range"
+"Organics, tot purgeables (Method 624)"
+"Organics, total"
+"Organics, total halogens (TOX)"
+"Organics, total toxic (TTO)"
+"Organics, volatile (NJAC reg. 7:23-17e)"
+Organics-tot voltile (NJAC reg.7:23-17e)
+"Osmotic pressure, total, unf whl wtr"
+"Outfall observation,visual, y/n response"
+Overflow use
+"Overflow use, occurances"
+"Overflow volume (SS0 volume, CSO volume)"
+Overflows
+"Oxidants released, total residual"
+"Oxidants, free available"
+"Oxidants, total residual"
+Oxygen demand first stage
+"Oxygen demand, dissolved"
+"Oxygen demand, nitrogenous, ultimate"
+"Oxygen demand, sum product"
+"Oxygen demand, total"
+"Oxygen demand, total (tod)"
+"Oxygen demand, ult., percent removal"
+"Oxygen demand, ultimate"
+Oxygen injection diversion
+Oxygen injection interruption
+Oxygen transfer efficiency
+"Oxygen, dissolved percent saturation"
+"Oxygen, dissolved, % of time violated"
+Paper production
+Paper-grade sulfite pulp & paper
+Paraben (methyl and propyl)
+"Particulates, floating"
+"Particulates, floating, dry weight"
+Pass/Fail 48Hr Acute Static D. Ambigua
+Pass/Fail 7Day Chronic Statre D. Ambigua
+Pass/Fail Flow Through 48Hr Acute Pimephales promelas
+Pass/Fail Flow Through 96Hr Acute Pimephales promelas
+Pass/Fail Flth 48Hr Acute Lepomis Macrochi
+Pass/Fail Flth 4Day Chronic Lepomis Macrochi
+Pass/Fail Flth 7Day Chronic Lepomis Macrochi
+Pass/Fail Flth 96Hr Acute Lepomis Macrochi
+Pass/Fail Reproduction 21 Day Chronic Daphnia Magna
+Pass/Fail Static 20 Minute Fertilization Chronic Dendraster excentricus
+Pass/Fail Static 20 Minute Fertilization Chronic Strongylocentrotus purpuratus
+Pass/Fail Static 20 Minute Fertilization Chronic Tripneustes gratilla
+Pass/Fail Static 24Hr Acute Ceriodaphnia Dubia
+Pass/Fail Static 24Hr Acute Daphnia Pulex
+Pass/Fail Static 24Hr Acute Lepomis Macrochirus
+Pass/Fail Static 24Hr Acute Mysid. Bahia
+Pass/Fail Static 24Hr Acute Pimephales
+Pass/Fail Static 24Hr Cyprinodon
+Pass/Fail Static 4 Day Chronic Cyprinodon Variega
+Pass/Fail Static 4 Day Chronic Daphnia Pulex
+Pass/Fail Static 4 Day Chronic Mysidopsis Bahia
+Pass/Fail Static 4 Day Chronic Pimephales Promelas
+Pass/Fail Static 4 Day Chronic Raphidocelis subcapitata
+Pass/Fail Static 48Hr Acute Ceriodaphnia
+Pass/Fail Static 48Hr Acute Cyprinella Leedsi
+Pass/Fail Static 48Hr Acute Cyprinodon variegatus
+Pass/Fail Static 48Hr Acute D. Pulex
+Pass/Fail Static 48Hr Acute Daphnia Magna
+Pass/Fail Static 48Hr Acute Hyalella azteca
+Pass/Fail Static 48Hr Acute Lepomis Macrochirus
+Pass/Fail Static 48Hr Acute Menidia
+Pass/Fail Static 48Hr Acute Mysidopsis Bahia
+Pass/Fail Static 48Hr Acute Pimephales
+Pass/Fail Static 48Hr Chronic Crassostrea gigas
+Pass/Fail Static 48Hr Chronic Haliotis rufescens
+Pass/Fail Static 48Hr Chronic Macrocystis pyrifera
+Pass/Fail Static 48Hr Chronic Mytilus edulis
+Pass/Fail Static 48Hr Chronic Mytilus Species
+"Pass/Fail Static 48Hr Chronic, 5-7 Day Rec. Champia parvula"
+Pass/Fail Static 4Day Chronic Lepomis Macrochirus
+Pass/Fail Static 72Hr Chronic Dendraster excentricus
+Pass/Fail Static 72Hr Chronic Strongylocentrotus purpuratus
+Pass/Fail Static 7Day Chronic Lepomis Macrochirus
+Pass/Fail Static 96 Hr Acute Cyprinodon Variega
+Pass/Fail Static 96 Hr Acute Pimephales Promelas
+Pass/Fail Static 96Hr Acute Atherinops affinis
+Pass/Fail Static 96Hr Acute Ceriodaphnia Dubia
+Pass/Fail Static 96Hr Acute Holmesimysis costata
+Pass/Fail Static 96Hr Acute Lepomis Macrochirus
+Pass/Fail Static 96Hr Acute Menidia beryllina
+Pass/Fail Static 96Hr Chronic Selen. Capricornutum
+Pass/Fail Static Renewal 48Hr Acute Lepomis Macrochirus
+Pass/Fail Static Renewal 7 Day Chronic Arbacia
+Pass/Fail Static Renewal 7 Day Chronic Atherinops affinis
+Pass/Fail Static Renewal 7 Day Chronic Holmesimysis costata
+Pass/Fail Static Renewal 7 Day Chronic Menidia beryllina
+Pass/Fail Static Renewal 96Hr Acute Americamysis bahia
+Pass/Fail Static Renewal 96Hr Acute Atherinops Affinis
+Pass/Fail Static Renewal 96Hr Acute Cyprinodon variegatus
+Pass/Fail Static Renewal 96Hr Acute Holmesimysis costata
+Pass/Fail Static Renewal 96Hr Acute Menidia beryllina
+Pass/Fail Static Renewal 96Hr Acute Oncorhynchus mykiss
+Pass/Fail Statre 48Hr Acute Ceriodaphnia
+Pass/Fail Statre 48Hr Acute Daphnia Species
+Pass/Fail Statre 48Hr Acute Menidia
+Pass/Fail Statre 48Hr Acute Mysidopsis Bahia
+Pass/Fail Statre 48Hr Acute Pimephales Promelas
+Pass/Fail Statre 4Day Chronic Lepomis Macrochi
+Pass/Fail Statre 7Day Chronic Ceriodaphnia
+Pass/Fail Statre 7Day Chronic Cyprinella Leedsi
+Pass/Fail Statre 7Day Chronic Cyprinodon
+Pass/Fail Statre 7Day Chronic Lepomis Macrochi
+Pass/Fail Statre 7Day Chronic Menidia
+Pass/Fail Statre 7Day Chronic Mysid. Bahia
+Pass/Fail Statre 7Day Chronic Pimephales Promelas
+Pass/Fail Statre 96Hr Acute Ceriodaphnia
+Pass/Fail Statre 96Hr Acute Cyprinella Leedsi
+Pass/Fail Statre 96Hr Acute Lepomis Macrochi
+Pass/Fail Statre 96Hr Acute Menidia
+Pass/Fail Statre 96Hr Acute Mysid. Bahia
+Pass/Fail Statre 96Hr Acute Pimephales Promelas
+Pass/Fail Stre 96Hr Acute Daphnia Magma
+Pass/Fail Sub-Lethal 7 Day Ceriodaphnia Dubia
+Pass/Fail Sub-Lethal 7 Day Menidia Menidia
+Pass/Fail Sub-Lethal 7 Day Mysidopsis Bahia
+Pass/Fail Sub-Lethal 7 Daypinephales Promelas
+Pass/Fail Sub-Lethal Static Renewal 7 Day Chronic Daphnia magna
+Pass/Fail Survival 21 Day Chronic Daphnia Magna
+Penicillin G Potassium
+Percent Base Saturation
+Percent Overflow Wastewater Discharged
+Perfluorobutanoic Acid
+Perfluorodecane Sulfonate
+Perfluoroheptane Sulfonate
+Permission to discharge
+"Pesticides, general"
+"Petrol hydrocarbons, total recoverable"
+pH
+pH change (range)
+pH exchange (su)
+"pH Range Excursion, Maximum Duration"
+"pH range excursions, > 60 minutes"
+"pH range excursions, greater than 30 minutes"
+"pH range excursions, monthly total accum"
+"pH, CaCO3 stability"
+"pH, in soil"
+"pH, lab"
+"pH, maximum"
+"pH, minimum"
+"Phenolic compounds, sludge total, dry weight"
+"Phenolic compounds, total"
+"Phenolic compounds, unchlorinated"
+"Phenolic Compounds,Total"
+"Phenolic, total scan effluent"
+"Phenolic, total scan sludge"
+Phenolics in bottom deposits (dry wgt)
+"Phenolics, total recoverable"
+Phosphated pesticides
+"Phthalates, total"
+Phytoplankton
+Pimephales
+Plant capacity fact. percent of capacity
+Plant intake as % of stream flow
+"Plate count, total 35 deg. C, 24 hour"
+Plume surface area
+Pollutant table from 503.13
+Polybrominated Diphenyl Ethers
+Polybrominated diphenyl oxides
+Pond observation
+Population served
+"Potassium, pct exchange"
+"Potassium, sludge, tot, dry wt. (as K)"
+"Potassium, total pct in water, (pct)"
+Power plant load in megawatts
+Precipitation volume
+Precipitation volume
+"Precipitation, monthly accumulation"
+"Precipitation, total defined period/in"
+Pressure as pertaining to wells
+Pressure difference
+Pressure in annulus of waste inject well
+"Pressure, bottom-at well bottom"
+"Pressure, casing"
+Priority pollutant chemical specific
+Priority Pollutant Results
+Priority pollutants scan (yes/no)
+Priority pollutants total effluent
+Process to further reduce pathogens
+Process to significntly reduce pathogens
+"Produced sand, free oil"
+"Produced sand, weight"
+Produced water toxicity 7 day noec
+"Produced water, flow"
+"Produced water, free oil"
+"Produced water, oil and grease"
+"Produced water, TDS"
+"Produced water, toxicity"
+Production divided by days operated mo.
+"Production, seafood effluent"
+"Production, total, megawatts"
+"Protein, crop crude %"
+Pulp production
+"Pulp, Purchased"
+Pump hours
+Purchased paper
+Purgeable aromatics Method 602
+"Purgeable hydrocarbons, Meth. 601"
+Purgeable Organic Halides
+Quarternary ammonium compounds
+"Radiation,Gross Beta Particle Activity"
+Radioactivity
+"Radioactivity, gross"
+Rainfall
+Rainfall duration
+Rainfall events
+Rate of Discharge
+Ratio fecal coliform & streptococci
+Ratio of fecal coliform to fecal streptoc
+Raw materials processed
+"RCRA/CERCLA substances, 40 CFR 261 subp c"
+RDX+HMX
+Recirculation flow
+"Recirculation, percent of plant flow"
+Redox (oxidation reduction potential)
+Report due (yrmoda)
+Reservoir storage
+"Residue, tot fltrble (dried at 105 C)"
+"Residue, total filterable"
+"Residue, total filterable"
+"Residue, total volatile"
+"Residue, volatile nonfilterable"
+"Resin acids, total"
+Rotenolone
+Run time
+Runoff-spray irrigation field to stream
+Salinity
+Salmonella
+Salmonella From Sediments
+Sand in drilling fluids
+Sanitary and Domestic Foam or Floating Solids
+Sanitary waste discharged-assessmnt
+"Sanitary waste, fecal coliform"
+"Sanitary waste, flow"
+"Sanitary waste, residual chlorine"
+"Sanitary waste, solids"
+"SAS - 310, Total"
+Screen Area Blockage
+Screen Efficiency
+"Seabed survey, 1st suvey w/i 2 wks"
+"Seabed survey, 2ndsuvey w/i 1 yr"
+"Seabed survey, industry wide"
+Seafood Processing Waste
+"Seafood production, effluent # day/mo"
+Seawater gel mud
+Seawater in drilling fluids
+"sec-Butyl-1,1-diphenylethane"
+"sec-Butyl-1,2-diphenylethane"
+sec-Butyldiphenylmethane
+"Sediment sample, (dry weight)"
+"Sediment, suspended"
+Septage discharged to treatment fac.
+Settleable solids percent removal
+Settling index as pertaining to wells
+Sewer Backups
+Sludge build-up in water
+Sludge buildup visual
+Sludge hydraulic loading
+"Sludge return rate, % of plant flow"
+Sludge settleability 30 minute
+Sludge volume daily into a well
+Sludge volume index (SVI)
+Sludge waste from secondary clarifiers
+"Sludge weight, dry"
+"Sludge weight, wet tons"
+"Sludge, depth"
+"Sludge, rate of wasting"
+Sodium adsorption ratio
+Sodium Bromide/Sodium Hypochlorite Ratio
+Sodium Hypochlorite Bleach
+Sodium Tolytriazole
+"Sodium, % exchangeable soil, total"
+"Sodium, % total cations"
+Soil Erodibility Potential
+Solids accumulation rate tot dry weight
+"Solids, dissolved- tons"
+"Solids, dry, discharge to sol. handling sys."
+"Solids, dry, incin.as%ofdrysol.fromtrmtplt"
+"Solids, dry, removed from sol. handling sys."
+"Solids, fixed, % of total solids"
+"Solids, sludge, tot, dry weight"
+"Solids, suspended percent removal"
+"Solids, suspended percent removal, dry"
+"Solids, suspended percent removal, wet"
+"Solids, tot. volatile percent removal"
+"Solids, total diss., percent by weight"
+"Solids, total dissolved (inorganic)"
+"Solids, total dissolved, total tons"
+"Solids, total non- volatile, non-fixed"
+"Solids, total susp per production"
+"Solids, total susp. per 1000 gallons"
+"Solids, total susp. per batch"
+"Solids, total susp. per cfs of streamflw"
+"Solids, total suspd. non-volatile"
+"Solids, Total Suspen (lbs/1000 lbs Product)"
+"Solids, total suspended [per discharge]"
+"Solids, total suspended [per season]"
+"Solids, total suspended, loading rate"
+"Solids, total, percent"
+"Solids, total, sludge, percent"
+"Solids, volatile % of total solids"
+"Solids, volatile susp., in mixed liquor"
+"Solids, volatile suspended, % removal"
+Solids-flotng-visual detrmntn-# days obs
+Specific conductance
+Specific Conductance
+Specific gravity
+Spectrus CT 1300
+Spectrus OX 1200
+Spray irrigation
+"Spray irrigation, application rate"
+Spray to Rest Ratio
+"Stage, stream"
+Starch in drilling fluids
+Static 1Hr Chronic Colobocentr. Atratus
+Static 1Hr Chronic Coloboentr. Atratus
+Static 1Hr Chronic Strongyl. Purpuratus
+Static 1Hr Chronic Tripneustes Gratilla
+Static 1Hr Chronic Tripneustes Gratilla
+Static 20Min Chronic Dendraster Excentri
+Static 20Min Chronic Strongyl. Purpuratus
+Static 24 Hr Acute Ceriodaphnia Dubia
+Static 24 Hr Acute Daphnia Magna
+Static 24 Hr Acute Pimephales Promelas
+Static 24HR Acute Selenastrum capricoruntum
+Static 48 Hr Chronic Daphnia Magna
+Static 48 Hr Chronic Pimphales Promelas
+"Static 48 Hr Chronic, 5-7 Day Rec. Champia parvula"
+Static 48Hr Acute  Americamysis bahia
+Static 48Hr Acute Atherinops Affinis
+Static 48Hr Acute Ceriodaphnia dubia
+Static 48Hr Acute Ceriodaphnia Dubia
+Static 48Hr Acute Daphnia Magna
+Static 48Hr Acute Daphnia Pulex
+Static 48Hr Acute Menidia Beryllina
+Static 48Hr Acute Pimephales Promelas
+Static 48Hr Chronic Crassostrea Gigas
+Static 48Hr Chronic Haliotis Rufescens
+Static 48Hr Chronic Macrocystis Pyrifera
+Static 48Hr Chronic Macrocystis Pyrifera
+Static 48Hr Chronic Mytilis Edulis
+Static 48Hr Chronic Mytilis Species
+"Static 48Hr Chronic, 5-7 Day Rec. Cyprinodeon Variegas"
+Static 4Day Chronic Raphidoce. Subcapita
+Static 4Day Chronic Selen. Capricornutum
+Static 72Hr Chronic Dendraster Excentri.
+Static 72Hr Chronic Strongyl. Purpuratus
+Static 7Day Chronic Ceriodaphnia Dubia
+Static 7-Day Chronic Cypr. Nodon Variegat
+Static 7Day Chronic Menidia Beryllina
+Static 7Day Chronic Pimephales Promelas
+Static 96Hr Acute Atherinops Affinis
+Static 96Hr Acute Citharichys Sitigmae
+Static 96Hr Acute Cyprinodon variegatus
+Static 96Hr Acute Holmesimysis Costata
+Static 96Hr Acute Medinia Beryllina
+Static 96Hr Acute Oncorhynchus Mykiss
+Static 96Hr Acute Penaeus Vannamei
+Static 96Hr Acute Pimphales Promelas
+Static 96Hr Chronic Selen. Capricornutum
+Static 96Hr Chronic Thalassiosira Pseudonana Mar.Diat
+Static Acute Ceriodaphnia Dubia
+Static Acute Mysidopsis Bahia
+Static Chronic Pimephales Promelas
+Static Renewal 48Hr Acute Ceriodaphnia Dubia
+Static Renewal 48Hr Acute Daphnia Magna
+Static Renewal 48Hr Acute Pimephales Promelas
+Static Renewal 4Day Chronic Daphnia Magna
+Static Renewal 7 Day Chronic Ceriodaphnia dubia
+Static Renewal 7 Day Chronic Pimephales promelas
+Static Renewal 7-Day Chronic Americamysis bahia
+Static Renewal 7Day Chronic Atherinops Affinis
+Static Renewal 7Day Chronic Ceriodaphnia Dubia
+Static Renewal 7Day Chronic Holmesimysis Costata
+Static Renewal 7Day Chronic Menidia Beryllina
+Static Renewal 7Day Chronic Mysidopsis Bahia
+Static Renewal 7Day Chronic Pimphales Promelas
+Static Renewal 96Hr Acute Americamysis bahia
+Static Renewal 96HR Acute Americamysis bahia
+Static Renewal 96Hr Acute Atherinops Affinis
+Static Renewal 96Hr Acute Ceriodaphnia Dubia
+Static Renewal 96Hr Acute Gasterost Aculeatus
+Static Renewal 96HR Acute Holmesimysis costata
+Static Renewal 96Hr Acute Menidia Beryllina
+Static Renewal 96Hr Acute Mysidopsis Bahia
+Static Renewal 96Hr Acute Mysidopsis Bahia
+Static Renewal 96Hr Acute Oncorhynchus Mykiss
+Static Renewal 96Hr Acute Pimephales promelas
+Static Renewal 96Hr Acute Pimphales Promelas
+Static Renewal Acute Mysidopsis Bahia
+Static Renewal Chronic Cyprinodeon Variegas
+Static Renewal Chronic Pimephales Promelas
+Stickwater discharge
+"Stickwater, effluent percent recycled"
+"Stickwater, effluent volume recycled"
+"Stock base fluid, biodegredation rate"
+"Stock base fluid, PAH"
+"Stock base fluid, sediment toxicity"
+Storm water flow
+Stream flow (severity)
+"Stream Flow, End of Discharge"
+"Stream flow, estimated"
+"Stream flow, instantaneous"
+"Stream flow, mean.daily"
+"Stream Flow, Start of Discharge"
+Stream stage
+Stream velocity
+Stream width
+"Streptococci, fecal 10/mL"
+"Streptococci, fecal general"
+"Streptococci, fecal MF, KF agar, 35C, 48hr"
+"Streptococci, fecal MPN, KF broth 35 C"
+"Streptococci, fecal plate count KF agar"
+Strobane
+Sulfamethoxazole
+Sulfite pulp
+"Sum BOD and ammonia, water"
+Surface area
+"Surface area, square feet"
+Surface loading rate
+Surfactants (MBAS)
+"Surfactants, anionic "
+"Surfactants, as CTAS, effluent"
+"Surfactants, Non-Ionic"
+Syltherm
+Tannin and lignin
+Taste (severity)
+"Taxa, total number"
+TCDD equivalents
+Temp. diff. between intake and discharge
+Temp. diff. between intake and discharge
+Temp. diff. between samp. & upstrm deg. C
+Temp. diff. between samp. & upstrm deg. F
+Temp. diff. between up/down stream deg. F
+"Temp. difference, summer (deg. C)"
+"Temp. difference, summer (deg. F)"
+"Temp. difference, winter (deg. C)"
+"Temp. difference, winter (deg. F)"
+Temperature Increase Deg. C
+Temperature Increase Deg. F
+Temperature of sample upon arrival at lab
+Temperature rate of change deg. C/hr
+Temperature rate of change deg. F/hour
+"Temperature rise, length of excursion"
+"Temperature, air (degrees Centigrade)"
+"Temperature, air (degrees Fahrenheit)"
+"Temperature, background"
+"Temperature, length of excursion"
+"Temperature, summer (deg. C)"
+"Temperature, summer (deg. F)"
+"Temperature, water deg. centigrade"
+"Temperature, water deg. fahrenheit"
+"Temperature, winter (deg. C)"
+"Temperature, winter (deg. F)"
+"THC, dry & O2"
+Thermal Discharge
+Thermal discharge
+Thermal discharge million BTUs per day
+Thermal discharge million BTUs per hr.
+"Thermal Discharge, Million BTUs/Day"
+Thermal efficiency
+Thiocarbamates
+"Threatened & endangered species, presence"
+Tidal stage
+Tide stage
+Time each pumping rate utilized
+Time of bromine addition
+Time of ferrous sulfate addition
+"Time, ending (hhmm using 24-hour clock)"
+"Time, starting (hhmmusing 24-hour clock)"
+"Tin, tri-organo-"
+Torq trim it in drilling fluids
+Total acid priority pollutants
+Total agg concentration #1
+Total agg concentration #2
+Total agg concentration #3
+Total agg concentration #4
+Total agg concentration #5
+Total agg concentration #6
+Total agg concentration #7
+Total agg concentration #8
+Total Amount Land Applied
+Total base/neutral priority pollutants
+Total K001 Constituents
+Total Organic Carbon % Removal
+Total pesticides
+Total petroleum hydrocarbon - diesel
+Total petroleum hydrocarbon - gasoline
+Total Petroleum Hydrocarbons - Diesel and Waste Oil
+Total Petroleum Hydrocarbons - Jet Fuel
+Total Petroleum Hydrocarbons - Waste Oil
+Total production
+Total production
+Total Production - volume
+Total purgeable halocarbons
+Total residual ooxidant-discharge time
+Total susp. solids- lb/cu ft process
+Total toxic organics (TTO) (40 CFR413)
+Total toxic organics (TTO) (40 CFR433)
+Total toxic organics (TTO) (40 CFR464a)
+Total toxic organics (TTO) (40 CFR464b)
+Total toxic organics (TTO) (40 CFR464c)
+Total toxic organics (TTO) (40 CFR464d)
+Total toxic organics (TTO) (40 CFR467)
+Total toxic organics (TTO) (40 CFR468)
+Total toxic organics (TTO) (40 CFR469)
+Total toxic organics(TTO) (40 CFR465)
+Total volatile priority pollutants
+Total water accumulations
+Total water irrigated
+Toxicity
+Toxicity
+"Toxicity [chronic], Ceriodaphnia dubia"
+"Toxicity [chronic], Pimephales promelas [Fathead Minnow]"
+Toxicity characteristic leaching procedure
+"Toxicity, Acute"
+"Toxicity, Acute, % Survival"
+"Toxicity, ceriodaphnia acute"
+"Toxicity, ceriodaphnia chronic"
+"Toxicity, choice of species"
+"Toxicity, Chronic"
+"Toxicity, final conc toxicity units"
+"Toxicity, pimephales acute"
+"Toxicity, pimephales chronic"
+"Toxicity, salmo acute"
+"Toxicity, salmo chronic"
+"Toxicity, sand dollar"
+"Toxicity, trout"
+Toxics
+"Toxics, percent removal"
+Transparency
+"Transparency, secchi disc (inches)"
+Triaryl phosphate
+"Tritium, total counting error (pc/L)"
+"Tritium, total net increase H-3 units"
+TU 1Hr Chronic L. Minor
+TU 1Hr Chronic Selen. Capr.
+TU 1Hr Fert. Test Chronic L. Minor
+TU 1Hr Fert. Test Chronic Selen Capr.
+"TU 48 Hr Chr, 5-7 Day Rec. L. Minor"
+"TU 48Hr Chr, 5-7 Day Rec. Selen. Capr."
+TU 96Hr Acute L. Minor
+TU 96Hr Acute Selen. Capr.
+TU Static 1Hr Chronic Dendraster Excent
+TU Static 1Hr Chronic Green Sea Urchin
+TU Static 1Hr Chronic Purple Sea Urchin
+TU Static 1Hr Chronic Red Sea Urchin
+TU Static 48Hr Chronic Crassostrea Gigas
+TU Static 48Hr Chronic Mytilus Edulis
+TU Statre 96Hr Acute Cancer Magister
+TU Statre 96Hr Acute Orcorhynchus Gorbus
+TU Statre 96Hr Acute Pandulas Borealis
+TU Statre 96Hr Acute Pandulas Hypsinotus
+Turbidity
+Turbidity (severity)
+"Turbidity, % increas over intake"
+"Turbidity, background"
+"Turbidity, change"
+"Turbidity, hch turbidimiter"
+"Turbidity, hellige (silicon dioxide)"
+"Turbidity, increase over background"
+"Turbidity, lab, NTU"
+"Turbidity, sed stick"
+"Turbidity, Test Failures"
+"Turbidity, time above limit"
+"Turbidity, transmissometer, %"
+Ultraviolet light dosage
+Ultraviolet light intensity
+Ultraviolet light transmittance
+Unit boundary to property line distance
+Unit w/liner/leachate collection system
+Utilization rate
+UV Flow Rate
+UV Lamp Intensity
+UV Light Working
+UV Transmittance
+Vector attraction reduction altern used
+Vegetative cover
+"Velocity of discharge, meters/sec."
+Velocity of intake
+"Viable helminth ova in sludge, #/4grams"
+Viscosity
+"Volatile compounds, (GC/MS)"
+Volatile fraction organics (EPA 624)
+"Volatile halogenated organics (VHO), tot"
+Volatile hydrocarbons
+Volatile organics detected
+Volume of injected wastewater
+"Volume, daily"
+"Volume, total"
+"Volume, total"
+VX Agent
+Waste heat rejection rate
+Water backwash
+Water Elevation
+Water level at sample collection time
+Water level relative to mean sea level
+Water softener backwash
+Water treatment additives
+Water Treatment Additives Presence
+Water usage
+"Well fluids, free oil"
+"Well fluids, oil & grease"
+"Well fluids, pH"
+"Well fluids, priority pollutants disch"
+"Well fluids, volume"
+"WET, sublethal retest #1"
+"WET, sublethal retest #2"
+"Wetland overflow, y/n response"
+Whole effluent toxicity
+Whole effluent toxicity - retest #1
+Whole effluent toxicity - retest #2
+Whole Effluent Toxicity - Retest #3
+Whole Effluent Toxicity [WET] - Ceriodaphnia dubia
+Whole Effluent Toxicity [WET] - Daphnia pulex
+Whole Effluent Toxicity [WET] - Menidia beryllina
+Whole Effluent Toxicity [WET] - Mysidopsis bahia
+Whole Effluent Toxicity [WET] - Pimephales promelas
+"Whole Effluent Toxicity, Sub-Lethal Retest #3"
+Wind direction (deg from true N)
+Wind velocity
+"Woody vegetation, presence"
+"WWT drill fluid/cutting, haz metal disch"
+WWT drill fluids/cutings free oil
+"WWT drill fluids/cuttings, chlorides"
+"WWT drill fluids/cuttings, chromium"
+"WWT drill fluids/cuttings, oil & grease"
+"WWT drill fluids/cuttings, pH"
+"WWT drill fluids/cuttings, TDS"
+"WWT drill fluids/cuttings, zinc"
+Xanthates
+XC Polymer in drilling fluids
+"Xylene, meta & para in combination"
