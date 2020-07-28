@@ -12,7 +12,7 @@ Updates:
 
 '''
 
-import os, requests
+import os, requests, csv
 import pandas as pd
 import stewi.globals as globals
 from stewi.globals import set_dir, filter_inventory, filter_states,\
@@ -236,6 +236,22 @@ def unpickle(filepath):
     result = pd.DataFrame(result['Results']['Results'])
     return result
 
+def generateStateTotal(year):
+    print('generating state totals')
+    # TODO: generate state totals
+    # https://echo.epa.gov/trends/loading-tool/get-data/state-statistics
+    # https://ofmpub.epa.gov/echo/dmr_rest_services.get_state_stats?p_year=2020&output=csv
+    url = 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_state_stats?p_year=' + year + '&output=csv'
+    
+    state_csv = pd.read_csv(url, header=2)
+    state_totals = pd.DataFrame()
+    state_totals['Amount']=state_csv['Total Pollutant Pounds (lb/yr) for Majors']+state_csv['Total Pollutant Pounds (lb/yr) for Non-Majors']
+    state_totals['FlowName']='All'
+    state_totals['Compartment']='All'
+    
+    
+    return
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(argument_default = argparse.SUPPRESS)
@@ -271,8 +287,7 @@ if __name__ == '__main__':
             p_sic_state_max_error_list, p_sic_state_no_data_list, p_sic_state_success_list = query_dmr(year = DMRyear, sic_list=p_sic_max_error_list, state_list=states, nutrient='P')
             
         if args.Option == 'B':
-            print('generating state totals')
-            # TODO: generate state totals
+            generateStateTotal(DMRyear)
         
         if args.Option == 'C':
             
