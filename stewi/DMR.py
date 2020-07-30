@@ -92,13 +92,13 @@ def query_dmr(year, sic_list=sic2, region_list=[], state_list=[], nutrient='', p
                             filepath = path + 'sic_' + sic + '_' + state_or_region + '_' + page + '.pickle'
                             url = generate_url(report_year=year, sic=sic, state=state_or_region, responseset=500, pageno=page)
                     if os.path.exists(filepath):
-                        print('file already exists for '+params +' page '+counter+', skipping query')
+                        print('file already exists for '+ str(params) +' page '+str(counter)+', skipping query')
                         if counter == 1:
                             result = pd.read_pickle(filepath)
                             pages = int(result['Results']['PageCount'])
-                        success_list.append(sic + '_' + state_or_region + '_' + page)
+                        success_list.append(sic + '_' + state_or_region + '_' + str(page))
                     else:
-                        print('executing query for '+ params +' page '+counter)
+                        print('executing query for '+ str(params) +' page '+ str(counter))
                         result = execute_query(url)
                         if str(type(result)) == "<class 'str'>":
                             if result == 'no_data': no_data_list.append(sic + '_' + state_or_region + '_' + page)
@@ -106,7 +106,7 @@ def query_dmr(year, sic_list=sic2, region_list=[], state_list=[], nutrient='', p
                         else:
                             if counter == 1: pages = int(result['Results']['PageCount'])
                             pd.to_pickle(result, filepath)
-                            success_list.append(sic + '_' + state_or_region + '_' + page)
+                            success_list.append(sic + '_' + state_or_region + '_' + str(page))
                     counter += 1
             else: # Pagination not necessary
                 if region_list:
@@ -124,10 +124,10 @@ def query_dmr(year, sic_list=sic2, region_list=[], state_list=[], nutrient='', p
                         filepath = path + 'sic_' + sic + '_' + state_or_region + '.pickle'
                         url = generate_url(report_year=year, sic=sic, state=state_or_region)
                 if os.path.exists(filepath):
-                    print('file already exists for '+params +', , skipping')
+                    print('file already exists for '+ str(params) +', , skipping')
                     success_list.append(sic + '_' + state_or_region)
                 else:
-                    print('executing query for '+ params)
+                    print('executing query for '+ str(params))
                     result = execute_query(url)
                     if str(type(result)) == "<class 'str'>":
                         if result == 'no_data': no_data_list.append(sic + '_' + state_or_region)
