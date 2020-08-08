@@ -1,5 +1,24 @@
-#NEI import and process to Standardized EPA output format
-#This script uses the NEI data exports from EIS.
+#!/usr/bin/env python
+"""
+Imports NEI data and processes to Standardized EPA output format.
+Uses the NEI data exports from EIS.
+This file requires parameters be passed like:
+
+    Option -y Year 
+
+Options:
+    A - for generating flowbyfacility output
+    B - for generating flows output
+    C - for generating facilities output
+    D - for validating flowbyfacility against national totals
+
+Year: 
+    2017
+    2016
+    2014
+    2011
+"""
+
 
 from stewi.globals import set_dir,output_dir,data_dir, write_metadata,inventory_metadata,get_relpath,unit_convert,\
     validate_inventory,write_validation_result,USton_kg,lb_kg
@@ -7,13 +26,9 @@ import pandas as pd
 import numpy as np
 import os
 import time
+import argparse
+import pyarrow.parquet as pq
 
-report_year = '2017'
-
-external_dir = set_dir('../NEI/')
-
-nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields_2017.csv',sep=',').fillna('Null')
-nei_file_path = pd.read_table(data_dir + 'NEI_' + report_year + '_file_path.csv',sep=',').fillna('Null')
 
 def read_data(source,file):
     #tmp = pd.Series(list(nei_required_fields[source]), index=list(nei_required_fields['StandardizedEPA']))
@@ -94,74 +109,108 @@ def generate_national_totals(year):
     df.to_csv(data_dir+'NEI_'+year+'_NationalTotals.csv',index=False)
 
 
-#NEIPoint
-nei_point = standardize_output('Point')
+# gets metadata and writes to .json    
+def generate_metadata(year):
+    NEI_meta = inventory_metadata
 
-#Pickle it
-nei_point.to_pickle('work/NEI_' + report_year + '.pk')
+    #Get time info from first point file
+    point_1_path = external_dir + nei_file_path['Point'][0]
+    nei_retrieval_time = time.ctime(os.path.getctime(point_1_path))
 
-#Flowbyfacility output
-#re_index nei_point
-nei_point = nei_point.reset_index()
-nei_flowbyfacility = nei_aggregate_unit_to_facility_level(nei_point)
-#nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+report_year+'.csv',index=False)
-nei_flowbyfacility.to_parquet(output_dir+'flowbyfacility/NEI_'+report_year+'.parquet',
-                              index=False, compression=None)
-print(len(nei_flowbyfacility))
-#2017: 2184786
-#2016: 1965918
-#2014: 2057249
-#2011: 1840866
+    if nei_retrieval_time is not None:
+        NEI_meta['SourceAquisitionTime'] = nei_retrieval_time
+    NEI_meta['SourceFileName'] = get_relpath(point_1_path)
+    NEI_meta['SourceURL'] = 'http://eis.epa.gov'
 
-##Flows output
-nei_flows = nei_point[['FlowName', 'FlowID']]
-nei_flows = nei_flows.drop_duplicates()
-nei_flows['Compartment']='air'
-nei_flows['Unit']='kg'
-nei_flows = nei_flows.sort_values(by='FlowName',axis=0)
-nei_flows.to_csv(output_dir+'flow/'+'NEI_'+report_year+'.csv',index=False)
-print(len(nei_flows))
-#2017: 293
-#2016: 282
-#2014: 279
-#2011: 277
+    #extract version from filepath using regex
+    import re
+    pattern = 'V[0-9]'
+    version = re.search(pattern,point_1_path,flags=re.IGNORECASE)
+    if version is not None:
+        NEI_meta['SourceVersion'] = version.group(0)
 
-##Facility output
-facility = nei_point[['FacilityID', 'FacilityName', 'Address', 'City', 'State',
-       'Zip', 'Latitude', 'Longitude', 'NAICS', 'County']]
-facility = facility.drop_duplicates('FacilityID')
-facility.to_csv(output_dir+'facility/'+'NEI_'+report_year+'.csv',index=False)
-print(len(facility))
-#2017: 87162
-#2016: 85802
-#2014: 85125
-#2011: 95565
+    #Write metadata to json
+    write_metadata('NEI', args.Year, NEI_meta)
+    
 
-#Write metadata
-NEI_meta = inventory_metadata
+if __name__ == '__main__':
+    
+    parser = argparse.ArgumentParser(argument_default = argparse.SUPPRESS)
 
-#Get time info from first point file
-point_1_path = external_dir + nei_file_path['Point'][0]
-nei_retrieval_time = time.ctime(os.path.getctime(point_1_path))
+    parser.add_argument('Option',
+                        help = 'What do you want to do:\
+                        [A] Generate flowbyfacility output\
+                        [B] Generate flows output\
+                        [C] Generate facilities output\
+                        [D] Validate flowbyfacility against national totals',
+                        type = str)
 
-if nei_retrieval_time is not None:
-    NEI_meta['SourceAquisitionTime'] = nei_retrieval_time
-NEI_meta['SourceFileName'] = get_relpath(point_1_path)
-NEI_meta['SourceURL'] = 'http://eis.epa.gov'
+    parser.add_argument('-y', '--Year',
+                        help = 'What TRI year you want to retrieve',
+                        type = str)
+    
+    args = parser.parse_args()
+    
+    external_dir = set_dir('../NEI/')
+    if args.Year == '2017':
+        nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields_2017.csv',sep=',').fillna('Null')
+    else: 
+        nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields.csv',sep=',').fillna('Null')
+    nei_file_path = pd.read_table(data_dir + 'NEI_' + args.Year + '_file_path.csv',sep=',').fillna('Null')
+    
+    generate_metadata(args.Year)
+    
+    #NEIPoint
+    nei_point = standardize_output('Point')
 
-#extract version from filepath using regex
-import re
-pattern = 'V[0-9]'
-version = re.search(pattern,point_1_path,flags=re.IGNORECASE)
-if version is not None:
-    NEI_meta['SourceVersion'] = version.group(0)
-
-#Write metadata to json
-write_metadata('NEI',report_year, NEI_meta)
-
-#VALIDATE
-nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ report_year + '_NationalTotals.csv',header=0,dtype={"FlowAmount[kg]":np.float})
-# Rename col to match reference format
-nei_national_totals.rename(columns={'FlowAmount[kg]':'FlowAmount'},inplace=True)
-validation_result = validate_inventory(nei_flowbyfacility, nei_national_totals, group_by='flow', tolerance=5.0)
-write_validation_result('NEI',report_year,validation_result)
+    #Pickle it
+    nei_point.to_pickle('work/NEI_' + args.Year + '.pk')
+    
+    if args.Option == 'A':
+        #Flowbyfacility output
+        #re_index nei_point
+        nei_point = nei_point.reset_index()
+        nei_flowbyfacility = nei_aggregate_unit_to_facility_level(nei_point)
+        #nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+report_year+'.csv',index=False)
+        nei_flowbyfacility.to_parquet(output_dir+'flowbyfacility/NEI_'+args.Year+'.parquet', 
+                                      index=False, compression=None)
+        print(len(nei_flowbyfacility))
+        #2017: 2184786
+        #2016: 1965918
+        #2014: 2057249
+        #2011: 1840866
+        
+    elif args.Option == 'B':
+        ##Flows output
+        nei_flows = nei_point[['FlowName', 'FlowID']]
+        nei_flows = nei_flows.drop_duplicates()
+        nei_flows['Compartment']='air'
+        nei_flows['Unit']='kg'
+        nei_flows = nei_flows.sort_values(by='FlowName',axis=0)
+        nei_flows.to_csv(output_dir+'flow/'+'NEI_'+args.Year+'.csv',index=False)
+        print(len(nei_flows))
+        #2017: 293
+        #2016: 282
+        #2014: 279
+        #2011: 277
+        
+    elif args.Option == 'C':
+        ##Facility output
+        facility = nei_point[['FacilityID', 'FacilityName', 'Address', 'City', 'State', 
+                              'Zip', 'Latitude', 'Longitude', 'NAICS', 'County']]
+        facility = facility.drop_duplicates('FacilityID')
+        facility.to_csv(output_dir+'facility/'+'NEI_'+args.Year+'.csv',index=False)
+        print(len(facility))
+        #2017: 87162
+        #2016: 85802
+        #2014: 85125
+        #2011: 95565
+    
+    elif args.Option == 'D':
+        ##Validate flowbyfacility against national totals
+        nei_flowbyfacility = pq.read_table(output_dir+'flowbyfacility/NEI_'+args.Year+'.parquet').to_pandas()
+        nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ args.Year + '_NationalTotals.csv',header=0,dtype={"FlowAmount[kg]":np.float})
+        # Rename col to match reference format
+        nei_national_totals.rename(columns={'FlowAmount[kg]':'FlowAmount'},inplace=True)
+        validation_result = validate_inventory(nei_flowbyfacility, nei_national_totals, group_by='flow', tolerance=5.0)
+        write_validation_result('NEI',args.Year,validation_result)
