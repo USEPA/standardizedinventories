@@ -7,10 +7,11 @@ This file requires parameters be passed like:
     Option -y Year 
 
 Options:
-    A - for generating flowbyfacility output
-    B - for generating flows output
-    C - for generating facilities output
-    D - for validating flowbyfacility against national totals
+    A - for processing downloaded NEI
+    B - for generating flowbyfacility output
+    C - for generating flows output
+    D - for generating facilities output
+    E - for validating flowbyfacility against national totals
 
 Year: 
     2017
@@ -20,49 +21,81 @@ Year:
 """
 
 
-from stewi.globals import set_dir,output_dir,data_dir, write_metadata,inventory_metadata,get_relpath,unit_convert,\
-    validate_inventory,write_validation_result,USton_kg,lb_kg
+from stewi.globals import set_dir,output_dir,data_dir,write_metadata,\
+    inventory_metadata,get_relpath,unit_convert,log,\
+    validate_inventory,write_validation_result,USton_kg,lb_kg,weighted_average
 import pandas as pd
 import numpy as np
 import os
 import time
 import argparse
-import pyarrow.parquet as pq
 
 
 def read_data(source,file):
-    #tmp = pd.Series(list(nei_required_fields[source]), index=list(nei_required_fields['StandardizedEPA']))
+    """
+    
+    Parameters
+    ----------
+    source : TYPE
+        DESCRIPTION.
+    file : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    file_result : TYPE
+        DESCRIPTION.
+
+    """
     file_result = pd.DataFrame(columns=list(nei_required_fields['StandardizedEPA']))
     # read nei file by chunks
-    for file_chunk in pd.read_table(external_dir + file,sep=',',usecols=list(set(nei_required_fields[source])-set(['Null'])),chunksize=100000,engine='python'):
+    for file_chunk in pd.read_csv(
+            external_dir + file,
+            usecols=list(set(nei_required_fields[source])-set(['Null'])),
+            dtype={'sppd_facility_identifier':'str'},
+            chunksize=100000,
+            low_memory=False):
         # change column names to Standardized EPA names
-        file_chunk = file_chunk.rename(columns=pd.Series(list(nei_required_fields['StandardizedEPA']),index=list(nei_required_fields[source])).to_dict())
+        file_chunk = file_chunk.rename(columns=pd.Series(list(nei_required_fields['StandardizedEPA']),
+                                                         index=list(nei_required_fields[source])).to_dict())
         # adjust column order
         file_chunk = file_chunk[file_result.columns.tolist()]
         # concatenate all chunks
         file_result = pd.concat([file_result,file_chunk])
-    return(file_result)
+    return file_result
 
 
-def standardize_output(source): # source as 'Point'/'NonPoint'/'OnRoad'/'NonRoad'
+def standardize_output(source='Point'):
+    """
+   
+    Parameters
+    ----------
+    source : TYPE, optional
+        DESCRIPTION. The default is 'Point'.
+
+    Returns
+    -------
+    nei : TYPE
+        DESCRIPTION.
+
+    """
     # extract file paths
     file_path = list(set(nei_file_path[source]) - set(['Null']))
-    print(file_path)
-    # read in first nei file by chunks
-    nei = read_data(source, file_path[0])
-    print(file_path[0])
-    print(len(nei))
-    # read in other nei files and concatenate all nei files into one dataframe
-    for file in file_path[1:]:
+    log.info('identified ' +str(len(file_path)) + ' files: '+ ' '.join(file_path))
+    nei = pd.DataFrame()
+    # read in nei files and concatenate all nei files into one dataframe
+    for file in file_path[0:]:
         # concatenate all other files
+        log.info('reading NEI data from '+ file)
         nei = pd.concat([nei,read_data(source,file)])
-        print(file)
-        print(len(nei))
+        log.info(str(len(nei))+' records')
     # convert TON to KG
     nei['FlowAmount'] = nei['FlowAmount']*USton_kg
-    # add Reliability Score
+
+    log.info('adding Data Quality information')
     if source == 'Point':
-        reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',usecols=['Source','Code','DQI Reliability Score'])
+        reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',
+                                        usecols=['Source','Code','DQI Reliability Score'])
         nei_reliability_table = reliability_table[reliability_table['Source'] == 'NEI']
         nei_reliability_table['Code'] = nei_reliability_table['Code'].astype(float)
         nei['ReliabilityScore'] = nei['ReliabilityScore'].astype(float)
@@ -74,29 +107,40 @@ def standardize_output(source): # source as 'Point'/'NonPoint'/'OnRoad'/'NonRoad
         nei['ReliabilityScore'] = 3
     # add Source column
     nei['Source'] = source
-    return(nei)
+    return nei
 
 
 def nei_aggregate_unit_to_facility_level(nei_):
+    """
+    Aggregates NEI dataframe to flow by facility
+    """
     # drops rows if flow amount or reliability score is zero
     nei_ = nei_[(nei_['FlowAmount'] > 0) & (nei_['ReliabilityScore'] > 0)]
 
     grouping_vars = ['FacilityID', 'FlowName']
-
-    # Do groupby with sum of flow amount and weighted avg of reliabilty
-    # Define a lambda function to compute the weighted avg
-    wm = lambda x: np.average(x, weights=nei_.loc[x.index, "FlowAmount"])
-    # Groupby and aggregate:
-    neibyfacility = nei_.groupby(grouping_vars).agg({'FlowAmount': ['sum'], 'ReliabilityScore': [wm]})
+    neibyfacility = nei_.groupby(grouping_vars).agg({'FlowAmount': ['sum']})
+    neibyfacility['ReliabilityScore']=weighted_average(
+        nei_, 'ReliabilityScore', 'FlowAmount', grouping_vars)
 
     neibyfacility = neibyfacility.reset_index()
     neibyfacility.columns = neibyfacility.columns.droplevel(level=1)
 
-    return(neibyfacility)
+    return neibyfacility
 
-
-# Computes pollutant national totals from 'Facility-level by Pollutant' data downloaded from EPA website 
 def generate_national_totals(year):
+    """
+    Computes pollutant national totals from 'Facility-level by Pollutant' data downloaded from EPA website 
+    Parameters
+    ----------
+    year : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    None.
+
+    """
+    log.info('Downloading national totals')
     df = pd.read_csv(data_dir + 'NEI_Facility-level by Pollutant_' + year + '.csv', header = 0,
                      usecols = ['pollutant code','pollutant desc','total emissions','emissions uom'])
     df.columns = ['FlowID', 'FlowName', 'FlowAmount', 'UOM']
@@ -104,13 +148,24 @@ def generate_national_totals(year):
     df['FlowAmount'] = np.where(df['UOM']=='LB',df['FlowAmount']*lb_kg,df['FlowAmount']*USton_kg)
     df = df.drop(['UOM'],1)
     df = df.groupby(['FlowID','FlowName'])['FlowAmount'].sum().reset_index()
-    #df = df.groupby('FlowID','FlowName').agg({'FlowAmount': ['sum']})
     df.rename(columns={'FlowAmount':'FlowAmount[kg]'}, inplace=True)
     df.to_csv(data_dir+'NEI_'+year+'_NationalTotals.csv',index=False)
 
-
-# gets metadata and writes to .json    
 def generate_metadata(year):
+    """
+    Gets metadata and writes to .json
+
+    Parameters
+    ----------
+    year : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    None.
+
+    """
+    log.info('Generating metadata')
     NEI_meta = inventory_metadata
 
     #Get time info from first point file
@@ -130,7 +185,7 @@ def generate_metadata(year):
         NEI_meta['SourceVersion'] = version.group(0)
 
     #Write metadata to json
-    write_metadata('NEI', args.Year, NEI_meta)
+    write_metadata('NEI', year, NEI_meta)
     
 
 if __name__ == '__main__':
@@ -139,78 +194,86 @@ if __name__ == '__main__':
 
     parser.add_argument('Option',
                         help = 'What do you want to do:\
-                        [A] Generate flowbyfacility output\
-                        [B] Generate flows output\
-                        [C] Generate facilities output\
-                        [D] Validate flowbyfacility against national totals',
+                        [A] Process and pickle NEI data\
+                        [B] Generate flowbyfacility output\
+                        [C] Generate flows output\
+                        [D] Generate facilities output\
+                        [E] Validate flowbyfacility against national totals',
                         type = str)
 
     parser.add_argument('-y', '--Year',
-                        help = 'What TRI year you want to retrieve',
+                        help = 'What NEI year you want to retrieve',
                         type = str)
     
     args = parser.parse_args()
     
     external_dir = set_dir('../NEI/')
-    if args.Year == '2017':
-        nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields_2017.csv',sep=',').fillna('Null')
-    else: 
-        nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields.csv',sep=',').fillna('Null')
-    nei_file_path = pd.read_table(data_dir + 'NEI_' + args.Year + '_file_path.csv',sep=',').fillna('Null')
     
-    generate_metadata(args.Year)
+    for year in args.Year:
+        if args.Option == 'A':
     
-    #NEIPoint
-    nei_point = standardize_output('Point')
-
-    #Pickle it
-    nei_point.to_pickle('work/NEI_' + args.Year + '.pk')
-    
-    if args.Option == 'A':
-        #Flowbyfacility output
-        #re_index nei_point
-        nei_point = nei_point.reset_index()
-        nei_flowbyfacility = nei_aggregate_unit_to_facility_level(nei_point)
-        #nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+report_year+'.csv',index=False)
-        nei_flowbyfacility.to_parquet(output_dir+'flowbyfacility/NEI_'+args.Year+'.parquet', 
-                                      index=False, compression=None)
-        print(len(nei_flowbyfacility))
-        #2017: 2184786
-        #2016: 1965918
-        #2014: 2057249
-        #2011: 1840866
+            if year == '2017':
+                nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields_2017.csv',sep=',').fillna('Null')
+            else: 
+                nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields.csv',sep=',').fillna('Null')
+            nei_file_path = pd.read_table(data_dir + 'NEI_' + year + '_file_path.csv',sep=',').fillna('Null')
         
-    elif args.Option == 'B':
-        ##Flows output
-        nei_flows = nei_point[['FlowName', 'FlowID']]
-        nei_flows = nei_flows.drop_duplicates()
-        nei_flows['Compartment']='air'
-        nei_flows['Unit']='kg'
-        nei_flows = nei_flows.sort_values(by='FlowName',axis=0)
-        nei_flows.to_csv(output_dir+'flow/'+'NEI_'+args.Year+'.csv',index=False)
-        print(len(nei_flows))
-        #2017: 293
-        #2016: 282
-        #2014: 279
-        #2011: 277
+            nei_point = standardize_output()
+            nei_point.to_pickle('work/NEI_' + year + '.pk')
+            generate_metadata(year)
+            
+        else:
+            log.info('extracting data from NEI pickle')
+            nei_point = pd.read_pickle('work/NEI_' + year + '.pk')
+            
+        if args.Option == 'B':
+            log.info('generating flow by facility output')
+            nei_point = nei_point.reset_index()
+            nei_flowbyfacility = nei_aggregate_unit_to_facility_level(nei_point)
+            #nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+report_year+'.csv',index=False)
+            nei_flowbyfacility.to_parquet(output_dir+'flowbyfacility/NEI_'+year+'.parquet', 
+                                          index=False, compression=None)
+            log.info(len(nei_flowbyfacility))
+            #2017: 2184786
+            #2016: 1965918
+            #2014: 2057249
+            #2011: 1840866
+            
+        elif args.Option == 'C':
+            log.info('generating flows output')
+            nei_flows = nei_point[['FlowName', 'FlowID']]
+            nei_flows = nei_flows.drop_duplicates()
+            nei_flows['Compartment']='air'
+            nei_flows['Unit']='kg'
+            nei_flows = nei_flows.sort_values(by='FlowName',axis=0)
+            nei_flows.to_csv(output_dir+'flow/'+'NEI_'+year+'.csv',index=False)
+            log.info(len(nei_flows))
+            #2017: 293
+            #2016: 282
+            #2014: 279
+            #2011: 277
+            
+        elif args.Option == 'D':
+            log.info('generating facility output')
+            facility = nei_point[['FacilityID', 'FacilityName', 'Address', 'City', 'State', 
+                                  'Zip', 'Latitude', 'Longitude', 'NAICS', 'County']]
+            facility = facility.drop_duplicates('FacilityID')
+            facility.to_csv(output_dir+'facility/'+'NEI_'+year+'.csv',index=False)
+            log.info(len(facility))
+            #2017: 87162
+            #2016: 85802
+            #2014: 85125
+            #2011: 95565
         
-    elif args.Option == 'C':
-        ##Facility output
-        facility = nei_point[['FacilityID', 'FacilityName', 'Address', 'City', 'State', 
-                              'Zip', 'Latitude', 'Longitude', 'NAICS', 'County']]
-        facility = facility.drop_duplicates('FacilityID')
-        facility.to_csv(output_dir+'facility/'+'NEI_'+args.Year+'.csv',index=False)
-        print(len(facility))
-        #2017: 87162
-        #2016: 85802
-        #2014: 85125
-        #2011: 95565
-    
-    elif args.Option == 'D':
-        ##Validate flowbyfacility against national totals
-        nei_flowbyfacility = pq.read_table(output_dir+'flowbyfacility/NEI_'+args.Year+'.parquet').to_pandas()
-        nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ args.Year + '_NationalTotals.csv',header=0,dtype={"FlowAmount[kg]":np.float})
-        # Rename col to match reference format
-        nei_national_totals.rename(columns={'FlowAmount[kg]':'FlowAmount'},inplace=True)
-        validation_result = validate_inventory(nei_flowbyfacility, nei_national_totals, group_by='flow', tolerance=5.0)
-        write_validation_result('NEI',args.Year,validation_result)
+        elif args.Option == 'E':
+            log.info('validating flow by facility against national totals')
+            if not(os.path.exists(data_dir + 'NEI_'+ year + '_NationalTotals.csv')):
+                generate_national_totals(year)
+            nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ year + '_NationalTotals.csv',
+                                              header=0,dtype={"FlowAmount[kg]":np.float})
+            nei_flowbyfacility = pd.read_parquet(output_dir+'flowbyfacility/NEI_'+year+'.parquet')
+            # Rename col to match reference format
+            nei_national_totals.rename(columns={'FlowAmount[kg]':'FlowAmount'},inplace=True)
+            validation_result = validate_inventory(nei_flowbyfacility, nei_national_totals,
+                                                   group_by='flow', tolerance=5.0)
+            write_validation_result('NEI',year,validation_result)
