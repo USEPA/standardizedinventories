@@ -12,7 +12,8 @@ data_dir = modulepath + 'data/'
 INVENTORY_PREFERENCE_BY_COMPARTMENT = {"air":["eGRID","GHGRP","NEI","TRI"],
                                        "water":["DMR", "TRI"],
                                        "soil":["TRI"],
-                                       "waste":["RCRAInfo","TRI"]}
+                                       "waste":["RCRAInfo","TRI"],
+                                       "output":["eGRID"]}
 
 LOOKUP_FIELDS = ["FRS_ID", "Compartment", "SRS_ID"]
 # pandas might infer wrong type, force cast skeptical columns
