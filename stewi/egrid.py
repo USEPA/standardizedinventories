@@ -61,9 +61,6 @@ def generate_eGRID_files(year):
     #drop first row which are column name abbreviations
     egrid = egrid.drop([0])
     
-    #egrid.to_csv(eGRIDfilepath+'egrid_temp.csv', index=False)
-    #egrid = pd.read_csv(eGRIDfilepath+'egrid_temp.csv')
-    
     #use_cols not working so drop them after import
     #get list of columns not in the required fields and drop them
     egrid_required_fields, egrid_col_dict = imp_fields(data_dir+'eGRID_required_fields.csv',year)

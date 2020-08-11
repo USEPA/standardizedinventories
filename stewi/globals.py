@@ -20,7 +20,7 @@ reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromER
 
 def config():
     configfile = None
-    print(modulepath)
+    log.info('modulepath: '+ modulepath)
     with open(modulepath + 'config.yaml', mode='r') as f:
         configfile = yaml.load(f,Loader=yaml.FullLoader)
     return configfile
