@@ -3,6 +3,7 @@
 import pandas as pd
 pd.options.mode.chained_assignment = None
 import json
+import logging as log
 import os
 import yaml
 
@@ -12,12 +13,14 @@ except NameError: modulepath = 'stewi/'
 output_dir = modulepath + 'output/'
 data_dir = modulepath + 'data/'
 
+log.basicConfig(level=log.DEBUG, format='%(levelname)s %(message)s')
+
 reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',
                                 usecols=['Source', 'Code', 'DQI Reliability Score'])
 
 def config():
     configfile = None
-    print(modulepath)
+    log.info('modulepath: '+ modulepath)
     with open(modulepath + 'config.yaml', mode='r') as f:
         configfile = yaml.load(f,Loader=yaml.FullLoader)
     return configfile
@@ -259,6 +262,33 @@ def validation_summary(validation_df, filepath=''):
     validation_summary_df.reset_index(inplace=True)
     if filepath: validation_summary_df.to_csv(filepath, index=False)
     return validation_summary_df
+
+def weighted_average(df, data_col, weight_col, by_col):
+    """
+    Generates a weighted average result based on passed columns
+    Parameters
+    ----------
+    df : TYPE
+        DESCRIPTION.
+    data_col : TYPE
+        DESCRIPTION.
+    weight_col : TYPE
+        DESCRIPTION.
+    by_col : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    result : TYPE
+        DESCRIPTION.
+
+    """
+    df['_data_times_weight'] = df[data_col] * df[weight_col]
+    df['_weight_where_notnull'] = df[weight_col] * pd.notnull(df[data_col])
+    g = df.groupby(by_col)
+    result = g['_data_times_weight'].sum() / g['_weight_where_notnull'].sum()
+    del df['_data_times_weight'], df['_weight_where_notnull']
+    return result
 
 
 # Convert amounts. Note this could be replaced with a conversion utility

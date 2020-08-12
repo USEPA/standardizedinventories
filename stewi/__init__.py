@@ -3,13 +3,9 @@ Functions to return inventory data for a single inventory in standard formats
 """
 
 import os
-import logging
 import pandas as pd
 from stewi.globals import get_required_fields, get_optional_fields, filter_inventory,\
     filter_states, inventory_single_compartments
-
-LOG = logging.getLogger(__name__)
-LOG.setLevel(logging.INFO)
 
 try:
     MODULEPATH = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
@@ -72,7 +68,7 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility', filter_f
     if os.path.exists(file):
         inventory = pd.read_csv(file, header=0, dtype=fields)
     else:
-        file = file[:-3]+'.parquet'
+        file = file[:-3]+'parquet'
         inventory = pd.read_parquet(file)
     # Add in units and compartment if not present
     if 'Unit' not in inventory.columns:
