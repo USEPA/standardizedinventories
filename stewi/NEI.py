@@ -196,6 +196,9 @@ def generate_national_totals(year):
     df = df.drop(['UOM'],1)
     # sum across all facilities to create national totals
     df = df.groupby(['FlowID','FlowName'])['FlowAmount'].sum().reset_index()
+    # save national totals to .csv
+    df.rename(columns={'FlowAmount':'FlowAmount[kg]'}, inplace=True)
+    df.to_csv(data_dir+'NEI_'+year+'_NationalTotals.csv',index=False)
 
     return df
 
@@ -318,8 +321,12 @@ if __name__ == '__main__':
         
         elif args.Option == 'E':
             log.info('validating flow by facility against national totals')
-            nei_national_totals = generate_national_totals(year)
+            if not(os.path.exists(data_dir + 'NEI_'+ year + '_NationalTotals.csv')):
+                generate_national_totals(year)
+            nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ year + '_NationalTotals.csv',
+                                              header=0,dtype={"FlowAmount[kg]":np.float})
             nei_flowbyfacility = pd.read_parquet(output_dir+'flowbyfacility/NEI_'+year+'.parquet')
+            nei_national_totals.rename(columns={'FlowAmount[kg]':'FlowAmount'},inplace=True)
             validation_result = validate_inventory(nei_flowbyfacility, nei_national_totals,
                                                    group_by='flow', tolerance=5.0)
             write_validation_result('NEI',year,validation_result)
