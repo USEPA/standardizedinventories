@@ -29,6 +29,10 @@ import numpy as np
 import os
 import time
 import argparse
+import requests
+import requests_ftp
+import zipfile
+import io
 
 
 def read_data(source,file):
@@ -127,6 +131,7 @@ def nei_aggregate_unit_to_facility_level(nei_):
 
     return neibyfacility
 
+
 def generate_national_totals(year):
     """
     Computes pollutant national totals from 'Facility-level by Pollutant' data downloaded from EPA website 
@@ -141,15 +146,59 @@ def generate_national_totals(year):
 
     """
     log.info('Downloading national totals')
-    df = pd.read_csv(data_dir + 'NEI_Facility-level by Pollutant_' + year + '.csv', header = 0,
-                     usecols = ['pollutant code','pollutant desc','total emissions','emissions uom'])
+    
+    ## generate url based on data year
+    build_url = 'ftp://newftp.epa.gov/air/nei/__year__/data_summaries/__version___facility.zip'
+    if year == '2017':
+        version = '2017v1/2017neiApr'
+    elif year == '2014':
+        version = '2014v2/2014neiv2'
+    elif year == '2011':
+        version = '2011v2/2011neiv2'
+    url = build_url.replace('__year__', year)
+    url = url.replace('__version__', version)
+    
+    ## make http request
+    r = []
+    requests_ftp.monkeypatch_session()
+    try:
+        r = requests.Session().get(url)
+    except requests.exceptions.ConnectionError:
+        log.error("URL Connection Error for " + url)
+    try:
+        r.raise_for_status()
+    except requests.exceptions.HTTPError:
+        log.error('Error in URL request!')
+    
+    ## extract data from zip archive
+    z = zipfile.ZipFile(io.BytesIO(r.content))
+    # create a list of files contained in the zip archive
+    znames = z.namelist()
+    # retain only those files that are in .csv format
+    znames = [s for s in znames if '.csv' in s]
+    # initialize the dataframe
+    df = pd.DataFrame()
+    # for all of the .csv data files in the .zip archive,
+    # read the .csv files into a dataframe
+    # and concatenate with the master dataframe
+    for i in range(len(znames)):
+        df = pd.concat([df, pd.read_csv(z.open(znames[i]), 
+                                        usecols = ['pollutant code',
+                                                   'pollutant desc',
+                                                   'total emissions',
+                                                   'emissions uom'])])    
+    
+    ## parse data
+    # rename columns to match standard format
     df.columns = ['FlowID', 'FlowName', 'FlowAmount', 'UOM']
     # convert LB/TON to KG
     df['FlowAmount'] = np.where(df['UOM']=='LB',df['FlowAmount']*lb_kg,df['FlowAmount']*USton_kg)
     df = df.drop(['UOM'],1)
+    # sum across all facilities to create national totals
     df = df.groupby(['FlowID','FlowName'])['FlowAmount'].sum().reset_index()
-    df.rename(columns={'FlowAmount':'FlowAmount[kg]'}, inplace=True)
-    df.to_csv(data_dir+'NEI_'+year+'_NationalTotals.csv',index=False)
+
+    return df
+
 
 def generate_metadata(year):
     """
@@ -201,7 +250,7 @@ if __name__ == '__main__':
                         [E] Validate flowbyfacility against national totals',
                         type = str)
 
-    parser.add_argument('-y', '--Year',
+    parser.add_argument('-y', '--Year', nargs = '+',
                         help = 'What NEI year you want to retrieve',
                         type = str)
     
@@ -209,7 +258,9 @@ if __name__ == '__main__':
     
     external_dir = set_dir('../NEI/')
     
-    for year in args.Year:
+    NEIyears = args.Year
+    
+    for year in NEIyears:
         if args.Option == 'A':
     
             if year == '2017':
@@ -267,13 +318,8 @@ if __name__ == '__main__':
         
         elif args.Option == 'E':
             log.info('validating flow by facility against national totals')
-            if not(os.path.exists(data_dir + 'NEI_'+ year + '_NationalTotals.csv')):
-                generate_national_totals(year)
-            nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ year + '_NationalTotals.csv',
-                                              header=0,dtype={"FlowAmount[kg]":np.float})
+            nei_national_totals = generate_national_totals(year)
             nei_flowbyfacility = pd.read_parquet(output_dir+'flowbyfacility/NEI_'+year+'.parquet')
-            # Rename col to match reference format
-            nei_national_totals.rename(columns={'FlowAmount[kg]':'FlowAmount'},inplace=True)
             validation_result = validate_inventory(nei_flowbyfacility, nei_national_totals,
                                                    group_by='flow', tolerance=5.0)
             write_validation_result('NEI',year,validation_result)
