@@ -25,14 +25,29 @@ import os
 from stewi.globals import output_dir,data_dir,write_metadata,\
     inventory_metadata,unit_convert,log,MMBtu_MJ,MWh_MJ,config,\
     validate_inventory,write_validation_result,USton_kg,lb_kg
+import requests
+import zipfile
+import io
 
-#filepath
+
 _config = config()['databases']['eGRID']
-url = _config['url']
+source_url = _config['url']
 
+# set filepath
 eGRIDfilepath = '../eGRID/'
-egrid_file_begin = {"2014":"eGRID2014", "2016":"egrid2016", "2018":"eGRID2018"}
-egrid_file_version = {"2014":"_v2","2016":"","2018":"_v2"}
+
+# define attributes for various editions of eGRID
+egrid_file_name = {"2014":"eGRID2014_Data_v2.xlsx", 
+                   "2016":"egrid2016_data.xlsx",
+                   "2018":"eGRID2018_Data_v2.xlsx"}
+
+egrid_file_version = {"2014":"v2", 
+                      "2016":"",
+                      "2018":"v2"}
+
+download_url = {"2014":"https://www.epa.gov/sites/production/files/2020-01/egrid2018_historical_files_since_1996.zip", 
+                "2016":"https://www.epa.gov/sites/production/files/2020-01/egrid2018_historical_files_since_1996.zip",
+                "2018":"https://www.epa.gov/sites/production/files/2020-03/egrid2018_data_v2.xlsx"}
 
 # Import list of fields from egrid that are desired for LCI
 def imp_fields(fields_txt, year):
@@ -46,13 +61,39 @@ def egrid_unit_convert(value,factor):
     return new_val;
 
 def download_eGRID(year):
+ 
     log.info('downloading eGRID data')
-    #TODO add data download
-
+    
+    ## make http request
+    r = []
+    try:
+        r = requests.Session().get(download_url[year])
+    except requests.exceptions.ConnectionError:
+        log.error("URL Connection Error for " + download_url[year])
+    try:
+        r.raise_for_status()
+    except requests.exceptions.HTTPError:
+        log.error('Error in URL request!')
+        
+    ## extract .xlsx workbook
+    if year == '2018':
+        workbook = r.content
+    elif year == '2016' or year == '2014':
+        z = zipfile.ZipFile(io.BytesIO(r.content))
+        workbook = z.read(egrid_file_name[year])
+        
+    ## save .xlsx workbook to destination directory
+    destination = eGRIDfilepath + egrid_file_name[year]
+    # if destination folder does not already exist, create it
+    if not(os.path.exists(eGRIDfilepath)):
+        os.makedirs(eGRIDfilepath)
+    with open(destination, 'wb') as output:
+        output.write(workbook)   
+        
 def generate_eGRID_files(year):
     log.info('generating eGRID files for '+ year)
     year_last2 = year[2:]
-    eGRIDfile = eGRIDfilepath + egrid_file_begin[year] + '_Data' + egrid_file_version[year] + '.xlsx'
+    eGRIDfile = eGRIDfilepath + egrid_file_name[year]
     pltsheetname = 'PLNT'+ year_last2
     untsheetname = 'UNT' + year_last2
     
@@ -230,7 +271,7 @@ def generate_eGRID_files(year):
     eGRID_meta['SourceAquisitionTime'] = eGRID_retrieval_time
     eGRID_meta['SourceType'] = 'Static File'
     eGRID_meta['SourceFileName'] = eGRIDfile
-    eGRID_meta['SourceURL'] = url
+    eGRID_meta['SourceURL'] = source_url
     eGRID_meta['SourceVersion'] = egrid_file_version[year]
     write_metadata('eGRID',year, eGRID_meta)
 
