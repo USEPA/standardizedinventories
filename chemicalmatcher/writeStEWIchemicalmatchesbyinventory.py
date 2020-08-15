@@ -104,9 +104,10 @@ all_lists_srs_info = add_manual_matches(all_lists_srs_info)
 
 
 #Write to csv
+all_lists_srs_info = all_lists_srs_info[['FlowID','FlowName','SRS_CAS','SRS_ID','Source']].drop_duplicates()
 all_lists_srs_info.to_csv(output_dir+'ChemicalsByInventorywithSRS_IDS_forStEWI.csv', index=False)
 #errors_srs.to_csv('work/ErrorsSRS.csv',index=False)
 
 #Write flows missing srs_ids to file for more inspection
 flows_missing_SRS_ID = all_lists_srs_info[all_lists_srs_info['SRS_ID'].isnull()]
-flows_missing_SRS_ID.to_csv('flows_missing_SRS_ID.csv',index=False)
+flows_missing_SRS_ID.to_csv(output_dir+'flows_missing_SRS_ID.csv',index=False)
