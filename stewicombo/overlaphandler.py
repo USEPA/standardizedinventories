@@ -150,7 +150,9 @@ def aggregate_and_remove_overlap(df):
     # In the record with SRS_ID = 83723 (VOC) change FlowAmount by subtracting sum of FlowAmount from speciated HAP VOCs.
     # The records for speciated HAP VOCs are not changed.
     print("Assessing PM and VOC speciation")
-    df_83723 = df.loc[df["SRS_ID"] == '83723']
+
+    #df_83723 = df.loc[df["SRS_ID"] == 83723]
+
 
     df_77681 = df.loc[df["SRS_ID"] == '77681']
 
@@ -168,11 +170,12 @@ def aggregate_and_remove_overlap(df):
                                             df.loc[ids, "Source"] + "_" + \
                                             df.loc[ids, "Compartment"] + "_" + \
                                         df.loc[ids, "FRS_ID"].astype(str)
-    
+
     srs_ids = VOC_srs
     
     #TODO: calculation for VOCS is wrong and needs to be streamlined
     '''
+
     for i, row in df_83723.iterrows():
         for srs_id in srs_ids:
             print("Processing  SRS_ID  " + str(srs_id))
@@ -191,8 +194,12 @@ def aggregate_and_remove_overlap(df):
                                             df.loc[ids, "Compartment"] + "_" + \
                                             df.loc[ids, "FRS_ID"].astype(str)
     '''
-    #  end PM and VOC handler
 
-    #TODO: dropped combined amount?
+    # drop QA column
+    if 'CombinedFlowLookup' in df.columns:
+        df.drop(columns=['CombinedFlowLookup'],inplace=True)
+    
+    #  end PM and VOC handler
+    
     print("Overlap removed.")
     return df
