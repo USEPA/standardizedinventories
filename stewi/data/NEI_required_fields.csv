@@ -9,7 +9,7 @@ Zip,zipcode,zip code,zip code,zip code
 Latitude,y_coordinate,site latitude,site latitude,site latitude
 Longitude,x_coordinate,site longitude,site longitude,site longitude
 NAICS,naics_primary,naics code,naics code,naics code
-County,state_county_fips,county,county,county
+County,county_name,county,county,county
 FlowName,pollutant_description,pollutant desc,pollutant desc,pollutant desc
 FlowID,pollutant_code,pollutant code,pollutant code,pollutant code
 FlowAmount,actual_emissions_tpy,total emissions,total emissions,total emissions
