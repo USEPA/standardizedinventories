@@ -35,12 +35,12 @@ import zipfile
 import io
 
 
-def read_data(source,file):
+def read_data(year,file):
     """
     
     Parameters
     ----------
-    source : TYPE
+    year : TYPE
         DESCRIPTION.
     file : TYPE
         DESCRIPTION.
@@ -53,27 +53,28 @@ def read_data(source,file):
     """
     file_result = pd.DataFrame(columns=list(nei_required_fields['StandardizedEPA']))
     # read nei file by chunks
+    usecols = list(nei_required_fields[year].dropna())
     for file_chunk in pd.read_csv(
             external_dir + file,
-            usecols=list(set(nei_required_fields[source])-set(['Null'])),
+            usecols=usecols,
             dtype={'sppd_facility_identifier':'str'},
             chunksize=100000,
             low_memory=False):
         # change column names to Standardized EPA names
         file_chunk = file_chunk.rename(columns=pd.Series(list(nei_required_fields['StandardizedEPA']),
-                                                         index=list(nei_required_fields[source])).to_dict())
-        # adjust column order
-        file_chunk = file_chunk[file_result.columns.tolist()]
+                                                         index=list(nei_required_fields[year])).to_dict())
         # concatenate all chunks
         file_result = pd.concat([file_result,file_chunk])
     return file_result
 
 
-def standardize_output(source='Point'):
+def standardize_output(year, source='Point'):
     """
    
     Parameters
     ----------
+    year : TYPE
+        DESCRIPTION    
     source : TYPE, optional
         DESCRIPTION. The default is 'Point'.
 
@@ -91,7 +92,7 @@ def standardize_output(source='Point'):
     for file in file_path[0:]:
         # concatenate all other files
         log.info('reading NEI data from '+ file)
-        nei = pd.concat([nei,read_data(source,file)])
+        nei = pd.concat([nei,read_data(year,file)])
         log.info(str(len(nei))+' records')
     # convert TON to KG
     nei['FlowAmount'] = nei['FlowAmount']*USton_kg
@@ -266,13 +267,11 @@ if __name__ == '__main__':
     for year in NEIyears:
         if args.Option == 'A':
     
-            if year == '2017':
-                nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields_2017.csv',sep=',').fillna('Null')
-            else: 
-                nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields.csv',sep=',').fillna('Null')
+            nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields.csv',sep=',')
+            nei_required_fields = nei_required_fields[[year,'StandardizedEPA']]
             nei_file_path = pd.read_table(data_dir + 'NEI_' + year + '_file_path.csv',sep=',').fillna('Null')
         
-            nei_point = standardize_output()
+            nei_point = standardize_output(year)
             nei_point.to_pickle('work/NEI_' + year + '.pk')
             generate_metadata(year)
             
@@ -284,7 +283,7 @@ if __name__ == '__main__':
             log.info('generating flow by facility output')
             nei_point = nei_point.reset_index()
             nei_flowbyfacility = nei_aggregate_unit_to_facility_level(nei_point)
-            #nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+report_year+'.csv',index=False)
+            #nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+year+'.csv',index=False)
             nei_flowbyfacility.to_parquet(output_dir+'flowbyfacility/NEI_'+year+'.parquet', 
                                           index=False, compression=None)
             log.info(len(nei_flowbyfacility))
@@ -292,7 +291,7 @@ if __name__ == '__main__':
             #2016: 1965918
             #2014: 2057249
             #2011: 1840866
-            
+
         elif args.Option == 'C':
             log.info('generating flows output')
             nei_flows = nei_point[['FlowName', 'FlowID']]
