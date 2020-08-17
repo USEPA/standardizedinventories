@@ -108,6 +108,15 @@ def standardize_output(year, source='Point'):
         nei['ReliabilityScore'] = nei['DQI Reliability Score']
         # drop Code and DQI Reliability Score columns
         nei = nei.drop(['Code', 'DQI Reliability Score'], 1)
+    
+        nei['Compartment']='air'
+        '''
+        # Modify compartment based on stack height (ft)
+        nei.loc[nei['StackHeight'] < 32, 'Compartment'] = 'air/ground'
+        nei.loc[(nei['StackHeight'] >= 32) & (nei['StackHeight'] < 164), 'Compartment'] = 'air/low'
+        nei.loc[(nei['StackHeight'] >= 164) & (nei['StackHeight'] < 492), 'Compartment'] = 'air/high'
+        nei.loc[nei['StackHeight'] >= 492, 'Compartment'] = 'air/very high'
+        '''
     else:
         nei['ReliabilityScore'] = 3
     # add Source column
@@ -325,9 +334,8 @@ if __name__ == '__main__':
 
         elif args.Option == 'C':
             log.info('generating flows output')
-            nei_flows = nei_point[['FlowName', 'FlowID']]
+            nei_flows = nei_point[['FlowName', 'FlowID', 'Compartment']]
             nei_flows = nei_flows.drop_duplicates()
-            nei_flows['Compartment']='air'
             nei_flows['Unit']='kg'
             nei_flows = nei_flows.sort_values(by='FlowName',axis=0)
             nei_flows.to_csv(output_dir+'flow/'+'NEI_'+year+'.csv',index=False)
