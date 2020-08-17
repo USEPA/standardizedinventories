@@ -14,7 +14,7 @@ except NameError:
 
 OUTPUT_DIR = MODULEPATH + 'output/'
 DATA_DIR = MODULEPATH + 'data/'
-FORMATPATH = {'flowbyfacility': "flowbyfacility/", 'flow': "flow/", 'facility': "facility/"}
+FORMATPATH = {'flowbyfacility': "flowbyfacility/", 'flow': "flow/", 'facility': "facility/", 'flowbyunit': "flowbyunit/",}
 
 
 def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):

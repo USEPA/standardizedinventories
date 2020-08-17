@@ -132,6 +132,27 @@ def nei_aggregate_unit_to_facility_level(nei_):
 
     return neibyfacility
 
+def nei_aggregate_unit_to_custom_level(nei_, field):
+    """
+    Aggregates NEI dataframe to flow by facility by custom level (e.g. SCC)
+    """
+    # drops rows if flow amount or reliability score is zero
+    nei_ = nei_[(nei_['FlowAmount'] > 0) & (nei_['ReliabilityScore'] > 0)]
+
+    grouping_vars = ['FacilityID', 'FlowName']
+    if type(field) is str:
+        grouping_vars.append(field)
+    elif type(field) is list:
+        grouping_vars.extend(field)
+    neicustom = nei_.groupby(grouping_vars).agg({'FlowAmount': ['sum']})
+    neicustom['ReliabilityScore']=weighted_average(
+        nei_, 'ReliabilityScore', 'FlowAmount', grouping_vars)
+
+    neicustom = neicustom.reset_index()
+    neicustom.columns = neicustom.columns.droplevel(level=1)
+
+    return neicustom
+
 
 def generate_national_totals(year):
     """
@@ -291,6 +312,16 @@ if __name__ == '__main__':
             #2016: 1965918
             #2014: 2057249
             #2011: 1840866
+
+        elif args.Option == 'SCC':
+            log.info('generating flow by unit output')
+            nei_point = nei_point.reset_index()
+            nei_flowbySCC = nei_aggregate_unit_to_custom_level(nei_point, 'SCC')
+            #nei_flowbySCC.to_csv(output_dir+'flowbyunit/NEI_'+year+'.csv',index=False)
+            nei_flowbySCC.to_parquet(output_dir+'flowbyunit/NEI_'+year+'.parquet', 
+                                          index=False, compression=None)
+            log.info(len(nei_flowbySCC))
+            #2017: 4055707
 
         elif args.Option == 'C':
             log.info('generating flows output')
