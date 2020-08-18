@@ -125,81 +125,41 @@ def aggregate_and_remove_overlap(df):
     print("Adding any rows with NaN FRS_ID or SRS_ID")
     df = df.append(rows_with_nans_srs_frs, ignore_index=True)
     
-    #Find records where SRS_ID = 77683 (PM10-PRI) and SRS_ID = 77681  (PM2.5-PRI) and the same FRS_ID. The record with SRS_ID 77681 is not changed.
-	#In the record with SRS_ID 77683 (PM10-PRI) change FlowAmount by subtracting amount in record 77681 
-	#Add column CombinedFlowLookup to output and concatenate 
-	#Find records from same FRS_ID where SRS_ID = 83723 (Volatile organic compounds(VOC)) and records with speciated HAP VOCs
-    #defined in EPA’s Industrial, Commercial, and Institutional (ICI) Fuel Combustion Tool, Version 1.4, December 2015
-    #(Available at: ftp://ftp.epa.gov/EmisInventory/2014/doc/nonpoint/ICI%20Tool%20v1_4.zip).
-    #SRS_IDs for speciated HAP VOCs = 47917,78938,94770,47892,94767,47850,78931,78930,39151,78937,78935,47830,47823,95636,
-    #78945,47528,47526,47524,47520,47519,47498,96714,47495,47490,47488,47486,47485,47480,47475,47472,96461,47428,47417,
-    # 96452,47414,47380,47379,47376,47321,47687,47684,47669,47661,46935,46932,46916,46914,47310,96237,47301,96044,43483,
-    # 96033,96030,47282,96026,47276,47275,96023,47265,47264,47202,95786,95501,95480,47040,95217,95212,47018,47008,47007,
-    # 46998,46986,94909,47248,47227,47211,94706,46821,46802,46756,46705,84476,97998,43230,46646,43047,46639,16366,46629,
-    # 78926,97768,46502,46377,93632,82787,41401,60034,35858,95408,62450,46354,46353,91912,46351,46350,91750,46349,91722,
-    # 78959,46348,78943,94309,81662,93573,81661,46346,93562,46345,82597,93556,46344,93021,46342,92639,56016,56009,92240,
-    # 78460,35886,78457,106307,56172,56134,79079,93149,78946,41708,96236,59307,91450,46205,91779,78934,6012,78852,93878,
-    # 78947,82763,42624,45878,49201,49190,46053,49177,49165,45685,45599,49154,51117,49152,88529,45499,45495,38608,90163,
-    # 48965,48961,48958,48956,51299,48940,49142,61763,78217,89262,45190,49118,45076,49102,49098,90653,49090,49089,44962,
-    # 44772,44702,49067,89211,49062,44603,49061,49050,78853,49030,49023,49020,49017,44344,49011,44334,44310,87338,98385,
-    # 48560,88479,48547,48543,48542,78944,6011,48532,48531,48527,48526,48521,48517,48938,36616,48932,48931,87890,39509,
-    # 87885,48922,87744,78932,44174,48812,48799,44120,78933,48764,48750,48746,48739,48738,48733,48729,48728,48715,48709,
-    # 48708,87298,35041,48666,44441,98352,43687,48599,48873,98155,48853,48444,48443,48415,48409,48401,48311,48309,48273,
-    # 87972,87964,48260,48246,48214,87829,48195,87812,78936,48475,87536,47752,47748,47729,47719,48148,48146,48129,87374,
-    # 47969,47967,87268
-    # In the record with SRS_ID = 83723 (VOC) change FlowAmount by subtracting sum of FlowAmount from speciated HAP VOCs.
-    # The records for speciated HAP VOCs are not changed.
     print("Assessing PM and VOC speciation")
 
-    #df_83723 = df.loc[df["SRS_ID"] == 83723]
-
-
-    df_77681 = df.loc[df["SRS_ID"] == '77681']
-
-    for i, row in df_77681.iterrows():
-        ids = (df["SRS_ID"] == '77683') & (df["FRS_ID"] == row["FRS_ID"])
-        df.loc[ids, "FlowAmount"] -= row["FlowAmount"]
-        df.loc[ids, "CombinedFlowLookup"] = "SRS_" + df.loc[ids, "SRS_ID"].astype(str) + "_" + \
-                                            df.loc[ids, "Source"] + "_" + \
-                                            df.loc[ids, "Compartment"] + "_" + \
-                                            df.loc[ids, "FRS_ID"].astype(str)
-
-        # concatenate for the comparing row with SRS_ID 77681 as well
-        ids = (df["SRS_ID"] == '77681') & (df["FRS_ID"] == row["FRS_ID"])
-        df.loc[ids, "CombinedFlowLookup"] = "SRS_" + df.loc[ids, "SRS_ID"].astype(str) + "_" + \
-                                            df.loc[ids, "Source"] + "_" + \
-                                            df.loc[ids, "Compartment"] + "_" + \
-                                        df.loc[ids, "FRS_ID"].astype(str)
-
-    srs_ids = VOC_srs
+    # SRS_ID = 77683 (PM10-PRI) and SRS_ID = 77681  (PM2.5-PRI)
+    df = remove_flow_overlap(df, '77683',['77681'])
     
-    #TODO: calculation for VOCS is wrong and needs to be streamlined
-    '''
-
-    for i, row in df_83723.iterrows():
-        for srs_id in srs_ids:
-            print("Processing  SRS_ID  " + str(srs_id))
-            ids = (df["SRS_ID"] == srs_id) & (df["FRS_ID"] == row["FRS_ID"])
-            df.loc[ids, "FlowAmount"] -= row["FlowAmount"]
-            df.loc[ids, "CombinedFlowLookup"] = "SRS_" + df.loc[ids, "SRS_ID"].astype(str) + "_" + \
-                                                df.loc[ids, "Source"] + "_" + \
-                                                df.loc[ids, "Compartment"] + "_" + \
-                                                df.loc[ids, "FRS_ID"].astype(str)
-
-
-        # concatenate for comparing row with SRS_ID 83723 as well
-        ids = (df["SRS_ID"] == '83723') & (df["FRS_ID"] == row["FRS_ID"])
-        df.loc[ids, "CombinedFlowLookup"] = "SRS_" + df.loc[ids, "SRS_ID"].astype(str) + "_" + \
-                                            df.loc[ids, "Source"] + "_" + \
-                                            df.loc[ids, "Compartment"] + "_" + \
-                                            df.loc[ids, "FRS_ID"].astype(str)
-    '''
-
-    # drop QA column
-    if 'CombinedFlowLookup' in df.columns:
-        df.drop(columns=['CombinedFlowLookup'],inplace=True)
-    
-    #  end PM and VOC handler
-    
+    # SRS_ID = 83723 (VOC) change FlowAmount by subtracting sum of FlowAmount from speciated HAP VOCs.
+    # The records for speciated HAP VOCs are not changed.
+    # Defined in EPA’s Industrial, Commercial, and Institutional (ICI) Fuel Combustion Tool, Version 1.4, December 2015
+    # (Available at: ftp://ftp.epa.gov/EmisInventory/2014/doc/nonpoint/ICI%20Tool%20v1_4.zip).
+    df = remove_flow_overlap(df, '83723',VOC_srs)
+   
     print("Overlap removed.")
     return df
+
+def remove_flow_overlap(df, aggregate_flow, contributing_flows, compartment='air', SCC=False):
+    
+    df_contributing_flows = df.loc[df["SRS_ID"].isin(contributing_flows)]
+    df_contributing_flows = df_contributing_flows[df_contributing_flows['Compartment']==compartment]
+    match_conditions = ['FacilityID','Source','Compartment']
+    if SCC:
+        match_conditions.append('SCC')
+    df_contributing_flows = df_contributing_flows.groupby(match_conditions, as_index=False)['FlowAmount'].sum()
+    
+    for i, row in df_contributing_flows.iterrows():
+        if SCC:
+            ids = (df["SRS_ID"] == aggregate_flow) & (df["FacilityID"] == row["FacilityID"]) & (df["Source"] == row["Source"]) & (df["Compartment"] == row["Compartment"]) & (df["SCC"] == row["SCC"])
+        else:
+            ids = (df["SRS_ID"] == aggregate_flow) & (df["FacilityID"] == row["FacilityID"]) & (df["Source"] == row["Source"]) & (df["Compartment"] == row["Compartment"])
+        df.loc[ids, "FlowAmount"] -= row["FlowAmount"]
+        #TODO make sure values are not negative
+   
+    return df
+
+if __name__ == '__main__':
+    import stewicombo
+    nei_df = stewicombo.combineFullInventories({"NEI":"2016"},remove_overlap=False)
+    nei_df = nei_df.head(10000)
+    nei_df = remove_flow_overlap(nei_df,'83723',VOC_srs)
