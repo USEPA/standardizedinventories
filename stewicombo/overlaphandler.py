@@ -1,5 +1,6 @@
 import pandas as pd
 from stewicombo.globals import *
+from stewi.globals import log
 
 if not "LOOKUP_FIELDS" in locals() and LOOKUP_FIELDS:
     raise ValueError("Not sure which fields to lookup in each row. Please update config.json with LOOKUP_FIELDS")
@@ -47,7 +48,7 @@ def aggregate_and_remove_overlap(df):
     if not INCLUDE_ORIGINAL and not KEEP_ALL_DUPLICATES:
         raise ValueError("Cannot have both INCLUDE_ORIGINAL and KEEP_REPEATED_DUPLICATES fields as False")
 
-    print("Aggregating inventories...")
+    log.info("Aggregating inventories...")
 
     if INCLUDE_ORIGINAL:
         keep = False
@@ -96,11 +97,13 @@ def aggregate_and_remove_overlap(df):
 
     to_be_concat = []
     # Check if frame includes more than one record before using the function key mapping
+    group_length = len(grouped)
+    counter = 1
+    pct = 1
     for name, frame in grouped:
         if len(frame)==1:
             to_be_concat.append(frame)
         else:
-            # print(name, df)
             # find functions mapping for this df
             func_cols_map = {}
             for key, val in funcname_cols_map.items():
@@ -117,15 +120,17 @@ def aggregate_and_remove_overlap(df):
             # If we have 2 or more duplicates with same compartment use `INVENTORY_PREFERENCE_BY_COMPARTMENT`
             grouped = df_new.groupby(COMPARTMENT_COL)
             df_new = grouped.apply(get_by_preference)
-            # print(df_new)
-            # print(name)
             to_be_concat.append(df_new)
+        if counter / group_length >= 0.1*pct:
+            log.info(str(pct) +'0% completed')
+            pct +=1
+        counter+=1
     df = pd.concat(to_be_concat)
 
-    print("Adding any rows with NaN FRS_ID or SRS_ID")
+    log.info("Adding any rows with NaN FRS_ID or SRS_ID")
     df = df.append(rows_with_nans_srs_frs, ignore_index=True)
     
-    print("Assessing PM and VOC speciation")
+    log.info("Assessing PM and VOC speciation")
 
     # SRS_ID = 77683 (PM10-PRI) and SRS_ID = 77681  (PM2.5-PRI)
     df = remove_flow_overlap(df, '77683',['77681'])
@@ -136,7 +141,7 @@ def aggregate_and_remove_overlap(df):
     # (Available at: ftp://ftp.epa.gov/EmisInventory/2014/doc/nonpoint/ICI%20Tool%20v1_4.zip).
     df = remove_flow_overlap(df, '83723',VOC_srs)
    
-    print("Overlap removed.")
+    log.info("Overlap removed.")
     return df
 
 def remove_flow_overlap(df, aggregate_flow, contributing_flows, compartment='air', SCC=False):
@@ -162,4 +167,5 @@ if __name__ == '__main__':
     import stewicombo
     nei_df = stewicombo.combineFullInventories({"NEI":"2016"},remove_overlap=False)
     nei_df = nei_df.head(10000)
-    nei_df = remove_flow_overlap(nei_df,'83723',VOC_srs)
+    nei_df = aggregate_and_remove_overlap(nei_df)
+    #nei_df = remove_flow_overlap(nei_df,'83723',VOC_srs)
