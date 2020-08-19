@@ -1,4 +1,5 @@
 import re
+import os
 #Variables and functions for common use
 import chemicalmatcher
 import pandas as pd
