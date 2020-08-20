@@ -1,4 +1,5 @@
 import re
+import os
 #Variables and functions for common use
 import chemicalmatcher
 import pandas as pd
@@ -63,7 +64,7 @@ def getInventoriesforFacilityMatches(inventory_dict,facilitymatches,filter_for_L
         inventory = pd.merge(inventory, inventory_facilitymatches, on=['FacilityID', 'Source'], how='left')
 
         # If this isn't the base inventory, remove records not for the FRS_IDs of interest
-        if k is not base_inventory:
+        if (k is not base_inventory) & (base_inventory is not None):
             inventory = inventory[inventory['FRS_ID'].isin(base_inventory_FRS_list)]
 
         #Add metadata

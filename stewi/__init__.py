@@ -14,7 +14,7 @@ except NameError:
 
 OUTPUT_DIR = MODULEPATH + 'output/'
 DATA_DIR = MODULEPATH + 'data/'
-FORMATPATH = {'flowbyfacility': "flowbyfacility/", 'flow': "flow/", 'facility': "facility/"}
+FORMATPATH = {'flowbyfacility': "flowbyfacility/", 'flow': "flow/", 'facility': "facility/", 'flowbyunit': "flowbyunit/",}
 
 
 def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
@@ -70,6 +70,8 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility', filter_f
     else:
         file = file[:-3]+'parquet'
         inventory = pd.read_parquet(file)
+        fields = {key: value for key, value in fields.items() if key in list(inventory)}
+        inventory = inventory.astype(fields)
     # Add in units and compartment if not present
     if 'Unit' not in inventory.columns:
         inventory['Unit'] = 'kg'
