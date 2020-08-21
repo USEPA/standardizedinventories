@@ -1,17 +1,19 @@
 #!/usr/bin/env python
 """
 Imports NEI data and processes to Standardized EPA output format.
-Uses the NEI data exports from EIS.
+Uses the NEI data exports from EIS. Must contain locally downloaded data for
+options A:E.
 This file requires parameters be passed like:
 
     Option -y Year 
 
 Options:
-    A - for processing downloaded NEI
+    A - for processing downloaded NEI Point from EIS
     B - for generating flowbyfacility output
-    C - for generating flows output
-    D - for generating facilities output
-    E - for validating flowbyfacility against national totals
+    C - for generating flowbySCC output
+    D - for generating flows output
+    E - for generating facilities output
+    F - for validating flowbyfacility against national totals
 
 Year: 
     2017
@@ -19,7 +21,6 @@ Year:
     2014
     2011
 """
-
 
 from stewi.globals import set_dir,output_dir,data_dir,write_metadata,\
     inventory_metadata,get_relpath,unit_convert,log,\
@@ -37,19 +38,19 @@ import io
 
 def read_data(year,file):
     """
-    
+    Reads the NEI data in the named file and returns a dataframe based on
+    identified columns
     Parameters
     ----------
-    year : TYPE
-        DESCRIPTION.
-    file : TYPE
-        DESCRIPTION.
+    year : str
+        Year of NEI dataset for identifying field names
+    file : str
+        File name (csv) containing NEI data.
 
     Returns
     -------
-    file_result : TYPE
-        DESCRIPTION.
-
+    file_result : DataFrame
+        DataFrame of NEI data from a single file with standardized column names.
     """
     file_result = pd.DataFrame(columns=list(nei_required_fields['StandardizedEPA']))
     # read nei file by chunks
@@ -70,19 +71,16 @@ def read_data(year,file):
 
 def standardize_output(year, source='Point'):
     """
-   
+    Reads and parses NEI data
     Parameters
     ----------
-    year : TYPE
-        DESCRIPTION    
-    source : TYPE, optional
-        DESCRIPTION. The default is 'Point'.
+    year : str
+        Year of NEI dataset  
 
     Returns
     -------
-    nei : TYPE
-        DESCRIPTION.
-
+    nei : DataFrame
+        Dataframe of parsed NEI data.
     """
     # extract file paths
     file_path = list(set(nei_file_path[source]) - set(['Null']))
@@ -165,16 +163,13 @@ def nei_aggregate_to_custom_level(nei_, field):
 
 def generate_national_totals(year):
     """
-    Computes pollutant national totals from 'Facility-level by Pollutant' data downloaded from EPA website 
+    Downloads and parses pollutant national totals from 'Facility-level by
+    Pollutant' data downloaded from EPA website. Used for validation.
+    Creates NationalTotals.csv files.
     Parameters
     ----------
-    year : TYPE
-        DESCRIPTION.
-
-    Returns
-    -------
-    None.
-
+    year : str
+        Year of NEI data for comparison.
     """
     log.info('Downloading national totals')
     
@@ -237,16 +232,6 @@ def generate_national_totals(year):
 def generate_metadata(year):
     """
     Gets metadata and writes to .json
-
-    Parameters
-    ----------
-    year : TYPE
-        DESCRIPTION.
-
-    Returns
-    -------
-    None.
-
     """
     log.info('Generating metadata')
     NEI_meta = inventory_metadata
@@ -322,7 +307,7 @@ if __name__ == '__main__':
             #2014: 2057249
             #2011: 1840866
 
-        elif args.Option == 'SCC':
+        elif args.Option == 'C':
             log.info('generating flow by SCC output')
             nei_point = nei_point.reset_index()
             nei_flowbySCC = nei_aggregate_to_custom_level(nei_point, 'SCC')
@@ -332,7 +317,7 @@ if __name__ == '__main__':
             log.info(len(nei_flowbySCC))
             #2017: 4055707
 
-        elif args.Option == 'C':
+        elif args.Option == 'D':
             log.info('generating flows output')
             nei_flows = nei_point[['FlowName', 'FlowID', 'Compartment']]
             nei_flows = nei_flows.drop_duplicates()
@@ -345,7 +330,7 @@ if __name__ == '__main__':
             #2014: 279
             #2011: 277
             
-        elif args.Option == 'D':
+        elif args.Option == 'E':
             log.info('generating facility output')
             facility = nei_point[['FacilityID', 'FacilityName', 'Address', 'City', 'State', 
                                   'Zip', 'Latitude', 'Longitude', 'NAICS', 'County']]
@@ -357,10 +342,12 @@ if __name__ == '__main__':
             #2014: 85125
             #2011: 95565
         
-        elif args.Option == 'E':
+        elif args.Option == 'F':
             log.info('validating flow by facility against national totals')
             if not(os.path.exists(data_dir + 'NEI_'+ year + '_NationalTotals.csv')):
                 generate_national_totals(year)
+            else:
+                log.info('using already processed national totals validation file')
             nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ year + '_NationalTotals.csv',
                                               header=0,dtype={"FlowAmount[kg]":np.float})
             nei_flowbyfacility = pd.read_parquet(output_dir+'flowbyfacility/NEI_'+year+'.parquet')
