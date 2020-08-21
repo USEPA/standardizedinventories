@@ -7,9 +7,9 @@ This file requires parameters be passed like:
     Option -y Year 
 
 Options:
-    A - 
-    B - 
-    C - 
+    A - Download eGRID data
+    B - Process and parse eGRID data
+    C - Validate flowbyfacility data against national totals 
 
 Year: 
     2018
@@ -61,7 +61,9 @@ def egrid_unit_convert(value,factor):
     return new_val;
 
 def download_eGRID(year):
- 
+    '''
+    Downloads eGRID files from EPA website
+    '''
     log.info('downloading eGRID data')
     
     ## make http request
@@ -91,6 +93,15 @@ def download_eGRID(year):
         output.write(workbook)   
         
 def generate_eGRID_files(year):
+    '''
+    Parses a locally downloaded eGRID file to generate output files for 'flow',
+    'facility', and 'flowbyfacility'
+
+    Parameters
+    ----------
+    year : str
+        Year of eGRID dataset  
+    '''
     log.info('generating eGRID files for '+ year)
     year_last2 = year[2:]
     eGRIDfile = eGRIDfilepath + egrid_file_name[year]
@@ -186,10 +197,6 @@ def generate_eGRID_files(year):
     #Create flowbyfac
     flowbyfac = pd.melt(flowbyfac_stacked, id_vars=['FacilityID','Plant primary fuel'], value_vars=list(flowbyfac_stacked.columns[2:]),
                         var_name='FlowName', value_name='FlowAmount')
-    
-    #Dropping zero emissions by changing name to NA
-    #Do not drop zeroes - WI 1/16/2019
-    #flowbyfac['FlowAmount'] = flowbyfac['FlowAmount'].replace({0:None})
     
     #Dropping na emissions
     flowbyfac = flowbyfac.dropna(subset=['FlowAmount'])
