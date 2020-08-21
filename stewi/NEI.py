@@ -124,7 +124,7 @@ def standardize_output(year, source='Point'):
     return nei
 
 
-def nei_aggregate_unit_to_facility_level(nei_):
+def nei_aggregate_to_facility_level(nei_):
     """
     Aggregates NEI dataframe to flow by facility
     """
@@ -141,7 +141,7 @@ def nei_aggregate_unit_to_facility_level(nei_):
 
     return neibyfacility
 
-def nei_aggregate_unit_to_custom_level(nei_, field):
+def nei_aggregate_to_custom_level(nei_, field):
     """
     Aggregates NEI dataframe to flow by facility by custom level (e.g. SCC)
     """
@@ -312,7 +312,7 @@ if __name__ == '__main__':
         if args.Option == 'B':
             log.info('generating flow by facility output')
             nei_point = nei_point.reset_index()
-            nei_flowbyfacility = nei_aggregate_unit_to_facility_level(nei_point)
+            nei_flowbyfacility = nei_aggregate_to_facility_level(nei_point)
             #nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+year+'.csv',index=False)
             nei_flowbyfacility.to_parquet(output_dir+'flowbyfacility/NEI_'+year+'.parquet', 
                                           index=False, compression=None)
@@ -323,11 +323,11 @@ if __name__ == '__main__':
             #2011: 1840866
 
         elif args.Option == 'SCC':
-            log.info('generating flow by unit output')
+            log.info('generating flow by SCC output')
             nei_point = nei_point.reset_index()
-            nei_flowbySCC = nei_aggregate_unit_to_custom_level(nei_point, 'SCC')
-            #nei_flowbySCC.to_csv(output_dir+'flowbyunit/NEI_'+year+'.csv',index=False)
-            nei_flowbySCC.to_parquet(output_dir+'flowbyunit/NEI_'+year+'.parquet', 
+            nei_flowbySCC = nei_aggregate_to_custom_level(nei_point, 'SCC')
+            #nei_flowbySCC.to_csv(output_dir+'flowbySCC/NEI_'+year+'.csv',index=False)
+            nei_flowbySCC.to_parquet(output_dir+'flowbySCC/NEI_'+year+'.parquet', 
                                           index=False, compression=None)
             log.info(len(nei_flowbySCC))
             #2017: 4055707
