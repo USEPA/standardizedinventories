@@ -268,19 +268,21 @@ def weighted_average(df, data_col, weight_col, by_col):
     Generates a weighted average result based on passed columns
     Parameters
     ----------
-    df : TYPE
-        DESCRIPTION.
-    data_col : TYPE
-        DESCRIPTION.
-    weight_col : TYPE
-        DESCRIPTION.
-    by_col : TYPE
-        DESCRIPTION.
+    df : DataFrame
+        Dataframe prior to aggregating from which a weighted average is calculated
+    data_col : str
+        Name of column to be averaged.
+    weight_col : str
+        Name of column to serve as the weighting.
+    by_col : list
+        List of columns on which the dataframe is aggregated.
 
     Returns
     -------
-    result : TYPE
-        DESCRIPTION.
+    result : series
+        Series reflecting the weighted average values for the data_col,
+        at length consistent with the aggregated dataframe, to be reapplied
+        to the data_col in the aggregated dataframe.
 
     """
     df['_data_times_weight'] = df[data_col] * df[weight_col]
