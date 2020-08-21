@@ -159,13 +159,7 @@ def remove_flow_overlap(df, aggregate_flow, contributing_flows, compartment='air
         else:
             ids = (df["SRS_ID"] == aggregate_flow) & (df["FacilityID"] == row["FacilityID"]) & (df["Source"] == row["Source"]) & (df["Compartment"] == row["Compartment"])
         df.loc[ids, "FlowAmount"] -= row["FlowAmount"]
-        #TODO make sure values are not negative
+    # Make sure the aggregate flow is non-negative
+    df.loc[((df.SRS_ID == aggregate_flow) & (df.FlowAmount <= 0)), "FlowAmount"] = 0
    
     return df
-
-if __name__ == '__main__':
-    import stewicombo
-    nei_df = stewicombo.combineFullInventories({"NEI":"2016"},remove_overlap=False)
-    nei_df = nei_df.head(10000)
-    nei_df = aggregate_and_remove_overlap(nei_df)
-    #nei_df = remove_flow_overlap(nei_df,'83723',VOC_srs)
