@@ -19,6 +19,7 @@ setup(
                             "output/facility/*.*",
                             "output/flow/*.*",
                             "output/flowbyfacility/*.*",
+                            "output/flowbySCC/*.*",
                             "output/validation/*.*"],
                   'chemicalmatcher': ["data/*.*", "output/*.*", "config.yaml"],
                   'facilitymatcher': ["data/*.*", "output/*.*", "config.yaml"]},

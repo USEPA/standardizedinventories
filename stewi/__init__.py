@@ -3,13 +3,9 @@ Functions to return inventory data for a single inventory in standard formats
 """
 
 import os
-import logging
 import pandas as pd
 from stewi.globals import get_required_fields, get_optional_fields, filter_inventory,\
     filter_states, inventory_single_compartments
-
-LOG = logging.getLogger(__name__)
-LOG.setLevel(logging.INFO)
 
 try:
     MODULEPATH = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
@@ -18,12 +14,12 @@ except NameError:
 
 OUTPUT_DIR = MODULEPATH + 'output/'
 DATA_DIR = MODULEPATH + 'data/'
-FORMATPATH = {'flowbyfacility': "flowbyfacility/", 'flow': "flow/", 'facility': "facility/"}
+FORMATPATH = {'flowbyfacility': "flowbyfacility/", 'flow': "flow/", 'facility': "facility/", 'flowbySCC': "flowbySCC/",}
 
 
 def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
     """Prints available inventories and years for a given output format
-    :param stewiformat: 'flowbyfacility' only current option
+    :param stewiformat: e.g. 'flowbyfacility'
     :return: prints like
     NEI: 2014
     TRI: 2015, 2016
@@ -34,6 +30,9 @@ def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
     for name in files:
         if name.endswith(".csv"):
             _n = name.strip('.csv')
+            outputfiles.append(_n)
+        elif name.endswith(".parquet"):
+            _n = name.strip('.parquet')
             outputfiles.append(_n)
     for file in outputfiles:
         length = len(file)
@@ -49,7 +48,8 @@ def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
     for i in existing_inventories.keys():
         _s = i + ": "
         for _y in existing_inventories[i]:
-            _s = _s + _y + ","
+            _s = _s + _y + ", "
+        _s = _s[:-2]
         print(_s)
 
 
@@ -58,7 +58,7 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility', filter_f
     """Returns an inventory in a standard output format
     :param inventory_acronym: like 'TRI'
     :param year: year as number like 2010
-    :param stewiformat: standard output format for returning..'flowbyfacility' is only current
+    :param stewiformat: standard output format for returning..'flowbyfacility' or 'flowbySCC' only 
     :param filter_for_LCI: whether or not to filter inventory for life cycle inventory creation
     :param US_States_Only: includes only US states
     :return: dataframe with standard fields depending on output format
@@ -66,7 +66,17 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility', filter_f
     path = OUTPUT_DIR + FORMATPATH[stewiformat]
     file = path + inventory_acronym + '_' + str(year) + '.csv'
     fields = get_required_fields(stewiformat)
-    inventory = pd.read_csv(file, header=0, dtype=fields)
+    if os.path.exists(file):
+        inventory = pd.read_csv(file, header=0, dtype=fields)
+    else:
+        file = file[:-3]+'parquet'
+        if os.path.exists(file):
+            inventory = pd.read_parquet(file)
+            fields = {key: value for key, value in fields.items() if key in list(inventory)}
+            inventory = inventory.astype(fields)
+        else:
+            print('requested inventory does not exist, try seeAvailableInventoriesandYears()')
+            return
     # Add in units and compartment if not present
     if 'Unit' not in inventory.columns:
         inventory['Unit'] = 'kg'

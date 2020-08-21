@@ -8,3 +8,5 @@ databases:
     url: https://rcrapublic.epa.gov/rcra-public-export
     queries:
       Table_of_tables: "//table[@id='tables']"
+  eGRID:
+      url: https://www.epa.gov/egrid/emissions-generation-resource-integrated-database-egrid
