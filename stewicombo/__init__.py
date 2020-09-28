@@ -7,7 +7,8 @@ from stewicombo.globals import get_id_before_underscore, getInventoriesforFacili
     addChemicalMatches, addBaseInventoryIDs
 
 
-def combineFullInventories(inventory_dict, filter_for_LCI=True, remove_overlap=True, compartments=None):
+def combineFullInventories(inventory_dict, filter_for_LCI=True, 
+                           remove_overlap=True, compartments=None):
     """Combines full stewi inventories
 
     :param inventory_dict: dictionary of inventories and years,
@@ -22,8 +23,12 @@ def combineFullInventories(inventory_dict, filter_for_LCI=True, remove_overlap=T
     inventory_acronyms = list(inventory_dict.keys())
     facilitymatches = facilitymatcher.get_matches_for_inventories(inventory_acronyms)
     inventories = getInventoriesforFacilityMatches(inventory_dict, facilitymatches, filter_for_LCI)
+    
     # filter by compartment
-    inventories = inventories[inventories['Compartment'].isin(compartments)]
+    if compartments !=None:
+        #TODO disaggregate compartments to include all children
+        inventories = inventories[inventories['Compartment'].isin(compartments)]
+    
     inventories = addChemicalMatches(inventories)
    
     # Aggregate and remove overlap if requested
