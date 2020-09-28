@@ -156,12 +156,15 @@ def remove_flow_overlap(df, aggregate_flow, contributing_flows, compartment='air
     log.info('summing contributing flows for '+ aggregate_flow)
     df_contributing_flows = df_contributing_flows.groupby(match_conditions, as_index=False)['FlowAmount'].sum()
     log.info('handling overlap for '+ aggregate_flow)
-    for i, row in df_contributing_flows.iterrows():
-        if SCC:
-            ids = (df["SRS_ID"] == aggregate_flow) & (df["FacilityID"] == row["FacilityID"]) & (df["Source"] == row["Source"]) & (df["Compartment"] == row["Compartment"]) & (df["SCC"] == row["SCC"])
-        else:
-            ids = (df["SRS_ID"] == aggregate_flow) & (df["FacilityID"] == row["FacilityID"]) & (df["Source"] == row["Source"]) & (df["Compartment"] == row["Compartment"])
-        df.loc[ids, "FlowAmount"] -= row["FlowAmount"]
+
+    df_contributing_flows['SRS_ID']=aggregate_flow
+    df_contributing_flows['ContributingAmount'] = df_contributing_flows['FlowAmount']
+    df_contributing_flows.drop(columns=['FlowAmount'], inplace=True)
+    df = df.merge(df_contributing_flows, how='left', on=match_conditions.append('SRS_ID'))
+    df[['ContributingAmount']] = df[['ContributingAmount']].fillna(value=0)
+    df['FlowAmount']=df['FlowAmount']-df['ContributingAmount']
+    df.drop(columns=['ContributingAmount'], inplace=True)
+
     # Make sure the aggregate flow is non-negative
     df.loc[((df.SRS_ID == aggregate_flow) & (df.FlowAmount <= 0)), "FlowAmount"] = 0
    
