@@ -114,7 +114,10 @@ def getInventoryFlows(inventory_acronym, year):
     """
     path = OUTPUT_DIR + FORMATPATH['flow']
     file = path + inventory_acronym + '_' + str(year) + '.csv'
-    flows = pd.read_csv(file, header=0)
+    if os.path.exists(file):
+        flows = pd.read_csv(file, header=0)
+    else:
+        print('requested inventory does not exist, try seeAvailableInventoriesandYears()')
     return flows
 
 
@@ -126,5 +129,8 @@ def getInventoryFacilities(inventory_acronym, year):
     """
     path = OUTPUT_DIR + FORMATPATH['facility']
     file = path + inventory_acronym + '_' + str(year) + '.csv'
-    facilities = pd.read_csv(file, header=0, dtype={"FacilityID": "str"})
+    if os.path.exists(file):
+        facilities = pd.read_csv(file, header=0, dtype={"FacilityID": "str"})
+    else:
+        print('requested inventory does not exist, try seeAvailableInventoriesandYears()')
     return facilities
