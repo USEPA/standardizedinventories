@@ -132,16 +132,21 @@ def aggregate_and_remove_overlap(df):
     log.info("Adding any rows with NaN FRS_ID or SRS_ID")
     df = df.append(rows_with_nans_srs_frs, ignore_index=True)
     
+    df = remove_default_flow_overlaps(df, compartment='air', SCC=False)
+
+    return df
+
+def remove_default_flow_overlaps(df, compartment='air', SCC=False):
     log.info("Assessing PM and VOC speciation")
 
     # SRS_ID = 77683 (PM10-PRI) and SRS_ID = 77681  (PM2.5-PRI)
-    df = remove_flow_overlap(df, '77683',['77681'])
+    df = remove_flow_overlap(df, '77683',['77681'], compartment, SCC)
     
     # SRS_ID = 83723 (VOC) change FlowAmount by subtracting sum of FlowAmount from speciated HAP VOCs.
     # The records for speciated HAP VOCs are not changed.
     # Defined in EPA’s Industrial, Commercial, and Institutional (ICI) Fuel Combustion Tool, Version 1.4, December 2015
     # (Available at: ftp://ftp.epa.gov/EmisInventory/2014/doc/nonpoint/ICI%20Tool%20v1_4.zip).
-    df = remove_flow_overlap(df, '83723',VOC_srs)
+    df = remove_flow_overlap(df, '83723',VOC_srs, compartment, SCC)
    
     log.info("Overlap removed.")
     return df
