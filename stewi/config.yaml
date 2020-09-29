@@ -1,0 +1,12 @@
+databases:
+  TRI:
+    url: https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-calendar-years-1987-2017
+    queries:
+      TRI_year_reported: 'option'
+      TRI_zip: 'value'
+  RCRAInfo:
+    url: https://rcrapublic.epa.gov/rcra-public-export
+    queries:
+      Table_of_tables: "//table[@id='tables']"
+  eGRID:
+      url: https://www.epa.gov/egrid/emissions-generation-resource-integrated-database-egrid

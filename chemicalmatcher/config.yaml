@@ -1,0 +1,6 @@
+databases:
+  SRS:
+    url: https://cdxnodengn.epa.gov/cdx-srs-rest/
+    queries:
+      caslistprefix: substances/cas?casList=
+      sep: '%7c'

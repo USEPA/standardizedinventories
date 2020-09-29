@@ -3,7 +3,8 @@ import io
 import requests
 import json
 import pandas as pd
-import os
+pd.options.mode.chained_assignment = None
+import os, sys, yaml
 
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'facilitymatcher/'
@@ -15,8 +16,15 @@ stewi_inventories = ["NEI","TRI","eGRID","RCRAInfo","GHGRP"]
 
 inventory_to_FRS_pgm_acronymn = {"NEI":"EIS","TRI":"TRIS","eGRID":"EGRID","GHGRP":"E-GGRT","RCRAInfo":"RCRAINFO","DMR":"NPDES"}
 
+def config():
+    configfile = None
+    with open(modulepath + 'config.yaml', mode='r') as f:
+        configfile = yaml.load(f,Loader=yaml.FullLoader)
+    return configfile
+
 def download_extract_FRS_combined_national(FRSpath):
-    url = 'https://www3.epa.gov/enviro/html/fii/downloads/state_files/national_combined.zip'
+    _config = config()['databases']['FRS']
+    url = _config['url']
     request = requests.get(url).content
     zip_file = zipfile.ZipFile(io.BytesIO(request))
     zip_file.extractall(FRSpath)
@@ -29,6 +37,14 @@ def filter_by_program_list(df,program_list):
 #Only can be applied after renaming the programs to inventories
 def filter_by_inventory_list(df,inventory_list):
     df = df[df['Source'].isin(inventory_list)]
+    return df
+
+#Only can be applied after renaming the programs to inventories
+def filter_by_inventory_id_list(df,inventories_of_interest,base_inventory,id_list):
+    #Find FRS_IDs first
+    FRS_ID_list = list(df.loc[(df['Source'] == base_inventory) & (df['FacilityID'].isin(id_list)),"FRS_ID"])
+    #Now use that FRS_ID list and list of inventories of interest to get decired matches
+    df = df.loc[(df['Source'].isin(inventories_of_interest)) & (df['FRS_ID'].isin(FRS_ID_list))]
     return df
 
 def filter_by_facility_list(df,facility_list):
@@ -77,6 +93,5 @@ def add_manual_matches(df_matches):
     #Read in manual matches
     manual_matches = pd.read_csv(data_dir+'facilitymatches_manual.csv',header=0,dtype={'FacilityID':'str','FRS_ID':'str'})
     #Append with list
-    df_matches = pd.concat([df_matches,manual_matches])
+    df_matches = pd.concat([df_matches,manual_matches], sort = False)
     return df_matches
-

@@ -2,22 +2,33 @@ from setuptools import setup
 
 setup(
     name="StEWI",
-    version="0.1",
-    author="Wesley Ingwersen",
+    version="0.9.4",
+    author="Wesley Ingwersen, Matthew Bergman, Jose Hernandez-Betancur, Tapajyoti Ghosh, Mo Li",
     author_email="ingwersen.wesley@epa.gov",
-    description="Standardized Emission And Waste Inventories (StEWI) provides processed EPA release and emissions inventories "
+    description="Standardized Emission And Waste Inventories (StEWI)"
+                "provides processed EPA release and emissions inventories "
                 "in standard tabular format",
     license="CC0",
     keywords="USEPA data",
     url="http://www.github.com/usepa/standardizedinventories",
-    packages=['chemicalmatcher','facilitymatcher','stewi','stewicombo'],
-    package_data={'stewi': ["data/*.*","output/*.*"],
-                  'chemicalmatcher': ["data/*.*", "output/*.*"],
-                  'facilitymatcher': ["data/*.*", "output/*.*"]},
-    install_requires=['numpy', 'pandas', 'requests'],
-    long_description=open('README.md').read(),
+    packages=['chemicalmatcher', 'facilitymatcher', 'stewi', 'stewicombo'],
+    # Must include package data, specifying all subdirectories to be included
+    # https://setuptools.readthedocs.io/en/latest/setuptools.html#including-data-files
+    package_data={'stewi': ["data/*.*",
+                            "output/*.*",
+                            "output/facility/*.*",
+                            "output/flow/*.*",
+                            "output/flowbyfacility/*.*",
+                            "output/flowbySCC/*.*",
+                            "output/validation/*.*"],
+                  'chemicalmatcher': ["data/*.*", "output/*.*", "config.yaml"],
+                  'facilitymatcher': ["data/*.*", "output/*.*", "config.yaml"]},
+    include_package_data=True,
+    install_requires=['numpy>=1.16', 'pandas>=0.22', 'requests>=2.20',
+                      'bs4', 'argparse', 'regex', 'selenium', 'PyYAML>=5.1',
+                      'webdriver-manager'],
     classifiers=[
-        "Development Status :: Alpha",
+        "Development Status :: Beta",
         "Environment :: Console",
         "Intended Audience :: Science/Research",
         "License :: CC0",

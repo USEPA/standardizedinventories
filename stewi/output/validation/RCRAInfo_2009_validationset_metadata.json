@@ -1,0 +1,1 @@
+{"SourceType": "Static File", "SourceFileName": "Trends Analysis", "SourceURL": "https://rcrapublic.epa.gov/rcrainfoweb/action/modules/br/trends/view", "SourceVersion": NaN, "SourceAquisitionTime": "20-Mar-19", "StEWI_versions_version": "0.9", "Criteria": "Location':'National','Metric':'Generation', 'Generators To Include': 'All Generators Included In The NBR'"}

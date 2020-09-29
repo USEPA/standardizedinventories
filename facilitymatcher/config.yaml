@@ -1,0 +1,3 @@
+databases:
+  FRS:
+    url: https://ofmext.epa.gov/FLA/www3/state_files/national_combined.zip
