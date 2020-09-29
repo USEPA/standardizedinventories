@@ -23,7 +23,7 @@ from datetime import datetime
 
 # Set reporting year to be used in API requests
 data_source = 'GHGRP'
-report_year = '2014'
+report_year = '2016'
 output_format = 'facility'
 output_dir = globals.output_dir
 data_dir = globals.data_dir
@@ -207,7 +207,7 @@ def get_facilities(facilities_file):
 most_recent_year = get_most_recent_year()
 facilities_file = ghgrp_external_dir + most_recent_year + '_ghgrp_data_summary_spreadsheets/' + most_recent_year + ' Data Summary Spreadsheets/ghgp_data_' + report_year + '_8_5_' + str(int(most_recent_year[-2:])+1) + '.xlsx'
 facilities_url = 'https://www.epa.gov/sites/production/files/' + str(int(most_recent_year)+1) + '-12/' + most_recent_year + '_ghgrp_data_summary_spreadsheets.zip'
-enviro_url = 'https://iaspub.epa.gov/enviro/efservice/'
+enviro_url = 'https://data.epa.gov/efservice/'
 subparts_url = enviro_url + 'PUB_DIM_SUBPART/JSON'
 subparts_file = ghgrp_external_dir + 'subparts.csv'
 ghgs_url = enviro_url + 'PUB_DIM_GHG/JSON'
@@ -216,7 +216,10 @@ ghgs_file = ghgrp_external_dir + 'ghgs.csv'
 excel_subparts_url = 'https://www.epa.gov/sites/production/files/' + str(int(most_recent_year)+1) + '-09/e_o_s_cems_bb_cc_ll_rr_full_data_set_8_5_' + str(int(most_recent_year[-2:])+1) + '_final_0.xlsx'
 excel_subparts_file = ghgrp_external_dir + 'e_o_s_cems_bb_cc_ll_rr_full_data_set_8_5_' + str(int(most_recent_year[-2:])+1) + '_final_0.xlsx'
 
-required_tables = [[facilities_file, facilities_url, 'Static File'], [subparts_file, subparts_url, 'Database'], [ghgs_file, ghgs_url, 'Database'], [excel_subparts_file, excel_subparts_url, 'Static File']]
+required_tables = [[facilities_file, facilities_url, 'Static File'], 
+                   [subparts_file, subparts_url, 'Database'], 
+                   [ghgs_file, ghgs_url, 'Database'], 
+                   [excel_subparts_file, excel_subparts_url, 'Static File']]
 for table in required_tables:
     temp_time = download_table(table[0], url=table[1], get_time=True)
     time_meta.append(temp_time)
@@ -243,7 +246,8 @@ year_tables = year_tables[year_tables['PrimaryEmissions'] == 1].reset_index(drop
 for index, row in year_tables.iterrows():
     subpart_emissions_table = row['TABLE']
     print(subpart_emissions_table)
-    filepath = ghgrp_external_dir + 'tables/' + report_year + '/' + subpart_emissions_table + '.csv'
+    file_dir = ghgrp_external_dir + 'tables/' + report_year + '/'
+    filepath = file_dir + subpart_emissions_table + '.csv'
     if os.path.exists(filepath):
         temp_df, temp_time = import_table(filepath, get_time=True)
         table_length = len(temp_df)
@@ -255,6 +259,8 @@ for index, row in year_tables.iterrows():
             url_meta.append(generate_url(row['TABLE'],report_year=report_year,row_start=row_start, row_end=row_start + 10000, output_ext='CSV'))
             row_start += 10000
     else:
+        if not os.path.exists(file_dir):
+            os.makedirs(file_dir)
         subpart_count = get_row_count(subpart_emissions_table, report_year=report_year)
         print('Downloading ' + subpart_emissions_table + '(rows: ' + str(subpart_count) + ')')
         while True:

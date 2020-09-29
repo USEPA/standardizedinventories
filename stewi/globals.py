@@ -56,13 +56,15 @@ def url_is_alive(url):
         return False
 
 
-def download_table(filepath, url, get_time=False, zip_dir=''):
+def download_table(filepath, url, get_time=False, zip_dir=None):
     import os.path, time
     if not os.path.exists(filepath):
         if url[-4:].lower() == '.zip':
             import zipfile, requests, io
             table_request = requests.get(url).content
             zip_file = zipfile.ZipFile(io.BytesIO(table_request))
+            if zip_dir is None:
+                zip_dir = os.path.abspath(os.path.join(filepath, "../../.."))
             zip_file.extractall(zip_dir)
         elif 'xls' in url.lower() or url.lower()[-5:] == 'excel':
             import urllib, shutil
