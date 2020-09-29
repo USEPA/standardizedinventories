@@ -130,7 +130,7 @@ def getInventoryFacilities(inventory_acronym, year):
     path = OUTPUT_DIR + FORMATPATH['facility']
     file = path + inventory_acronym + '_' + str(year) + '.csv'
     if os.path.exists(file):
-        facilities = pd.read_csv(file, header=0, dtype={"FacilityID": "str"})
+        facilities = pd.read_csv(file, header=0, dtype={"FacilityID": "str","NAICS":"str"})
     else:
         print('requested inventory does not exist, try seeAvailableInventoriesandYears()')
     return facilities

@@ -5,6 +5,7 @@ pd.options.mode.chained_assignment = None
 import json
 import logging as log
 import os
+import numpy as np
 import yaml
 
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
@@ -34,7 +35,7 @@ inventory_metadata = {
 'StEWI_versions_version': '0.9'
 }
 
-inventory_single_compartments = {"NEI":"air","RCRAInfo":"waste"}
+inventory_single_compartments = {"NEI":"air","RCRAInfo":"waste","GHGRP":"air"}
 
 
 def url_is_alive(url):
@@ -182,7 +183,7 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
         inventory_sums = inventory_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
         reference_sums = reference_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
     if filepath: reference_sums.to_csv(filepath, index=False)
-    validation_df = inventory_sums.merge(reference_sums, how='outer', on=group_by_columns)
+    validation_df = inventory_sums.merge(reference_sums, how='outer', on=group_by_columns).reset_index(drop=True)
     validation_df = validation_df.fillna(0.0)
     amount_x_list = []
     amount_y_list = []
@@ -197,6 +198,10 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
                 pct_diff_list.append(0.0)
                 amount_y_list.append(amount_y)
                 conclusion.append('Both inventory and reference are zero or null')
+            elif amount_y == np.inf:
+                amount_y_list.append(np.nan)
+                pct_diff_list.append(100.0)
+                conclusion.append('Reference contains infinity values. Check prior calculations.')
             else:
                 amount_y_list.append(amount_y)
                 pct_diff_list.append(100.0)
@@ -208,6 +213,11 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
             pct_diff_list.append(100.0)
             conclusion.append('Reference value is zero or null')
             continue
+        elif amount_y == np.inf:
+            amount_x_list.append(amount_x)
+            amount_y_list.append(np.nan)
+            pct_diff_list.append(100.0)
+            conclusion.append('Reference contains infinity values. Check prior calculations.')
         else:
             pct_diff = 100.0 * abs(amount_y - amount_x) / amount_y
             pct_diff_list.append(pct_diff)
@@ -221,6 +231,7 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
     validation_df['Percent_Difference'] = pct_diff_list
     validation_df['Conclusion'] = conclusion
     validation_df = validation_df.drop(['FlowAmount_x', 'FlowAmount_y'], axis=1)
+    print(validation_df)
     return validation_df
 
 

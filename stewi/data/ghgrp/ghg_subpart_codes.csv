@@ -1,0 +1,35 @@
+﻿subpart_code,subpart_description,subpart_level_information,excel,covered_in_validation
+C,General Stationary Fuel Combustion Sources,1,,1
+D,Electricity Generation,1,,1
+E,Adipic Acid Production,1,1,
+F,Aluminum Production,1,,1
+G,Ammonia Manufacturing,1,,1
+H,Cement Production,1,,1
+I,Electronics Manufacture,1,,
+K,Ferroalloy Production,1,,1
+L,Fluorinated Gas Production,1,,
+N,Glass Production,1,,1
+O,HCFC–22 Production and HFC–23 Destruction,1,1,
+P,Hydrogen Production,1,,1
+Q,Iron and Steel Production,1,,1
+R,Lead Production,1,,1
+S,Lime Manufacturing,1,1,1
+T,Magnesium Production,1,,1
+U,Miscellaneous Uses of Carbonate,1,,1
+V,Nitric Acid Production,1,,1
+W,Petroleum and Natural Gas Systems,1,,1
+X,Petrochemical Production,1,,1
+Y,Petroleum Refineries,1,,1
+Z,Phosphoric Acid Production,1,,1
+AA,Pulp and Paper Manufacturing,1,,1
+BB,Silicon Carbide Production,1,1,
+CC,Soda Ash Manufacturing,1,1,
+DD,Use of Electrical Transmission and Distribution Equipment,1,,1
+EE,Titanium Dioxide Production,1,,1
+FF,Underground Coal Mines,1,,1
+GG,Zinc Production,1,,1
+HH,Municipal Solid Waste Landfills,1,,1
+II,Industrial Wastewater Treatment,1,,1
+LL,Coal-based Liquid Fuel Suppliers,,1,
+SS,Manufacture of Electric Transmission and Distribution Equipment,1,,1
+TT,Industrial Waste Landfills,1,,1
