@@ -85,7 +85,7 @@ def aggregate_and_remove_overlap(df):
     id_duplicates = df.duplicated(subset=LOOKUP_FIELDS, keep=False)
     df_duplicates = df.loc[id_duplicates]
     df_singles = df.loc[~id_duplicates]
-    df_duplicates = df_duplicates.head(1000)
+    
     #print("Grouping duplicates by LOOKUP_FIELDS")
     grouped = df_duplicates.groupby(LOOKUP_FIELDS)
 
