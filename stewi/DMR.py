@@ -217,6 +217,8 @@ def generateDMR(year, nutrient='', path=dmr_external_dir):
         filepath = path + 'sic_' + sic + '.pickle'
         if sic == '12' or sic == '49':
             for state in states:
+                if sic == '12' and (state == 'WV' or state == 'KY'):
+                    print('todo get WV/KY')
                 filepath = path + 'sic_' + sic + '_'+state+'.pickle'
                 result = unpickle(filepath)
                 output_df = pd.concat([output_df, result])
@@ -293,11 +295,11 @@ if __name__ == '__main__':
             
             sic_df = generateDMR(DMRyear)
             sic_df = filter_states(standardize_df(sic_df))# TODO: Skip querying of US territories for optimization
-            
+
             P_df = generateDMR(DMRyear, nutrient='P')
             N_df = generateDMR(DMRyear, nutrient='N')
             nutrient_agg_df = pd.concat([P_df, N_df])
-            
+
             # Filter out nitrogen and phosphorus flows before combining with aggregated nutrients
             nutrient_agg_df = filter_states(standardize_df(nutrient_agg_df))# TODO: Skip querying of US territories for optimization
             
