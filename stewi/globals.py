@@ -342,3 +342,6 @@ def checkforFile(filepath):
 
 def get_relpath(filepath):
     return os.path.relpath(filepath, '.').replace('\\', '/') + '/'
+
+def storeParquet(df, file_name):
+    df.to_parquet(output_dir+file_name+'.parquet', index=False, compression=None)

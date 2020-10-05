@@ -24,7 +24,8 @@ Year:
 
 from stewi.globals import set_dir,output_dir,data_dir,write_metadata,\
     inventory_metadata,get_relpath,unit_convert,log,\
-    validate_inventory,write_validation_result,USton_kg,lb_kg,weighted_average
+    validate_inventory,write_validation_result,USton_kg,lb_kg,weighted_average, \
+    storeParquet
 import pandas as pd
 import numpy as np
 import os
@@ -299,8 +300,7 @@ if __name__ == '__main__':
             nei_point = nei_point.reset_index()
             nei_flowbyfacility = nei_aggregate_to_facility_level(nei_point)
             #nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+year+'.csv',index=False)
-            nei_flowbyfacility.to_parquet(output_dir+'flowbyfacility/NEI_'+year+'.parquet', 
-                                          index=False, compression=None)
+            storeParquet(nei_flowbyfacility,'flowbyfacility/NEI_'+year)
             log.info(len(nei_flowbyfacility))
             #2017: 2184786
             #2016: 1965918
@@ -312,8 +312,7 @@ if __name__ == '__main__':
             nei_point = nei_point.reset_index()
             nei_flowbySCC = nei_aggregate_to_custom_level(nei_point, 'SCC')
             #nei_flowbySCC.to_csv(output_dir+'flowbySCC/NEI_'+year+'.csv',index=False)
-            nei_flowbySCC.to_parquet(output_dir+'flowbySCC/NEI_'+year+'.parquet', 
-                                          index=False, compression=None)
+            storeParquet(nei_flowbySCC, 'flowbySCC/NEI_'+year)
             log.info(len(nei_flowbySCC))
             #2017: 4055707
 
