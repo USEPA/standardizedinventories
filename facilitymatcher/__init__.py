@@ -30,7 +30,10 @@ def get_FRS_NAICSInfo_for_facility_list(frs_id_list, inventories_of_interest_lis
     """
     all_NAICS = pd.read_csv(output_dir + 'FRS_NAICSforStEWI.csv', header=0,
                             dtype={"FRS_ID": "str", "NAICS": "str"})
-    NAICS_of_interest = filter_by_facility_list(all_NAICS, frs_id_list)
+    if frs_id_list is not None:
+        NAICS_of_interest = filter_by_facility_list(all_NAICS, frs_id_list)
+    else:
+        NAICS_of_interest = all_NAICS
     if inventories_of_interest_list is not None:
         NAICS_of_interest = filter_by_inventory_list(NAICS_of_interest,
                                                      inventories_of_interest_list)
