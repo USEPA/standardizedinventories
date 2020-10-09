@@ -33,19 +33,23 @@ states = [x for x in states if str(x) != 'nan']
 base_url = 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_custom_data_annual?'  # base url
 
 
-def generate_url(report_year, base_url=base_url, sic='', region='', state='', nutrient='', nutrient_agg=False, responseset='100000', pageno='1', output_type='JSON'):
+def generate_url(report_year, base_url=base_url, sic='', region='', state='', 
+                 nutrient='', nutrient_agg=False, param_group=False, detection='', estimation=True,
+                 responseset='100000', pageno='1', output_type='JSON'):
+    # web service documentation: https://echo.epa.gov/tools/web-services/loading-tool#/Custom%20Search/get_dmr_rest_services_get_custom_data_facility
     url = base_url + 'p_year=' + report_year
     if sic: url += '&p_sic2=' + sic
     if region: url += '&p_reg=' + region
     if state: url += '&p_st=' + state
     if nutrient: url += '&p_poll_cat=Nut' + nutrient
-    if nutrient_agg: url += '&p_nutrient_agg=Y'
+    if nutrient_agg: url += '&p_nutrient_agg=Y' # default is N
+    if param_group: url += '&p_param_group=Y' # default is N
+    if detection: url += '&p_nd=' + detection # default is ZERO
+    if not estimation: url += '&p_est=N' # default is Y
     if responseset: url += '&ResponseSet=' + str(responseset)
     if pageno: url += '&PageNo=' + str(pageno)
     if output_type: url += '&output=' + output_type
     return url
-# 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_custom_data_annual?p_year=2016&p_sic2=02&responseset=500&p_poll_cat=NutN&p_nutrient_agg=Y&output=JSON'
-# 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_custom_data_annual?p_year=2016&p_sic2=02&responseset=500&p_poll_cat=NutP&p_nutrient_agg=Y&output=JSON'
 
 
 def query_dmr(year, sic_list=sic2, region_list=[], state_list=[], nutrient='', path=dmr_external_dir):
@@ -185,16 +189,16 @@ def standardize_df(input_df):
     output_df['ReliabilityScore'] = dmr_reliability_table['DQI Reliability Score']
 
     # Rename with standard column names
-    output_df.rename(columns={'ExternalPermitNmbr': 'FacilityID'}, inplace=True)
-    output_df.rename(columns={'Siccode': 'SIC'}, inplace=True)
-    output_df.rename(columns={'NaicsCode': 'NAICS'}, inplace=True)
-    output_df.rename(columns={'StateCode': 'State'}, inplace=True)
-    output_df.rename(columns={'ParameterDesc': 'FlowName'}, inplace=True)
-    output_df.rename(columns={'DQI Reliability Score': 'ReliabilityScore'}, inplace=True)
-    output_df.rename(columns={'PollutantLoad': 'FlowAmount'}, inplace=True)
-    output_df.rename(columns={'CountyName': 'County'}, inplace=True)
-    output_df.rename(columns={'GeocodeLatitude': 'Latitude'}, inplace=True)
-    output_df.rename(columns={'GeocodeLongitude': 'Longitude'}, inplace=True)
+    output_df.rename(columns={'ExternalPermitNmbr': 'FacilityID',
+                              'Siccode': 'SIC',
+                              'NaicsCode': 'NAICS',
+                              'StateCode': 'State',
+                              'ParameterDesc': 'FlowName',
+                              'DQI Reliability Score': 'ReliabilityScore',
+                              'PollutantLoad': 'FlowAmount',
+                              'CountyName': 'County',
+                              'GeocodeLatitude': 'Latitude',
+                              'GeocodeLongitude': 'Longitude'}, inplace=True)
     # Drop flow amount of '--'
     output_df = output_df[output_df['FlowAmount'] != '--']
     # Already in kg/yr, so no conversion necessary
@@ -240,7 +244,6 @@ def unpickle(filepath):
 
 def generateStateTotal(year):
     print('generating state totals')
-    # TODO: generate state totals
     # https://echo.epa.gov/trends/loading-tool/get-data/state-statistics
     # https://ofmpub.epa.gov/echo/dmr_rest_services.get_state_stats?p_year=2020&output=csv
     url = 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_state_stats?p_year=' + year + '&output=csv'
@@ -250,8 +253,7 @@ def generateStateTotal(year):
     state_totals['Amount']=state_csv['Total Pollutant Pounds (lb/yr) for Majors']+state_csv['Total Pollutant Pounds (lb/yr) for Non-Majors']
     state_totals['FlowName']='All'
     state_totals['Compartment']='All'
-    
-    
+        
     return
 
 if __name__ == '__main__':
