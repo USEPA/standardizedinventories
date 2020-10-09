@@ -133,6 +133,7 @@ def aggregate_and_remove_overlap(df):
     df = df.append(rows_with_nans_srs_frs, ignore_index=True)
     
     df = remove_default_flow_overlaps(df, compartment='air', SCC=False)
+    log.info("Overlap removed.")
 
     return df
 
@@ -148,7 +149,6 @@ def remove_default_flow_overlaps(df, compartment='air', SCC=False):
     # (Available at: ftp://ftp.epa.gov/EmisInventory/2014/doc/nonpoint/ICI%20Tool%20v1_4.zip).
     df = remove_flow_overlap(df, '83723',VOC_srs, compartment, SCC)
    
-    log.info("Overlap removed.")
     return df
 
 def remove_flow_overlap(df, aggregate_flow, contributing_flows, compartment='air', SCC=False):
@@ -158,9 +158,8 @@ def remove_flow_overlap(df, aggregate_flow, contributing_flows, compartment='air
     match_conditions = ['FacilityID','Source','Compartment']
     if SCC:
         match_conditions.append('SCC')
-    log.info('summing contributing flows for '+ aggregate_flow)
+
     df_contributing_flows = df_contributing_flows.groupby(match_conditions, as_index=False)['FlowAmount'].sum()
-    log.info('handling overlap for '+ aggregate_flow)
 
     df_contributing_flows['SRS_ID']=aggregate_flow
     df_contributing_flows['ContributingAmount'] = df_contributing_flows['FlowAmount']
