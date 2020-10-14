@@ -49,7 +49,7 @@ def aggregate_and_remove_overlap(df):
         raise ValueError("Cannot have both INCLUDE_ORIGINAL and KEEP_REPEATED_DUPLICATES fields as False")
 
     log.info("Aggregating inventories...")
-
+    
     if INCLUDE_ORIGINAL:
         keep = False
     else:
@@ -81,9 +81,13 @@ def aggregate_and_remove_overlap(df):
 
     # remaining rows
     df = df[~(df.loc[:, "FRS_ID"].isnull() | df.loc[:, "SRS_ID"].isnull())]
-
+    #limit the groupby to those where more than one row exists to improve speed
+    id_duplicates = df.duplicated(subset=LOOKUP_FIELDS, keep=False)
+    df_duplicates = df.loc[id_duplicates]
+    df_singles = df.loc[~id_duplicates]
+    df_duplicates = df_duplicates.head(1000)
     #print("Grouping duplicates by LOOKUP_FIELDS")
-    grouped = df.groupby(LOOKUP_FIELDS)
+    grouped = df_duplicates.groupby(LOOKUP_FIELDS)
 
     #print("Grouping duplicates by SOURCE_COL")
     if SOURCE_COL not in df.columns: raise ("SOURCE_COL not found in input file's header")
@@ -96,31 +100,29 @@ def aggregate_and_remove_overlap(df):
         funcname_cols_map[col] = COL_FUNC_DEFAULT
 
     to_be_concat = []
-    # Check if frame includes more than one record before using the function key mapping
+    to_be_concat.append(df_singles)
+    
     group_length = len(grouped)
     counter = 1
     pct = 1
     for name, frame in grouped:
-        if len(frame)==1:
-            to_be_concat.append(frame)
-        else:
-            # find functions mapping for this df
-            func_cols_map = {}
-            for key, val in funcname_cols_map.items():
-                if "reliablity_weighted_sum" in val:
-                    args = val.split(":")
-                    if len(args) > 1:
-                        weights_col_name = args[1]
-                    func_cols_map[key] = lambda items: reliablity_weighted_sum(frame, weights_col_name, items)
-                else:
-                    func_cols_map[key] = eval(val)
-            grouped_by_src = frame.groupby(SOURCE_COL)
-            df_new = grouped_by_src.agg(func_cols_map)
-    
-            # If we have 2 or more duplicates with same compartment use `INVENTORY_PREFERENCE_BY_COMPARTMENT`
-            grouped = df_new.groupby(COMPARTMENT_COL)
-            df_new = grouped.apply(get_by_preference)
-            to_be_concat.append(df_new)
+        # find functions mapping for this df
+        func_cols_map = {}
+        for key, val in funcname_cols_map.items():
+            if "reliablity_weighted_sum" in val:
+                args = val.split(":")
+                if len(args) > 1:
+                    weights_col_name = args[1]
+                func_cols_map[key] = lambda items: reliablity_weighted_sum(frame, weights_col_name, items)
+            else:
+                func_cols_map[key] = eval(val)
+        grouped_by_src = frame.groupby(SOURCE_COL)
+        df_new = grouped_by_src.agg(func_cols_map)
+
+        # If we have 2 or more duplicates with same compartment use `INVENTORY_PREFERENCE_BY_COMPARTMENT`
+        grouped = df_new.groupby(COMPARTMENT_COL)
+        df_new = grouped.apply(get_by_preference)
+        to_be_concat.append(df_new)
         if counter / group_length >= 0.1*pct:
             log.info(str(pct) +'0% completed')
             pct +=1
@@ -130,16 +132,21 @@ def aggregate_and_remove_overlap(df):
     log.info("Adding any rows with NaN FRS_ID or SRS_ID")
     df = df.append(rows_with_nans_srs_frs, ignore_index=True)
     
+    df = remove_default_flow_overlaps(df, compartment='air', SCC=False)
+
+    return df
+
+def remove_default_flow_overlaps(df, compartment='air', SCC=False):
     log.info("Assessing PM and VOC speciation")
 
     # SRS_ID = 77683 (PM10-PRI) and SRS_ID = 77681  (PM2.5-PRI)
-    df = remove_flow_overlap(df, '77683',['77681'])
+    df = remove_flow_overlap(df, '77683',['77681'], compartment, SCC)
     
     # SRS_ID = 83723 (VOC) change FlowAmount by subtracting sum of FlowAmount from speciated HAP VOCs.
     # The records for speciated HAP VOCs are not changed.
     # Defined in EPA’s Industrial, Commercial, and Institutional (ICI) Fuel Combustion Tool, Version 1.4, December 2015
     # (Available at: ftp://ftp.epa.gov/EmisInventory/2014/doc/nonpoint/ICI%20Tool%20v1_4.zip).
-    df = remove_flow_overlap(df, '83723',VOC_srs)
+    df = remove_flow_overlap(df, '83723',VOC_srs, compartment, SCC)
    
     log.info("Overlap removed.")
     return df
@@ -151,21 +158,19 @@ def remove_flow_overlap(df, aggregate_flow, contributing_flows, compartment='air
     match_conditions = ['FacilityID','Source','Compartment']
     if SCC:
         match_conditions.append('SCC')
+    log.info('summing contributing flows for '+ aggregate_flow)
     df_contributing_flows = df_contributing_flows.groupby(match_conditions, as_index=False)['FlowAmount'].sum()
-    
-    for i, row in df_contributing_flows.iterrows():
-        if SCC:
-            ids = (df["SRS_ID"] == aggregate_flow) & (df["FacilityID"] == row["FacilityID"]) & (df["Source"] == row["Source"]) & (df["Compartment"] == row["Compartment"]) & (df["SCC"] == row["SCC"])
-        else:
-            ids = (df["SRS_ID"] == aggregate_flow) & (df["FacilityID"] == row["FacilityID"]) & (df["Source"] == row["Source"]) & (df["Compartment"] == row["Compartment"])
-        df.loc[ids, "FlowAmount"] -= row["FlowAmount"]
-        #TODO make sure values are not negative
+    log.info('handling overlap for '+ aggregate_flow)
+
+    df_contributing_flows['SRS_ID']=aggregate_flow
+    df_contributing_flows['ContributingAmount'] = df_contributing_flows['FlowAmount']
+    df_contributing_flows.drop(columns=['FlowAmount'], inplace=True)
+    df = df.merge(df_contributing_flows, how='left', on=match_conditions.append('SRS_ID'))
+    df[['ContributingAmount']] = df[['ContributingAmount']].fillna(value=0)
+    df['FlowAmount']=df['FlowAmount']-df['ContributingAmount']
+    df.drop(columns=['ContributingAmount'], inplace=True)
+
+    # Make sure the aggregate flow is non-negative
+    df.loc[((df.SRS_ID == aggregate_flow) & (df.FlowAmount <= 0)), "FlowAmount"] = 0
    
     return df
-
-if __name__ == '__main__':
-    import stewicombo
-    nei_df = stewicombo.combineFullInventories({"NEI":"2016"},remove_overlap=False)
-    nei_df = nei_df.head(10000)
-    nei_df = aggregate_and_remove_overlap(nei_df)
-    #nei_df = remove_flow_overlap(nei_df,'83723',VOC_srs)

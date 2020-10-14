@@ -5,6 +5,7 @@ pd.options.mode.chained_assignment = None
 import json
 import logging as log
 import os
+import numpy as np
 import yaml
 
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
@@ -34,7 +35,7 @@ inventory_metadata = {
 'StEWI_versions_version': '0.9'
 }
 
-inventory_single_compartments = {"NEI":"air","RCRAInfo":"waste"}
+inventory_single_compartments = {"NEI":"air","RCRAInfo":"waste","GHGRP":"air"}
 
 
 def url_is_alive(url):
@@ -55,13 +56,15 @@ def url_is_alive(url):
         return False
 
 
-def download_table(filepath, url, get_time=False, zip_dir=''):
+def download_table(filepath, url, get_time=False, zip_dir=None):
     import os.path, time
     if not os.path.exists(filepath):
         if url[-4:].lower() == '.zip':
             import zipfile, requests, io
             table_request = requests.get(url).content
             zip_file = zipfile.ZipFile(io.BytesIO(table_request))
+            if zip_dir is None:
+                zip_dir = os.path.abspath(os.path.join(filepath, "../../.."))
             zip_file.extractall(zip_dir)
         elif 'xls' in url.lower() or url.lower()[-5:] == 'excel':
             import urllib, shutil
@@ -182,7 +185,7 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
         inventory_sums = inventory_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
         reference_sums = reference_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
     if filepath: reference_sums.to_csv(filepath, index=False)
-    validation_df = inventory_sums.merge(reference_sums, how='outer', on=group_by_columns)
+    validation_df = inventory_sums.merge(reference_sums, how='outer', on=group_by_columns).reset_index(drop=True)
     validation_df = validation_df.fillna(0.0)
     amount_x_list = []
     amount_y_list = []
@@ -197,6 +200,10 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
                 pct_diff_list.append(0.0)
                 amount_y_list.append(amount_y)
                 conclusion.append('Both inventory and reference are zero or null')
+            elif amount_y == np.inf:
+                amount_y_list.append(np.nan)
+                pct_diff_list.append(100.0)
+                conclusion.append('Reference contains infinity values. Check prior calculations.')
             else:
                 amount_y_list.append(amount_y)
                 pct_diff_list.append(100.0)
@@ -208,6 +215,11 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
             pct_diff_list.append(100.0)
             conclusion.append('Reference value is zero or null')
             continue
+        elif amount_y == np.inf:
+            amount_x_list.append(amount_x)
+            amount_y_list.append(np.nan)
+            pct_diff_list.append(100.0)
+            conclusion.append('Reference contains infinity values. Check prior calculations.')
         else:
             pct_diff = 100.0 * abs(amount_y - amount_x) / amount_y
             pct_diff_list.append(pct_diff)
@@ -221,6 +233,7 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
     validation_df['Percent_Difference'] = pct_diff_list
     validation_df['Conclusion'] = conclusion
     validation_df = validation_df.drop(['FlowAmount_x', 'FlowAmount_y'], axis=1)
+    print(validation_df)
     return validation_df
 
 
@@ -268,19 +281,21 @@ def weighted_average(df, data_col, weight_col, by_col):
     Generates a weighted average result based on passed columns
     Parameters
     ----------
-    df : TYPE
-        DESCRIPTION.
-    data_col : TYPE
-        DESCRIPTION.
-    weight_col : TYPE
-        DESCRIPTION.
-    by_col : TYPE
-        DESCRIPTION.
+    df : DataFrame
+        Dataframe prior to aggregating from which a weighted average is calculated
+    data_col : str
+        Name of column to be averaged.
+    weight_col : str
+        Name of column to serve as the weighting.
+    by_col : list
+        List of columns on which the dataframe is aggregated.
 
     Returns
     -------
-    result : TYPE
-        DESCRIPTION.
+    result : series
+        Series reflecting the weighted average values for the data_col,
+        at length consistent with the aggregated dataframe, to be reapplied
+        to the data_col in the aggregated dataframe.
 
     """
     df['_data_times_weight'] = df[data_col] * df[weight_col]
