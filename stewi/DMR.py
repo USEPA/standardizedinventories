@@ -180,19 +180,22 @@ def standardize_df(input_df):
     reliability_table = globals.reliability_table
     dmr_reliability_table = reliability_table[reliability_table['Source'] == 'DMR']
     dmr_reliability_table.drop(['Source', 'Code'], axis=1, inplace=True)
-    output_df['ReliabilityScore'] = dmr_reliability_table['DQI Reliability Score']
+    output_df['ReliabilityScore'] = dmr_reliability_table['DQI Reliability Score'].values[0]
 
     # Rename with standard column names
-    output_df.rename(columns={'ExternalPermitNmbr': 'FacilityID',
+    field_dictionary = {'ExternalPermitNmbr': 'FacilityID',
                               'Siccode': 'SIC',
                               'NaicsCode': 'NAICS',
                               'StateCode': 'State',
-                              'PollutantDesc': 'FlowName',
-                              'DQI Reliability Score': 'ReliabilityScore',
                               'PollutantLoad': 'FlowAmount',
                               'CountyName': 'County',
                               'GeocodeLatitude': 'Latitude',
-                              'GeocodeLongitude': 'Longitude'}, inplace=True)
+                              'GeocodeLongitude': 'Longitude'}
+    if PARAM_GROUP:
+        field_dictionary['PollutantDesc']='FlowName'
+    else:
+        field_dictionary['ParameterDesc']='FlowName'
+    output_df.rename(columns = field_dictionary, inplace=True)
     # Drop flow amount of '--'
     output_df = output_df[output_df['FlowAmount'] != '--']
     # Already in kg/yr, so no conversion necessary
@@ -312,6 +315,17 @@ def generate_metadata(year):
     #Write metadata to json
     write_metadata('DMR', year, meta)    
 
+def read_pollutant_parameter_list():
+    url = 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_loading_tool_params?output=csv'
+    flows = pd.read_csv(url, header=1, usecols=['POLLUTANT_CODE','POLLUTANT_DESC',
+                                                'PARAMETER_CODE','PARAMETER_DESC',
+                                                'NITROGEN','PHOSPHORUS'])
+    if PARAM_GROUP:
+        flows.rename(columns={'POLLUTANT_DESC':'FlowName'}, inplace=True)
+    else:
+        flows.rename(columns={'PARAMETER_DESC':'FlowName'}, inplace=True)
+    return flows
+    
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(argument_default = argparse.SUPPRESS)
@@ -370,10 +384,9 @@ if __name__ == '__main__':
             nutrient_agg_df = filter_states(standardize_df(nutrient_agg_df))
 
             # Filter out nitrogen and phosphorus flows before combining with aggregated nutrients            
-            nut_drop_list = pd.read_csv(dmr_data_dir + 'DMR_Parameter_List_10302018.csv')
-            nut_drop_list.rename(columns={'PARAMETER_DESC': 'ParameterDesc'}, inplace=True)
+            nut_drop_list = read_pollutant_parameter_list()
             nut_drop_list = nut_drop_list[(nut_drop_list['NITROGEN'] == 'Y') | (nut_drop_list['PHOSPHORUS'] == 'Y')]
-            nut_drop_list = nut_drop_list[['ParameterDesc']]
+            nut_drop_list = nut_drop_list[['FlowName']].drop_duplicates()
             dmr_nut_filtered = filter_inventory(sic_df, nut_drop_list, 'drop')
             dmr_df = pd.concat([dmr_nut_filtered, nutrient_agg_df]).reset_index(drop=True)
 
