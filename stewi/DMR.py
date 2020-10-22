@@ -354,9 +354,18 @@ def generateStateTotal(year):
     
     state_csv = pd.read_csv(url, header=2)
     state_totals = pd.DataFrame()
-    state_totals['Amount']=state_csv['Total Pollutant Pounds (lb/yr) for Majors']+state_csv['Total Pollutant Pounds (lb/yr) for Non-Majors']
+    state_totals['state_name']=state_csv['State']
     state_totals['FlowName']='All'
-    state_totals['Compartment']='All'
+    state_totals['Compartment']='water'
+    state_totals['Amount']=state_csv['Total Pollutant Pounds (lb/yr) for Majors']+state_csv['Total Pollutant Pounds (lb/yr) for Non-Majors']
+    state_totals['Unit']='lb'
+    state_names = states_df[['states','state_name']]
+    state_totals = state_totals.merge(state_names, how='left',
+                                      on='state_name')
+    state_totals.drop(columns=['state_name'], inplace=True)
+    state_totals.dropna(subset=['states'], inplace=True)
+    state_totals.rename(columns={'states':'State'}, inplace=True)
+    state_totals.to_csv(data_dir + 'DMR_' + year + '_StateTotals.csv', index=False)
         
     return
 
@@ -370,8 +379,20 @@ def validateStateTotals(df, year):
         reference_df = reference_df[['FlowName', 'State', 'FlowAmount']]
         
         # to match the state totals, only compare NPD facilities, and remove some flows
+        flow_exclude = pd.read_csv(data_dir + 'DMR/DMR_state_filter_list.csv')
+        state_flow_exclude_list = flow_exclude['POLLUTANT_DESC'].to_list()
+        '''
         state_flow_exclude_list=['Hardness, total (as CaCO3)',
-                                 'Oxygen']
+                                 'Oxygen, dissolved (DO)',
+                                 'Alkalinity, total (as CaCO3)',
+                                 'Alkalinity, phenolphthaline method',
+                                 'Alkalinity, bicarbonate (as CaCO3)',
+                                 'Alkalinity, carbonate (as CaCO3)',
+                                 'Hardness, Ca Mg Calculated (mg/L as CaCO3)',
+                                 'Hardness, tot calc. (Ca, Mg, Fe) as CaC03',
+                                 #'Oxygen'
+                                 ]
+        '''
         dmr_by_state = df[~df['FlowName'].isin(state_flow_exclude_list)]
         dmr_by_state = dmr_by_state[dmr_by_state['PermitTypeCode']=='NPD']
         
@@ -464,6 +485,7 @@ if __name__ == '__main__':
             # generate output for flow
             flow_columns = ['FlowName']
             dmr_flow = dmr_df[flow_columns].drop_duplicates()
+            dmr_flow.sort_values(by=['FlowName'],inplace=True)
             dmr_flow['Compartment'] = 'water'
             dmr_flow['Unit'] = 'kg'
             dmr_flow.to_csv(output_dir + 'flow/DMR_' + DMRyear + '.csv', index=False)
