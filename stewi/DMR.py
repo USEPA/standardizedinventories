@@ -13,12 +13,12 @@ C - for generating StEWI output files and validation from downloaded data
 
 '''
 
-import os, requests
+import os, requests, time
 import pandas as pd
 import stewi.globals as globals
 from stewi.globals import set_dir, filter_inventory, filter_states,\
     validate_inventory, write_validation_result, unit_convert, modulepath,\
-    output_dir, data_dir, lb_kg    
+    output_dir, data_dir, lb_kg, inventory_metadata, get_relpath, write_metadata
 import argparse
 
 dmr_data_dir = data_dir + 'DMR/'
@@ -261,7 +261,6 @@ def generateStateTotal(year):
     state_totals.dropna(subset=['states'], inplace=True)
     state_totals.rename(columns={'states':'State'}, inplace=True)
     state_totals.to_csv(data_dir + 'DMR_' + year + '_StateTotals.csv', index=False)
-    return
 
 def validateStateTotals(df, year):
     """ generate validation by state sums across species"""
@@ -286,6 +285,32 @@ def validateStateTotals(df, year):
         write_validation_result('DMR', year, validation_df)
     else:
         print('State totals for validation not found for ' + year)
+
+def generate_metadata(year):
+    """
+    Gets metadata and writes to .json
+    """
+    print('Generating metadata')
+    meta = inventory_metadata
+
+    #Get time info from folder
+    path = dmr_external_dir + str(year)+'/'
+    retrieval_time = time.ctime(os.path.getmtime(path))
+
+    if retrieval_time is not None:
+        meta['SourceAquisitionTime'] = retrieval_time
+    meta['SourceFileName'] = get_relpath(path)
+    meta['SourceURL'] = 'add'
+
+    #extract version from filepath using regex
+    import re
+    pattern = 'V[0-9]'
+    version = re.search(pattern,path,flags=re.IGNORECASE)
+    if version is not None:
+        meta['SourceVersion'] = version.group(0)
+
+    #Write metadata to json
+    write_metadata('DMR', year, meta)    
 
 if __name__ == '__main__':
 
@@ -332,7 +357,7 @@ if __name__ == '__main__':
             generateStateTotal(DMRyear)
         
         if args.Option == 'C':
-            
+
             sic_df = generateDMR(DMRyear)
             sic_df = filter_states(standardize_df(sic_df))
 
@@ -375,8 +400,8 @@ if __name__ == '__main__':
             dmr_fbf['Compartment'] = 'water'
             dmr_fbf['Unit'] = 'kg'
             dmr_fbf.to_csv(set_dir(output_dir + 'flowbyfacility/')+'DMR_' + DMRyear + '.csv', index=False)
-            
-            # TODO: write metadata
-            # 
+
+            # write metadata
+            generate_metadata(DMRyear)
 
 
