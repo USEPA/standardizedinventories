@@ -1,769 +1,25 @@
 FlowName,Compartment,Unit
-"BOD, 5-day, 20 deg. C",water,kg
-Bicarbonate ion- (as HCO3),water,kg
-"Cadmium, potentially dissolvd",water,kg
-"Chlorine, total residual",water,kg
-"Lead, potentially dissolvd",water,kg
-"Magnesium, total recoverable",water,kg
-"Mercury, total (as Hg)",water,kg
-"Nitrogen, ammonia total (as N)",water,kg
-"Nitrogen, nitrate total (as N)",water,kg
-"Nitrogen, nitrite total (as N)",water,kg
-"Selenium, potentially dissolvd",water,kg
-"Silver, potentially dissolved",water,kg
-"Sodium, total recoverable",water,kg
-"Solids, total suspended",water,kg
-Sulfide-hydrogen sulfide (undissociated),water,kg
-"Arsenic, total recoverable",water,kg
-"BOD, carbonaceous, 05 day, 20 C",water,kg
-"Cadmium, total recoverable",water,kg
-"Chromium, hexavalent tot recoverable",water,kg
-"Copper, total recoverable",water,kg
-"Iron, total recoverable",water,kg
-"Lead, total recoverable",water,kg
-"Mercury, total recoverable",water,kg
-"Nickel, total recoverable",water,kg
-"Oxygen, dissolved (DO)",water,kg
-"Selenium, total recoverable",water,kg
-"Thallium, total recoverable",water,kg
-"Zinc, total recoverable",water,kg
-"Nitrogen, Kjeldahl, total (as N)",water,kg
-"Nitrogen, total (as N)",water,kg
-"Phosphorus, total (as P)",water,kg
-"Ammonia, unionized",water,kg
-Nitrite plus nitrate total 1 det. (as N),water,kg
-"Phosphorous, in total orthophosphate",water,kg
-"Oil and grease, hexane extr method",water,kg
-"Alkalinity, total (as CaCO3)",water,kg
-"Aluminum, total (as Al)",water,kg
-"Cadmium, total (as Cd)",water,kg
-"Carbon, tot organic (TOC)",water,kg
-"Copper, total (as Cu)",water,kg
-"Hardness, total (as CaCO3)",water,kg
-"Lead, total (as Pb)",water,kg
-"Nickel, total (as Ni)",water,kg
-"Solids, total",water,kg
-"Solids, total dissolved (TDS)",water,kg
-"Zinc, total (as Zn)",water,kg
-"Arsenic, total (as As)",water,kg
-Oil & grease,water,kg
-"Oxygen demand, chem. (high level) (COD)",water,kg
-"Selenium, total (as Se)",water,kg
-Chlorpyrifos,water,kg
-Diazinon,water,kg
-Malathion,water,kg
-Oil and grease,water,kg
-"Solids, total dissolved",water,kg
-"Nitrogen, Dissolved",water,kg
-"Nitrogen, ammonia total (as NH4)",water,kg
-"Phosphate, total (as PO4)",water,kg
-"Phosphorus, dissolved",water,kg
-Chloride (as Cl),water,kg
-"Sulfate, total (as SO4)",water,kg
-Oil and grease (soxhlet extr.) tot.,water,kg
-Chlorine produced oxidants,water,kg
-"Nitrogen, ammonia, total (as NH3)",water,kg
-Formaldehyde,water,kg
-Inorganic suspended solids,water,kg
-"Silver, total (as Ag)",water,kg
-"Solids, volatile suspended",water,kg
-"Nitrogen, Total As N",water,kg
-"Phosphorus, Total As P",water,kg
-Chemical Oxygen Demand (COD),water,kg
-"Arsenic, trivalent, total recoverable",water,kg
-"Nitrogen, nitrate total (as NO3)",water,kg
-"Nitrogen, nitrite total (as NO2)",water,kg
-Silver total recoverable,water,kg
-"Pesticides, general",water,kg
-Benzene,water,kg
-Ethylbenzene,water,kg
-Toluene,water,kg
-Xylene,water,kg
-Ammonia (as N) + unionized ammonia,water,kg
-"Solids, Total Suspended, Net Value",water,kg
-Chloramine-T,water,kg
-"Nitrogen, total Kjeldahl",water,kg
-Chlorophyll A,water,kg
-"Nitrogen, inorganic total",water,kg
-"Nitrogen, Kjeldahl, total (TKN) (water)",water,kg
-Ozone - residual,water,kg
-"Nitrogen, organic total (as N)",water,kg
-BOD,water,kg
-Oil And Grease,water,kg
-Total Suspended Solids,water,kg
-Polychlorinated biphenyls (PCBs),water,kg
-Hydrogen peroxide,water,kg
-"Boron, total (as B)",water,kg
-"Chloramine, total",water,kg
-Formalin,water,kg
-Terramycin,water,kg
-Nitrite Plus Nitrate Total,water,kg
-"Nitrogen, Ammonia  Total",water,kg
-"Nitrogen, Kjeldahl  Total",water,kg
-"Nitrogen, Total",water,kg
-"Phosphorus, Total",water,kg
-"Suspended Solids, Total",water,kg
-Suspended solids,water,kg
-"Aluminum, total recoverable",water,kg
-"Cyanide, weak acid, dissociable",water,kg
-"Chromium, total (as Cr)",water,kg
-"Manganese, total recoverable",water,kg
-Sulfate,water,kg
-"Antimony, total recoverable",water,kg
-"Chromium, total recoverable",water,kg
-"Fluoride, total (as F)",water,kg
-"Iron, total (as Fe)",water,kg
-"Chromium, trivalent total recoverable",water,kg
-"Copper, potentially dissolved",water,kg
-"Manganese, potentially dissolvd",water,kg
-"Mercury, total (low level)",water,kg
-"Zinc, potentially dissolved",water,kg
-"Boron, total",water,kg
-"Chromium, trivalent, potentially dissolvd",water,kg
-"Molybdenum, total recoverable",water,kg
-"Nickel, potentially dissolvd",water,kg
-"Antimony, total (as Sb)",water,kg
-"Chromium, hexavalent dissolved (as Cr)",water,kg
-Fluoride,water,kg
-"Iron, dissolved (as Fe)",water,kg
-"Manganese, dissolved (as Mn)",water,kg
-"Radium 226, dissolved",water,kg
-"Radium 226, total",water,kg
-"Thallium, total (as Tl)",water,kg
-"Uranium, natural, total",water,kg
-"Zinc, dissolved (as Zn)",water,kg
-"Arsenic, potentially dissolvd",water,kg
-"Chromium, hexavalent potentially disolvd",water,kg
-"Uranium, potentially dissolvd",water,kg
-"Sulfide, total (as S)",water,kg
-"Mercury, total low level",water,kg
-"Gold, total (as Au)",water,kg
-"Manganese, total (as Mn)",water,kg
-"Vanadium, total (as V)",water,kg
-"Barium, total (as Ba)",water,kg
-"Cobalt, total (as Co)",water,kg
-Cyanide (A),water,kg
-"Lithium, total (as Li)",water,kg
-"Molybdenum, total (as Mo)",water,kg
-"Strontium, total (as Sr)",water,kg
-"Hardness, Ca Mg Calculated (mg/L as CaCO3)",water,kg
-"Nitrogen, ammonia, tot unionized (as N)",water,kg
-"Diesel range organics diesel, total, wtr",water,kg
-"Amines, organic total",water,kg
-"Magnesium, total (as Mg)",water,kg
-"Potassium, total (as K)",water,kg
-"Sodium, total (as Na)",water,kg
-"Beryllium, total recoverable (as Be)",water,kg
-Chemical oxygen demand (COD),water,kg
-"Cobalt, total recoverable",water,kg
-Sulfate (as S),water,kg
-Chlorides & sulfates,water,kg
-"Aluminum, dissolved (as Al)",water,kg
-"Cadmium, dissolved (as Cd)",water,kg
-"Chromium, dissolved (as Cr)",water,kg
-"Copper, dissolved (as Cu)",water,kg
-"Cyanide, total (as CN)",water,kg
-"Lead, dissolved (as Pb)",water,kg
-"Mercury, dissolved (as Hg)",water,kg
-"Nickel, dissolved (as Ni)",water,kg
-"Silver, dissolved (as Ag)",water,kg
-"Beryllium, total (as Be)",water,kg
-"Uranium, natural, dissolved",water,kg
-"Alkalinity, bicarbonate (as CaCO3)",water,kg
-"Cyanide, free (amen. to chlorination)",water,kg
-"Cyanide, free-water plus wastewaters",water,kg
-"Hydrocarbons, petroleum",water,kg
-"Chromium, trivalent dissolved, as Cr",water,kg
-"Acidity, total (as CaCO3)",water,kg
-Phenols,water,kg
-"Chromium, hexavalent (as Cr)",water,kg
-"Phenolics, total recoverable",water,kg
-Acidity,water,kg
-Chloride,water,kg
-Bicarbonate as (CaCO3),water,kg
-"Selenium, dissolved (as Se)",water,kg
-"Sodium, dissolved (as Na)",water,kg
-Bromide (as Br),water,kg
-"Boron, dissolved (as B)",water,kg
-"Cobalt, dissolved (as Co)",water,kg
-"Vanadium, dissolved (as V)",water,kg
-"Residue, tot fltrble (dried at 105 C)",water,kg
-"Solids, total dissolved- 180 deg. C",water,kg
-"Barium, total recoverable",water,kg
-"Boron, total recoverable",water,kg
-"Hydrocarbon, aqueous",water,kg
-"Hydrocarbons, aromatic",water,kg
-"Chloride, dissolved in water",water,kg
-Methyl tert-butyl ether,water,kg
-Naphthalene,water,kg
-Bis(2-ethylhexyl) phthalate,water,kg
-Butyl benzyl phthalate,water,kg
-Carbazole,water,kg
-"Cyanide, total recoverable",water,kg
-Fluoranthene,water,kg
-"Strontium 90, dissolved",water,kg
-"Tin, total recoverable",water,kg
-n-Decane,water,kg
-n-Octadecane,water,kg
-"Oxygen demand, chem. (low level) (COD)",water,kg
-"Sanitary waste, residual chlorine",water,kg
-"Sanitary waste, solids",water,kg
-Ammonia & ammonium- total,water,kg
-Acenaphthene,water,kg
-Anthracene,water,kg
-Benzo(a)anthracene,water,kg
-Benzo(a)pyrene,water,kg
-Benzo(b)fluoranthene,water,kg
-Benzo(ghi)perylene,water,kg
-Benzo(k)fluoranthene,water,kg
-Chrysene,water,kg
-"Dibenzo(a,h)anthracene",water,kg
-"Indeno(1,2,3-cd)pyrene",water,kg
-Pyrene,water,kg
-Quinoline,water,kg
-"Strontium 90, total",water,kg
-"Petrol hydrocarbons, total recoverable",water,kg
-"Domestic waste, solids",water,kg
-"Phenolics, total",water,kg
-BTEX,water,kg
-"Produced water, Radium 226, total",water,kg
-"Produced water, Radium 228, total",water,kg
-Bromine chloride,water,kg
-"1,4-Dichlorobenzene",water,kg
-Dimethyl phthalate,water,kg
-Nitrobenzene,water,kg
-Phenanthrene,water,kg
-"Oxidants, total residual",water,kg
-"Hydrocarbons, total petroleum",water,kg
-"Benzene, ethylbenzene, toluene, xylene combination",water,kg
-Polynuc aromatic HC per Method 610,water,kg
-"Produced water, oil and grease",water,kg
-Chloroform,water,kg
-Dibromochloromethane,water,kg
-"Hydrocarbons, nitrated",water,kg
-Phthalate esters,water,kg
-Hydrogen sulfide,water,kg
-Sulfite (as SO3),water,kg
-"Magnesium, dissolved (as Mg)",water,kg
-"Fluoride, dissolved (as F)",water,kg
-"COD, 25N K2Cr207, tot",water,kg
-Surfactants (MBAS),water,kg
-"Oil petroleum, total recoverable",water,kg
-"Solids, fixed suspended",water,kg
-Atrazine,water,kg
-"Hydrogen sulfide, unionized",water,kg
-"Vanadium, total recoverable",water,kg
+"(1,1,3,3-Tetramethylbutyl)phenol",water,kg
+.alpha.-Endosulfan,water,kg
+.alpha.-Hexachlorocyclohexane,water,kg
+.alpha.-Methylstyrene,water,kg
 .alpha.-Terpineol,water,kg
-"Benzoic acids, total",water,kg
-Phenol,water,kg
-Total petroleum hydrocarbon - diesel,water,kg
-"Volatile compounds, (GC/MS)",water,kg
-p-Cresol,water,kg
-Perchlorate (ClO4),water,kg
-"Sulfate, dissolved (as SO4)",water,kg
-"Sulfide, dissolved, (as S)",water,kg
-"Suspended solids, total annual",water,kg
-"Cyanide, free available",water,kg
-"1,2-Dichloroethane, total weight",water,kg
-Tetrachloroethylene,water,kg
-Volatile Organic Compound (VOC),water,kg
-"Bromine, reported as the element",water,kg
-"Chlorine, free available",water,kg
+.beta.-Endosulfan,water,kg
+.beta.-Hexachlorocyclohexane,water,kg
+.delta.-Hexachlorocyclohexane,water,kg
+.lambda.-Cyhalothrin,water,kg
+"1,1,1,2-Tetrachloroethane",water,kg
 "1,1,1-Trichloroethane",water,kg
+"1,1,2,2-Tetrachloroethane",water,kg
+"1,1,2-Trichloroethane",water,kg
+"1,1-Dichloro-1,2,2,2-tetrafluoroethane",water,kg
 "1,1-Dichloroethane",water,kg
 "1,1-Dichloroethylene",water,kg
-Trichloroethylene,water,kg
-Vinyl chloride,water,kg
-"cis-1,2-Dichloroethylene, total",water,kg
-"trans-1,2-Dichloroethylene",water,kg
-Total phenols,water,kg
-"Molybdenum, potentially dissolved",water,kg
-Biochemical oxygen demand-5,water,kg
-"Nitrogen, nitrate (NO3), (water)",water,kg
-"Trihalomethane, tot.",water,kg
-"Strontium, total recoverable, ug/L",water,kg
-Total petroleum hydrocarbon - gasoline,water,kg
-Nitrite plus nitrate dissolved 1 det.,water,kg
-"1,1,2-Trichloroethane",water,kg
-"1,2,4-Trichlorobenzene",water,kg
-"1,2-Dichlorobenzene",water,kg
-"1,3-Dichlorobenzene",water,kg
-Bromoform,water,kg
-Chlorobenzene,water,kg
-Chlorodibromomethane,water,kg
-Methylene chloride,water,kg
-"Nitrate nitrogen, dry weight",water,kg
-Trichloroethene,water,kg
-"1,2-cis-Dichloroethylene",water,kg
-"1,2-cis-Dichloroethene",water,kg
-Bromodichloromethane,water,kg
-"1,4-Dioxane",water,kg
-"2,4-Dimethylphenol",water,kg
-Fluorene,water,kg
-"1,2-trans-Dichloroethylene",water,kg
-Tetrachloroethene,water,kg
-"cis-1,2-Dichloroethylene",water,kg
-"Organics, tot purgeables (Method 624)",water,kg
-.alpha.-BHC,water,kg
-.alpha.-Endosulfan,water,kg
-.beta.-BHC,water,kg
-.beta.-Endosulfan,water,kg
-.delta.-BHC,water,kg
-.gamma.-BHC,water,kg
-"1,1,2,2-Tetrachloroethane",water,kg
-"1,2-Dichloroethane",water,kg
-"1,2-Dichloropropane",water,kg
-"1,2-Diphenylhydrazine",water,kg
-"1,3-Dichloropropene",water,kg
-"2,3,7,8-Tetrachlorodibenzo-p-dioxin",water,kg
-"2,4,6-Trichlorophenol",water,kg
-"2,4-Dichlorophenol",water,kg
-"2,4-Dinitrophenol",water,kg
-"2,4-Dinitrotoluene",water,kg
-"2,6-Dinitrotoluene",water,kg
-"2-Chloroethyl vinyl ether, (mixed)",water,kg
-2-Chloronaphthalene,water,kg
-2-Chlorophenol,water,kg
-"2-Methyl-4,6-dinitrophenol",water,kg
-2-Nitrophenol,water,kg
-"3,3'-Dichlorobenzidine",water,kg
-"4,4'-DDD",water,kg
-"4,4'-DDE",water,kg
-"4,4'-DDT",water,kg
-4-Bromophenyl phenyl ether,water,kg
-4-Chloro-3-methylphenol,water,kg
-4-Chlorophenyl phenyl ether,water,kg
-4-Nitrophenol,water,kg
-Acenaphthylene,water,kg
-Acrolein,water,kg
-Acrylonitrile,water,kg
-Aldrin,water,kg
-Benzidine,water,kg
-Bis(2-chloroethoxy)methane,water,kg
-Bis(2-chloroethyl) ether,water,kg
-Bis(2-chloroisopropyl) ether,water,kg
-Carbon tetrachloride,water,kg
-Chlordane (tech mix. and metabolites),water,kg
-Chloroethane,water,kg
-Di-n-butyl phthalate,water,kg
-Di-n-octyl phthalate,water,kg
-Dichlorobromomethane,water,kg
-Dieldrin,water,kg
-Diethyl phthalate,water,kg
-Endosulfan sulfate,water,kg
-Endrin,water,kg
-Endrin aldehyde,water,kg
-Heptachlor,water,kg
-Heptachlor epoxide,water,kg
-Hexachlorobenzene,water,kg
-Hexachlorobutadiene,water,kg
-Hexachlorocyclopentadiene,water,kg
-Hexachloroethane,water,kg
-Isophorone,water,kg
-Methyl bromide (Bromomethane),water,kg
-Methyl chloride (Chloromethane),water,kg
-N-Nitrosodi-N-propylamine,water,kg
-N-Nitrosodimethylamine,water,kg
-N-Nitrosodiphenylamine,water,kg
-PCB-1016,water,kg
-PCB-1221,water,kg
-PCB-1232,water,kg
-PCB-1242,water,kg
-PCB-1248,water,kg
-PCB-1254,water,kg
-PCB-1260,water,kg
-Pentachlorophenol,water,kg
-Toxaphene,water,kg
-Seafood Processing Waste,water,kg
-"Solids, total susp per production",water,kg
-"Phosphate, ortho (as P)",water,kg
-"Nitrite nitrogen, dissolved (as N)",water,kg
-Aldicarb,water,kg
-"Oxygen demand, ultimate",water,kg
-"Phosphate, ortho (as PO4)",water,kg
-"Phosphorous, total organic (as P)",water,kg
-"BOD, carbonaceous, 5 day, 5 C",water,kg
-"Methanol, total",water,kg
-"Oil & grease (freon extr.-IR meth) tot, RC",water,kg
-"Hydrocarbons, total gas chromatograph",water,kg
-"PCB, total, scan effluent",water,kg
-"BOD, carbonaceous, 28-day (20 deg. C)",water,kg
-"Chemical oxygen demand, soluble",water,kg
-"Halogen, total residual",water,kg
-"BOD, 5-day",water,kg
-"Oxygen, dissolved [DO] minimum",water,kg
-"Phosphorus, ortho",water,kg
-"Tetrahydroxymethylphosphonium chloride, THPC",water,kg
-"Ammonia nitrogen, total, (as N) 30 day",water,kg
-"3,4-Benzofluoranthene",water,kg
-"4,6-Dinitro-o-cresol",water,kg
-Acetaldehyde,water,kg
-"Sulfide, total",water,kg
-Vinyl acetate,water,kg
-Total K001 Constituents,water,kg
-2-Methylphenol,water,kg
-3-Methylphenol,water,kg
-4-Methylphenol,water,kg
-Ethanol,water,kg
-"2,4,5-TP",water,kg
-"Organics, total toxic (TTO)",water,kg
-Cresol,water,kg
-"Arsenic, dissolved (as As)",water,kg
-"Chromium, trivalent (as Cr)",water,kg
-Total toxic organics (TTO) (40 CFR433),water,kg
-"Halogens, adsorbable organic",water,kg
-"2,3,4,6-Tetrachlorophenol",water,kg
-"2,3,7,8-Tetrachlorodibenzofuran",water,kg
-"2,4,5-Trichlorophenol",water,kg
-"3,4,5-Trichlorocatechol",water,kg
-"3,4,5-Trichloroguaiacol",water,kg
-"3,4,6-Trichlorocatechol",water,kg
-"3,4,6-Trichloroguaiacol",water,kg
-"4,5,6-Trichloroguaiacol",water,kg
-Tetrachlorocatechol,water,kg
-Tetrachloroguaiacol,water,kg
-Trichlorosyringol,water,kg
-Trichlorophenol,water,kg
-"Alkalinity, phenolphthaline method",water,kg
-Epichlorohydrin,water,kg
-"Organics, volatile (NJAC reg. 7:23-17e)",water,kg
-Adsorbable organic halides (AOX),water,kg
-Tetrachloroguaiacol (4cg) in whole water,water,kg
-"2,3,4,5-Tetrachlorophenol",water,kg
-"Solids, volatile dissolved",water,kg
-"2,3,7,8-TCDD TEC",water,kg
-"Halogen, total organic",water,kg
-"Phosphate, dissolved/orthophosphate(as P)",water,kg
-"Phenolic compounds, unchlorinated",water,kg
-"Phenols, chlorinated",water,kg
-Hydroquinone,water,kg
-"Organic halides, total",water,kg
-"Titanium, total (as Ti)",water,kg
-Dioxin,water,kg
-TCDD equivalents,water,kg
-"BOD, 5-day, dissolved",water,kg
-2-(N-ethylperfluorooctanesulfonamido) acetic acid,water,kg
-2-(N-methylperfluorooctanesulfonamido) acetic acid,water,kg
-Perfluorobutane Sulfonate,water,kg
-Perfluoroheptanoic acid,water,kg
-Perfluorohexane Sulfonate,water,kg
-Perfluorohexanoic acid,water,kg
-Perfluorooctanesulfonamide,water,kg
-Perfluorooctanoic Acid,water,kg
-Organic pesticide chemicals (40 CFR455),water,kg
-Carbon disulfide,water,kg
-Thiocyanate (as SCN),water,kg
-Total pesticides,water,kg
-"Barium, dissolved (as Ba)",water,kg
-"1,3-Dichloropropylene",water,kg
-"Radium 228, total",water,kg
-Bromodichloroethane,water,kg
-Bromomethane,water,kg
-"Tin, total (as Sn)",water,kg
-"Tin, tri-organo-",water,kg
-Sulfite (as S),water,kg
-Dinoseb,water,kg
-Acetone,water,kg
-Isopropylbenzene,water,kg
-Total toxic organics (TTO) (40 CFR413),water,kg
-Chromium III,water,kg
-"Aromatics, total purgeable",water,kg
-Total purgeable halocarbons,water,kg
-"Chloroethane, total weight",water,kg
-"Methylene chloride, suspended",water,kg
-"Aluminum, potentially dissolvd",water,kg
-Acrylamide monomer,water,kg
-Bisphenol-A,water,kg
-Butanol,water,kg
-Butyl acetate,water,kg
-Diethylamine,water,kg
-Dimethylamine,water,kg
-Ethyl acrylate,water,kg
-Ethylene glycol,water,kg
-Furfural,water,kg
-Isobutyl alcohol,water,kg
-Isopropanol,water,kg
-Isopropylamine,water,kg
-Methyl acrylate,water,kg
-Methyl ethyl ketone,water,kg
-Methyl methacrylate,water,kg
-Nonylphenol,water,kg
-PCB-Aroclor (mixture unspecified),water,kg
-"Propylene glycol, total",water,kg
-Styrene,water,kg
-TBA,water,kg
-Triethylamine,water,kg
-para-Chloro-meta-cresol,water,kg
-1-Chloro-2-nitrobenzene,water,kg
-2-Chloroaniline,water,kg
-"3,3'-Dimethylbenzidine",water,kg
-3-Chloroaniline,water,kg
-4-Chloroaniline,water,kg
-Aniline,water,kg
-Azobenzene,water,kg
-Dibenzofuran,water,kg
-"Dichloran, total",water,kg
-Methyl naphthalene,water,kg
-m-Toluidine,water,kg
-"1,2-trans-Dichloroethylene, dry weight",water,kg
-"Buthdiene, total",water,kg
-Calcium Chloride,water,kg
-"Tetrachloroethane, total",water,kg
-Diphenylamine,water,kg
-"Radon, total in water",water,kg
-"Uranium, natural, total (in pci/L)",water,kg
-"Barium, potentially dissolvd",water,kg
-"Methylene chloride, dry weight",water,kg
-"BOD, (ult. all stages)",water,kg
-"BOD, nitrogen inhib 5-day (20 deg. C)",water,kg
-Urea,water,kg
-Annual Nitrate Nitrogen Discharged,water,kg
-Chlorite,water,kg
-"1,3-Dichloropropene, total weight",water,kg
-Perfluorodecanoic acid,water,kg
-Perfluorododecanoic acid,water,kg
-Perfluorononanoic acid,water,kg
-Perfluoropentanoic acid,water,kg
-Perfluorotridecanoic acid,water,kg
-Perfluoroundecanoic acid,water,kg
-"Uranium, total as U308",water,kg
-"4-Nitro-N-methylphthalimide, total",water,kg
-Tetrahydrofuran,water,kg
-4-Methyl-2-pentanone,water,kg
-Amyl alcohol,water,kg
-Cyclohexane,water,kg
-"Dimethyl sulfoxide, total",water,kg
-Ethyl acetate,water,kg
-Isobutyraldehyde,water,kg
-"Isopropyl acetate, total effluent",water,kg
-Isopropyl ether,water,kg
-Methyl cellosolve,water,kg
-Methyl cyanide (acetonitrile),water,kg
-Methyl formate,water,kg
-N-Hexane,water,kg
-n-Amyl acetate,water,kg
-n-Butyl acetate,water,kg
-n-Heptane,water,kg
-o-Dichlorobenzene,water,kg
-"cis-1,2-Dichloroethene, whole water",water,kg
-"Cyanide, free not amenable to chlorin.",water,kg
-"Metals, total",water,kg
-".beta.-BHC, dissolved",water,kg
-"Technetium 99, total (14)",water,kg
-Trichlorofluoromethane,water,kg
-"1,1,1,2-Tetrachloroethane",water,kg
-"1,1-Dichloroethene",water,kg
-"1,2-Dichloroethene, effluent",water,kg
-Dichloromethane,water,kg
-2-Methylnaphthalene,water,kg
-Dock discharge of phosphorus,water,kg
-"Metals, tox priority pollutants, total",water,kg
-"Bromodichloromethane, effluent",water,kg
-Propazine,water,kg
-Simazine,water,kg
-Terbuthylazine,water,kg
-Chloroprene,water,kg
-Pyridine,water,kg
-"Zirconium, total",water,kg
-2-Methoxyethanol,water,kg
-Acetonitrile,water,kg
-Isopropyl acetate,water,kg
-Methyl isobutyl ketone,water,kg
-"Xylenes (total), dry weight",water,kg
-Bis(2-ethylhexyl) adipate,water,kg
-"1,1-Dichloroethane, dry weight",water,kg
-"2,4,5-T",water,kg
-Chloropicrin,water,kg
-Pentachloroethane,water,kg
-"trans-1,2-Dichloroethene",water,kg
-"1,2,4,5-Tetrachlorobenzene",water,kg
-"2,4-Dichlorophenoxyacetic acid",water,kg
-Dinitrobutyl phenol,water,kg
-Ethyl parathion,water,kg
-Pentachlorobenzene,water,kg
-"1,1,2-Trichloro-1,2,2-trifluoroethane",water,kg
-"1,1-Dichloro-1,2,2,2-tetrafluoroethane",water,kg
-"1,1-Dichloro-2,2,2-trifluoroethane",water,kg
-Chlorodifluoromethane,water,kg
-Dichlorodifluoromethane,water,kg
-Mirex,water,kg
-Octachlorocyclopentene,water,kg
-Terbufos (counter) total,water,kg
-Ethylene glycol dinitrate,water,kg
-Nitroglycerin by gas chromatography,water,kg
-Organic active ingredients (40 CFR455),water,kg
-2-Ethyl-1-hexanol,water,kg
-Cyclohexanone,water,kg
-MCPA 2-ethylhexyl ester,water,kg
-Diuron,water,kg
-Metolachlor,water,kg
-"1,2,4-Trimethylbenzene",water,kg
-2-Butoxyethanol,water,kg
-"Amyl acetate, total",water,kg
-"Phosphate, poly (as PO4)",water,kg
-"Sulphur, total elemental",water,kg
-"Hydrocarbons, in H2O, IR, CC14 extractible chromatograph",water,kg
-2-Butanone,water,kg
-Acetophenone,water,kg
-"Carbon, dissolved organic (as C)",water,kg
-"Endosulfan, total",water,kg
-Gamma-BHC,water,kg
-o-Cresol,water,kg
-"2,2-Dimethyl-2,3-dihydro-7-benzofuranol",water,kg
-Carbofuran,water,kg
-Dichlorobenzene,water,kg
-Volatile organics detected,water,kg
-Dechlorane plus,water,kg
-Dichlorobenzyl trifluoride,water,kg
-Dichlorotoluene,water,kg
-"Hexachlorocyclohexane, total",water,kg
-Monochlorobenzenes,water,kg
-Monochlorobenzyl trifluoride,water,kg
-Monochlorotoluene,water,kg
-Tetrachlorobenzene,water,kg
-Total agg concentration #1,water,kg
-Total agg concentration #2,water,kg
-Total agg concentration #3,water,kg
-Trichlorobenzene,water,kg
-Trichlorotoluene,water,kg
-"(1,1,3,3-Tetramethylbutyl)phenol",water,kg
-3-methylphenol and 4-methylphenol Combination,water,kg
-Bisphenol-A (.alpha.),water,kg
-tert-Butylphenol,water,kg
-"Xylene, meta & para in combination",water,kg
-ortho-xylene,water,kg
-"Phenolic compounds, total",water,kg
-"2,2-Dibromo-3-nitrilopropionamide",water,kg
-Ammonium perfluoroctanoate,water,kg
-.alpha.-BHC dissolved,water,kg
-"Chlorinated dibenzo-p-dioxins, effluent",water,kg
-"Chlorinated hydrocarbons, general",water,kg
-"Oil & grease, non-polar material",water,kg
-"Iron, suspended",water,kg
-"Manganese, suspended",water,kg
-"1,3,5-Trimethylbenzene",water,kg
-"BOD, carbonaceous, 20 day, 20 C",water,kg
-PCBs Dry Weather Analysis,water,kg
-PCBs Wet Weather Analysis,water,kg
-Total suspendable solids,water,kg
-"RDX, total",water,kg
-Dicamba,water,kg
-.delta.-Benzenehexachloride,water,kg
-Methylstyrene,water,kg
-"Purgeable hydrocarbons, Meth. 601",water,kg
-n-Propyl alcohol,water,kg
-"Silica, dissolved (as SiO2)",water,kg
-Nitrogen oxides (as N),water,kg
-Carbamates,water,kg
-"Carbaryl, total",water,kg
-Methomyl,water,kg
-Heptane,water,kg
-C3 Dimer Acid/Salt,water,kg
-"Halomethanes, sum",water,kg
-"DDT/DDD/DDE, sum of p,p' & o,p' isomers",water,kg
+"1,2,3,4,5,6-Hexachlorocyclohexane",water,kg
 "1,2,3,4,6,7,8,9-Octachlorodibenzo-p-dioxin",water,kg
 "1,2,3,4,6,7,8,9-Octachlorodibenzofuran",water,kg
 "1,2,3,4,6,7,8-Heptachlorodibenzo-p-dioxin",water,kg
 "1,2,3,4,6,7,8-Heptachlorodibenzofuran",water,kg
-"Aluminum, acid soluble",water,kg
-"Silica, total (as SiO2)",water,kg
-"Xylene, para- total",water,kg
-Furans,water,kg
-Biochemical oxygen demand,water,kg
-Ethylene dibromide,water,kg
-"Carbonaceous BOD, 5 day, 20 deg C filtrd",water,kg
-Total toxic organics (TTO) (40 CFR464a),water,kg
-Total toxic organics (TTO) (40 CFR464b),water,kg
-Total toxic organics (TTO) (40 CFR464c),water,kg
-Total toxic organics (TTO) (40 CFR464d),water,kg
-Combined metals sum,water,kg
-"Oxygen demand, total (tod)",water,kg
-"Columbium, total",water,kg
-"Niobium, Total",water,kg
-"Tantalum, total",water,kg
-"Tungsten, total",water,kg
-"Lead, total dry weight (as Pb)",water,kg
-Tributyltin,water,kg
-"Explosives, combined TNT + RDX + tetryl",water,kg
-HMX,water,kg
-Indium,water,kg
-"Palladium, total (as Pd)",water,kg
-"TNT, total",water,kg
-"Dichloroethene, total",water,kg
-Fluoroborates,water,kg
-Trichlorotrifluoroethane,water,kg
-N-Methyl-2-pyrrolidone,water,kg
-Glycol (total),water,kg
-"Nitrobodies, total",water,kg
-"1,2,3-Trichloropropane",water,kg
-2-Chlorotoluene,water,kg
-n-Butylbenzene,water,kg
-n-Propylbenzene,water,kg
-Volatile fraction organics (EPA 624),water,kg
-Organics-tot voltile (NJAC reg.7:23-17e),water,kg
-"Oxidants, free available",water,kg
-Chlordane,water,kg
-"Benzo(b,k)fluoranthene",water,kg
-Chloral hydrate,water,kg
-"Cesium, total (as Cs)",water,kg
-1-Butanol,water,kg
-2-Ethoxyethanol,water,kg
-"2-Methyl-1,3-dioxolane",water,kg
-2-Phenoxyethanol,water,kg
-Dimethyl terephthalate,water,kg
-"N,N-Dimethylaniline",water,kg
-"Styrene, total",water,kg
-Triphenyl phosphate,water,kg
-Total toxic organics (TTO) (40 CFR467),water,kg
-Polyram,water,kg
-"cis-1,3-Dichloropropene",water,kg
-"trans-1,3-Dichloro propene",water,kg
-Total Group I Polycyclic Aromatic Hydrocarbons,water,kg
-"Hydrazines, total",water,kg
-Nitrofurans,water,kg
-"Chlorinated hydrocarbons, total",water,kg
-"Nitrogenous oxygen demand (20-day, 20 C)",water,kg
-"Radium 223, total",water,kg
-"Radium 224, total",water,kg
-Cyanuric acid,water,kg
-Nonyl phenoxypoly ethanol,water,kg
-Tolytriazole,water,kg
-"Glycol, total",water,kg
-"Acetate, Total",water,kg
-Glycol mix applied,water,kg
-"Potassium, dissolved (as K)",water,kg
-"1,2-Propanediol",water,kg
-"Benzene, toluene, xylene in combination",water,kg
-"Fuel, diesel, #1",water,kg
-Sulfolane,water,kg
-Hydrazine,water,kg
-"Titanium, total recoverable",water,kg
-10:2 Fluorotelomer Acrylate,water,kg
-10:2 Fluorotelomer Alcohol,water,kg
-8:2 Fluorotelomer Acrylate,water,kg
-8:2 Fluorotelomer Alcohol,water,kg
-N-ethylperfluorooctane Sulfonamidoethanol,water,kg
-N-methylperfluorooctane Sulfonamidoethanol,water,kg
-Perfluorodecane Sulfonate,water,kg
-Perfluoroheptane Sulfonate,water,kg
-Perfluorotetradecanoic acid,water,kg
-Methylene blue active substances,water,kg
-"Arsenic, trivalent dissolved",water,kg
-"1,2-Dibromo-3-chloropropane",water,kg
-Alachlor,water,kg
-Dalapon,water,kg
-Di(2-ethylhexyl) adipate,water,kg
-Diquat,water,kg
-Endothall,water,kg
-"Glyphosate, total",water,kg
-Guthion,water,kg
-Methoxychlor,water,kg
-Oxamyl,water,kg
-Paraquat,water,kg
-Parathion,water,kg
-"Permethrin, total recoverable",water,kg
-Picloram,water,kg
-"Nitrogen, ammonia (NH3-N)",water,kg
 "1,2,3,4,7,8,9-Heptachlorodibenzofuran",water,kg
 "1,2,3,4,7,8-Hexachlorodibenzo-p-dioxin",water,kg
 "1,2,3,4,7,8-Hexachlorodibenzofuran",water,kg
@@ -773,146 +29,592 @@ Picloram,water,kg
 "1,2,3,7,8,9-Hexachlorodibenzofuran",water,kg
 "1,2,3,7,8-Pentachlorodibenzo-p-dioxin",water,kg
 "1,2,3,7,8-Pentachlorodibenzofuran",water,kg
+"1,2,3-Trichloropropane",water,kg
+"1,2,4,5-Tetrachlorobenzene",water,kg
+"1,2,4-Trichlorobenzene",water,kg
+"1,2,4-Trimethylbenzene",water,kg
+"1,2-Dibromo-3-chloropropane",water,kg
+"1,2-Dichloroethane",water,kg
+"1,2-Dichloroethylene",water,kg
+"1,2-Dichloropropane",water,kg
+"1,2-Diphenylhydrazine",water,kg
+"1,3,5,7-Tetranitro-1,3,5,7-tetrazocine",water,kg
+"1,3,5-Trimethylbenzene",water,kg
+"1,3,5-Trinitrobenzene",water,kg
+"1,3-Butadiene",water,kg
+"1,3-Dichloropropene",water,kg
+"1,3-Dinitrobenzene",water,kg
+"1,4-Dioxane",water,kg
+1-Butanol,water,kg
+1-Chloro-2-nitrobenzene,water,kg
+1-Pentanol,water,kg
+1-Propanol,water,kg
+10:2 Fluorotelomer Acrylate,water,kg
+10:2 Fluorotelomer Alcohol,water,kg
+"2,2,4,5,6,7,8,8-Octachloro-2,3,3a,4,7,7a-hexahydro-4,7-methano-1H-indene",water,kg
+"2,2-Dibromo-3-nitrilopropionamide",water,kg
+"2,3,4,5-Tetrachlorophenol",water,kg
 "2,3,4,6,7,8-Hexachlorodibenzofuran",water,kg
+"2,3,4,6-Tetrachlorophenol",water,kg
 "2,3,4,7,8-Pentachlorodibenzofuran",water,kg
-"Phosphate, total, color method (as P)",water,kg
-"Surfactants, as CTAS, effluent",water,kg
-"Tritium, total",water,kg
-Demeton,water,kg
-.lambda.-Cyhalothrin,water,kg
-Bifenthrin,water,kg
-Cryptosporidium,water,kg
-Cyfluthrin,water,kg
-Cypermethrin,water,kg
-Giardia,water,kg
-Methylmercury,water,kg
-"Potassium, total recoverable",water,kg
-"Sulfur dioxide, total",water,kg
-Molinate,water,kg
-"Bentazon, total",water,kg
-Bolero,water,kg
-Carbonate ion- (as CO3),water,kg
-"Iron, potentially dissolvd",water,kg
-"Mercury, potentially dissolvd",water,kg
-DDD in whole water sample,water,kg
-DDE,water,kg
-Lindane,water,kg
-"Thallium, potentially dissolvd",water,kg
-Ethanolamine,water,kg
-"Surfactants, anionic",water,kg
-"Phosphorus, Total (Avg Seasonal Load Cap)",water,kg
-"Chromium, dry weight",water,kg
-"Lead, dry weight",water,kg
-"Mercury, dry weight",water,kg
-"Nickel, dry weight",water,kg
-"Zinc, dry weight",water,kg
-Peracetic Acid,water,kg
-Spectrus CT 1300,water,kg
-"Fats, oils & grease (total o & g less TPH)",water,kg
-"BOD, carbonaceous, 5-day, 20 deg C",water,kg
-"Chloride, dissolved (as Cl)",water,kg
-Arsenic,water,kg
-"Solids, total suspd. non-volatile",water,kg
-Nitrite + Nitrate total [as N],water,kg
-"Molybdenum, dry weight",water,kg
-"Oil & grease, total recoverable",water,kg
-Copper,water,kg
-"Nitrogen, Total as NO3 + NH3",water,kg
-CBOD5/NH3-N,water,kg
-"Nitrogen, Nitrate  Total",water,kg
-"Nitrogen, Nitrite  Total",water,kg
-".gamma.-Chlordane, whole water",water,kg
-"Chlordane, .alpha.-, whole water",water,kg
-Spinosad (DE-105),water,kg
-Diisopropyl ether,water,kg
-"Oxidants released, total residual",water,kg
-Solids accumulation rate tot dry weight,water,kg
-"Phosphorous, total recoverable",water,kg
-"Benzene, dissolved",water,kg
-Fluorine,water,kg
-Polychlorinated biphenyls (PCB) pg/L,water,kg
+"2,3,7,8-TCDD TEC",water,kg
+"2,3,7,8-Tetrachlorodibenzo-p-dioxin",water,kg
+"2,3,7,8-Tetrachlorodibenzofuran",water,kg
+"2,3-Dihydro-2,2-dimethyl-7-benzofuranol",water,kg
+"2,4,5-T",water,kg
+"2,4,5-Trichlorophenol",water,kg
+"2,4,6-Trichlorophenol",water,kg
+"2,4-D",water,kg
+"2,4-Dichlorophenol",water,kg
+"2,4-Dimethylphenol",water,kg
+"2,4-Dinitrophenol",water,kg
+"2,4-Dinitrotoluene",water,kg
+"2,6-Dinitrotoluene",water,kg
+2-(N-ethylperfluorooctanesulfonamido) acetic acid,water,kg
+2-(N-methylperfluorooctanesulfonamido) acetic acid,water,kg
+"2-Amino-4,6-dinitrotoluene",water,kg
+"2-Bromo-1,1-dichloroethane",water,kg
+2-Chloroethyl vinyl ether,water,kg
+2-Chloronaphthalene,water,kg
+2-Ethoxyethanol,water,kg
+2-Ethylhexanol,water,kg
+2-Methoxyethanol,water,kg
+"2-Methyl-1,3-dioxolane",water,kg
+2-Methylnaphthalene,water,kg
+2-Methylpyridine,water,kg
+"3,3'-Dichlorobenzidine",water,kg
+"3,3'-Dimethylbenzidine",water,kg
+"3,4,5-Trichlorocatechol",water,kg
+"3,4,5-Trichloroguaiacol",water,kg
+"3,4,6-Trichlorocatechol",water,kg
+"3,4,6-Trichloroguaiacol",water,kg
+3-Methylcholanthrene,water,kg
+3-Methylpyridine,water,kg
+3-methylphenol and 4-methylphenol Combination,water,kg
+"4,4'-Isopropylidenediphenol",water,kg
+"4,5,6-Trichloroguaiacol",water,kg
+"4,6-Dinitro-o-cresol",water,kg
+"4-Amino-2,6-dinitrotoluene",water,kg
+"4-Nitro-N-methylphthalimide, total",water,kg
+8:2 Fluorotelomer Acrylate,water,kg
+8:2 Fluorotelomer Alcohol,water,kg
+Acenaphthene,water,kg
+Acenaphthylene,water,kg
+Acetaldehyde,water,kg
+"Acetate, Total",water,kg
+Acetone,water,kg
+Acetonitrile,water,kg
+Acetophenone,water,kg
+Acidity,water,kg
+"Acidity, total (as CaCO3)",water,kg
+"Acifluorfen, sodium salt",water,kg
+Acrolein,water,kg
+Acrylamide,water,kg
+Acrylonitrile,water,kg
+Alachlor,water,kg
+Aldicarb,water,kg
+Aldrin,water,kg
+Aldrin + Dieldrin,water,kg
 "Algicides, general",water,kg
-Butanoic acid,water,kg
-"Nitrogen, Kjeldahl",water,kg
-"Hardness, tot calc. (Ca, Mg, Fe) as CaC03",water,kg
+Aliphatics,water,kg
+"Alkalinity, bicarbonate (as CaCO3)",water,kg
+"Alkalinity, carbonate (as CaCO3)",water,kg
+"Alkalinity, phenolphthaline method",water,kg
+"Alkalinity, total (as CaCO3)",water,kg
+Alkyl benzene sulfonated (ABS),water,kg
+Aluminum,water,kg
+"Amines, organic total",water,kg
+Ammonia & ammonium- total,water,kg
+Ammonia as N,water,kg
+Ammonia as NH3,water,kg
+Ammonium perfluoroctanoate,water,kg
+Ammonium picrate,water,kg
 Amoxicillin,water,kg
 Ampicillin,water,kg
-"1,1,2,2-Tetrachloroethylene",water,kg
-Trichloroethane,water,kg
-"Solids, dry, discharge to sol. handling sys.",water,kg
-"Nitrogen, organic, dissolved (as N)",water,kg
-Total agg concentration #4,water,kg
-"Chlorine, total residual, duration of violation",water,kg
-"BHC, total",water,kg
-Dibutyl phthalate,water,kg
-Purgeable aromatics Method 602,water,kg
-"Silver, ionic",water,kg
-"Nitrogen, Kjeldahl, dissolved (as N)",water,kg
-Methyl phenol,water,kg
-Aldrin + Dieldrin,water,kg
-Terpineol,water,kg
-"Chloride, organic, total",water,kg
-"Chlorophyll A, corrected",water,kg
-Betz clam-trol CT-2,water,kg
-Nalco H150M,water,kg
-Dichlorofluoromethane,water,kg
-Dichlorodibromomethane,water,kg
-DDT,water,kg
-"Nitrogen, Kjeldahl,Total  [TKN], insoluble",water,kg
-"Phosphorus, insoluble",water,kg
-Sodium salt of acifluorofen,water,kg
-Hexachlorophene,water,kg
-Nonpurgeable Organic Halides,water,kg
-Purgeable Organic Halides,water,kg
-Diazoxon,water,kg
-"trans-1,4-Dichloro-2-butene",water,kg
-"Oxygen demand, chem. (COD), dissolved",water,kg
-"Molybdenum, dissolved (as Mo)",water,kg
-"Nitrogen, nitrate dissolved",water,kg
-"Selenium, dry weight",water,kg
-"Cyanide, dissolved std method",water,kg
-"Alkalinity, carbonate (as CaCO3)",water,kg
-Lead,water,kg
-Zinc,water,kg
-"Phthalates, total",water,kg
-Total Group II Polycyclic Aromatic Hydrocarbons,water,kg
-Foaming agents,water,kg
-"Ethylbenzene, dry weight",water,kg
-Benzo[j]fluoranthene,water,kg
-Tert-Amyl Methyl Ether,water,kg
-Sodium chloride (salt),water,kg
-Poly[hexamethylenebiguanide] hydrochloride,water,kg
-"Trichloroethylene, dissolved",water,kg
-Neptune Blue,water,kg
-"Alkyl bensene sulfonates, linear (LAS)",water,kg
-Chlorhexidine diacetate,water,kg
-Coconut Diethanolamide,water,kg
-Diethyl ether,water,kg
-Dimethyl Benzyl Ammonium Chloride,water,kg
-"Ethyl ether, by gas chromatograph",water,kg
-Chlorotoluene,water,kg
-Octachlorodibenzofuran,water,kg
-Dichloroethane,water,kg
-2-Methylpyridine,water,kg
-3-Methylpyridine,water,kg
-"Tributyltin, Total Recoverable",water,kg
-Cyclohexylamine,water,kg
-Ammonium picrate,water,kg
-"1,3,5-Trinitrobenzene",water,kg
-"1,3-Dinitrobenzene",water,kg
-"2-Amino-4,6-dinitrotoluene",water,kg
-2-Nitrotoluene,water,kg
-3-Nitrotoluene,water,kg
-"4-Amino-2,6-dinitrotoluene",water,kg
-4-Nitrotoluene,water,kg
-Tetryl,water,kg
-Surfactants (linear alkylate sulfonate),water,kg
-Tri-n-butyl phosphate,water,kg
-Total Petroleum Hydrocarbons - Waste Oil,water,kg
-"Camphor, whole water",water,kg
-N-Ethylbenzenamine,water,kg
-N-Methylbenzeneamine,water,kg
+Aniline,water,kg
+Anthracene,water,kg
+Antimony,water,kg
+Aroclor (unspecified),water,kg
+Aroclor 1016,water,kg
+Aroclor 1221,water,kg
+Aroclor 1232,water,kg
+Aroclor 1242,water,kg
+Aroclor 1248,water,kg
+Aroclor 1254,water,kg
+Aroclor 1260,water,kg
+Aromatics,water,kg
+Arsenic,water,kg
+"Arsenic, trivalent, total recoverable",water,kg
+Atrazine,water,kg
+Azinphos-methyl,water,kg
+Azobenzene,water,kg
+"BOD, 5-day, 20 deg. C",water,kg
+"BOD, carbonaceous, 05 day, 20 C",water,kg
+"BOD, carbonaceous, 20 day, 20 C",water,kg
+"BOD, carbonaceous, 28-day (20 deg. C)",water,kg
+"BOD, carbonaceous, 5 day, 5 C",water,kg
+"BOD, nitrogen inhib 5-day (20 deg. C)",water,kg
+Barium,water,kg
+Bentazon,water,kg
+Benz[a]anthracene,water,kg
+"Benzenamine, N-methyl-N,2,4,6-tetranitro-",water,kg
+Benzene,water,kg
+"Benzene, ethylbenzene, toluene, xylene combination",water,kg
 "Benzene, halogenated",water,kg
-.meta.-Xylene,water,kg
-Dioxane,water,kg
-HMPA,water,kg
+"Benzene, toluene, xylene in combination",water,kg
+Benzidine,water,kg
+Benzo(b)fluoranthene,water,kg
+"Benzo(b,k)fluoranthene",water,kg
+Benzo[a]pyrene,water,kg
+Benzo[ghi]perylene,water,kg
+Benzo[j]fluoranthene,water,kg
+Benzo[k]fluoranthene,water,kg
+"Benzoic acids, total",water,kg
+Beryllium,water,kg
+Betz clam-trol CT-2,water,kg
+Bicarbonate ion- (as HCO3),water,kg
+Bifenthrin,water,kg
+Bis(2-chloroethoxy)methane,water,kg
+Bis(2-chloroethyl) ether,water,kg
+Bis(2-chloroisopropyl) ether,water,kg
+Boron,water,kg
+Bromide,water,kg
+Bromine,water,kg
+Bromine chloride,water,kg
+Butyl benzyl phthalate,water,kg
+Butyric acid,water,kg
+C3 Dimer Acid/Salt,water,kg
+CBOD5/NH3-N,water,kg
+CFC-11,water,kg
+CFC-113,water,kg
+CFC-12,water,kg
+Cadmium,water,kg
+Calcium chloride,water,kg
+Camphor,water,kg
+Carbamates,water,kg
+Carbaryl,water,kg
+Carbazole,water,kg
+Carbofuran,water,kg
+Carbon disulfide,water,kg
+Carbon tetrachloride,water,kg
+Carbonate ion- (as CO3),water,kg
+Cesium,water,kg
+Chemical oxygen demand (COD),water,kg
+Chloral hydrate,water,kg
+"Chloramine, total",water,kg
+Chloramine-T,water,kg
+Chlordane,water,kg
+Chlordane (tech mix. and metabolites),water,kg
+Chlorhexidine diacetate,water,kg
+Chloride,water,kg
+Chlorides & sulfates,water,kg
+Chlorinated dibenzo-p-dioxins,water,kg
+"Chlorinated hydrocarbons, total",water,kg
+Chlorinated phenols,water,kg
+Chlorine produced oxidants,water,kg
+"Chlorine, total residual, duration of violation",water,kg
+Chlorite,water,kg
+Chlorobenzene,water,kg
+Chlorodibromomethane,water,kg
+Chloroethane,water,kg
+Chloroform,water,kg
+Chloromethane,water,kg
+"Chlorophyll A, corrected",water,kg
+Chloroprene,water,kg
+Chlorotoluene,water,kg
+Chlorpyrifos,water,kg
+Chromium,water,kg
+"Chromium, Hexavalent",water,kg
+"Chromium, Trivalent",water,kg
+Chrysene,water,kg
+Clostridium perfringens,water,kg
+Cobalt,water,kg
+Coconut Diethanolamide,water,kg
+Combined metals sum,water,kg
+Copper,water,kg
+Cresol,water,kg
+Cryptosporidium,water,kg
+Cumene,water,kg
+Cyanide,water,kg
+Cyanuric acid,water,kg
+Cyclohexane,water,kg
+Cyclohexanone,water,kg
+Cyclohexylamine,water,kg
+Cyclonite,water,kg
+Cyfluthrin,water,kg
+Cypermethrin,water,kg
+"DDT/DDD/DDE, sum of p,p' & o,p' isomers",water,kg
+Dalapon,water,kg
+Dechlorane plus,water,kg
+Demeton,water,kg
+Di(2-ethylhexyl) adipate,water,kg
+Di(2-ethylhexyl) phthalate,water,kg
+Di-n-octyl phthalate,water,kg
+Diazinon,water,kg
+Diazoxon,water,kg
+"Dibenz[a,h]acridine",water,kg
+"Dibenz[a,h]anthracene",water,kg
+"Dibenz[a,j]acridine",water,kg
+"Dibenzo[a,e]pyrene",water,kg
+"Dibenzo[a,h]pyrene",water,kg
+"Dibenzo[a,i]pyrene",water,kg
+Dibenzofuran,water,kg
+Dibromodichloromethane,water,kg
+Dibutyl phthalate,water,kg
+Dicamba,water,kg
+Dichloran,water,kg
+Dichlorobenzene,water,kg
+Dichlorobenzyl trifluoride,water,kg
+Dichlorobromomethane,water,kg
+Dichloroethane,water,kg
+Dichloroethylene,water,kg
+Dichlorotoluene,water,kg
+Dieldrin,water,kg
+"Diesel range organics diesel, total, wtr",water,kg
+Diethyl phthalate,water,kg
+Diethylamine,water,kg
+Diethylene glycol monobutyl ether acetate,water,kg
+Dimethyl Benzyl Ammonium Chloride,water,kg
+Dimethyl phthalate,water,kg
+Dimethyl sulfoxide,water,kg
+Dimethyl terephthalate,water,kg
+Dimethylamine,water,kg
+Dinoseb,water,kg
+Diphenylamine,water,kg
+Diquat,water,kg
+Diuron,water,kg
+"Domestic waste, solids",water,kg
+Endosulfan,water,kg
+Endosulfan sulfate,water,kg
+Endothall,water,kg
+Endrin,water,kg
+Endrin aldehyde,water,kg
+Epichlorohydrin,water,kg
+Ethanol,water,kg
+Ethanolamine,water,kg
+Ethyl acetate,water,kg
+Ethyl acrylate,water,kg
+Ethyl ether,water,kg
+Ethylbenzene,water,kg
+Ethylene dibromide,water,kg
+Ethylene glycol,water,kg
+Ethylene glycol dinitrate,water,kg
+Ethylene glycol monophenyl ether,water,kg
+"Explosives, combined TNT + RDX + tetryl",water,kg
+"Fats, oils & grease (total o & g less TPH)",water,kg
+Fluoranthene,water,kg
+Fluorene,water,kg
+Fluoride,water,kg
+Fluorine,water,kg
+Fluoroborates,water,kg
+Foaming agents,water,kg
+Formaldehyde,water,kg
+Free Available Chlorine,water,kg
+"Fuel, diesel, #1",water,kg
+Furans,water,kg
+Furfural,water,kg
+Giardia,water,kg
+Glycol mix applied,water,kg
+Glyphosate,water,kg
+Gold,water,kg
+HCFC-123,water,kg
+HCFC-21,water,kg
+HCFC-22,water,kg
+"Halocarbons, purgeable scan, effluent",water,kg
+"Halogen, total residual",water,kg
+"Halogens, adsorbable organic",water,kg
+"Halogens, tot organics bottom sediment",water,kg
+"Halomethanes, sum",water,kg
+"Hardness, tot calc. (Ca, Mg, Fe) as CaC03",water,kg
+"Hardness, total (as CaCO3)",water,kg
+Heptachlor,water,kg
+Heptachlor epoxide,water,kg
+Heptadecafluorononanoic acid,water,kg
+Heptane,water,kg
+Hexachlorobenzene,water,kg
+Hexachlorobutadiene,water,kg
+Hexachlorocyclohexane,water,kg
+Hexachlorocyclopentadiene,water,kg
+Hexachloroethane,water,kg
+Hexachlorophene,water,kg
+Hexamethylphosphoramide,water,kg
+Hexane,water,kg
+Hydrazine,water,kg
+"Hydrazines, total",water,kg
+"Hydrocarbon, total recoverable",water,kg
+"Hydrocarbons, aromatic",water,kg
+"Hydrocarbons, in H2O, IR, CC14 extractible chromatograph",water,kg
+"Hydrocarbons, nitrated, total",water,kg
+Hydrogen peroxide,water,kg
+Hydrogen sulfide,water,kg
+Hydroquinone,water,kg
+"Indeno[1,2,3-cd]pyrene",water,kg
+Indium,water,kg
+Inorganic Nitrogen,water,kg
+Inorganic suspended solids,water,kg
+Iron,water,kg
+Isobutanol,water,kg
+Isobutyraldehyde,water,kg
+Isophorone,water,kg
+Isopropanol,water,kg
+Isopropyl acetate,water,kg
+Isopropyl ether,water,kg
+Isopropylamine,water,kg
+K001,water,kg
+Lead,water,kg
+Lindane,water,kg
+Lithium,water,kg
+MCPA 2-ethylhexyl ester,water,kg
+Magnesium,water,kg
+Malathion,water,kg
+Manganese,water,kg
+Mercury,water,kg
+"Metals, total",water,kg
+"Metals, tox priority pollutants, total",water,kg
+Methanol,water,kg
+Methomyl,water,kg
+Methoxychlor,water,kg
+Methyl acrylate,water,kg
+Methyl bromide,water,kg
+Methyl ethyl ketone,water,kg
+Methyl formate,water,kg
+Methyl isobutyl ketone,water,kg
+Methyl methacrylate,water,kg
+Methyl tert-butyl ether,water,kg
+Methylene chloride,water,kg
+Methylmercury,water,kg
+Methylnaphthalene,water,kg
+Metiram,water,kg
+Metolachlor,water,kg
+Mirex,water,kg
+Molinate,water,kg
+Molybdenum,water,kg
+Monochlorobenzyl trifluoride,water,kg
+"N,N-Dimethylaniline",water,kg
+N-Ethylaniline,water,kg
+N-Methyl-2-pyrrolidone,water,kg
+N-Methylaniline,water,kg
+N-Nitrosodi-n-propylamine,water,kg
+N-Nitrosodimethylamine,water,kg
+N-Nitrosodiphenylamine,water,kg
+N-ethylperfluorooctane Sulfonamidoethanol,water,kg
+N-methylperfluorooctane Sulfonamidoethanol,water,kg
+Naphthalene,water,kg
+Neptune Blue,water,kg
+Nickel,water,kg
+Niobium,water,kg
+"Nitrite nitrogen, dissolved (as N)",water,kg
+Nitrobenzene,water,kg
+"Nitrobodies, total",water,kg
+Nitrofurans,water,kg
+Nitrogen,water,kg
+"Nitrogen, ammonia total (as NH4)",water,kg
+"Nitrogen, nitrate dissolved",water,kg
+"Nitrogenous oxygen demand (20-day, 20 C)",water,kg
+Nitroglycerin,water,kg
+Nonyl phenoxypoly ethanol,water,kg
+Nonylphenol,water,kg
+Octachlorocyclopentene,water,kg
+"Oil & grease, non polar material",water,kg
+Oil and grease,water,kg
+Oil refinery waste,water,kg
+Organic Nitrogen,water,kg
+Organic active ingredients (40 CFR455),water,kg
+Organic pesticide chemicals (40 CFR455),water,kg
+"Organics, tot purgeables (Method 624)",water,kg
+"Organics, total halogens (TOX)",water,kg
+"Organics, total toxic (TTO)",water,kg
+Oxamyl,water,kg
+"Oxidants released, total residual",water,kg
+"Oxidants, free available",water,kg
+"Oxidants, total residual",water,kg
+Oxygen,water,kg
+"Oxygen demand, total (tod)",water,kg
+Oxytetracycline,water,kg
+Ozone,water,kg
+PFOA,water,kg
+Palladium,water,kg
+Paraquat,water,kg
+Parathion,water,kg
+Pentachlorobenzene,water,kg
+Pentachloroethane,water,kg
+Pentachlorophenol,water,kg
+Peracetic acid,water,kg
+Perchlorate (ClO4),water,kg
+Perfluorobutane Sulfonate,water,kg
+Perfluorodecane Sulfonate,water,kg
+Perfluorodecanoic acid,water,kg
+Perfluoroheptane Sulfonate,water,kg
+Perfluorohexane Sulfonate,water,kg
+Perfluorohexanoic acid,water,kg
+Perfluorolauric acid,water,kg
+Perfluoromyristic acid,water,kg
+Perfluorooctanesulfonamide,water,kg
+Perfluorotridecanoic acid,water,kg
+Perfluoroundecanoic acid,water,kg
+Perfluorovaleric acid,water,kg
+Permethrin,water,kg
+Perylene,water,kg
+"Pesticides, general",water,kg
+"Petrol hydrocarbons, total recoverable",water,kg
+Petroleum,water,kg
+Phenanthrene,water,kg
+Phenol,water,kg
+"Phosphate, total (as PO4)",water,kg
+Phosphorus,water,kg
+Phthalate esters,water,kg
+Picloram,water,kg
+Poly[hexamethylenebiguanide] hydrochloride,water,kg
+Polychlorinated biphenyls,water,kg
+Polycyclic aromatic hydrocarbons,water,kg
+Potassium,water,kg
+Propazine,water,kg
+Propylene glycol,water,kg
+Purgeable aromatics Method 602,water,kg
+"Purgeable hydrocarbons, Meth. 601",water,kg
+Pyrene,water,kg
+Pyridine,water,kg
+QUATERNARY AMMONIUM COMPOUNDS,water,kg
+Quinoline,water,kg
+Radium-223,water,kg
+Radium-224,water,kg
+Radium-226,water,kg
+Radium-228,water,kg
+Radon,water,kg
+"Residue, tot fltrble (dried at 105 C)",water,kg
+"Sanitary waste, residual chlorine",water,kg
+"Sanitary waste, solids",water,kg
+Seafood Processing Waste,water,kg
+Selenium,water,kg
+Silica,water,kg
+Silver,water,kg
+"Silver, ionic",water,kg
+Silvex,water,kg
+Simazine,water,kg
+Sodium,water,kg
+Sodium chloride,water,kg
+Solids accumulation rate tot dry weight,water,kg
+"Solids, dry, discharge to sol. handling sys.",water,kg
+"Solids, fixed suspended",water,kg
+"Solids, total",water,kg
+"Solids, total dissolved",water,kg
+"Solids, total suspended",water,kg
+"Solids, total volatile",water,kg
+Spectrus CT 1300,water,kg
+Spinosad,water,kg
+Strontium,water,kg
+Strontium-90,water,kg
+Styrene,water,kg
+Sulfate,water,kg
+Sulfide,water,kg
+Sulfide-hydrogen sulfide (undissociated),water,kg
+Sulfite (as SO3),water,kg
+Sulfolane,water,kg
+Sulfur,water,kg
+Sulfur dioxide,water,kg
+"Surfactants, anionic",water,kg
+"Surfactants, as CTAS, effluent",water,kg
+"Suspended solids, total annual",water,kg
+TCDD equivalents,water,kg
+"TNT, dissolved",water,kg
+Tantalum,water,kg
+Tebuconazole,water,kg
+Technetium-99,water,kg
+Terbufos,water,kg
+Terbuthylazine,water,kg
+Terpineol,water,kg
+Tert-Amyl Methyl Ether,water,kg
+Tetrachlorobenzene,water,kg
+Tetrachlorocatechol,water,kg
+Tetrachloroethane,water,kg
+Tetrachloroethylene,water,kg
+Tetrachloroguaiacol,water,kg
+Tetrahydrofuran,water,kg
+"Tetrahydroxymethylphosphonium chloride, THPC",water,kg
+Thallium,water,kg
+Thiobencarb,water,kg
+Thiocyanate,water,kg
+Tin,water,kg
+"Tin, tri-organo-",water,kg
+Titanium,water,kg
+Toluene,water,kg
+Tolytriazole,water,kg
+Total Kjeldahl Nitrogen,water,kg
+Total Organic Carbon,water,kg
+Total Residual Chlorine,water,kg
+Total agg concentration #1,water,kg
+Total agg concentration #2,water,kg
+Total agg concentration #3,water,kg
+Total agg concentration #4,water,kg
+Total petroleum hydrocarbon - diesel,water,kg
+Total petroleum hydrocarbon - gasoline,water,kg
+Total phenols,water,kg
+Toxaphene,water,kg
+Tri-n-butyl phosphate,water,kg
+Tribromomethane,water,kg
+Tributyltin,water,kg
+Trichlorobenzene,water,kg
+Trichloroethane,water,kg
+Trichloroethylene,water,kg
+Trichloronitromethane,water,kg
+Trichlorophenol,water,kg
+Trichlorosyringol,water,kg
+Trichlorotoluene,water,kg
+Trichlorotrifluoroethane,water,kg
+Tridecafluoroheptanoic acid,water,kg
+Triethylamine,water,kg
+"Trihalomethane, tot.",water,kg
+Triphenyl phosphate,water,kg
+Tritium,water,kg
+Tungsten,water,kg
+Uranium-238,water,kg
+Urea,water,kg
+VOC,water,kg
+Vanadium,water,kg
+Vinyl acetate,water,kg
+Vinyl chloride,water,kg
+"Volatile compounds, (GC/MS)",water,kg
+Xylene,water,kg
+"Xylene, meta & para in combination",water,kg
+Zinc,water,kg
+Zirconium,water,kg
+"cis-1,2-Dichloroethylene",water,kg
+"cis-1,3-Dichloropropene",water,kg
+cis-Chlordane,water,kg
+m-Chloroaniline,water,kg
+m-Cresol,water,kg
+m-Dichlorobenzene,water,kg
+m-Nitrotoluene,water,kg
+m-Toluidine,water,kg
+m-Xylene,water,kg
+n-Amyl acetate,water,kg
+n-Butyl acetate,water,kg
+n-Butylbenzene,water,kg
+n-Decane,water,kg
+n-Octadecane,water,kg
+n-Propylbenzene,water,kg
+o-Chloroaniline,water,kg
+o-Chlorophenol,water,kg
+o-Chlorotoluene,water,kg
+o-Cresol,water,kg
+o-Dichlorobenzene,water,kg
+o-Nitrophenol,water,kg
+o-Nitrotoluene,water,kg
+o-Xylene,water,kg
+"p,p'-DDD",water,kg
+"p,p'-DDE",water,kg
+"p,p'-DDT",water,kg
+p-Bromophenyl phenyl ether,water,kg
+p-Chloro-m-cresol,water,kg
+p-Chloroaniline,water,kg
+p-Chlorophenyl phenyl ether,water,kg
+p-Cresol,water,kg
+p-Dichlorobenzene,water,kg
+p-Nitrophenol,water,kg
+p-Nitrotoluene,water,kg
+p-Xylene,water,kg
+tert-Butanol,water,kg
+tert-Butylphenol,water,kg
+"trans-1,2-Dichloroethylene",water,kg
+"trans-1,3-Dichloropropene",water,kg
+"trans-1,4-Dichloro-2-butene",water,kg
