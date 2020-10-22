@@ -3,12 +3,13 @@
 Queries DMR data by state, temporarily saves them,
 Web service documentation found at https://echo.epa.gov/system/files/ECHO%20All%20Data%20Search%20Services_v3.pdf
 
-Updates:
--use argeparse to set up similar to TRI and breakout steps, sequentially
--pass year as parameter
--store data downloads by year
--adjust state validation to only check facilities of type NPD
-
+This file requires paramaters be passed like:
+    Option -Y Year
+    A -Y 2016
+Options:
+A - for downloading DMR data by state
+B - for downloading and generating state totals file
+C - for generating StEWI output files and validation from downloaded data
 
 '''
 
@@ -26,13 +27,12 @@ dmr_external_dir = set_dir(modulepath+'../../DMR Data Files')
 # two digit SIC codes from advanced search drop down stripped and formatted as a list
 sic2 = list(pd.read_csv(dmr_data_dir + '2_digit_SIC.csv', dtype={'SIC2': str})['SIC2'])
 
-epa_region = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10']
 states_df = pd.read_csv(data_dir + 'state_codes.csv')
 states = list(states_df['states']) + list(states_df['dc']) + list(states_df['territories'])
 states = [x for x in states if str(x) != 'nan']
 base_url = 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_custom_data_annual?'  # base url
 
-# Valus used for StEWI query
+# Values used for StEWI query
 PARAM_GROUP = True
 DETECTION = 'HALF'
 
@@ -42,6 +42,10 @@ def generate_url(report_year, base_url=base_url, sic='', region='', state='',
                  nutrient='', nutrient_agg=False, param_group=False,
                  detection='', estimation=True, responseset='100000',
                  pageno='1', output_type='JSON'):
+    
+    """
+    Generates the url for DMR query, see web service documentation for details        
+    """
     # web service documentation: https://echo.epa.gov/tools/web-services/loading-tool#/Custom%20Search/get_dmr_rest_services_get_custom_data_facility
     url = base_url + 'p_year=' + report_year
     if sic: url += '&p_sic2=' + sic
@@ -61,11 +65,12 @@ def generate_url(report_year, base_url=base_url, sic='', region='', state='',
 
 def query_dmr(year, sic_list=[], state_list=states, nutrient='', path=dmr_external_dir):
     """
+    Loops through a set of states and sics to download and pickle DMR data
     :param sic_list: Option to break up queries further by list of 2-digit SIC codes
     :param state_list: List of states to include in query
     :param nutrient: Option to query by nutrient category with aggregation. Input 'N' or 'P'
     :param path: Path to save raw data as pickle files. Set to external directory one level above 'standardizedinventories' by default
-    :return: output_df, max_error_list, no_data_list, success_list
+    :return: max_error_list, no_data_list, success_list
     """
     max_error_list, no_data_list, success_list = [], [], []
     param_list = []
@@ -148,103 +153,7 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient='', path=dmr_extern
                             pd.to_pickle(result, filepath)
                             success_list.append(state + '_' + str(counter))
                     counter += 1
-                
-        
-    '''
-    if param_list:
-        print('Breaking up queries further')
-        for params in param_list:
-            sic = params[0]
-            state_or_region = params[1]
-            if params in (['12', 'KY'], ['12', 'WV']): # Pagination for SIC 12 (coal mining) in KY and WV
-                if nutrient: url = generate_url(report_year=year, sic=sic, region=state_or_region, nutrient=nutrient, nutrient_agg=True)
-                else: url = generate_url(report_year=year, sic=sic, region=state_or_region)
-                counter = 1
-                pages = 1
-                while counter <= pages:
-                    page = str(counter)
-                    if region_list:
-                        if nutrient:
-                            filepath = path + nutrient + '_sic_' + sic + '_' + state_or_region + '_' + page + '.pickle'
-                            url = generate_url(report_year=year, sic=sic, region=state_or_region, nutrient=nutrient, nutrient_agg=True, responseset='500', pageno=page)
-                        else:
-                            filepath = path + 'sic_' + sic + '_' + state_or_region + '_' + page + '.pickle'
-                            url = generate_url(report_year=year, sic=sic, region=state_or_region, responseset=500, pageno=page)
-                    elif state_list:
-                        if nutrient:
-                            filepath = path + nutrient + '_sic_' + sic + '_' + state_or_region + '_' + page + '.pickle'
-                            url = generate_url(report_year=year, sic=sic, state=state_or_region, nutrient=nutrient, nutrient_agg=True, responseset='500', pageno=page)
-                        else:
-                            filepath = path + 'sic_' + sic + '_' + state_or_region + '_' + page + '.pickle'
-                            url = generate_url(report_year=year, sic=sic, state=state_or_region, responseset=500, pageno=page)
-                    if os.path.exists(filepath):
-                        print('file already exists for '+ str(params) +' page '+str(counter)+', skipping query')
-                        if counter == 1:
-                            result = pd.read_pickle(filepath)
-                            pages = int(result['Results']['PageCount'])
-                        success_list.append(sic + '_' + state_or_region + '_' + str(page))
-                    else:
-                        print('executing query for '+ str(params) +' page '+ str(counter))
-                        result = execute_query(url)
-                        if str(type(result)) == "<class 'str'>":
-                            if result == 'no_data': no_data_list.append(sic + '_' + state_or_region + '_' + page)
-                            elif result == 'max_error': max_error_list.append(sic + '_' + state_or_region + '_' + page)
-                        else:
-                            if counter == 1: pages = int(result['Results']['PageCount'])
-                            pd.to_pickle(result, filepath)
-                            success_list.append(sic + '_' + state_or_region + '_' + str(page))
-                    counter += 1
-            else: # Pagination not necessary
-                if region_list:
-                    if nutrient:
-                        filepath = path + nutrient + '_sic_' + sic + '_' + state_or_region + '.pickle'
-                        url = generate_url(report_year=year, sic=sic, region=state_or_region, nutrient=nutrient, nutrient_agg=True)
-                    else:
-                        filepath = path + 'sic_' + sic + '_' + state_or_region + '.pickle'
-                        url = generate_url(report_year=year, sic=sic, region=state_or_region)
-                elif state_list:
-                    if nutrient:
-                        filepath = path + nutrient + '_sic_' + sic + '_' + state_or_region + '.pickle'
-                        url = generate_url(report_year=year, sic=sic, state=state_or_region, nutrient=nutrient, nutrient_agg=True)
-                    else:
-                        filepath = path + 'sic_' + sic + '_' + state_or_region + '.pickle'
-                        url = generate_url(report_year=year, sic=sic, state=state_or_region)
-                if os.path.exists(filepath):
-                    print('file already exists for '+ str(params) +', , skipping')
-                    success_list.append(sic + '_' + state_or_region)
-                else:
-                    print('executing query for '+ str(params))
-                    result = execute_query(url)
-                    if str(type(result)) == "<class 'str'>":
-                        if result == 'no_data': no_data_list.append(sic + '_' + state_or_region)
-                        elif result == 'max_error': max_error_list.append(sic + '_' + state_or_region)
-                    else:
-                        pd.to_pickle(result, filepath)
-                        success_list.append(sic + '_' + state_or_region)
-    else: # 1st run through SIC codes
-        for sic in sic_list:
-            if sic in ['12', '49']: # Assuming SIC 12 & 49 are too big for all reporting years. Skipped for now, broken up by state later.
-                max_error_list.append(sic)
-                continue
-            if nutrient:
-                filepath = path + nutrient + '_sic_' + sic + '.pickle'
-                url = generate_url(report_year=year, sic=sic, nutrient=nutrient, nutrient_agg=True)
-            else:
-                filepath = path + 'sic_' + sic + '.pickle'
-                url = generate_url(report_year=year, sic=sic)
-            if os.path.exists(filepath):
-                print('file already exists for '+ sic +', skipping')
-                success_list.append(sic)
-            else:
-                print('executing query for '+ sic)
-                result = execute_query(url)
-                if str(type(result)) == "<class 'str'>":
-                    if result == 'no_data': no_data_list.append(sic)
-                    elif result == 'max_error': max_error_list.append(sic)
-                else:
-                    pd.to_pickle(result, filepath)
-                    success_list.append(sic)
-    '''
+
     return max_error_list, no_data_list, success_list
 
 
@@ -265,6 +174,7 @@ def execute_query(url):
 
 
 def standardize_df(input_df):
+    """Modifies DMR data to meet StEWI specifications."""
     dmr_required_fields = pd.read_csv(data_dir + 'DMR_required_fields.txt', header=None)[0]
     output_df = input_df[dmr_required_fields]
     reliability_table = globals.reliability_table
@@ -295,18 +205,18 @@ def standardize_df(input_df):
     return output_df
 
 def generateDMR(year, nutrient='', path=dmr_external_dir):
+    """Loops through pickled data and combined into a dataframe. """
     path += str(year)+'/'
     output_df = pd.DataFrame()
     if nutrient:
         path += nutrient+'_'
     for state in states:
-        # cycle through combination of options:
         print('accessing data for ' + state)
         if not state in big_state_list:
             filepath = path + 'state_' + state + '.pickle'
             result = unpickle(filepath)
             output_df = pd.concat([output_df, result])
-        else:
+        else: # multiple files for each state
             counter = 1
             while True:
                 try:    
@@ -317,22 +227,6 @@ def generateDMR(year, nutrient='', path=dmr_external_dir):
                     counter+=1
                 except: pass
 
-    '''
-    for sic in sic2:
-        print('accessing data for ' + sic)
-        # cycle through combination of options:
-        filepath = path + 'sic_' + sic + '.pickle'
-        if sic == '12' or sic == '49':
-            for state in states:
-                if sic == '12' and (state == 'WV' or state == 'KY'):
-                    print('todo get WV/KY')
-                filepath = path + 'sic_' + sic + '_'+state+'.pickle'
-                result = unpickle(filepath)
-                output_df = pd.concat([output_df, result])
-        else:
-            result = unpickle(filepath)
-            output_df = pd.concat([output_df, result])
-    '''
     return output_df
 
 def unpickle(filepath):
@@ -347,30 +241,30 @@ def unpickle(filepath):
     return result
 
 def generateStateTotal(year):
+    """Generates file of state totals as csv"""
     print('generating state totals')
     # https://echo.epa.gov/trends/loading-tool/get-data/state-statistics
-    # https://ofmpub.epa.gov/echo/dmr_rest_services.get_state_stats?p_year=2020&output=csv
-    url = 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_state_stats?p_year=' + year + '&output=csv'
+    url = 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_state_stats?p_year=' +\
+        year + '&output=csv'
     
     state_csv = pd.read_csv(url, header=2)
     state_totals = pd.DataFrame()
     state_totals['state_name']=state_csv['State']
     state_totals['FlowName']='All'
     state_totals['Compartment']='water'
-    state_totals['Amount']=state_csv['Total Pollutant Pounds (lb/yr) for Majors']+state_csv['Total Pollutant Pounds (lb/yr) for Non-Majors']
+    state_totals['Amount']=state_csv['Total Pollutant Pounds (lb/yr) for Majors'] +\
+        state_csv['Total Pollutant Pounds (lb/yr) for Non-Majors']
     state_totals['Unit']='lb'
     state_names = states_df[['states','state_name']]
-    state_totals = state_totals.merge(state_names, how='left',
-                                      on='state_name')
+    state_totals = state_totals.merge(state_names, how='left', on='state_name')
     state_totals.drop(columns=['state_name'], inplace=True)
     state_totals.dropna(subset=['states'], inplace=True)
     state_totals.rename(columns={'states':'State'}, inplace=True)
     state_totals.to_csv(data_dir + 'DMR_' + year + '_StateTotals.csv', index=False)
-        
     return
 
 def validateStateTotals(df, year):
-    # generate validation by state sums across species
+    """ generate validation by state sums across species"""
     filepath = data_dir + 'DMR_' + year + '_StateTotals.csv'
     if os.path.exists(filepath):
         reference_df = pd.read_csv(filepath)
@@ -381,18 +275,7 @@ def validateStateTotals(df, year):
         # to match the state totals, only compare NPD facilities, and remove some flows
         flow_exclude = pd.read_csv(data_dir + 'DMR/DMR_state_filter_list.csv')
         state_flow_exclude_list = flow_exclude['POLLUTANT_DESC'].to_list()
-        '''
-        state_flow_exclude_list=['Hardness, total (as CaCO3)',
-                                 'Oxygen, dissolved (DO)',
-                                 'Alkalinity, total (as CaCO3)',
-                                 'Alkalinity, phenolphthaline method',
-                                 'Alkalinity, bicarbonate (as CaCO3)',
-                                 'Alkalinity, carbonate (as CaCO3)',
-                                 'Hardness, Ca Mg Calculated (mg/L as CaCO3)',
-                                 'Hardness, tot calc. (Ca, Mg, Fe) as CaC03',
-                                 #'Oxygen'
-                                 ]
-        '''
+
         dmr_by_state = df[~df['FlowName'].isin(state_flow_exclude_list)]
         dmr_by_state = dmr_by_state[dmr_by_state['PermitTypeCode']=='NPD']
         
@@ -427,11 +310,7 @@ if __name__ == '__main__':
         
         if args.Option == 'A':
             print("Querying for "+DMRyear)
-            '''
-            # Query by SIC, then by SIC-state where necessary
-            sic_max_error_list, sic_no_data_list, sic_success_list = query_dmr(year = DMRyear)
-            sic_state_max_error_list, sic_state_no_data_list, sic_state_success_list = query_dmr(year = DMRyear, sic_list=sic_max_error_list, state_list=states)
-            '''    
+   
             # Query by state, then by SIC-state where necessary
             state_max_error_list, state_no_data_list, state_success_list = query_dmr(year = DMRyear, state_list=states)
             if (len(state_max_error_list) == 0) & (len(state_no_data_list) == 0):
@@ -455,7 +334,7 @@ if __name__ == '__main__':
         if args.Option == 'C':
             
             sic_df = generateDMR(DMRyear)
-            sic_df = filter_states(standardize_df(sic_df))#
+            sic_df = filter_states(standardize_df(sic_df))
 
             # Validation against state totals is done prior to combinine with aggregated nutrients
             validateStateTotals(sic_df, DMRyear)
@@ -472,9 +351,9 @@ if __name__ == '__main__':
             nut_drop_list = nut_drop_list[['ParameterDesc']]
             dmr_nut_filtered = filter_inventory(sic_df, nut_drop_list, 'drop')
             dmr_df = pd.concat([dmr_nut_filtered, nutrient_agg_df]).reset_index(drop=True)
+
             #PermitTypeCode needed for state validation but not maintained
             dmr_df = dmr_df.drop(columns=['PermitTypeCode'])
-
            
             # generate output for facility
             facility_columns = ['FacilityID', 'FacilityName', 'City', 'State', 'Zip', 'Latitude', 'Longitude',
