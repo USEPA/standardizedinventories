@@ -1,13 +1,20 @@
 import re
+import os
 #Variables and functions for common use
 import chemicalmatcher
 import pandas as pd
 import stewi
 
+try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
+except NameError: modulepath = 'stewicombo/'
+
+data_dir = modulepath + 'data/'
+
 INVENTORY_PREFERENCE_BY_COMPARTMENT = {"air":["eGRID","GHGRP","NEI","TRI"],
                                        "water":["DMR", "TRI"],
                                        "soil":["TRI"],
-                                       "waste":["RCRAInfo","TRI"]}
+                                       "waste":["RCRAInfo","TRI"],
+                                       "output":["eGRID"]}
 
 LOOKUP_FIELDS = ["FRS_ID", "Compartment", "SRS_ID"]
 # pandas might infer wrong type, force cast skeptical columns
@@ -34,6 +41,8 @@ def get_id_before_underscore(inventory_id):
         inventory_id = inventory_id[0:underscore_match.start()]
     return inventory_id
 
+VOC_srs = pd.read_csv(data_dir+'VOC_SRS_IDs.csv',dtype=str,index_col=False,header=0)
+VOC_srs = VOC_srs['SRS_IDs']
 
 columns_to_keep = ['FacilityID', 'FlowAmount', 'FlowName','Compartment','Unit','ReliabilityScore','Source','Year','FRS_ID']
 
@@ -55,7 +64,7 @@ def getInventoriesforFacilityMatches(inventory_dict,facilitymatches,filter_for_L
         inventory = pd.merge(inventory, inventory_facilitymatches, on=['FacilityID', 'Source'], how='left')
 
         # If this isn't the base inventory, remove records not for the FRS_IDs of interest
-        if k is not base_inventory:
+        if (k is not base_inventory) & (base_inventory is not None):
             inventory = inventory[inventory['FRS_ID'].isin(base_inventory_FRS_list)]
 
         #Add metadata

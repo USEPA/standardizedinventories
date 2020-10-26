@@ -3,6 +3,7 @@
 import pandas as pd
 pd.options.mode.chained_assignment = None
 import json
+import logging as log
 import os
 import yaml
 
@@ -12,12 +13,14 @@ except NameError: modulepath = 'stewi/'
 output_dir = modulepath + 'output/'
 data_dir = modulepath + 'data/'
 
+log.basicConfig(level=log.DEBUG, format='%(levelname)s %(message)s')
+
 reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',
                                 usecols=['Source', 'Code', 'DQI Reliability Score'])
 
 def config():
     configfile = None
-    print(modulepath)
+    log.info('modulepath: '+ modulepath)
     with open(modulepath + 'config.yaml', mode='r') as f:
         configfile = yaml.load(f,Loader=yaml.FullLoader)
     return configfile
@@ -261,6 +264,35 @@ def validation_summary(validation_df, filepath=''):
     if filepath: validation_summary_df.to_csv(filepath, index=False)
     return validation_summary_df
 
+def weighted_average(df, data_col, weight_col, by_col):
+    """
+    Generates a weighted average result based on passed columns
+    Parameters
+    ----------
+    df : DataFrame
+        Dataframe prior to aggregating from which a weighted average is calculated
+    data_col : str
+        Name of column to be averaged.
+    weight_col : str
+        Name of column to serve as the weighting.
+    by_col : list
+        List of columns on which the dataframe is aggregated.
+
+    Returns
+    -------
+    result : series
+        Series reflecting the weighted average values for the data_col,
+        at length consistent with the aggregated dataframe, to be reapplied
+        to the data_col in the aggregated dataframe.
+
+    """
+    df['_data_times_weight'] = df[data_col] * df[weight_col]
+    df['_weight_where_notnull'] = df[weight_col] * pd.notnull(df[data_col])
+    g = df.groupby(by_col)
+    result = g['_data_times_weight'].sum() / g['_weight_where_notnull'].sum()
+    del df['_data_times_weight'], df['_weight_where_notnull']
+    return result
+
 
 # Convert amounts. Note this could be replaced with a conversion utility
 def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
@@ -311,3 +343,6 @@ def checkforFile(filepath):
 
 def get_relpath(filepath):
     return os.path.relpath(filepath, '.').replace('\\', '/') + '/'
+
+def storeParquet(df, file_name):
+    df.to_parquet(output_dir+file_name+'.parquet', index=False, compression=None)
