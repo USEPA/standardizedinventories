@@ -176,6 +176,7 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
         if group_by == 'flow':
             group_by_columns = ['FlowName']
             if 'Compartment' in inventory_df.keys(): group_by_columns += ['Compartment']
+            if 'State' in inventory_df.keys(): group_by_columns += ['State']
         elif group_by == 'facility': group_by_columns = ['FlowName', 'FacilityID']
         inventory_df['FlowAmount'] = inventory_df['FlowAmount'].fillna(0.0)
         reference_df['FlowAmount'] = reference_df['FlowAmount'].fillna(0.0)
