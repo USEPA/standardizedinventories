@@ -8,7 +8,9 @@ PermitTypeCode
 GeocodeLatitude
 GeocodeLongitude
 NaicsCode
+PollutantCode
 PollutantDesc
+ParameterCode
 ParameterDesc
 PollutantLoad
 Siccode

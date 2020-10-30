@@ -193,8 +193,10 @@ def standardize_df(input_df):
                               'GeocodeLongitude': 'Longitude'}
     if PARAM_GROUP:
         field_dictionary['PollutantDesc']='FlowName'
+        field_dictionary['PollutantCode']='FlowID'
     else:
         field_dictionary['ParameterDesc']='FlowName'
+        field_dictionary['ParameterCode']='FlowID'
     output_df.rename(columns = field_dictionary, inplace=True)
     # Drop flow amount of '--'
     output_df = output_df[output_df['FlowAmount'] != '--']
@@ -205,6 +207,15 @@ def standardize_df(input_df):
     output_df['FlowAmount'] = output_df['FlowAmount'].replace({',': ''}, regex=True)
     # Then convert to numeric
     output_df['FlowAmount'] = pd.to_numeric(output_df['FlowAmount'], errors='coerce')
+    
+    if PARAM_GROUP:
+        flows = read_pollutant_parameter_list()
+        dmr_flows = flows[['FlowName','FlowID']].drop_duplicates(subset=['FlowName'])
+        output_df = output_df.merge(dmr_flows, on = 'FlowName',how = 'left')
+        output_df.loc[output_df.FlowID_x.isin(flows.PARAMETER_CODE),['FlowID']] = output_df['FlowID_x']
+        output_df.loc[~output_df.FlowID_x.isin(flows.PARAMETER_CODE),['FlowID']] = output_df['FlowID_y']
+        output_df.drop(['FlowID_x','FlowID_y'],inplace=True,axis=1)
+        
     return output_df
 
 def generateDMR(year, nutrient='', path=dmr_external_dir):
@@ -321,11 +332,13 @@ def read_pollutant_parameter_list():
     url = 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_loading_tool_params?output=csv'
     flows = pd.read_csv(url, header=1, usecols=['POLLUTANT_CODE','POLLUTANT_DESC',
                                                 'PARAMETER_CODE','PARAMETER_DESC',
-                                                'NITROGEN','PHOSPHORUS'])
+                                                'NITROGEN','PHOSPHORUS'], dtype=str)
     if PARAM_GROUP:
-        flows.rename(columns={'POLLUTANT_DESC':'FlowName'}, inplace=True)
+        flows.rename(columns={'POLLUTANT_DESC':'FlowName',
+                              'POLLUTANT_CODE':'FlowID'}, inplace=True)
     else:
-        flows.rename(columns={'PARAMETER_DESC':'FlowName'}, inplace=True)
+        flows.rename(columns={'PARAMETER_DESC':'FlowName',
+                              'PARAMETER_CODE':'FlowID'}, inplace=True)
     return flows
     
 if __name__ == '__main__':
@@ -374,11 +387,11 @@ if __name__ == '__main__':
         
         if args.Option == 'C':
 
-            sic_df = generateDMR(DMRyear)
-            sic_df = filter_states(standardize_df(sic_df))
+            state_df = generateDMR(DMRyear)
+            state_df = filter_states(standardize_df(state_df))
 
             # Validation against state totals is done prior to combinine with aggregated nutrients
-            validateStateTotals(sic_df, DMRyear)
+            validateStateTotals(state_df, DMRyear)
 
             P_df = generateDMR(DMRyear, nutrient='P')
             N_df = generateDMR(DMRyear, nutrient='N')
@@ -389,7 +402,7 @@ if __name__ == '__main__':
             nut_drop_list = read_pollutant_parameter_list()
             nut_drop_list = nut_drop_list[(nut_drop_list['NITROGEN'] == 'Y') | (nut_drop_list['PHOSPHORUS'] == 'Y')]
             nut_drop_list = nut_drop_list[['FlowName']].drop_duplicates()
-            dmr_nut_filtered = filter_inventory(sic_df, nut_drop_list, 'drop')
+            dmr_nut_filtered = filter_inventory(state_df, nut_drop_list, 'drop')
             dmr_df = pd.concat([dmr_nut_filtered, nutrient_agg_df]).reset_index(drop=True)
 
             #PermitTypeCode needed for state validation but not maintained
@@ -402,7 +415,7 @@ if __name__ == '__main__':
             dmr_facility.to_csv(set_dir(output_dir + 'facility/')+'DMR_' + DMRyear + '.csv', index=False)
             
             # generate output for flow
-            flow_columns = ['FlowName']
+            flow_columns = ['FlowID','FlowName']
             dmr_flow = dmr_df[flow_columns].drop_duplicates()
             dmr_flow.sort_values(by=['FlowName'],inplace=True)
             dmr_flow['Compartment'] = 'water'
