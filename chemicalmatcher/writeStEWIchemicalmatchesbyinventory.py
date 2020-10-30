@@ -16,6 +16,7 @@ flowlist_cols = {"RCRAInfo":['FlowName','FlowID'],
                  "eGRID": ['FlowName'],
                  "TRI": ['FlowName','FlowID'],
                  "NEI":['FlowName','FlowID'],
+                 "DMR":['FlowName','FlowID'],
                  "GHGRP":['FlowName','FlowID']}
 
 #First loop through flows lists to create a list of all unique flows
@@ -43,6 +44,7 @@ inventory_query_type = {"RCRAInfo":"list",
                         "TRI":"list",
                         "NEI":"list",
                         "eGRID":"name",
+                        "DMR":"list",
                         "GHGRP":"name"}
 
 #Create a df to store the results
@@ -53,6 +55,7 @@ errors_srs = pd.DataFrame(columns=["FlowName","Source","ErrorType"])
 #Store errors in a separate dataframe
 sources = list(pd.unique(all_list_names['Source']))
 for source in sources:
+    print('accessing SRS for ' + source)
     # Get df with inventory flows
     inventory_flows = all_list_names[all_list_names['Source'] == source]
 
