@@ -1,211 +1,70 @@
 FlowID,FlowName,SRS_CAS,SRS_ID,Source
 51569,"(1,1,3,3-Tetramethylbutyl)phenol",,,DMR
-10759,.alpha.-Endosulfan,,,DMR
-11126,.alpha.-Hexachlorocyclohexane,,,DMR
-10744,.alpha.-Terpineol,,,DMR
-11127,.beta.-Hexachlorocyclohexane,,,DMR
-11125,.delta.-Hexachlorocyclohexane,,,DMR
-10256,"1,1,1-Trichloroethane",,,DMR
-10257,"1,1,2,2-Tetrachloroethane",,,DMR
-10258,"1,1,2-Trichloroethane",,,DMR
-10259,"1,1-Dichloroethane",,,DMR
-10278,"1,1-Dichloroethylene",,,DMR
-11124,"1,2,3,4,5,6-Hexachlorocyclohexane",,,DMR
-11163,"1,2,3,4,6,7,8,9-Octachlorodibenzo-p-dioxin",,,DMR
-11185,"1,2,3,4,6,7,8,9-Octachlorodibenzofuran",,,DMR
-10130,"1,2,4-Trichlorobenzene",,,DMR
-10416,"1,2-Dibromo-3-chloropropane",,,DMR
-10262,"1,2-Dichloroethane",,,DMR
-10417,"1,2-Dichloropropane",,,DMR
-11399,"1,2-Diphenylhydrazine",,,DMR
-10031,"1,3-Dichloropropene",,,DMR
 45622,"1,3-Dinitrobenzene",,,DMR
-10026,1-Butanol,,,DMR
 51649,1-Chloro-2-nitrobenzene,,,DMR
 77168,"1-Propene, 1,1-dichloro-",,,DMR
 51639,10:2 Fluorotelomer Acrylate,,,DMR
 51637,10:2 Fluorotelomer Alcohol,,,DMR
-10749,"2,2,4,5,6,7,8,8-Octachloro-2,3,3a,4,7,7a-hexahydro-4,7-methano-1H-indene",,,DMR
-10239,"2,3,7,8-Tetrachlorodibenzo-p-dioxin",,,DMR
-11181,"2,3,7,8-Tetrachlorodibenzofuran",,,DMR
-10380,"2,4,5-Trichlorophenol",,,DMR
-12007,"2,4,6-Trichlorophenol",,,DMR
-12011,"2,4-Dinitrophenol",,,DMR
-10144,"2,4-Dinitrotoluene",,,DMR
-10150,"2,6-Dinitrotoluene",,,DMR
 51643,2-(N-ethylperfluorooctanesulfonamido) acetic acid,,,DMR
 51644,2-(N-methylperfluorooctanesulfonamido) acetic acid,,,DMR
 78901,"2-Amino-4,6-dinitrotoluene",,,DMR
-11286,2-Chloroethyl vinyl ether,,,DMR
-10723,2-Hexanone,,,DMR
-11281,2-Methoxyethanol,,,DMR
-11876,2-Methylnaphthalene,,,DMR
-12519,"3,3'-Dichlorobenzidine",,,DMR
-12021,"3,4,5-Trichloroguaiacol",,,DMR
-10635,"3,4,6-Trichlorocatechol",,,DMR
-12022,"3,4,6-Trichloroguaiacol",,,DMR
 61225,3-Methylcholanthrene,,,DMR
 51567,3-methylphenol and 4-methylphenol Combination,,,DMR
-10387,"4,4'-Isopropylidenediphenol",,,DMR
-12005,"4,5,6-Trichloroguaiacol",,,DMR
-10384,"4,6-Dinitro-o-cresol",,,DMR
 76987,"4-Amino-2,6-dinitrotoluene",,,DMR
-10918,"4-Isopropyltoluene, (whole water)",,,DMR
 51638,8:2 Fluorotelomer Acrylate,,,DMR
 51636,8:2 Fluorotelomer Alcohol,,,DMR
-10051,Acetone,,,DMR
-10054,Acrolein,,,DMR
-10057,Acrylonitrile,,,DMR
-10775,Alachlor,,,DMR
-10024,Aldrin,,,DMR
 51676,Aliphatics,,,DMR
 51677,Aliphatics,,,DMR
 51678,Aliphatics,,,DMR
 51679,Aliphatics,,,DMR
-10954,Alkyl benzene sulfonated (ABS),,,DMR
-10654,Ametryn,,,DMR
 10808,Ammonia & ammonium- total,,,DMR
 51547,Amoxicillin,,,DMR
 51548,Ampicillin,,,DMR
-10113,Aniline,,,DMR
 51692,Aroclor (unspecified),,,DMR
-4878,Aroclor 1221,,,DMR
 51680,Aromatics,,,DMR
 51681,Aromatics,,,DMR
-10833,"Arsenic, trivalent, total recoverable",,,DMR
-10015,Atrazine,,,DMR
-10406,Azinphos-methyl,,,DMR
-10178,"BOD, 5-day, 20 deg. C",,,DMR
-10107,"BOD, carbonaceous, 05 day, 20 C",,,DMR
 51494,"Benzenamine, N-methyl-N,2,4,6-tetranitro-",,,DMR
-10508,Benzidine,,,DMR
-10110,Benzo(b)fluoranthene,,,DMR
-10174,Benzo[a]pyrene,,,DMR
 78122,Benzo[j]fluoranthene,,,DMR
-11248,Bis(2-chloroethoxy)methane,,,DMR
-11669,Bis(chloromethyl) ether,,,DMR
-10987,Boron,,,DMR
 51606,Bromoacetic acid,,,DMR
 51715,C3 Dimer Acid/Salt,,,DMR
-10346,CFC-11,,,DMR
-11254,CFC-113,,,DMR
-11666,CFC-12,,,DMR
 51503,Calcium chloride,,,DMR
 51650,Calcium sulfate,,,DMR
-10681,Carbaryl,,,DMR
-10344,Carbon tetrachloride,,,DMR
-11079,"Chloramine, total",,,DMR
-10390,Chlorinated phenols,,,DMR
-10151,Chlorobenzene,,,DMR
-11664,Chlorodibromomethane,,,DMR
-10264,Chloroethane,,,DMR
-10345,Chloroform,,,DMR
-10338,Chloromethane,,,DMR
-11650,"Chlorophyll A, corrected",,,DMR
-10921,Chlorotoluene,,,DMR
-12079,Chlorpyrifos,,,DMR
-1012,Chromium,,,DMR
-10214,"Chromium, Hexavalent",,,DMR
-10215,"Chromium, Trivalent",,,DMR
-10394,Cresol,,,DMR
-11129,Cyclohexanone,,,DMR
-10644,Cyclonite,,,DMR
-11395,Di(2-ethylhexyl) adipate,,,DMR
-10005,Di(2-ethylhexyl) phthalate,,,DMR
-10009,Di-n-octyl phthalate,,,DMR
 51736,"Dibenz[a,h]acridine",,,DMR
-10238,"Dibenz[a,h]anthracene",,,DMR
 73542,"Dibenz[a,j]acridine",,,DMR
 51737,"Dibenzo[a,e]pyrene",,,DMR
 51738,"Dibenzo[a,h]pyrene",,,DMR
 73546,"Dibenzo[a,i]pyrene",,,DMR
-5201,Dibenzofuran,,,DMR
 82721,Dibromoacetic acid,,,DMR
-11665,Dibromodichloromethane,,,DMR
-11663,Dibromomethane,,,DMR
-10007,Dibutyl phthalate,,,DMR
 51605,Dichloroacetic acid,,,DMR
-10152,Dichlorobenzene,,,DMR
-11660,Dichlorobromomethane,,,DMR
-10039,Dieldrin,,,DMR
 51592,"Diesel oil, no. 2",,,DMR
-10008,Diethyl phthalate,,,DMR
 81683,Diethylene glycol monobutyl ether acetate,,,DMR
-10631,Dimethyl phthalate,,,DMR
-12016,Dinoseb,,,DMR
-11198,Diquat,,,DMR
-10405,Disulfoton,,,DMR
-10757,Endosulfan,,,DMR
-10756,Endosulfan sulfate,,,DMR
-5286,Ethanol,,,DMR
 51658,Ethanolamine,,,DMR
 51661,Ethyl acrylate,,,DMR
-10253,Ethyl ether,,,DMR
-10157,Ethylbenzene,,,DMR
-10261,Ethylene dibromide,,,DMR
-10012,Ethylene glycol,,,DMR
 12427,"Fats, oils & grease (total o & g less TPH)",,,DMR
-10072,Fluorene,,,DMR
-10985,Fluoroborates,,,DMR
 10475,Foaming agents,,,DMR
-10288,Formaldehyde,,,DMR
 78919,"Fuel oil, no. 2",,,DMR
 51684,Giardia,,,DMR
-10297,Glyphosate,,,DMR
 51540,"Halogens, adsorbable organic",,,DMR
 51539,"Halogens, adsorbable organic",,,DMR
 46570,"Hardness, total (as CaCO3)",,,DMR
-10748,Heptachlor,,,DMR
 51496,Heptachlor and its epoxide -- RCRA T,,,DMR
 51626,Heptadecafluorononanoic acid,,,DMR
-10159,Hexachlorobenzene,,,DMR
-10017,Hexachlorobutadiene,,,DMR
-11128,Hexachlorocyclohexane,,,DMR
-10662,Hexachlorocyclopentadiene,,,DMR
-10266,Hexachloroethane,,,DMR
 51541,Hexachlorophene,,,DMR
-11402,"Hydrocarbon, total recoverable",,,DMR
-10308,Hydrogen peroxide,,,DMR
-10309,Hydrogen sulfide,,,DMR
 51766,Hydroxide,,,DMR
 51686,Imidacloprid,,,DMR
-10313,"Indeno[1,2,3-cd]pyrene",,,DMR
-10354,Inorganic Nitrogen,,,DMR
 12297,Inorganic suspended solids,,,DMR
-10042,Isophorone,,,DMR
-10785,Isopropyl acetate,,,DMR
-12147,Isopropyl ether,,,DMR
 77014,Isopropylamine,,,DMR
 51802,K001,,,DMR
 78878,Kerosene,,,DMR
-10228,Lindane,,,DMR
-12464,Linuron,,,DMR
-2374,Lithium,,,DMR
-10899,Methoxychlor,,,DMR
-10337,Methyl bromide,,,DMR
-10046,Methyl isobutyl ketone,,,DMR
-10418,Methyl tert-butyl ether,,,DMR
-10340,Methylene chloride,,,DMR
 80361,Methylmercury,,,DMR
-10035,Molinate,,,DMR
-10120,"N,N-Dimethylaniline",,,DMR
-10889,N-Ethylaniline,,,DMR
-10677,N-Nitrosodi-n-butylamine,,,DMR
-10689,N-Nitrosodi-n-propylamine,,,DMR
-10335,N-Nitrosodimethylamine,,,DMR
-10121,N-Nitrosodiphenylamine,,,DMR
 51642,N-methylperfluorooctane Sulfonamidoethanol,,,DMR
-2806,"Nitrite nitrogen, dissolved (as N)",,,DMR
-10164,Nitrobenzene,,,DMR
 10809,"Nitrogen, ammonia total (as NH4)",,,DMR
 51568,Nonylphenol,,,DMR
 11900,"Oil & grease, non polar material",,,DMR
 10364,Oil and grease,,,DMR
 51652,Oil refinery waste,,,DMR
 10487,"Organics, total toxic (TTO)",,,DMR
-10726,Oxytetracycline,,,DMR
 51521,PFOA,,,DMR
-10407,Parathion,,,DMR
 51674,Peracetic acid,,,DMR
 51632,Perfluorobutane Sulfonate,,,DMR
 51635,Perfluorodecane Sulfonate,,,DMR
@@ -219,105 +78,49 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 51630,Perfluorotridecanoic acid,,,DMR
 51628,Perfluoroundecanoic acid,,,DMR
 51623,Perfluorovaleric acid,,,DMR
-11132,Permethrin,,,DMR
 77801,Perylene,,,DMR
-5889,Phosphorus,,,DMR
 51731,Poly[hexamethylenebiguanide] hydrochloride,,,DMR
-10001,Polychlorinated biphenyls,,,DMR
-11997,Potassium permanganate,,,DMR
-10651,Prometon,,,DMR
-10652,Prometryn,,,DMR
-10648,Propazine,,,DMR
-10639,Propylene glycol,,,DMR
-3541,Pyridine,,,DMR
 51698,QUATERNARY AMMONIUM COMPOUNDS,,,DMR
-12174,Radium-224,,,DMR
-10430,Radium-226,,,DMR
-10431,Radium-228,,,DMR
 80155,Sediment,,,DMR
-3708,Silica,,,DMR
-12156,Silvex,,,DMR
 12230,"Solids, fixed dissolved",,,DMR
 12243,"Solids, fixed suspended",,,DMR
-10486,"Solids, total suspended",,,DMR
 12255,"Solids, total volatile",,,DMR
-12284,Strontium,,,DMR
-12285,Strontium-90,,,DMR
-10155,Styrene,,,DMR
-6101,Sulfate,,,DMR
-6106,Sulfide,,,DMR
 51570,Sulfolane,,,DMR
-3917,Sulfur,,,DMR
 51660,"Surfactants, anionic",,,DMR
 12296,"Surfactants, as CTAS, effluent",,,DMR
 12298,"Suspended solids, total annual",,,DMR
-10149,"TNT, dissolved",,,DMR
-12368,Technetium-99,,,DMR
-12076,Terbufos,,,DMR
-10650,Terbuthylazine,,,DMR
 22421,Tert-Amyl Methyl Ether,,,DMR
-10633,Tetrachlorocatechol,,,DMR
-10284,Tetrachloroethylene,,,DMR
-12003,Tetrachloroguaiacol,,,DMR
 51757,"Tetrahydroxymethylphosphonium chloride, THPC",,,DMR
-4088,Titanium,,,DMR
-10161,Toluene,,,DMR
-10365,Total Organic Carbon,,,DMR
-10397,Total phenols,,,DMR
-11673,Tribromomethane,,,DMR
-12269,Tributyltin,,,DMR
 82723,Trichloroacetic acid,,,DMR
-10267,Trichloroethane,,,DMR
-10285,Trichloroethylene,,,DMR
 77548,Trichloronitromethane,,,DMR
-12042,Trichlorophenol,,,DMR
-12020,Trichlorosyringol,,,DMR
 51625,Tridecafluoroheptanoic acid,,,DMR
-12446,Tritium,,,DMR
-10491,Tungsten,,,DMR
 51415,VOC,,,DMR
-10077,Vinyl acetate,,,DMR
-10282,Vinyl chloride,,,DMR
-10153,Xylene,,,DMR
-10281,"cis-1,2-Dichloroethylene",,,DMR
-10747,cis-Chlordane,,,DMR
 77286,m-Chloroaniline,,,DMR
-10136,m-Dichlorobenzene,,,DMR
 46341,m-Nitrotoluene,,,DMR
 51648,m-Toluidine,,,DMR
-10086,n-Amyl acetate,,,DMR
-10082,n-Butyl acetate,,,DMR
 51572,n-Propyl Bromide,,,DMR
-10914,o-Chlorotoluene,,,DMR
-12019,o-Cresol,,,DMR
-10133,o-Dichlorobenzene,,,DMR
 77394,o-Nitrotoluene,,,DMR
-10134,o-Xylene,,,DMR
-10126,"p,p'-DDD",,,DMR
-10127,"p,p'-DDE",,,DMR
-10125,"p,p'-DDT",,,DMR
-12036,p-Chloro-m-cresol,,,DMR
 46360,p-Chlorotoluene,,,DMR
-10388,p-Cresol,,,DMR
-10140,p-Dichlorobenzene,,,DMR
-10389,p-Nitrophenol,,,DMR
 77395,p-Nitrotoluene,,,DMR
-10142,p-Xylene,,,DMR
-10050,tert-Butanol,,,DMR
 51566,tert-Butylphenol,,,DMR
-10280,"trans-1,2-Dichloroethylene",,,DMR
-10693,"trans-1,3-Dichloropropene",,,DMR
 616,Slagwool (Man-Made Fibers),,,NEI
 W105,ACIDIC AQUEOUS WST,,,RCRAInfo
 W110,AQUEOUS W/O CYANIDES,,,RCRAInfo
 W107,AQUEOUS/CYANIDES,,,RCRAInfo
 K126,BAGHOUSE DUST AND FLOOR SWEEPINGS IN MILLING AND PACKAGING OPERATIONS FROM PRODUCTION OR FORMULATION OF ETHYLENEBISDITHIOCARBAMIC ACID AND ITS SALTS.,,,RCRAInfo
+K176,"BAGHOUSE FILTERS FROM THE PRODUCTION OF ANTIMONY OXIDE, INCLUDING FILTERS FROM THE PRODUCTION OF INTERMEDIATES (E.G.,ANTIMONY METAL OR CRUDE ANTIMONY OXIDE)",,,RCRAInfo
+K030,COLUMN BOTTOMS OR HEAVY ENDS FROM THE COMBINED PRODUCTION OF TRICHLOROETHYLENE AND PERCHLOROETHYLENE.,,,RCRAInfo
 K113,CONDENSED LIQUID LIGHT ENDS FROM PURIFICATION OF TOLUENEDIAMINE IN PRODUCTION OF TOLUENEDIAMINE VIA HYDROGENATION OF DINITROTOLUENE.,,,RCRAInfo
 W002,CONT. DEBRIS,,,RCRAInfo
 W301,CONTAMINATED SOIL,,,RCRAInfo
 W506,CYAN. BEARING SLUDGE,,,RCRAInfo
 W101,DILUTE AQUEOUS WST,,,RCRAInfo
+K095,"DISTILLATION BOTTOMS FROM THE PRODUCTION OF 1,1,1-TRICHLOROETHANE.",,,RCRAInfo
+K024,DISTILLATION BOTTOMS FROM THE PRODUCTION OF PHTHALIC ANHYDRIDE FROM NAPHTHALENE.,,,RCRAInfo
 K023,DISTILLATION LIGHT ENDS FROM THE PRODUCTION OF PHTHALIC ANHYDRIDE FROM NAPHTHALENE.,,,RCRAInfo
+K093,DISTILLATION LIGHT ENDS FROM THE PRODUCTION OF PHTHALIC ANHYDRIDE FROM ORTHO-XYLENE.,,,RCRAInfo
+K010,DISTILLATION SIDE CUTS FROM THE PRODUCTION OF ACETALDEHYDE FROM ETHYLENE.,,,RCRAInfo
+K101,DISTILLATION TAR RESIDUES FROM THE DISTILLATION OF ANILINE-BASED COMPOUNDS IN THE PRODUCTION OF VETERINARY PHARMACEUTICALS FROM ARSENIC OR ORGANO-ARSENIC COMPOUNDS.,,,RCRAInfo
 W320,ELECTRICAL DEVICES,,,RCRAInfo
 W503,GYPSUM SLUDGES,,,RCRAInfo
 W202,HALOGENATED SOLVENT,,,RCRAInfo
@@ -339,6 +142,7 @@ W409,OTH ORGANIC SOLIDS,,,RCRAInfo
 W113,OTHER AQUEOUS WST,,,RCRAInfo
 W609,OTHER ORGANIC SLUDGE,,,RCRAInfo
 W504,OTHER SLUDGES,,,RCRAInfo
+K008,OVEN RESIDUE FROM THE PRODUCTION OF CHROME OXIDE GREEN PIGMENTS.,,,RCRAInfo
 W211,PAINT THINNER,,,RCRAInfo
 W604,"PAINT, INK SLUDGE",,,RCRAInfo
 W209,"PAINT, INK, ETC.",,,RCRAInfo
@@ -347,8 +151,10 @@ K123,"PROCESS WASTEWATER (INCLUDING SUPERNATES, FILTRATES, AND WASHWATERS) FROM 
 K112,REACTION BY-PRODUCT WATER FROM THE DRYING COLUMN IN THE PRODUCTION OF TOLUENEDIAMINE VIA HYDROGENATION OF DINITROTOLUENE.,,,RCRAInfo
 W210,REACTIVE ORG. LIQUID,,,RCRAInfo
 K102,RESIDUE FROM THE USE OF ACTIVATED CARBON FOR DECOLORIZATION IN THE PRODUCTION OF VETERINARY PHARMACEUTICALS FROM ARSENIC OR ORGANO-ARSENIC COMPOUNDS.,,,RCRAInfo
+K178,RESIDUES FROM MANUFACTURING AND MANUFACTURING-SITE STORAGE OF FERRIC CHLORIDE FROM ACIDS FORMED DURING THE PRODUCTION OF TITANIUM DIOXIDE USING THE CHLORIDE-ILMENITE PROCESS.,,,RCRAInfo
 W606,"RESINS, TAR SLUDGE",,,RCRAInfo
 W512,SEDIMENT,,,RCRAInfo
+K177,"SLAG FROM THE PRODUCTION OF ANTIMONY OXIDE THAT IS SPECULATIVELY ACCUMULATED OR DISPOSED,INCLUDING SLAG FROM THE PRODUCTION OF INTERMEDIATES (E.G.,ANTIMONY METAL OR CRUDE ANTIMONY OXIDE)",,,RCRAInfo
 W403,"SOLID RESINS, ETC.",,,RCRAInfo
 W304,SOLID THERMAL RES.,,,RCRAInfo
 W204,SOLVENT MIXTURE,,,RCRAInfo
@@ -358,8 +164,10 @@ W310,SPENT FILTERS,,,RCRAInfo
 W200,STILL BOTTOMS,,,RCRAInfo
 K026,STRIPPING STILL TAILS FROM THE PRODUCTION OF METHYL ETHYL PYRIDINES.,,,RCRAInfo
 K142,TANK STORAGE RESIDUES FROM THE PRODUCTION OF COKE FROM COAL OR FROM THE RECOVERY OF COKE BY-PRODUCTS FROM COAL.,,,RCRAInfo
+UNKN,UNKNOWN,,,RCRAInfo
 K029,"WASTE FROM THE PRODUCT STEAM STRIPPER IN THE PRODUCTION OF 1,1,1-TRICHLOROETHANE.",,,RCRAInfo
 K100,WASTE LEACHING SOLUTION FROM ACID LEACHING OF EMISSION CONTROL DUST/SLUDGE FROM SECONDARY LEAD SMELTING.,,,RCRAInfo
+W005,WASTE PHARMACEUTICAL,,,RCRAInfo
 K003,WASTEWATER TREATMENT SLUDGE FROM THE PRODUCTION OF MOLYBDATE ORANGE PIGMENTS.,,,RCRAInfo
 K175,WASTEWATER TREATMENT SLUDGE FROM THE PRODUCTION OF VINYL CHLORIDE MONOMER..,,,RCRAInfo
 K084,WASTEWATER TREATMENT SLUDGES GENERATED DURING THE PRODUCTION OF VETERINARY PHARMACEUTICALS FROM ARSENIC OR ORGANO-ARSENIC COMPOUNDS.,,,RCRAInfo
@@ -367,18 +175,6 @@ K151,"WASTEWATER TREATMENT SLUDGES, EXCLUDING NEUTRALIZATION AND BIOLOGICAL SLUD
 nan,,,,RCRAInfo
 DMIX,,,,RCRAInfo
 FMIX,,,,RCRAInfo
-K024,DISTILLATION BOTTOMS FROM THE PRODUCTION OF PHTHALIC ANHYDRIDE FROM NAPHTHALENE.,,,RCRAInfo
-K093,DISTILLATION LIGHT ENDS FROM THE PRODUCTION OF PHTHALIC ANHYDRIDE FROM ORTHO-XYLENE.,,,RCRAInfo
-K010,DISTILLATION SIDE CUTS FROM THE PRODUCTION OF ACETALDEHYDE FROM ETHYLENE.,,,RCRAInfo
-K101,DISTILLATION TAR RESIDUES FROM THE DISTILLATION OF ANILINE-BASED COMPOUNDS IN THE PRODUCTION OF VETERINARY PHARMACEUTICALS FROM ARSENIC OR ORGANO-ARSENIC COMPOUNDS.,,,RCRAInfo
-K178,RESIDUES FROM MANUFACTURING AND MANUFACTURING-SITE STORAGE OF FERRIC CHLORIDE FROM ACIDS FORMED DURING THE PRODUCTION OF TITANIUM DIOXIDE USING THE CHLORIDE-ILMENITE PROCESS.,,,RCRAInfo
-K177,"SLAG FROM THE PRODUCTION OF ANTIMONY OXIDE THAT IS SPECULATIVELY ACCUMULATED OR DISPOSED,INCLUDING SLAG FROM THE PRODUCTION OF INTERMEDIATES (E.G.,ANTIMONY METAL OR CRUDE ANTIMONY OXIDE)",,,RCRAInfo
 PEST,,,,RCRAInfo
-K176,"BAGHOUSE FILTERS FROM THE PRODUCTION OF ANTIMONY OXIDE, INCLUDING FILTERS FROM THE PRODUCTION OF INTERMEDIATES (E.G.,ANTIMONY METAL OR CRUDE ANTIMONY OXIDE)",,,RCRAInfo
-UNKN,UNKNOWN,,,RCRAInfo
-W005,WASTE PHARMACEUTICAL,,,RCRAInfo
-K030,COLUMN BOTTOMS OR HEAVY ENDS FROM THE COMBINED PRODUCTION OF TRICHLOROETHYLENE AND PERCHLOROETHYLENE.,,,RCRAInfo
-K095,"DISTILLATION BOTTOMS FROM THE PRODUCTION OF 1,1,1-TRICHLOROETHANE.",,,RCRAInfo
-K008,OVEN RESIDUE FROM THE PRODUCTION OF CHROME OXIDE GREEN PIGMENTS.,,,RCRAInfo
 319846,ALPHA-HEXACHLOROCYCLOHEXANE,,,TRI
 57578,BETA-PROPIOLACTONE,,,TRI
