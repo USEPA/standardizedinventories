@@ -44,5 +44,7 @@ RCRAInfo,,2005,Trends Analysis,https://rcrapublic.epa.gov/rcrainfoweb/action/mod
 RCRAInfo,,2007,Trends Analysis,https://rcrapublic.epa.gov/rcrainfoweb/action/modules/br/trends/view,"Location':'National','Metric':'Generation', 'Generators To Include': 'All Generators Included In The NBR'",20-Mar-19
 RCRAInfo,,2009,Trends Analysis,https://rcrapublic.epa.gov/rcrainfoweb/action/modules/br/trends/view,"Location':'National','Metric':'Generation', 'Generators To Include': 'All Generators Included In The NBR'",20-Mar-19
 RCRAInfo,,2017,Trends Analysis,https://rcrapublic.epa.gov/rcrainfoweb/action/modules/br/trends/view,"Location':'National','Metric':'Generation', 'Generators To Include': 'All Generators Included In The NBR'",20-Mar-19
+DMR,,2017,State statistics,https://echo.epa.gov/trends/loading-tool/get-data/state-statistics,Check totals by state,4-Dec-18
 DMR,,2016,State statistics,https://echo.epa.gov/trends/loading-tool/get-data/state-statistics,Check totals by state,4-Dec-18
 DMR,,2015,State statistics,https://echo.epa.gov/trends/loading-tool/get-data/state-statistics,Check totals by state,29-Jan-19
+DMR,,2014,State statistics,https://echo.epa.gov/trends/loading-tool/get-data/state-statistics,Check totals by state,4-Dec-18
