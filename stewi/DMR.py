@@ -328,12 +328,12 @@ def generate_metadata(year):
     #Write metadata to json
     write_metadata('DMR', year, meta)    
 
-def read_pollutant_parameter_list():
+def read_pollutant_parameter_list(parameter_grouping = PARAM_GROUP):
     url = 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_loading_tool_params?output=csv'
     flows = pd.read_csv(url, header=1, usecols=['POLLUTANT_CODE','POLLUTANT_DESC',
                                                 'PARAMETER_CODE','PARAMETER_DESC',
-                                                'NITROGEN','PHOSPHORUS'], dtype=str)
-    if PARAM_GROUP:
+                                                'SRS_ID', 'NITROGEN','PHOSPHORUS'], dtype=str)
+    if parameter_grouping:
         flows.rename(columns={'POLLUTANT_DESC':'FlowName',
                               'POLLUTANT_CODE':'FlowID'}, inplace=True)
     else:
