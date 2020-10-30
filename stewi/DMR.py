@@ -175,7 +175,7 @@ def execute_query(url):
 
 def standardize_df(input_df):
     """Modifies DMR data to meet StEWI specifications."""
-    dmr_required_fields = pd.read_csv(data_dir + 'DMR_required_fields.txt', header=None)[0]
+    dmr_required_fields = pd.read_csv(dmr_data_dir + 'DMR_required_fields.txt', header=None)[0]
     output_df = input_df[dmr_required_fields]
     reliability_table = globals.reliability_table
     dmr_reliability_table = reliability_table[reliability_table['Source'] == 'DMR']
@@ -266,7 +266,9 @@ def generateStateTotal(year):
     state_totals.to_csv(data_dir + 'DMR_' + year + '_StateTotals.csv', index=False)
 
 def validateStateTotals(df, year):
-    """ generate validation by state sums across species"""
+    """ generate validation by state, sums across species. Details on results
+    by state can be found in the search results help website"""
+    # https://echo.epa.gov/help/loading-tool/water-pollution-search/search-results-help-dmr
     filepath = data_dir + 'DMR_' + year + '_StateTotals.csv'
     if os.path.exists(filepath):
         reference_df = pd.read_csv(filepath)
