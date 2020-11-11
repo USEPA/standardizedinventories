@@ -19,7 +19,7 @@ import stewi.globals as globals
 from stewi.globals import set_dir, filter_inventory, filter_states,\
     validate_inventory, write_validation_result, unit_convert, modulepath,\
     output_dir, data_dir, lb_kg, inventory_metadata, get_relpath, write_metadata,\
-    weighted_average
+    weighted_average, log
 import argparse
 
 dmr_data_dir = data_dir + 'DMR/'
@@ -86,7 +86,7 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient='', path=dmr_extern
     if sic_list: param_list = [[sic, state] for sic in sic_list for state in state_list]
 
     if param_list:
-        print('Breaking up queries further by SIC')
+        log.info('Breaking up queries further by SIC')
         for params in param_list:
             sic = params[0]
             state = params[1]    
@@ -95,13 +95,13 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient='', path=dmr_extern
                                nutrient=nutrient, nutrient_agg=nutrient_agg,
                                param_group=PARAM_GROUP, detection=DETECTION)
             if os.path.exists(filepath):
-                print('file already exists for '+ str(params) +', skipping')
+                log.debug('file already exists for '+ str(params) +', skipping')
                 success_list.append(sic + '_' + state)
             else:
-                print('executing query for '+ str(params))
+                log.info('executing query for '+ str(params))
                 result = execute_query(url)
                 if str(type(result)) == "<class 'str'>":
-                    print('error in state: ' + sic + '_' + state)
+                    log.error('error in state: ' + sic + '_' + state)
                     if result == 'no_data': no_data_list.append(sic + '_' + state)
                     elif result == 'max_error': max_error_list.append(sic + '_' + state)
                 else:
@@ -115,13 +115,13 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient='', path=dmr_extern
                                    detection=DETECTION, nutrient = nutrient,
                                    nutrient_agg = nutrient_agg) 
                 if os.path.exists(filepath):
-                    print('file already exists for '+ state +', skipping')
+                    log.debug('file already exists for '+ state +', skipping')
                     success_list.append(state)
                 else:
-                    print('executing query for '+ state)
+                    log.info('executing query for '+ state)
                     result = execute_query(url)
                     if str(type(result)) == "<class 'str'>":
-                        print('error in state: ' + state)
+                        log.error('error in state: ' + state)
                         if result == 'no_data': no_data_list.append(state)
                         elif result == 'max_error': max_error_list.append(state)
                     else:
@@ -137,16 +137,16 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient='', path=dmr_extern
                                        nutrient_agg = nutrient_agg, responseset = '3000',
                                        pageno = str(counter))
                     if os.path.exists(filepath):
-                        print('file already exists for '+ state +', skipping')
+                        log.debug('file already exists for '+ state +', skipping')
                         if counter == 1:
                             result = pd.read_pickle(filepath)
                             pages = int(result['Results']['PageCount'])
                         success_list.append(state + '_' + str(counter))
                     else:
-                        print('executing query for '+ state)
+                        log.info('executing query for '+ state)
                         result = execute_query(url)
                         if str(type(result)) == "<class 'str'>":
-                            print('error in state: ' + state)
+                            log.error('error in state: ' + state)
                             if result == 'no_data': no_data_list.append(state)
                             elif result == 'max_error': max_error_list.append(state)
                         else:
@@ -159,7 +159,7 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient='', path=dmr_extern
 
 
 def execute_query(url):
-    print(url)
+    log.debug(url)
     while True:
         try:
             json_data = requests.get(url).json()
@@ -226,7 +226,7 @@ def generateDMR(year, nutrient='', path=dmr_external_dir):
     if nutrient:
         path += nutrient+'_'
     for state in states:
-        print('accessing data for ' + state)
+        log.info('accessing data for ' + state)
         if not state in big_state_list:
             filepath = path + 'state_' + state + '.pickle'
             result = unpickle(filepath)
@@ -248,7 +248,7 @@ def unpickle(filepath):
     try:
         result = pd.read_pickle(filepath)
     except:
-        print(filepath.rsplit('/', 1)[-1]+' does not exist')
+        log.error(filepath.rsplit('/', 1)[-1]+' does not exist')
         return None
     if str(type(result)) == "<class 'NoneType'>":
         raise Exception('Problem with saved dataframe')
@@ -257,7 +257,7 @@ def unpickle(filepath):
 
 def generateStateTotal(year):
     """Generates file of state totals as csv"""
-    print('generating state totals')
+    log.info('generating state totals')
     # https://echo.epa.gov/trends/loading-tool/get-data/state-statistics
     url = 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_state_stats?p_year=' +\
         year + '&output=csv'
@@ -301,13 +301,13 @@ def validateStateTotals(df, year):
         validation_df = validate_inventory(dmr_by_state, reference_df)
         write_validation_result('DMR', year, validation_df)
     else:
-        print('State totals for validation not found for ' + year)
+        log.error('State totals for validation not found for ' + year)
 
 def generate_metadata(year):
     """
     Gets metadata and writes to .json
     """
-    print('Generating metadata')
+    log.info('Generating metadata')
     meta = inventory_metadata
 
     #Get time info from folder
@@ -381,19 +381,19 @@ if __name__ == '__main__':
     for DMRyear in DMRyears:
         
         if args.Option == 'A':
-            print("Querying for "+DMRyear)
+            log.info("Querying for "+DMRyear)
    
             # Query by state, then by SIC-state where necessary
             state_max_error_list, state_no_data_list, state_success_list = query_dmr(year = DMRyear, state_list=states)
             if (len(state_max_error_list) == 0) & (len(state_no_data_list) == 0):
-                print('all states succesfully downloaded')
+                log.info('all states succesfully downloaded')
             else:
-                print('Max error: ')
-                print(state_max_error_list)
-                print(state_no_data_list)
+                log.error('Max error: ')
+                log.error(state_max_error_list)
+                log.error(state_no_data_list)
                 sic_state_max_error_list, sic_state_no_data_list, sic_state_success_list = query_dmr(year = DMRyear, sic_list = sic2, state_list=state_max_error_list)
             
-            print("Querying nutrients for "+DMRyear)
+            log.info("Querying nutrients for "+DMRyear)
             # Query aggregated nutrients data
             n_state_max_error_list, n_state_no_data_list, n_state_success_list = query_dmr(year = DMRyear, nutrient='N', state_list=states)
             n_sic_state_max_error_list, n_sic_state_no_data_list, n_sic_state_success_list = query_dmr(year = DMRyear, sic_list = sic2, state_list=n_state_max_error_list, nutrient='N')
