@@ -178,6 +178,10 @@ ANL_BEL_GRD_MT_STN_CH4_EMMCO2E,CO2E,CO2,Carbon Dioxide,1
 ANL_BEL_GRD_TR_STN_CH4_EM_CO2E,CO2E,CO2,Carbon Dioxide,1
 ANL_DIST_SERVICES_CH4_EMM_CO2E,CO2E,CO2,Carbon Dioxide,1
 Annual CO2 emissions that would result from the complete combustion or oxidation of all products ,CO2E,CO2,Carbon Dioxide,1
+"Annual CO2 emissions that would result from the complete combustion or oxidation of all products 
+(metric tons CO2e)",CO2E,CO2,Carbon Dioxide,1
+Annual CO2 emissions that would result from the complete combustion or oxidation of all products\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
+Annual CO2 emissions that would result from the complete combustion or oxidation of all products\\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 ANNUAL_DIST_MAINS_CH4_EMM_CO2E,CO2E,CO2,Carbon Dioxide,1
 ASSO_VF_TOTAL_CH4_EMM_CO2E,CO2E,CO2,Carbon Dioxide,1
 ASSO_VF_TOTAL_GHG_EMM_CO2E,CO2E,CO2,Carbon Dioxide,1
@@ -315,31 +319,37 @@ Total Reported Emissions Under Subpart  BB,CO2E,CO2,Carbon Dioxide,1
 (metric tons CO2e)",CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  BB\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  BB\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
+Total Reported Emissions Under Subpart  BB\\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  CC,CO2E,CO2,Carbon Dioxide,1
 "Total Reported Emissions Under Subpart  CC
 (metric tons CO2e)",CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  CC\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  CC\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
+Total Reported Emissions Under Subpart  CC\\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  E,CO2E,CO2,Carbon Dioxide,1
 "Total Reported Emissions Under Subpart  E
 (metric tons CO2e)",CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  E\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  E\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
+Total Reported Emissions Under Subpart  E\\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  LL,CO2E,CO2,Carbon Dioxide,1
 "Total Reported Emissions Under Subpart  LL
 (metric tons CO2e)",CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  LL\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  LL\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
+Total Reported Emissions Under Subpart  LL\\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  O,CO2E,CO2,Carbon Dioxide,1
 "Total Reported Emissions Under Subpart  O
 (metric tons CO2e)",CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  O\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  O\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
+Total Reported Emissions Under Subpart  O\\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  S,CO2E,CO2,Carbon Dioxide,1
 "Total Reported Emissions Under Subpart  S
 (metric tons CO2e)",CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  S\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  S\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
+Total Reported Emissions Under Subpart  S\\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 TOTAL_CO2E,CO2E,CO2,Carbon Dioxide,1
 TOTAL_METHANE_CO2E,CO2E,CO2,Carbon Dioxide,1
 TOTAL_NITROUS_CO2E,CO2E,CO2,Carbon Dioxide,1
@@ -448,6 +458,7 @@ Nitrous Oxide,N2O,N2O,Nitrous Oxide,3
 Nitrous Oxide (N2O),N2O,N2O,Nitrous Oxide,3
 NITROUS_OXIDE_SOURCE,N2O,N2O,Nitrous Oxide,3
 Rounded N2O Emissions from Adipic Acid Production,N2O,N2O,Nitrous Oxide,3
+Rounded N2O Emissions from Adipic Acid Production (metric tons N20),N2O,N2O,Nitrous Oxide,3
 SMALL_FLARE_N2O_EMISSIONS,N2O,N2O,Nitrous Oxide,3
 SPENT_LIQUOR_N2O_EMISSIONS,N2O,N2O,Nitrous Oxide,3
 T4N2OCOMBUSTIONEMISSIONS,N2O,N2O,Nitrous Oxide,3
