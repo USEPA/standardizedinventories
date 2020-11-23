@@ -1,24 +1,18 @@
 ﻿subpart_abbr,subpart_name,column_type,column_name
-E,Adipic Acid,quantity,"Total Reported Emissions Under Subpart  E
-(metric tons CO2e)"
+E,Adipic Acid,quantity,Total Reported Emissions Under Subpart  E (metric tons CO2e)
 E,Adipic Acid,quantity,Rounded N2O Emissions from Adipic Acid Production (metric tons N20)
 E,Adipic Acid,method,Type of abatement technologies
 E,Adipic Acid,method,Are N2O emissions estimated for this production unit using an Adminstrator-Approved Alternate Method or the Site Specific Emission Factor
 E,Adipic Acid,method,Name of Alternate Method (98.56(k)(1)):
 E,Adipic Acid,method,Description of the Alternate Method (98.56(k)(2)):
 E,Adipic Acid,method,Method Used for the Performance Test
-S,Lime,quantity,"Total Reported Emissions Under Subpart  S
-(metric tons CO2e)"
+S,Lime,quantity,Total Reported Emissions Under Subpart  S (metric tons CO2e)
 S,Lime,method,Method Used to Determine the Quantity of Lime Product Produced and Sold 
 S,Lime,method,Method Used to Determine the Quantity of Calcined Lime ByProduct/Waste Sold 
-BB,Silicon Carbide,quantity,"Total Reported Emissions Under Subpart  BB
-(metric tons CO2e)"
+BB,Silicon Carbide,quantity,Total Reported Emissions Under Subpart  BB (metric tons CO2e)
 BB,Silicon Carbide,method,Indicate whether carbon content of the petroleum coke is based on reports from the supplier or through self measurement using applicable ASTM standard method
-CC,Soda Ash,quantity,"Total Reported Emissions Under Subpart  CC
-(metric tons CO2e)"
+CC,Soda Ash,quantity,Total Reported Emissions Under Subpart  CC (metric tons CO2e)
 CC,Soda Ash,quantity,Annual process CO2 emissions from each manufacturing line
 CC,Soda Ash,method,"Indicate whether CO2 emissions were calculated using a trona input method, a soda ash output method, a site-specific emission factor method, or CEMS"
-LL,CoalBased Liquid Fuel Suppliers,quantity,"Total Reported Emissions Under Subpart  LL
-(metric tons CO2e)"
-LL,CoalBased Liquid Fuel Suppliers,quantity,"Annual CO2 emissions that would result from the complete combustion or oxidation of all products 
-(metric tons CO2e)"
+LL,CoalBased Liquid Fuel Suppliers,quantity,Total Reported Emissions Under Subpart  LL (metric tons CO2e)
+LL,CoalBased Liquid Fuel Suppliers,quantity,Annual CO2 emissions that would result from the complete combustion or oxidation of all products  (metric tons CO2e)
