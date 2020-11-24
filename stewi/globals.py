@@ -321,20 +321,51 @@ def read_metadata(inventoryname, report_year):
         metadata = json.loads(file_contents)
         return metadata
 
+flowbyfacility_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
+                         'Compartment': [{'dtype': 'str'}, {'required': True}],
+                         'FlowAmount': [{'dtype': 'float'}, {'required': True}],
+                         'FacilityID': [{'dtype': 'str'}, {'required': True}],
+                         'ReliabilityScore': [{'dtype': 'float'}, {'required': True}],
+                         'Unit': [{'dtype': 'str'}, {'required': True}],
+                         }
+
+flowbySCC_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
+                    'Compartment': [{'dtype': 'str'}, {'required': True}],
+                    'FlowAmount': [{'dtype': 'float'}, {'required': True}],
+                    'FacilityID': [{'dtype': 'str'}, {'required': True}],
+                    'ReliabilityScore': [{'dtype': 'float'}, {'required': True}],
+                    'Unit': [{'dtype': 'str'}, {'required': True}],
+                    'SCC': [{'dtype': 'str'}, {'required': True}],
+                    }
+
+format_dict = {'flowbyfacility': flowbyfacility_fields,
+               'flowbySCC': flowbySCC_fields}
 
 def get_required_fields(format='flowbyfacility'):
-    fields = pd.read_csv(data_dir + format + '_format.csv')
-    required_fields = fields[fields['required?'] == 1]
-    required_fields = dict(zip(required_fields['Name'], required_fields['Type']))
+    fields = format_dict[format]
+    required_fields = {key: value[0]['dtype'] for key, value in fields.items() if value[1]['required'] is True}
     return required_fields
 
 
 def get_optional_fields(format='flowbyfacility'):
-    fields = pd.read_csv(data_dir + format + '_format.csv')
-    optional_fields = fields[fields['required?'] == 0]
-    optional_fields = dict(zip(optional_fields['Name'], optional_fields['Type']))
+    fields = format_dict[format]
+    optional_fields = {key: value[0]['dtype'] for key, value in fields.items()}
     return optional_fields
 
+
+def add_missing_fields(df, inventory_acronym, format='flowbyfacility'):
+    fields = format_dict[format]
+    # Add in units and compartment if not present
+    if 'Unit' not in df.columns:
+        df['Unit'] = 'kg'
+    if 'Compartment' not in df.columns:
+        df['Compartment'] = inventory_single_compartments[inventory_acronym]
+    for key in fields.keys():
+        if key not in df.columns:
+            df[key] = None
+    # Resort
+    df = df[fields.keys()]
+    return df
 
 def checkforFile(filepath):
     return os.path.exists(filepath)
