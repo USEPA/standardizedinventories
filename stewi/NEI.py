@@ -23,13 +23,12 @@ Year:
 """
 
 from stewi.globals import set_dir,output_dir,data_dir,write_metadata,\
-    inventory_metadata,get_relpath,unit_convert,log,\
+    get_relpath,unit_convert,log,\
     validate_inventory,write_validation_result,USton_kg,lb_kg,weighted_average, \
-    storeParquet, config
+    storeParquet, config, compile_metadata
 import pandas as pd
 import numpy as np
 import os
-import time
 import argparse
 import requests
 import requests_ftp
@@ -38,6 +37,8 @@ import io
 
 _config = config()['databases']['NEI']
 
+external_dir = set_dir('../NEI/')
+    
 def read_data(year,file):
     """
     Reads the NEI data in the named file and returns a dataframe based on
@@ -230,24 +231,9 @@ def generate_metadata(year):
     """
     Gets metadata and writes to .json
     """
-    log.info('Generating metadata')
-    NEI_meta = inventory_metadata
-
-    #Get time info from first point file
+    
     point_1_path = external_dir + nei_file_path['Point'][0]
-    nei_retrieval_time = time.ctime(os.path.getctime(point_1_path))
-
-    if nei_retrieval_time is not None:
-        NEI_meta['SourceAquisitionTime'] = nei_retrieval_time
-    NEI_meta['SourceFileName'] = get_relpath(point_1_path)
-    NEI_meta['SourceURL'] = _config['url']
-
-    #extract version from filepath using regex
-    import re
-    pattern = 'V[0-9]'
-    version = re.search(pattern,point_1_path,flags=re.IGNORECASE)
-    if version is not None:
-        NEI_meta['SourceVersion'] = version.group(0)
+    NEI_meta = compile_metadata(point_1_path, config, year)
 
     #Write metadata to json
     write_metadata('NEI', year, NEI_meta)
@@ -271,8 +257,6 @@ if __name__ == '__main__':
                         type = str)
     
     args = parser.parse_args()
-    
-    external_dir = set_dir('../NEI/')
     
     NEIyears = args.Year
     

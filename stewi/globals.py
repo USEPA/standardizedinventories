@@ -6,6 +6,7 @@ import json
 import logging as log
 import os
 import yaml
+import time
 
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'stewi/'
@@ -320,6 +321,26 @@ def read_metadata(inventoryname, report_year):
         file_contents = file.read()
         metadata = json.loads(file_contents)
         return metadata
+
+def compile_metadata(file, config, year):
+    metadata = inventory_metadata
+    
+    data_retrieval_time = time.ctime(os.path.getctime(file))
+    if data_retrieval_time is not None:
+        metadata['SourceAquisitionTime'] = data_retrieval_time
+    metadata['SourceType'] = 'Static File'
+    metadata['SourceFileName'] = get_relpath(file)
+    metadata['SourceURL'] = config['url']
+    if config[year]['file_version']:
+        metadata['SourceVersion'] = config[year]['file_version']
+    else:
+        import re
+        pattern = 'V[0-9]'
+        version = re.search(pattern,file,flags=re.IGNORECASE)
+        if version is not None:
+            metadata['SourceVersion'] = version.group(0)
+    return metadata
+    
 
 flowbyfacility_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
                          'Compartment': [{'dtype': 'str'}, {'required': True}],

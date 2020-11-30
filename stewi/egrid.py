@@ -20,11 +20,11 @@ Year:
 import pandas as pd
 import numpy as np
 import argparse
-import time
 import os
 from stewi.globals import output_dir,data_dir,write_metadata,\
-    inventory_metadata,unit_convert,log,MMBtu_MJ,MWh_MJ,config,\
-    validate_inventory,write_validation_result,USton_kg,lb_kg
+    unit_convert,log,MMBtu_MJ,MWh_MJ,config,\
+    validate_inventory,write_validation_result,USton_kg,lb_kg,\
+    compile_metadata
 import requests
 import zipfile
 import io
@@ -50,7 +50,7 @@ def download_eGRID(year):
     '''
     Downloads eGRID files from EPA website
     '''
-    log.info('downloading eGRID data')
+    log.info('downloading eGRID data for ' + year)
     
     ## make http request
     r = []
@@ -261,15 +261,9 @@ def generate_eGRID_files(year):
     flows.to_csv(output_dir + '/flow/eGRID_' + year + '.csv', index=False)
     
     #Write metadata
-    eGRID_meta = inventory_metadata
-    
-    eGRID_retrieval_time = time.ctime(os.path.getctime(eGRIDfile))
-    eGRID_meta['SourceAquisitionTime'] = eGRID_retrieval_time
-    eGRID_meta['SourceType'] = 'Static File'
-    eGRID_meta['SourceFileName'] = eGRIDfile
-    eGRID_meta['SourceURL'] = _config['url']
-    eGRID_meta['SourceVersion'] = _config[year]['file_version']
+    eGRID_meta = compile_metadata(eGRIDfile, _config, year)
     write_metadata('eGRID',year, eGRID_meta)
+
 
 def validate_eGRID(year):
     #Download and process eGRID national totals
