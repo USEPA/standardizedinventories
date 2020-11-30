@@ -31,23 +31,9 @@ import io
 
 
 _config = config()['databases']['eGRID']
-source_url = _config['url']
 
 # set filepath
 eGRIDfilepath = '../eGRID/'
-
-# define attributes for various editions of eGRID
-egrid_file_name = {"2014":"eGRID2014_Data_v2.xlsx", 
-                   "2016":"egrid2016_data.xlsx",
-                   "2018":"eGRID2018_Data_v2.xlsx"}
-
-egrid_file_version = {"2014":"v2", 
-                      "2016":"",
-                      "2018":"v2"}
-
-download_url = {"2014":"https://www.epa.gov/sites/production/files/2020-01/egrid2018_historical_files_since_1996.zip", 
-                "2016":"https://www.epa.gov/sites/production/files/2020-01/egrid2018_historical_files_since_1996.zip",
-                "2018":"https://www.epa.gov/sites/production/files/2020-03/egrid2018_data_v2.xlsx"}
 
 # Import list of fields from egrid that are desired for LCI
 def imp_fields(fields_txt, year):
@@ -68,10 +54,13 @@ def download_eGRID(year):
     
     ## make http request
     r = []
+    download_url = _config[year]['download_url']
+    egrid_file_name = _config[year]['file_name']
+
     try:
-        r = requests.Session().get(download_url[year])
+        r = requests.Session().get(download_url)
     except requests.exceptions.ConnectionError:
-        log.error("URL Connection Error for " + download_url[year])
+        log.error("URL Connection Error for " + download_url)
     try:
         r.raise_for_status()
     except requests.exceptions.HTTPError:
@@ -82,10 +71,10 @@ def download_eGRID(year):
         workbook = r.content
     elif year == '2016' or year == '2014':
         z = zipfile.ZipFile(io.BytesIO(r.content))
-        workbook = z.read(egrid_file_name[year])
+        workbook = z.read(egrid_file_name)
         
     ## save .xlsx workbook to destination directory
-    destination = eGRIDfilepath + egrid_file_name[year]
+    destination = eGRIDfilepath + egrid_file_name
     # if destination folder does not already exist, create it
     if not(os.path.exists(eGRIDfilepath)):
         os.makedirs(eGRIDfilepath)
@@ -104,7 +93,7 @@ def generate_eGRID_files(year):
     '''
     log.info('generating eGRID files for '+ year)
     year_last2 = year[2:]
-    eGRIDfile = eGRIDfilepath + egrid_file_name[year]
+    eGRIDfile = eGRIDfilepath + _config[year]['file_name']
     pltsheetname = 'PLNT'+ year_last2
     untsheetname = 'UNT' + year_last2
     
@@ -278,8 +267,8 @@ def generate_eGRID_files(year):
     eGRID_meta['SourceAquisitionTime'] = eGRID_retrieval_time
     eGRID_meta['SourceType'] = 'Static File'
     eGRID_meta['SourceFileName'] = eGRIDfile
-    eGRID_meta['SourceURL'] = source_url
-    eGRID_meta['SourceVersion'] = egrid_file_version[year]
+    eGRID_meta['SourceURL'] = _config['url']
+    eGRID_meta['SourceVersion'] = _config[year]['file_version']
     write_metadata('eGRID',year, eGRID_meta)
 
 def validate_eGRID(year):

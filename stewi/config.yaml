@@ -9,4 +9,24 @@ databases:
     queries:
       Table_of_tables: "//table[@id='tables']"
   eGRID:
-      url: https://www.epa.gov/egrid/emissions-generation-resource-integrated-database-egrid
+    url: https://www.epa.gov/egrid/emissions-generation-resource-integrated-database-egrid
+    '2014':
+        file_name: 'eGRID2014_Data_v2.xlsx'
+        file_version: 'v2'
+        download_url: 'https://www.epa.gov/sites/production/files/2020-01/egrid2018_historical_files_since_1996.zip'
+    '2016':
+        file_name: 'egrid2016_data.xlsx'
+        file_version: ''
+        download_url: 'https://www.epa.gov/sites/production/files/2020-01/egrid2018_historical_files_since_1996.zip'
+    '2018':
+        file_name: 'eGRID2018_Data_v2.xlsx'
+        file_version: 'v2'
+        download_url: 'https://www.epa.gov/sites/production/files/2020-03/egrid2018_data_v2.xlsx'        
+  NEI:
+    url: 'http://eis.epa.gov'
+    national_url: 'ftp://newftp.epa.gov/air/nei/__year__/data_summaries/__version___facility.zip'
+    national_version:
+        '2017': '2017v1/2017neiApr'
+        '2014': '2014v2/2014neiv2'
+        '2011': '2011v2/2011neiv2'
+

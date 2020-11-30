@@ -25,7 +25,7 @@ Year:
 from stewi.globals import set_dir,output_dir,data_dir,write_metadata,\
     inventory_metadata,get_relpath,unit_convert,log,\
     validate_inventory,write_validation_result,USton_kg,lb_kg,weighted_average, \
-    storeParquet
+    storeParquet, config
 import pandas as pd
 import numpy as np
 import os
@@ -36,6 +36,7 @@ import requests_ftp
 import zipfile
 import io
 
+_config = config()['databases']['NEI']
 
 def read_data(year,file):
     """
@@ -175,13 +176,8 @@ def generate_national_totals(year):
     log.info('Downloading national totals')
     
     ## generate url based on data year
-    build_url = 'ftp://newftp.epa.gov/air/nei/__year__/data_summaries/__version___facility.zip'
-    if year == '2017':
-        version = '2017v1/2017neiApr'
-    elif year == '2014':
-        version = '2014v2/2014neiv2'
-    elif year == '2011':
-        version = '2011v2/2011neiv2'
+    build_url = _config['national_url']
+    version = _config['national_version'][year]
     url = build_url.replace('__year__', year)
     url = url.replace('__version__', version)
     
@@ -244,7 +240,7 @@ def generate_metadata(year):
     if nei_retrieval_time is not None:
         NEI_meta['SourceAquisitionTime'] = nei_retrieval_time
     NEI_meta['SourceFileName'] = get_relpath(point_1_path)
-    NEI_meta['SourceURL'] = 'http://eis.epa.gov'
+    NEI_meta['SourceURL'] = _config['url']
 
     #extract version from filepath using regex
     import re
