@@ -15,6 +15,7 @@ output_dir = modulepath + 'output/'
 data_dir = modulepath + 'data/'
 
 log.basicConfig(level=log.DEBUG, format='%(levelname)s %(message)s')
+stewi_version = '0.9.4'
 
 reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',
                                 usecols=['Source', 'Code', 'DQI Reliability Score'])
@@ -32,7 +33,7 @@ inventory_metadata = {
 'SourceURL':'NA',
 'SourceVersion':'NA',
 'SourceAquisitionTime':'NA',
-'StEWI_versions_version': '0.94'
+'StEWI_versions_version': stewi_version
 }
 
 inventory_single_compartments = {"NEI":"air","RCRAInfo":"waste"}
@@ -320,7 +321,7 @@ def read_metadata(inventoryname, report_year):
 def compile_metadata(file, config, year):
     metadata = inventory_metadata
     
-    data_retrieval_time = time.ctime(os.path.getctime(file))
+    data_retrieval_time = time.ctime(os.path.getmtime(file))
     if data_retrieval_time is not None:
         metadata['SourceAquisitionTime'] = data_retrieval_time
     metadata['SourceType'] = 'Static File'
