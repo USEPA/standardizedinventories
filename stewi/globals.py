@@ -32,7 +32,7 @@ inventory_metadata = {
 'SourceURL':'NA',
 'SourceVersion':'NA',
 'SourceAquisitionTime':'NA',
-'StEWI_versions_version': '0.9'
+'StEWI_versions_version': '0.94'
 }
 
 inventory_single_compartments = {"NEI":"air","RCRAInfo":"waste"}
@@ -236,12 +236,7 @@ def write_validation_result(inventory_acronym,year,validation_df):
     #Convert to Series
     validation_set_info = validation_set_info.iloc[0,]
     #Use the same format an inventory metadata to described the validation set data
-    validation_metadata = {'SourceType': 'Static File',  #Other types are "Web service"
-                           'SourceFileName':'NA',
-                           'SourceURL':'NA',
-                           'SourceVersion':'NA',
-                           'SourceAquisitionTime':'NA',
-                           'StEWI_versions_version': '0.9'}
+    validation_metadata = inventory_metadata
     validation_metadata['SourceFileName'] = validation_set_info['Name']
     validation_metadata['SourceVersion'] = validation_set_info['Version']
     validation_metadata['SourceURL'] = validation_set_info['URL']
@@ -329,7 +324,7 @@ def compile_metadata(file, config, year):
     if data_retrieval_time is not None:
         metadata['SourceAquisitionTime'] = data_retrieval_time
     metadata['SourceType'] = 'Static File'
-    metadata['SourceFileName'] = get_relpath(file)
+    metadata['SourceFileName'] = file
     metadata['SourceURL'] = config['url']
     if config[year]['file_version']:
         metadata['SourceVersion'] = config[year]['file_version']
