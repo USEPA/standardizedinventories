@@ -22,6 +22,7 @@ Year:
     2011
 """
 
+import stewi
 from stewi.globals import set_dir,output_dir,data_dir,write_metadata,\
     get_relpath,unit_convert,log,\
     validate_inventory,write_validation_result,USton_kg,lb_kg,weighted_average, \
@@ -206,12 +207,18 @@ def generate_national_totals(year):
     # for all of the .csv data files in the .zip archive,
     # read the .csv files into a dataframe
     # and concatenate with the master dataframe
+    # captures various column headings across years
+    usecols = ['pollutant code','pollutant_cd',
+               'pollutant desc','pollutant_desc', 'description',
+               'total emissions','total_emissions',
+               'emissions uom', 'uom'
+               ]
+    
     for i in range(len(znames)):
+        headers = pd.read_csv(z.open(znames[i]),nrows=0)
+        cols = [x for x in headers.columns if x in usecols]
         df = pd.concat([df, pd.read_csv(z.open(znames[i]), 
-                                        usecols = ['pollutant code',
-                                                   'pollutant desc',
-                                                   'total emissions',
-                                                   'emissions uom'])])    
+                                        usecols = cols)])    
     
     ## parse data
     # rename columns to match standard format
@@ -272,6 +279,23 @@ if __name__ == '__main__':
             nei_point.to_pickle('work/NEI_' + year + '.pk')
             generate_metadata(year)
             
+        elif args.Option == 'F':
+            log.info('validating flow by facility against national totals')
+            if not(os.path.exists(data_dir + 'NEI_'+ year + '_NationalTotals.csv')):
+                generate_national_totals(year)
+            else:
+                log.info('using already processed national totals validation file')
+            nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ year + '_NationalTotals.csv',
+                                              header=0,dtype={"FlowAmount[kg]":np.float})
+            nei_flowbyfacility = stewi.getInventory('NEI', year, 'flowbyfacility',
+                                                    filter_for_LCI = False,
+                                                    US_States_Only = False)
+            nei_flowbyfacility.drop(['Compartment'],1, inplace = True)
+            nei_national_totals.rename(columns={'FlowAmount[kg]':'FlowAmount'},inplace=True)
+            validation_result = validate_inventory(nei_flowbyfacility, nei_national_totals,
+                                                   group_by='flow', tolerance=5.0)
+            write_validation_result('NEI',year,validation_result)
+
         else:
             log.info('extracting data from NEI pickle')
             nei_point = pd.read_pickle('work/NEI_' + year + '.pk')
@@ -322,16 +346,3 @@ if __name__ == '__main__':
             #2014: 85125
             #2011: 95565
         
-        elif args.Option == 'F':
-            log.info('validating flow by facility against national totals')
-            if not(os.path.exists(data_dir + 'NEI_'+ year + '_NationalTotals.csv')):
-                generate_national_totals(year)
-            else:
-                log.info('using already processed national totals validation file')
-            nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ year + '_NationalTotals.csv',
-                                              header=0,dtype={"FlowAmount[kg]":np.float})
-            nei_flowbyfacility = pd.read_parquet(output_dir+'flowbyfacility/NEI_'+year+'.parquet')
-            nei_national_totals.rename(columns={'FlowAmount[kg]':'FlowAmount'},inplace=True)
-            validation_result = validate_inventory(nei_flowbyfacility, nei_national_totals,
-                                                   group_by='flow', tolerance=5.0)
-            write_validation_result('NEI',year,validation_result)
