@@ -108,9 +108,9 @@ def standardize_output(year, source='Point'):
         nei_reliability_table['Code'] = nei_reliability_table['Code'].astype(float)
         nei['ReliabilityScore'] = nei['ReliabilityScore'].astype(float)
         nei = nei.merge(nei_reliability_table, left_on='ReliabilityScore', right_on='Code', how='left')
-        nei['ReliabilityScore'] = nei['DQI Reliability Score']
+        nei['DataReliability'] = nei['DQI Reliability Score']
         # drop Code and DQI Reliability Score columns
-        nei = nei.drop(['Code', 'DQI Reliability Score'], 1)
+        nei = nei.drop(['Code', 'DQI Reliability Score', 'ReliabilityScore'], 1)
     
         nei['Compartment']='air'
         '''
@@ -121,7 +121,7 @@ def standardize_output(year, source='Point'):
         nei.loc[nei['StackHeight'] >= 492, 'Compartment'] = 'air/very high'
         '''
     else:
-        nei['ReliabilityScore'] = 3
+        nei['DataReliability'] = 3
     # add Source column
     nei['Source'] = source
     return nei
@@ -132,12 +132,12 @@ def nei_aggregate_to_facility_level(nei_):
     Aggregates NEI dataframe to flow by facility
     """
     # drops rows if flow amount or reliability score is zero
-    nei_ = nei_[(nei_['FlowAmount'] > 0) & (nei_['ReliabilityScore'] > 0)]
+    nei_ = nei_[(nei_['FlowAmount'] > 0) & (nei_['DataReliability'] > 0)]
 
     grouping_vars = ['FacilityID', 'FlowName']
     neibyfacility = nei_.groupby(grouping_vars).agg({'FlowAmount': ['sum']})
-    neibyfacility['ReliabilityScore']=weighted_average(
-        nei_, 'ReliabilityScore', 'FlowAmount', grouping_vars)
+    neibyfacility['DataReliability']=weighted_average(
+        nei_, 'DataReliability', 'FlowAmount', grouping_vars)
 
     neibyfacility = neibyfacility.reset_index()
     neibyfacility.columns = neibyfacility.columns.droplevel(level=1)
@@ -149,7 +149,7 @@ def nei_aggregate_to_custom_level(nei_, field):
     Aggregates NEI dataframe to flow by facility by custom level (e.g. SCC)
     """
     # drops rows if flow amount or reliability score is zero
-    nei_ = nei_[(nei_['FlowAmount'] > 0) & (nei_['ReliabilityScore'] > 0)]
+    nei_ = nei_[(nei_['FlowAmount'] > 0) & (nei_['DataReliability'] > 0)]
 
     grouping_vars = ['FacilityID', 'FlowName']
     if type(field) is str:
@@ -157,8 +157,8 @@ def nei_aggregate_to_custom_level(nei_, field):
     elif type(field) is list:
         grouping_vars.extend(field)
     neicustom = nei_.groupby(grouping_vars).agg({'FlowAmount': ['sum']})
-    neicustom['ReliabilityScore']=weighted_average(
-        nei_, 'ReliabilityScore', 'FlowAmount', grouping_vars)
+    neicustom['DataReliability']=weighted_average(
+        nei_, 'DataReliability', 'FlowAmount', grouping_vars)
 
     neicustom = neicustom.reset_index()
     neicustom.columns = neicustom.columns.droplevel(level=1)

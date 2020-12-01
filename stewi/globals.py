@@ -349,7 +349,7 @@ flowbyfacility_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
                          'Compartment': [{'dtype': 'str'}, {'required': True}],
                          'FlowAmount': [{'dtype': 'float'}, {'required': True}],
                          'FacilityID': [{'dtype': 'str'}, {'required': True}],
-                         'ReliabilityScore': [{'dtype': 'float'}, {'required': True}],
+                         'DataReliability': [{'dtype': 'float'}, {'required': True}],
                          'Unit': [{'dtype': 'str'}, {'required': True}],
                          }
 
@@ -357,7 +357,7 @@ flowbySCC_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
                     'Compartment': [{'dtype': 'str'}, {'required': True}],
                     'FlowAmount': [{'dtype': 'float'}, {'required': True}],
                     'FacilityID': [{'dtype': 'str'}, {'required': True}],
-                    'ReliabilityScore': [{'dtype': 'float'}, {'required': True}],
+                    'DataReliability': [{'dtype': 'float'}, {'required': True}],
                     'Unit': [{'dtype': 'str'}, {'required': True}],
                     'SCC': [{'dtype': 'str'}, {'required': True}],
                     }

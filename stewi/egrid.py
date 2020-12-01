@@ -157,7 +157,7 @@ def generate_eGRID_files(year):
     #Throws a RuntimeWarning about true_divide
     
     unit_egrid5[unit_emissions_with_rel_scores] = unit_egrid5[rel_score_cols]
-    rel_scores_heat_SO2_CO2_NOx_by_facility = pd.melt(unit_egrid5, id_vars=['FacilityID'], value_vars=unit_emissions_with_rel_scores, var_name='FlowName', value_name='ReliabilityScore')
+    rel_scores_heat_SO2_CO2_NOx_by_facility = pd.melt(unit_egrid5, id_vars=['FacilityID'], value_vars=unit_emissions_with_rel_scores, var_name='FlowName', value_name='DataReliability')
     
     ##Create FLOWBYFACILITY output
     flowbyfac_prelim = egrid2[['FacilityID',
@@ -197,19 +197,19 @@ def generate_eGRID_files(year):
     #Merge in heat_SO2_CO2_NOx reliability scores calculated from unit sheet
     flowbyfac = flowbyfac.merge(rel_scores_heat_SO2_CO2_NOx_by_facility, on = ['FacilityID','FlowName'], how = 'left')
     #Assign electricity to a reliabilty score of 1
-    flowbyfac['ReliabilityScore'].loc[flowbyfac['FlowName']=='Electricity'] = 1
+    flowbyfac['DataReliability'].loc[flowbyfac['FlowName']=='Electricity'] = 1
     #Replace NaNs with 5
-    flowbyfac['ReliabilityScore']=flowbyfac['ReliabilityScore'].replace({None:5})
+    flowbyfac['DataReliability']=flowbyfac['DataReliability'].replace({None:5})
     
     #Methane and nitrous oxide reliability scores
     #Assign 3 to all facilities except for certain fuel types where measurements are taken
     flowbyfac.loc[(flowbyfac['FlowName']=='Methane') | (flowbyfac['FlowName']=='Nitrous oxide')
-                    ,'ReliabilityScore'] = 3
+                    ,'DataReliability'] = 3
     #For all but selected fuel types, change it to 2
     flowbyfac.loc[((flowbyfac['FlowName']=='Methane') | (flowbyfac['FlowName']=='Nitrous oxide')) &
                    ((flowbyfac['Plant primary fuel'] != 'PG') |  (flowbyfac['Plant primary fuel'] != 'RC') |
                     (flowbyfac['Plant primary fuel'] != 'WC') |  (flowbyfac['Plant primary fuel'] != 'SLW'))
-                    ,'ReliabilityScore'] = 2
+                    ,'DataReliability'] = 2
     
     #Now the plant primary fuel is no longer needed
     flowbyfac = flowbyfac.drop(columns = ['Plant primary fuel'])
