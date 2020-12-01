@@ -345,12 +345,14 @@ def remove_line_breaks(df, headers_only = True):
         df = df.replace(to_replace=['\r\n','\n'],value=[' ', ' '], regex=True)
     return df    
 
+# ReliabilityScore maintained in dict for accessing legacy datasets
 flowbyfacility_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
                          'Compartment': [{'dtype': 'str'}, {'required': True}],
                          'FlowAmount': [{'dtype': 'float'}, {'required': True}],
                          'FacilityID': [{'dtype': 'str'}, {'required': True}],
                          'DataReliability': [{'dtype': 'float'}, {'required': True}],
                          'Unit': [{'dtype': 'str'}, {'required': True}],
+                         'ReliabilityScore': [{'dtype': 'float'}, {'required': True}],
                          }
 
 flowbySCC_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
@@ -360,6 +362,7 @@ flowbySCC_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
                     'DataReliability': [{'dtype': 'float'}, {'required': True}],
                     'Unit': [{'dtype': 'str'}, {'required': True}],
                     'SCC': [{'dtype': 'str'}, {'required': True}],
+                    'ReliabilityScore': [{'dtype': 'float'}, {'required': True}],                    
                     }
 
 format_dict = {'flowbyfacility': flowbyfacility_fields,
@@ -378,7 +381,11 @@ def get_optional_fields(format='flowbyfacility'):
 
 
 def add_missing_fields(df, inventory_acronym, format='flowbyfacility'):
-    fields = format_dict[format]
+    fields = dict(format_dict[format])
+    # Rename for legacy datasets
+    if 'ReliabilityScore' in df.columns:
+        df.rename(columns={'ReliabilityScore':'DataReliability'}, inplace=True)
+    del fields['ReliabilityScore']
     # Add in units and compartment if not present
     if 'Unit' not in df.columns:
         df['Unit'] = 'kg'
