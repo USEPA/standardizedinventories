@@ -336,7 +336,14 @@ def compile_metadata(file, config, year):
         if version is not None:
             metadata['SourceVersion'] = version.group(0)
     return metadata
-    
+
+def remove_line_breaks(df, headers_only = True):
+    for column in df:
+        df.rename(columns={column: column.replace('\r\n',' ')}, inplace=True)
+        df.rename(columns={column: column.replace('\n',' ')}, inplace=True)
+    if not headers_only:
+        df = df.replace(to_replace=['\r\n','\n'],value=[' ', ' '], regex=True)
+    return df    
 
 flowbyfacility_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
                          'Compartment': [{'dtype': 'str'}, {'required': True}],
