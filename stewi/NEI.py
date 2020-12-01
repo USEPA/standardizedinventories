@@ -37,7 +37,8 @@ import io
 
 _config = config()['databases']['NEI']
 
-external_dir = set_dir('../NEI/')
+nei_filepath = '../NEI/'
+external_dir = set_dir(nei_filepath)
     
 def read_data(year,file):
     """
@@ -232,8 +233,8 @@ def generate_metadata(year):
     Gets metadata and writes to .json
     """
     
-    point_1_path = external_dir + nei_file_path['Point'][0]
-    NEI_meta = compile_metadata(point_1_path, config, year)
+    point_1_path = nei_filepath + nei_file_path['Point'][0]
+    NEI_meta = compile_metadata(point_1_path, _config, year)
 
     #Write metadata to json
     write_metadata('NEI', year, NEI_meta)
@@ -262,11 +263,11 @@ if __name__ == '__main__':
     
     for year in NEIyears:
         if args.Option == 'A':
-    
+
             nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields.csv',sep=',')
             nei_required_fields = nei_required_fields[[year,'StandardizedEPA']]
             nei_file_path = pd.read_table(data_dir + 'NEI_' + year + '_file_path.csv',sep=',').fillna('Null')
-        
+
             nei_point = standardize_output(year)
             nei_point.to_pickle('work/NEI_' + year + '.pk')
             generate_metadata(year)

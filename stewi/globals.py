@@ -327,7 +327,7 @@ def compile_metadata(file, config, year):
     metadata['SourceType'] = 'Static File'
     metadata['SourceFileName'] = file
     metadata['SourceURL'] = config['url']
-    if config[year]['file_version']:
+    if year in config:
         metadata['SourceVersion'] = config[year]['file_version']
     else:
         import re
