@@ -20,38 +20,25 @@ Year:
 import pandas as pd
 import numpy as np
 import argparse
-import time
 import os
 from stewi.globals import output_dir,data_dir,write_metadata,\
-    inventory_metadata,unit_convert,log,MMBtu_MJ,MWh_MJ,config,\
-    validate_inventory,write_validation_result,USton_kg,lb_kg
+    unit_convert,log,MMBtu_MJ,MWh_MJ,config,\
+    validate_inventory,write_validation_result,USton_kg,lb_kg,\
+    compile_metadata, remove_line_breaks
 import requests
 import zipfile
 import io
 
 
 _config = config()['databases']['eGRID']
-source_url = _config['url']
 
 # set filepath
 eGRIDfilepath = '../eGRID/'
 
-# define attributes for various editions of eGRID
-egrid_file_name = {"2014":"eGRID2014_Data_v2.xlsx", 
-                   "2016":"egrid2016_data.xlsx",
-                   "2018":"eGRID2018_Data_v2.xlsx"}
-
-egrid_file_version = {"2014":"v2", 
-                      "2016":"",
-                      "2018":"v2"}
-
-download_url = {"2014":"https://www.epa.gov/sites/production/files/2020-01/egrid2018_historical_files_since_1996.zip", 
-                "2016":"https://www.epa.gov/sites/production/files/2020-01/egrid2018_historical_files_since_1996.zip",
-                "2018":"https://www.epa.gov/sites/production/files/2020-03/egrid2018_data_v2.xlsx"}
-
 # Import list of fields from egrid that are desired for LCI
 def imp_fields(fields_txt, year):
     egrid_req_fields_df = pd.read_csv(fields_txt, header=0)
+    egrid_req_fields_df = remove_line_breaks(egrid_req_fields_df, headers_only=False)
     egrid_req_fields = list(egrid_req_fields_df[year])
     col_dict = egrid_req_fields_df.set_index(year).to_dict()
     return egrid_req_fields, col_dict
@@ -64,14 +51,17 @@ def download_eGRID(year):
     '''
     Downloads eGRID files from EPA website
     '''
-    log.info('downloading eGRID data')
+    log.info('downloading eGRID data for ' + year)
     
     ## make http request
     r = []
+    download_url = _config[year]['download_url']
+    egrid_file_name = _config[year]['file_name']
+
     try:
-        r = requests.Session().get(download_url[year])
+        r = requests.Session().get(download_url)
     except requests.exceptions.ConnectionError:
-        log.error("URL Connection Error for " + download_url[year])
+        log.error("URL Connection Error for " + download_url)
     try:
         r.raise_for_status()
     except requests.exceptions.HTTPError:
@@ -82,10 +72,10 @@ def download_eGRID(year):
         workbook = r.content
     elif year == '2016' or year == '2014':
         z = zipfile.ZipFile(io.BytesIO(r.content))
-        workbook = z.read(egrid_file_name[year])
+        workbook = z.read(egrid_file_name)
         
     ## save .xlsx workbook to destination directory
-    destination = eGRIDfilepath + egrid_file_name[year]
+    destination = eGRIDfilepath + egrid_file_name
     # if destination folder does not already exist, create it
     if not(os.path.exists(eGRIDfilepath)):
         os.makedirs(eGRIDfilepath)
@@ -104,12 +94,13 @@ def generate_eGRID_files(year):
     '''
     log.info('generating eGRID files for '+ year)
     year_last2 = year[2:]
-    eGRIDfile = eGRIDfilepath + egrid_file_name[year]
+    eGRIDfile = eGRIDfilepath + _config[year]['file_name']
     pltsheetname = 'PLNT'+ year_last2
     untsheetname = 'UNT' + year_last2
-    
+
     # Import egrid file
-    egrid = pd.read_excel(eGRIDfile, sheet_name=pltsheetname, skipinitialspace = True)
+    egrid = pd.read_excel(eGRIDfile, sheet_name=pltsheetname)
+    egrid = remove_line_breaks(egrid)
     #drop first row which are column name abbreviations
     egrid = egrid.drop([0])
     
@@ -119,10 +110,11 @@ def generate_eGRID_files(year):
     colstodrop = list(set(list(egrid.columns)) - set(egrid_required_fields))
     egrid2 = egrid.drop(colstodrop,axis=1)
     egrid2.rename(columns = egrid_col_dict['StEWI'], inplace=True)
-    
+
     #Read in unit sheet to get comment fields related to source of heat,NOx,SO2, and CO2 emission estimates
     unit_egrid_required_fields, unit_egrid_col_dict = imp_fields(data_dir+'eGRID_unit_level_required_fields.csv',year) #@author: Wes
-    unit_egrid = pd.read_excel(eGRIDfile, sheet_name=untsheetname, skipinitialspace = True)
+    unit_egrid = pd.read_excel(eGRIDfile, sheet_name=untsheetname)
+    unit_egrid = remove_line_breaks(unit_egrid)
     #drop first row which are column name abbreviations
     unit_egrid = unit_egrid.drop([0])
     
@@ -149,7 +141,8 @@ def generate_eGRID_files(year):
     unit_emissions_with_rel_scores = ['Heat','Nitrogen oxides','Sulfur dioxide','Carbon dioxide']
     
     #Calculate reliability scores at plant level using flow-weighted average.
-    rel_score_cols = ['ReliabilityScore_heat','ReliabilityScore_NOx','ReliabilityScore_SO2','ReliabilityScore_CO2']
+    rel_score_cols = ['ReliabilityScore_heat','ReliabilityScore_NOx',
+                      'ReliabilityScore_SO2','ReliabilityScore_CO2']
     flows_used_for_weighting = ['Unit unadjusted annual heat input (MMBtu)',
                                 'Unit unadjusted annual NOx emissions (tons)',
                                 'Unit unadjusted annual SO2 emissions (tons)',
@@ -157,18 +150,17 @@ def generate_eGRID_files(year):
     #First multiply by flows
     unit_egrid2[rel_score_cols] = np.multiply(unit_egrid2[rel_score_cols],unit_egrid2[flows_used_for_weighting])
     #Aggregate the multiplied scores at the plant level
-    unit_egrid3 = unit_egrid2.groupby(['DOE/EIA ORIS plant or facility code'])['ReliabilityScore_heat','ReliabilityScore_NOx','ReliabilityScore_SO2','ReliabilityScore_CO2'].sum().reset_index()
-    unit_egrid4 = unit_egrid2.groupby(['DOE/EIA ORIS plant or facility code'])['Unit unadjusted annual heat input (MMBtu)','Unit unadjusted annual NOx emissions (tons)','Unit unadjusted annual SO2 emissions (tons)','Unit unadjusted annual CO2 emissions (tons)'].sum().reset_index()
-    unit_egrid5 = unit_egrid3.merge(unit_egrid4, left_on = ['DOE/EIA ORIS plant or facility code'],right_on = ['DOE/EIA ORIS plant or facility code'], how = 'inner')
+    unit_egrid3 = unit_egrid2.groupby(['FacilityID'])[['ReliabilityScore_heat','ReliabilityScore_NOx','ReliabilityScore_SO2','ReliabilityScore_CO2']].sum().reset_index()
+    unit_egrid4 = unit_egrid2.groupby(['FacilityID'])[['Unit unadjusted annual heat input (MMBtu)','Unit unadjusted annual NOx emissions (tons)','Unit unadjusted annual SO2 emissions (tons)','Unit unadjusted annual CO2 emissions (tons)']].sum().reset_index()
+    unit_egrid5 = unit_egrid3.merge(unit_egrid4, on = ['FacilityID'], how = 'inner')
     unit_egrid5[rel_score_cols] = np.divide(unit_egrid5[rel_score_cols],unit_egrid5[flows_used_for_weighting])
     #Throws a RuntimeWarning about true_divide
     
     unit_egrid5[unit_emissions_with_rel_scores] = unit_egrid5[rel_score_cols]
-    unit_egrid5['FacilityID'] = unit_egrid5['DOE/EIA ORIS plant or facility code']
-    rel_scores_heat_SO2_CO2_NOx_by_facility = pd.melt(unit_egrid5, id_vars=['FacilityID'], value_vars=unit_emissions_with_rel_scores, var_name='FlowName', value_name='ReliabilityScore')
+    rel_scores_heat_SO2_CO2_NOx_by_facility = pd.melt(unit_egrid5, id_vars=['FacilityID'], value_vars=unit_emissions_with_rel_scores, var_name='FlowName', value_name='DataReliability')
     
     ##Create FLOWBYFACILITY output
-    flowbyfac_prelim = egrid2[['DOE/EIA ORIS plant or facility code',
+    flowbyfac_prelim = egrid2[['FacilityID',
                                'Plant primary fuel',
                                'Plant total annual heat input (MMBtu)',
                                'Plant annual net generation (MWh)',
@@ -178,7 +170,7 @@ def generate_eGRID_files(year):
                                'Plant annual CH4 emissions (lbs)',
                                'Plant annual N2O emissions (lbs)',
                                'CHP plant useful thermal output (MMBtu)']]
-    flowbyfac_prelim = flowbyfac_prelim.rename(columns={'DOE/EIA ORIS plant or facility code':'FacilityID',
+    flowbyfac_prelim = flowbyfac_prelim.rename(columns={
                          'Plant total annual heat input (MMBtu)':'Heat',
                          'Plant annual net generation (MWh)':'Electricity',
                          'Plant annual NOx emissions (tons)':'Nitrogen oxides',
@@ -203,21 +195,21 @@ def generate_eGRID_files(year):
     flowbyfac = flowbyfac.sort_values(by = ['FacilityID'], axis=0, ascending=True, inplace=False, kind='quicksort', na_position='last')
     
     #Merge in heat_SO2_CO2_NOx reliability scores calculated from unit sheet
-    flowbyfac = flowbyfac.merge(rel_scores_heat_SO2_CO2_NOx_by_facility,left_on = ['FacilityID','FlowName'],right_on = ['FacilityID','FlowName'], how = 'left')
+    flowbyfac = flowbyfac.merge(rel_scores_heat_SO2_CO2_NOx_by_facility, on = ['FacilityID','FlowName'], how = 'left')
     #Assign electricity to a reliabilty score of 1
-    flowbyfac['ReliabilityScore'].loc[flowbyfac['FlowName']=='Electricity'] = 1
+    flowbyfac['DataReliability'].loc[flowbyfac['FlowName']=='Electricity'] = 1
     #Replace NaNs with 5
-    flowbyfac['ReliabilityScore']=flowbyfac['ReliabilityScore'].replace({None:5})
+    flowbyfac['DataReliability']=flowbyfac['DataReliability'].replace({None:5})
     
     #Methane and nitrous oxide reliability scores
     #Assign 3 to all facilities except for certain fuel types where measurements are taken
     flowbyfac.loc[(flowbyfac['FlowName']=='Methane') | (flowbyfac['FlowName']=='Nitrous oxide')
-                    ,'ReliabilityScore'] = 3
+                    ,'DataReliability'] = 3
     #For all but selected fuel types, change it to 2
     flowbyfac.loc[((flowbyfac['FlowName']=='Methane') | (flowbyfac['FlowName']=='Nitrous oxide')) &
                    ((flowbyfac['Plant primary fuel'] != 'PG') |  (flowbyfac['Plant primary fuel'] != 'RC') |
                     (flowbyfac['Plant primary fuel'] != 'WC') |  (flowbyfac['Plant primary fuel'] != 'SLW'))
-                    ,'ReliabilityScore'] = 2
+                    ,'DataReliability'] = 2
     
     #Now the plant primary fuel is no longer needed
     flowbyfac = flowbyfac.drop(columns = ['Plant primary fuel'])
@@ -236,8 +228,8 @@ def generate_eGRID_files(year):
     
     ##Creation of the facility file
     #Need to change column names manually
-    facility=egrid2[['Plant name','Plant operator name','DOE/EIA ORIS plant or facility code',
-                     'Plant state abbreviation','eGRID subregion acronym','Plant county name',
+    facility=egrid2[['FacilityName','Plant operator name','FacilityID',
+                     'State','eGRID subregion acronym','Plant county name',
                      'Plant latitude', 'Plant longitude','Plant primary fuel',
                      'Plant primary coal/oil/gas/ other fossil fuel category','NERC region acronym',
                      'Balancing Authority Name','Balancing Authority Code',
@@ -252,9 +244,6 @@ def generate_eGRID_files(year):
                      'Plant geothermal generation percent (resource mix)',
                      'Plant other fossil generation percent (resource mix)',
                      'Plant other unknown / purchased fuel generation percent (resource mix)']]
-    facility = facility.rename(columns={'Plant name':'FacilityName',
-                                        'DOE/EIA ORIS plant or facility code':'FacilityID',
-                                        'Plant state abbreviation':'State'})
     
     # Data starting in 2018 for resource mix is listed as percentage. For consistency
     # multiply by 100
@@ -269,18 +258,13 @@ def generate_eGRID_files(year):
     ##Write flows file
     flows = flowbyfac[['FlowName','Compartment','Unit']]
     flows = flows.drop_duplicates()
+    flows = flows.sort_values(by='FlowName',axis=0)
     flows.to_csv(output_dir + '/flow/eGRID_' + year + '.csv', index=False)
     
     #Write metadata
-    eGRID_meta = inventory_metadata
-    
-    eGRID_retrieval_time = time.ctime(os.path.getctime(eGRIDfile))
-    eGRID_meta['SourceAquisitionTime'] = eGRID_retrieval_time
-    eGRID_meta['SourceType'] = 'Static File'
-    eGRID_meta['SourceFileName'] = eGRIDfile
-    eGRID_meta['SourceURL'] = source_url
-    eGRID_meta['SourceVersion'] = egrid_file_version[year]
+    eGRID_meta = compile_metadata(eGRIDfile, _config, year)
     write_metadata('eGRID',year, eGRID_meta)
+
 
 def validate_eGRID(year):
     #Download and process eGRID national totals

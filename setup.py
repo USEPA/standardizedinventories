@@ -1,6 +1,6 @@
 from setuptools import setup
 
-install_requires=['numpy>=1.16',
+install_requires=['numpy==1.19.3',
                   'pandas>=0.22',
                   'requests>=2.20',
                   'bs4',

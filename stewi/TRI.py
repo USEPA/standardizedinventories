@@ -200,7 +200,7 @@ def Generate_TRI_files_csv(TRIyear, Files):
     tri.drop('Unit',axis=1,inplace=True)
     # Rename cols to match reference format
     tri.rename(columns={'Amount_kg':'FlowAmount'}, inplace=True)
-    tri.rename(columns={'DQI Reliability Score':'ReliabilityScore'}, inplace=True)
+    tri.rename(columns={'DQI Reliability Score':'DataReliability'}, inplace=True)
     #Drop release type
     tri.drop('ReleaseType',axis=1,inplace=True)
     #Group by facility, flow and compartment to aggregate different release types
@@ -208,7 +208,7 @@ def Generate_TRI_files_csv(TRIyear, Files):
     # Create a specialized weighted mean function to use for aggregation of reliability
     wm = lambda x: weight_mean(x, tri.loc[x.index, "FlowAmount"])
     # Groupby and aggregate with your dictionary:
-    tri = tri.groupby(grouping_vars).agg({'FlowAmount':'sum','ReliabilityScore': wm})
+    tri = tri.groupby(grouping_vars).agg({'FlowAmount':'sum','DataReliability': wm})
     tri = tri.reset_index()
 
     #VALIDATE
