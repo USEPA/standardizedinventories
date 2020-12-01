@@ -88,11 +88,11 @@ def standardize_output(year, source='Point'):
         Dataframe of parsed NEI data.
     """
     # extract file paths
-    file_path = list(set(nei_file_path[source]) - set(['Null']))
-    log.info('identified ' +str(len(file_path)) + ' files: '+ ' '.join(file_path))
+    file_paths = nei_file_path
+    log.info('identified ' +str(len(file_paths)) + ' files: '+ ' '.join(file_paths))
     nei = pd.DataFrame()
     # read in nei files and concatenate all nei files into one dataframe
-    for file in file_path[0:]:
+    for file in file_paths[0:]:
         # concatenate all other files
         log.info('reading NEI data from '+ file)
         nei = pd.concat([nei,read_data(year,file)])
@@ -240,7 +240,7 @@ def generate_metadata(year):
     Gets metadata and writes to .json
     """
     
-    point_1_path = nei_filepath + nei_file_path['Point'][0]
+    point_1_path = nei_filepath + nei_file_path[0]
     NEI_meta = compile_metadata(point_1_path, _config, year)
 
     #Write metadata to json
@@ -273,7 +273,7 @@ if __name__ == '__main__':
 
             nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields.csv',sep=',')
             nei_required_fields = nei_required_fields[[year,'StandardizedEPA']]
-            nei_file_path = pd.read_table(data_dir + 'NEI_' + year + '_file_path.csv',sep=',').fillna('Null')
+            nei_file_path = _config[year]['file_name']
 
             nei_point = standardize_output(year)
             nei_point.to_pickle('work/NEI_' + year + '.pk')
