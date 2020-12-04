@@ -293,7 +293,10 @@ def parse_esbb_suparts_data(esbb_subparts_path, year):
     
     # load .xslx data for subparts E,S,BB,CC,LL from filepath
     esbb_subparts_dict = import_table(esbb_subparts_path)
-    
+    for key, df in esbb_subparts_dict.items():
+        for column in df:
+            df.rename(columns={column: column.replace('\n',' ')}, inplace=True)
+        esbb_subparts_dict[key] = df
     # initialize dataframe
     ghgrp2 = pd.DataFrame()
 
@@ -545,6 +548,7 @@ if __name__ == '__main__':
             
             # load GHGs list
             ghgs = import_table(ghgs_path)
+            ghgs.drop_duplicates(inplace=True)
             
             # if the reference file exists, load the data
             if os.path.exists(ref_filepath):
