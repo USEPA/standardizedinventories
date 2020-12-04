@@ -10,14 +10,15 @@ to combine the data, and optionally remove overlaps and remove double counting o
 
 ## USEPA Inventories Covered By Data Reporting Year (current version)
 
-|Source|2011|2012|2013|2014|2015|2016|2017|2018|
-|---|---|---|---|---|---|---|---|---|
-|[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program)|x|x|x|x|x|x|x|x|
-|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)|x| |x| |x| |x| |
-|[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)*|x| | |x| |x|x| |
-|[Emissions & Generation Resource Integrated Database](https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid)| | | |x| |x| |x|
+|Source|2001|2002|2003|2004|2005|2006|2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program)*|x|x|x|x|x|x|x|x|x|x|x|x|x|x|x|x|x|x|
+|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)|x| |x| |x| |x| |x| |x| |x| |x| |x| |
+|[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)**| | | | | | | | | | |x| | |x| |x|x| |
+|[Emissions & Generation Resource Integrated Database](https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid)| | | | | | | | | | | | | |x| |x| |x|
 
-*Only point sources included at this time from NEI
+*TRI available back through 1988
+**Only point sources included at this time from NEI
 
 ## Standard output formats
 
