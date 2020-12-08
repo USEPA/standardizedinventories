@@ -44,6 +44,17 @@ The `stewicombo` module produces:
 
 [Flow-By-Facility Combined](./format%20specs/FlowByFacilityCombo.md): Analagous to the flowbyfacility, with chemical and facilitymatches added
 
+## Data Processing
+
+The following describes details related to the dataset processing specific to each dataset
+
+### DMR
+
+Processing of the DMR uses the custom search option of the [Water Pollutant Loading Tool](https://echo.epa.gov/trends/loading-tool/get-data/custom-search/) with the following parameters:
+- Parameter grouping: On - applies a parameter grouping function to avoid double-counting loads for pollutant parameters that represent the same pollutant
+- Detection limit: Half - set all non-detects to ½ the detection limit
+- Estimation: On - estimates loads when monitoring data are not reported for one or more monitoring periods in a reporting year
+
 ## Wiki
 
 See the [Wiki](https://github.com/USEPA/standardizedinventories/wiki) for instructions on installation and use and for
