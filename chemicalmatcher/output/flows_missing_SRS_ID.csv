@@ -1,108 +1,30 @@
 FlowID,FlowName,SRS_CAS,SRS_ID,Source
-51569,"(1,1,3,3-Tetramethylbutyl)phenol",,,DMR
-45622,"1,3-Dinitrobenzene",,,DMR
-51649,1-Chloro-2-nitrobenzene,,,DMR
-77168,"1-Propene, 1,1-dichloro-",,,DMR
-51639,10:2 Fluorotelomer Acrylate,,,DMR
-51637,10:2 Fluorotelomer Alcohol,,,DMR
-51643,2-(N-ethylperfluorooctanesulfonamido) acetic acid,,,DMR
-51644,2-(N-methylperfluorooctanesulfonamido) acetic acid,,,DMR
-78901,"2-Amino-4,6-dinitrotoluene",,,DMR
-61225,3-Methylcholanthrene,,,DMR
-51567,3-methylphenol and 4-methylphenol Combination,,,DMR
-76987,"4-Amino-2,6-dinitrotoluene",,,DMR
-51638,8:2 Fluorotelomer Acrylate,,,DMR
-51636,8:2 Fluorotelomer Alcohol,,,DMR
-51676,Aliphatics,,,DMR
-51677,Aliphatics,,,DMR
-51678,Aliphatics,,,DMR
-51679,Aliphatics,,,DMR
-10808,Ammonia & ammonium- total,,,DMR
-51547,Amoxicillin,,,DMR
-51548,Ampicillin,,,DMR
-51692,Aroclor (unspecified),,,DMR
-51680,Aromatics,,,DMR
-51681,Aromatics,,,DMR
-51494,"Benzenamine, N-methyl-N,2,4,6-tetranitro-",,,DMR
-78122,Benzo[j]fluoranthene,,,DMR
-51606,Bromoacetic acid,,,DMR
+51682,.lambda.-Cyhalothrin,,,DMR
+10026,1-Butanol,,,DMR
+10749,"2,2,4,5,6,7,8,8-Octachloro-2,3,3a,4,7,7a-hexahydro-4,7-methano-1H-indene",,,DMR
+10679,2-Ethylhexanol,,,DMR
+10654,Ametryn,,,DMR
+10178,"BOD, 5-day, 20 deg. C",,,DMR
+10107,"BOD, carbonaceous, 05 day, 20 C",,,DMR
 51715,C3 Dimer Acid/Salt,,,DMR
-51503,Calcium chloride,,,DMR
-51650,Calcium sulfate,,,DMR
-51736,"Dibenz[a,h]acridine",,,DMR
-73542,"Dibenz[a,j]acridine",,,DMR
-51737,"Dibenzo[a,e]pyrene",,,DMR
-51738,"Dibenzo[a,h]pyrene",,,DMR
-73546,"Dibenzo[a,i]pyrene",,,DMR
-82721,Dibromoacetic acid,,,DMR
-51605,Dichloroacetic acid,,,DMR
-51592,"Diesel oil, no. 2",,,DMR
-81683,Diethylene glycol monobutyl ether acetate,,,DMR
-51658,Ethanolamine,,,DMR
-51661,Ethyl acrylate,,,DMR
-12427,"Fats, oils & grease (total o & g less TPH)",,,DMR
-10475,Foaming agents,,,DMR
+51480,Chloramine-T,,,DMR
+51672,Chlorhexidine diacetate,,,DMR
+82700,Clostridium perfringens,,,DMR
+51673,Coconut Diethanolamide,,,DMR
+03781,Cypermethrin,,,DMR
+5201,Dibenzofuran,,,DMR
+51697,Dimethyl Benzyl Ammonium Chloride,,,DMR
+10405,Disulfoton,,,DMR
 78919,"Fuel oil, no. 2",,,DMR
-51684,Giardia,,,DMR
-51540,"Halogens, adsorbable organic",,,DMR
-51539,"Halogens, adsorbable organic",,,DMR
-46570,"Hardness, total (as CaCO3)",,,DMR
-51496,Heptachlor and its epoxide -- RCRA T,,,DMR
-51626,Heptadecafluorononanoic acid,,,DMR
-51541,Hexachlorophene,,,DMR
-51766,Hydroxide,,,DMR
-51686,Imidacloprid,,,DMR
-12297,Inorganic suspended solids,,,DMR
-77014,Isopropylamine,,,DMR
 51802,K001,,,DMR
-78878,Kerosene,,,DMR
-80361,Methylmercury,,,DMR
-51642,N-methylperfluorooctane Sulfonamidoethanol,,,DMR
-10809,"Nitrogen, ammonia total (as NH4)",,,DMR
-51568,Nonylphenol,,,DMR
-11900,"Oil & grease, non polar material",,,DMR
-10364,Oil and grease,,,DMR
-51652,Oil refinery waste,,,DMR
-10487,"Organics, total toxic (TTO)",,,DMR
-51521,PFOA,,,DMR
-51674,Peracetic acid,,,DMR
-51632,Perfluorobutane Sulfonate,,,DMR
-51635,Perfluorodecane Sulfonate,,,DMR
-51627,Perfluorodecanoic acid,,,DMR
-51634,Perfluoroheptane Sulfonate,,,DMR
-51633,Perfluorohexane Sulfonate,,,DMR
-51624,Perfluorohexanoic acid,,,DMR
-51629,Perfluorolauric acid,,,DMR
-51631,Perfluoromyristic acid,,,DMR
-51525,Perfluorooctanesulfonamide,,,DMR
-51630,Perfluorotridecanoic acid,,,DMR
-51628,Perfluoroundecanoic acid,,,DMR
-51623,Perfluorovaleric acid,,,DMR
-77801,Perylene,,,DMR
-51731,Poly[hexamethylenebiguanide] hydrochloride,,,DMR
-51698,QUATERNARY AMMONIUM COMPOUNDS,,,DMR
-80155,Sediment,,,DMR
-12230,"Solids, fixed dissolved",,,DMR
-12243,"Solids, fixed suspended",,,DMR
-12255,"Solids, total volatile",,,DMR
-51570,Sulfolane,,,DMR
-51660,"Surfactants, anionic",,,DMR
-12296,"Surfactants, as CTAS, effluent",,,DMR
-12298,"Suspended solids, total annual",,,DMR
-22421,Tert-Amyl Methyl Ether,,,DMR
-51757,"Tetrahydroxymethylphosphonium chloride, THPC",,,DMR
-82723,Trichloroacetic acid,,,DMR
-77548,Trichloronitromethane,,,DMR
-51625,Tridecafluoroheptanoic acid,,,DMR
-51415,VOC,,,DMR
-77286,m-Chloroaniline,,,DMR
-46341,m-Nitrotoluene,,,DMR
-51648,m-Toluidine,,,DMR
-51572,n-Propyl Bromide,,,DMR
-77394,o-Nitrotoluene,,,DMR
-46360,p-Chlorotoluene,,,DMR
-77395,p-Nitrotoluene,,,DMR
-51566,tert-Butylphenol,,,DMR
+12464,Linuron,,,DMR
+10120,"N,N-Dimethylaniline",,,DMR
+10889,N-Ethylaniline,,,DMR
+51645,Oxygen,,,DMR
+10726,Oxytetracycline,,,DMR
+10652,Prometryn,,,DMR
+51619,Seafood Processing Waste,,,DMR
+10747,cis-Chlordane,,,DMR
 616,Slagwool (Man-Made Fibers),,,NEI
 W105,ACIDIC AQUEOUS WST,,,RCRAInfo
 W110,AQUEOUS W/O CYANIDES,,,RCRAInfo
