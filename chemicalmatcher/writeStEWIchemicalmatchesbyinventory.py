@@ -16,6 +16,7 @@ flowlist_cols = {"RCRAInfo":['FlowName','FlowID'],
                  "eGRID": ['FlowName'],
                  "TRI": ['FlowName','FlowID'],
                  "NEI":['FlowName','FlowID'],
+                 "DMR":['FlowName','FlowID'],
                  "GHGRP":['FlowName','FlowID']}
 
 #First loop through flows lists to create a list of all unique flows
@@ -43,6 +44,7 @@ inventory_query_type = {"RCRAInfo":"list",
                         "TRI":"list",
                         "NEI":"list",
                         "eGRID":"name",
+                        "DMR":"list",
                         "GHGRP":"name"}
 
 #Create a df to store the results
@@ -53,6 +55,7 @@ errors_srs = pd.DataFrame(columns=["FlowName","Source","ErrorType"])
 #Store errors in a separate dataframe
 sources = list(pd.unique(all_list_names['Source']))
 for source in sources:
+    print('accessing SRS for ' + source)
     # Get df with inventory flows
     inventory_flows = all_list_names[all_list_names['Source'] == source]
 
@@ -98,13 +101,27 @@ for source in sources:
 
 #Remove waste code and PGM_ID
 all_lists_srs_info = all_lists_srs_info.drop(columns=['PGM_ID'])
+all_lists_srs_info = all_lists_srs_info.sort_values(['Source','FlowName','SRS_ID'])
 
+'''
+#Add in missing SRS directly from DMR
+if 'DMR' in sources:
+    from stewi.DMR import read_pollutant_parameter_list
+    dmr_flows = read_pollutant_parameter_list(parameter_grouping = True)
+    dmr_flows = dmr_flows[['FlowID','FlowName','SRS_ID']].drop_duplicates()
+    dmr_flows.dropna(subset=['SRS_ID'], inplace = True)
+    all_lists_srs_info = all_lists_srs_info.merge(dmr_flows, on = ['FlowID','FlowName'], how='left')
+    all_lists_srs_info.loc[(all_lists_srs_info.Source =='DMR') & (all_lists_srs_info.SRS_ID_x.isna()),['SRS_ID_x']] = all_lists_srs_info['SRS_ID_y']
+    all_lists_srs_info.rename(columns={'SRS_ID_x':'SRS_ID'}, inplace = True)
+    all_lists_srs_info.drop(columns=['SRS_ID_y'], inplace = True)
+'''    
 #Add in manually found matches
 all_lists_srs_info = add_manual_matches(all_lists_srs_info)
 
+subset = ['FlowID','FlowName','Source']
 
 #Write to csv
-all_lists_srs_info = all_lists_srs_info[['FlowID','FlowName','SRS_CAS','SRS_ID','Source']].drop_duplicates()
+all_lists_srs_info = all_lists_srs_info[['FlowID','FlowName','SRS_CAS','SRS_ID','Source']].drop_duplicates(subset)
 all_lists_srs_info.to_csv(output_dir+'ChemicalsByInventorywithSRS_IDS_forStEWI.csv', index=False)
 #errors_srs.to_csv('work/ErrorsSRS.csv',index=False)
 
