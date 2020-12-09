@@ -1,6 +1,6 @@
 from setuptools import setup
 
-install_requires=['numpy>=1.16',
+install_requires=['numpy==1.19.3',
                   'pandas>=0.22',
                   'requests>=2.20',
                   'bs4',
@@ -19,7 +19,7 @@ else:
 
 setup(
     name="StEWI",
-    version="0.9.4",
+    version="0.9.5",
     author="Wesley Ingwersen, Matthew Bergman, Jose Hernandez-Betancur, Tapajyoti Ghosh, Mo Li",
     author_email="ingwersen.wesley@epa.gov",
     description="Standardized Emission And Waste Inventories (StEWI)"

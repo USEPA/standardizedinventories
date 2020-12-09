@@ -5,7 +5,7 @@ Functions to return inventory data for a single inventory in standard formats
 import os
 import pandas as pd
 from stewi.globals import get_required_fields, get_optional_fields, filter_inventory,\
-    filter_states, inventory_single_compartments
+    filter_states, add_missing_fields
 
 try:
     MODULEPATH = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
@@ -77,11 +77,7 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility', filter_f
         else:
             print('requested inventory does not exist, try seeAvailableInventoriesandYears()')
             return
-    # Add in units and compartment if not present
-    if 'Unit' not in inventory.columns:
-        inventory['Unit'] = 'kg'
-    if 'Compartment' not in inventory.columns:
-        inventory['Compartment'] = inventory_single_compartments[inventory_acronym]
+    inventory = add_missing_fields(inventory, inventory_acronym, stewiformat)
     # Apply filters if present
     if US_States_Only:
         inventory = filter_states(inventory)
