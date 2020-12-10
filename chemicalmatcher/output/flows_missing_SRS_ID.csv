@@ -1,30 +1,7 @@
 FlowID,FlowName,SRS_CAS,SRS_ID,Source
-51682,.lambda.-Cyhalothrin,,,DMR
-10026,1-Butanol,,,DMR
-10749,"2,2,4,5,6,7,8,8-Octachloro-2,3,3a,4,7,7a-hexahydro-4,7-methano-1H-indene",,,DMR
-10679,2-Ethylhexanol,,,DMR
-10654,Ametryn,,,DMR
-10178,"BOD, 5-day, 20 deg. C",,,DMR
-10107,"BOD, carbonaceous, 05 day, 20 C",,,DMR
 51715,C3 Dimer Acid/Salt,,,DMR
-51480,Chloramine-T,,,DMR
-51672,Chlorhexidine diacetate,,,DMR
-82700,Clostridium perfringens,,,DMR
-51673,Coconut Diethanolamide,,,DMR
 03781,Cypermethrin,,,DMR
-5201,Dibenzofuran,,,DMR
-51697,Dimethyl Benzyl Ammonium Chloride,,,DMR
-10405,Disulfoton,,,DMR
-78919,"Fuel oil, no. 2",,,DMR
 51802,K001,,,DMR
-12464,Linuron,,,DMR
-10120,"N,N-Dimethylaniline",,,DMR
-10889,N-Ethylaniline,,,DMR
-51645,Oxygen,,,DMR
-10726,Oxytetracycline,,,DMR
-10652,Prometryn,,,DMR
-51619,Seafood Processing Waste,,,DMR
-10747,cis-Chlordane,,,DMR
 616,Slagwool (Man-Made Fibers),,,NEI
 W105,ACIDIC AQUEOUS WST,,,RCRAInfo
 W110,AQUEOUS W/O CYANIDES,,,RCRAInfo

@@ -1,5 +1,5 @@
 FlowID,FlowName,SRS_CAS,SRS_ID,Source
-51569,"(1,1,3,3-Tetramethylbutyl)phenol",,48368,DMR
+51569,"(1,1,3,3-Tetramethylbutyl)phenol",,92981,DMR
 10759,.alpha.-Endosulfan,,87422,DMR
 11126,.alpha.-Hexachlorocyclohexane,,94214,DMR
 45097,.alpha.-Methylstyrene,98-83-9,87273,DMR
@@ -8,7 +8,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 79618,.beta.-Endosulfan,33213-65-9,93104,DMR
 11127,.beta.-Hexachlorocyclohexane,,46241,DMR
 11125,.delta.-Hexachlorocyclohexane,,46240,DMR
-51682,.lambda.-Cyhalothrin,,,DMR
+51682,.lambda.-Cyhalothrin,,85786,DMR
 77562,"1,1,1,2-Tetrachloroethane",630-20-6,44565,DMR
 10256,"1,1,1-Trichloroethane",,48567,DMR
 10257,"1,1,2,2-Tetrachloroethane",,48715,DMR
@@ -48,15 +48,15 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 10031,"1,3-Dichloropropene",,45499,DMR
 45622,"1,3-Dinitrobenzene",,47935,DMR
 6390,"1,4-Dioxane",123-91-1,46821,DMR
-10026,1-Butanol,,,DMR
-51649,1-Chloro-2-nitrobenzene,,45664,DMR
+10026,1-Butanol,,48572,DMR
+51649,1-Chloro-2-nitrobenzene,,48368,DMR
 77418,1-Methylnaphthalene,90-12-0,48309,DMR
 51003,1-Pentanol,71-41-0,48571,DMR
 77018,1-Propanol,71-23-8,48574,DMR
-77168,"1-Propene, 1,1-dichloro-",,41079,DMR
+77168,"1-Propene, 1,1-dichloro-",,45664,DMR
 51639,10:2 Fluorotelomer Acrylate,,92512,DMR
 51637,10:2 Fluorotelomer Alcohol,,91205,DMR
-10749,"2,2,4,5,6,7,8,8-Octachloro-2,3,3a,4,7,7a-hexahydro-4,7-methano-1H-indene",,,DMR
+10749,"2,2,4,5,6,7,8,8-Octachloro-2,3,3a,4,7,7a-hexahydro-4,7-methano-1H-indene",,38598,DMR
 76993,"2,2-Dibromo-3-nitrilopropionamide",10222-01-2,39095,DMR
 46366,"2,2-Dichloropropane",594-20-7,88674,DMR
 61026,"2,3,4,5-Tetrachlorophenol",4901-51-3,42376,DMR
@@ -77,14 +77,14 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 12011,"2,4-Dinitrophenol",,49177,DMR
 10144,"2,4-Dinitrotoluene",,46998,DMR
 10150,"2,6-Dinitrotoluene",,90476,DMR
-51643,2-(N-ethylperfluorooctanesulfonamido) acetic acid,,102997,DMR
-51644,2-(N-methylperfluorooctanesulfonamido) acetic acid,,48958,DMR
+51643,2-(N-ethylperfluorooctanesulfonamido) acetic acid,,41079,DMR
+51644,2-(N-methylperfluorooctanesulfonamido) acetic acid,,102997,DMR
 78901,"2-Amino-4,6-dinitrotoluene",,92178,DMR
 81559,"2-Bromo-1,1-dichloroethane",683-53-4,44339,DMR
 11286,2-Chloroethyl vinyl ether,,47665,DMR
 34581,2-Chloronaphthalene,91-58-7,48260,DMR
 81685,2-Ethoxyethanol,110-80-5,47661,DMR
-10679,2-Ethylhexanol,,,DMR
+10679,2-Ethylhexanol,,47619,DMR
 10723,2-Hexanone,,45110,DMR
 11281,2-Methoxyethanol,,47321,DMR
 77066,"2-Methyl-1,3-dioxolane",497-26-7,45772,DMR
@@ -96,9 +96,9 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 12021,"3,4,5-Trichloroguaiacol",,89613,DMR
 10635,"3,4,6-Trichlorocatechol",,82090,DMR
 12022,"3,4,6-Trichloroguaiacol",,83840,DMR
-61225,3-Methylcholanthrene,,57892,DMR
+61225,3-Methylcholanthrene,,48958,DMR
 77086,3-Methylpyridine,108-99-6,47374,DMR
-51567,3-methylphenol and 4-methylphenol Combination,,80264,DMR
+51567,3-methylphenol and 4-methylphenol Combination,,57892,DMR
 10387,"4,4'-Isopropylidenediphenol",,48694,DMR
 12005,"4,5,6-Trichloroguaiacol",,81625,DMR
 10384,"4,6-Dinitro-o-cresol",,45599,DMR
@@ -128,10 +128,10 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 10024,Aldrin,,46257,DMR
 78216,Aldrin + Dieldrin,,35849,DMR
 74051,"Algicides, general",,80385,DMR
-51677,Aliphatics,,80274,DMR
-51678,Aliphatics,,80274,DMR
-51679,Aliphatics,,80274,DMR
-51676,Aliphatics,,80274,DMR
+51677,Aliphatics,,80264,DMR
+51678,Aliphatics,,80264,DMR
+51679,Aliphatics,,80264,DMR
+51676,Aliphatics,,80264,DMR
 51380,"Alkalinity, bicarbonate (as CaCO3)",,79268,DMR
 00425,"Alkalinity, bicarbonate (as CaCO3)",,79268,DMR
 00430,"Alkalinity, carbonate (as CaCO3)",,79266,DMR
@@ -139,9 +139,9 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 00410,"Alkalinity, total (as CaCO3)",,79210,DMR
 10954,Alkyl benzene sulfonated (ABS),,53882,DMR
 360,Aluminum,7429-90-5,37021,DMR
-10654,Ametryn,,,DMR
+10654,Ametryn,,43683,DMR
 78723,"Amines, organic total",,80297,DMR
-10808,Ammonia & ammonium- total,,83718,DMR
+10808,Ammonia & ammonium- total,,80274,DMR
 375,Ammonia as N,7664-41-7,38644,DMR
 375,Ammonia as NH3,7664-41-7,38644,DMR
 51065,Ammonium perfluoroctanoate,3825-26-1,41002,DMR
@@ -160,15 +160,15 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 39504,Aroclor 1254,11097-69-1,38818,DMR
 39508,Aroclor 1260,11096-82-5,38820,DMR
 81649,Aroclor 1262,37324-23-5,55008,DMR
-51680,Aromatics,,46346,DMR
-51681,Aromatics,,46346,DMR
+51680,Aromatics,,83718,DMR
+51681,Aromatics,,83718,DMR
 467,Arsenic,7440-38-2,36973,DMR
 10833,"Arsenic, trivalent, total recoverable",,79080,DMR
 10015,Atrazine,,91913,DMR
 10406,Azinphos-methyl,,48453,DMR
 77625,Azobenzene,103-33-3,48074,DMR
-10178,"BOD, 5-day, 20 deg. C",,,DMR
-10107,"BOD, carbonaceous, 05 day, 20 C",,,DMR
+10178,"BOD, 5-day, 20 deg. C",,79147,DMR
+10107,"BOD, carbonaceous, 05 day, 20 C",,79323,DMR
 80087,"BOD, carbonaceous, 20 day, 20 C",,79323,DMR
 80276,"BOD, carbonaceous, 28-day (20 deg. C)",,79323,DMR
 80126,"BOD, carbonaceous, 5 day, 5 C",,79323,DMR
@@ -189,7 +189,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 34711,"Benzo(b,k)fluoranthene",,96410,DMR
 10174,Benzo[a]pyrene,,49190,DMR
 34521,Benzo[ghi]perylene,191-24-2,91912,DMR
-78122,Benzo[j]fluoranthene,,48731,DMR
+78122,Benzo[j]fluoranthene,,46346,DMR
 34242,Benzo[k]fluoranthene,207-08-9,93556,DMR
 77247,"Benzoic acids, total",,78754,DMR
 81512,Benzothiazole,95-16-9,47766,DMR
@@ -216,8 +216,8 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 11254,CFC-113,,48832,DMR
 11666,CFC-12,,48912,DMR
 776,Cadmium,7440-43-9,36835,DMR
-51503,Calcium chloride,,38300,DMR
-51650,Calcium sulfate,,92639,DMR
+51503,Calcium chloride,,39304,DMR
+51650,Calcium sulfate,,38300,DMR
 81324,Camphor,76-22-2,48828,DMR
 78168,Carbamates,,80302,DMR
 10681,Carbaryl,,49061,DMR
@@ -237,10 +237,10 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 70027,Chemical oxygen demand (COD),,79522,DMR
 39108,Chloral hydrate,302-17-0,91840,DMR
 11079,"Chloramine, total",,38844,DMR
-51480,Chloramine-T,,,DMR
+51480,Chloramine-T,,46736,DMR
 51032,Chlordane,57-74-9,49134,DMR
 39350,Chlordane (tech mix. and metabolites),,35898,DMR
-51672,Chlorhexidine diacetate,,,DMR
+51672,Chlorhexidine diacetate,,89625,DMR
 5033,Chloride,16887-00-6,59791,DMR
 82209,Chlorides & sulfates,,80312,DMR
 76025,Chlorinated dibenzo-p-dioxins,136677-09-3,85485,DMR
@@ -265,9 +265,9 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 10214,"Chromium, Hexavalent",,62530,DMR
 10215,"Chromium, Trivalent",,60916,DMR
 34320,Chrysene,218-01-9,93021,DMR
-82700,Clostridium perfringens,,,DMR
+82700,Clostridium perfringens,,23579,DMR
 1090,Cobalt,7440-48-4,36830,DMR
-51673,Coconut Diethanolamide,,,DMR
+51673,Coconut Diethanolamide,,11132,DMR
 00144,Combined metals sum,,35949,DMR
 1165,Copper,7440-50-8,36829,DMR
 10394,Cresol,,43230,DMR
@@ -290,20 +290,20 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 10009,Di-n-octyl phthalate,,47109,DMR
 39570,Diazinon,333-41-5,46209,DMR
 61224,Diazoxon,962-58-3,78859,DMR
-51736,"Dibenz[a,h]acridine",,46342,DMR
+51736,"Dibenz[a,h]acridine",,92639,DMR
 10238,"Dibenz[a,h]anthracene",,49154,DMR
-73542,"Dibenz[a,j]acridine",,46350,DMR
-51737,"Dibenzo[a,e]pyrene",,46353,DMR
-51738,"Dibenzo[a,h]pyrene",,46354,DMR
-73546,"Dibenzo[a,i]pyrene",,88813,DMR
-5201,Dibenzofuran,,,DMR
-82721,Dibromoacetic acid,,87314,DMR
+73542,"Dibenz[a,j]acridine",,46342,DMR
+51737,"Dibenzo[a,e]pyrene",,46350,DMR
+51738,"Dibenzo[a,h]pyrene",,46353,DMR
+73546,"Dibenzo[a,i]pyrene",,46354,DMR
+5201,Dibenzofuran,,46646,DMR
+82721,Dibromoacetic acid,,88813,DMR
 11665,Dibromodichloromethane,,45064,DMR
 11663,Dibromomethane,,48537,DMR
 10007,Dibutyl phthalate,,48873,DMR
 82052,Dicamba,1918-00-9,40140,DMR
 38446,Dichloran,99-30-9,47948,DMR
-51605,Dichloroacetic acid,,46802,DMR
+51605,Dichloroacetic acid,,87314,DMR
 10152,Dichlorobenzene,,56401,DMR
 78155,Dichlorobenzyl trifluoride,30498-35-2,78777,DMR
 11660,Dichlorobromomethane,,48936,DMR
@@ -317,8 +317,8 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 10008,Diethyl phthalate,,48877,DMR
 77030,Diethylamine,109-89-7,47318,DMR
 46476,Diethylene glycol dinitrate,693-21-0,44310,DMR
-81683,Diethylene glycol monobutyl ether acetate,,46145,DMR
-51697,Dimethyl Benzyl Ammonium Chloride,,,DMR
+81683,Diethylene glycol monobutyl ether acetate,,46802,DMR
+51697,Dimethyl Benzyl Ammonium Chloride,,80284,DMR
 10631,Dimethyl phthalate,,97998,DMR
 77042,Dimethyl sulfoxide,67-68-5,49019,DMR
 77672,Dimethyl terephthalate,120-61-6,94940,DMR
@@ -327,7 +327,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 77579,Diphenylamine,122-39-4,47259,DMR
 11198,Diquat,,92790,DMR
 78885,Diquat dibromide,85-00-7,48864,DMR
-10405,Disulfoton,,,DMR
+10405,Disulfoton,,46311,DMR
 39650,Diuron,330-54-1,46215,DMR
 82608,"Domestic waste, solids",,79208,DMR
 10757,Endosulfan,,47164,DMR
@@ -339,10 +339,10 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 34366,Endrin aldehyde,7421-93-4,37030,DMR
 81679,Epichlorohydrin,106-89-8,96714,DMR
 5286,Ethanol,,49054,DMR
-51658,Ethanolamine,,78733,DMR
+51658,Ethanolamine,,46145,DMR
 39398,Ethion,563-12-2,45671,DMR
 81585,Ethyl acetate,141-78-6,46136,DMR
-51661,Ethyl acrylate,,97821,DMR
+51661,Ethyl acrylate,,97768,DMR
 10253,Ethyl ether,,49093,DMR
 10157,Ethylbenzene,,94770,DMR
 10261,Ethylene dibromide,,47495,DMR
@@ -350,7 +350,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 34102,Ethylene glycol dinitrate,628-96-6,89174,DMR
 77402,Ethylene glycol monophenyl ether,122-99-6,47227,DMR
 78455,"Explosives, combined TNT + RDX + tetryl",,80586,DMR
-12427,"Fats, oils & grease (total o & g less TPH)",,101281,DMR
+12427,"Fats, oils & grease (total o & g less TPH)",,78733,DMR
 38467,Fenuron,101-42-8,47841,DMR
 38810,Fluometuron,2164-17-2,41764,DMR
 7822,Fluoranthene,206-44-0,46345,DMR
@@ -363,12 +363,12 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 928,Free Available Chlorine,7782-50-5,38144,DMR
 928,Free Residual Chlorine,7782-50-5,38144,DMR
 52020,Freeboard,,97443,DMR
-78919,"Fuel oil, no. 2",,,DMR
+78919,"Fuel oil, no. 2",,13372,DMR
 78939,"Fuel, diesel, #1",68334-30-5,11923,DMR
 52030,Furans,,35852,DMR
 81588,Furfural,98-01-1,87376,DMR
 78920,"Gasoline, regular",68425-29-6,12833,DMR
-51684,Giardia,,35892,DMR
+51684,Giardia,,4011,DMR
 51181,Glycol mix applied,,97468,DMR
 10297,Glyphosate,,43980,DMR
 71910,Gold,7440-57-5,36823,DMR
@@ -379,18 +379,18 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 61194,"Halogen, total residual",,80205,DMR
 79855,"Halogens, adsorbable organic",,35937,DMR
 03594,"Halogens, adsorbable organic",,35937,DMR
-51539,"Halogens, adsorbable organic",,35949,DMR
-51540,"Halogens, adsorbable organic",,35949,DMR
+51539,"Halogens, adsorbable organic",,35937,DMR
+51540,"Halogens, adsorbable organic",,35937,DMR
 78115,"Halogens, tot organics bottom sediment",,80377,DMR
 78456,"Halomethanes, sum",,35838,DMR
 70009,Halon 1011,74-97-5,48535,DMR
 82394,"Hardness, tot calc. (Ca, Mg, Fe) as CaC03",,79895,DMR
 00900,"Hardness, total (as CaCO3)",,79205,DMR
-46570,"Hardness, total (as CaCO3)",,79934,DMR
+46570,"Hardness, total (as CaCO3)",,79895,DMR
 10748,Heptachlor,,87744,DMR
-51496,Heptachlor and its epoxide -- RCRA T,,141759,DMR
+51496,Heptachlor and its epoxide -- RCRA T,,35892,DMR
 39420,Heptachlor epoxide,1024-57-3,43710,DMR
-51626,Heptadecafluorononanoic acid,,85321,DMR
+51626,Heptadecafluorononanoic acid,,141759,DMR
 2040,Heptane,142-82-5,46520,DMR
 10159,Hexachlorobenzene,,95480,DMR
 10017,Hexachlorobutadiene,,48415,DMR
@@ -410,11 +410,11 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 10308,Hydrogen peroxide,,38481,DMR
 10309,Hydrogen sulfide,,38126,DMR
 77165,Hydroquinone,123-31-9,47211,DMR
-51766,Hydroxide,,82986,DMR
-51686,Imidacloprid,,78735,DMR
+51766,Hydroxide,,85321,DMR
+51686,Imidacloprid,,82986,DMR
 10313,"Indeno[1,2,3-cd]pyrene",,46349,DMR
 01168,Indium,7440-74-6,36811,DMR
-10354,Inorganic Nitrogen,,35904,DMR
+10354,Inorganic Nitrogen,,96190,DMR
 12297,Inorganic suspended solids,,78735,DMR
 2215,Iron,7439-89-6,37015,DMR
 77033,Isobutanol,78-83-1,48753,DMR
@@ -428,7 +428,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 78878,Kerosene,,16071,DMR
 6562,Lead,7439-92-1,37012,DMR
 10228,Lindane,,49118,DMR
-12464,Linuron,,,DMR
+12464,Linuron,,93118,DMR
 2374,Lithium,,37011,DMR
 79746,MCPA 2-ethylhexyl ester,,78748,DMR
 6699,Magnesium,7439-95-4,37009,DMR
@@ -450,7 +450,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 39600,Methyl parathion,298-00-0,92019,DMR
 10418,Methyl tert-butyl ether,,41401,DMR
 10340,Methylene chloride,,48524,DMR
-80361,Methylmercury,,141759,DMR
+80361,Methylmercury,,56269,DMR
 81547,Methylnaphthalene,1321-94-4,43208,DMR
 38528,Metiram,9006-42-2,37286,DMR
 39356,Metolachlor,51218-45-2,89827,DMR
@@ -460,8 +460,8 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 6658,Molybdenum,7439-98-7,37006,DMR
 78143,Monochlorobenzyl trifluoride,88-16-4,48395,DMR
 38511,Monuron,150-68-5,46390,DMR
-10120,"N,N-Dimethylaniline",,,DMR
-10889,N-Ethylaniline,,,DMR
+10120,"N,N-Dimethylaniline",,94909,DMR
+10889,N-Ethylaniline,,76541,DMR
 77102,N-Methyl-2-pyrrolidone,872-50-4,44051,DMR
 49924,N-Methylaniline,100-61-8,47877,DMR
 10677,N-Nitrosodi-n-butylamine,,43926,DMR
@@ -484,16 +484,16 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 82241,"Nitrobodies, total",,79952,DMR
 00696,Nitrofurans,,80299,DMR
 2817,Nitrogen,7727-37-9,38472,DMR
-10809,"Nitrogen, ammonia total (as NH4)",,56871,DMR
+10809,"Nitrogen, ammonia total (as NH4)",,98465,DMR
 5713,"Nitrogen, nitrate dissolved",14797-55-8,97628,DMR
 81382,"Nitrogenous oxygen demand (20-day, 20 C)",,79690,DMR
 34101,Nitroglycerin,55-63-0,48975,DMR
 51178,Nonyl phenoxypoly ethanol,,97469,DMR
-51568,Nonylphenol,,47494,DMR
+51568,Nonylphenol,,56871,DMR
 77889,Octachlorocyclopentene,706-78-5,87209,DMR
-11900,"Oil & grease, non polar material",,78733,DMR
-10364,Oil and grease,,101281,DMR
-51652,Oil refinery waste,,35994,DMR
+11900,"Oil & grease, non polar material",,97467,DMR
+10364,Oil and grease,,35993,DMR
+51652,Oil refinery waste,,95980,DMR
 2817,Organic Nitrogen,7727-37-9,38472,DMR
 78222,Organic active ingredients (40 CFR455),,35805,DMR
 78221,Organic pesticide chemicals (40 CFR455),,35935,DMR
@@ -501,41 +501,41 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 76029,"Organics, tot purgeables (Method 624)",,80378,DMR
 52120,"Organics, total halogens (TOX)",,35871,DMR
 70353,"Organics, total halogens (TOX)",,35871,DMR
-10487,"Organics, total toxic (TTO)",,47527,DMR
+10487,"Organics, total toxic (TTO)",,35994,DMR
 38865,Oxamyl,23135-22-0,92455,DMR
 34046,"Oxidants released, total residual",,79936,DMR
 34045,"Oxidants, free available",,79935,DMR
 34044,"Oxidants, total residual",,79934,DMR
 00300,Oxygen,7782-44-7,38146,DMR
-51645,Oxygen,,,DMR
+51645,Oxygen,,38146,DMR
 00319,"Oxygen demand, total (tod)",,79142,DMR
 00181,"Oxygen demand, total (tod)",,79142,DMR
 00343,"Oxygen demand, total (tod)",,79691,DMR
-10726,Oxytetracycline,,,DMR
+10726,Oxytetracycline,,87309,DMR
 3054,Ozone,10028-15-6,39347,DMR
-51521,PFOA,,53599,DMR
+51521,PFOA,,46198,DMR
 01210,Palladium,7440-05-3,37000,DMR
 82416,Paraquat,4685-14-7,42487,DMR
 10407,Parathion,,48961,DMR
 77793,Pentachlorobenzene,608-93-5,90315,DMR
 81501,Pentachloroethane,76-01-7,48888,DMR
 39032,Pentachlorophenol,87-86-5,48409,DMR
-51674,Peracetic acid,,48728,DMR
+51674,Peracetic acid,,48722,DMR
 61209,Perchlorate (ClO4),14797-73-0,81029,DMR
-51632,Perfluorobutane Sulfonate,,46196,DMR
+51632,Perfluorobutane Sulfonate,,101476,DMR
 51635,Perfluorodecane Sulfonate,,46195,DMR
-51627,Perfluorodecanoic acid,,101731,DMR
+51627,Perfluorodecanoic acid,,46196,DMR
 51634,Perfluoroheptane Sulfonate,,46026,DMR
-51633,Perfluorohexane Sulfonate,,46263,DMR
-51624,Perfluorohexanoic acid,,91633,DMR
-51629,Perfluorolauric acid,,46024,DMR
-51631,Perfluoromyristic acid,,80252,DMR
-51525,Perfluorooctanesulfonamide,,101749,DMR
-51630,Perfluorotridecanoic acid,,101631,DMR
-51628,Perfluoroundecanoic acid,,93138,DMR
-51623,Perfluorovaleric acid,,46348,DMR
+51633,Perfluorohexane Sulfonate,,101731,DMR
+51624,Perfluorohexanoic acid,,46263,DMR
+51629,Perfluorolauric acid,,91633,DMR
+51631,Perfluoromyristic acid,,46024,DMR
+51525,Perfluorooctanesulfonamide,,80252,DMR
+51630,Perfluorotridecanoic acid,,101749,DMR
+51628,Perfluoroundecanoic acid,,101631,DMR
+51623,Perfluorovaleric acid,,93138,DMR
 11132,Permethrin,,55274,DMR
-77801,Perylene,,46198,DMR
+77801,Perylene,,46348,DMR
 82560,"Pesticides, general",,80281,DMR
 74053,"Pesticides, general",,80281,DMR
 82181,"Petrol hydrocarbons, total recoverable",,80292,DMR
@@ -550,13 +550,13 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 78721,Phthalate esters,,35834,DMR
 39117,Phthalate esters,,35834,DMR
 39720,Picloram,1918-02-1,91763,DMR
-51731,Poly[hexamethylenebiguanide] hydrochloride,,80284,DMR
+51731,Poly[hexamethylenebiguanide] hydrochloride,,53599,DMR
 10001,Polychlorinated biphenyls,,16366,DMR
 22456,Polycyclic aromatic hydrocarbons,130498-29-2,84476,DMR
 5948,Potassium,7440-09-7,36996,DMR
 11997,Potassium permanganate,,38484,DMR
 10651,Prometon,,41587,DMR
-10652,Prometryn,,,DMR
+10652,Prometryn,,88330,DMR
 10648,Propazine,,46889,DMR
 39502,Propham,122-42-9,94727,DMR
 38537,Propoxur,114-26-1,95786,DMR
@@ -566,7 +566,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 03768,"Purgeable hydrocarbons, Meth. 601",,80296,DMR
 7829,Pyrene,129-00-0,46705,DMR
 3541,Pyridine,,46949,DMR
-51698,QUATERNARY AMMONIUM COMPOUNDS,,59836,DMR
+51698,QUATERNARY AMMONIUM COMPOUNDS,,80284,DMR
 77299,Quinoline,91-22-5,87972,DMR
 20501,Radium-223,15623-45-7,5249,DMR
 12174,Radium-224,,5237,DMR
@@ -577,7 +577,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 77164,Resorcinol,108-46-3,47409,DMR
 82605,"Sanitary waste, residual chlorine",,79427,DMR
 82607,"Sanitary waste, solids",,79208,DMR
-51619,Seafood Processing Waste,,,DMR
+51619,Seafood Processing Waste,,87133,DMR
 80155,Sediment,,96196,DMR
 3666,Selenium,7782-49-2,38145,DMR
 38547,Siduron,1982-49-6,91546,DMR
@@ -590,14 +590,14 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 32017,Sodium chloride,7647-14-5,38655,DMR
 82375,Solids accumulation rate tot dry weight,,79208,DMR
 00167,"Solids, dry, discharge to sol. handling sys.",,79208,DMR
-12230,"Solids, fixed dissolved",,79256,DMR
-12243,"Solids, fixed suspended",,79209,DMR
+12230,"Solids, fixed dissolved",,79255,DMR
+12243,"Solids, fixed suspended",,79256,DMR
 00500,"Solids, total",,79208,DMR
 4151,"Solids, total dissolved",,79555,DMR
 00510,"Solids, total fixed",,79206,DMR
 82287,"Solids, total non- volatile, non-fixed",,79694,DMR
 10486,"Solids, total suspended",,79671,DMR
-12255,"Solids, total volatile",,46775,DMR
+12255,"Solids, total volatile",,79209,DMR
 51030,Spectrus CT 1300,,78736,DMR
 51006,Spinosad,168316-95-8,80504,DMR
 12284,Strontium,,36984,DMR
@@ -607,12 +607,12 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 6106,Sulfide,,62534,DMR
 51202,Sulfide-hydrogen sulfide (undissociated),,97462,DMR
 00740,Sulfite (as SO3),14265-45-3,97716,DMR
-51570,Sulfolane,,79026,DMR
+51570,Sulfolane,,46775,DMR
 3917,Sulfur,,38507,DMR
 81795,Sulfur dioxide,7446-09-5,36802,DMR
-51660,"Surfactants, anionic",,79557,DMR
-12296,"Surfactants, as CTAS, effluent",,79777,DMR
-12298,"Suspended solids, total annual",,43785,DMR
+51660,"Surfactants, anionic",,79026,DMR
+12296,"Surfactants, as CTAS, effluent",,79557,DMR
+12298,"Suspended solids, total annual",,79777,DMR
 82698,TCDD equivalents,,96403,DMR
 10149,"TNT, dissolved",,47073,DMR
 32240,Tannin and lignin,,80158,DMR
@@ -622,14 +622,14 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 12076,Terbufos,,61528,DMR
 10650,Terbuthylazine,,38055,DMR
 51031,Terpineol,8000-41-7,87299,DMR
-22421,Tert-Amyl Methyl Ether,,92985,DMR
+22421,Tert-Amyl Methyl Ether,,43785,DMR
 78028,Tetrachlorobenzene,12408-10-5,83524,DMR
 10633,Tetrachlorocatechol,,95220,DMR
 81549,Tetrachloroethane,25322-20-7,91490,DMR
 10284,Tetrachloroethylene,,46750,DMR
 12003,Tetrachloroguaiacol,,40066,DMR
 81607,Tetrahydrofuran,109-99-9,47713,DMR
-51757,"Tetrahydroxymethylphosphonium chloride, THPC",,87861,DMR
+51757,"Tetrahydroxymethylphosphonium chloride, THPC",,46790,DMR
 4068,Thallium,7440-28-0,36981,DMR
 34722,Thiobencarb,28249-77-6,92602,DMR
 82195,Thiocarbamates,,80307,DMR
@@ -655,11 +655,11 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 77819,Tri-n-butyl phosphate,126-73-8,46767,DMR
 11673,Tribromomethane,,48938,DMR
 12269,Tributyltin,,44327,DMR
-82723,Trichloroacetic acid,,87860,DMR
+82723,Trichloroacetic acid,,87861,DMR
 82516,Trichlorobenzene,12002-48-1,62297,DMR
 10267,Trichloroethane,,91489,DMR
 10285,Trichloroethylene,,48738,DMR
-77548,Trichloronitromethane,,46028,DMR
+77548,Trichloronitromethane,,87860,DMR
 12042,Trichlorophenol,,91515,DMR
 12020,Trichlorosyringol,,83864,DMR
 77676,Trichlorotoluene,30583-33-6,58742,DMR
@@ -676,7 +676,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 84085,VOC,,80280,DMR
 78236,VOC,,80280,DMR
 78237,VOC,,80280,DMR
-51415,VOC,,80281,DMR
+51415,VOC,,80280,DMR
 4448,Vanadium,7440-62-2,36819,DMR
 10077,Vinyl acetate,,96461,DMR
 10282,Vinyl chloride,,48531,DMR
@@ -687,7 +687,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 01162,Zirconium,7440-67-7,36814,DMR
 10281,"cis-1,2-Dichloroethylene",,46363,DMR
 34704,"cis-1,3-Dichloropropene",10061-01-5,39276,DMR
-10747,cis-Chlordane,,,DMR
+10747,cis-Chlordane,,89846,DMR
 77286,m-Chloroaniline,,96451,DMR
 77151,m-Cresol,108-39-4,47414,DMR
 10136,m-Dichlorobenzene,,91424,DMR
@@ -699,7 +699,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 77342,n-Butylbenzene,104-51-8,97250,DMR
 77427,n-Decane,124-18-5,46801,DMR
 77804,n-Octadecane,593-45-3,45083,DMR
-51572,n-Propyl Bromide,,47495,DMR
+51572,n-Propyl Bromide,,47494,DMR
 77224,n-Propylbenzene,103-65-1,48059,DMR
 77287,o-Chloroaniline,95-51-2,87534,DMR
 34586,o-Chlorophenol,95-57-8,47745,DMR
@@ -716,7 +716,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 12036,p-Chloro-m-cresol,,49108,DMR
 73529,p-Chloroaniline,106-47-8,47523,DMR
 34641,p-Chlorophenyl phenyl ether,7005-72-3,37788,DMR
-46360,p-Chlorotoluene,,48722,DMR
+46360,p-Chlorotoluene,,47527,DMR
 10388,p-Cresol,,47526,DMR
 10140,p-Dichlorobenzene,,47524,DMR
 10389,p-Nitrophenol,,47917,DMR
@@ -725,7 +725,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 77350,sec-Butylbenzene,135-98-8,46586,DMR
 10050,tert-Butanol,,87876,DMR
 77353,tert-Butylbenzene,98-06-6,48011,DMR
-51566,tert-Butylphenol,,46790,DMR
+51566,tert-Butylphenol,,92985,DMR
 10280,"trans-1,2-Dichloroethylene",,46362,DMR
 10693,"trans-1,3-Dichloropropene",,39275,DMR
 49263,"trans-1,4-Dichloro-2-butene",110-57-6,96270,DMR
