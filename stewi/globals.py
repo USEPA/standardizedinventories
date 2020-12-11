@@ -325,7 +325,6 @@ def compile_metadata(file, config, year):
     data_retrieval_time = time.ctime(os.path.getmtime(file))
     if data_retrieval_time is not None:
         metadata['SourceAquisitionTime'] = data_retrieval_time
-    metadata['SourceType'] = 'Static File'
     metadata['SourceFileName'] = file
     metadata['SourceURL'] = config['url']
     if year in config:
