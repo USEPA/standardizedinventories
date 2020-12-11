@@ -238,7 +238,7 @@ def write_validation_result(inventory_acronym,year,validation_df):
     #Convert to Series
     validation_set_info = validation_set_info.iloc[0,]
     #Use the same format an inventory metadata to described the validation set data
-    validation_metadata = inventory_metadata
+    validation_metadata = dict(inventory_metadata)
     validation_metadata['SourceFileName'] = validation_set_info['Name']
     validation_metadata['SourceVersion'] = validation_set_info['Version']
     validation_metadata['SourceURL'] = validation_set_info['URL']
@@ -320,7 +320,7 @@ def read_metadata(inventoryname, report_year):
         return metadata
 
 def compile_metadata(file, config, year):
-    metadata = inventory_metadata
+    metadata = dict(inventory_metadata)
     
     data_retrieval_time = time.ctime(os.path.getmtime(file))
     if data_retrieval_time is not None:
