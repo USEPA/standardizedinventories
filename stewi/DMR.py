@@ -13,17 +13,19 @@ C - for generating StEWI output files and validation from downloaded data
 
 '''
 
-import os, requests, time
+import os, requests
 import pandas as pd
 import stewi.globals as globals
 from stewi.globals import set_dir, filter_inventory, filter_states,\
     validate_inventory, write_validation_result, unit_convert, modulepath,\
-    output_dir, data_dir, lb_kg, inventory_metadata, get_relpath, write_metadata,\
-    weighted_average, log
+    output_dir, data_dir, lb_kg, get_relpath, write_metadata,\
+    weighted_average, log, compile_metadata, config
 import argparse
 
+_config = config()['databases']['DMR']
 dmr_data_dir = data_dir + 'DMR/'
-dmr_external_dir = set_dir(modulepath+'../../DMR Data Files')
+dmr_filepath = '../DMR Data Files/'
+dmr_external_dir = set_dir(dmr_filepath)
 
 # two digit SIC codes from advanced search drop down stripped and formatted as a list
 sic2 = list(pd.read_csv(dmr_data_dir + '2_digit_SIC.csv', dtype={'SIC2': str})['SIC2'])
@@ -31,7 +33,7 @@ sic2 = list(pd.read_csv(dmr_data_dir + '2_digit_SIC.csv', dtype={'SIC2': str})['
 states_df = pd.read_csv(data_dir + 'state_codes.csv')
 states = list(states_df['states']) + list(states_df['dc']) + list(states_df['territories'])
 states = [x for x in states if str(x) != 'nan']
-base_url = 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_custom_data_annual?'  # base url
+base_url = _config['base_url']
 
 # Values used for StEWI query
 PARAM_GROUP = True
@@ -259,8 +261,7 @@ def generateStateTotal(year):
     """Generates file of state totals as csv"""
     log.info('generating state totals')
     # https://echo.epa.gov/trends/loading-tool/get-data/state-statistics
-    url = 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_state_stats?p_year=' +\
-        year + '&output=csv'
+    url = _config['state_url'].replace("__year__",year)
     
     state_csv = pd.read_csv(url, header=2)
     state_totals = pd.DataFrame()
@@ -307,30 +308,15 @@ def generate_metadata(year):
     """
     Gets metadata and writes to .json
     """
-    log.info('Generating metadata')
-    meta = inventory_metadata
 
-    #Get time info from folder
-    path = dmr_external_dir + str(year)+'/'
-    retrieval_time = time.ctime(os.path.getmtime(path))
-
-    if retrieval_time is not None:
-        meta['SourceAquisitionTime'] = retrieval_time
-    meta['SourceFileName'] = get_relpath(path)
-    meta['SourceURL'] = 'add'
-
-    #extract version from filepath using regex
-    import re
-    pattern = 'V[0-9]'
-    version = re.search(pattern,path,flags=re.IGNORECASE)
-    if version is not None:
-        meta['SourceVersion'] = version.group(0)
+    path = dmr_filepath + str(year)
+    DMR_meta = compile_metadata(path, _config, year)
 
     #Write metadata to json
-    write_metadata('DMR', year, meta)    
+    write_metadata('DMR', year, DMR_meta)    
 
 def read_pollutant_parameter_list(parameter_grouping = PARAM_GROUP):
-    url = 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_loading_tool_params?output=csv'
+    url = _config['pollutant_list_url']
     flows = pd.read_csv(url, header=1, usecols=['POLLUTANT_CODE','POLLUTANT_DESC',
                                                 'PARAMETER_CODE','PARAMETER_DESC',
                                                 'SRS_ID', 'NITROGEN','PHOSPHORUS'], dtype=str)
