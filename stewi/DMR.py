@@ -357,7 +357,21 @@ def aggregate_to_facility(df):
     dmrbyfacility = dmrbyfacility.reset_index()
     dmrbyfacility.columns = dmrbyfacility.columns.droplevel(level=1)
 
-    return dmrbyfacility    
+    return dmrbyfacility
+
+def consolidate_nutrients(df, drop_list, nutrient):
+    """
+    Renames flows following nutrient aggregation to better handle flow overlaps
+    """
+    drop_list = drop_list['FlowName'].to_list()
+    if nutrient == 'P':
+        flow = ['Phosphorus', 'PHOSP']
+    elif nutrient == 'N':
+        flow = ['Nitrogen', 'N']
+    df.loc[(df['PollutantDesc'].isin(drop_list)),['PollutantDesc','PollutantCode']]=flow
+    
+    return df
+    
     
 if __name__ == '__main__':
 
@@ -413,19 +427,25 @@ if __name__ == '__main__':
 
             P_df = generateDMR(DMRyear, nutrient='P')
             N_df = generateDMR(DMRyear, nutrient='N')
+
+            nut_drop_list = read_pollutant_parameter_list()
+            nut_drop_list = nut_drop_list[(nut_drop_list['NITROGEN'] == 'Y') | (nut_drop_list['PHOSPHORUS'] == 'Y')]
+            nut_drop_list = nut_drop_list[['FlowName']].drop_duplicates()
+            
+            # Consolidate N and P based flows to reflect nutrient aggregation
+            P_df = consolidate_nutrients(P_df, nut_drop_list, 'P')
+            N_df = consolidate_nutrients(N_df, nut_drop_list, 'N')
+
             nutrient_agg_df = pd.concat([P_df, N_df])
             nutrient_agg_df = filter_states(standardize_df(nutrient_agg_df))
 
             # Filter out nitrogen and phosphorus flows before combining with aggregated nutrients            
-            nut_drop_list = read_pollutant_parameter_list()
-            nut_drop_list = nut_drop_list[(nut_drop_list['NITROGEN'] == 'Y') | (nut_drop_list['PHOSPHORUS'] == 'Y')]
-            nut_drop_list = nut_drop_list[['FlowName']].drop_duplicates()
             dmr_nut_filtered = filter_inventory(state_df, nut_drop_list, 'drop')
             dmr_df = pd.concat([dmr_nut_filtered, nutrient_agg_df]).reset_index(drop=True)
 
             #PermitTypeCode needed for state validation but not maintained
             dmr_df = dmr_df.drop(columns=['PermitTypeCode'])
-           
+
             # generate output for facility
             facility_columns = ['FacilityID', 'FacilityName', 'City', 'State', 'Zip', 'Latitude', 'Longitude',
                                 'County', 'NAICS', 'SIC'] #'Address' not in DMR
