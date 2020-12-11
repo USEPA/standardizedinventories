@@ -404,7 +404,7 @@ if __name__ == '__main__':
             generateStateTotal(DMRyear)
         
         if args.Option == 'C':
-            '''
+
             state_df = generateDMR(DMRyear)
             state_df = filter_states(standardize_df(state_df))
 
@@ -452,7 +452,7 @@ if __name__ == '__main__':
             dmr_fbf['Compartment'] = 'water'
             dmr_fbf['Unit'] = 'kg'
             dmr_fbf.to_csv(set_dir(output_dir + 'flowbyfacility/')+'DMR_' + DMRyear + '.csv', index=False)
-            '''
+
             # write metadata
             generate_metadata(DMRyear)
 
