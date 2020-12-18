@@ -402,6 +402,41 @@ def remove_duplicate_organic_enrichment(df):
     df.drop(columns=['PrefList','NonPrefList'], inplace = True)
     df.reset_index(inplace = True)
     return df
+
+def remove_nutrient_overlap_TRI(df, preference):
+    
+    tri_list = ['AMMONIA','NITRATE COMPOUNDS']
+    dmr_list = ['Nitrogen']
+    combined_list = tri_list + dmr_list
+    
+    # for facilities where the FRS and compartment match
+    if preference == 'DMR':
+        keep_list = dmr_list
+
+    df_nutrients = df.loc[((df['FlowName'].isin(combined_list)) & (df['Compartment'] == 'water'))]
+    df_duplicates = df_nutrients[df_nutrients.duplicated(subset = 'FRS_ID', keep = False)]
+    if len(df_duplicates) == 0:
+        return df
+
+    df = df.loc[~((df['FlowName'].isin(combined_list)) & (df['Compartment'] == 'water'))]
+    df_nutrients = df_nutrients[~df_nutrients.duplicated(subset = 'FRS_ID', keep = False)]
+    to_be_concat = []
+    to_be_concat.append(df)
+    to_be_concat.append(df_nutrients)
+    
+    df_duplicates['PrefList'] = df_duplicates['FlowName'].apply(lambda x: x in keep_list)
+    df_duplicates['NonPrefList'] = df_duplicates['FlowName'].apply(lambda x: x not in keep_list)
+    grouped = df_duplicates.groupby(['FRS_ID'])
+    for name, frame in grouped:
+        if not frame['NonPrefList'].all():
+            frame = frame[frame['PrefList']]
+        to_be_concat.append(frame)       
+    df = pd.concat(to_be_concat)
+    df.sort_index(inplace = True)
+    df.drop(columns=['PrefList','NonPrefList'], inplace = True)
+    df.reset_index(inplace = True)
+        
+    return df
     
 if __name__ == '__main__':
 
