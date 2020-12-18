@@ -88,6 +88,8 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility', filter_f
             filter_path += 'TRI_pollutant_omit_list.csv'
             filter_type = 'drop'
         elif inventory_acronym == 'DMR':
+            from stewi.DMR import remove_duplicate_organic_enrichment
+            inventory = remove_duplicate_organic_enrichment(inventory)
             filter_path += 'DMR_pollutant_omit_list.csv'
             filter_type = 'drop'
         elif inventory_acronym == 'GHGRP':

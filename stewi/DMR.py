@@ -319,7 +319,8 @@ def read_pollutant_parameter_list(parameter_grouping = PARAM_GROUP):
     url = _config['pollutant_list_url']
     flows = pd.read_csv(url, header=1, usecols=['POLLUTANT_CODE','POLLUTANT_DESC',
                                                 'PARAMETER_CODE','PARAMETER_DESC',
-                                                'SRS_ID', 'NITROGEN','PHOSPHORUS'], dtype=str)
+                                                'SRS_ID', 'NITROGEN','PHOSPHORUS',
+                                                'ORGANIC_ENRICHMENT'], dtype=str)
     if parameter_grouping:
         flows.rename(columns={'POLLUTANT_DESC':'FlowName',
                               'POLLUTANT_CODE':'FlowID'}, inplace=True)
@@ -357,7 +358,50 @@ def consolidate_nutrients(df, drop_list, nutrient):
     df.loc[(df['PollutantDesc'].isin(drop_list)),['PollutantDesc','PollutantCode']]=flow
     
     return df
+
+def remove_duplicate_organic_enrichment(df):
+    """
+    Facilities can report multiple forms of organic enrichment, BOD and COD,
+    which represent duplicate accounting of oxygen depletion. See Myer et al.
+    2020
+    """
+    flow_preference = 'COD'
+
+    org_flow_list = read_pollutant_parameter_list()
+    org_flow_list = org_flow_list[org_flow_list['ORGANIC_ENRICHMENT'] == 'Y']
+    org_flow_list = org_flow_list[['FlowName']].drop_duplicates()
+    org_flow_list = org_flow_list['FlowName'].to_list()
     
+    cod_list = [flow for flow in org_flow_list if 'COD' in flow]
+    bod_list = [flow for flow in org_flow_list if 'BOD' in flow]
+    if flow_preference == 'COD':
+        keep_list = cod_list
+    else:
+        keep_list = bod_list
+    
+    df_org = df.loc[df['FlowName'].isin(org_flow_list)]
+    df_duplicates = df_org[df_org.duplicated(subset = 'FacilityID', keep = False)]
+    if len(df_duplicates) == 0:
+        return df
+
+    df = df.loc[~df['FlowName'].isin(org_flow_list)]
+    df_org = df_org[~df_org.duplicated(subset = 'FacilityID', keep = False)]
+    to_be_concat = []
+    to_be_concat.append(df)
+    to_be_concat.append(df_org)
+    
+    df_duplicates['PrefList'] = df_duplicates['FlowName'].apply(lambda x: x in keep_list)
+    df_duplicates['NonPrefList'] = df_duplicates['FlowName'].apply(lambda x: x not in keep_list)
+    grouped = df_duplicates.groupby(['FacilityID'])
+    for name, frame in grouped:
+        if not frame['NonPrefList'].all():
+            frame = frame[frame['PrefList']]
+        to_be_concat.append(frame)       
+    df = pd.concat(to_be_concat)
+    df.sort_index(inplace = True)
+    df.drop(columns=['PrefList','NonPrefList'], inplace = True)
+    df.reset_index(inplace = True)
+    return df
     
 if __name__ == '__main__':
 
