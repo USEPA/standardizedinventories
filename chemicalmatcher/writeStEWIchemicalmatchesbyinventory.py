@@ -103,18 +103,6 @@ for source in sources:
 all_lists_srs_info = all_lists_srs_info.drop(columns=['PGM_ID'])
 all_lists_srs_info = all_lists_srs_info.sort_values(['Source','FlowName','SRS_ID'])
 
-'''
-#Add in missing SRS directly from DMR
-if 'DMR' in sources:
-    from stewi.DMR import read_pollutant_parameter_list
-    dmr_flows = read_pollutant_parameter_list(parameter_grouping = True)
-    dmr_flows = dmr_flows[['FlowID','FlowName','SRS_ID']].drop_duplicates()
-    dmr_flows.dropna(subset=['SRS_ID'], inplace = True)
-    all_lists_srs_info = all_lists_srs_info.merge(dmr_flows, on = ['FlowID','FlowName'], how='left')
-    all_lists_srs_info.loc[(all_lists_srs_info.Source =='DMR') & (all_lists_srs_info.SRS_ID_x.isna()),['SRS_ID_x']] = all_lists_srs_info['SRS_ID_y']
-    all_lists_srs_info.rename(columns={'SRS_ID_x':'SRS_ID'}, inplace = True)
-    all_lists_srs_info.drop(columns=['SRS_ID_y'], inplace = True)
-'''    
 #Add in manually found matches
 all_lists_srs_info = add_manual_matches(all_lists_srs_info)
 
