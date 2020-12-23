@@ -4,8 +4,8 @@ FlowID,FlowName,Compartment,Unit
 11126,.alpha.-Hexachlorocyclohexane,water,kg
 45097,.alpha.-Methylstyrene,water,kg
 10744,.alpha.-Terpineol,water,kg
-34356,.beta.-Endosulfan,water,kg
 79618,.beta.-Endosulfan,water,kg
+34356,.beta.-Endosulfan,water,kg
 11127,.beta.-Hexachlorocyclohexane,water,kg
 11125,.delta.-Hexachlorocyclohexane,water,kg
 77562,"1,1,1,2-Tetrachloroethane",water,kg
@@ -117,20 +117,18 @@ FlowID,FlowName,Compartment,Unit
 39053,Aldicarb,water,kg
 10024,Aldrin,water,kg
 74051,"Algicides, general",water,kg
+51676,Aliphatics,water,kg
 51679,Aliphatics,water,kg
 51678,Aliphatics,water,kg
 51677,Aliphatics,water,kg
-51676,Aliphatics,water,kg
-51380,"Alkalinity, bicarbonate (as CaCO3)",water,kg
 00425,"Alkalinity, bicarbonate (as CaCO3)",water,kg
+51380,"Alkalinity, bicarbonate (as CaCO3)",water,kg
 00430,"Alkalinity, carbonate (as CaCO3)",water,kg
 00415,"Alkalinity, phenolphthaline method",water,kg
 00410,"Alkalinity, total (as CaCO3)",water,kg
 10954,Alkyl benzene sulfonated (ABS),water,kg
 360,Aluminum,water,kg
 10808,Ammonia & ammonium- total,water,kg
-375,Ammonia as N,water,kg
-375,Ammonia as NH3,water,kg
 51065,Ammonium perfluoroctanoate,water,kg
 51547,Amoxicillin,water,kg
 51548,Ampicillin,water,kg
@@ -165,8 +163,8 @@ FlowID,FlowName,Compartment,Unit
 34526,Benz[a]anthracene,water,kg
 51494,"Benzenamine, N-methyl-N,2,4,6-tetranitro-",water,kg
 603,Benzene,water,kg
-30383,"Benzene, ethylbenzene, toluene, xylene combination",water,kg
 49491,"Benzene, ethylbenzene, toluene, xylene combination",water,kg
+30383,"Benzene, ethylbenzene, toluene, xylene combination",water,kg
 38579,"Benzene, halogenated",water,kg
 34103,"Benzene, toluene, xylene in combination",water,kg
 10508,Benzidine,water,kg
@@ -205,12 +203,12 @@ FlowID,FlowName,Compartment,Unit
 00445,Carbonate ion- (as CO3),water,kg
 01117,Cesium,water,kg
 80108,Chemical oxygen demand (COD),water,kg
-80103,Chemical oxygen demand (COD),water,kg
 70027,Chemical oxygen demand (COD),water,kg
-80116,Chemical oxygen demand (COD),water,kg
-00341,Chemical oxygen demand (COD),water,kg
+80103,Chemical oxygen demand (COD),water,kg
 00340,Chemical oxygen demand (COD),water,kg
 00335,Chemical oxygen demand (COD),water,kg
+80116,Chemical oxygen demand (COD),water,kg
+00341,Chemical oxygen demand (COD),water,kg
 81017,Chemical oxygen demand (COD),water,kg
 11079,"Chloramine, total",water,kg
 51480,Chloramine-T,water,kg
@@ -220,8 +218,8 @@ FlowID,FlowName,Compartment,Unit
 5033,Chloride,water,kg
 82209,Chlorides & sulfates,water,kg
 76025,Chlorinated dibenzo-p-dioxins,water,kg
-61237,"Chlorinated hydrocarbons, total",water,kg
 74052,"Chlorinated hydrocarbons, total",water,kg
+61237,"Chlorinated hydrocarbons, total",water,kg
 10390,Chlorinated phenols,water,kg
 03773,Chlorine produced oxidants,water,kg
 00183,"Chlorine, total residual, duration of violation",water,kg
@@ -342,14 +340,14 @@ FlowID,FlowName,Compartment,Unit
 39084,"Halocarbons, purgeable scan, effluent",water,kg
 61194,"Halogen, total residual",water,kg
 51539,"Halogens, adsorbable organic",water,kg
+51540,"Halogens, adsorbable organic",water,kg
 79855,"Halogens, adsorbable organic",water,kg
 03594,"Halogens, adsorbable organic",water,kg
-51540,"Halogens, adsorbable organic",water,kg
 78115,"Halogens, tot organics bottom sediment",water,kg
 78456,"Halomethanes, sum",water,kg
 82394,"Hardness, tot calc. (Ca, Mg, Fe) as CaC03",water,kg
-00900,"Hardness, total (as CaCO3)",water,kg
 46570,"Hardness, total (as CaCO3)",water,kg
+00900,"Hardness, total (as CaCO3)",water,kg
 10748,Heptachlor,water,kg
 39420,Heptachlor epoxide,water,kg
 51626,Heptadecafluorononanoic acid,water,kg
@@ -373,7 +371,6 @@ FlowID,FlowName,Compartment,Unit
 51766,Hydroxide,water,kg
 10313,"Indeno[1,2,3-cd]pyrene",water,kg
 01168,Indium,water,kg
-10354,Inorganic Nitrogen,water,kg
 12297,Inorganic suspended solids,water,kg
 2215,Iron,water,kg
 77033,Isobutanol,water,kg
@@ -433,13 +430,10 @@ FlowID,FlowName,Compartment,Unit
 79745,Neptune Blue,water,kg
 2741,Nickel,water,kg
 01139,Niobium,water,kg
-2806,"Nitrite nitrogen, dissolved (as N)",water,kg
 10164,Nitrobenzene,water,kg
 82241,"Nitrobodies, total",water,kg
 00696,Nitrofurans,water,kg
 2817,Nitrogen,water,kg
-10809,"Nitrogen, ammonia total (as NH4)",water,kg
-5713,"Nitrogen, nitrate dissolved",water,kg
 81382,"Nitrogenous oxygen demand (20-day, 20 C)",water,kg
 34101,Nitroglycerin,water,kg
 51178,Nonyl phenoxypoly ethanol,water,kg
@@ -448,7 +442,6 @@ FlowID,FlowName,Compartment,Unit
 11900,"Oil & grease, non polar material",water,kg
 10364,Oil and grease,water,kg
 51652,Oil refinery waste,water,kg
-2817,Organic Nitrogen,water,kg
 78222,Organic active ingredients (40 CFR455),water,kg
 78221,Organic pesticide chemicals (40 CFR455),water,kg
 76029,"Organics, tot purgeables (Method 624)",water,kg
@@ -461,9 +454,9 @@ FlowID,FlowName,Compartment,Unit
 34044,"Oxidants, total residual",water,kg
 51645,Oxygen,water,kg
 00300,Oxygen,water,kg
+00181,"Oxygen demand, total (tod)",water,kg
 00343,"Oxygen demand, total (tod)",water,kg
 00319,"Oxygen demand, total (tod)",water,kg
-00181,"Oxygen demand, total (tod)",water,kg
 10726,Oxytetracycline,water,kg
 3054,Ozone,water,kg
 51521,PFOA,water,kg
@@ -491,16 +484,15 @@ FlowID,FlowName,Compartment,Unit
 77801,Perylene,water,kg
 82560,"Pesticides, general",water,kg
 74053,"Pesticides, general",water,kg
-45501,"Petrol hydrocarbons, total recoverable",water,kg
 82180,"Petrol hydrocarbons, total recoverable",water,kg
 82181,"Petrol hydrocarbons, total recoverable",water,kg
+45501,"Petrol hydrocarbons, total recoverable",water,kg
 31667,Petroleum,water,kg
 7827,Phenanthrene,water,kg
 34694,Phenol,water,kg
-5878,"Phosphate, total (as PO4)",water,kg
 5889,Phosphorus,water,kg
-39117,Phthalate esters,water,kg
 78721,Phthalate esters,water,kg
+39117,Phthalate esters,water,kg
 39720,Picloram,water,kg
 51731,Poly[hexamethylenebiguanide] hydrochloride,water,kg
 10001,Polychlorinated biphenyls,water,kg
@@ -511,8 +503,8 @@ FlowID,FlowName,Compartment,Unit
 39502,Propham,water,kg
 38537,Propoxur,water,kg
 10639,Propylene glycol,water,kg
-03771,Purgeable aromatics Method 602,water,kg
 78171,Purgeable aromatics Method 602,water,kg
+03771,Purgeable aromatics Method 602,water,kg
 03768,"Purgeable hydrocarbons, Meth. 601",water,kg
 7829,Pyrene,water,kg
 3541,Pyridine,water,kg
@@ -586,7 +578,6 @@ FlowID,FlowName,Compartment,Unit
 10161,Toluene,water,kg
 85813,Tolytriazole,water,kg
 6656,Total Carbon,water,kg
-2817,Total Kjeldahl Nitrogen,water,kg
 10365,Total Organic Carbon,water,kg
 928,Total Residual Chlorine,water,kg
 01277,Total agg concentration #1,water,kg
@@ -618,9 +609,9 @@ FlowID,FlowName,Compartment,Unit
 6439,Uranium-238,water,kg
 71800,Urea,water,kg
 84085,VOC,water,kg
-51415,VOC,water,kg
 78236,VOC,water,kg
 78237,VOC,water,kg
+51415,VOC,water,kg
 4448,Vanadium,water,kg
 10077,Vinyl acetate,water,kg
 10282,Vinyl chloride,water,kg

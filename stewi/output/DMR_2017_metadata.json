@@ -1,1 +1,1 @@
-{"SourceType": "Static File", "SourceFileName": "../DMR Data Files/2017/", "SourceURL": "add", "SourceVersion": "NA", "SourceAquisitionTime": "Fri Oct 30 10:37:07 2020", "StEWI_versions_version": "0.9"}
+{"SourceType": "Web Service", "SourceFileName": "../DMR Data Files/2017", "SourceURL": "https://echo.epa.gov/trends/loading-tool/water-pollution-search", "SourceVersion": "NA", "SourceAquisitionTime": "Fri Oct 30 10:37:07 2020", "StEWI_versions_version": "0.9.6"}
