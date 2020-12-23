@@ -15,7 +15,7 @@ output_dir = modulepath + 'output/'
 data_dir = modulepath + 'data/'
 
 log.basicConfig(level=log.DEBUG, format='%(levelname)s %(message)s')
-stewi_version = '0.9.5'
+stewi_version = '0.9.6'
 
 reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',
                                 usecols=['Source', 'Code', 'DQI Reliability Score'])
