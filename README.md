@@ -55,6 +55,7 @@ Processing of the DMR uses the custom search option of the [Water Pollutant Load
 - Parameter grouping: On - applies a parameter grouping function to avoid double-counting loads for pollutant parameters that represent the same pollutant
 - Detection limit: Half - set all non-detects to ½ the detection limit
 - Estimation: On - estimates loads when monitoring data are not reported for one or more monitoring periods in a reporting year
+- Nutrient Aggregation: On - Nitrogen and Phosphorous flows are converted to N and P equivalents
 
 ## Wiki
 
