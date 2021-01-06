@@ -83,21 +83,22 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility', filter_f
         inventory = filter_states(inventory)
     if filter_for_LCI:
         filter_path = DATA_DIR
+        filter_type = None
         if inventory_acronym == 'TRI':
             filter_path += 'TRI_pollutant_omit_list.csv'
             filter_type = 'drop'
-            inventory = filter_inventory(inventory, filter_path, filter_type=filter_type)
+        elif inventory_acronym == 'DMR':
+            from stewi.DMR import remove_duplicate_organic_enrichment
+            inventory = remove_duplicate_organic_enrichment(inventory)
+            filter_path += 'DMR_pollutant_omit_list.csv'
+            filter_type = 'drop'
         elif inventory_acronym == 'GHGRP':
             filter_path += 'ghg_mapping.csv'
             filter_type = 'keep'
-            inventory = filter_inventory(inventory, filter_path, filter_type=filter_type)
-        elif inventory_acronym == 'RCRAInfo':
-            filter_type = ''
-        elif inventory_acronym == 'eGRID':
-            filter_type = ''
         elif inventory_acronym == 'NEI':
             filter_path += 'NEI_pollutant_omit_list.csv'
             filter_type = 'drop'
+        if filter_type is not None:
             inventory = filter_inventory(inventory, filter_path, filter_type=filter_type)
     return inventory
 

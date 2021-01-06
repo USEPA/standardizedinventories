@@ -53,4 +53,8 @@ databases:
         '2017': '2017v1/2017neiApr'
         '2014': '2014v2/2014neiv2'
         '2011': '2011v2/2011neiv2'
-
+  DMR:
+      url: 'https://echo.epa.gov/trends/loading-tool/water-pollution-search'
+      base_url: 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_custom_data_annual?'
+      pollutant_list_url: 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_loading_tool_params?output=csv'
+      state_url: 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_state_stats?p_year=__year__&output=csv'

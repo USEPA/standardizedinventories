@@ -15,7 +15,7 @@ output_dir = modulepath + 'output/'
 data_dir = modulepath + 'data/'
 
 log.basicConfig(level=log.DEBUG, format='%(levelname)s %(message)s')
-stewi_version = '0.9.5'
+stewi_version = '0.9.6'
 
 reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',
                                 usecols=['Source', 'Code', 'DQI Reliability Score'])
@@ -178,6 +178,7 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
         if group_by == 'flow':
             group_by_columns = ['FlowName']
             if 'Compartment' in inventory_df.keys(): group_by_columns += ['Compartment']
+            if 'State' in inventory_df.keys(): group_by_columns += ['State']
         elif group_by == 'facility': group_by_columns = ['FlowName', 'FacilityID']
         inventory_df['FlowAmount'] = inventory_df['FlowAmount'].fillna(0.0)
         reference_df['FlowAmount'] = reference_df['FlowAmount'].fillna(0.0)
@@ -237,7 +238,7 @@ def write_validation_result(inventory_acronym,year,validation_df):
     #Convert to Series
     validation_set_info = validation_set_info.iloc[0,]
     #Use the same format an inventory metadata to described the validation set data
-    validation_metadata = inventory_metadata
+    validation_metadata = dict(inventory_metadata)
     validation_metadata['SourceFileName'] = validation_set_info['Name']
     validation_metadata['SourceVersion'] = validation_set_info['Version']
     validation_metadata['SourceURL'] = validation_set_info['URL']
@@ -319,12 +320,11 @@ def read_metadata(inventoryname, report_year):
         return metadata
 
 def compile_metadata(file, config, year):
-    metadata = inventory_metadata
+    metadata = dict(inventory_metadata)
     
     data_retrieval_time = time.ctime(os.path.getmtime(file))
     if data_retrieval_time is not None:
         metadata['SourceAquisitionTime'] = data_retrieval_time
-    metadata['SourceType'] = 'Static File'
     metadata['SourceFileName'] = file
     metadata['SourceURL'] = config['url']
     if year in config:

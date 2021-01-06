@@ -12,7 +12,7 @@ except NameError: modulepath = 'facilitymatcher/'
 output_dir = modulepath + 'output/'
 data_dir = modulepath + 'data/'
 
-stewi_inventories = ["NEI","TRI","eGRID","RCRAInfo"]
+stewi_inventories = ["NEI","TRI","eGRID","RCRAInfo", "DMR"]
 
 inventory_to_FRS_pgm_acronymn = {"NEI":"EIS","TRI":"TRIS","eGRID":"EGRID","GHGRP":"E-GGRT","RCRAInfo":"RCRAINFO","DMR":"NPDES"}
 
