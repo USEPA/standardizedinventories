@@ -19,7 +19,7 @@ else:
 
 setup(
     name="StEWI",
-    version="0.9.6",
+    version="0.9.7",
     author="Wesley Ingwersen, Matthew Bergman, Jose Hernandez-Betancur, Tapajyoti Ghosh, Mo Li",
     author_email="ingwersen.wesley@epa.gov",
     description="Standardized Emission And Waste Inventories (StEWI)"
