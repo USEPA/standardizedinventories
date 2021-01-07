@@ -5,7 +5,7 @@ Functions to return inventory data for a single inventory in standard formats
 import os
 import pandas as pd
 from stewi.globals import get_required_fields, get_optional_fields, filter_inventory,\
-    filter_states, inventory_single_compartments
+    filter_states, add_missing_fields
 
 try:
     MODULEPATH = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
@@ -77,31 +77,28 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility', filter_f
         else:
             print('requested inventory does not exist, try seeAvailableInventoriesandYears()')
             return
-    # Add in units and compartment if not present
-    if 'Unit' not in inventory.columns:
-        inventory['Unit'] = 'kg'
-    if 'Compartment' not in inventory.columns:
-        inventory['Compartment'] = inventory_single_compartments[inventory_acronym]
+    inventory = add_missing_fields(inventory, inventory_acronym, stewiformat)
     # Apply filters if present
     if US_States_Only:
         inventory = filter_states(inventory)
     if filter_for_LCI:
         filter_path = DATA_DIR
+        filter_type = None
         if inventory_acronym == 'TRI':
             filter_path += 'TRI_pollutant_omit_list.csv'
             filter_type = 'drop'
-            inventory = filter_inventory(inventory, filter_path, filter_type=filter_type)
+        elif inventory_acronym == 'DMR':
+            from stewi.DMR import remove_duplicate_organic_enrichment
+            inventory = remove_duplicate_organic_enrichment(inventory)
+            filter_path += 'DMR_pollutant_omit_list.csv'
+            filter_type = 'drop'
         elif inventory_acronym == 'GHGRP':
             filter_path += 'ghg_mapping.csv'
             filter_type = 'keep'
-            inventory = filter_inventory(inventory, filter_path, filter_type=filter_type)
-        elif inventory_acronym == 'RCRAInfo':
-            filter_type = ''
-        elif inventory_acronym == 'eGRID':
-            filter_type = ''
         elif inventory_acronym == 'NEI':
             filter_path += 'NEI_pollutant_omit_list.csv'
             filter_type = 'drop'
+        if filter_type is not None:
             inventory = filter_inventory(inventory, filter_path, filter_type=filter_type)
     return inventory
 

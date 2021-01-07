@@ -30,7 +30,7 @@ COMPARTMENT_COL = "Compartment"
 COL_FUNC_PAIRS = {
     "FacilityID": "join_with_underscore",
     "FlowAmount": "sum",
-    "ReliabilityScore": "reliablity_weighted_sum:FlowAmount"
+    "DataReliability": "reliablity_weighted_sum:FlowAmount"
 }
 COL_FUNC_DEFAULT = "get_first_item"
 
@@ -44,7 +44,7 @@ def get_id_before_underscore(inventory_id):
 VOC_srs = pd.read_csv(data_dir+'VOC_SRS_IDs.csv',dtype=str,index_col=False,header=0)
 VOC_srs = VOC_srs['SRS_IDs']
 
-columns_to_keep = ['FacilityID', 'FlowAmount', 'FlowName','Compartment','Unit','ReliabilityScore','Source','Year','FRS_ID']
+columns_to_keep = ['FacilityID', 'FlowAmount', 'FlowName','Compartment','Unit','DataReliability','Source','Year','FRS_ID']
 
 
 def getInventoriesforFacilityMatches(inventory_dict,facilitymatches,filter_for_LCI,base_inventory=None):
@@ -80,9 +80,9 @@ def getInventoriesforFacilityMatches(inventory_dict,facilitymatches,filter_for_L
 def addChemicalMatches(inventories_df):
     #Bring in chemical matches
     chemicalmatches = chemicalmatcher.get_matches_for_StEWI()
-    chemicalmatches = chemicalmatches.drop_duplicates()
+    chemicalmatches = chemicalmatches.drop(columns=['FlowID'])
+    chemicalmatches = chemicalmatches.drop_duplicates(subset=['FlowName','Source'])
     inventories = pd.merge(inventories_df,chemicalmatches,on=(['FlowName','Source']),how='left')
-    inventories = inventories.drop(columns=['FlowID'])
     return inventories
 
 
