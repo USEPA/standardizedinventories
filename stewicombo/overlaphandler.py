@@ -146,6 +146,7 @@ def remove_default_flow_overlaps(df, compartment='air', SCC=False):
 
     # SRS_ID = 77683 (PM10-PRI) and SRS_ID = 77681  (PM2.5-PRI)
     df = remove_flow_overlap(df, '77683',['77681'], compartment, SCC)
+    df.loc[(df['SRS_ID'] == '77683'), 'FlowName'] = 'PM10-PM2.5'
     
     # SRS_ID = 83723 (VOC) change FlowAmount by subtracting sum of FlowAmount from speciated HAP VOCs.
     # The records for speciated HAP VOCs are not changed.
