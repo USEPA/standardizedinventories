@@ -1,6 +1,5 @@
 import pandas as pd
 from stewicombo.globals import *
-import stewi
 from stewi.globals import log
 
 if not "LOOKUP_FIELDS" in locals() and LOOKUP_FIELDS:
