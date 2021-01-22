@@ -31,7 +31,8 @@ setup(
     packages=['chemicalmatcher', 'facilitymatcher', 'stewi', 'stewicombo'],
     # Must include package data, specifying all subdirectories to be included
     # https://setuptools.readthedocs.io/en/latest/setuptools.html#including-data-files
-    package_data={'stewi': ["data/",
+    package_data={'stewi': ["data/*.*",
+                            "data/DMR/*.*",
                             "output/*.*",
                             "output/facility/*.*",
                             "output/flow/*.*",
