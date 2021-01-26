@@ -44,4 +44,6 @@ RCRAInfo,,2005,Trends Analysis,https://rcrapublic.epa.gov/rcrainfoweb/action/mod
 RCRAInfo,,2007,Trends Analysis,https://rcrapublic.epa.gov/rcrainfoweb/action/modules/br/trends/view,"Location':'National','Metric':'Generation', 'Generators To Include': 'All Generators Included In The NBR'",20-Mar-19
 RCRAInfo,,2009,Trends Analysis,https://rcrapublic.epa.gov/rcrainfoweb/action/modules/br/trends/view,"Location':'National','Metric':'Generation', 'Generators To Include': 'All Generators Included In The NBR'",20-Mar-19
 RCRAInfo,,2017,Trends Analysis,https://rcrapublic.epa.gov/rcrainfoweb/action/modules/br/trends/view,"Location':'National','Metric':'Generation', 'Generators To Include': 'All Generators Included In The NBR'",20-Mar-19
-GHGRP,,2016,GHGRP Table V_GHG_EMITTER_SUBPART,https://iaspub.epa.gov/enviro/efservice/V_GHG_EMITTER_SUBPART/,NA,15-Oct-18
+GHGRP,,2016,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/REPORTING_YEAR/=/2016,NA,15-Oct-18
+GHGRP,,2017,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/REPORTING_YEAR/=/2017,NA,22-Jan-21
+GHGRP,,2018,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/REPORTING_YEAR/=/2018,NA,22-Jan-21
