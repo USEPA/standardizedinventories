@@ -48,4 +48,6 @@ DMR,,2017,State statistics,https://echo.epa.gov/trends/loading-tool/get-data/sta
 DMR,,2016,State statistics,https://echo.epa.gov/trends/loading-tool/get-data/state-statistics,Check totals by state,4-Dec-18
 DMR,,2015,State statistics,https://echo.epa.gov/trends/loading-tool/get-data/state-statistics,Check totals by state,29-Jan-19
 DMR,,2014,State statistics,https://echo.epa.gov/trends/loading-tool/get-data/state-statistics,Check totals by state,4-Dec-18
-GHGRP,,2016,GHGRP Table V_GHG_EMITTER_SUBPART,https://iaspub.epa.gov/enviro/efservice/V_GHG_EMITTER_SUBPART/,NA,15-Oct-18
+GHGRP,,2016,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/REPORTING_YEAR/=/2016,NA,15-Oct-18
+GHGRP,,2017,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/REPORTING_YEAR/=/2017,NA,22-Jan-21
+GHGRP,,2018,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/REPORTING_YEAR/=/2018,NA,22-Jan-21
