@@ -178,10 +178,8 @@ ANL_BEL_GRD_MT_STN_CH4_EMMCO2E,CO2E,CO2,Carbon Dioxide,1
 ANL_BEL_GRD_TR_STN_CH4_EM_CO2E,CO2E,CO2,Carbon Dioxide,1
 ANL_DIST_SERVICES_CH4_EMM_CO2E,CO2E,CO2,Carbon Dioxide,1
 Annual CO2 emissions that would result from the complete combustion or oxidation of all products ,CO2E,CO2,Carbon Dioxide,1
-"Annual CO2 emissions that would result from the complete combustion or oxidation of all products 
-(metric tons CO2e)",CO2E,CO2,Carbon Dioxide,1
-Annual CO2 emissions that would result from the complete combustion or oxidation of all products\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
-Annual CO2 emissions that would result from the complete combustion or oxidation of all products\\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
+Annual CO2 emissions that would result from the complete combustion or oxidation of all products (metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
+Annual CO2 emissions that would result from the complete combustion or oxidation of all products  (metric tons CO2e),CO2E,CO2,Carbon Dioxide,
 ANNUAL_DIST_MAINS_CH4_EMM_CO2E,CO2E,CO2,Carbon Dioxide,1
 ASSO_VF_TOTAL_CH4_EMM_CO2E,CO2E,CO2,Carbon Dioxide,1
 ASSO_VF_TOTAL_GHG_EMM_CO2E,CO2E,CO2,Carbon Dioxide,1
@@ -315,41 +313,17 @@ TIER4_N2O_EMISSIONS_CO2E,CO2E,CO2,Carbon Dioxide,1
 TIER4_NONBIOGENIC_CO2EMISSION,CO2E,CO2,Carbon Dioxide,1
 TOT_BLOWDOWN_CH4_CO2E,CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  BB,CO2E,CO2,Carbon Dioxide,1
-"Total Reported Emissions Under Subpart  BB
-(metric tons CO2e)",CO2E,CO2,Carbon Dioxide,1
-Total Reported Emissions Under Subpart  BB\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
-Total Reported Emissions Under Subpart  BB\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
-Total Reported Emissions Under Subpart  BB\\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
+Total Reported Emissions Under Subpart  BB (metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  CC,CO2E,CO2,Carbon Dioxide,1
-"Total Reported Emissions Under Subpart  CC
-(metric tons CO2e)",CO2E,CO2,Carbon Dioxide,1
-Total Reported Emissions Under Subpart  CC\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
-Total Reported Emissions Under Subpart  CC\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
-Total Reported Emissions Under Subpart  CC\\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
+Total Reported Emissions Under Subpart  CC (metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  E,CO2E,CO2,Carbon Dioxide,1
-"Total Reported Emissions Under Subpart  E
-(metric tons CO2e)",CO2E,CO2,Carbon Dioxide,1
-Total Reported Emissions Under Subpart  E\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
-Total Reported Emissions Under Subpart  E\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
-Total Reported Emissions Under Subpart  E\\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
+Total Reported Emissions Under Subpart  E (metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  LL,CO2E,CO2,Carbon Dioxide,1
-"Total Reported Emissions Under Subpart  LL
-(metric tons CO2e)",CO2E,CO2,Carbon Dioxide,1
-Total Reported Emissions Under Subpart  LL\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
-Total Reported Emissions Under Subpart  LL\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
-Total Reported Emissions Under Subpart  LL\\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
+Total Reported Emissions Under Subpart  LL (metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  O,CO2E,CO2,Carbon Dioxide,1
-"Total Reported Emissions Under Subpart  O
-(metric tons CO2e)",CO2E,CO2,Carbon Dioxide,1
-Total Reported Emissions Under Subpart  O\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
-Total Reported Emissions Under Subpart  O\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
-Total Reported Emissions Under Subpart  O\\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
+Total Reported Emissions Under Subpart  O (metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 Total Reported Emissions Under Subpart  S,CO2E,CO2,Carbon Dioxide,1
-"Total Reported Emissions Under Subpart  S
-(metric tons CO2e)",CO2E,CO2,Carbon Dioxide,1
-Total Reported Emissions Under Subpart  S\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
-Total Reported Emissions Under Subpart  S\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
-Total Reported Emissions Under Subpart  S\\n(metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
+Total Reported Emissions Under Subpart  S (metric tons CO2e),CO2E,CO2,Carbon Dioxide,1
 TOTAL_CO2E,CO2E,CO2,Carbon Dioxide,1
 TOTAL_METHANE_CO2E,CO2E,CO2,Carbon Dioxide,1
 TOTAL_NITROUS_CO2E,CO2E,CO2,Carbon Dioxide,1
@@ -480,12 +454,13 @@ Sulfur Hexafluoride,SF6,SF6,Sulfur Hexafluoride,6
 Sulfur hexafluoride (SF6),SF6,SF6,Sulfur Hexafluoride,6
 Sulfur hexafluoridePlasma etching,SF6,SF6,Sulfur Hexafluoride,6
 TOTAL_EMITTED_SF6,SF6,SF6,Sulfur Hexafluoride,6
-Fluoroform,CHF3,CHF3,Fluoroform,7
-HFC-23,CHF3,CHF3,Fluoroform,7
+Fluoroform,HFC,HFC,HFCs,10
+HFC-23,HFC,HFC,HFCs,10
 BIOGENIC CARBON DIOXIDE,BIOCO2,BIOCO2,Biogenic CO2,8
 Biogenic Carbon dioxide,BIOCO2,BIOCO2,Biogenic CO2,8
 Biogenic Carbon Dioxide (CO2),BIOCO2,BIOCO2,Biogenic CO2,8
 Biogenic CO2,BIOCO2,BIOCO2,Biogenic CO2,8
+c_co2_b,BIOCO2,BIOCO2,Biogenic CO2,8
 Nitrogen Triflouride,NF3,NF3,Nitrogen Triflouride,9
 Nitrogen trifluoride,NF3,NF3,Nitrogen Triflouride,9
 Nitrogen trifluoride (NF3),NF3,NF3,Nitrogen Triflouride,9
@@ -637,3 +612,4 @@ The entrained CO2 in produced oil or other fluid divided by the CO2 separated th
 Total Mass of Carbon Dioxide Sequestered (metric tons),,0,,
 Transformation,,0,,
 Transformation Process,,0,,
+Total Reported Emissions Under Subpart  O (metric tons),HFC,HFC,HFCs,10
