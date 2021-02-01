@@ -46,7 +46,7 @@ stewi_alt_ids = {"RCRAInfo":"10",
 inventory_to_SRSlist_acronymns = {"RCRAInfo":['RCRA F Waste','RCRA U Waste','RCRA F Waste','RCRA P Waste','RCRA T Char'],
                                 "TRI":["TRIPS"],
                                 "NEI":["EIS"],
-                                "DMR":["PCR"]}
+                                "DMR":["PCS","ICIS","NPDES"]}
 
 
 def get_SRSInfo_for_alternate_id(id,inventory):
@@ -84,7 +84,10 @@ inventory_to_SRSlist = {"RCRAInfo":['Characteristics of Hazardous Waste: Toxicit
                                'Acutely Hazardous Discarded Commercial Chemical Products',
                                'Hazardous Discarded Commercial Chemical Products'],
                         "NEI": ['Emissions Inventory System'],
-                        "TRI": ['Toxics Release Inventory Program System']}
+                        "TRI": ['Toxics Release Inventory Program System'],
+                        "DMR": ['National Pollutant Discharge Elimination System',
+                                'Integrated Compliance Information System',
+                                'Permit Compliance System']}
 #Two other rcra lists are 'Hazardous Constituents', and 'Basis for Listing Hazardous Waste'
 #RCRA_wastecodegroup_to_listname: {'D':'Characteristics of Hazardous Waste: Toxicity Characteristic',
 ##                               'F':'Hazardous Wastes From Non-Specific Sources',
@@ -128,9 +131,11 @@ def query_SRS_for_program_list(url, inventory):
        #    chemicaldict['Alt_ID'+str(id_no)] = id
        #    if_no=id_no+1
        if len(alternateids) > 0:
-        chemicaldict['PGM_ID'] = alternateids[0]
-       # Just use first alternate id for now as a test
-       all_chemicals_list.append(chemicaldict)
+           for id in range(0, len(alternateids)):
+               chemicaldict['PGM_ID'] = alternateids[id]
+               all_chemicals_list.append(chemicaldict.copy())
+       else:
+           all_chemicals_list.append(chemicaldict)
     #Write it into a df
     all_inventory_chemicals = pd.DataFrame(all_chemicals_list)
     return all_inventory_chemicals

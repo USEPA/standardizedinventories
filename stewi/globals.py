@@ -7,6 +7,7 @@ import logging as log
 import os
 import numpy as np
 import yaml
+import time
 
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'stewi/'
@@ -15,6 +16,7 @@ output_dir = modulepath + 'output/'
 data_dir = modulepath + 'data/'
 
 log.basicConfig(level=log.DEBUG, format='%(levelname)s %(message)s')
+stewi_version = '0.9.7'
 
 reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',
                                 usecols=['Source', 'Code', 'DQI Reliability Score'])
@@ -32,7 +34,7 @@ inventory_metadata = {
 'SourceURL':'NA',
 'SourceVersion':'NA',
 'SourceAquisitionTime':'NA',
-'StEWI_versions_version': '0.9'
+'StEWI_versions_version': stewi_version
 }
 
 inventory_single_compartments = {"NEI":"air","RCRAInfo":"waste","GHGRP":"air"}
@@ -179,6 +181,7 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
         if group_by == 'flow':
             group_by_columns = ['FlowName']
             if 'Compartment' in inventory_df.keys(): group_by_columns += ['Compartment']
+            if 'State' in inventory_df.keys(): group_by_columns += ['State']
         elif group_by == 'facility': group_by_columns = ['FlowName', 'FacilityID']
         inventory_df['FlowAmount'] = inventory_df['FlowAmount'].fillna(0.0)
         reference_df['FlowAmount'] = reference_df['FlowAmount'].fillna(0.0)
@@ -248,12 +251,7 @@ def write_validation_result(inventory_acronym,year,validation_df):
     #Convert to Series
     validation_set_info = validation_set_info.iloc[0,]
     #Use the same format an inventory metadata to described the validation set data
-    validation_metadata = {'SourceType': 'Static File',  #Other types are "Web service"
-                           'SourceFileName':'NA',
-                           'SourceURL':'NA',
-                           'SourceVersion':'NA',
-                           'SourceAquisitionTime':'NA',
-                           'StEWI_versions_version': '0.9'}
+    validation_metadata = dict(inventory_metadata)
     validation_metadata['SourceFileName'] = validation_set_info['Name']
     validation_metadata['SourceVersion'] = validation_set_info['Version']
     validation_metadata['SourceURL'] = validation_set_info['URL']
@@ -334,20 +332,84 @@ def read_metadata(inventoryname, report_year):
         metadata = json.loads(file_contents)
         return metadata
 
+def compile_metadata(file, config, year):
+    metadata = dict(inventory_metadata)
+    
+    data_retrieval_time = time.ctime(os.path.getmtime(file))
+    if data_retrieval_time is not None:
+        metadata['SourceAquisitionTime'] = data_retrieval_time
+    metadata['SourceFileName'] = file
+    metadata['SourceURL'] = config['url']
+    if year in config:
+        metadata['SourceVersion'] = config[year]['file_version']
+    else:
+        import re
+        pattern = 'V[0-9]'
+        version = re.search(pattern,file,flags=re.IGNORECASE)
+        if version is not None:
+            metadata['SourceVersion'] = version.group(0)
+    return metadata
+
+def remove_line_breaks(df, headers_only = True):
+    for column in df:
+        df.rename(columns={column: column.replace('\r\n',' ')}, inplace=True)
+        df.rename(columns={column: column.replace('\n',' ')}, inplace=True)
+    if not headers_only:
+        df = df.replace(to_replace=['\r\n','\n'],value=[' ', ' '], regex=True)
+    return df    
+
+# ReliabilityScore maintained in dict for accessing legacy datasets
+flowbyfacility_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
+                         'Compartment': [{'dtype': 'str'}, {'required': True}],
+                         'FlowAmount': [{'dtype': 'float'}, {'required': True}],
+                         'FacilityID': [{'dtype': 'str'}, {'required': True}],
+                         'DataReliability': [{'dtype': 'float'}, {'required': True}],
+                         'Unit': [{'dtype': 'str'}, {'required': True}],
+                         'ReliabilityScore': [{'dtype': 'float'}, {'required': True}],
+                         }
+
+flowbySCC_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
+                    'Compartment': [{'dtype': 'str'}, {'required': True}],
+                    'FlowAmount': [{'dtype': 'float'}, {'required': True}],
+                    'FacilityID': [{'dtype': 'str'}, {'required': True}],
+                    'DataReliability': [{'dtype': 'float'}, {'required': True}],
+                    'Unit': [{'dtype': 'str'}, {'required': True}],
+                    'SCC': [{'dtype': 'str'}, {'required': True}],
+                    'ReliabilityScore': [{'dtype': 'float'}, {'required': True}],                    
+                    }
+
+format_dict = {'flowbyfacility': flowbyfacility_fields,
+               'flowbySCC': flowbySCC_fields}
 
 def get_required_fields(format='flowbyfacility'):
-    fields = pd.read_csv(data_dir + format + '_format.csv')
-    required_fields = fields[fields['required?'] == 1]
-    required_fields = dict(zip(required_fields['Name'], required_fields['Type']))
+    fields = format_dict[format]
+    required_fields = {key: value[0]['dtype'] for key, value in fields.items() if value[1]['required'] is True}
     return required_fields
 
 
 def get_optional_fields(format='flowbyfacility'):
-    fields = pd.read_csv(data_dir + format + '_format.csv')
-    optional_fields = fields[fields['required?'] == 0]
-    optional_fields = dict(zip(optional_fields['Name'], optional_fields['Type']))
+    fields = format_dict[format]
+    optional_fields = {key: value[0]['dtype'] for key, value in fields.items()}
     return optional_fields
 
+
+def add_missing_fields(df, inventory_acronym, format='flowbyfacility'):
+    fields = dict(format_dict[format])
+    # Rename for legacy datasets
+    if 'ReliabilityScore' in df.columns:
+        df.rename(columns={'ReliabilityScore':'DataReliability'}, inplace=True)
+    del fields['ReliabilityScore']
+    # Add in units and compartment if not present
+    if 'Unit' not in df.columns:
+        df['Unit'] = 'kg'
+    if 'Compartment' not in df.columns:
+        df['Compartment'] = inventory_single_compartments[inventory_acronym]
+    for key in fields.keys():
+        if key not in df.columns:
+            df[key] = None
+    # Resort
+    df = df[fields.keys()]
+    return df
 
 def checkforFile(filepath):
     return os.path.exists(filepath)
@@ -355,3 +417,6 @@ def checkforFile(filepath):
 
 def get_relpath(filepath):
     return os.path.relpath(filepath, '.').replace('\\', '/') + '/'
+
+def storeParquet(df, file_name):
+    df.to_parquet(output_dir+file_name+'.parquet', index=False, compression=None)

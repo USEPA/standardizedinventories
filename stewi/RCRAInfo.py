@@ -328,7 +328,7 @@ def Generate_RCRAInfo_files_csv(report_year, RCRAInfopath, RCRAfInfoflatfileURL)
     reliability_table = globals.reliability_table
     rcrainfo_reliability_table = reliability_table[reliability_table['Source']=='RCRAInfo']
     rcrainfo_reliability_table.drop('Source', axis=1, inplace=True)
-    BR['ReliabilityScore'] = float(rcrainfo_reliability_table['DQI Reliability Score'])
+    BR['DataReliability'] = float(rcrainfo_reliability_table['DQI Reliability Score'])
     #Create a new field to put converted amount in
     BR['Amount_kg'] = 0.0
     #Convert amounts from tons. Note this could be replaced with a conversion utility
@@ -415,7 +415,7 @@ def Generate_RCRAInfo_files_csv(report_year, RCRAInfopath, RCRAfInfoflatfileURL)
                             'County Name':'County'}, inplace=True)
     facilities.to_csv(output_dir + 'facility/RCRAInfo_' + report_year + '.csv',index=False)
     #Prepare flow by facility
-    flowbyfacility = BR.groupby(['FacilityID','ReliabilityScore','FlowName'])['FlowAmount'].sum().reset_index()
+    flowbyfacility = BR.groupby(['FacilityID','DataReliability','FlowName'])['FlowAmount'].sum().reset_index()
     ##VALIDATION
     BR_national_total = pd.read_csv(data_dir + 'RCRAInfo_' + report_year + '_NationalTotals.csv', header=0, dtype={"FlowAmount":np.float})
     BR_national_total['FlowAmount_kg'] = 0

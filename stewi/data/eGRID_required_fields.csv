@@ -1,8 +1,8 @@
 ﻿StEWI,2014,2016,2018
-Plant state abbreviation,Plant state abbreviation,Plant state abbreviation,Plant state abbreviation
-Plant name,Plant name,Plant name,Plant name
+State,Plant state abbreviation,Plant state abbreviation,Plant state abbreviation
+FacilityName,Plant name,Plant name,Plant name
 Plant operator name,Plant operator name,Plant operator name,Plant transmission or distribution system owner name
-DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code
+FacilityID,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code
 Plant total annual heat input (MMBtu),Plant total annual heat input (MMBtu),Plant total annual heat input (MMBtu),Plant total annual heat input (MMBtu)
 Plant annual net generation (MWh),Plant annual net generation (MWh),Plant annual net generation (MWh),Plant annual net generation (MWh)
 CHP plant useful thermal output (MMBtu),CHP plant useful thermal output (MMBtu),CHP plant useful thermal output (MMBtu),CHP plant useful thermal output (MMBtu)

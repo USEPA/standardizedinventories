@@ -117,7 +117,7 @@ def pivotCombinedInventories(combinedinventory_df):
     # Group the results by facility,flow,and compartment
     # Use a pivot table
     combinedinventory_df_pt = combinedinventory_df.pivot_table(values=['FlowAmount',
-                                                                       'ReliabilityScore'],
+                                                                       'DataReliability'],
                                                                index=['FRS_ID',
                                                                       'SRS_ID',
                                                                       'Compartment'],

@@ -16,6 +16,7 @@ flowlist_cols = {"RCRAInfo":['FlowName','FlowID'],
                  "eGRID": ['FlowName'],
                  "TRI": ['FlowName','FlowID'],
                  "NEI":['FlowName','FlowID'],
+                 "DMR":['FlowName','FlowID'],
                  "GHGRP":['FlowName','FlowID']}
 
 #First loop through flows lists to create a list of all unique flows
@@ -43,6 +44,7 @@ inventory_query_type = {"RCRAInfo":"list",
                         "TRI":"list",
                         "NEI":"list",
                         "eGRID":"name",
+                        "DMR":"list",
                         "GHGRP":"name"}
 
 #Create a df to store the results
@@ -53,6 +55,7 @@ errors_srs = pd.DataFrame(columns=["FlowName","Source","ErrorType"])
 #Store errors in a separate dataframe
 sources = list(pd.unique(all_list_names['Source']))
 for source in sources:
+    print('accessing SRS for ' + source)
     # Get df with inventory flows
     inventory_flows = all_list_names[all_list_names['Source'] == source]
 
@@ -98,13 +101,15 @@ for source in sources:
 
 #Remove waste code and PGM_ID
 all_lists_srs_info = all_lists_srs_info.drop(columns=['PGM_ID'])
+all_lists_srs_info = all_lists_srs_info.sort_values(['Source','FlowName','SRS_ID'])
 
 #Add in manually found matches
 all_lists_srs_info = add_manual_matches(all_lists_srs_info)
 
+subset = ['FlowID','FlowName','Source']
 
 #Write to csv
-all_lists_srs_info = all_lists_srs_info[['FlowID','FlowName','SRS_CAS','SRS_ID','Source']].drop_duplicates()
+all_lists_srs_info = all_lists_srs_info[['FlowID','FlowName','SRS_CAS','SRS_ID','Source']].drop_duplicates(subset)
 all_lists_srs_info.to_csv(output_dir+'ChemicalsByInventorywithSRS_IDS_forStEWI.csv', index=False)
 #errors_srs.to_csv('work/ErrorsSRS.csv',index=False)
 

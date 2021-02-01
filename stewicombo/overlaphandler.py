@@ -77,7 +77,11 @@ def aggregate_and_remove_overlap(df):
     # 3
     # if any row has FRS_ID or SRS_ID as NaN, extract them and add to the output
     rows_with_nans_srs_frs = df[df.loc[:, "FRS_ID"].isnull() | df.loc[:, "SRS_ID"].isnull()]
-    # print(rows_with_nans_srs_frs)
+
+    # Adjust special use case for flows in TRI and DMR
+    if (('DMR' in df['Source'].values) & ('TRI' in df['Source'].values)):
+        from stewi.DMR import remove_nutrient_overlap_TRI
+        df = remove_nutrient_overlap_TRI(df, INVENTORY_PREFERENCE_BY_COMPARTMENT['water'][0])
 
     # remaining rows
     df = df[~(df.loc[:, "FRS_ID"].isnull() | df.loc[:, "SRS_ID"].isnull())]
@@ -85,7 +89,7 @@ def aggregate_and_remove_overlap(df):
     id_duplicates = df.duplicated(subset=LOOKUP_FIELDS, keep=False)
     df_duplicates = df.loc[id_duplicates]
     df_singles = df.loc[~id_duplicates]
-    df_duplicates = df_duplicates.head(1000)
+    
     #print("Grouping duplicates by LOOKUP_FIELDS")
     grouped = df_duplicates.groupby(LOOKUP_FIELDS)
 
@@ -133,6 +137,7 @@ def aggregate_and_remove_overlap(df):
     df = df.append(rows_with_nans_srs_frs, ignore_index=True)
     
     df = remove_default_flow_overlaps(df, compartment='air', SCC=False)
+    log.info("Overlap removed.")
 
     return df
 
@@ -148,7 +153,6 @@ def remove_default_flow_overlaps(df, compartment='air', SCC=False):
     # (Available at: ftp://ftp.epa.gov/EmisInventory/2014/doc/nonpoint/ICI%20Tool%20v1_4.zip).
     df = remove_flow_overlap(df, '83723',VOC_srs, compartment, SCC)
    
-    log.info("Overlap removed.")
     return df
 
 def remove_flow_overlap(df, aggregate_flow, contributing_flows, compartment='air', SCC=False):
@@ -158,9 +162,8 @@ def remove_flow_overlap(df, aggregate_flow, contributing_flows, compartment='air
     match_conditions = ['FacilityID','Source','Compartment']
     if SCC:
         match_conditions.append('SCC')
-    log.info('summing contributing flows for '+ aggregate_flow)
+
     df_contributing_flows = df_contributing_flows.groupby(match_conditions, as_index=False)['FlowAmount'].sum()
-    log.info('handling overlap for '+ aggregate_flow)
 
     df_contributing_flows['SRS_ID']=aggregate_flow
     df_contributing_flows['ContributingAmount'] = df_contributing_flows['FlowAmount']
