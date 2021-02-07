@@ -585,6 +585,9 @@ if __name__ == '__main__':
             # generate facilities output and save to network
             facility_columns = ['FacilityID', 'FacilityName', 'Address', 'City', 'State', 'Zip', 'Latitude', 'Longitude', 'County', 'NAICS']
             ghgrp_facility = ghgrp[facility_columns].drop_duplicates()
+            ghgrp_facility.dropna(subset=['FacilityName'], inplace=True)
+            # ensure NAICS does not have trailing decimal/zero
+            ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].astype(int).astype(str)
             ghgrp_facility.to_csv(output_dir + 'facility/GHGRP_' + year + '.csv', index=False)
         
         elif args.Option == 'E':
