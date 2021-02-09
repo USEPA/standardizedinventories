@@ -369,6 +369,16 @@ def parse_additional_suparts_data(addtnl_subparts_path, addtnl_subparts_columns,
     
     return ghgrp
 
+def aggregate(df, grouping_vars):
+    df_agg = df.groupby(grouping_vars).agg({'FlowAmount': ['sum']})
+    df_agg['ReliabilityScore']=weighted_average(
+        df, 'ReliabilityScore', 'FlowAmount', grouping_vars)
+    df_agg = df_agg.reset_index()
+    df_agg.columns = df_agg.columns.droplevel(level=1)
+    # drop those rows where flow amount is negative, zero, or NaN
+    df_agg = df_agg[df_agg['FlowAmount'] > 0]
+    df_agg = df_agg[df_agg['FlowAmount'].notna()]
+    return df_agg
 
 ########## START HERE ###############
 if __name__ == '__main__':
@@ -540,26 +550,23 @@ if __name__ == '__main__':
             ghgrp['FlowAmount'] = 1000 * ghgrp['FlowAmount'].astype('float')
             
             # rename reliability score column for consistency
-            ghgrp.rename(columns={'DQI Reliability Score': 'ReliabilityScore'}, inplace=True)
-
+            ghgrp.rename(columns={'DQI Reliability Score': 'ReliabilityScore',
+                                  'SUBPART_NAME':'Subpart'}, inplace=True)
+            
+           # generate flowbyProcess (i.e. Subpart)
+            fbp_columns = ['FlowName', 'FlowAmount', 'FacilityID', 'ReliabilityScore','Subpart']
+            ghgrp_fbp = ghgrp[fbp_columns]
+            ghgrp_fbp = aggregate(ghgrp_fbp, ['FacilityID', 'FlowName', 'Subpart'])
+            # temporary assign as SCC for consistency with NEI
+            ghgrp_fbp.rename(columns={'Subpart':'SCC'}, inplace=True)
+            ghgrp_fbp.to_csv(output_dir + 'flowbySCC/GHGRP_' + year + '.csv', index=False)
+            
             fbf_columns = ['FlowName', 'FlowAmount', 'FacilityID', 'ReliabilityScore']
             ghgrp_fbf = ghgrp[fbf_columns]
             
             # aggregate instances of more than one flow for same facility and flow type
-            grouping_vars = ['FacilityID', 'FlowName']
-            ghgrp_fbf_2 = ghgrp_fbf.groupby(grouping_vars).agg({'FlowAmount': ['sum']})
-            ghgrp_fbf_2['ReliabilityScore']=weighted_average(
-                ghgrp_fbf, 'ReliabilityScore', 'FlowAmount', grouping_vars)
-            ghgrp_fbf_2 = ghgrp_fbf_2.reset_index()
-            ghgrp_fbf_2.columns = ghgrp_fbf_2.columns.droplevel(level=1)
-            
-            # drop those rows where flow amount is negative, zero, or NaN
-            ghgrp_fbf_2 = ghgrp_fbf_2[ghgrp_fbf_2['FlowAmount'] > 0]
-            ghgrp_fbf_2 = ghgrp_fbf_2[ghgrp_fbf_2['FlowAmount'].notna()]
-            
-            # drop duplicates
-            ghgrp_fbf_2 = ghgrp_fbf_2.drop_duplicates()
-                        
+            ghgrp_fbf_2 = aggregate(ghgrp_fbf, ['FacilityID', 'FlowName'])
+                      
             # save results to output directory
             ghgrp_fbf_2.to_csv(output_dir + 'flowbyfacility/GHGRP_' + year + '.csv', index=False)
         
