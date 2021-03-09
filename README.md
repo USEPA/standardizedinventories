@@ -27,8 +27,6 @@ The core `stewi` module produces the following output formats:
 
 [Flow-By-Facility](./format%20specs/FlowByFacility.md): Each row represents the total amount of release or waste of a single type in a given year from the given facility.
 
-[Flow-By-SCC](./format%20specs/FlowBySCC.md): Each row represents the total amount of release or waste of a single type in a given year from the given facility for each source classification code (SCC).
-
 [Facility](./format%20specs/Facility.md): Each row represents a unique facility in a given inventory and given year
 
 [Flow](./format%20specs/Flow.md):  Each row represents a unique flow (substance or waste) in a given inventory and given year
