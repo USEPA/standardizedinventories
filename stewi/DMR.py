@@ -24,7 +24,7 @@ import argparse
 
 _config = config()['databases']['DMR']
 dmr_data_dir = data_dir + 'DMR/'
-dmr_filepath = '../DMR Data Files/'
+dmr_filepath = data_dir + '../../../DMR Data Files/'
 dmr_external_dir = set_dir(dmr_filepath)
 
 # two digit SIC codes from advanced search drop down stripped and formatted as a list
@@ -66,15 +66,15 @@ def generate_url(report_year, base_url=base_url, sic='', region='', state='',
     return url
 
 
-def query_dmr(year, sic_list=[], state_list=states, nutrient='', path=dmr_external_dir):
+def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
     """
     Loops through a set of states and sics to download and pickle DMR data
     :param sic_list: Option to break up queries further by list of 2-digit SIC codes
     :param state_list: List of states to include in query
     :param nutrient: Option to query by nutrient category with aggregation. Input 'N' or 'P'
-    :param path: Path to save raw data as pickle files. Set to external directory one level above 'standardizedinventories' by default
     :return: max_error_list, no_data_list, success_list
     """
+    path = set_dir(dmr_filepath)
     max_error_list, no_data_list, success_list = [], [], []
     param_list = []
     path = path+str(year)+'/'
@@ -221,8 +221,9 @@ def standardize_df(input_df):
         
     return output_df
 
-def generateDMR(year, nutrient='', path=dmr_external_dir):
+def generateDMR(year, nutrient=''):
     """Loops through pickled data and combined into a dataframe. """
+    path = set_dir(dmr_filepath)
     path += str(year)+'/'
     output_df = pd.DataFrame()
     if nutrient:
