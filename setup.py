@@ -32,6 +32,7 @@ setup(
     # Must include package data, specifying all subdirectories to be included
     # https://setuptools.readthedocs.io/en/latest/setuptools.html#including-data-files
     package_data={'stewi': ["data/*.*",
+                            "data/DMR/*.*",
                             "output/*.*",
                             "output/facility/*.*",
                             "output/flow/*.*",
@@ -39,7 +40,8 @@ setup(
                             "output/flowbySCC/*.*",
                             "output/validation/*.*"],
                   'chemicalmatcher': ["data/*.*", "output/*.*", "config.yaml"],
-                  'facilitymatcher': ["data/*.*", "output/*.*", "config.yaml"]},
+                  'facilitymatcher': ["data/*.*", "output/*.*", "config.yaml"],
+                  'stewicombo': ["data/*.*"]},
     include_package_data=True,
     install_requires=install_requires,
     classifiers=[
