@@ -3,18 +3,9 @@ Functions to return inventory data for a single inventory in standard formats
 """
 
 import os
-import pandas as pd
-from stewi.globals import get_required_fields, get_optional_fields, filter_inventory,\
-    filter_states, add_missing_fields
-
-try:
-    MODULEPATH = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
-except NameError:
-    MODULEPATH = 'stewi/'
-
-OUTPUT_DIR = MODULEPATH + 'output/'
-DATA_DIR = MODULEPATH + 'data/'
-FORMATPATH = {'flowbyfacility': "flowbyfacility/", 'flow': "flow/", 'facility': "facility/", 'flowbySCC': "flowbySCC/",}
+from stewi.globals import get_required_fields, filter_inventory,\
+    log, filter_states, add_missing_fields, output_dir, data_dir,\
+    write_format, readInventory, stewi_formats, get_relpath
 
 
 def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
@@ -24,15 +15,22 @@ def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
     NEI: 2014
     TRI: 2015, 2016
     """
-    files = os.listdir(OUTPUT_DIR + FORMATPATH[stewiformat])
+    if stewiformat not in stewi_formats:
+        log.error('not a supported stewi format')
+        return
+    directory = output_dir + '/' + stewiformat + '/'
+    if os.path.exists(directory):
+        files = os.listdir(directory)
+    else:
+        log.error('directory not found: ' + directory)
+        return
     outputfiles = []
     existing_inventories = {}
     for name in files:
-        if name.endswith(".csv"):
-            _n = name.strip('.csv')
-            outputfiles.append(_n)
-        elif name.endswith(".parquet"):
-            _n = name.strip('.parquet')
+        if name.endswith(write_format):
+            _n = name.strip('.'+write_format)
+            if '_v' in _n:
+                _n = _n[:_n.find('_v')]
             outputfiles.append(_n)
     for file in outputfiles:
         length = len(file)
@@ -63,26 +61,22 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility', filter_f
     :param US_States_Only: includes only US states
     :return: dataframe with standard fields depending on output format
     """
-    path = OUTPUT_DIR + FORMATPATH[stewiformat]
-    file = path + inventory_acronym + '_' + str(year) + '.csv'
+    if stewiformat not in stewi_formats:
+        log.error('not a supported stewi format')
+        return None
     fields = get_required_fields(stewiformat)
-    if os.path.exists(file):
-        inventory = pd.read_csv(file, header=0, dtype=fields)
-    else:
-        file = file[:-3]+'parquet'
-        if os.path.exists(file):
-            inventory = pd.read_parquet(file)
-            fields = {key: value for key, value in fields.items() if key in list(inventory)}
-            inventory = inventory.astype(fields)
-        else:
-            print('requested inventory does not exist, try seeAvailableInventoriesandYears()')
-            return
+    inventory = readInventory(inventory_acronym + '_' + str(year), stewiformat)
+    if inventory is None:
+        log.error('requested inventory does not exist, try seeAvailableInventoriesandYears()')
+        return None
+    fields = {key: value for key, value in fields.items() if key in list(inventory)}
+    inventory = inventory.astype(fields)
     inventory = add_missing_fields(inventory, inventory_acronym, stewiformat)
     # Apply filters if present
     if US_States_Only:
         inventory = filter_states(inventory)
     if filter_for_LCI:
-        filter_path = DATA_DIR
+        filter_path = data_dir
         filter_type = None
         if inventory_acronym == 'TRI':
             filter_path += 'TRI_pollutant_omit_list.csv'
@@ -109,12 +103,10 @@ def getInventoryFlows(inventory_acronym, year):
     :param year: e.g. 2014
     :return: dataframe with standard flows format
     """
-    path = OUTPUT_DIR + FORMATPATH['flow']
-    file = path + inventory_acronym + '_' + str(year) + '.csv'
-    if os.path.exists(file):
-        flows = pd.read_csv(file, header=0)
-    else:
-        print('requested inventory does not exist, try seeAvailableInventoriesandYears()')
+    flows = readInventory(inventory_acronym + '_' + str(year), 'flow')
+    if flows is None:
+        log.error('requested inventory does not exist, try seeAvailableInventoriesandYears()')
+        return None
     return flows
 
 
@@ -124,10 +116,8 @@ def getInventoryFacilities(inventory_acronym, year):
     :param year: e.g. 2014
     :return: dataframe with standard flows format
     """
-    path = OUTPUT_DIR + FORMATPATH['facility']
-    file = path + inventory_acronym + '_' + str(year) + '.csv'
-    if os.path.exists(file):
-        facilities = pd.read_csv(file, header=0, dtype={"FacilityID": "str"})
-    else:
-        print('requested inventory does not exist, try seeAvailableInventoriesandYears()')
+    facilities = readInventory(inventory_acronym + '_' + str(year), 'facility')
+    if facilities is None:
+        log.error('requested inventory does not exist, try seeAvailableInventoriesandYears()')
+        return None
     return facilities

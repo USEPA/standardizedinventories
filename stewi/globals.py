@@ -7,18 +7,58 @@ import logging as log
 import os
 import yaml
 import time
+import subprocess
+from esupy.processed_data_mgmt import Paths, FileMeta, load_preprocessed_output,\
+    write_df_to_file, create_paths_if_missing
 
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'stewi/'
 
-output_dir = modulepath + 'output/'
 data_dir = modulepath + 'data/'
 
 log.basicConfig(level=log.DEBUG, format='%(levelname)s %(message)s')
 stewi_version = '0.9.6'
 
+#Common declaration of write format for package data products
+write_format = "parquet"
+
+paths = Paths
+paths.local_path = os.path.realpath(paths.local_path + "/stewi")
+output_dir = paths.local_path
+
+try:
+    git_hash = subprocess.check_output(['git', 'rev-parse', 'HEAD']).strip().decode(
+        'ascii')[0:7]
+except:
+    git_hash = None
+
 reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',
                                 usecols=['Source', 'Code', 'DQI Reliability Score'])
+
+stewi_formats = ['flowbyfacility', 'flow', 'facility', 'flowbySCC']
+
+inventory_metadata = {
+    'SourceType': 'Static File',  #Other types are "Web service"
+    'SourceFileName':'NA',
+    'SourceURL':'NA',
+    'SourceVersion':'NA',
+    'SourceAquisitionTime':'NA',
+    'StEWI_versions_version': stewi_version
+    }
+
+inventory_single_compartments = {"NEI":"air","RCRAInfo":"waste"}
+
+
+def set_stewi_meta(file_name, category):
+    stewi_meta = FileMeta
+    stewi_meta.name_data = file_name
+    stewi_meta.category = category
+    stewi_meta.tool = "StEWI"
+    stewi_meta.tool_version = stewi_version
+    stewi_meta.ext = write_format
+    stewi_meta.git_hash = git_hash
+    return stewi_meta
+
 
 def config():
     configfile = None
@@ -26,17 +66,6 @@ def config():
     with open(modulepath + 'config.yaml', mode='r') as f:
         configfile = yaml.load(f,Loader=yaml.FullLoader)
     return configfile
-
-inventory_metadata = {
-'SourceType': 'Static File',  #Other types are "Web service"
-'SourceFileName':'NA',
-'SourceURL':'NA',
-'SourceVersion':'NA',
-'SourceAquisitionTime':'NA',
-'StEWI_versions_version': stewi_version
-}
-
-inventory_single_compartments = {"NEI":"air","RCRAInfo":"waste"}
 
 
 def url_is_alive(url):
@@ -227,9 +256,11 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
     return validation_df
 
 
-#Writes the validation result and associated metadata to the output
 def write_validation_result(inventory_acronym,year,validation_df):
-    validation_df.to_csv(output_dir + 'validation/' + inventory_acronym + '_' + year + '.csv',index=False)
+    """Writes the validation result and associated metadata to the output"""
+    directory = output_dir + '/validation/'
+    create_paths_if_missing(directory)
+    validation_df.to_csv(directory + inventory_acronym + '_' + year + '.csv',index=False)
     #Get metadata on validation dataset
     validation_set_info_table = pd.read_csv(data_dir + 'ValidationSets_Sources.csv',header=0,dtype={"Year":"str"})
     #Get record for year and
@@ -308,7 +339,7 @@ def write_metadata(inventoryname, report_year, metadata_dict, datatype="inventor
         with open(output_dir + inventoryname + '_' + report_year + '_metadata.json', 'w') as file:
             file.write(json.dumps(metadata_dict))
     if datatype == "validation":
-        with open(output_dir + 'validation/' + inventoryname + '_' + report_year + '_validationset_metadata.json', 'w') as file:
+        with open(output_dir + '/validation/' + inventoryname + '_' + report_year + '_validationset_metadata.json', 'w') as file:
             file.write(json.dumps(metadata_dict))
 
 
@@ -405,5 +436,24 @@ def checkforFile(filepath):
 def get_relpath(filepath):
     return os.path.relpath(filepath, '.').replace('\\', '/') + '/'
 
-def storeParquet(df, file_name):
-    df.to_parquet(output_dir+file_name+'.parquet', index=False, compression=None)
+
+def storeInventory(df, file_name, category):
+    """Stores the inventory dataframe to local directory based on category"""
+    meta = set_stewi_meta(file_name, category)
+    method_path = output_dir + '/' + meta.category
+    try:
+        log.info('saving ' + meta.name_data + ' to ' + method_path)
+        write_df_to_file(df,paths,meta)
+    except:
+        log.error('Failed to save inventory')
+
+def readInventory(file_name, category):
+    """Returns the inventory as dataframe from local directory"""
+    meta = set_stewi_meta(file_name, category)
+    inventory = load_preprocessed_output(meta, paths)
+    method_path = output_dir + '/' + meta.category
+    if inventory is None:
+        log.info(meta.name_data + ' not found in ' + method_path)
+    else:
+        log.info('loaded ' + meta.name_data + ' from ' + method_path)    
+    return inventory
