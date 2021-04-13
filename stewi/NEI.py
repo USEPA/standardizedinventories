@@ -312,24 +312,24 @@ if __name__ == '__main__':
             if 'ReliabilityScore' in nei_point:
                 nei_point['DataReliability'] = nei_point['ReliabilityScore']
             nei_point = nei_point.reset_index()
-            
+
             log.info('generating flow by facility output')
             nei_flowbyfacility = nei_aggregate_to_facility_level(nei_point)
             #nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+year+'.csv',index=False)
             storeInventory(nei_flowbyfacility,'NEI_'+year,'flowbyfacility')
-            log.info(len(nei_flowbyfacility))
+            log.debug(len(nei_flowbyfacility))
             #2017: 2184786
             #2016: 1965918
             #2014: 2057249
             #2011: 1840866
-    
+
             log.info('generating flow by SCC output')
             nei_flowbySCC = nei_aggregate_to_custom_level(nei_point, 'SCC')
             #nei_flowbySCC.to_csv(output_dir+'flowbySCC/NEI_'+year+'.csv',index=False)
             storeInventory(nei_flowbySCC, 'NEI_'+year, 'flowbySCC')
-            log.info(len(nei_flowbySCC))
+            log.debug(len(nei_flowbySCC))
             #2017: 4055707
-    
+
             log.info('generating flows output')
             nei_flows = nei_point[['FlowName', 'FlowID', 'Compartment']]
             nei_flows = nei_flows.drop_duplicates()
@@ -337,23 +337,24 @@ if __name__ == '__main__':
             nei_flows = nei_flows.sort_values(by='FlowName',axis=0)
             #nei_flows.to_csv(output_dir+'/flow/'+'NEI_'+year+'.csv',index=False)
             storeInventory(nei_flows, 'NEI_'+year, 'flow')
-            log.info(len(nei_flows))
+            log.debug(len(nei_flows))
             #2017: 293
             #2016: 282
             #2014: 279
             #2011: 277
-                
+
             log.info('generating facility output')
             facility = nei_point[['FacilityID', 'FacilityName', 'Address', 'City', 'State', 
                                   'Zip', 'Latitude', 'Longitude', 'NAICS', 'County']]
             facility = facility.drop_duplicates('FacilityID')
+            facility = facility.astype({'Zip':'str'})
             #facility.to_csv(output_dir+'/facility/'+'NEI_'+year+'.csv',index=False)
             storeInventory(facility, 'NEI_'+year, 'facility')
-            log.info(len(facility))
+            log.debug(len(facility))
             #2017: 87162
             #2016: 85802
             #2014: 85125
             #2011: 95565
-            
+
             generate_metadata(year, datatype='inventory')
         
