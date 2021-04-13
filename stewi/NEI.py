@@ -2,18 +2,19 @@
 """
 Imports NEI data and processes to Standardized EPA output format.
 Uses the NEI data exports from EIS. Must contain locally downloaded data for
-options A:E.
+options A:C.
 This file requires parameters be passed like:
 
     Option -y Year 
 
 Options:
     A - for processing downloaded NEI Point from EIS
-    B - for generating flowbyfacility output
-    C - for generating flowbySCC output
-    D - for generating flows output
-    E - for generating facilities output
-    F - for validating flowbyfacility against national totals
+    B - for generating inventory files for StEWI: 
+        flowbyfacility
+        flowbySCC
+        flows
+        facilities
+    C - for validating flowbyfacility against national totals
 
 Year: 
     2017
@@ -30,6 +31,7 @@ from stewi.globals import set_dir,output_dir,data_dir,write_metadata,\
 import pandas as pd
 import numpy as np
 import os
+import sys
 import argparse
 import requests
 import requests_ftp
@@ -95,7 +97,7 @@ def standardize_output(year, source='Point'):
         # concatenate all other files
         log.info('reading NEI data from '+ file)
         nei = pd.concat([nei,read_data(year,file)])
-        log.info(str(len(nei))+' records')
+        log.debug(str(len(nei))+' records')
     # convert TON to KG
     nei['FlowAmount'] = nei['FlowAmount']*USton_kg
 
@@ -256,10 +258,8 @@ if __name__ == '__main__':
     parser.add_argument('Option',
                         help = 'What do you want to do:\
                         [A] Process and pickle NEI data\
-                        [B] Generate flowbyfacility output\
-                        [C] Generate flows output\
-                        [D] Generate facilities output\
-                        [E] Validate flowbyfacility against national totals',
+                        [B] Generate StEWI inventory outputs\
+                        [C] Validate flowbyfacility against national totals',
                         type = str)
 
     parser.add_argument('-y', '--Year', nargs = '+',
@@ -272,6 +272,7 @@ if __name__ == '__main__':
     
     for year in NEIyears:
 
+        pickle_file = external_dir + 'NEI_' + year + '.pk'
         if args.Option == 'A':
 
             nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields.csv',sep=',')
@@ -279,10 +280,11 @@ if __name__ == '__main__':
             nei_file_path = _config[year]['file_name']
 
             nei_point = standardize_output(year)
-            nei_point.to_pickle(external_dir + 'NEI_' + year + '.pk')
+            log.info('saving processed NEI to ' + pickle_file)
+            nei_point.to_pickle(pickle_file)
             generate_metadata(year, datatype='source')
             
-        elif args.Option == 'F':
+        elif args.Option == 'C':
             log.info('validating flow by facility against national totals')
             if not(os.path.exists(data_dir + 'NEI_'+ year + '_NationalTotals.csv')):
                 generate_national_totals(year)
@@ -299,60 +301,59 @@ if __name__ == '__main__':
                                                    group_by='flow', tolerance=5.0)
             write_validation_result('NEI',year,validation_result)
 
-        else:
+        elif args.Option == 'B':
             log.info('extracting data from NEI pickle')
-
-            nei_point = pd.read_pickle(external_dir + 'NEI_' + year + '.pk')
+            try:            
+                nei_point = pd.read_pickle(pickle_file)
+            except FileNotFoundError:
+                log.error('pickle file not found. Please run option A before proceeding')
+                sys.exit(0)
             # for backwards compatability when ReliabilityScore was used to generate pickle
             if 'ReliabilityScore' in nei_point:
                 nei_point['DataReliability'] = nei_point['ReliabilityScore']
-
-            if args.Option == 'B':
-                log.info('generating flow by facility output')
-                nei_point = nei_point.reset_index()
-                nei_flowbyfacility = nei_aggregate_to_facility_level(nei_point)
-                #nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+year+'.csv',index=False)
-                storeInventory(nei_flowbyfacility,'NEI_'+year,'flowbyfacility')
-                log.info(len(nei_flowbyfacility))
-                #2017: 2184786
-                #2016: 1965918
-                #2014: 2057249
-                #2011: 1840866
+            nei_point = nei_point.reset_index()
+            
+            log.info('generating flow by facility output')
+            nei_flowbyfacility = nei_aggregate_to_facility_level(nei_point)
+            #nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+year+'.csv',index=False)
+            storeInventory(nei_flowbyfacility,'NEI_'+year,'flowbyfacility')
+            log.info(len(nei_flowbyfacility))
+            #2017: 2184786
+            #2016: 1965918
+            #2014: 2057249
+            #2011: 1840866
     
-            elif args.Option == 'C':
-                log.info('generating flow by SCC output')
-                nei_point = nei_point.reset_index()
-                nei_flowbySCC = nei_aggregate_to_custom_level(nei_point, 'SCC')
-                #nei_flowbySCC.to_csv(output_dir+'flowbySCC/NEI_'+year+'.csv',index=False)
-                storeInventory(nei_flowbySCC, 'NEI_'+year, 'flowbySCC')
-                log.info(len(nei_flowbySCC))
-                #2017: 4055707
+            log.info('generating flow by SCC output')
+            nei_flowbySCC = nei_aggregate_to_custom_level(nei_point, 'SCC')
+            #nei_flowbySCC.to_csv(output_dir+'flowbySCC/NEI_'+year+'.csv',index=False)
+            storeInventory(nei_flowbySCC, 'NEI_'+year, 'flowbySCC')
+            log.info(len(nei_flowbySCC))
+            #2017: 4055707
     
-            elif args.Option == 'D':
-                log.info('generating flows output')
-                nei_flows = nei_point[['FlowName', 'FlowID', 'Compartment']]
-                nei_flows = nei_flows.drop_duplicates()
-                nei_flows['Unit']='kg'
-                nei_flows = nei_flows.sort_values(by='FlowName',axis=0)
-                #nei_flows.to_csv(output_dir+'/flow/'+'NEI_'+year+'.csv',index=False)
-                storeInventory(nei_flows, 'NEI_'+year, 'flow')
-                log.info(len(nei_flows))
-                #2017: 293
-                #2016: 282
-                #2014: 279
-                #2011: 277
+            log.info('generating flows output')
+            nei_flows = nei_point[['FlowName', 'FlowID', 'Compartment']]
+            nei_flows = nei_flows.drop_duplicates()
+            nei_flows['Unit']='kg'
+            nei_flows = nei_flows.sort_values(by='FlowName',axis=0)
+            #nei_flows.to_csv(output_dir+'/flow/'+'NEI_'+year+'.csv',index=False)
+            storeInventory(nei_flows, 'NEI_'+year, 'flow')
+            log.info(len(nei_flows))
+            #2017: 293
+            #2016: 282
+            #2014: 279
+            #2011: 277
                 
-            elif args.Option == 'E':
-                log.info('generating facility output')
-                facility = nei_point[['FacilityID', 'FacilityName', 'Address', 'City', 'State', 
-                                      'Zip', 'Latitude', 'Longitude', 'NAICS', 'County']]
-                facility = facility.drop_duplicates('FacilityID')
-                #facility.to_csv(output_dir+'/facility/'+'NEI_'+year+'.csv',index=False)
-                storeInventory(facility, 'NEI_'+year, 'facility')
-                log.info(len(facility))
-                #2017: 87162
-                #2016: 85802
-                #2014: 85125
-                #2011: 95565
+            log.info('generating facility output')
+            facility = nei_point[['FacilityID', 'FacilityName', 'Address', 'City', 'State', 
+                                  'Zip', 'Latitude', 'Longitude', 'NAICS', 'County']]
+            facility = facility.drop_duplicates('FacilityID')
+            #facility.to_csv(output_dir+'/facility/'+'NEI_'+year+'.csv',index=False)
+            storeInventory(facility, 'NEI_'+year, 'facility')
+            log.info(len(facility))
+            #2017: 87162
+            #2016: 85802
+            #2014: 85125
+            #2011: 95565
+            
             generate_metadata(year, datatype='inventory')
         
