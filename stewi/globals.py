@@ -9,7 +9,7 @@ import yaml
 import time
 import subprocess
 from esupy.processed_data_mgmt import Paths, FileMeta, load_preprocessed_output,\
-    write_df_to_file, create_paths_if_missing
+    write_df_to_file, create_paths_if_missing, write_metadata_to_file
 
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'stewi/'
@@ -22,7 +22,7 @@ stewi_version = '0.9.7'
 #Common declaration of write format for package data products
 write_format = "parquet"
 
-paths = Paths
+paths = Paths()
 paths.local_path = os.path.realpath(paths.local_path + "/stewi")
 output_dir = paths.local_path
 
@@ -37,20 +37,20 @@ reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromER
 
 stewi_formats = ['flowbyfacility', 'flow', 'facility', 'flowbySCC']
 
-inventory_metadata = {
+source_metadata = {
     'SourceType': 'Static File',  #Other types are "Web service"
     'SourceFileName':'NA',
     'SourceURL':'NA',
     'SourceVersion':'NA',
     'SourceAquisitionTime':'NA',
-    'StEWI_versions_version': stewi_version
+    'StEWI_Version':stewi_version,
     }
 
 inventory_single_compartments = {"NEI":"air","RCRAInfo":"waste"}
 
 
 def set_stewi_meta(file_name, category):
-    stewi_meta = FileMeta
+    stewi_meta = FileMeta()
     stewi_meta.name_data = file_name
     stewi_meta.category = category
     stewi_meta.tool = "StEWI"
@@ -269,7 +269,7 @@ def write_validation_result(inventory_acronym,year,validation_df):
     #Convert to Series
     validation_set_info = validation_set_info.iloc[0,]
     #Use the same format an inventory metadata to described the validation set data
-    validation_metadata = dict(inventory_metadata)
+    validation_metadata = dict(source_metadata)
     validation_metadata['SourceFileName'] = validation_set_info['Name']
     validation_metadata['SourceVersion'] = validation_set_info['Version']
     validation_metadata['SourceURL'] = validation_set_info['URL']
@@ -334,36 +334,48 @@ MWh_MJ = 3600
 g_kg = 0.001
 
 # Writes the metadata dictionary to a JSON file
-def write_metadata(inventoryname, report_year, metadata_dict, datatype="inventory"):
-    if datatype == "inventory":
-        with open(output_dir + inventoryname + '_' + report_year + '_metadata.json', 'w') as file:
-            file.write(json.dumps(metadata_dict))
-    if datatype == "validation":
-        with open(output_dir + '/validation/' + inventoryname + '_' + report_year + '_validationset_metadata.json', 'w') as file:
+def write_metadata(file_name, metadata_dict, metapath=None, category='', datatype="inventory"):
+    if (datatype == "inventory") or (datatype == "source"):
+        meta = set_stewi_meta(file_name, category=category)
+        meta.tool_meta = metadata_dict
+        write_metadata_to_file(paths, meta)
+        #with open(output_dir + '/' + inventoryname + '_' + report_year + '_metadata.json', 'w') as file:
+        #    file.write(json.dumps(metadata_dict))
+    elif datatype == "validation":
+        with open(output_dir + '/validation/' + file_name + '_validationset_metadata.json', 'w') as file:
             file.write(json.dumps(metadata_dict))
 
 
 # Returns the metadata dictionary for an inventory
-def read_metadata(inventoryname, report_year):
-    with open(output_dir + 'RCRAInfo_' + report_year + '_metadata.json', 'r') as file:
+def read_source_metadata(path):
+    with open(path + '_metadata.json', 'r') as file:
         file_contents = file.read()
         metadata = json.loads(file_contents)
         return metadata
 
-def compile_metadata(file, config, year):
-    metadata = dict(inventory_metadata)
-    
-    data_retrieval_time = time.ctime(os.path.getmtime(file))
+def compile_source_metadata(sourcefile, config, year):
+    """Compiles metadata related to the source data downloaded to generate inventory
+    :param sourcefile: str or list of source file names
+    :param config:
+    :param year:
+    returns: dictionary in the format of source_metadata
+    """
+    metadata = dict(source_metadata)
+    if isinstance(sourcefile, list):
+        filename = sourcefile[0]
+    else:
+        filename = sourcefile
+    data_retrieval_time = time.ctime(os.path.getmtime(filename))
     if data_retrieval_time is not None:
         metadata['SourceAquisitionTime'] = data_retrieval_time
-    metadata['SourceFileName'] = file
+    metadata['SourceFileName'] = sourcefile
     metadata['SourceURL'] = config['url']
     if year in config:
         metadata['SourceVersion'] = config[year]['file_version']
     else:
         import re
         pattern = 'V[0-9]'
-        version = re.search(pattern,file,flags=re.IGNORECASE)
+        version = re.search(pattern,filename,flags=re.IGNORECASE)
         if version is not None:
             metadata['SourceVersion'] = version.group(0)
     return metadata
