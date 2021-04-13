@@ -19,8 +19,8 @@ else:
 
 setup(
     name="StEWI",
-    version="0.9.6",
-    author="Wesley Ingwersen, Matthew Bergman, Jose Hernandez-Betancur, Tapajyoti Ghosh, Mo Li",
+    version="0.9.7",
+    author="Wesley Ingwersen, Ben Young, Matthew Bergman, Jose Hernandez-Betancur, Tapajyoti Ghosh, Mo Li",
     author_email="ingwersen.wesley@epa.gov",
     description="Standardized Emission And Waste Inventories (StEWI)"
                 "provides processed EPA release and emissions inventories "
@@ -33,6 +33,7 @@ setup(
     # https://setuptools.readthedocs.io/en/latest/setuptools.html#including-data-files
     package_data={'stewi': ["data/*.*",
                             "data/DMR/*.*",
+                            "data/TRI/*.*",
                             "output/*.*",
                             "output/facility/*.*",
                             "output/flow/*.*",
