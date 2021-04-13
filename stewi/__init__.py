@@ -32,6 +32,8 @@ def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
             if '_v' in _n:
                 _n = _n[:_n.find('_v')]
             outputfiles.append(_n)
+    # remove duplicates
+    outputfiles = list(set(outputfiles))
     for file in outputfiles:
         length = len(file)
         s_yr = length - 4
