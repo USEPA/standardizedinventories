@@ -41,6 +41,7 @@ import io
 _config = config()['databases']['NEI']
 ext_folder = '/NEI Data Files/'
 external_dir = paths.local_path + ext_folder
+nei_data_dir = data_dir + 'NEI/'
     
 def read_data(year,file):
     """
@@ -275,7 +276,7 @@ if __name__ == '__main__':
         pickle_file = external_dir + 'NEI_' + year + '.pk'
         if args.Option == 'A':
 
-            nei_required_fields = pd.read_table(data_dir + 'NEI_required_fields.csv',sep=',')
+            nei_required_fields = pd.read_table(nei_data_dir + 'NEI_required_fields.csv',sep=',')
             nei_required_fields = nei_required_fields[[year,'StandardizedEPA']]
             nei_file_path = _config[year]['file_name']
 
