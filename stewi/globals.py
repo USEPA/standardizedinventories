@@ -260,6 +260,7 @@ def write_validation_result(inventory_acronym,year,validation_df):
     """Writes the validation result and associated metadata to the output"""
     directory = output_dir + '/validation/'
     create_paths_if_missing(directory)
+    log.info('writing validation result to ' + directory)
     validation_df.to_csv(directory + inventory_acronym + '_' + year + '.csv',index=False)
     #Get metadata on validation dataset
     validation_set_info_table = pd.read_csv(data_dir + 'ValidationSets_Sources.csv',header=0,dtype={"Year":"str"})
@@ -276,7 +277,7 @@ def write_validation_result(inventory_acronym,year,validation_df):
     validation_metadata['SourceAquisitionTime'] = validation_set_info['Date Acquired']
     validation_metadata['Criteria'] = validation_set_info['Criteria']
     #Write metadata to file
-    write_metadata(inventory_acronym, year, validation_metadata, datatype="validation")
+    write_metadata(inventory_acronym + '_' + year, validation_metadata, datatype="validation")
 
 
 def validation_summary(validation_df, filepath=''):
@@ -343,7 +344,7 @@ def write_metadata(file_name, metadata_dict, metapath=None, category='', datatyp
         #    file.write(json.dumps(metadata_dict))
     elif datatype == "validation":
         with open(output_dir + '/validation/' + file_name + '_validationset_metadata.json', 'w') as file:
-            file.write(json.dumps(metadata_dict))
+            file.write(json.dumps(metadata_dict, indent=4))
 
 
 # Returns the metadata dictionary for an inventory
