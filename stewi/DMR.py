@@ -15,11 +15,10 @@ C - for generating StEWI output files and validation from downloaded data
 
 import os, requests
 import pandas as pd
-import stewi.globals as globals
 from stewi.globals import set_dir, filter_inventory, filter_states,\
-    validate_inventory, write_validation_result, unit_convert, modulepath,\
-    output_dir, data_dir, lb_kg, get_relpath, write_metadata,\
-    weighted_average, log, compile_metadata, config
+    validate_inventory, write_validation_result, unit_convert,\
+    output_dir, data_dir, lb_kg, write_metadata, reliability_table,\
+    weighted_average, log, compile_metadata, config, storeInventory
 import argparse
 
 _config = config()['databases']['DMR']
@@ -180,7 +179,6 @@ def standardize_df(input_df):
     """Modifies DMR data to meet StEWI specifications."""
     dmr_required_fields = pd.read_csv(dmr_data_dir + 'DMR_required_fields.txt', header=None)[0]
     output_df = input_df[dmr_required_fields]
-    reliability_table = globals.reliability_table
     dmr_reliability_table = reliability_table[reliability_table['Source'] == 'DMR']
     dmr_reliability_table.drop(['Source', 'Code'], axis=1, inplace=True)
     output_df['ReliabilityScore'] = dmr_reliability_table['DQI Reliability Score'].values[0]
@@ -228,11 +226,16 @@ def generateDMR(year, nutrient=''):
     output_df = pd.DataFrame()
     if nutrient:
         path += nutrient+'_'
+        log.info('reading stored DMR queries by state for ' + nutrient + '...')
+    else:
+        log.info('reading stored DMR queries by state...')
     for state in states:
-        log.info('accessing data for ' + state)
+        log.debug('accessing data for ' + state)
         if not state in big_state_list:
             filepath = path + 'state_' + state + '.pickle'
             result = unpickle(filepath)
+            if result is None:
+                log.warn('No data found for ' + state)
             output_df = pd.concat([output_df, result])
         else: # multiple files for each state
             counter = 1
@@ -240,7 +243,9 @@ def generateDMR(year, nutrient=''):
                 try:    
                     filepath = path + 'state_' + state + '_' +str(counter)+ '.pickle'
                     result = unpickle(filepath)
-                    if result is None: break
+                    if result is None:
+                        log.debug('No data found for ' + state + '_' + str(counter))
+                        break
                     output_df = pd.concat([output_df, result])
                     counter+=1
                 except: pass
@@ -251,7 +256,6 @@ def unpickle(filepath):
     try:
         result = pd.read_pickle(filepath)
     except:
-        log.error(filepath.rsplit('/', 1)[-1]+' does not exist')
         return None
     if str(type(result)) == "<class 'NoneType'>":
         raise Exception('Problem with saved dataframe')
@@ -285,6 +289,7 @@ def validateStateTotals(df, year):
     # https://echo.epa.gov/help/loading-tool/water-pollution-search/search-results-help-dmr
     filepath = data_dir + 'DMR_' + year + '_StateTotals.csv'
     if os.path.exists(filepath):
+        log.info('validating against state totals')
         reference_df = pd.read_csv(filepath)
         reference_df['FlowAmount'] = 0.0
         reference_df = unit_convert(reference_df, 'FlowAmount', 'Unit', 'lb', lb_kg, 'Amount')
@@ -309,7 +314,6 @@ def generate_metadata(year):
     """
     Gets metadata and writes to .json
     """
-
     path = dmr_filepath + str(year)
     DMR_meta = compile_metadata(path, _config, year)
     DMR_meta['SourceType'] = 'Web Service'
@@ -476,15 +480,24 @@ if __name__ == '__main__':
             log.info("Querying nutrients for "+DMRyear)
             # Query aggregated nutrients data
             n_state_max_error_list, n_state_no_data_list, n_state_success_list = query_dmr(year = DMRyear, nutrient='N', state_list=states)
-            n_sic_state_max_error_list, n_sic_state_no_data_list, n_sic_state_success_list = query_dmr(year = DMRyear, sic_list = sic2, state_list=n_state_max_error_list, nutrient='N')
+            if (len(n_state_max_error_list) == 0) & (len(n_state_no_data_list) == 0):
+                log.info('all states succesfully downloaded for N')
+            else:
+                n_sic_state_max_error_list, n_sic_state_no_data_list, n_sic_state_success_list = query_dmr(year = DMRyear, sic_list = sic2, state_list=n_state_max_error_list, nutrient='N')
             p_state_max_error_list, p_state_no_data_list, p_state_success_list = query_dmr(year = DMRyear, nutrient='P', state_list=states)
-            p_sic_state_max_error_list, p_sic_state_no_data_list, p_sic_state_success_list = query_dmr(year = DMRyear, sic_list = sic2, state_list=p_state_max_error_list, nutrient='P')
+            if (len(p_state_max_error_list) == 0) & (len(p_state_no_data_list) == 0):
+                log.info('all states succesfully downloaded for P')
+            else:
+                p_sic_state_max_error_list, p_sic_state_no_data_list, p_sic_state_success_list = query_dmr(year = DMRyear, sic_list = sic2, state_list=p_state_max_error_list, nutrient='P')
+            
+            # write metadata
+            generate_metadata(DMRyear)
             
         if args.Option == 'B':
             generateStateTotal(DMRyear)
         
         if args.Option == 'C':
-
+            log.info('generating inventories for DMR ' + DMRyear)
             state_df = generateDMR(DMRyear)
             state_df = filter_states(standardize_df(state_df))
 
@@ -516,7 +529,8 @@ if __name__ == '__main__':
             facility_columns = ['FacilityID', 'FacilityName', 'City', 'State', 'Zip', 'Latitude', 'Longitude',
                                 'County', 'NAICS', 'SIC'] #'Address' not in DMR
             dmr_facility = dmr_df[facility_columns].drop_duplicates()
-            dmr_facility.to_csv(set_dir(output_dir + 'facility/')+'DMR_' + DMRyear + '.csv', index=False)
+            #dmr_facility.to_csv(set_dir(output_dir + 'facility/')+'DMR_' + DMRyear + '.csv', index=False)
+            storeInventory(dmr_facility, 'DMR_' + DMRyear, 'facility')
             
             # generate output for flow
             flow_columns = ['FlowID','FlowName']
@@ -524,16 +538,14 @@ if __name__ == '__main__':
             dmr_flow.sort_values(by=['FlowName'],inplace=True)
             dmr_flow['Compartment'] = 'water'
             dmr_flow['Unit'] = 'kg'
-            dmr_flow.to_csv(output_dir + 'flow/DMR_' + DMRyear + '.csv', index=False)
+            #dmr_flow.to_csv(output_dir + 'flow/DMR_' + DMRyear + '.csv', index=False)
+            storeInventory(dmr_flow, 'DMR_' + DMRyear, 'flow')
             
             # generate output for flowbyfacility
             fbf_columns = ['FlowName', 'FlowAmount', 'FacilityID', 'ReliabilityScore']
             dmr_fbf = aggregate_to_facility(dmr_df[fbf_columns])
             dmr_fbf['Compartment'] = 'water'
             dmr_fbf['Unit'] = 'kg'
-            dmr_fbf.to_csv(set_dir(output_dir + 'flowbyfacility/')+'DMR_' + DMRyear + '.csv', index=False)
-
-            # write metadata
-            generate_metadata(DMRyear)
-
+            #dmr_fbf.to_csv(set_dir(output_dir + 'flowbyfacility/')+'DMR_' + DMRyear + '.csv', index=False)
+            storeInventory(dmr_fbf, 'DMR_' + DMRyear, 'flowbyfacility')
 
