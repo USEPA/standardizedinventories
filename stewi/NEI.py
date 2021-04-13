@@ -24,9 +24,8 @@ Year:
 
 import stewi
 from stewi.globals import set_dir,output_dir,data_dir,write_metadata,\
-    get_relpath,unit_convert,log,\
     validate_inventory,write_validation_result,USton_kg,lb_kg,weighted_average, \
-    storeParquet, config, compile_metadata
+    log, storeInventory, config, compile_metadata
 import pandas as pd
 import numpy as np
 import os
@@ -299,13 +298,16 @@ if __name__ == '__main__':
         else:
             log.info('extracting data from NEI pickle')
             nei_point = pd.read_pickle('work/NEI_' + year + '.pk')
+            # for backwards compatability when ReliabilityScore was used to generate pickle
+            if 'ReliabilityScore' in nei_point:
+                nei_point['DataReliability'] = nei_point['ReliabilityScore']
             
         if args.Option == 'B':
             log.info('generating flow by facility output')
             nei_point = nei_point.reset_index()
             nei_flowbyfacility = nei_aggregate_to_facility_level(nei_point)
             #nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+year+'.csv',index=False)
-            storeParquet(nei_flowbyfacility,'flowbyfacility/NEI_'+year)
+            storeInventory(nei_flowbyfacility,'NEI_'+year,'flowbyfacility')
             log.info(len(nei_flowbyfacility))
             #2017: 2184786
             #2016: 1965918
@@ -317,7 +319,7 @@ if __name__ == '__main__':
             nei_point = nei_point.reset_index()
             nei_flowbySCC = nei_aggregate_to_custom_level(nei_point, 'SCC')
             #nei_flowbySCC.to_csv(output_dir+'flowbySCC/NEI_'+year+'.csv',index=False)
-            storeParquet(nei_flowbySCC, 'flowbySCC/NEI_'+year)
+            storeInventory(nei_flowbySCC, 'NEI_'+year, 'flowbySCC')
             log.info(len(nei_flowbySCC))
             #2017: 4055707
 
@@ -327,7 +329,8 @@ if __name__ == '__main__':
             nei_flows = nei_flows.drop_duplicates()
             nei_flows['Unit']='kg'
             nei_flows = nei_flows.sort_values(by='FlowName',axis=0)
-            nei_flows.to_csv(output_dir+'flow/'+'NEI_'+year+'.csv',index=False)
+            #nei_flows.to_csv(output_dir+'/flow/'+'NEI_'+year+'.csv',index=False)
+            storeInventory(nei_flows, 'NEI_'+year, 'flow')
             log.info(len(nei_flows))
             #2017: 293
             #2016: 282
@@ -339,7 +342,8 @@ if __name__ == '__main__':
             facility = nei_point[['FacilityID', 'FacilityName', 'Address', 'City', 'State', 
                                   'Zip', 'Latitude', 'Longitude', 'NAICS', 'County']]
             facility = facility.drop_duplicates('FacilityID')
-            facility.to_csv(output_dir+'facility/'+'NEI_'+year+'.csv',index=False)
+            #facility.to_csv(output_dir+'/facility/'+'NEI_'+year+'.csv',index=False)
+            storeInventory(facility, 'NEI_'+year, 'facility')
             log.info(len(facility))
             #2017: 87162
             #2016: 85802
