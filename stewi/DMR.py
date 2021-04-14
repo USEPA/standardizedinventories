@@ -337,7 +337,6 @@ def generate_metadata(year, datatype = 'inventory'):
         write_metadata('DMR_' + year, source_meta, category=ext_folder, datatype='source')
     else:
         source_meta = read_source_metadata(dmr_external_dir + 'DMR_'+ year)
-        source_meta = source_meta['tool_meta']
         write_metadata('DMR_'+year, source_meta, datatype=datatype)        
 
 def read_pollutant_parameter_list(parameter_grouping = PARAM_GROUP):

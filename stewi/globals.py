@@ -387,10 +387,14 @@ def write_metadata(file_name, metadata_dict, metapath=None, category='', datatyp
 
 # Returns the metadata dictionary for an inventory
 def read_source_metadata(path):
-    with open(path + '_metadata.json', 'r') as file:
-        file_contents = file.read()
-        metadata = json.loads(file_contents)
-        return metadata
+    try:
+        with open(path + '_metadata.json', 'r') as file:
+            file_contents = file.read()
+            metadata = json.loads(file_contents)
+            return metadata['tool_meta']
+    except FileNotFoundError:
+        log.warning("metadata not found for source data")
+        return None
 
 def compile_source_metadata(sourcefile, config, year):
     """Compiles metadata related to the source data downloaded to generate inventory

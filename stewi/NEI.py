@@ -248,7 +248,7 @@ def generate_national_totals(year):
     return df
 
 
-def validate_national_totals(year):
+def validate_national_totals(nei_flowbyfacility, year):
     """downloads 
     """    
     log.info('validating flow by facility against national totals')
@@ -258,9 +258,6 @@ def validate_national_totals(year):
         log.info('using already processed national totals validation file')
     nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ year + '_NationalTotals.csv',
                                       header=0,dtype={"FlowAmount[kg]":np.float})
-    nei_flowbyfacility = stewi.getInventory('NEI', year, 'flowbyfacility',
-                                            filter_for_LCI = False,
-                                            US_States_Only = False)
     nei_flowbyfacility.drop(['Compartment'],1, inplace = True)
     nei_national_totals.rename(columns={'FlowAmount[kg]':'FlowAmount'},inplace=True)
     validation_result = validate_inventory(nei_flowbyfacility, nei_national_totals,
@@ -279,7 +276,6 @@ def generate_metadata(year, datatype = 'inventory'):
         write_metadata('NEI_'+year, source_meta, category=ext_folder, datatype='source')
     else:
         source_meta = read_source_metadata(nei_external_dir + 'NEI_'+ year)
-        source_meta = source_meta['tool_meta']
         write_metadata('NEI_'+year, source_meta, datatype=datatype)
     
 
@@ -372,7 +368,7 @@ if __name__ == '__main__':
             #2011: 95565
 
             generate_metadata(year, datatype='inventory')
-            validate_national_totals(year)
+            validate_national_totals(nei_flowbyfacility, year)
                     
         elif args.Option == 'C':
             generate_national_totals(year)
