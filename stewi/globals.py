@@ -8,8 +8,10 @@ import os
 import yaml
 import time
 import subprocess
+from datetime import datetime
 from esupy.processed_data_mgmt import Paths, FileMeta, load_preprocessed_output,\
-    write_df_to_file, create_paths_if_missing, write_metadata_to_file
+    write_df_to_file, create_paths_if_missing, write_metadata_to_file,\
+    create_paths_if_missing
 
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'stewi/'
@@ -256,6 +258,12 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
     return validation_df
 
 
+def read_ValidationSets_Sources():
+    df = pd.read_csv(data_dir + 'ValidationSets_Sources.csv',header=0,
+                     dtype={"Year":"str"})
+    return df
+
+
 def write_validation_result(inventory_acronym,year,validation_df):
     """Writes the validation result and associated metadata to the output"""
     directory = output_dir + '/validation/'
@@ -263,10 +271,13 @@ def write_validation_result(inventory_acronym,year,validation_df):
     log.info('writing validation result to ' + directory)
     validation_df.to_csv(directory + inventory_acronym + '_' + year + '.csv',index=False)
     #Get metadata on validation dataset
-    validation_set_info_table = pd.read_csv(data_dir + 'ValidationSets_Sources.csv',header=0,dtype={"Year":"str"})
+    validation_set_info_table = read_ValidationSets_Sources()
     #Get record for year and
     validation_set_info = validation_set_info_table[(validation_set_info_table['Inventory']==inventory_acronym)&
                                                      (validation_set_info_table['Year']==year)]
+    if len(validation_set_info)!=1:
+        log.error('no validation metadata found')
+        return
     #Convert to Series
     validation_set_info = validation_set_info.iloc[0,]
     #Use the same format an inventory metadata to described the validation set data
@@ -279,6 +290,27 @@ def write_validation_result(inventory_acronym,year,validation_df):
     #Write metadata to file
     write_metadata(inventory_acronym + '_' + year, validation_metadata, datatype="validation")
 
+
+def update_validationsets_sources(validation_dict):
+    date = datetime.today().strftime('%d-%b-%Y')
+    validation_dict['Date Acquired'] = date
+    v_table = read_ValidationSets_Sources()
+    existing = v_table.loc[(v_table['Inventory'] == validation_dict['Inventory']) &
+                       (v_table['Year'] == validation_dict['Year'])]
+    if len(existing)>0:
+        i = existing.index[0]
+        v_table = v_table.loc[~v_table.index.isin(existing.index)]
+        line = pd.DataFrame.from_records([validation_dict], index=[(i)])
+    else:
+        inventories = list(v_table['Inventory'])
+        i = max(loc for loc, val in enumerate(inventories) if val == validation_dict['Inventory'])
+        line = pd.DataFrame.from_records([validation_dict], index=[(i+0.5)])
+    v_table = v_table.append(line, ignore_index=False)
+    v_table = v_table.sort_index().reset_index(drop=True)
+    log.info('updating ValidationSets_Sources.csv with %s %s', 
+             validation_dict['Inventory'], validation_dict['Year'])
+    v_table.to_csv(data_dir + 'ValidationSets_Sources.csv', index=False)
+    
 
 def validation_summary(validation_df, filepath=''):
     """
