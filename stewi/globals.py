@@ -222,6 +222,7 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
     amount_y_list = []
     pct_diff_list = []
     conclusion = []
+    error_count = 0
     for index, row in validation_df.iterrows():
         amount_x = float(row['FlowAmount_x'])
         amount_y = float(row['FlowAmount_y'])
@@ -235,6 +236,7 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
                 amount_y_list.append(amount_y)
                 pct_diff_list.append(100.0)
                 conclusion.append('Inventory value is zero or null')
+                error_count += 1
             continue
         elif amount_y == 0.0:
             amount_x_list.append(amount_x)
@@ -249,12 +251,15 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
             amount_y_list.append(amount_y)
             if pct_diff == 0.0: conclusion.append('Identical')
             elif pct_diff <= tolerance: conclusion.append('Statistically similar')
-            elif pct_diff > tolerance: conclusion.append('Percent difference exceeds tolerance')
+            elif pct_diff > tolerance:
+                conclusion.append('Percent difference exceeds tolerance')
+                error_count += 1
     validation_df['Inventory_Amount'] = amount_x_list
     validation_df['Reference_Amount'] = amount_y_list
     validation_df['Percent_Difference'] = pct_diff_list
     validation_df['Conclusion'] = conclusion
     validation_df = validation_df.drop(['FlowAmount_x', 'FlowAmount_y'], axis=1)
+    log.warning('%s potential issues in validation exceeding tolerance', str(error_count))
     return validation_df
 
 
