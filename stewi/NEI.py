@@ -14,7 +14,7 @@ Options:
         flowbySCC
         flows
         facilities
-    C - for validating flowbyfacility against national totals
+    C - for downloading national totals for validation
 
 Year: 
     2017
@@ -27,7 +27,7 @@ import stewi
 from stewi.globals import set_dir,output_dir,data_dir,write_metadata,\
     validate_inventory,write_validation_result,USton_kg,lb_kg,weighted_average,\
     log, storeInventory, config, compile_source_metadata, read_source_metadata,\
-    paths
+    paths, update_validationsets_sources
 import pandas as pd
 import numpy as np
 import os
@@ -40,7 +40,7 @@ import io
 
 _config = config()['databases']['NEI']
 ext_folder = '/NEI Data Files/'
-external_dir = paths.local_path + ext_folder
+nei_external_dir = paths.local_path + ext_folder
 nei_data_dir = data_dir + 'NEI/'
     
 def read_data(year,file):
@@ -63,7 +63,7 @@ def read_data(year,file):
     # read nei file by chunks
     usecols = list(nei_required_fields[year].dropna())
     for file_chunk in pd.read_csv(
-            external_dir + file,
+            nei_external_dir + file,
             usecols=usecols,
             dtype={'sppd_facility_identifier':'str'},
             chunksize=100000,
@@ -232,9 +232,41 @@ def generate_national_totals(year):
     df = df.groupby(['FlowID','FlowName'])['FlowAmount'].sum().reset_index()
     # save national totals to .csv
     df.rename(columns={'FlowAmount':'FlowAmount[kg]'}, inplace=True)
+    log.info('saving NEI_%s_NationalTotals.csv to %s', year, data_dir)
     df.to_csv(data_dir+'NEI_'+year+'_NationalTotals.csv',index=False)
+    
+    # Update validationSets_Sources.csv
+    validation_dict = {'Inventory':'NEI',
+                       'Version':version,
+                       'Year':year,
+                       'Name':'NEI Data',
+                       'URL':url,
+                       'Criteria':'Data Summaries tab, Facility-level by Pollutant '
+                       'zip file download, summed to national level',
+                       }
+    update_validationsets_sources(validation_dict)
 
     return df
+
+
+def validate_national_totals(year):
+    """downloads 
+    """    
+    log.info('validating flow by facility against national totals')
+    if not(os.path.exists(data_dir + 'NEI_'+ year + '_NationalTotals.csv')):
+        generate_national_totals(year)
+    else:
+        log.info('using already processed national totals validation file')
+    nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ year + '_NationalTotals.csv',
+                                      header=0,dtype={"FlowAmount[kg]":np.float})
+    nei_flowbyfacility = stewi.getInventory('NEI', year, 'flowbyfacility',
+                                            filter_for_LCI = False,
+                                            US_States_Only = False)
+    nei_flowbyfacility.drop(['Compartment'],1, inplace = True)
+    nei_national_totals.rename(columns={'FlowAmount[kg]':'FlowAmount'},inplace=True)
+    validation_result = validate_inventory(nei_flowbyfacility, nei_national_totals,
+                                           group_by='flow', tolerance=5.0)
+    write_validation_result('NEI',year,validation_result)
 
 
 def generate_metadata(year, datatype = 'inventory'):
@@ -242,12 +274,12 @@ def generate_metadata(year, datatype = 'inventory'):
     Gets metadata and writes to .json
     """
     if datatype == 'source':
-        source_path = [external_dir + p for p in nei_file_path]
+        source_path = [nei_external_dir + p for p in nei_file_path]
         source_path = [os.path.realpath(p) for p in source_path]
         source_meta = compile_source_metadata(source_path, _config, year)
-        write_metadata('NEI_'+year, source_meta, category=ext_folder, datatype=datatype)
+        write_metadata('NEI_'+year, source_meta, category=ext_folder, datatype='source')
     else:
-        source_meta = read_source_metadata(external_dir + 'NEI_'+ year)
+        source_meta = read_source_metadata(nei_external_dir + 'NEI_'+ year)
         source_meta = source_meta['tool_meta']
         write_metadata('NEI_'+year, source_meta, datatype=datatype)
     
@@ -259,8 +291,8 @@ if __name__ == '__main__':
     parser.add_argument('Option',
                         help = 'What do you want to do:\
                         [A] Process and pickle NEI data\
-                        [B] Generate StEWI inventory outputs\
-                        [C] Validate flowbyfacility against national totals',
+                        [B] Generate StEWI inventory outputs and validate to national totals\
+                        [C] Download national totals',
                         type = str)
 
     parser.add_argument('-y', '--Year', nargs = '+',
@@ -273,7 +305,7 @@ if __name__ == '__main__':
     
     for year in NEIyears:
 
-        pickle_file = external_dir + 'NEI_' + year + '.pk'
+        pickle_file = nei_external_dir + 'NEI_' + year + '.pk'
         if args.Option == 'A':
 
             nei_required_fields = pd.read_table(nei_data_dir + 'NEI_required_fields.csv',sep=',')
@@ -284,23 +316,6 @@ if __name__ == '__main__':
             log.info('saving processed NEI to ' + pickle_file)
             nei_point.to_pickle(pickle_file)
             generate_metadata(year, datatype='source')
-            
-        elif args.Option == 'C':
-            log.info('validating flow by facility against national totals')
-            if not(os.path.exists(data_dir + 'NEI_'+ year + '_NationalTotals.csv')):
-                generate_national_totals(year)
-            else:
-                log.info('using already processed national totals validation file')
-            nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ year + '_NationalTotals.csv',
-                                              header=0,dtype={"FlowAmount[kg]":np.float})
-            nei_flowbyfacility = stewi.getInventory('NEI', year, 'flowbyfacility',
-                                                    filter_for_LCI = False,
-                                                    US_States_Only = False)
-            nei_flowbyfacility.drop(['Compartment'],1, inplace = True)
-            nei_national_totals.rename(columns={'FlowAmount[kg]':'FlowAmount'},inplace=True)
-            validation_result = validate_inventory(nei_flowbyfacility, nei_national_totals,
-                                                   group_by='flow', tolerance=5.0)
-            write_validation_result('NEI',year,validation_result)
 
         elif args.Option == 'B':
             log.info('extracting data from NEI pickle')
@@ -309,7 +324,7 @@ if __name__ == '__main__':
             except FileNotFoundError:
                 log.error('pickle file not found. Please run option A before proceeding')
                 sys.exit(0)
-            # for backwards compatability when ReliabilityScore was used to generate pickle
+            # for backwards compatability if ReliabilityScore was used to generate pickle
             if 'ReliabilityScore' in nei_point:
                 nei_point['DataReliability'] = nei_point['ReliabilityScore']
             nei_point = nei_point.reset_index()
@@ -358,4 +373,8 @@ if __name__ == '__main__':
             #2011: 95565
 
             generate_metadata(year, datatype='inventory')
+            validate_national_totals(year)
+                    
+        elif args.Option == 'C':
+            generate_national_totals(year)
         
