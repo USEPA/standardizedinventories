@@ -89,7 +89,6 @@ def url_is_alive(url):
 
 
 def download_table(filepath, url, get_time=False, zip_dir=''):
-    import os.path, time
     if not os.path.exists(filepath):
         if url[-4:].lower() == '.zip':
             import zipfile, requests, io
@@ -119,7 +118,6 @@ def set_dir(directory_name):
 
 
 def import_table(path_or_reference, skip_lines=0, get_time=False):
-    import time
     if '.core.frame.DataFrame' in str(type(path_or_reference)): import_file = path_or_reference
     elif path_or_reference[-3:].lower() == 'csv':
         import_file = pd.read_csv(path_or_reference)
@@ -297,9 +295,10 @@ def write_validation_result(inventory_acronym,year,validation_df):
     write_metadata(inventory_acronym + '_' + year, validation_metadata, datatype="validation")
 
 
-def update_validationsets_sources(validation_dict):
-    date = datetime.today().strftime('%d-%b-%Y')
-    validation_dict['Date Acquired'] = date
+def update_validationsets_sources(validation_dict, date_acquired=False):
+    if not date_acquired:
+        date = datetime.today().strftime('%d-%b-%Y')
+        validation_dict['Date Acquired'] = date
     v_table = read_ValidationSets_Sources()
     existing = v_table.loc[(v_table['Inventory'] == validation_dict['Inventory']) &
                        (v_table['Year'] == validation_dict['Year'])]

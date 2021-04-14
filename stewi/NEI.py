@@ -245,8 +245,6 @@ def generate_national_totals(year):
                        }
     update_validationsets_sources(validation_dict)
 
-    return df
-
 
 def validate_national_totals(nei_flowbyfacility, year):
     """downloads 
