@@ -13,7 +13,8 @@ C - for downloading and generating state totals file
 
 '''
 
-import os, requests
+import os
+import requests
 import sys
 import pandas as pd
 from stewi.globals import set_dir, filter_inventory, filter_states,\
@@ -468,13 +469,13 @@ if __name__ == '__main__':
 
     parser.add_argument('Option',
                         help = 'What do you want to do:\
-                        [A] Extract DMR files from web.\
-                        [B] State Totals for DMR.\
-                        [C] Organize files',
+                        [A] Download DMR files from web\
+                        [B] Generate StEWI inventory outputs and validate to state totals\
+                        [C] Download state totals',
                         type = str)
 
     parser.add_argument('-Y', '--Year', nargs = '+',
-                        help = 'What DMR year you want to retrieve',
+                        help = 'What DMR year(s) you want to retrieve',
                         type = str)
 
     args = parser.parse_args()

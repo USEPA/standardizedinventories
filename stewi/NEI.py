@@ -4,7 +4,6 @@ Imports NEI data and processes to Standardized EPA output format.
 Uses the NEI data exports from EIS. Must contain locally downloaded data for
 options A:C.
 This file requires parameters be passed like:
-
     Option -y Year 
 
 Options:
@@ -296,7 +295,7 @@ if __name__ == '__main__':
                         type = str)
 
     parser.add_argument('-y', '--Year', nargs = '+',
-                        help = 'What NEI year you want to retrieve',
+                        help = 'What NEI year(s) you want to retrieve',
                         type = str)
     
     args = parser.parse_args()
