@@ -25,7 +25,7 @@ from stewi.globals import output_dir,data_dir,write_metadata,\
     unit_convert,log,MMBtu_MJ,MWh_MJ,config,\
     validate_inventory,write_validation_result,USton_kg,lb_kg,\
     compile_source_metadata, remove_line_breaks, paths, storeInventory,\
-    read_source_metadata, readInventory
+    read_source_metadata, readInventory, update_validationsets_sources
 import requests
 import zipfile
 import io
@@ -97,7 +97,17 @@ def generate_metadata(year, datatype = 'inventory'):
     else:
         source_meta = read_source_metadata(eGRIDfilepath + 'eGRID_'+ year)
         write_metadata('eGRID_'+year, source_meta, datatype=datatype)    
-    
+
+def extract_eGRID_excel(year, sheetname, index='field'):
+    eGRIDfile = eGRIDfilepath + _config[year]['file_name']
+    if index != 'field': header = 1
+    else: header = 0
+    df = pd.read_excel(eGRIDfile, sheet_name=sheetname+year[2:], header=header)
+    df = remove_line_breaks(df)
+    if index == 'field':
+        #drop first row which are column name abbreviations
+        df = df.drop([0])
+    return df
         
 def generate_eGRID_files(year):
     '''
@@ -110,18 +120,8 @@ def generate_eGRID_files(year):
         Year of eGRID dataset  
     '''
     log.info('generating eGRID files for '+ year)
-    year_last2 = year[2:]
-    eGRIDfile = eGRIDfilepath + _config[year]['file_name']
-    pltsheetname = 'PLNT'+ year_last2
-    untsheetname = 'UNT' + year_last2
-
-    # Import egrid file
-    egrid = pd.read_excel(eGRIDfile, sheet_name=pltsheetname)
-    egrid = remove_line_breaks(egrid)
-    #drop first row which are column name abbreviations
-    egrid = egrid.drop([0])
     
-    #use_cols not working so drop them after import
+    egrid = extract_eGRID_excel(year, 'PLNT')
     #get list of columns not in the required fields and drop them
     egrid_required_fields, egrid_col_dict = imp_fields(eGRID_data_dir+'eGRID_required_fields.csv',year)
     colstodrop = list(set(list(egrid.columns)) - set(egrid_required_fields))
@@ -129,13 +129,9 @@ def generate_eGRID_files(year):
     egrid2.rename(columns = egrid_col_dict['StEWI'], inplace=True)
 
     #Read in unit sheet to get comment fields related to source of heat,NOx,SO2, and CO2 emission estimates
-    unit_egrid_required_fields, unit_egrid_col_dict = imp_fields(eGRID_data_dir+'eGRID_unit_level_required_fields.csv',year) #@author: Wes
-    unit_egrid = pd.read_excel(eGRIDfile, sheet_name=untsheetname)
-    unit_egrid = remove_line_breaks(unit_egrid)
-    #drop first row which are column name abbreviations
-    unit_egrid = unit_egrid.drop([0])
-    
+    unit_egrid = extract_eGRID_excel(year, 'UNT')
     #get list of columns not in the required fields and drop them
+    unit_egrid_required_fields, unit_egrid_col_dict = imp_fields(eGRID_data_dir+'eGRID_unit_level_required_fields.csv',year)
     colstodrop = list(set(list(unit_egrid.columns)) - set(unit_egrid_required_fields))
     unit_egrid = unit_egrid.drop(colstodrop,axis=1)
     unit_egrid.rename(columns = unit_egrid_col_dict['StEWI'], inplace=True)
@@ -284,7 +280,8 @@ def generate_eGRID_files(year):
     if int(year) >= 2018:
         facility.loc[:,facility.columns.str.contains('resource mix')] *=100
     
-    log.info(len(facility))
+    log.debug(len(facility))
+    #2019: 11865
     #2018: 10964
     #2016: 9709
     #2014: 8503
@@ -325,9 +322,59 @@ def validate_eGRID(year):
 
 def generate_national_totals(year):
     #Download and process eGRID national totals
-    log.warning('this option is not functional')
+    log.info('Processing eGRID national totals for %s', year)
+    totals_dict = {'USHTIANT':'Heat',
+                   'USNGENAN':'Electricity',
+                   #'USETHRMO':'Steam', #PLNTYR sheet
+                   'USNOXAN':'Nitrogen oxides',
+                   'USSO2AN':'Sulfur dioxide',
+                   'USCO2AN':'Carbon dioxide',
+                   'USCH4AN':'Methane',
+                   'USN2OAN':'Nitrous oxide',
+                   }
+    
+    us_totals = extract_eGRID_excel(year, 'US', index='code')
+    us_totals = us_totals[list(totals_dict.keys())]
+    us_totals.rename(columns=totals_dict, inplace=True)
+    us_totals = us_totals.transpose().reset_index()
+    us_totals = us_totals.rename(columns={'index':'FlowName',
+                                         0:'FlowAmount'})
+    
+    steam_df = extract_eGRID_excel(year, 'PLNT', index='code')
+    steam_total = steam_df['USETHRMO'].sum()
+    us_totals = us_totals.append({'FlowName':'Steam', 'FlowAmount':steam_total},
+                                 ignore_index=True)
+    
+    flow_compartments = pd.read_csv(eGRID_data_dir+'eGRID_flow_compartments.csv',
+                                    usecols=['FlowName','Compartment'])
+    us_totals = us_totals.merge(flow_compartments, how = 'left', on = 'FlowName')
+    
+    us_totals.loc[(us_totals['FlowName']=='Carbon dioxide') |
+                  (us_totals['FlowName']=='Sulfur dioxide') |
+                  (us_totals['FlowName']=='Nitrogen oxides'),
+                  'Unit'] = 'tons'
+    us_totals.loc[(us_totals['FlowName']=='Methane') |
+                  (us_totals['FlowName']=='Nitrous oxide'),
+                  'Unit'] = 'lbs'
+    us_totals.loc[(us_totals['FlowName']=='Heat') |
+                  (us_totals['FlowName']=='Steam'),
+                  'Unit'] = 'MMBtu'
+    us_totals.loc[(us_totals['FlowName']=='Electricity'),
+                  'Unit'] = 'MWh'
+    log.info('saving eGRID_%s_NationalTotals.csv to %s', year, data_dir)
+    us_totals = us_totals[['FlowName','Compartment','FlowAmount','Unit']]
+    us_totals.to_csv(data_dir+'eGRID_'+year+'_NationalTotals.csv',index=False)
+    
     #Update validationSets_Sources.csv
-    #update_validationsets_sources(validation_dict)
+    validation_dict = {'Inventory':'eGRID',
+                       'Version':_config[year]['file_version'],
+                       'Year':year,
+                       'Name':'eGRID Data Files',
+                       'URL':_config[year]['download_url'],
+                       'Criteria':'Extracted from US Total tab, or for '
+                       'steam, summed from PLNT tab',
+                       }
+    update_validationsets_sources(validation_dict)
     
 
 if __name__ == '__main__':
