@@ -9,8 +9,8 @@ This file requires parameters be passed like:
 Options:
     A - for downloading and processing GHGRP data from web and saving locally
     B - for generating flowbyfacility output
-    C - for generating flows output
-    D - for generating facilities output
+        for generating flows output
+        for generating facilities output
     E - for validating flowbyfacility against national totals
 
 Year: 
@@ -26,17 +26,10 @@ Models with tables available at https://www.epa.gov/enviro/greenhouse-gas-model
 Envirofacts web services documentation can be found at: https://www.epa.gov/enviro/web-services
 """
 
-import stewi.globals as globals
-from stewi.globals import set_dir
-from stewi.globals import download_table
-from stewi.globals import inventory_metadata, write_metadata
-from stewi.globals import get_relpath
-from stewi.globals import import_table
-from stewi.globals import drop_excel_sheets
-from stewi.globals import validate_inventory
-from stewi.globals import validation_summary
-from stewi.globals import write_validation_result
-from stewi.globals import weighted_average
+from stewi.globals import set_dir, download_table, inventory_metadata,\
+    write_metadata, get_relpath, import_table, drop_excel_sheets,\
+    validate_inventory, validation_summary, write_validation_result,\
+    weighted_average, data_dir, output_dir, reliability_table
 import pandas as pd
 import numpy as np
 import requests
@@ -48,8 +41,8 @@ import logging as log
 
 
 ## define directories
-data_dir = globals.data_dir # stewi data directory
-output_dir = globals.output_dir # stewi output directory
+data_dir = data_dir # stewi data directory
+output_dir = output_dir # stewi output directory
 ghgrp_data_dir = set_dir(data_dir + 'ghgrp/') # stewi data directory --> ghgrp
 ghgrp_external_dir = set_dir(data_dir + '/../../../GHGRP Data Files/') # external GHGRP data directory
    
@@ -182,13 +175,12 @@ def download_and_parse_subpart_tables(year):
     # for all subpart emissions tables listed...
     for subpart_emissions_table in year_tables['TABLE']:
         
-        # print name of table
-        print(subpart_emissions_table)
         # define filepath where subpart emissions table will be stored
         filepath = tables_dir + subpart_emissions_table + '.csv'
         
         # if data already exists on local network, import the data
         if os.path.exists(filepath):
+            log.info('importing data from %s', subpart_emissions_table)
             temp_df, temp_time = import_table(filepath, get_time=True)
             table_length = len(temp_df)
             row_start = 0
@@ -525,6 +517,7 @@ if __name__ == '__main__':
                                   'NAICS_CODE': 'NAICS'}, inplace=True)    
             
             # pickle data and save to network
+            log.info('saving GHGRP data to pickle')
             ghgrp.to_pickle('work/GHGRP_' + year + '.pk')
                                            
         # if any option other than 'A' is selected, load the ghgrp dataframe from the local network
@@ -536,7 +529,6 @@ if __name__ == '__main__':
             log.info('generating flowbyfacility output')
             
             # import data reliability scores 
-            reliability_table = globals.reliability_table
             ghgrp_reliability_table = reliability_table[reliability_table['Source'] == 'GHGRPa']
             ghgrp_reliability_table.drop('Source', axis=1, inplace=True)
             
@@ -570,9 +562,6 @@ if __name__ == '__main__':
             # save results to output directory
             ghgrp_fbf_2.to_csv(output_dir + 'flowbyfacility/GHGRP_' + year + '.csv', index=False)
         
-        elif args.Option == 'C':
-            log.info('generating flows output')
-            
             # generate flows output and save to network
             flow_columns = ['FlowName', 'FlowID']
             ghgrp_flow = ghgrp[flow_columns].drop_duplicates()
@@ -580,7 +569,6 @@ if __name__ == '__main__':
             ghgrp_flow['Unit'] = 'kg'
             ghgrp_flow.to_csv(output_dir + 'flow/GHGRP_' + year + '.csv', index=False)
         
-        elif args.Option == 'D':
             log.info('generating facilities output')
             
             # return dataframe of GHGRP facilities
@@ -653,7 +641,6 @@ if __name__ == '__main__':
 
             # Perform validation on the flowbyfacility file
             validation_df = validate_inventory(ghgrp_fbf, reference_df)
-            write_validation_result = globals.write_validation_result
             write_validation_result('GHGRP', year, validation_df)
             validation_sum = validation_summary(validation_df)
             
