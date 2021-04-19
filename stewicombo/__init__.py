@@ -4,7 +4,8 @@ Functions to combine inventory data
 import facilitymatcher
 from stewicombo.overlaphandler import aggregate_and_remove_overlap
 from stewicombo.globals import get_id_before_underscore, getInventoriesforFacilityMatches,\
-    addChemicalMatches, addBaseInventoryIDs
+    addChemicalMatches, addBaseInventoryIDs, storeCombinedInventory,\
+    write_metadata, compile_metadata
 
 
 def combineFullInventories(inventory_dict, filter_for_LCI=True, 
@@ -106,6 +107,11 @@ def combineInventoriesforFacilityList(base_inventory, inventory_dict, facility_i
 
     inventories = addBaseInventoryIDs(inventories, facilitymatches, base_inventory)
     return inventories
+
+def saveInventory(name, combinedinventory_df, inventory_dict):
+    storeCombinedInventory(combinedinventory_df, name)
+    inventory_meta = compile_metadata(inventory_dict)
+    write_metadata(name, inventory_meta)
 
 
 def pivotCombinedInventories(combinedinventory_df):

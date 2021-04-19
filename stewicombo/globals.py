@@ -1,14 +1,28 @@
 import re
 import os
-#Variables and functions for common use
-import chemicalmatcher
 import pandas as pd
+
+import chemicalmatcher
 import stewi
+from stewi.globals import log, set_stewi_meta
+from esupy.processed_data_mgmt import Paths, write_df_to_file, write_metadata_to_file
 
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'stewicombo/'
 
 data_dir = modulepath + 'data/'
+
+#Common declaration of write format for package data products
+write_format = "parquet"
+
+paths = Paths()
+paths.local_path = os.path.realpath(paths.local_path + "/stewicombo")
+output_dir = paths.local_path
+
+inventory_metadata = {
+    'InventoryDictionary': '',
+    'InventoryGenerationTime':'',
+    }
 
 INVENTORY_PREFERENCE_BY_COMPARTMENT = {"air":["eGRID","GHGRP","NEI","TRI"],
                                        "water":["DMR", "TRI"],
@@ -20,7 +34,7 @@ LOOKUP_FIELDS = ["FRS_ID", "Compartment", "SRS_ID"]
 # pandas might infer wrong type, force cast skeptical columns
 FORCE_COLUMN_TYPES = {
     "SRS_CAS": "str"
-}
+    }
 
 KEEP_ALL_DUPLICATES =  True
 INCLUDE_ORIGINAL =  True
@@ -31,8 +45,18 @@ COL_FUNC_PAIRS = {
     "FacilityID": "join_with_underscore",
     "FlowAmount": "sum",
     "DataReliability": "reliablity_weighted_sum:FlowAmount"
-}
+    }
 COL_FUNC_DEFAULT = "get_first_item"
+
+VOC_srs = pd.read_csv(data_dir+'VOC_SRS_IDs.csv',dtype=str,index_col=False,header=0)
+VOC_srs = VOC_srs['SRS_IDs']
+
+def set_stewicombo_meta(file_name, category):
+    stewicombo_meta = set_stewi_meta(file_name, category)
+    stewicombo_meta.tool = "stewicombo"
+    stewicombo_meta.ext = write_format
+    return stewicombo_meta
+
 
 #Remove substring from inventory name
 def get_id_before_underscore(inventory_id):
@@ -41,11 +65,6 @@ def get_id_before_underscore(inventory_id):
         inventory_id = inventory_id[0:underscore_match.start()]
     return inventory_id
 
-VOC_srs = pd.read_csv(data_dir+'VOC_SRS_IDs.csv',dtype=str,index_col=False,header=0)
-VOC_srs = VOC_srs['SRS_IDs']
-
-columns_to_keep = ['FacilityID', 'FlowAmount', 'FlowName','Compartment','Unit','DataReliability','Source','Year','FRS_ID']
-
 
 def getInventoriesforFacilityMatches(inventory_dict,facilitymatches,filter_for_LCI,base_inventory=None):
 
@@ -53,6 +72,9 @@ def getInventoriesforFacilityMatches(inventory_dict,facilitymatches,filter_for_L
         base_inventory_FRS = facilitymatches[facilitymatches['Source'] == base_inventory]
         base_inventory_FRS_list = list(pd.unique(base_inventory_FRS['FRS_ID']))
 
+    columns_to_keep = ['FacilityID', 'FlowAmount', 'FlowName',
+                       'Compartment','Unit','DataReliability',
+                       'Source','Year','FRS_ID']
     inventories = pd.DataFrame()
     for k in inventory_dict.keys():
         inventory = stewi.getInventory(k,inventory_dict[k],'flowbyfacility',filter_for_LCI)
@@ -107,3 +129,24 @@ def addBaseInventoryIDs(inventories,facilitymatches,base_inventory):
         inventories.loc[inventories['Source']==base_inventory,colname_base_inventory_id] = inventories['FacilityID_first']
         inventories = inventories.drop(columns='FacilityID_first')
     return inventories
+
+def storeCombinedInventory(df, file_name, category=''):
+    """Stores the inventory dataframe to local directory based on category"""
+    meta = set_stewicombo_meta(file_name, category)
+    method_path = output_dir + '/' + meta.category
+    try:
+        log.info('saving ' + meta.name_data + ' to ' + method_path)
+        write_df_to_file(df,paths,meta)
+    except:
+        log.error('Failed to save inventory')
+
+def write_metadata(file_name, metadata_dict, category=''):
+    meta = set_stewicombo_meta(file_name, category=category)
+    meta.tool_meta = metadata_dict
+    write_metadata_to_file(paths, meta)
+
+def compile_metadata(inventory_dict):
+    inventory_meta = dict(inventory_metadata)
+    inventory_meta['InventoryDictionary'] = inventory_dict
+    
+    return inventory_meta
