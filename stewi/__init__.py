@@ -28,7 +28,7 @@ def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
     existing_inventories = {}
     for name in files:
         if name.endswith(write_format):
-            _n = name.strip('.'+write_format)
+            _n = name[:-len('.'+write_format)]
             if '_v' in _n:
                 _n = _n[:_n.find('_v')]
             outputfiles.append(_n)
