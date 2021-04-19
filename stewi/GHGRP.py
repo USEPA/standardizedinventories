@@ -424,13 +424,6 @@ if __name__ == '__main__':
     # Envirofacts: root url for EPA's Envirofacts Data Service
     enviro_url = 'https://data.epa.gov/efservice/'
     
-    # Subparts: .json file with list of 41 industrial categories, 
-    # organized by 40 CFR 98 subpart
-    subparts_url = enviro_url + 'PUB_DIM_SUBPART/JSON'
-    
-    # GHGs: .json with list of greenhouse gases covered by GHGRP
-    ghgs_url = enviro_url + 'PUB_DIM_GHG/JSON'
-    
     # define GWPs
     # (these values are from IPCC's AR4, which is consistent with GHGRP methodology)
     CH4GWP = 25
@@ -456,8 +449,6 @@ if __name__ == '__main__':
     data_summaries_path = ghgrp_external_dir + most_recent_year + '_data_summary_spreadsheets/'
     esbb_subparts_path = ghgrp_external_dir + esbb_subparts_url[51:]
     lo_subparts_path = ghgrp_external_dir + lo_subparts_url[51:]
-    subparts_path = ghgrp_external_dir + 'subparts.csv'
-    ghgs_path = ghgrp_external_dir + 'ghgs.csv'
     
     # set format for metadata file
     ghgrp_metadata = inventory_metadata 
@@ -475,8 +466,7 @@ if __name__ == '__main__':
             required_tables = [[data_summaries_path, data_summaries_url, 'Static File'], 
                                [esbb_subparts_path, esbb_subparts_url, 'Static File'],
                                [lo_subparts_path, lo_subparts_url, 'Static File'],
-                               [subparts_path, subparts_url, 'Database'], 
-                               [ghgs_path, ghgs_url, 'Database']]
+                               ]
             
             # download each table from web and save locally
             for table in required_tables:
@@ -544,8 +534,8 @@ if __name__ == '__main__':
             # rename reliability score column for consistency
             ghgrp.rename(columns={'DQI Reliability Score': 'ReliabilityScore',
                                   'SUBPART_NAME':'Subpart'}, inplace=True)
-            
-           # generate flowbyProcess (i.e. Subpart)
+
+            # generate flowbyProcess (i.e. Subpart)
             fbp_columns = ['FlowName', 'FlowAmount', 'FacilityID', 'ReliabilityScore','Subpart']
             ghgrp_fbp = ghgrp[fbp_columns]
             ghgrp_fbp = aggregate(ghgrp_fbp, ['FacilityID', 'FlowName', 'Subpart'])
@@ -593,10 +583,6 @@ if __name__ == '__main__':
             # define filepath for reference data
             ref_filepath = ghgrp_external_dir + 'GHGRP_reference' + year + '.csv'
             
-            # load GHGs list
-            ghgs = import_table(ghgs_path)
-            ghgs.drop_duplicates(inplace=True)
-            
             # if the reference file exists, load the data
             if os.path.exists(ref_filepath):
                 reference_df, temp_time = import_table(ref_filepath, get_time=True)
@@ -625,11 +611,9 @@ if __name__ == '__main__':
             # parse reference dataframe to prepare it for validation
             reference_df['YEAR'] = reference_df['YEAR'].astype('str')
             reference_df = reference_df[reference_df['YEAR'] == year]
-            reference_df = reference_df.merge(ghgs[['GAS_ID', 'GAS_NAME']], how='left', on='GAS_NAME')
             reference_df['FlowAmount'] = reference_df['GHG_QUANTITY'].astype(float) * 1000
-            reference_df = reference_df[['FlowAmount', 'GAS_ID', 'GAS_NAME', 'FACILITY_ID']]
+            reference_df = reference_df[['FlowAmount', 'GAS_NAME', 'FACILITY_ID']]
             reference_df.rename(columns={'FACILITY_ID': 'FacilityID',
-                                         'GAS_ID': 'FlowID',
                                          'GAS_NAME': 'FlowName'}, inplace=True)
             reference_df.reset_index(drop=True, inplace=True)
             
