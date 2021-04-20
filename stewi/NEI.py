@@ -273,7 +273,7 @@ def generate_metadata(year, datatype = 'inventory'):
         source_meta = compile_source_metadata(source_path, _config, year)
         write_metadata('NEI_'+year, source_meta, category=ext_folder, datatype='source')
     else:
-        source_meta = read_source_metadata(nei_external_dir + 'NEI_'+ year)
+        source_meta = read_source_metadata(nei_external_dir + 'NEI_'+ year)['tool_meta']
         write_metadata('NEI_'+year, source_meta, datatype=datatype)
     
 

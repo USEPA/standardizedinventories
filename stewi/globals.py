@@ -388,7 +388,7 @@ def read_source_metadata(path):
         with open(path + '_metadata.json', 'r') as file:
             file_contents = file.read()
             metadata = json.loads(file_contents)
-            return metadata['tool_meta']
+            return metadata
     except FileNotFoundError:
         log.warning("metadata not found for source data")
         return None

@@ -87,7 +87,7 @@ def store_fm_file(df, file_name, category='', sources=[]):
         metadata_dict={}
         for source in sources:
             metadata_dict[source] = read_source_metadata(
-                output_dir + ext_folder + strip_file_extension(source))
+                output_dir + ext_folder + strip_file_extension(source))['tool_meta']
         write_metadata(file_name, metadata_dict)
     except:
         log.error('Failed to save inventory')

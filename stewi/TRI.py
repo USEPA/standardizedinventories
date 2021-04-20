@@ -328,7 +328,7 @@ def generate_metadata(year, files, datatype = 'inventory'):
         source_meta['SourveVersion'] = tri_version
         write_metadata('TRI_'+year, source_meta, category=ext_folder, datatype='source')
     else:
-        source_meta = read_source_metadata(tri_external_dir + 'TRI_'+ year)
+        source_meta = read_source_metadata(tri_external_dir + 'TRI_'+ year)['tool_meta']
         write_metadata('TRI_'+year, source_meta, datatype=datatype)
 
 
