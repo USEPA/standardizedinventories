@@ -368,6 +368,19 @@ flowbyfacility_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
                          'ReliabilityScore': [{'dtype': 'float'}, {'required': True}],
                          }
 
+facility_fields = {'FacilityID':[{'dtype': 'str'}, {'required': True}],
+                   'FacilityName':[{'dtype': 'str'}, {'required': False}],
+                   'Address':[{'dtype': 'str'}, {'required': False}],
+                   'City':[{'dtype': 'str'}, {'required': False}],
+                   'State':[{'dtype': 'str'}, {'required': True}],
+                   'Zip':[{'dtype': 'int'}, {'required': False}],
+                   'Latitude':[{'dtype': 'float'}, {'required': False}],
+                   'Longitude':[{'dtype': 'float'}, {'required': False}],
+                   'County':[{'dtype': 'str'}, {'required': False}],
+                   'NAICS':[{'dtype': 'str'}, {'required': False}],
+                   'SIC':[{'dtype': 'str'}, {'required': False}],
+                   }
+
 flowbySCC_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
                     'Compartment': [{'dtype': 'str'}, {'required': True}],
                     'FlowAmount': [{'dtype': 'float'}, {'required': True}],
