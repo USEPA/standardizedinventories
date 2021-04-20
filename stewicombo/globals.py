@@ -5,7 +5,7 @@ from datetime import datetime
 
 import chemicalmatcher
 import stewi
-from stewi.globals import log, set_stewi_meta
+from stewi.globals import log, set_stewi_meta, read_source_metadata
 from esupy.processed_data_mgmt import Paths, write_df_to_file, write_metadata_to_file
 
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
@@ -19,11 +19,6 @@ write_format = "parquet"
 paths = Paths()
 paths.local_path = os.path.realpath(paths.local_path + "/stewicombo")
 output_dir = paths.local_path
-
-inventory_metadata = {
-    'InventoryDictionary': '',
-    'InventoryGenerationTime':'',
-    }
 
 INVENTORY_PREFERENCE_BY_COMPARTMENT = {"air":["eGRID","GHGRP","NEI","TRI"],
                                        "water":["DMR", "TRI"],
@@ -147,10 +142,12 @@ def write_metadata(file_name, metadata_dict, category=''):
     write_metadata_to_file(paths, meta)
 
 def compile_metadata(inventory_dict):
-    inventory_meta = dict(inventory_metadata)
-    inventory_meta['InventoryDictionary'] = inventory_dict
+    inventory_meta = {}
+    #inventory_meta['InventoryDictionary'] = inventory_dict
     creation_time = datetime.now().strftime('%d-%b-%Y')
     if creation_time is not None:
-        inventory_meta['InventoryGenerationTime'] = creation_time
+        inventory_meta['InventoryGenerationDate'] = creation_time
+    for source, year in inventory_dict.items():
+        inventory_meta[source] = stewi.getMetadata(source, year)
     
     return inventory_meta

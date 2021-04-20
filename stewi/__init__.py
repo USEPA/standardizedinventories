@@ -5,7 +5,8 @@ Functions to return inventory data for a single inventory in standard formats
 import os
 from stewi.globals import get_required_fields, filter_inventory,\
     log, filter_states, add_missing_fields, output_dir, data_dir,\
-    write_format, readInventory, stewi_formats, get_relpath
+    write_format, readInventory, stewi_formats, get_relpath,\
+    read_source_metadata
 
 
 def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
@@ -123,3 +124,7 @@ def getInventoryFacilities(inventory_acronym, year):
         log.error('requested inventory does not exist, try seeAvailableInventoriesandYears()')
         return None
     return facilities
+
+def getMetadata(inventory_acroynym,year):
+    meta = read_source_metadata(output_dir+ '/' + inventory_acroynym + '_' + str(year))
+    return meta
