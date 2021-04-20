@@ -5,7 +5,8 @@ from datetime import datetime
 
 import chemicalmatcher
 import stewi
-from stewi.globals import log, set_stewi_meta, read_source_metadata
+from stewi.globals import log, set_stewi_meta, read_source_metadata,\
+    flowbyfacility_fields
 from esupy.processed_data_mgmt import Paths, write_df_to_file, write_metadata_to_file
 
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
@@ -68,9 +69,7 @@ def getInventoriesforFacilityMatches(inventory_dict,facilitymatches,filter_for_L
         base_inventory_FRS = facilitymatches[facilitymatches['Source'] == base_inventory]
         base_inventory_FRS_list = list(pd.unique(base_inventory_FRS['FRS_ID']))
 
-    columns_to_keep = ['FacilityID', 'FlowAmount', 'FlowName',
-                       'Compartment','Unit','DataReliability',
-                       'Source','Year','FRS_ID']
+    columns_to_keep = list(flowbyfacility_fields.keys()) + ['Source','Year','FRS_ID']
     inventories = pd.DataFrame()
     for k in inventory_dict.keys():
         inventory = stewi.getInventory(k,inventory_dict[k],'flowbyfacility',filter_for_LCI)
@@ -87,7 +86,8 @@ def getInventoriesforFacilityMatches(inventory_dict,facilitymatches,filter_for_L
 
         #Add metadata
         inventory["Year"] = inventory_dict[k]
-        inventory = inventory[columns_to_keep]
+        cols_to_keep = [c for c in columns_to_keep if c in inventory]
+        inventory = inventory[cols_to_keep]
         inventories = pd.concat([inventories,inventory])
 
     #drop duplicates - not sure why there are duplicates - none found in recent attempts
