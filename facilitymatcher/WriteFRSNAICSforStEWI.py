@@ -1,20 +1,24 @@
 # link: https://www.epa.gov/frs/epa-state-combined-csv-download-files
 
-import pandas as pd
+import os
 from facilitymatcher.globals import stewi_inventories,get_programs_for_inventory_list,\
-    filter_by_program_list,invert_inventory_to_FRS, output_dir
+    filter_by_program_list,invert_inventory_to_FRS,\
+    FRSpath, FRS_config, read_FRS_file, download_extract_FRS_combined_national,\
+    store_FRS_file
 
-FRSpath = '../FRS/'
-FRS_NAICS_file = 'NATIONAL_NAICS_FILE.CSV'
-FRS_NAICS_file_path = FRSpath + FRS_NAICS_file
+file = FRS_config['FRS_NAICS_file']
+file_path = FRSpath + file
+FRS_NAICS_file_path = FRSpath + FRS_config['FRS_NAICS_file']
 
-FRS_NAICS = pd.read_csv(FRS_NAICS_file_path, header=0, nrows=100)
-columns_to_keep = ['REGISTRY_ID', 'PGM_SYS_ACRNM', 'NAICS_CODE', 'PRIMARY_INDICATOR']
-dtype_dict = {'REGISTRY_ID':'str','NAICS_CODE':'str'}
-FRS_NAICS = pd.read_csv(FRS_NAICS_file_path, header=0, usecols=columns_to_keep, dtype=dtype_dict)
+#Check to see if file exists
+if not(os.path.exists(file_path)):
+    download_extract_FRS_combined_national(file)
 
-#Load from pickle
-#FRS_NAICS = pd.read_pickle('work/FRS_NAICS.pk')
+col_dict = {'REGISTRY_ID':'str',
+            'PGM_SYS_ACRNM':'str',
+            'NAICS_CODE':'str',
+            'PRIMARY_INDICATOR':'str'}
+FRS_NAICS = read_FRS_file(file, col_dict)
 
 #Filter this list for stewi
 #Programs of interest
@@ -31,6 +35,8 @@ program_to_inventory = invert_inventory_to_FRS()
 stewi_NAICS['PGM_SYS_ACRNM'] = stewi_NAICS['PGM_SYS_ACRNM'].replace(to_replace=program_to_inventory)
 
 #Rename columns to be consistent with standards
-stewi_NAICS = stewi_NAICS.rename(columns={'REGISTRY_ID':'FRS_ID','PGM_SYS_ACRNM':'Source','NAICS_CODE':'NAICS'})
+stewi_NAICS = stewi_NAICS.rename(columns={'REGISTRY_ID':'FRS_ID',
+                                          'PGM_SYS_ACRNM':'Source',
+                                          'NAICS_CODE':'NAICS'})
 
-stewi_NAICS.to_csv(output_dir + 'FRS_NAICSforStEWI.csv',index=False)
+store_FRS_file(stewi_NAICS,'FRS_NAICSforStEWI', sources=[file])

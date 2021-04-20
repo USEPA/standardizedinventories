@@ -5,28 +5,23 @@
 import pandas as pd
 import os
 
-from facilitymatcher.globals import stewi_inventories,get_programs_for_inventory_list, \
+from facilitymatcher.globals import stewi_inventories,get_programs_for_inventory_list,\
     filter_by_program_list,download_extract_FRS_combined_national,\
-    invert_inventory_to_FRS,output_dir,add_manual_matches
+    invert_inventory_to_FRS,add_manual_matches,\
+    FRSpath, FRS_config, read_FRS_file, store_FRS_file
 
-FRSpath = '../FRS/'
-
-FRS_bridge_file = 'NATIONAL_ENVIRONMENTAL_INTEREST_FILE.CSV'
-FRS_bridge_file_path = FRSpath + FRS_bridge_file
+file = FRS_config['FRS_bridge_file']
+file_path = FRSpath + file
 
 #Check to see if file exists
-if not(os.path.exists(FRS_bridge_file_path)):
-    download_extract_FRS_combined_national(FRSpath)
+if not(os.path.exists(file_path)):
+    download_extract_FRS_combined_national(file)
 
 #Import FRS bridge which provides ID matches
-FRS_Bridges = pd.read_csv(FRS_bridge_file_path, header=0,
-                          usecols=['REGISTRY_ID','PGM_SYS_ACRNM', 'PGM_SYS_ID'],
-                          dtype={'REGISTRY_ID':"str",'PGM_SYS_ACRNM':"str",'PGM_SYS_ID':"str"})
-#Or Load all bridges from pickle
-#FRS_Bridges = pd.read_pickle('work/frsbridges.pk')
-
-#See programs available
-#pd.unique(FRS_Bridges['PGM_SYS_ACRNM'])
+col_dict = {'REGISTRY_ID':"str",
+            'PGM_SYS_ACRNM':"str",
+            'PGM_SYS_ID':"str"}
+FRS_Bridges = read_FRS_file(file, col_dict)
 
 #Programs of interest
 stewi_programs = get_programs_for_inventory_list(stewi_inventories)
@@ -71,4 +66,4 @@ stewi_bridges = add_manual_matches(stewi_bridges)
 #Add in smart matching here
 
 #Write matches to bridge
-stewi_bridges.to_csv(output_dir+'FacilityMatchList_forStEWI.csv',index=False)
+store_FRS_file(stewi_bridges,'FacilityMatchList_forStEWI', sources=[file])
