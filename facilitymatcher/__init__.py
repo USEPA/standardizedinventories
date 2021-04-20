@@ -3,7 +3,7 @@ Functions to match facilities across inventories
 """
 import pandas as pd
 from facilitymatcher.globals import filter_by_inventory_list, stewi_inventories, \
-    filter_by_facility_list, output_dir, filter_by_inventory_id_list
+    filter_by_facility_list, filter_by_inventory_id_list, read_fm_file
 
 
 def get_matches_for_inventories(inventory_list=stewi_inventories):
@@ -13,8 +13,7 @@ def get_matches_for_inventories(inventory_list=stewi_inventories):
      e.g. ['NEI','TRI']
     :return: dataframe in FacilityMatches standard output format
     """
-    facilitymatches = pd.read_csv(output_dir + 'FacilityMatchList_forStEWI.csv',
-                                  dtype={"FRS_ID": "str", "FacilityID": "str"})
+    facilitymatches = read_fm_file('FacilityMatchList_forStEWI')
     facilitymatches = filter_by_inventory_list(facilitymatches, inventory_list)
     return facilitymatches
 
@@ -28,8 +27,7 @@ def get_FRS_NAICSInfo_for_facility_list(frs_id_list, inventories_of_interest_lis
      using StEWI inventory names e.g. ['NEI']
     :return: dataframe with columns 'FRS_ID', 'Source', 'NAICS', 'PRIMARY_INDICATOR'
     """
-    all_NAICS = pd.read_csv(output_dir + 'FRS_NAICSforStEWI.csv', header=0,
-                            dtype={"FRS_ID": "str", "NAICS": "str"})
+    all_NAICS = read_fm_file('FRS_NAICSforStEWI.csv')
     if frs_id_list is not None:
         NAICS_of_interest = filter_by_facility_list(all_NAICS, frs_id_list)
     else:
@@ -52,8 +50,7 @@ def get_matches_for_id_list(base_inventory, id_list, inventory_list=stewi_invent
      e.g. ['NEI','TRI']
     :return: dataframe in FacilityMatches standard output format
     """
-    facilitymatches = pd.read_csv(output_dir + 'FacilityMatchList_forStEWI.csv',
-                                  dtype={"FRS_ID": "str", "FacilityID": "str"})
-    facilitymatches = filter_by_inventory_id_list(facilitymatches, inventory_list, base_inventory,
-                                                  id_list)
+    facilitymatches = read_fm_file('FacilityMatchList_forStEWI')
+    facilitymatches = filter_by_inventory_id_list(facilitymatches, inventory_list,
+                                                  base_inventory, id_list)
     return facilitymatches

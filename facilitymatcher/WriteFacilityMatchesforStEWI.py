@@ -8,7 +8,7 @@ import os
 from facilitymatcher.globals import stewi_inventories,get_programs_for_inventory_list,\
     filter_by_program_list,download_extract_FRS_combined_national,\
     invert_inventory_to_FRS,add_manual_matches,\
-    FRSpath, FRS_config, read_FRS_file, store_FRS_file
+    FRSpath, FRS_config, read_FRS_file, store_fm_file
 
 file = FRS_config['FRS_bridge_file']
 file_path = FRSpath + file
@@ -39,14 +39,10 @@ egrid_unique_frs = set(list(pd.unique(egrid_bridges['REGISTRY_ID'])))
 
 eia_not_in_egrid = eia_unique_frs - egrid_unique_frs
 eia_to_add = eia_bridges[eia_bridges['REGISTRY_ID'].isin(eia_not_in_egrid)]
-len(eia_to_add)
-#1781
 
-#Rename to EGRID
+#Rename to EGRID and add the subset back
 eia_to_add['PGM_SYS_ACRNM'] = 'EGRID'
-#Now add this subset back
 stewi_bridges = pd.concat([stewi_bridges,eia_to_add])
-len(stewi_bridges[stewi_bridges['PGM_SYS_ACRNM'] == 'EGRID'])
 
 #Drop duplicates
 stewi_bridges = stewi_bridges.drop_duplicates()
@@ -66,4 +62,4 @@ stewi_bridges = add_manual_matches(stewi_bridges)
 #Add in smart matching here
 
 #Write matches to bridge
-store_FRS_file(stewi_bridges,'FacilityMatchList_forStEWI', sources=[file])
+store_fm_file(stewi_bridges,'FacilityMatchList_forStEWI', sources=[file])

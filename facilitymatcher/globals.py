@@ -71,7 +71,8 @@ def download_extract_FRS_combined_national(file=None):
     write_metadata(name, source_dict, category=ext_folder)
 
 def read_FRS_file(file_name, col_dict):
-    file_meta = set_facilitymatcher_meta(file_name, category='FRS Data Files')
+    file_meta = set_facilitymatcher_meta(file_name, category=ext_folder)
+    log.info('loading %s from %s', file_meta.name_data, FRSpath)
     file_meta.name_data = strip_file_extension(file_meta.name_data)
     file_meta.ext = 'csv'
     df = load_preprocessed_output(file_meta, paths)
@@ -80,7 +81,7 @@ def read_FRS_file(file_name, col_dict):
         df_FRS[k] = df[k].astype(v)
     return df_FRS
 
-def store_FRS_file(df, file_name, category='', sources=[]):
+def store_fm_file(df, file_name, category='', sources=[]):
     """Stores the inventory dataframe to local directory based on category"""
     meta = set_facilitymatcher_meta(file_name, category)
     method_path = output_dir + '/' + meta.category
@@ -94,6 +95,17 @@ def store_FRS_file(df, file_name, category='', sources=[]):
         write_metadata(file_name, metadata_dict)
     except:
         log.error('Failed to save inventory')
+
+def read_fm_file(file_name):
+    file_meta = set_facilitymatcher_meta(file_name, category='')
+    df = load_preprocessed_output(file_meta, paths)
+    col_dict = {"FRS_ID": "str",
+                "FacilityID": "str",
+                "NAICS": "str"}
+    for k, v in col_dict.items():
+        if k in df:
+            df[k] = df[k].astype(v)
+    return df
 
 def write_metadata(file_name, metadata_dict, category=''):
     meta = set_facilitymatcher_meta(file_name, category=category)
@@ -111,11 +123,14 @@ def filter_by_inventory_list(df,inventory_list):
     return df
 
 #Only can be applied after renaming the programs to inventories
-def filter_by_inventory_id_list(df,inventories_of_interest,base_inventory,id_list):
+def filter_by_inventory_id_list(df,inventories_of_interest,
+                                base_inventory,id_list):
     #Find FRS_IDs first
-    FRS_ID_list = list(df.loc[(df['Source'] == base_inventory) & (df['FacilityID'].isin(id_list)),"FRS_ID"])
+    FRS_ID_list = list(df.loc[(df['Source'] == base_inventory) &
+                              (df['FacilityID'].isin(id_list)),"FRS_ID"])
     #Now use that FRS_ID list and list of inventories of interest to get decired matches
-    df = df.loc[(df['Source'].isin(inventories_of_interest)) & (df['FRS_ID'].isin(FRS_ID_list))]
+    df = df.loc[(df['Source'].isin(inventories_of_interest)) &
+                (df['FRS_ID'].isin(FRS_ID_list))]
     return df
 
 def filter_by_facility_list(df,facility_list):
@@ -131,7 +146,8 @@ def get_programs_for_inventory_list(list_of_inventories):
     return program_list
 
 def invert_inventory_to_FRS():
-    FRS_to_inventory_pgm_acronymn = {v: k for k, v in inventory_to_FRS_pgm_acronymn.items()}
+    FRS_to_inventory_pgm_acronymn = {v: k for k, v in 
+                                     inventory_to_FRS_pgm_acronymn.items()}
     return FRS_to_inventory_pgm_acronymn
 
 #Function to return facility info from FRS web service
@@ -146,7 +162,8 @@ def callFRSforProgramAcronymandIDfromAPI(program_acronym, id):
     pgm_sys_id = 'pgm_sys_id='
     pgm_sys_acrnm = 'pgm_sys_acrnm='
     output = 'output=JSON'
-    url = facilityquery + pgm_sys_acrnm + program_acronym + '&' + pgm_sys_id + id + '&' + output
+    url = facilityquery + pgm_sys_acrnm + program_acronym + '&'\
+        + pgm_sys_id + id + '&' + output
     facilityresponse = requests.get(url)
     facilityjson = json.loads(facilityresponse.text)['Results']
     facilityinfo = facilityjson['FRSFacility']
@@ -158,7 +175,10 @@ def getFRSIDfromAPIfaciltyinfo(facilityinfo):
 
 def add_manual_matches(df_matches):
     #Read in manual matches
-    manual_matches = pd.read_csv(data_dir+'facilitymatches_manual.csv',header=0,dtype={'FacilityID':'str','FRS_ID':'str'})
+    manual_matches = pd.read_csv(data_dir+'facilitymatches_manual.csv',
+                                 header=0, 
+                                 dtype={'FacilityID':'str','FRS_ID':'str'})
     #Append with list
     df_matches = pd.concat([df_matches,manual_matches], sort = False)
     return df_matches
+
