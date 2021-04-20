@@ -3,7 +3,8 @@ import pandas as pd
 pd.options.mode.chained_assignment = None
 import os
 
-from chemicalmatcher.globals import output_dir,get_SRSInfo_for_substance_name,get_SRSInfo_for_program_list,add_manual_matches, modulepath
+from chemicalmatcher.globals import output_dir,get_SRSInfo_for_substance_name,\
+    get_SRSInfo_for_program_list,add_manual_matches, modulepath
 
 stewi_flow_dir = modulepath + '../stewi/output/flow/'
 

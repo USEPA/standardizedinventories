@@ -61,10 +61,9 @@ def set_stewi_meta(file_name, category):
     return stewi_meta
 
 
-def config():
+def config(config_path=modulepath):
     configfile = None
-    log.debug('modulepath: '+ modulepath)
-    with open(modulepath + 'config.yaml', mode='r') as f:
+    with open(config_path + 'config.yaml', mode='r') as f:
         configfile = yaml.load(f,Loader=yaml.FullLoader)
     return configfile
 

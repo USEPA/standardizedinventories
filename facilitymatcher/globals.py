@@ -6,7 +6,8 @@ import pandas as pd
 pd.options.mode.chained_assignment = None
 import os, yaml
 from datetime import datetime
-from stewi.globals import log, set_stewi_meta, source_metadata, read_source_metadata
+from stewi.globals import log, set_stewi_meta, source_metadata, config,\
+    read_source_metadata
 from esupy.processed_data_mgmt import Paths, load_preprocessed_output,\
     write_df_to_file, write_metadata_to_file
 from esupy.util import strip_file_extension
@@ -25,6 +26,8 @@ output_dir = paths.local_path
 ext_folder = '/FRS Data Files/'
 FRSpath = paths.local_path + ext_folder
 
+FRS_config = config(modulepath)['databases']['FRS']
+
 stewi_inventories = ["NEI","TRI","eGRID","RCRAInfo", "DMR"]
 
 inventory_to_FRS_pgm_acronymn = {"NEI":"EIS",
@@ -42,13 +45,6 @@ def set_facilitymatcher_meta(file_name, category):
     return facilitymatcher_meta
 
 
-def config():
-    configfile = None
-    with open(modulepath + 'config.yaml', mode='r') as f:
-        configfile = yaml.load(f,Loader=yaml.FullLoader)
-    return configfile
-
-FRS_config = config()['databases']['FRS']
 
 def download_extract_FRS_combined_national(file=None):
     url = FRS_config['url']
