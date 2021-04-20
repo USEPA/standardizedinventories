@@ -354,7 +354,7 @@ def parse_additional_suparts_data(addtnl_subparts_path, addtnl_subparts_columns,
     ghgrp = ghgrp[ghgrp['FlowAmount'] > 0]
     ghgrp = ghgrp[ghgrp['FlowAmount'].notna()]
     
-    ghgrp = ghgrp.rename(columns={'GHGRP ID': 'FacilityID'})
+    ghgrp = ghgrp.rename(columns={'GHGRP ID': 'FACILITY_ID'})
     ghgrp.drop('Year', axis=1, inplace=True)
     
     return ghgrp
@@ -501,7 +501,8 @@ if __name__ == '__main__':
             ghgrp.drop('Flow Description', axis=1, inplace=True)
             
             # rename certain columns for consistency
-            ghgrp.rename(columns={'NAICS_CODE': 'NAICS'}, inplace=True)    
+            ghgrp.rename(columns={'FACILITY_ID':'FacilityID',
+                                  'NAICS_CODE':'NAICS'}, inplace=True)    
             
             # pickle data and save to network
             log.info('saving GHGRP data to pickle')
@@ -570,7 +571,9 @@ if __name__ == '__main__':
             ghgrp_facility = ghgrp[facility_columns].drop_duplicates()
             ghgrp_facility.dropna(subset=['FacilityName'], inplace=True)
             # ensure NAICS does not have trailing decimal/zero
+            ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].fillna(0)
             ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].astype(int).astype(str)
+            ghgrp_facility.loc[ghgrp_facility['NAICS']=='0','NAICS'] = None
             ghgrp_facility.to_csv(output_dir + 'facility/GHGRP_' + year + '.csv', index=False)
         
         elif args.Option == 'E':
