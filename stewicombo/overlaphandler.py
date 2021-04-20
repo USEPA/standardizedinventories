@@ -1,6 +1,8 @@
 import pandas as pd
-from stewicombo.globals import *
-from stewi.globals import log
+from stewicombo.globals import log, LOOKUP_FIELDS, SOURCE_COL,INCLUDE_ORIGINAL,\
+    INVENTORY_PREFERENCE_BY_COMPARTMENT, KEEP_ALL_DUPLICATES, FORCE_COLUMN_TYPES,\
+    KEEP_ROW_WITHOUT_DUPS, COL_FUNC_PAIRS, COL_FUNC_DEFAULT, COMPARTMENT_COL,\
+    VOC_srs
 
 if not "LOOKUP_FIELDS" in locals() and LOOKUP_FIELDS:
     raise ValueError("Not sure which fields to lookup in each row. Please update config.json with LOOKUP_FIELDS")

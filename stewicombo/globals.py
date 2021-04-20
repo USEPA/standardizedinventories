@@ -1,6 +1,7 @@
 import re
 import os
 import pandas as pd
+from datetime import datetime
 
 import chemicalmatcher
 import stewi
@@ -148,5 +149,8 @@ def write_metadata(file_name, metadata_dict, category=''):
 def compile_metadata(inventory_dict):
     inventory_meta = dict(inventory_metadata)
     inventory_meta['InventoryDictionary'] = inventory_dict
+    creation_time = datetime.now().strftime('%d-%b-%Y')
+    if creation_time is not None:
+        inventory_meta['InventoryGenerationTime'] = creation_time
     
     return inventory_meta
