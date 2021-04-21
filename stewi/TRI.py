@@ -189,7 +189,7 @@ def strip_coln_white_space(df, coln):
     return df
 
 
-def validate_national_totals(tri, TRIyear):
+def validate_national_totals(inv, TRIyear):
     #VALIDATE
     log.info('validating data against national totals')
     if (os.path.exists(data_dir + 'TRI_'+ TRIyear + '_NationalTotals.csv')):
@@ -203,7 +203,10 @@ def validate_national_totals(tri, TRIyear):
         tri_national_totals.drop('Unit',axis=1,inplace=True)
         # Rename cols to match reference format
         tri_national_totals.rename(columns={'FlowAmount_kg':'FlowAmount'},inplace=True)
-        validation_result = validate_inventory(tri, tri_national_totals, group_by='flow', tolerance=5.0)
+        # set FlowName to lower case to prevent validation case mismatch
+        tri_national_totals['FlowName'] = tri_national_totals['FlowName'].str.lower()
+        inv['FlowName'] = inv['FlowName'].str.lower()
+        validation_result = validate_inventory(inv, tri_national_totals, group_by='flow', tolerance=5.0)
         write_validation_result('TRI',TRIyear,validation_result)
     else:
         log.warning('validation file for TRI_%s does not exist. Please run option B', TRIyear)
@@ -325,7 +328,7 @@ def generate_metadata(year, files, datatype = 'inventory'):
         tri_version = re.search(regex, link_zip_TRI).group(1)
         if not tri_version:
             tri_version = 'last'
-        source_meta['SourveVersion'] = tri_version
+        source_meta['SourceVersion'] = tri_version
         write_metadata('TRI_'+year, source_meta, category=ext_folder, datatype='source')
     else:
         source_meta = read_source_metadata(tri_external_dir + 'TRI_'+ year)['tool_meta']
@@ -377,7 +380,7 @@ if __name__ == '__main__':
             # (1) Select Year of Data, All of United States, All Chemicals, All Industry,
             #  and other needed option (this is based on the desired year)
             # (2) Export to CSV
-            # (3) Drop the not needed rows
+            # (3) Drop the not needed rows, including the extra dioxin row at the bottom
             # (4) Organize the columns as they are needed (check existing files)
             # (5) Save the file like TRI_chem_release_year.csv in data folder
             # (6) Run this code
