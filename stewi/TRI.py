@@ -102,7 +102,7 @@ def generate_national_totals(year):
     del df
     df_National['FlowAmount'] = df_National['FlowAmount'].round(3)
     df_National = df_National[cols]
-    df_National.sort_values(by=['FlowName'], inplace=True)
+    df_National.sort_values(by=['FlowName','Compartment'], inplace=True)
     log.info('saving TRI_%s_NationalTotals.csv to %s', year, data_dir)
     df_National.to_csv(data_dir + 'TRI_' + year + '_NationalTotals.csv', index = False)
     
