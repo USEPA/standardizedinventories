@@ -6,15 +6,15 @@ import os
 from stewi.globals import get_required_fields, filter_inventory,\
     log, filter_states, add_missing_fields, output_dir, data_dir,\
     write_format, readInventory, stewi_formats, get_relpath,\
-    read_source_metadata
+    read_source_metadata, inventory_formats
 
 
 def getAvailableInventoriesandYears(stewiformat='flowbyfacility'):
-    """Prints available inventories and years for a given output format
+    """Gets available inventories and years for a given output format
     :param stewiformat: e.g. 'flowbyfacility'
-    :return: prints like
-    NEI: 2014
-    TRI: 2015, 2016
+    :return: existing_inventories dictionary of inventories like:
+        {NEI: [2014],
+         TRI: [2015, 2016]}
     """
     if stewiformat not in stewi_formats:
         log.error('not a supported stewi format')
@@ -48,6 +48,8 @@ def getAvailableInventoriesandYears(stewiformat='flowbyfacility'):
     return existing_inventories
 
 def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
+    """Gets available inventories and years for a given output format
+    :param stewiformat: e.g. 'flowbyfacility' or 'flow' """
     existing_inventories = getAvailableInventoriesandYears(stewiformat)
     print(stewiformat + ' inventories available (name, year):')
     for i in existing_inventories.keys():
@@ -58,23 +60,27 @@ def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
         print(_s)
 
 
-def getInventory(inventory_acronym, year, stewiformat='flowbyfacility', filter_for_LCI=False,
-                 US_States_Only=False):
+def getInventory(inventory_acronym, year, stewiformat='flowbyfacility', 
+                 filter_for_LCI=False, US_States_Only=False):
     """Returns an inventory in a standard output format
     :param inventory_acronym: like 'TRI'
     :param year: year as number like 2010
-    :param stewiformat: standard output format for returning..'flowbyfacility' or 'flowbySCC' only 
-    :param filter_for_LCI: whether or not to filter inventory for life cycle inventory creation
+    :param stewiformat: standard output format for returning..'flowbyfacility'
+        or 'flowbySCC' only 
+    :param filter_for_LCI: whether or not to filter inventory for life
+        cycle inventory creation
     :param US_States_Only: includes only US states
     :return: dataframe with standard fields depending on output format
     """
-    if stewiformat not in stewi_formats:
-        log.error('not a supported stewi format')
+    if stewiformat not in inventory_formats:
+        log.error('%s is not a supported format for getInventory',
+                  stewiformat)
         return None
     fields = get_required_fields(stewiformat)
     inventory = readInventory(inventory_acronym + '_' + str(year), stewiformat)
     if inventory is None:
-        log.error('requested inventory does not exist, try seeAvailableInventoriesandYears()')
+        log.error('requested inventory does not exist, try '
+                  'seeAvailableInventoriesandYears()')
         return None
     fields = {key: value for key, value in fields.items() if key in list(inventory)}
     inventory = inventory.astype(fields)
@@ -100,7 +106,8 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility', filter_f
             filter_path += 'NEI_pollutant_omit_list.csv'
             filter_type = 'drop'
         if filter_type is not None:
-            inventory = filter_inventory(inventory, filter_path, filter_type=filter_type)
+            inventory = filter_inventory(inventory, filter_path, 
+                                         filter_type=filter_type)
     return inventory
 
 
@@ -112,7 +119,8 @@ def getInventoryFlows(inventory_acronym, year):
     """
     flows = readInventory(inventory_acronym + '_' + str(year), 'flow')
     if flows is None:
-        log.error('requested inventory does not exist, try seeAvailableInventoriesandYears()')
+        log.error('requested inventory does not exist, try '
+                  'seeAvailableInventoriesandYears()')
         return None
     return flows
 
@@ -125,10 +133,12 @@ def getInventoryFacilities(inventory_acronym, year):
     """
     facilities = readInventory(inventory_acronym + '_' + str(year), 'facility')
     if facilities is None:
-        log.error('requested inventory does not exist, try seeAvailableInventoriesandYears()')
+        log.error('requested inventory does not exist, try '
+                  'seeAvailableInventoriesandYears()')
         return None
     return facilities
 
 def getMetadata(inventory_acroynym,year):
-    meta = read_source_metadata(output_dir+ '/' + inventory_acroynym + '_' + str(year))
+    meta = read_source_metadata(output_dir+ '/' + inventory_acroynym 
+                                + '_' + str(year))
     return meta

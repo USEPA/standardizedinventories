@@ -37,6 +37,7 @@ reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromER
                                 usecols=['Source', 'Code', 'DQI Reliability Score'])
 
 stewi_formats = ['flowbyfacility', 'flow', 'facility', 'flowbySCC']
+inventory_formats = ['flowbyfacility', 'flowbySCC']
 
 source_metadata = {
     'SourceType': 'Static File',  #Other types are "Web service"
