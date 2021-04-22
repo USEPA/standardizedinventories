@@ -9,7 +9,7 @@ from stewi.globals import get_required_fields, filter_inventory,\
     read_source_metadata
 
 
-def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
+def getAvailableInventoriesandYears(stewiformat='flowbyfacility'):
     """Prints available inventories and years for a given output format
     :param stewiformat: e.g. 'flowbyfacility'
     :return: prints like
@@ -45,6 +45,10 @@ def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
             existing_inventories[acronym] = [year]
         else:
             existing_inventories[acronym].append(year)
+    return existing_inventories
+
+def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
+    existing_inventories = getAvailableInventoriesandYears(stewiformat)
     print(stewiformat + ' inventories available (name, year):')
     for i in existing_inventories.keys():
         _s = i + ": "
