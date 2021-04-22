@@ -57,21 +57,21 @@ def extract_TRI_data_files(link_zip, files, year):
         df_columns = pd.read_csv(tri_data_dir + 'TRI_File_' + file + '_columns.txt', header = 0)
         columns = list(df_columns['Names'])
         n_columns = len(columns)
-        filename = 'US_' + file + '_' + year + '.txt'
+        filename = 'US_' + file + '_' + year
+        dic = {}
+        i = 0
         with zipfile.ZipFile(io.BytesIO(r_file.content)) as z:
-            z.extract(filename , tri_external_dir)
-        df = pd.read_csv(tri_external_dir + filename,
-                        header = None, encoding = 'ISO-8859-1',
-                        error_bad_lines = False,
-                        sep = '\t',
-                        low_memory = False,
-                        skiprows = [0],
-                        lineterminator = '\n',
-                        usecols = range(n_columns)) # avoiding \r\n created in Windows OS
+            with io.TextIOWrapper(z.open(filename + '.txt',
+                                         mode='r'),) as txtfile:
+                for line in txtfile:
+                    dic[i] = pd.Series(re.split("\t",line)).truncate(after=n_columns-1)
+                    i+=1
+        # remove the first row in the dictionary which is the original headers
+        del dic[0]
+        df = pd.DataFrame.from_dict(dic, orient='index')
         df.columns = columns
-        df.to_csv(tri_external_dir + filename,
-                    sep = '\t', index = False)
-        log.info(filename + ' saved to ' + tri_external_dir)
+        df.to_csv(tri_external_dir + filename + '.csv', index = False)
+        log.info(filename + '.csv saved to ' + tri_external_dir)
 
 
 def generate_national_totals(year):
@@ -166,18 +166,15 @@ def import_TRI_by_release_type(d, year):
             file = '3a'
         else:
             file = '1a'
-        tri_csv = tri_external_dir + 'US_' + file + '_' + year + '.txt'
+        tri_csv = tri_external_dir + 'US_' + file + '_' + year + '.csv'
         try:
-            tri_part = pd.read_csv(tri_csv, sep='\t', header=0, usecols = v,
-                                   dtype = dtype_dict, na_values = ['NO'],
-                                   error_bad_lines = False, low_memory = False,
-                                   converters = {v[4]: lambda x:  pd.to_numeric(
-                                       x, errors = 'coerce')})
+            tri_part = pd.read_csv(tri_csv, usecols = v,
+                                   low_memory = False)
             tri_part['ReleaseType'] = k
             tri_part.columns = tri_release_output_fieldnames
             tri = pd.concat([tri,tri_part])
         except FileNotFoundError:
-            log.error('%s.txt file not found in %s', file, tri_csv)
+            log.error('%s.csv file not found in %s', file, tri_csv)
     if len(tri)==0:
         log.error('No data found. Please run option A before proceeding')
         sys.exit(0)
@@ -289,9 +286,8 @@ def Generate_TRI_files_csv(TRIyear, Files):
     #FACILITY
     ##Import and handle TRI facility data
     import_facility = tri_required_fields[0:10]
-    tri_facility = pd.read_csv(tri_external_dir + 'US_1a_' + TRIyear + '.txt',
-                                    sep='\t', header=0, usecols=import_facility,
-                                    error_bad_lines=False,
+    tri_facility = pd.read_csv(tri_external_dir + 'US_1a_' + TRIyear + '.csv',
+                                    usecols=import_facility,
                                     low_memory = False)
     #get unique facilities
     tri_facility_final  = tri_facility.drop_duplicates()
@@ -318,7 +314,7 @@ def generate_metadata(year, files, datatype = 'inventory'):
     Gets metadata and writes to .json
     """
     if datatype == 'source':
-        source_path = [tri_external_dir + 'US_' + p + '_' + year + '.txt' for p in files]
+        source_path = [tri_external_dir + 'US_' + p + '_' + year + '.csv' for p in files]
         source_path = [os.path.realpath(p) for p in source_path]
         source_meta = compile_source_metadata(source_path, _config, year)
         source_meta['SourceType'] = 'Zip file'
