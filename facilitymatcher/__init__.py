@@ -27,7 +27,7 @@ def get_FRS_NAICSInfo_for_facility_list(frs_id_list, inventories_of_interest_lis
      using StEWI inventory names e.g. ['NEI']
     :return: dataframe with columns 'FRS_ID', 'Source', 'NAICS', 'PRIMARY_INDICATOR'
     """
-    all_NAICS = read_fm_file('FRS_NAICSforStEWI.csv')
+    all_NAICS = read_fm_file('FRS_NAICSforStEWI')
     if frs_id_list is not None:
         NAICS_of_interest = filter_by_facility_list(all_NAICS, frs_id_list)
     else:
