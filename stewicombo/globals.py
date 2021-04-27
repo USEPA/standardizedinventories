@@ -97,7 +97,8 @@ def getInventoriesforFacilityMatches(inventory_dict,facilitymatches,filter_for_L
 
 def addChemicalMatches(inventories_df):
     #Bring in chemical matches
-    chemicalmatches = chemicalmatcher.get_matches_for_StEWI()
+    inventory_list = list(inventories_df['Source'].unique())
+    chemicalmatches = chemicalmatcher.get_matches_for_StEWI(inventory_list = inventory_list)
     chemicalmatches = chemicalmatches.drop(columns=['FlowID'])
     chemicalmatches = chemicalmatches.drop_duplicates(subset=['FlowName','Source'])
     inventories = pd.merge(inventories_df,chemicalmatches,on=(['FlowName','Source']),how='left')
