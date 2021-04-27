@@ -110,7 +110,7 @@ import time, datetime
 from stewi.globals import write_metadata,unit_convert,validate_inventory,\
     write_validation_result, set_dir,output_dir,data_dir, config,\
     checkforFile, USton_kg, source_metadata, reliability_table, paths,\
-    log
+    log, storeInventory
 
 
 _config = config()['databases']['RCRAInfo']
@@ -350,7 +350,6 @@ def Generate_RCRAInfo_files_csv(report_year):
     names = linewidthsdf['Data Element Name']
     File_lu = [file for file in os.listdir(rcra_external_dir) if 'lu_waste_code' in file.lower()][0]
     wastecodesfile = rcra_external_dir + File_lu
-    WasteCodesTest = pd.read_fwf(wastecodesfile,widths=widths,header=None,names=names,nrows=10)
     WasteCodes = pd.read_fwf(wastecodesfile,widths=widths,header=None,names=names)
     WasteCodes = WasteCodes[['Waste Code', 'Code Type', 'Waste Code Description']]
     #Remove rows where any fields are na description is missing
@@ -386,14 +385,11 @@ def Generate_RCRAInfo_files_csv(report_year):
     #Now finally fill names that are blank with the form code name
     BR['FlowName'].fillna(BR['FORM_CODE_NAME'], inplace=True)
     #Drop unneeded fields
-    BR.drop('Generation Tons', axis=1, inplace=True)
-    BR.drop('Generator ID Included in NBR', axis=1, inplace=True)
-    BR.drop('Generator Waste Stream Included in NBR', axis=1, inplace=True)
-    BR.drop('Source Code', axis=1, inplace=True)
-    BR.drop('Management Method', axis=1, inplace=True)
-    BR.drop('Waste Description', axis=1, inplace=True)
-    BR.drop('Waste Code Description', axis=1, inplace=True)
-    BR.drop('FORM_CODE_NAME', axis=1, inplace=True)
+    drop_fields = ['Generation Tons','Generator ID Included in NBR',
+                   'Generator Waste Stream Included in NBR', 'Source Code',
+                   'Management Method','Waste Description',
+                   'Waste Code Description', 'FORM_CODE_NAME']
+    BR.drop(drop_fields, axis=1, inplace=True)
     #Rename cols used by multiple tables
     BR.rename(columns={'Handler ID':'FacilityID'}, inplace=True)
     #rename new name
@@ -407,7 +403,8 @@ def Generate_RCRAInfo_files_csv(report_year):
     #Sort them by the flow names
     flows.sort_values(by='FlowName',axis=0,inplace=True)
     #Export them
-    flows.to_csv(output_dir + '/flow/RCRAInfo_' + report_year + '.csv',index=False)
+    #flows.to_csv(output_dir + '/flow/RCRAInfo_' + report_year + '.csv',index=False)
+    storeInventory(flows, 'RCRAInfo_' + report_year, 'flow')
     #Prepare facilities file
     facilities = BR[['FacilityID', 'Handler Name','Location Street Number',
            'Location Street 1', 'Location Street 2', 'Location City',
@@ -424,24 +421,15 @@ def Generate_RCRAInfo_files_csv(report_year):
                             'Location State':'State',
                             'Location Zip':'Zip',
                             'County Name':'County'}, inplace=True)
-    facilities.to_csv(output_dir + '/facility/RCRAInfo_' + report_year + '.csv',index=False)
+    #facilities.to_csv(output_dir + '/facility/RCRAInfo_' + report_year + '.csv',index=False)
+    storeInventory(facilities, 'RCRAInfo_' + report_year, 'facility')
     #Prepare flow by facility
     flowbyfacility = BR.groupby(['FacilityID','DataReliability','FlowName'])['FlowAmount'].sum().reset_index()
-    ##VALIDATION
-    BR_national_total = pd.read_csv(data_dir + 'RCRAInfo_' + report_year + '_NationalTotals.csv', header=0, dtype={"FlowAmount":np.float})
-    BR_national_total['FlowAmount_kg'] = 0
-    BR_national_total = unit_convert(BR_national_total, 'FlowAmount_kg', 'Unit', 'Tons', 907.18474, 'FlowAmount')
-    BR_national_total.drop('FlowAmount',axis=1,inplace=True)
-    BR_national_total.drop('Unit',axis=1,inplace=True)
-    # Rename cols to match reference format
-    BR_national_total.rename(columns={'FlowAmount_kg':'FlowAmount'},inplace=True)
-    #Validate total waste generated against national totals
-    sum_of_flowbyfacility = flowbyfacility['FlowAmount'].sum()
-    sum_of_flowbyfacility_df = pd.DataFrame({'FlowAmount':[sum_of_flowbyfacility],'FlowName':'ALL','Compartment':'waste'})
-    validation_df = validate_inventory(sum_of_flowbyfacility_df,BR_national_total,group_by='flow')
-    write_validation_result('RCRAInfo', report_year, validation_df)
-    #Export to csv
-    flowbyfacility.to_csv(output_dir + '/flowbyfacility/RCRAInfo_' + report_year + '.csv',index=False)
+    #flowbyfacility.to_csv(output_dir + '/flowbyfacility/RCRAInfo_' + report_year + '.csv',index=False)
+    storeInventory(flowbyfacility, 'RCRAInfo_' + report_year, 'flowbyfacility')
+    
+    validate_national_totals(report_year, flowbyfacility)
+    
     #Record metadata
     try: retrieval_time = os.path.getctime(RCRAInfoBRtextfile)
     except: retrieval_time = time.time()
@@ -449,6 +437,28 @@ def Generate_RCRAInfo_files_csv(report_year):
     BR_meta['SourceFileName'] = RCRAInfoBRtextfile
     BR_meta['SourceURL'] = _config['url']
     write_metadata('RCRAInfo', report_year, BR_meta)
+
+def validate_national_totals(report_year, flowbyfacility):
+    ##VALIDATION
+    log.info('validating data against national totals')
+    file_path = data_dir + 'RCRAInfo_' + report_year + '_NationalTotals.csv'
+    if (os.path.exists(file_path)):
+        BR_national_total = pd.read_csv(file_path, dtype={"FlowAmount":np.float})
+        BR_national_total['FlowAmount_kg'] = 0
+        BR_national_total = unit_convert(BR_national_total, 'FlowAmount_kg', 
+                                         'Unit', 'Tons', 907.18474, 'FlowAmount')
+        BR_national_total.drop(['FlowAmount','Unit'],axis=1,inplace=True)
+        # Rename cols to match reference format
+        BR_national_total.rename(columns={'FlowAmount_kg':'FlowAmount'},inplace=True)
+        #Validate total waste generated against national totals
+        sum_of_flowbyfacility = flowbyfacility['FlowAmount'].sum()
+        sum_of_flowbyfacility_df = pd.DataFrame({'FlowAmount':[sum_of_flowbyfacility],
+                                                 'FlowName':'ALL',
+                                                 'Compartment':'waste'})
+        validation_df = validate_inventory(sum_of_flowbyfacility_df,BR_national_total,group_by='flow')
+        write_validation_result('RCRAInfo', report_year, validation_df)
+    else:
+        log.warning('validation file for RCRAInfo_%s does not exist.', report_year)
 
 
 if __name__ == '__main__':
@@ -501,4 +511,4 @@ if __name__ == '__main__':
     elif args.Option == 'C':
 
         Generate_RCRAInfo_files_csv(args.Year)
-
+        
