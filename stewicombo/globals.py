@@ -7,7 +7,8 @@ import chemicalmatcher
 import stewi
 from stewi.globals import log, set_stewi_meta, read_source_metadata,\
     flowbyfacility_fields
-from esupy.processed_data_mgmt import Paths, write_df_to_file, write_metadata_to_file
+from esupy.processed_data_mgmt import Paths, write_df_to_file, write_metadata_to_file,\
+    load_preprocessed_output, read_into_df
 
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'stewicombo/'
@@ -136,6 +137,23 @@ def storeCombinedInventory(df, file_name, category=''):
         write_df_to_file(df,paths,meta)
     except:
         log.error('Failed to save inventory')
+
+def getCombinedInventory(file_name, category=''):
+    """Reads the inventory dataframe from local directory"""
+    if ".parquet" in file_name:
+        name = file_name
+        method_path = output_dir + '/' + category
+        inventory = read_into_df(method_path + name)
+    else:
+        meta = set_stewicombo_meta(file_name, category)
+        method_path = output_dir + '/' + meta.category
+        name = meta.name_data
+        inventory = load_preprocessed_output(meta, paths)
+    if inventory is None:
+        log.info(name + ' not found in ' + method_path)
+    else:
+        log.info('loaded ' + name + ' from ' + method_path)    
+    return inventory
 
 def write_metadata(file_name, metadata_dict, category=''):
     meta = set_stewicombo_meta(file_name, category=category)

@@ -5,7 +5,7 @@ import facilitymatcher
 from stewicombo.overlaphandler import aggregate_and_remove_overlap
 from stewicombo.globals import get_id_before_underscore, getInventoriesforFacilityMatches,\
     addChemicalMatches, addBaseInventoryIDs, storeCombinedInventory,\
-    write_metadata, compile_metadata
+    write_metadata, compile_metadata, getCombinedInventory, log
 
 
 def combineFullInventories(inventory_dict, filter_for_LCI=True, 
@@ -113,6 +113,11 @@ def saveInventory(name, combinedinventory_df, inventory_dict):
     inventory_meta = compile_metadata(inventory_dict)
     write_metadata(name, inventory_meta)
 
+
+def getInventory(name):
+    combinedinventory_df = getCombinedInventory(name)
+    return combinedinventory_df
+    
 
 def pivotCombinedInventories(combinedinventory_df):
     """Creates a pivot table of combined emissions
