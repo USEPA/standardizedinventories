@@ -1,15 +1,11 @@
 #Retrieves all unique flow names from the StEWI flow list, uses SRS web serive to find their SRSname and CAS
 import pandas as pd
 pd.options.mode.chained_assignment = None
-import os
 
+import stewi
+from stewi.globals import log
 from chemicalmatcher.globals import output_dir,get_SRSInfo_for_substance_name,\
-    get_SRSInfo_for_program_list,add_manual_matches, modulepath
-
-stewi_flow_dir = modulepath + '../stewi/output/flow/'
-
-try: flowlists = os.listdir(stewi_flow_dir)
-except: print('Directory missing')
+    get_SRSInfo_for_program_list,add_manual_matches
 
 all_list_names = pd.DataFrame(columns=["FlowName","FlowID"])
 
@@ -21,18 +17,20 @@ flowlist_cols = {"RCRAInfo":['FlowName','FlowID'],
                  "GHGRP":['FlowName','FlowID']}
 
 #First loop through flows lists to create a list of all unique flows
-for l in flowlists:
-    source_name = l[0:l.find("_")]
-    source_cols = flowlist_cols[source_name]
-    list_names = pd.read_csv(stewi_flow_dir+l,header=0,usecols=source_cols, dtype="str")
-    #fix for TRI
-    if source_name == 'TRI':
-        list_names['FlowID']= list_names['FlowID'].apply(lambda x: x.lstrip('0'))
-    list_names['Source'] = source_name
-    #Drop duplicates for flowname and ids with multiple compartments
-    list_names = list_names.drop_duplicates()
-    #Add to others
-    all_list_names = pd.concat([all_list_names,list_names], sort = False)
+source_dict = stewi.getAvailableInventoriesandYears(stewiformat='flow')
+for source in source_dict.keys():
+    list_names_years = pd.DataFrame()
+    for year in source_dict[source]:
+        list_names = pd.DataFrame()
+        list_names = stewi.getInventoryFlows(source, year)
+        list_names = list_names[flowlist_cols[source]]
+        list_names = list_names.drop_duplicates()
+        list_names_years = pd.concat([list_names_years,list_names], sort = False)
+    if source == 'TRI':
+        list_names_years['FlowID']= list_names_years['FlowID'].apply(lambda x: x.lstrip('0'))
+    list_names_years = list_names_years.drop_duplicates()
+    list_names_years['Source'] = source
+    all_list_names = pd.concat([all_list_names,list_names_years], sort = False)
 
 #Drop duplicates from lists with same names
 all_list_names.drop_duplicates(inplace=True)
@@ -56,7 +54,7 @@ errors_srs = pd.DataFrame(columns=["FlowName","Source","ErrorType"])
 #Store errors in a separate dataframe
 sources = list(pd.unique(all_list_names['Source']))
 for source in sources:
-    print('accessing SRS for ' + source)
+    log.info('accessing SRS for ' + source)
     # Get df with inventory flows
     inventory_flows = all_list_names[all_list_names['Source'] == source]
 

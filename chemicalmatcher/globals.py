@@ -4,7 +4,7 @@ import requests
 import json
 import urllib
 
-from stewi.globals import config
+from stewi.globals import config, log
 
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'chemicalmatcher/'
@@ -63,7 +63,7 @@ def get_SRSInfo_for_program_list(inventory):
     for listname in inventory_to_SRSlist_acronymns[inventory]:
         listname = urllib.parse.quote(listname)
         url = base + substancesbylistname + listname
-        print('Getting '+ listname)
+        log.debug('Getting %s', listname)
         flow_info = query_SRS_for_program_list(url,inventory)
         srs_flow_df = pd.concat([srs_flow_df,flow_info])
     #drop duplicates
