@@ -9,8 +9,8 @@ This file requires parameters be passed like:
 Options:
     A - for downloading and processing GHGRP data from web and saving locally
     B - for generating flowbyfacility output
-    C - for generating flows output
-    D - for generating facilities output
+        for generating flows output
+        for generating facilities output
     E - for validating flowbyfacility against national totals
 
 Year: 
@@ -26,17 +26,11 @@ Models with tables available at https://www.epa.gov/enviro/greenhouse-gas-model
 Envirofacts web services documentation can be found at: https://www.epa.gov/enviro/web-services
 """
 
-import stewi.globals as globals
-from stewi.globals import set_dir
-from stewi.globals import download_table
-from stewi.globals import inventory_metadata, write_metadata
-from stewi.globals import get_relpath
-from stewi.globals import import_table
-from stewi.globals import drop_excel_sheets
-from stewi.globals import validate_inventory
-from stewi.globals import validation_summary
-from stewi.globals import write_validation_result
-from stewi.globals import weighted_average
+from stewi.globals import set_dir, download_table, inventory_metadata,\
+    write_metadata, get_relpath, import_table, drop_excel_sheets,\
+    validate_inventory, validation_summary, write_validation_result,\
+    weighted_average, data_dir, output_dir, reliability_table,\
+    flowbyfacility_fields, flowbySCC_fields, facility_fields
 import pandas as pd
 import numpy as np
 import requests
@@ -48,8 +42,8 @@ import logging as log
 
 
 ## define directories
-data_dir = globals.data_dir # stewi data directory
-output_dir = globals.output_dir # stewi output directory
+data_dir = data_dir # stewi data directory
+output_dir = output_dir # stewi output directory
 ghgrp_data_dir = set_dir(data_dir + 'ghgrp/') # stewi data directory --> ghgrp
 ghgrp_external_dir = set_dir(data_dir + '/../../../GHGRP Data Files/') # external GHGRP data directory
    
@@ -119,34 +113,31 @@ def get_facilities(facilities_file):
     
     # for all remaining worksheets, concatenate into single dataframe
     # certain columns need to be renamed for consistency
+    
+    col_dict = {'Reported Address':'Address',
+                'Reported City':'City',
+                'Reported County':'County',
+                'Reported Latitude':'Latitude',
+                'Reported Longitude':'Longitude',
+                'Reported State':'State',
+                #'State where Emissions Occur':'State',
+                'Reported Zip Code':'Zip Code',
+                }
+    
     for s in facilities_dict.keys():
-        if 'Reported Address' in facilities_dict[s]:
-            facilities_dict[s].rename(columns={'Reported Address': 'Address'}, inplace=True)
-        if 'Reported City' in facilities_dict[s]:
-            facilities_dict[s].rename(columns={'Reported City': 'City'}, inplace=True)
-        if 'Reported County' in facilities_dict[s]:
-            facilities_dict[s].rename(columns={'Reported County': 'County'}, inplace=True)
-        if 'Reported Latitude' in facilities_dict[s]:
-            facilities_dict[s].rename(columns={'Reported Latitude': 'Latitude'}, inplace=True)
-        if 'Reported Longitude' in facilities_dict[s]:
-            facilities_dict[s].rename(columns={'Reported Longitude': 'Longitude'}, inplace=True)
-        if 'Reported State' or 'State where Emissions Occur' in facilities_dict[s]:
-            facilities_dict[s].rename(columns={'Reported State': 'State'}, inplace=True)
-        if 'Reported Zip Code' in facilities_dict[s]:
-            facilities_dict[s].rename(columns={'Reported Zip Code': 'Zip Code'}, inplace=True)
+        for k in col_dict.keys():
+            if k in facilities_dict[s]:
+                facilities_dict[s].rename(columns={k:col_dict[k]}, inplace=True)
         facilities_df = pd.concat([facilities_df, facilities_dict[s]]).reset_index(drop=True)
-    
-    # keep only those columns we are interested in retaining
-    keep_columns = ['Address', 'City', 'County', 'Facility Id',
-                    'Facility Name', 'Latitude', 'Longitude', 
-                    'Primary NAICS Code', 'State', 'Zip Code']
-    facilities_df = facilities_df[keep_columns]
-    
+
     # rename certain columns
-    facilities_df = facilities_df.rename(columns={'Facility Id': 'FACILITY_ID',
+    facilities_df = facilities_df.rename(columns={'Facility Id': 'FacilityID',
                                                   'Primary NAICS Code': 'NAICS',
                                                   'Facility Name': 'FacilityName',
                                                   'Zip Code': 'Zip'})
+    # keep only those columns we are interested in retaining
+    fac_columns = [c for c in facility_fields.keys() if c in facilities_df]
+    facilities_df = facilities_df[fac_columns]
 
     # drop any duplicates
     facilities_df.drop_duplicates(inplace=True)
@@ -182,13 +173,12 @@ def download_and_parse_subpart_tables(year):
     # for all subpart emissions tables listed...
     for subpart_emissions_table in year_tables['TABLE']:
         
-        # print name of table
-        print(subpart_emissions_table)
         # define filepath where subpart emissions table will be stored
         filepath = tables_dir + subpart_emissions_table + '.csv'
         
         # if data already exists on local network, import the data
         if os.path.exists(filepath):
+            log.info('importing data from %s', subpart_emissions_table)
             temp_df, temp_time = import_table(filepath, get_time=True)
             table_length = len(temp_df)
             row_start = 0
@@ -371,8 +361,8 @@ def parse_additional_suparts_data(addtnl_subparts_path, addtnl_subparts_columns,
 
 def aggregate(df, grouping_vars):
     df_agg = df.groupby(grouping_vars).agg({'FlowAmount': ['sum']})
-    df_agg['ReliabilityScore']=weighted_average(
-        df, 'ReliabilityScore', 'FlowAmount', grouping_vars)
+    df_agg['DataReliability']=weighted_average(
+        df, 'DataReliability', 'FlowAmount', grouping_vars)
     df_agg = df_agg.reset_index()
     df_agg.columns = df_agg.columns.droplevel(level=1)
     # drop those rows where flow amount is negative, zero, or NaN
@@ -432,13 +422,6 @@ if __name__ == '__main__':
     # Envirofacts: root url for EPA's Envirofacts Data Service
     enviro_url = 'https://data.epa.gov/efservice/'
     
-    # Subparts: .json file with list of 41 industrial categories, 
-    # organized by 40 CFR 98 subpart
-    subparts_url = enviro_url + 'PUB_DIM_SUBPART/JSON'
-    
-    # GHGs: .json with list of greenhouse gases covered by GHGRP
-    ghgs_url = enviro_url + 'PUB_DIM_GHG/JSON'
-    
     # define GWPs
     # (these values are from IPCC's AR4, which is consistent with GHGRP methodology)
     CH4GWP = 25
@@ -464,8 +447,6 @@ if __name__ == '__main__':
     data_summaries_path = ghgrp_external_dir + most_recent_year + '_data_summary_spreadsheets/'
     esbb_subparts_path = ghgrp_external_dir + esbb_subparts_url[51:]
     lo_subparts_path = ghgrp_external_dir + lo_subparts_url[51:]
-    subparts_path = ghgrp_external_dir + 'subparts.csv'
-    ghgs_path = ghgrp_external_dir + 'ghgs.csv'
     
     # set format for metadata file
     ghgrp_metadata = inventory_metadata 
@@ -483,8 +464,7 @@ if __name__ == '__main__':
             required_tables = [[data_summaries_path, data_summaries_url, 'Static File'], 
                                [esbb_subparts_path, esbb_subparts_url, 'Static File'],
                                [lo_subparts_path, lo_subparts_url, 'Static File'],
-                               [subparts_path, subparts_url, 'Database'], 
-                               [ghgs_path, ghgs_url, 'Database']]
+                               ]
             
             # download each table from web and save locally
             for table in required_tables:
@@ -521,10 +501,11 @@ if __name__ == '__main__':
             ghgrp.drop('Flow Description', axis=1, inplace=True)
             
             # rename certain columns for consistency
-            ghgrp.rename(columns={'FACILITY_ID': 'FacilityID',
-                                  'NAICS_CODE': 'NAICS'}, inplace=True)    
+            ghgrp.rename(columns={'FACILITY_ID':'FacilityID',
+                                  'NAICS_CODE':'NAICS'}, inplace=True)    
             
             # pickle data and save to network
+            log.info('saving GHGRP data to pickle')
             ghgrp.to_pickle('work/GHGRP_' + year + '.pk')
                                            
         # if any option other than 'A' is selected, load the ghgrp dataframe from the local network
@@ -536,12 +517,13 @@ if __name__ == '__main__':
             log.info('generating flowbyfacility output')
             
             # import data reliability scores 
-            reliability_table = globals.reliability_table
             ghgrp_reliability_table = reliability_table[reliability_table['Source'] == 'GHGRPa']
             ghgrp_reliability_table.drop('Source', axis=1, inplace=True)
             
             # add reliability scores
-            ghgrp = pd.merge(ghgrp, ghgrp_reliability_table, left_on='METHOD', right_on='Code', how='left')
+            ghgrp = pd.merge(ghgrp, ghgrp_reliability_table,
+                             left_on='METHOD',
+                             right_on='Code', how='left')
             
             # fill NAs with 5 for DQI reliability score
             ghgrp['DQI Reliability Score'] = ghgrp['DQI Reliability Score'].fillna(value=5)
@@ -550,18 +532,17 @@ if __name__ == '__main__':
             ghgrp['FlowAmount'] = 1000 * ghgrp['FlowAmount'].astype('float')
             
             # rename reliability score column for consistency
-            ghgrp.rename(columns={'DQI Reliability Score': 'ReliabilityScore',
-                                  'SUBPART_NAME':'Subpart'}, inplace=True)
-            
-           # generate flowbyProcess (i.e. Subpart)
-            fbp_columns = ['FlowName', 'FlowAmount', 'FacilityID', 'ReliabilityScore','Subpart']
-            ghgrp_fbp = ghgrp[fbp_columns]
-            ghgrp_fbp = aggregate(ghgrp_fbp, ['FacilityID', 'FlowName', 'Subpart'])
             # temporary assign as SCC for consistency with NEI
-            ghgrp_fbp.rename(columns={'Subpart':'SCC'}, inplace=True)
+            ghgrp.rename(columns={'DQI Reliability Score': 'DataReliability',
+                                  'SUBPART_NAME':'SCC'}, inplace=True)
+
+            # generate flowbyProcess (i.e. Subpart)
+            fbp_columns = [c for c in flowbySCC_fields.keys() if c in ghgrp]
+            ghgrp_fbp = ghgrp[fbp_columns]
+            ghgrp_fbp = aggregate(ghgrp_fbp, ['FacilityID', 'FlowName', 'SCC'])
             ghgrp_fbp.to_csv(output_dir + 'flowbySCC/GHGRP_' + year + '.csv', index=False)
             
-            fbf_columns = ['FlowName', 'FlowAmount', 'FacilityID', 'ReliabilityScore']
+            fbf_columns = [c for c in flowbyfacility_fields.keys() if c in ghgrp]
             ghgrp_fbf = ghgrp[fbf_columns]
             
             # aggregate instances of more than one flow for same facility and flow type
@@ -570,9 +551,6 @@ if __name__ == '__main__':
             # save results to output directory
             ghgrp_fbf_2.to_csv(output_dir + 'flowbyfacility/GHGRP_' + year + '.csv', index=False)
         
-        elif args.Option == 'C':
-            log.info('generating flows output')
-            
             # generate flows output and save to network
             flow_columns = ['FlowName', 'FlowID']
             ghgrp_flow = ghgrp[flow_columns].drop_duplicates()
@@ -580,21 +558,22 @@ if __name__ == '__main__':
             ghgrp_flow['Unit'] = 'kg'
             ghgrp_flow.to_csv(output_dir + 'flow/GHGRP_' + year + '.csv', index=False)
         
-        elif args.Option == 'D':
             log.info('generating facilities output')
             
             # return dataframe of GHGRP facilities
             facilities_df = get_facilities(data_summaries_path + 'ghgp_data_' + year + '.xlsx')
             
             # add facility information based on facility ID
-            ghgrp = ghgrp.merge(facilities_df, left_on='FacilityID', right_on='FACILITY_ID', how='left')
+            ghgrp = ghgrp.merge(facilities_df, on='FacilityID', how='left')
 
             # generate facilities output and save to network
-            facility_columns = ['FacilityID', 'FacilityName', 'Address', 'City', 'State', 'Zip', 'Latitude', 'Longitude', 'County', 'NAICS']
+            facility_columns = [c for c in facility_fields.keys() if c in ghgrp]
             ghgrp_facility = ghgrp[facility_columns].drop_duplicates()
             ghgrp_facility.dropna(subset=['FacilityName'], inplace=True)
             # ensure NAICS does not have trailing decimal/zero
+            ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].fillna(0)
             ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].astype(int).astype(str)
+            ghgrp_facility.loc[ghgrp_facility['NAICS']=='0','NAICS'] = None
             ghgrp_facility.to_csv(output_dir + 'facility/GHGRP_' + year + '.csv', index=False)
         
         elif args.Option == 'E':
@@ -604,10 +583,6 @@ if __name__ == '__main__':
             
             # define filepath for reference data
             ref_filepath = ghgrp_external_dir + 'GHGRP_reference' + year + '.csv'
-            
-            # load GHGs list
-            ghgs = import_table(ghgs_path)
-            ghgs.drop_duplicates(inplace=True)
             
             # if the reference file exists, load the data
             if os.path.exists(ref_filepath):
@@ -637,11 +612,9 @@ if __name__ == '__main__':
             # parse reference dataframe to prepare it for validation
             reference_df['YEAR'] = reference_df['YEAR'].astype('str')
             reference_df = reference_df[reference_df['YEAR'] == year]
-            reference_df = reference_df.merge(ghgs[['GAS_ID', 'GAS_NAME']], how='left', on='GAS_NAME')
             reference_df['FlowAmount'] = reference_df['GHG_QUANTITY'].astype(float) * 1000
-            reference_df = reference_df[['FlowAmount', 'GAS_ID', 'GAS_NAME', 'FACILITY_ID']]
+            reference_df = reference_df[['FlowAmount', 'GAS_NAME', 'FACILITY_ID']]
             reference_df.rename(columns={'FACILITY_ID': 'FacilityID',
-                                         'GAS_ID': 'FlowID',
                                          'GAS_NAME': 'FlowName'}, inplace=True)
             reference_df.reset_index(drop=True, inplace=True)
             
@@ -653,7 +626,6 @@ if __name__ == '__main__':
 
             # Perform validation on the flowbyfacility file
             validation_df = validate_inventory(ghgrp_fbf, reference_df)
-            write_validation_result = globals.write_validation_result
             write_validation_result('GHGRP', year, validation_df)
             validation_sum = validation_summary(validation_df)
             
