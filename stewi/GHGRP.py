@@ -8,10 +8,13 @@ This file requires parameters be passed like:
 
 Options:
     A - for downloading and processing GHGRP data from web and saving locally
-    B - for generating flowbyfacility output
-        for generating flows output
-        for generating facilities output
-    E - for validating flowbyfacility against national totals
+    B - for generating inventory files for StEWI:
+         - flowbysubpart
+         - flowbyfacility
+         - flows
+         - facilities
+        and validating flowbyfacility against national totals
+    C - for downloading national totals for validation
 
 Year: 
     2018
@@ -380,10 +383,8 @@ if __name__ == '__main__':
     parser.add_argument('Option',
                         help = 'What do you want to do:\
                         [A] Download and save GHGRP data\
-                        [B] Generate flowbyfacility output\
-                        [C] Generate flows output\
-                        [D] Generate facilities output\
-                        [E] Validate flowbyfacility against national totals',
+                        [B] Generate inventory files for StEWI and validate\
+                        [C] Download national totals data for validation',
                         type = str)
 
     parser.add_argument('-y', '--Year', nargs = '+',
@@ -514,7 +515,6 @@ if __name__ == '__main__':
             ghgrp = pd.read_pickle('work/GHGRP_' + year + '.pk')
                                
         if args.Option == 'B':
-            log.info('generating flowbyfacility output')
             
             # import data reliability scores 
             ghgrp_reliability_table = reliability_table[reliability_table['Source'] == 'GHGRPa']
@@ -535,12 +535,16 @@ if __name__ == '__main__':
             # temporary assign as SCC for consistency with NEI
             ghgrp.rename(columns={'DQI Reliability Score': 'DataReliability',
                                   'SUBPART_NAME':'SCC'}, inplace=True)
-
-            # generate flowbyProcess (i.e. Subpart)
-            fbp_columns = [c for c in flowbySCC_fields.keys() if c in ghgrp]
-            ghgrp_fbp = ghgrp[fbp_columns]
-            ghgrp_fbp = aggregate(ghgrp_fbp, ['FacilityID', 'FlowName', 'SCC'])
-            ghgrp_fbp.to_csv(output_dir + 'flowbySCC/GHGRP_' + year + '.csv', index=False)
+            
+            log.info('generating flowbysubpart output')
+            
+            # generate flowbysubpart
+            fbs_columns = [c for c in flowbySCC_fields.keys() if c in ghgrp]
+            ghgrp_fbs = ghgrp[fbs_columns]
+            ghgrp_fbs = aggregate(ghgrp_fbs, ['FacilityID', 'FlowName', 'SCC'])
+            ghgrp_fbs.to_csv(output_dir + 'flowbySCC/GHGRP_' + year + '.csv', index=False)
+            
+            log.info('generating flowbyfacility output')
             
             fbf_columns = [c for c in flowbyfacility_fields.keys() if c in ghgrp]
             ghgrp_fbf = ghgrp[fbf_columns]
@@ -551,6 +555,8 @@ if __name__ == '__main__':
             # save results to output directory
             ghgrp_fbf_2.to_csv(output_dir + 'flowbyfacility/GHGRP_' + year + '.csv', index=False)
         
+            log.info('generating flows output')
+
             # generate flows output and save to network
             flow_columns = ['FlowName', 'FlowID']
             ghgrp_flow = ghgrp[flow_columns].drop_duplicates()
@@ -575,9 +581,77 @@ if __name__ == '__main__':
             ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].astype(int).astype(str)
             ghgrp_facility.loc[ghgrp_facility['NAICS']=='0','NAICS'] = None
             ghgrp_facility.to_csv(output_dir + 'facility/GHGRP_' + year + '.csv', index=False)
-        
-        elif args.Option == 'E':
+            
             log.info('validating flowbyfacility against national totals')
+                   
+            # import list of GHG names
+            ghgs_df = import_table(ghgrp_external_dir + 'ghgs.csv')
+            ghgs = list(ghgs_df['GAS_NAME'])
+            # fix subscripts
+            ghgs = [sub.replace('%3Csub%3E', '') for sub in ghgs]
+            ghgs = [sub.replace('%3C/sub%3E', '') for sub in ghgs]
+            
+            # import list of subpart names
+            subparts_df = import_table(ghgrp_external_dir + 'subparts.csv')
+            subparts = list(subparts_df['SUBPART_NAME'])
+            subparts.remove('C (Abbr)')
+            
+            # initialize dataframe
+            df0 = pd.DataFrame(index=subparts, columns=ghgs)
+            
+            # create pivot table from reference data
+            reference_df = import_table(ghgrp_external_dir + year + '_GHGRP_NationalTotals.csv')
+            ref_df = pd.pivot_table(reference_df, values='FlowAmount', index='SUBPART_NAME', columns='FlowName')
+            ref_df = ref_df.reindex_like(df0)
+            
+            # create pivot table from tabulated data
+            tab_df = pd.pivot_table(ghgrp_fbs, values='FlowAmount', index='SCC', columns='FlowName')
+            tab_df = tab_df.reindex_like(df0)
+            
+            # calculate percentage difference
+            pct_df = 100.0 * (tab_df - ref_df) / ref_df
+            
+            # generate conclusion
+            cncl_df = df0
+            tolerance=5.0
+            for row in (df0.index):
+                for col in (df0):
+                    tab_value = tab_df.loc[row, col]
+                    ref_value = ref_df.loc[row, col]
+                    if tab_value == 0.0 and ref_value == 0.0:
+                        cncl_df.loc[row, col] = 'Both inventory and reference are zero'
+                    elif pd.isnull(tab_value) and pd.isnull(ref_value):
+                        cncl_df.loc[row, col] = 'Both inventory and reference are null'
+                    elif pd.isnull(tab_value):
+                        cncl_df.loc[row, col] = 'Inventory value is null'
+                    elif pd.isnull(ref_value):
+                        cncl_df.loc[row, col] = 'Reference value is null'
+                    else:
+                        pct_diff = pct_df.loc[row, col]
+                        if pct_diff == 0.0:
+                            cncl_df.loc[row, col] = 'Identical'
+                        elif abs(pct_diff) <= tolerance:
+                            cncl_df.loc[row, col] = 'Statistically similar'
+                        elif abs(pct_diff) > tolerance:
+                            cncl_df.loc[row, col] = 'Percent difference exceeds tolerance'
+            
+            # write results to Excel workbook            
+            writer = pd.ExcelWriter(output_dir + 'validation/' + 'GHGRP_' + year + '.xlsx', engine='xlsxwriter')
+            ref_df.to_excel(writer, sheet_name='reference')
+            tab_df.to_excel(writer, sheet_name='tabulated')
+            pct_df.to_excel(writer, sheet_name='percent_difference')
+            cncl_df.to_excel(writer, sheet_name='conclusion')
+            writer.save()
+
+            # Record metadata compiled from all GHGRP files and tables
+            ghgrp_metadata['SourceAquisitionTime'] = time_meta
+            ghgrp_metadata['SourceFileName'] = filename_meta
+            ghgrp_metadata['SourceType'] = type_meta
+            ghgrp_metadata['SourceURL'] = url_meta
+            write_metadata('GHGRP', year, ghgrp_metadata)
+      
+        elif args.Option == 'C':
+            log.info('downloading national totals for validation')
             
             validation_table = 'V_GHG_EMITTER_SUBPART'
             
@@ -608,30 +682,15 @@ if __name__ == '__main__':
             if 'unnamed' in reference_df.columns[len(reference_df.columns) - 1].lower() or reference_df.columns[
                 len(reference_df.columns) - 1] == '':
                 reference_df.drop(reference_df.columns[len(reference_df.columns) - 1], axis=1, inplace=True)
-            
+                        
             # parse reference dataframe to prepare it for validation
             reference_df['YEAR'] = reference_df['YEAR'].astype('str')
             reference_df = reference_df[reference_df['YEAR'] == year]
             reference_df['FlowAmount'] = reference_df['GHG_QUANTITY'].astype(float) * 1000
-            reference_df = reference_df[['FlowAmount', 'GAS_NAME', 'FACILITY_ID']]
+            reference_df = reference_df[['FlowAmount', 'GAS_NAME', 'FACILITY_ID', 'SUBPART_NAME']]
             reference_df.rename(columns={'FACILITY_ID': 'FacilityID',
                                          'GAS_NAME': 'FlowName'}, inplace=True)
             reference_df.reset_index(drop=True, inplace=True)
             
             # save reference dataframe to network
             reference_df.to_csv(ghgrp_external_dir + year + '_GHGRP_NationalTotals.csv', index=False)
-            
-            # load flowbyfacility data from network
-            ghgrp_fbf = import_table(output_dir + 'flowbyfacility/GHGRP_' + year + '.csv')
-
-            # Perform validation on the flowbyfacility file
-            validation_df = validate_inventory(ghgrp_fbf, reference_df)
-            write_validation_result('GHGRP', year, validation_df)
-            validation_sum = validation_summary(validation_df)
-            
-            # Record metadata compiled from all GHGRP files and tables
-            ghgrp_metadata['SourceAquisitionTime'] = time_meta
-            ghgrp_metadata['SourceFileName'] = filename_meta
-            ghgrp_metadata['SourceType'] = type_meta
-            ghgrp_metadata['SourceURL'] = url_meta
-            write_metadata('GHGRP', year, ghgrp_metadata)
