@@ -535,17 +535,10 @@ if __name__ == '__main__':
             ghgrp4.drop(columns=['FlowAmount', 'Default Global Warming Potential', 'Fluorinated GHG Groupd'], inplace=True)
             # rename Flow Amount column
             ghgrp4.rename(columns={'FlowAmount (mass)' : 'FlowAmount'}, inplace=True)
-
-            ghgrp1.to_csv('C:/Users/EBell/Desktop/' + 'ghgrp1' + '.csv',index=False)
-            ghgrp2.to_csv('C:/Users/EBell/Desktop/' + 'ghgrp2' + '.csv',index=False)
-            ghgrp3.to_csv('C:/Users/EBell/Desktop/' + 'ghgrp3' + '.csv',index=False)
-            ghgrp4.to_csv('C:/Users/EBell/Desktop/' + 'ghgrp4' + '.csv',index=False)
                 
             # concatenate ghgrp1, ghgrp2, ghgrp3, and ghgrp4
             ghgrp = pd.concat([ghgrp1, ghgrp2, ghgrp3, ghgrp4]).reset_index(drop=True)
-            
-            ghgrp.to_csv('C:/Users/EBell/Desktop/' + 'ghgrp' + '.csv',index=False)
-            
+                        
             # map flow descriptions to standard gas names from GHGRP
             ghg_mapping = pd.read_csv(ghgrp_data_dir + 'ghg_mapping.csv', usecols=['Flow Description', 'FlowName', 'FlowID'])
             ghgrp = pd.merge(ghgrp, ghg_mapping, on='Flow Description', how='left')
