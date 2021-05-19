@@ -455,7 +455,7 @@ Sulfur hexafluoride (SF6),SF6,SF6,Sulfur Hexafluoride,6
 Sulfur hexafluoridePlasma etching,SF6,SF6,Sulfur Hexafluoride,6
 TOTAL_EMITTED_SF6,SF6,SF6,Sulfur Hexafluoride,6
 Fluoroform,HFC,HFC,HFCs,10
-HFC-23,HFC,HFC,HFCs,10
+HFC-23,HFC,HFC,Fluoroform,7
 BIOGENIC CARBON DIOXIDE,BIOCO2,BIOCO2,Biogenic CO2,8
 Biogenic Carbon dioxide,BIOCO2,BIOCO2,Biogenic CO2,8
 Biogenic Carbon Dioxide (CO2),BIOCO2,BIOCO2,Biogenic CO2,8

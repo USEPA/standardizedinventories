@@ -162,6 +162,8 @@ def download_and_parse_subpart_tables(year):
     year_tables = ghgrp_tables_df[ghgrp_tables_df['REPORTING_YEAR'].str.contains(year)]
     # filter to obtain only those tables that include primary emissions
     year_tables = year_tables[year_tables['PrimaryEmissions'] == 1].reset_index(drop=True)
+    # do not import the Subpart L table; we will pull these data in later
+    year_tables.drop(year_tables[year_tables['TABLE'] == 'EF_L_GASINFO' ].index, inplace=True)
     
     # data directory where subpart emissions tables will be stored
     tables_dir = ghgrp_external_dir + 'tables/' + year + '/'
@@ -304,6 +306,8 @@ def parse_additional_suparts_data(addtnl_subparts_path, addtnl_subparts_columns,
     for key, df in addtnl_subparts_dict.items():
         for column in df:
             df.rename(columns={column: column.replace('\n',' ')}, inplace=True)
+            df.rename(columns={'Facility ID' : 'GHGRP ID'}, inplace=True)
+            df.rename(columns={'Reporting Year' : 'Year'}, inplace=True)
         addtnl_subparts_dict[key] = df
     # initialize dataframe
     ghgrp = pd.DataFrame()
@@ -357,8 +361,8 @@ def parse_additional_suparts_data(addtnl_subparts_path, addtnl_subparts_columns,
     ghgrp = ghgrp[ghgrp['FlowAmount'] > 0]
     ghgrp = ghgrp[ghgrp['FlowAmount'].notna()]
     
-    ghgrp = ghgrp.rename(columns={'GHGRP ID': 'FACILITY_ID'})
-    ghgrp.drop('Year', axis=1, inplace=True)
+    ghgrp = ghgrp.rename(columns={'GHGRP ID': 'FACILITY_ID',
+                                  'Year': 'REPORTING_YEAR'})
     
     return ghgrp
 
@@ -484,17 +488,63 @@ if __name__ == '__main__':
             # parse emissions data for subparts E, BB, CC, LL (S already accounted for)
             ghgrp2 = parse_additional_suparts_data(esbb_subparts_path, 'esbb_subparts_columns.csv', year) 
             
-            # parse emissions data for subparts L, O
-            ghgrp3 = parse_additional_suparts_data(lo_subparts_path, 'lo_subparts_columns.csv', year)
+            # parse emissions data for subpart O
+            ghgrp3 = parse_additional_suparts_data(lo_subparts_path, 'o_subparts_columns.csv', year)
 
             # convert subpart O data from CO2e to mass of HCFC22 emitted
             ghgrp3.loc[ghgrp3['SUBPART_NAME'] == 'O', 'FlowAmount'] = \
                 ghgrp3.loc[ghgrp3['SUBPART_NAME'] == 'O', 'FlowAmount']/HCFC22GWP
             ghgrp3.loc[ghgrp3['SUBPART_NAME'] == 'O', 'Flow Description'] = \
                 'Total Reported Emissions Under Subpart  O (metric tons)'
-                        
-            # concatenate ghgrp1, ghgrp2, and ghgrp3
-            ghgrp = pd.concat([ghgrp1, ghgrp2, ghgrp3]).reset_index(drop=True)
+                
+            # parse emissions data for subpart L
+            ghgrp4 = parse_additional_suparts_data(lo_subparts_path, 'l_subparts_columns.csv', year)
+
+            # load global warming potentials for subpart L calculation
+            subpart_L_GWPs_url = 'https://ccdsupport.com/confluence/download/attachments/'\
+                '63996073/Subpart%20L%20Calculation%20Spreadsheet%20-%20Summarize%20Process'\
+                '%20Level%20CO2e%20by%20f-GHG.xls?version=1&modificationDate=1427459649000&api=v2'
+            subpart_L_GWPs_filepath = ghgrp_external_dir + 'Subpart L Calculation Spreadsheet.xls' 
+            download_table(filepath = subpart_L_GWPs_filepath, url = subpart_L_GWPs_url)
+            subpart_L_GWPs = pd.read_excel(subpart_L_GWPs_filepath, sheet_name = 'Lookup Tables', usecols = [6,7], nrows=12)
+            
+            # rename certain fluorinated GHG groups for consistency
+            subpart_L_GWPs['Fluorinated GHG Groupd'] = subpart_L_GWPs['Fluorinated GHG Groupd'].str.replace(
+                'Saturated HFCs with 2 or fewer carbon-hydrogen bonds',
+                'Saturated hydrofluorocarbons (HFCs) with 2 or fewer carbon-hydrogen bonds')
+            subpart_L_GWPs['Fluorinated GHG Groupd'] = subpart_L_GWPs['Fluorinated GHG Groupd'].str.replace(
+                'Saturated HFEs and HCFEs with 1 carbon-hydrogen bond',
+                'Saturated hydrofluoroethers (HFEs) and hydrochlorofluoroethers (HCFEs) with 1 carbon-hydrogen bond')
+            subpart_L_GWPs['Fluorinated GHG Groupd'] = subpart_L_GWPs['Fluorinated GHG Groupd'].str.replace(
+                'Unsaturated PFCs, unsaturated HFCs, unsaturated HCFCs, unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones',
+                'Unsaturated perfluorocarbons (PFCs), unsaturated HFCs, unsaturated hydrochlorofluorocarbons (HCFCs), unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones')
+
+            # add global warming potentials for each flow
+            subpart_L_GWPs['Flow Description'] = 'Fluorinated GHG Emissions (mt CO2e)'
+            ghgrp4 = ghgrp4.merge(subpart_L_GWPs, how='left', left_on=['METHOD','Flow Description'], right_on=['Fluorinated GHG Groupd','Flow Description'])
+            ghgrp4.loc[ghgrp4['Flow Description'] == 'Fluorinated GHG Emissions (metric tons)', 'Default Global Warming Potential'] = 1
+            ghgrp4.loc[ghgrp4['Flow Description'] == 'Fluorinated GHG Emissions  (metric tons)', 'Default Global Warming Potential'] = 1
+            
+            # drop old Flow Description column
+            ghgrp4.drop(columns=['Flow Description'], inplace=True)
+            # METHOD column becomes new Flow Description
+            ghgrp4.rename(columns={'METHOD' : 'Flow Description'}, inplace=True)
+            # calculate mass flow amount based on emissions in CO2e and GWP
+            ghgrp4['FlowAmount (mass)'] = ghgrp4['FlowAmount'] / ghgrp4['Default Global Warming Potential']
+            # drop unnecessary columns
+            ghgrp4.drop(columns=['FlowAmount', 'Default Global Warming Potential', 'Fluorinated GHG Groupd'], inplace=True)
+            # rename Flow Amount column
+            ghgrp4.rename(columns={'FlowAmount (mass)' : 'FlowAmount'}, inplace=True)
+
+            ghgrp1.to_csv('C:/Users/EBell/Desktop/' + 'ghgrp1' + '.csv',index=False)
+            ghgrp2.to_csv('C:/Users/EBell/Desktop/' + 'ghgrp2' + '.csv',index=False)
+            ghgrp3.to_csv('C:/Users/EBell/Desktop/' + 'ghgrp3' + '.csv',index=False)
+            ghgrp4.to_csv('C:/Users/EBell/Desktop/' + 'ghgrp4' + '.csv',index=False)
+                
+            # concatenate ghgrp1, ghgrp2, ghgrp3, and ghgrp4
+            ghgrp = pd.concat([ghgrp1, ghgrp2, ghgrp3, ghgrp4]).reset_index(drop=True)
+            
+            ghgrp.to_csv('C:/Users/EBell/Desktop/' + 'ghgrp' + '.csv',index=False)
             
             # map flow descriptions to standard gas names from GHGRP
             ghg_mapping = pd.read_csv(ghgrp_data_dir + 'ghg_mapping.csv', usecols=['Flow Description', 'FlowName', 'FlowID'])
@@ -590,6 +640,8 @@ if __name__ == '__main__':
             # fix subscripts
             ghgs = [sub.replace('%3Csub%3E', '') for sub in ghgs]
             ghgs = [sub.replace('%3C/sub%3E', '') for sub in ghgs]
+            # delete ; we won't be using this
+            ghgs.remove('Fluorinated GHG Production (CO2e)')
             
             # import list of subpart names
             subparts_df = import_table(ghgrp_external_dir + 'subparts.csv')
