@@ -21,15 +21,16 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import numpy as np
 import time
-import datetime
 import os.path, os, io, sys
-from stewi.globals import unit_convert,set_dir,output_dir,data_dir,\
-    reliability_table,source_metadata,validate_inventory,\
-    write_validation_result,write_metadata,url_is_alive,get_relpath,\
-    lb_kg,g_kg,config,storeInventory,log, paths, compile_source_metadata,\
-    read_source_metadata, update_validationsets_sources
 import argparse
 import re
+
+from esupy.processed_data_mgmt import create_paths_if_missing
+from stewi.globals import unit_convert,data_dir,\
+    reliability_table,validate_inventory,\
+    write_validation_result,write_metadata,url_is_alive,\
+    lb_kg,g_kg,config,storeInventory,log, paths, compile_source_metadata,\
+    read_source_metadata, update_validationsets_sources
 
 
 ext_folder = '/TRI Data Files/'
@@ -70,6 +71,7 @@ def extract_TRI_data_files(link_zip, files, year):
         del dic[0]
         df = pd.DataFrame.from_dict(dic, orient='index')
         df.columns = columns
+        create_paths_if_missing(tri_external_dir)
         df.to_csv(tri_external_dir + filename + '.csv', index = False)
         log.info(filename + '.csv saved to ' + tri_external_dir)
 
@@ -191,7 +193,7 @@ def validate_national_totals(inv, TRIyear):
     log.info('validating data against national totals')
     if (os.path.exists(data_dir + 'TRI_'+ TRIyear + '_NationalTotals.csv')):
         tri_national_totals = pd.read_csv(data_dir + 'TRI_'+ TRIyear + '_NationalTotals.csv',
-                                          header=0,dtype={"FlowAmount":np.float})
+                                          header=0,dtype={"FlowAmount":float})
         tri_national_totals['FlowAmount_kg']=0
         tri_national_totals = unit_convert(tri_national_totals, 'FlowAmount_kg',
                                            'Unit', 'Pounds', lb_kg, 'FlowAmount')
