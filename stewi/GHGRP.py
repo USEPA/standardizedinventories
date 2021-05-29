@@ -30,7 +30,7 @@ from stewi.globals import set_dir, download_table, inventory_metadata,\
     write_metadata, get_relpath, import_table, drop_excel_sheets,\
     validate_inventory, validation_summary, write_validation_result,\
     weighted_average, data_dir, output_dir, reliability_table,\
-    flowbyfacility_fields, flowbySCC_fields, facility_fields
+    flowbyfacility_fields, flowbySCC_fields, facility_fields, config
 import pandas as pd
 import numpy as np
 import requests
@@ -41,6 +41,7 @@ import argparse
 import logging as log
 
 
+_config = config()['databases']['GHGRP']
 ## define directories
 data_dir = data_dir # stewi data directory
 output_dir = output_dir # stewi output directory
@@ -50,7 +51,7 @@ ghgrp_external_dir = set_dir(data_dir + '/../../../GHGRP Data Files/') # externa
 
 def generate_url(table, report_year='', row_start=0, row_end=9999, output_ext='JSON'):
     # Input a specific table name to generate the query URL to submit
-    request_url = enviro_url + table
+    request_url = _config['enviro_url'] + table
     if report_year != '': request_url += '/REPORTING_YEAR/=/' + report_year
     if row_start != '': request_url += '/ROWS/' + str(row_start) + ':' + str(row_end)
     request_url += '/' + output_ext
@@ -59,7 +60,7 @@ def generate_url(table, report_year='', row_start=0, row_end=9999, output_ext='J
 
 def get_row_count(table, report_year):
     # Input specific table name, returns number of rows from API as XML then converts to integer
-    count_url = enviro_url + table
+    count_url = _config['enviro_url'] + table
     if report_year != '': count_url += '/REPORTING_YEAR/=/' + report_year
     count_url += '/COUNT'
     while True:
@@ -393,35 +394,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
     GHGRPyears = args.Year
     
-    # most recent year of available GHGRP data
-    most_recent_year = '2018'
-    
-    ## define urls for data to be pulled from the web
-    
-    # Data Summary Spreadsheets: .zip file containing multi-year spreadsheets containing
-    # the most important high-level information for facilities, as well as yearly
-    # spreadsheets containing slightly more detailed information, including
-    # reported emissions by greenhouse gas and process.
-    data_summaries_url = 'https://www.epa.gov/sites/production/files/2019-10/2018_data_summary_spreadsheets.zip'
-    
-    # Subparts E, S-CEMS, BB, CC, LL Data Set: .xlsx file containing publicly available data
-    # reported by facilities in the following industries across all reporting years:
-    # Adipic Acid Production (E), Lime Manufacturing (S, CEMS reporters only), 
-    # Silicon Carbide Production (BB), Soda Ash Manufacturing (CC) and 
-    # Coal-based Liquid Fuel Suppliers (LL).
-    # LL is not included because it is a supplier, rather than an emitter.
-    esbb_subparts_url = 'https://www.epa.gov/sites/production/files/2019-10/e_s_cems_bb_cc_ll_full_data_set_9_29_2019.xlsx'
-    
-    # Subparts L, O Data Set: .xlsx file containing publicly available data
-    # reported by facilities under: 
-    # Subpart L (Fluorinated Gas Production) and 
-    # Subpart O (HCFC-22 Production and HFC-23 Destruction)
-    # across all reporting years.
-    lo_subparts_url = 'https://www.epa.gov/sites/production/files/2020-11/ghgp_l_o_freq_request_data_10_2020.xlsx'
-    
-    # Envirofacts: root url for EPA's Envirofacts Data Service
-    enviro_url = 'https://data.epa.gov/efservice/'
-    
     # define GWPs
     # (these values are from IPCC's AR4, which is consistent with GHGRP methodology)
     CH4GWP = 25
@@ -444,9 +416,9 @@ if __name__ == '__main__':
     ghg_cols = base_cols + info_cols + group_cols
     
     # define filepaths for downloaded data
-    data_summaries_path = ghgrp_external_dir + most_recent_year + '_data_summary_spreadsheets/'
-    esbb_subparts_path = ghgrp_external_dir + esbb_subparts_url[51:]
-    lo_subparts_path = ghgrp_external_dir + lo_subparts_url[51:]
+    data_summaries_path = ghgrp_external_dir + _config['most_recent_year'] + '_data_summary_spreadsheets/'
+    esbb_subparts_path = ghgrp_external_dir + _config['esbb_subparts_url']
+    lo_subparts_path = ghgrp_external_dir + _config['lo_subparts_url']
     
     # set format for metadata file
     ghgrp_metadata = inventory_metadata 
@@ -461,9 +433,9 @@ if __name__ == '__main__':
             log.info('downloading and processing GHGRP data')
             
             # define required tables for download
-            required_tables = [[data_summaries_path, data_summaries_url, 'Static File'], 
-                               [esbb_subparts_path, esbb_subparts_url, 'Static File'],
-                               [lo_subparts_path, lo_subparts_url, 'Static File'],
+            required_tables = [[data_summaries_path, _config['url']+_config['data_summaries_url'], 'Static File'], 
+                               [esbb_subparts_path, _config['url']+_config['esbb_subparts_url'], 'Static File'],
+                               [lo_subparts_path, _config['url']+_config['lo_subparts_url'], 'Static File'],
                                ]
             
             # download each table from web and save locally
