@@ -258,7 +258,7 @@ def download_and_parse_subpart_tables(year):
                       ghgrp1['TIER3_N2O_COMBUSTION_EMISSIONS'] + \
                       ghgrp1['T4N2OCOMBUSTIONEMISSIONS'] + \
                       ghgrp1['PART_75_N2O_EMISSIONS_CO2E']/N2OGWP
-    
+      
     # add these new columns to the list of 'group' columns
     expanded_group_cols = group_cols + ['c_co2', 'c_co2_b', 'c_ch4', 'c_n2o']
 
@@ -284,11 +284,17 @@ def download_and_parse_subpart_tables(year):
     
     ## parse data where flow description is blank (ghgrp1b)
     # keep only the necessary columns; drop all others
-    ghgrp1b.drop(ghgrp1b.columns.difference(base_cols + expanded_group_cols + ['METHOD', 'SUBPART_NAME']),1, inplace=True)
+    ghgrp1b.drop(ghgrp1b.columns.difference(base_cols + expanded_group_cols + ['METHOD', 'SUBPART_NAME', 'UNIT_NAME', 'FUEL_TYPE']),1, inplace=True)
     # 'unpivot' data to create separate line items for each group column
-    ghgrp1b = ghgrp1b.melt(id_vars = base_cols + ['METHOD', 'SUBPART_NAME'], 
+    ghgrp1b = ghgrp1b.melt(id_vars = base_cols + ['METHOD', 'SUBPART_NAME', 'UNIT_NAME', 'FUEL_TYPE'], 
                            var_name = 'Flow Description', 
                            value_name = 'FlowAmount')
+    # combine data for same generating unit and fuel type
+    ghgrp1b = ghgrp1b.groupby(['FACILITY_ID','REPORTING_YEAR','SUBPART_NAME','UNIT_NAME','FUEL_TYPE','Flow Description'])\
+        .agg({'FlowAmount':['sum'], 'METHOD':['sum']})
+    ghgrp1b = ghgrp1b.reset_index()
+    ghgrp1b.columns = ghgrp1b.columns.droplevel(level=1)
+    ghgrp1b.drop(['UNIT_NAME','FUEL_TYPE'], axis=1, inplace=True)
 
     # re-join split dataframes
     ghgrp1 = pd.concat([ghgrp1a, ghgrp1b]).reset_index(drop=True)
@@ -567,7 +573,7 @@ if __name__ == '__main__':
             ghgrp = pd.merge(ghgrp, ghgrp_reliability_table,
                              left_on='METHOD',
                              right_on='Code', how='left')
-            
+                        
             # fill NAs with 5 for DQI reliability score
             ghgrp['DQI Reliability Score'] = ghgrp['DQI Reliability Score'].fillna(value=5)
                        
@@ -626,67 +632,53 @@ if __name__ == '__main__':
             ghgrp_facility.to_csv(output_dir + 'facility/GHGRP_' + year + '.csv', index=False)
             
             log.info('validating flowbyfacility against national totals')
-                   
-            # import list of GHG names
-            ghgs_df = import_table(ghgrp_external_dir + 'ghgs.csv')
-            ghgs = list(ghgs_df['GAS_NAME'])
-            # fix subscripts
-            ghgs = [sub.replace('%3Csub%3E', '') for sub in ghgs]
-            ghgs = [sub.replace('%3C/sub%3E', '') for sub in ghgs]
-            # delete ; we won't be using this
-            ghgs.remove('Fluorinated GHG Production (CO2e)')
+   
+            # parse tabulated data            
+            tab_df = ghgrp_fbs
+            tab_df.drop(['FacilityID','DataReliability'], axis=1, inplace=True)
+            tab_df.rename(columns={'SCC': 'SubpartName',
+                                   'FlowAmount':'Inventory_Amount'}, inplace=True)
+            tab_df_agg = tab_df.groupby(['SubpartName','FlowName']).agg({'Inventory_Amount': ['sum']})
+            tab_df_agg = tab_df_agg.reset_index()
+            tab_df_agg.columns = tab_df_agg.columns.droplevel(level=1)     
             
-            # import list of subpart names
-            subparts_df = import_table(ghgrp_external_dir + 'subparts.csv')
-            subparts = list(subparts_df['SUBPART_NAME'])
-            subparts.remove('C (Abbr)')
+            # import and parse reference data
+            ref_df = import_table(ghgrp_external_dir + year + '_GHGRP_NationalTotals.csv')
+            ref_df.drop(['FacilityID'], axis=1, inplace=True)
+            ref_df.rename(columns={'SUBPART_NAME': 'SubpartName',
+                                   'FlowAmount':'Reference_Amount'}, inplace=True)
+            ref_df_agg = ref_df.groupby(['SubpartName','FlowName']).agg({'Reference_Amount': ['sum']})
+            ref_df_agg = ref_df_agg.reset_index()
+            ref_df_agg.columns = ref_df_agg.columns.droplevel(level=1)    
             
-            # initialize dataframe
-            df0 = pd.DataFrame(index=subparts, columns=ghgs)
-            
-            # create pivot table from reference data
-            reference_df = import_table(ghgrp_external_dir + year + '_GHGRP_NationalTotals.csv')
-            ref_df = pd.pivot_table(reference_df, values='FlowAmount', index='SUBPART_NAME', columns='FlowName')
-            ref_df = ref_df.reindex_like(df0)
-            
-            # create pivot table from tabulated data
-            tab_df = pd.pivot_table(ghgrp_fbs, values='FlowAmount', index='SCC', columns='FlowName')
-            tab_df = tab_df.reindex_like(df0)
+            # merge tabulated and reference data into one dataframe
+            val_df = tab_df_agg.merge(ref_df_agg, on=['SubpartName','FlowName'], how='outer')
             
             # calculate percentage difference
-            pct_df = 100.0 * (tab_df - ref_df) / ref_df
+            val_df['Percent_Difference'] = 100.0 * (val_df['Inventory_Amount'] - val_df['Reference_Amount']) / val_df['Reference_Amount']
             
             # generate conclusion
-            cncl_df = df0
-            tolerance=5.0
-            for row in (df0.index):
-                for col in (df0):
-                    tab_value = tab_df.loc[row, col]
-                    ref_value = ref_df.loc[row, col]
-                    if tab_value == 0.0 and ref_value == 0.0:
-                        cncl_df.loc[row, col] = 'Both inventory and reference are zero'
-                    elif pd.isnull(tab_value) and pd.isnull(ref_value):
-                        cncl_df.loc[row, col] = 'Both inventory and reference are null'
-                    elif pd.isnull(tab_value):
-                        cncl_df.loc[row, col] = 'Inventory value is null'
-                    elif pd.isnull(ref_value):
-                        cncl_df.loc[row, col] = 'Reference value is null'
-                    else:
-                        pct_diff = pct_df.loc[row, col]
-                        if pct_diff == 0.0:
-                            cncl_df.loc[row, col] = 'Identical'
-                        elif abs(pct_diff) <= tolerance:
-                            cncl_df.loc[row, col] = 'Statistically similar'
-                        elif abs(pct_diff) > tolerance:
-                            cncl_df.loc[row, col] = 'Percent difference exceeds tolerance'
+            tolerance = 5.0
+            val_df['Conclusion'] = ""
+            for row in (val_df.index):
+                tab_value = val_df['Inventory_Amount'][row]
+                ref_value = val_df['Reference_Amount'][row]
+                if (tab_value == 0.0 or pd.isnull(tab_value)) and (ref_value == 0.0 or pd.isnull(ref_value)):
+                    val_df['Conclusion'][row] = 'Both inventory and reference are zero or null'
+                elif pd.isnull(tab_value) or tab_value == 0.0:
+                    val_df['Conclusion'][row] = 'Inventory value is zero or null'
+                elif pd.isnull(ref_value) or ref_value == 0.0:
+                    val_df['Conclusion'][row] = 'Reference value is zero or null'
+                else:
+                    pct_diff = val_df['Percent_Difference'][row]
+                    if pct_diff == 0.0:
+                        val_df['Conclusion'][row] = 'Identical'
+                    elif abs(pct_diff) <= tolerance:
+                        val_df['Conclusion'][row] = 'Statistically similar'
+                    elif abs(pct_diff) > tolerance:
+                        val_df['Conclusion'][row] = 'Percent difference exceeds tolerance'
             
-            # write results to Excel workbook            
-            writer = pd.ExcelWriter(output_dir + 'validation/' + 'GHGRP_' + year + '.xlsx', engine='xlsxwriter')
-            ref_df.to_excel(writer, sheet_name='reference')
-            tab_df.to_excel(writer, sheet_name='tabulated')
-            pct_df.to_excel(writer, sheet_name='percent_difference')
-            cncl_df.to_excel(writer, sheet_name='conclusion')
-            writer.save()
+            val_df.to_csv(output_dir + 'validation/' + 'GHGRP_' + year + '.csv',index=False)
 
             # Record metadata compiled from all GHGRP files and tables
             ghgrp_metadata['SourceAquisitionTime'] = time_meta
