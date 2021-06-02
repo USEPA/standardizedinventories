@@ -289,7 +289,10 @@ def download_and_parse_subpart_tables(year):
     ghgrp1b = ghgrp1b.melt(id_vars = base_cols + ['METHOD', 'SUBPART_NAME', 'UNIT_NAME', 'FUEL_TYPE'], 
                            var_name = 'Flow Description', 
                            value_name = 'FlowAmount')
+
     # combine data for same generating unit and fuel type
+    ghgrp1b['UNIT_NAME'] = ghgrp1b['UNIT_NAME'].fillna('tmp')
+    ghgrp1b['FUEL_TYPE'] = ghgrp1b['FUEL_TYPE'].fillna('tmp')
     ghgrp1b = ghgrp1b.groupby(['FACILITY_ID','REPORTING_YEAR','SUBPART_NAME','UNIT_NAME','FUEL_TYPE','Flow Description'])\
         .agg({'FlowAmount':['sum'], 'METHOD':['sum']})
     ghgrp1b = ghgrp1b.reset_index()
