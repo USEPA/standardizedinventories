@@ -182,7 +182,10 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
             group_by_columns = ['FlowName']
             if 'Compartment' in inventory_df.keys(): group_by_columns += ['Compartment']
             if 'State' in inventory_df.keys(): group_by_columns += ['State']
-        elif group_by == 'facility': group_by_columns = ['FlowName', 'FacilityID']
+        elif group_by == 'facility':
+            group_by_columns = ['FlowName', 'FacilityID']
+        elif group_by == 'subpart':
+            group_by_columns = ['FlowName', 'SubpartName']
         inventory_df['FlowAmount'] = inventory_df['FlowAmount'].fillna(0.0)
         reference_df['FlowAmount'] = reference_df['FlowAmount'].fillna(0.0)
         inventory_sums = inventory_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()

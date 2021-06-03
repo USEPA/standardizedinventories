@@ -387,54 +387,20 @@ def aggregate(df, grouping_vars):
     df_agg = df_agg[df_agg['FlowAmount'].notna()]
     return df_agg
 
-def validate_national_totals_by_subpart(tab_df):
+def validate_national_totals_by_subpart(tab_df, year):
     log.info('validating flowbyfacility against national totals')
    
     # parse tabulated data            
     tab_df.drop(['FacilityID','DataReliability'], axis=1, inplace=True)
-    tab_df.rename(columns={'SCC': 'SubpartName',
-                           'FlowAmount':'Inventory_Amount'}, inplace=True)
-    tab_df_agg = tab_df.groupby(['SubpartName','FlowName']).agg({'Inventory_Amount': ['sum']})
-    tab_df_agg = tab_df_agg.reset_index()
-    tab_df_agg.columns = tab_df_agg.columns.droplevel(level=1)     
+    tab_df.rename(columns={'SCC': 'SubpartName'}, inplace=True)
     
     # import and parse reference data
     ref_df = import_table(ghgrp_external_dir + year + '_GHGRP_NationalTotals.csv')
     ref_df.drop(['FacilityID'], axis=1, inplace=True)
-    ref_df.rename(columns={'SUBPART_NAME': 'SubpartName',
-                           'FlowAmount':'Reference_Amount'}, inplace=True)
-    ref_df_agg = ref_df.groupby(['SubpartName','FlowName']).agg({'Reference_Amount': ['sum']})
-    ref_df_agg = ref_df_agg.reset_index()
-    ref_df_agg.columns = ref_df_agg.columns.droplevel(level=1)    
+    ref_df.rename(columns={'SUBPART_NAME': 'SubpartName'}, inplace=True)
     
-    # merge tabulated and reference data into one dataframe
-    val_df = tab_df_agg.merge(ref_df_agg, on=['SubpartName','FlowName'], how='outer')
-    
-    # calculate percentage difference
-    val_df['Percent_Difference'] = 100.0 * (val_df['Inventory_Amount'] - val_df['Reference_Amount']) / val_df['Reference_Amount']
-    
-    # generate conclusion
-    tolerance = 5.0
-    val_df['Conclusion'] = ""
-    for row in (val_df.index):
-        tab_value = val_df['Inventory_Amount'][row]
-        ref_value = val_df['Reference_Amount'][row]
-        if (tab_value == 0.0 or pd.isnull(tab_value)) and (ref_value == 0.0 or pd.isnull(ref_value)):
-            val_df['Conclusion'][row] = 'Both inventory and reference are zero or null'
-        elif pd.isnull(tab_value) or tab_value == 0.0:
-            val_df['Conclusion'][row] = 'Inventory value is zero or null'
-        elif pd.isnull(ref_value) or ref_value == 0.0:
-            val_df['Conclusion'][row] = 'Reference value is zero or null'
-        else:
-            pct_diff = val_df['Percent_Difference'][row]
-            if pct_diff == 0.0:
-                val_df['Conclusion'][row] = 'Identical'
-            elif abs(pct_diff) <= tolerance:
-                val_df['Conclusion'][row] = 'Statistically similar'
-            elif abs(pct_diff) > tolerance:
-                val_df['Conclusion'][row] = 'Percent difference exceeds tolerance'
-    
-    val_df.to_csv(output_dir + 'validation/' + 'GHGRP_' + year + '.csv',index=False)
+    validation_result = validate_inventory(tab_df, ref_df, group_by='subpart')
+    write_validation_result('GHGRP', year, validation_result)
 
 ########## START HERE ###############
 if __name__ == '__main__':
@@ -655,7 +621,7 @@ if __name__ == '__main__':
             ghgrp_facility.loc[ghgrp_facility['NAICS']=='0','NAICS'] = None
             ghgrp_facility.to_csv(output_dir + 'facility/GHGRP_' + year + '.csv', index=False)
             
-            validate_national_totals_by_subpart(ghgrp_fbs)
+            validate_national_totals_by_subpart(ghgrp_fbs, year)
             
             # Record metadata compiled from all GHGRP files and tables
             ghgrp_metadata['SourceAquisitionTime'] = time_meta
