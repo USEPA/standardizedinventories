@@ -402,6 +402,30 @@ def validate_national_totals_by_subpart(tab_df, year):
     
     validation_result = validate_inventory(tab_df, ref_df, group_by='subpart')
     write_validation_result('GHGRP', year, validation_result)
+    
+def load_subpart_l_gwp():
+    # load global warming potentials for subpart L calculation
+    subpart_L_GWPs_url = _config['subpart_L_GWPs_url']
+    filepath = ghgrp_external_dir + 'Subpart L Calculation Spreadsheet.xls' 
+    if not(os.path.exists(filepath)):
+        download_table(filepath = filepath, url = subpart_L_GWPs_url)
+    subpart_L_GWPs = pd.read_excel(filepath, sheet_name = 'Lookup Tables',
+                                   usecols = [6,7], nrows=12)
+    
+    # rename certain fluorinated GHG groups for consistency
+    subpart_L_GWPs['Fluorinated GHG Groupd'] = subpart_L_GWPs['Fluorinated GHG Groupd'].str.replace(
+        'Saturated HFCs with 2 or fewer carbon-hydrogen bonds',
+        'Saturated hydrofluorocarbons (HFCs) with 2 or fewer carbon-hydrogen bonds')
+    subpart_L_GWPs['Fluorinated GHG Groupd'] = subpart_L_GWPs['Fluorinated GHG Groupd'].str.replace(
+        'Saturated HFEs and HCFEs with 1 carbon-hydrogen bond',
+        'Saturated hydrofluoroethers (HFEs) and hydrochlorofluoroethers (HCFEs) with 1 carbon-hydrogen bond')
+    subpart_L_GWPs['Fluorinated GHG Groupd'] = subpart_L_GWPs['Fluorinated GHG Groupd'].str.replace(
+        'Unsaturated PFCs, unsaturated HFCs, unsaturated HCFCs, unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones',
+        'Unsaturated perfluorocarbons (PFCs), unsaturated HFCs, unsaturated hydrochlorofluorocarbons (HCFCs), unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones')
+
+    # add global warming potentials for each flow
+    subpart_L_GWPs['Flow Description'] = 'Fluorinated GHG Emissions (mt CO2e)'
+    return subpart_L_GWPs
 
 ########## START HERE ###############
 if __name__ == '__main__':
@@ -497,25 +521,7 @@ if __name__ == '__main__':
             # parse emissions data for subpart L
             ghgrp4 = parse_additional_suparts_data(lo_subparts_path, 'l_subparts_columns.csv', year)
 
-            # load global warming potentials for subpart L calculation
-            subpart_L_GWPs_url = _config['subpart_L_GWPs_url']
-            subpart_L_GWPs_filepath = ghgrp_external_dir + 'Subpart L Calculation Spreadsheet.xls' 
-            download_table(filepath = subpart_L_GWPs_filepath, url = subpart_L_GWPs_url)
-            subpart_L_GWPs = pd.read_excel(subpart_L_GWPs_filepath, sheet_name = 'Lookup Tables', usecols = [6,7], nrows=12)
-            
-            # rename certain fluorinated GHG groups for consistency
-            subpart_L_GWPs['Fluorinated GHG Groupd'] = subpart_L_GWPs['Fluorinated GHG Groupd'].str.replace(
-                'Saturated HFCs with 2 or fewer carbon-hydrogen bonds',
-                'Saturated hydrofluorocarbons (HFCs) with 2 or fewer carbon-hydrogen bonds')
-            subpart_L_GWPs['Fluorinated GHG Groupd'] = subpart_L_GWPs['Fluorinated GHG Groupd'].str.replace(
-                'Saturated HFEs and HCFEs with 1 carbon-hydrogen bond',
-                'Saturated hydrofluoroethers (HFEs) and hydrochlorofluoroethers (HCFEs) with 1 carbon-hydrogen bond')
-            subpart_L_GWPs['Fluorinated GHG Groupd'] = subpart_L_GWPs['Fluorinated GHG Groupd'].str.replace(
-                'Unsaturated PFCs, unsaturated HFCs, unsaturated HCFCs, unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones',
-                'Unsaturated perfluorocarbons (PFCs), unsaturated HFCs, unsaturated hydrochlorofluorocarbons (HCFCs), unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones')
-
-            # add global warming potentials for each flow
-            subpart_L_GWPs['Flow Description'] = 'Fluorinated GHG Emissions (mt CO2e)'
+            subpart_L_GWPs = load_subpart_l_gwp()
             ghgrp4 = ghgrp4.merge(subpart_L_GWPs, how='left', left_on=['METHOD','Flow Description'], right_on=['Fluorinated GHG Groupd','Flow Description'])
             ghgrp4.loc[ghgrp4['Flow Description'] == 'Fluorinated GHG Emissions (metric tons)', 'Default Global Warming Potential'] = 1
             ghgrp4.loc[ghgrp4['Flow Description'] == 'Fluorinated GHG Emissions  (metric tons)', 'Default Global Warming Potential'] = 1
