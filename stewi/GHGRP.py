@@ -497,9 +497,7 @@ if __name__ == '__main__':
             ghgrp4 = parse_additional_suparts_data(lo_subparts_path, 'l_subparts_columns.csv', year)
 
             # load global warming potentials for subpart L calculation
-            subpart_L_GWPs_url = 'https://ccdsupport.com/confluence/download/attachments/'\
-                '63996073/Subpart%20L%20Calculation%20Spreadsheet%20-%20Summarize%20Process'\
-                '%20Level%20CO2e%20by%20f-GHG.xls?version=1&modificationDate=1427459649000&api=v2'
+            subpart_L_GWPs_url = _config['subpart_L_GWPs_url']
             subpart_L_GWPs_filepath = ghgrp_external_dir + 'Subpart L Calculation Spreadsheet.xls' 
             download_table(filepath = subpart_L_GWPs_filepath, url = subpart_L_GWPs_url)
             subpart_L_GWPs = pd.read_excel(subpart_L_GWPs_filepath, sheet_name = 'Lookup Tables', usecols = [6,7], nrows=12)
