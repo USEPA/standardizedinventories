@@ -313,20 +313,21 @@ def parse_additional_suparts_data(addtnl_subparts_path, addtnl_subparts_columns,
     
     # load .xslx data for additional subparts from filepath
     addtnl_subparts_dict = import_table(addtnl_subparts_path)
-    for key, df in addtnl_subparts_dict.items():
-        for column in df:
-            df.rename(columns={column: column.replace('\n',' ')}, inplace=True)
-            df.rename(columns={'Facility ID' : 'GHGRP ID'}, inplace=True)
-            df.rename(columns={'Reporting Year' : 'Year'}, inplace=True)
-        addtnl_subparts_dict[key] = df
-    # initialize dataframe
-    ghgrp = pd.DataFrame()
-
     # import column headers data for additional subparts
     addtnl_subparts_cols = import_table(ghgrp_data_dir + addtnl_subparts_columns)
-    
     # get list of tabs to process
     addtnl_tabs = addtnl_subparts_cols['tab_name'].unique()
+    for key, df in list(addtnl_subparts_dict.items()):
+        if key in addtnl_tabs:
+            for column in df:
+                df.rename(columns={column: column.replace('\n',' ')}, inplace=True)
+                df.rename(columns={'Facility ID' : 'GHGRP ID'}, inplace=True)
+                df.rename(columns={'Reporting Year' : 'Year'}, inplace=True)
+            addtnl_subparts_dict[key] = df
+        else:
+            del addtnl_subparts_dict[key]
+    # initialize dataframe
+    ghgrp = pd.DataFrame()
     
     addtnl_base_cols = ['GHGRP ID', 'Year']
     
@@ -491,7 +492,7 @@ if __name__ == '__main__':
             ghgrp3.loc[ghgrp3['SUBPART_NAME'] == 'O', 'FlowAmount'] = \
                 ghgrp3.loc[ghgrp3['SUBPART_NAME'] == 'O', 'FlowAmount']/HCFC22GWP
             ghgrp3.loc[ghgrp3['SUBPART_NAME'] == 'O', 'Flow Description'] = \
-                'Total Reported Emissions Under Subpart  O (metric tons)'
+                'Total Reported Emissions Under Subpart O (metric tons HCFC-22)'
                 
             # parse emissions data for subpart L
             ghgrp4 = parse_additional_suparts_data(lo_subparts_path, 'l_subparts_columns.csv', year)
