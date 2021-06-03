@@ -455,7 +455,7 @@ Sulfur hexafluoride (SF6),SF6,SF6,Sulfur Hexafluoride,6
 Sulfur hexafluoridePlasma etching,SF6,SF6,Sulfur Hexafluoride,6
 TOTAL_EMITTED_SF6,SF6,SF6,Sulfur Hexafluoride,6
 Fluoroform,HFC,HFC,HFCs,10
-HFC-23,HFC,HFC,HFCs,10
+HFC-23,HFC,HFC,Fluoroform,7
 BIOGENIC CARBON DIOXIDE,BIOCO2,BIOCO2,Biogenic CO2,8
 Biogenic Carbon dioxide,BIOCO2,BIOCO2,Biogenic CO2,8
 Biogenic Carbon Dioxide (CO2),BIOCO2,BIOCO2,Biogenic CO2,8
@@ -594,6 +594,7 @@ MEAN_VALUE_MASS_FLUOROPENTANE,Other_Full,Other_Full,Other Fully Fluorinated GHGs
 MEAN_VALUE_MASS_FLUOROPROPANE,Other_Full,Other_Full,Other Fully Fluorinated GHGs,16
 MEAN_VALUE_MASS_PERFLUOROBUTAN,Other_Full,Other_Full,Other Fully Fluorinated GHGs,16
 NOVEC 649/1230  FK 5-1-12  PERFLUORO(2-METHYL-3-PENTANONE),Other_Full,Other_Full,Other Fully Fluorinated GHGs,16
+"NOVEC 649/1230, FK 5-1-12, PERFLUORO(2-METHYL-3-PENTANONE)",Other_Full,Other_Full,Other Fully Fluorinated GHGs,16
 Other Fully Fluorinated GHGs,Other_Full,Other_Full,Other Fully Fluorinated GHGs,16
 TOTAL_EMIT_FLUOROCYCLOBUTANE,Other_Full,Other_Full,Other Fully Fluorinated GHGs,16
 TOTAL_EMIT_PERFLUOROBUTANE,Other_Full,Other_Full,Other Fully Fluorinated GHGs,16
