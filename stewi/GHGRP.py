@@ -34,7 +34,8 @@ from stewi.globals import set_dir, download_table, source_metadata,\
     write_metadata, get_relpath, import_table, drop_excel_sheets,\
     validate_inventory, write_validation_result,\
     weighted_average, data_dir, output_dir, reliability_table,\
-    flowbyfacility_fields, flowbySCC_fields, facility_fields, config
+    flowbyfacility_fields, flowbySCC_fields, facility_fields, config,\
+    storeInventory
 import pandas as pd
 import numpy as np
 import requests
@@ -482,8 +483,8 @@ def validate_national_totals_by_subpart(tab_df, year):
                            'FlowCode':'FlowName'}, inplace=True)
     
     # import and parse reference data
-    ref_df = import_table(ghgrp_external_dir + year + '_GHGRP_NationalTotals.csv')
-    ref_df.drop(['FacilityID','FlowName'], axis=1, inplace=True)
+    ref_df = import_table(data_dir + year + '_GHGRP_NationalTotals.csv')
+    ref_df.drop(['FlowName'], axis=1, inplace=True)
     ref_df.rename(columns={'SUBPART_NAME': 'SubpartName',
                            'FlowCode':'FlowName'}, inplace=True)
     
@@ -694,7 +695,7 @@ if __name__ == '__main__':
             fbs_columns = [c for c in flowbySCC_fields.keys() if c in ghgrp]
             ghgrp_fbs = ghgrp[fbs_columns]
             ghgrp_fbs = aggregate(ghgrp_fbs, ['FacilityID', 'FlowName', 'SCC'])
-            ghgrp_fbs.to_csv(output_dir + 'flowbySCC/GHGRP_' + year + '.csv', index=False)
+            storeInventory(ghgrp_fbs,'GHGRP_'+year,'flowbySCC')
             
             log.info('generating flowbyfacility output')
             
@@ -705,7 +706,7 @@ if __name__ == '__main__':
             ghgrp_fbf_2 = aggregate(ghgrp_fbf, ['FacilityID', 'FlowName'])
                       
             # save results to output directory
-            ghgrp_fbf_2.to_csv(output_dir + 'flowbyfacility/GHGRP_' + year + '.csv', index=False)
+            storeInventory(ghgrp_fbf_2,'GHGRP_'+year,'flowbyfacility')
         
             log.info('generating flows output')
 
@@ -716,7 +717,7 @@ if __name__ == '__main__':
             ghgrp_flow.sort_values(by=['FlowCode','FlowName'], inplace=True)
             ghgrp_flow['Compartment'] = 'air'
             ghgrp_flow['Unit'] = 'kg'
-            ghgrp_flow.to_csv(output_dir + 'flow/GHGRP_' + year + '.csv', index=False)
+            storeInventory(ghgrp_flow,'GHGRP_'+year,'flow')
         
             log.info('generating facilities output')
             
@@ -735,7 +736,7 @@ if __name__ == '__main__':
             ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].astype(int).astype(str)
             ghgrp_facility.loc[ghgrp_facility['NAICS']=='0','NAICS'] = None
             ghgrp_facility.sort_values(by=['FacilityID'], inplace=True)
-            ghgrp_facility.to_csv(output_dir + 'facility/GHGRP_' + year + '.csv', index=False)
+            storeInventory(ghgrp_facility,'GHGRP_'+year,'facility')
             
             validate_national_totals_by_subpart(ghgrp, year)
             
