@@ -167,8 +167,6 @@ def download_and_parse_subpart_tables(year):
     year_tables = ghgrp_tables_df[ghgrp_tables_df['REPORTING_YEAR'].str.contains(year)]
     # filter to obtain only those tables that include primary emissions
     year_tables = year_tables[year_tables['PrimaryEmissions'] == 1].reset_index(drop=True)
-    # do not import the Subpart L table; we will pull these data in later
-    year_tables.drop(year_tables[year_tables['TABLE'] == 'EF_L_GASINFO' ].index, inplace=True)
     
     # data directory where subpart emissions tables will be stored
     tables_dir = ghgrp_external_dir + 'tables/' + year + '/'
