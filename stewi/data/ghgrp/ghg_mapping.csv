@@ -487,9 +487,9 @@ Rounded HFC-23 emissions (from the destruction process/device),HFC,HFC,HFC-23
 FC-77 (Blend - Perfluoro-2-butyltetrahydrofuran + C8F18),PFC,PFC,FC-77
 "Perfluorobuta-1,3-diene",PFC,PFC,"Perfluorobuta-1,3-diene"
 Perfluorocarbons (PFCs),PFC,PFC,Perfluorocarbons (PFCs)
-Perfluorocyclobutane,PFC,PFC,Perfluorocyclobutane
-PerfluorocyclobutaneChamber cleaning,PFC,PFC,Perfluorocyclobutane
-PerfluorocyclobutanePlasma etching,PFC,PFC,Perfluorocyclobutane
+Perfluorocyclobutane,PFC,PFC,PFC-318 (Perfluorocyclobutane)
+PerfluorocyclobutaneChamber cleaning,PFC,PFC,PFC-318 (Perfluorocyclobutane)
+PerfluorocyclobutanePlasma etching,PFC,PFC,PFC-318 (Perfluorocyclobutane)
 Perfluorocyclopropane,PFC,PFC,Perfluorocyclopropane
 PFC C-1418,PFC,PFC,PFC C-1418
 PFC-116 (PERFLUOROETHANE),PFC,PFC,PFC-116 (Perfluoroethane)
@@ -509,10 +509,10 @@ PFC-9-1-18,PFC,PFC,PFC-9-1-18
 PFCs,PFC,PFC,Perfluorocarbons (PFCs)
 PFPMIE (HT-70),PFC,PFC,PFPMIE (HT-70)
 TOTAL_EMITTED_PFC_9_1_18,PFC,PFC,Perfluorocarbons (PFCs)
-HFE-449s1 (HFE-7100) (C4F9OCH3 + (CF3)2CHCH2OCH3),HFE,HFE,HFE-449s1 (HFE-7100) (C4F9OCH3 + (CF3)2CHCH2OCH3)
-"HFE-449sl, (HFE-7100) Isomer blend",HFE,HFE,"HFE-449sl, (HFE-7100) Isomer blend"
-HFE-569sf2 (HFE-7200) (C4F9OC2H5 + (CF3)2CHCH2OC2H5),HFE,HFE,HFE-569sf2 (HFE-7200) (C4F9OC2H5 + (CF3)2CHCH2OC2H5)
-"HFE-569sf2, (HFE-7200) Isomer blend",HFE,HFE,"HFE-569sf2, (HFE-7200) Isomer blend"
+HFE-449s1 (HFE-7100) (C4F9OCH3 + (CF3)2CHCH2OCH3),HFE,HFE,HFE-449s1 (HFE-7100) Chemical blend
+"HFE-449sl, (HFE-7100) Isomer blend",HFE,HFE,HFE-449s1 (HFE-7100) Chemical blend
+HFE-569sf2 (HFE-7200) (C4F9OC2H5 + (CF3)2CHCH2OC2H5),HFE,HFE,HFE-569sf2 (HFE-7200) Chemical blend
+"HFE-569sf2, (HFE-7200) Isomer blend",HFE,HFE,HFE-569sf2 (HFE-7200) Chemical blend
 HFE-7100,HFE,HFE,HFE-7100
 HFE-7100 (methyl nonafluorobutyl ether),HFE,HFE,HFE-7100
 HFE-7100 (methyl nonafluoroisobutyl ether),HFE,HFE,HFE-7100
@@ -538,11 +538,11 @@ FC-3284 (Perfluoro-n-methylmorpholine),Other,Other,Other
 FC-40 FLUORINERT,Other,Other,Other
 "FC-43 (N(CF2CF2CF2CF3)3, Perfluorotributylamine (PTBA))",Other,Other,Other
 "FC-70 ((C5F11)3N, Perfluorotripentylamine)/FC-5312 (Perfluoro compounds)",Other,Other,Other
-FC-72 (Perfluorohexane),Other,Other,Other
-"FC-770 (C5F15NO, Perfluoroisopropylmorpholine)",Other,Other,Other
-FC-770 (Perfluoro N-alkyl morpholines),Other,Other,Other
+FC-72 (Perfluorohexane),Other,Other,"PFC-5-1-14 (Perfluorohexane, FC-72)"
+"FC-770 (C5F15NO, Perfluoroisopropylmorpholine)",Other,Other,FC-770 (Perfluoroisopropylmorpholine)
+FC-770 (Perfluoro N-alkyl morpholines),Other,Other,FC-770 (Perfluoroisopropylmorpholine)
 "FC-84 (C7F16, Perfluoroheptane)",Other,Other,Other
-Fluorinert FC-770,Other,Other,Other
+Fluorinert FC-770,Other,Other,FC-770 (Perfluoroisopropylmorpholine)
 Fomblin,Other,Other,Other
 Galden D03,Other,Other,Other
 Galden DET,Other,Other,Other

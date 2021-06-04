@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding=utf-8
 
 """
 Imports GHGRP data and processes to Standardized EPA output format.
@@ -51,6 +52,9 @@ output_dir = output_dir # stewi output directory
 ghgrp_data_dir = set_dir(data_dir + 'ghgrp/') # stewi data directory --> ghgrp
 ghgrp_external_dir = set_dir(data_dir + '/../../../GHGRP Data Files/') # external GHGRP data directory
    
+# Flow codes that are reported in validation in CO2e
+flows_CO2e = ['PFC', 'HFC', 'Other','Very_Short', 'HFE', 'Other_Full']
+
 
 def generate_url(table, report_year='', row_start=0, row_end=9999, output_ext='JSON'):
     # Input a specific table name to generate the query URL to submit
@@ -397,7 +401,21 @@ def aggregate(df, grouping_vars):
 
 def validate_national_totals_by_subpart(tab_df, year):
     log.info('validating flowbyfacility against national totals')
-   
+
+    # apply CO2e factors for some flows
+    mask = (tab_df['AmountCO2e'].isna() & tab_df['FlowCode'].isin(flows_CO2e))
+    tab_df.loc[mask, 'Flow Description'] = 'Fluorinated GHG Emissions (mt CO2e)'
+    subpart_L_GWPs = load_subpart_l_gwp()
+    subpart_L_GWPs.rename(columns={'Flow Name':'FlowName'}, inplace=True)
+    tab_df = tab_df.merge(subpart_L_GWPs, how='left',
+                          on=['FlowName','Flow Description'])
+    tab.df['CO2e_factor'] = tab.df['CO2e_factor'].fillna(1)
+    tab_df.loc[mask, 'AmountCO2e'] = tab_df['FlowAmount']*tab_df['CO2e_factor']
+    
+    # for subset of flows, use CO2e for validation
+    mask = tab_df['FlowCode'].isin(flows_CO2e)
+    tab_df.loc[mask, 'FlowAmount'] = tab_df['AmountCO2e']
+    
     # parse tabulated data            
     tab_df.drop(['FacilityID','DataReliability','FlowName'], axis=1, inplace=True)
     tab_df.rename(columns={'SCC': 'SubpartName',
@@ -424,7 +442,8 @@ def load_subpart_l_gwp():
     table1.rename(columns={'Global warming potential (100 yr.)':'CO2e_factor',
                            'Name':'Flow Name'},
                   inplace = True)
-
+    # replace emdash with hyphen
+    table1['Flow Name'] = table1['Flow Name'].str.replace('–', '-')
     table2 = pd.read_excel(filepath, sheet_name = 'Lookup Tables',
                                    usecols = "G,H", nrows=12)
     table2.rename(columns={'Default Global Warming Potential':'CO2e_factor',
@@ -697,8 +716,6 @@ if __name__ == '__main__':
             reference_df = reference_df[reference_df['YEAR'] == year]
             reference_df['FlowAmount'] = reference_df['GHG_QUANTITY'].astype(float) * 1000
             # Maintain some flows in CO2e for validation
-            flows_CO2e = ['PFC', 'HFC', 'Other', 
-                          'Very_Short', 'HFE', 'Other_Full']
             reference_df.loc[reference_df['GAS_CODE'].isin(flows_CO2e), 
                                           'FlowAmount'] =\
                 reference_df['CO2E_EMISSION'].astype(float) * 1000
