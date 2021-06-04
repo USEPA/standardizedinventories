@@ -30,7 +30,7 @@ Models with tables available at https://www.epa.gov/enviro/greenhouse-gas-model
 Envirofacts web services documentation can be found at: https://www.epa.gov/enviro/web-services
 """
 
-from stewi.globals import set_dir, download_table, inventory_metadata,\
+from stewi.globals import set_dir, download_table, source_metadata,\
     write_metadata, get_relpath, import_table, drop_excel_sheets,\
     validate_inventory, write_validation_result,\
     weighted_average, data_dir, output_dir, reliability_table,\
@@ -48,7 +48,7 @@ _config = config()['databases']['GHGRP']
 ## define directories
 data_dir = data_dir # stewi data directory
 output_dir = output_dir # stewi output directory
-ghgrp_data_dir = set_dir(data_dir + 'ghgrp/') # stewi data directory --> ghgrp
+ghgrp_data_dir = set_dir(data_dir + 'GHGRP/') # stewi data directory --> ghgrp
 ghgrp_external_dir = set_dir(data_dir + '/../../../GHGRP Data Files/') # external GHGRP data directory
    
 # Flow codes that are reported in validation in CO2e
@@ -404,6 +404,61 @@ def aggregate(df, grouping_vars):
     df_agg = df_agg[df_agg['FlowAmount'].notna()]
     return df_agg
 
+def generate_national_totals_validation(validation_table, year):
+    # define filepath for reference data
+    ref_filepath = ghgrp_external_dir + 'GHGRP_reference.csv'
+    
+    # if the reference file exists, load the data
+    if os.path.exists(ref_filepath):
+        reference_df, temp_time = import_table(ref_filepath, get_time=True)
+        table_length = len(reference_df)
+        row_start = 0
+        while row_start < table_length:
+            time_meta.append(temp_time)
+            filename_meta.append(get_relpath(ref_filepath))
+            type_meta.append('Database')
+            url_meta.append(generate_url(validation_table, report_year=year, row_start=row_start, row_end=row_start + 10000, output_ext='CSV'))
+            row_start += 10000
+    
+    # if the file does not exist, download it in chuncks
+    else: 
+        reference_df = download_chunks(validation_table, get_row_count(validation_table, year), filepath=ref_filepath)
+               
+    # for all columns in the reference dataframe, remove subpart-specific prefixes
+    for col in reference_df:
+        reference_df.rename(columns={col : col[len(validation_table) + 1:]}, inplace=True)
+        
+    # drop any unnamed columns
+    if 'unnamed' in reference_df.columns[len(reference_df.columns) - 1].lower() or reference_df.columns[
+        len(reference_df.columns) - 1] == '':
+        reference_df.drop(reference_df.columns[len(reference_df.columns) - 1], axis=1, inplace=True)
+                
+    # parse reference dataframe to prepare it for validation
+    reference_df['YEAR'] = reference_df['YEAR'].astype('str')
+    reference_df = reference_df[reference_df['YEAR'] == year]
+    reference_df.reset_index(drop=True, inplace=True)
+    reference_df['FlowAmount'] = reference_df['GHG_QUANTITY'].astype(float) * 1000
+    # Maintain some flows in CO2e for validation
+    reference_df.loc[reference_df['GAS_CODE'].isin(flows_CO2e), 
+                                  'FlowAmount'] =\
+        reference_df['CO2E_EMISSION'].astype(float) * 1000
+    reference_df.loc[reference_df['GAS_CODE'].isin(flows_CO2e), 
+                                  'GAS_NAME'] =\
+        reference_df['GAS_NAME'] + ' (CO2e)'
+
+    reference_df = reference_df[['FlowAmount', 'GAS_NAME', 'GAS_CODE',
+                                 'FACILITY_ID', 'SUBPART_NAME']]
+    reference_df.rename(columns={'FACILITY_ID': 'FacilityID',
+                                 'GAS_NAME': 'FlowName',
+                                 'GAS_CODE':'FlowCode'}, inplace=True)
+    reference_df_agg = reference_df.groupby(['FlowName',
+                                             'FlowCode','SUBPART_NAME']
+                                            ).agg({'FlowAmount': ['sum']})
+    reference_df_agg.reset_index(inplace=True)
+    reference_df_agg.columns = reference_df_agg.columns.droplevel(level=1)
+    # save reference dataframe to network
+    reference_df_agg.to_csv(ghgrp_data_dir + year + '_GHGRP_NationalTotals.csv', index=False)    
+
 def validate_national_totals_by_subpart(tab_df, year):
     log.info('validating flowbyfacility against national totals')
 
@@ -522,7 +577,7 @@ if __name__ == '__main__':
     lo_subparts_path = ghgrp_external_dir + _config['lo_subparts_url']
     
     # set format for metadata file
-    ghgrp_metadata = inventory_metadata 
+    ghgrp_metadata = source_metadata 
     time_meta = []
     filename_meta = []
     type_meta = []
@@ -693,56 +748,6 @@ if __name__ == '__main__':
       
         elif args.Option == 'C':
             log.info('downloading national totals for validation')
-            
             validation_table = 'V_GHG_EMITTER_SUBPART'
+            generate_national_totals_validation(validation_table, year)
             
-            # define filepath for reference data
-            ref_filepath = ghgrp_external_dir + 'GHGRP_reference.csv'
-            
-            # if the reference file exists, load the data
-            if os.path.exists(ref_filepath):
-                reference_df, temp_time = import_table(ref_filepath, get_time=True)
-                table_length = len(reference_df)
-                row_start = 0
-                while row_start < table_length:
-                    time_meta.append(temp_time)
-                    filename_meta.append(get_relpath(ref_filepath))
-                    type_meta.append('Database')
-                    url_meta.append(generate_url(validation_table, report_year=year, row_start=row_start, row_end=row_start + 10000, output_ext='CSV'))
-                    row_start += 10000
-            
-            # if the file does not exist, download it in chuncks
-            else: 
-                reference_df = download_chunks(validation_table, get_row_count(validation_table, year), filepath=ref_filepath)
-                       
-            # for all columns in the reference dataframe, remove subpart-specific prefixes
-            for col in reference_df:
-                reference_df.rename(columns={col : col[len(validation_table) + 1:]}, inplace=True)
-                
-            # drop any unnamed columns
-            if 'unnamed' in reference_df.columns[len(reference_df.columns) - 1].lower() or reference_df.columns[
-                len(reference_df.columns) - 1] == '':
-                reference_df.drop(reference_df.columns[len(reference_df.columns) - 1], axis=1, inplace=True)
-                        
-            # parse reference dataframe to prepare it for validation
-            reference_df['YEAR'] = reference_df['YEAR'].astype('str')
-            reference_df = reference_df[reference_df['YEAR'] == year]
-            reference_df.reset_index(drop=True, inplace=True)
-            reference_df['FlowAmount'] = reference_df['GHG_QUANTITY'].astype(float) * 1000
-            # Maintain some flows in CO2e for validation
-            reference_df.loc[reference_df['GAS_CODE'].isin(flows_CO2e), 
-                                          'FlowAmount'] =\
-                reference_df['CO2E_EMISSION'].astype(float) * 1000
-            reference_df.loc[reference_df['GAS_CODE'].isin(flows_CO2e), 
-                                          'GAS_NAME'] =\
-                reference_df['GAS_NAME'] + ' (CO2e)'
-
-            reference_df = reference_df[['FlowAmount', 'GAS_NAME', 'GAS_CODE',
-                                         'FACILITY_ID', 'SUBPART_NAME']]
-            reference_df.rename(columns={'FACILITY_ID': 'FacilityID',
-                                         'GAS_NAME': 'FlowName',
-                                         'GAS_CODE':'FlowCode'}, inplace=True)
-            reference_df.reset_index(drop=True, inplace=True)
-            
-            # save reference dataframe to network
-            reference_df.to_csv(ghgrp_external_dir + year + '_GHGRP_NationalTotals.csv', index=False)
