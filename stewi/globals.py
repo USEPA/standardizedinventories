@@ -299,6 +299,9 @@ def weighted_average(df, data_col, weight_col, by_col):
         to the data_col in the aggregated dataframe.
 
     """
+    # remove any negative values for weight or data col
+    df.loc[df[data_col] < 0, data_col] = 0
+    df.loc[df[weight_col] < 0, weight_col] = 0
     df['_data_times_weight'] = df[data_col] * df[weight_col]
     df['_weight_where_notnull'] = df[weight_col] * pd.notnull(df[data_col])
     g = df.groupby(by_col)
