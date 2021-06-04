@@ -30,20 +30,19 @@ Models with tables available at https://www.epa.gov/enviro/greenhouse-gas-model
 Envirofacts web services documentation can be found at: https://www.epa.gov/enviro/web-services
 """
 
-from stewi.globals import set_dir, download_table, source_metadata,\
-    write_metadata, get_relpath, import_table, drop_excel_sheets,\
-    validate_inventory, write_validation_result,\
-    weighted_average, data_dir, output_dir, reliability_table,\
-    flowbyfacility_fields, flowbySCC_fields, facility_fields, config,\
-    storeInventory, paths, FileMeta
 import pandas as pd
 import numpy as np
 import requests
 from xml.dom import minidom
 import os
 import argparse
-import logging as log
 
+from stewi.globals import download_table, source_metadata,\
+    write_metadata, get_relpath, import_table, drop_excel_sheets,\
+    validate_inventory, write_validation_result,\
+    weighted_average, data_dir, reliability_table,\
+    flowbyfacility_fields, flowbySCC_fields, facility_fields, config,\
+    storeInventory, paths, FileMeta, log
 
 _config = config()['databases']['GHGRP']
 ghgrp_data_dir = data_dir + 'GHGRP/'
@@ -158,7 +157,6 @@ def download_and_parse_subpart_tables(year):
     Parses subpart tables to standardized EPA format, and concatenates into
     master dataframe.
     """ 
-    
     # import list of all ghgrp tables
     ghgrp_tables_df = import_table(ghgrp_data_dir + 'all_ghgrp_tables_years.csv').fillna('')
     # filter to obtain only those tables included in the report year
@@ -168,6 +166,7 @@ def download_and_parse_subpart_tables(year):
     
     # data directory where subpart emissions tables will be stored
     tables_dir = ghgrp_external_dir + 'tables/' + year + '/'
+    log.info('downloading and processing GHGRP data to %s', tables_dir)
     
     # if directory does not already exist, create it
     if not os.path.exists(tables_dir):
@@ -184,7 +183,7 @@ def download_and_parse_subpart_tables(year):
         
         # if data already exists on local network, import the data
         if os.path.exists(filepath):
-            log.info('importing data from %s', subpart_emissions_table)
+            log.info('Importing data from %s', subpart_emissions_table)
             temp_df, temp_time = import_table(filepath, get_time=True)
             table_length = len(temp_df)
             row_start = 0
@@ -207,7 +206,10 @@ def download_and_parse_subpart_tables(year):
             # download data in chunks
             while True:
                 try:
-                    temp_df = download_chunks(table=subpart_emissions_table, table_count=subpart_count, report_year=year, filepath=filepath)
+                    temp_df = download_chunks(table=subpart_emissions_table,
+                                              table_count=subpart_count,
+                                              report_year=year,
+                                              filepath=filepath)
                     log.debug('Done downloading.')
                     break
                 except ValueError: continue
@@ -289,11 +291,19 @@ def download_and_parse_subpart_tables(year):
     
     ## parse data where flow description has been populated (ghgrp1a)
     # keep only the necessary columns; drop all others
-    ghgrp1a.drop(ghgrp1a.columns.difference(base_cols + ['Flow Description','FlowAmount', 'METHOD', 'SUBPART_NAME']),1, inplace=True)
+    ghgrp1a.drop(ghgrp1a.columns.difference(base_cols + 
+                                            ['Flow Description',
+                                             'FlowAmount',
+                                             'METHOD',
+                                             'SUBPART_NAME']),
+                 1, inplace=True)
     
     ## parse data where flow description is blank (ghgrp1b)
     # keep only the necessary columns; drop all others
-    ghgrp1b.drop(ghgrp1b.columns.difference(base_cols + expanded_group_cols + ['METHOD', 'SUBPART_NAME', 'UNIT_NAME', 'FUEL_TYPE']),1, inplace=True)
+    ghgrp1b.drop(ghgrp1b.columns.difference(
+        base_cols + expanded_group_cols + 
+        ['METHOD', 'SUBPART_NAME', 'UNIT_NAME', 'FUEL_TYPE']),
+        1, inplace=True)
     # 'unpivot' data to create separate line items for each group column
     ghgrp1b = ghgrp1b.melt(id_vars = base_cols + ['METHOD', 'SUBPART_NAME', 'UNIT_NAME', 'FUEL_TYPE'], 
                            var_name = 'Flow Description', 
@@ -416,7 +426,11 @@ def generate_national_totals_validation(validation_table, year):
             time_meta.append(temp_time)
             filename_meta.append(get_relpath(ref_filepath))
             type_meta.append('Database')
-            url_meta.append(generate_url(validation_table, report_year=year, row_start=row_start, row_end=row_start + 10000, output_ext='CSV'))
+            url_meta.append(generate_url(validation_table,
+                                         report_year=year,
+                                         row_start=row_start,
+                                         row_end=row_start + 10000,
+                                         output_ext='CSV'))
             row_start += 10000
     
     # if the file does not exist, download it in chuncks
@@ -520,8 +534,13 @@ def load_subpart_l_gwp():
         'Saturated HFEs and HCFEs with 1 carbon-hydrogen bond',
         'Saturated hydrofluoroethers (HFEs) and hydrochlorofluoroethers (HCFEs) with 1 carbon-hydrogen bond')
     table2['Flow Name'] = table2['Flow Name'].str.replace(
-        'Unsaturated PFCs, unsaturated HFCs, unsaturated HCFCs, unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones',
-        'Unsaturated perfluorocarbons (PFCs), unsaturated HFCs, unsaturated hydrochlorofluorocarbons (HCFCs), unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones')
+        'Unsaturated PFCs, unsaturated HFCs, unsaturated HCFCs, '
+        'unsaturated halogenated ethers, unsaturated halogenated '
+        'esters, fluorinated aldehydes, and fluorinated ketones',
+        'Unsaturated perfluorocarbons (PFCs), unsaturated HFCs, '
+        'unsaturated hydrochlorofluorocarbons (HCFCs), unsaturated '
+        'halogenated ethers, unsaturated halogenated esters, '
+        'fluorinated aldehydes, and fluorinated ketones')
 
     subpart_L_GWPs = pd.concat([table1, table2])
     subpart_L_GWPs['Flow Description'] = 'Fluorinated GHG Emissions (mt CO2e)'
@@ -583,9 +602,8 @@ if __name__ == '__main__':
     url_meta = []
     
     for year in GHGRPyears:
-        
+        pickle_file = ghgrp_external_dir + 'GHGRP_' + year + '.pk'
         if args.Option == 'A':
-            log.info('downloading and processing GHGRP data')
             
             # define required tables for download
             required_tables = [[data_summaries_path, _config['url']+_config['data_summaries_url'], 'Static File'], 
@@ -659,13 +677,12 @@ if __name__ == '__main__':
                                   'GAS_CODE':'FlowCode'}, inplace=True)    
             
             # pickle data and save to network
-            log.info('saving GHGRP data to pickle')
-            ghgrp.to_pickle('work/GHGRP_' + year + '.pk')
-
+            log.info('saving processed GHGRP data to %s', pickle_file)
+            ghgrp.to_pickle(pickle_file)
 
         if args.Option == 'B':
-            log.info('extracting data from GHGRP pickle')
-            ghgrp = pd.read_pickle('work/GHGRP_' + year + '.pk')
+            log.info('extracting data from %s', pickle_file)
+            ghgrp = pd.read_pickle(pickle_file)
             
             # import data reliability scores 
             ghgrp_reliability_table = reliability_table[reliability_table['Source'] == 'GHGRPa']
