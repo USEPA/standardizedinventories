@@ -530,10 +530,10 @@ HFEs,HFE,HFE,HFEs
 AIR,Other,Other,Other
 D02-TS (CF3(OCFCF3CF2)n-(OCF2)m-OCF3),Other,Other,Other
 DO2-TS,Other,Other,Other
-FC-3283,Other,Other,Other
-FC-3283 (Perfluorotripropylamine),Other,Other,Other
-"FC-3283/FC-8270 ((C3F7)3N, Perfluorotripropylamine)",Other,Other,Other
-FC-3284 (Perfluoro-n-methylmorpholine),Other,Other,Other
+FC-3283,Other_Full,Other_Full,Perfluorotripropylamine
+FC-3283 (Perfluorotripropylamine),Other_Full,Other_Full,Perfluorotripropylamine
+"FC-3283/FC-8270 ((C3F7)3N, Perfluorotripropylamine)",Other_Full,Other_Full,Perfluorotripropylamine
+FC-3284 (Perfluoro-n-methylmorpholine),Other_Full,Other_Full,Perfluorotripropylamine
 "FC-40 ((C4F9)3N, Perfluorotributylamine (PTBA))",Other,Other,Other
 FC-40 FLUORINERT,Other,Other,Other
 "FC-43 (N(CF2CF2CF2CF3)3, Perfluorotributylamine (PTBA))",Other,Other,Other
@@ -543,14 +543,14 @@ FC-72 (Perfluorohexane),Other,Other,"PFC-5-1-14 (Perfluorohexane, FC-72)"
 FC-770 (Perfluoro N-alkyl morpholines),Other,Other,FC-770 (Perfluoroisopropylmorpholine)
 "FC-84 (C7F16, Perfluoroheptane)",Other,Other,Other
 Fluorinert FC-770,Other,Other,FC-770 (Perfluoroisopropylmorpholine)
-Fomblin,Other,Other,Other
-Galden D03,Other,Other,Other
-Galden DET,Other,Other,Other
-Galden HT 110,Other,Other,Other
-Galden HT-110,Other,Other,Other
-Galden HT80,Other,Other,Other
-Galden ZT-130 (HCF2OCF2OCF2CF2OCF2H),Other,Other,Other
-Galden ZT-150 (HCF2OCF2OCF2CF2OCF2H),Other,Other,Other
+Fomblin,Other_Full,Other_Full,Other Fully Fluorinated GHGs
+Galden D03,Other_Full,Other_Full,Other Fully Fluorinated GHGs
+Galden DET,Other_Full,Other_Full,Other Fully Fluorinated GHGs
+Galden HT 110,Other_Full,Other_Full,Other Fully Fluorinated GHGs
+Galden HT-110,Other_Full,Other_Full,Other Fully Fluorinated GHGs
+Galden HT80,Other_Full,Other_Full,Other Fully Fluorinated GHGs
+Galden ZT-130 (HCF2OCF2OCF2CF2OCF2H),Other_Full,Other_Full,Other Fully Fluorinated GHGs
+Galden ZT-150 (HCF2OCF2OCF2CF2OCF2H),Other_Full,Other_Full,Other Fully Fluorinated GHGs
 HFX-100,Other,Other,Other
 HT-110,Other,Other,Other
 HT-110 (CF3(OCFCF3CF2)n-(OCF2)m-OCF3),Other,Other,Other
@@ -570,10 +570,10 @@ Other,Other,Other,Other
 OTHER GHG COVER GAS,Other,Other,Other
 Solvay Fomblin 14/6,Other,Other,Other
 SULFUR DIOXIDE,Other,Other,Other
-Fluorinated GHG Production (CO2e),Other_L,Other_L,Fluorinated GHG Production (CO2e)
-Fluorinated GHG Production (CO2e) ,Other_L,Other_L,Fluorinated GHG Production (CO2e)
+Fluorinated GHG Production (CO2e),Other,Other,Other
+Fluorinated GHG Production (CO2e) ,Other,Other,Other
 Very Short-lived Compounds,Very_Short,Very_Short,Very Short-lived Compounds
-FC-3283/FC-8270 (Perfluorotripropylamine),Other_Full,Other_Full,Other Fully Fluorinated GHGs
+FC-3283/FC-8270 (Perfluorotripropylamine),Other_Full,Other_Full,Perfluorotripropylamine
 "HFE-7500 (3-ethoxy-1,1,1,2,3,4,4,5,5,6,6,6-dodecafluoro-2-trifluoromethyl-hexane)",Other_Full,Other_Full,Other Fully Fluorinated GHGs
 MASS_EMITTED_FLUOROBUTANE,Other_Full,Other_Full,Other Fully Fluorinated GHGs
 MASS_EMITTED_FLUOROCYCLOBUTANE,Other_Full,Other_Full,Other Fully Fluorinated GHGs
@@ -593,8 +593,8 @@ MEAN_VALUE_MASS_FLUOROMETHANE,Other_Full,Other_Full,Other Fully Fluorinated GHGs
 MEAN_VALUE_MASS_FLUOROPENTANE,Other_Full,Other_Full,Other Fully Fluorinated GHGs
 MEAN_VALUE_MASS_FLUOROPROPANE,Other_Full,Other_Full,Other Fully Fluorinated GHGs
 MEAN_VALUE_MASS_PERFLUOROBUTAN,Other_Full,Other_Full,Other Fully Fluorinated GHGs
-NOVEC 649/1230  FK 5-1-12  PERFLUORO(2-METHYL-3-PENTANONE),Other_Full,Other_Full,Other Fully Fluorinated GHGs
-"NOVEC 649/1230, FK 5-1-12, PERFLUORO(2-METHYL-3-PENTANONE)",Other_Full,Other_Full,Other Fully Fluorinated GHGs
+NOVEC 649/1230  FK 5-1-12  PERFLUORO(2-METHYL-3-PENTANONE),Very_Short,Very_Short,NOVEC 649/1230
+"NOVEC 649/1230, FK 5-1-12, PERFLUORO(2-METHYL-3-PENTANONE)",Very_Short,Very_Short,NOVEC 649/1230
 Other Fully Fluorinated GHGs,Other_Full,Other_Full,Other Fully Fluorinated GHGs
 TOTAL_EMIT_FLUOROCYCLOBUTANE,Other_Full,Other_Full,Other Fully Fluorinated GHGs
 TOTAL_EMIT_PERFLUOROBUTANE,Other_Full,Other_Full,Other Fully Fluorinated GHGs
@@ -605,3 +605,76 @@ TOTAL_EMIT_PERFLUOROMETHANE,Other_Full,Other_Full,Other Fully Fluorinated GHGs
 TOTAL_EMIT_PERFLUOROPENTANE,Other_Full,Other_Full,Other Fully Fluorinated GHGs
 TOTAL_EMIT_PERFLUOROPROPANE,Other_Full,Other_Full,Other Fully Fluorinated GHGs
 Total Reported Emissions Under Subpart O (metric tons HFC-23),HFC,HFC,HFC-23
+"1,1,1,2,2,3,3-Heptafluoro-3-(1,2,2,2-tetrafluoroethoxy)-propane",HFE,HFE,Saturated HFEs and HCFEs with 1 carbon-hydrogen bond
+"1,1,2,2,3,3,3-Heptafluoro-1-propanesulfonyl Fluoride",Other,Other,Other
+"1,4-Butanedisulfonyl difluoride, 1,1,2,2,3,3,4,4-octafluoro-",Other,Other,Other
+"1-Ethoxy-1,1,2,3,3,3-hexafluoropropane",HFE,HFE,Saturated HFEs and HCFEs with 3 or more carbon-hydrogen bonds
+"2,2,2-Trifluoroethanol",Other_Full,Other_Full,"Fluorinated acetates, carbonofluoridates, and fluorinated alcohols other than fluorotelomer alcohols"
+"2,2,3,3,4,4,4-Heptafluorobutan-1-ol",Other_Full,Other_Full,"Fluorinated acetates, carbonofluoridates, and fluorinated alcohols other than fluorotelomer alcohols"
+"2,3,3,3-Tetrafluoro-2-(heptafluoropropoxy)propanoyl fluoride",Other,Other,Other
+"2H-perfluoro(5-methyl-3,6-dioxanonane)",Other,Other,Other
+"3-[1-[difluoro[(1,2,2-trifluoroethenyl)oxy]methyl]-1,2,2,2-tetrafluoroethoxy]-2,2,3,3-tetrafluoro-,m",Other,Other,Other
+3M Fluorinert Electronic Liquid FC-72,Other,Other,Other
+Bis(trifluoromethyl)-methanol,Other_Full,Other_Full,"Fluorinated acetates, carbonofluoridates, and fluorinated alcohols other than fluorotelomer alcohols"
+C5F13N,Other,Other,Other
+Carbonic difluoride,Other,Other,Other
+Chlorodifluoromethane,Other,Other,Other
+Chloropentafluoroethane,Other,Other,Other
+D03,Other,Other,Other
+DET,Other,Other,Other
+Difluoro-Propanedioyl Difluoride,Other,Other,Other
+Dupont Vertrel Sinera,Other,Other,Other
+FC-40/FC-43 (Perfluorotributylamine (PTBA)),Other,Other,Other
+FC-770 (Perfluoroisopropylmorpholine),Other,Other,Other
+"Fluorinated acetates, carbonofluoridates, and fluorinated alcohols other than fluorotelomer alcohols",Other,Other,Other
+Fluorinated formates,Other,Other,Other
+Fluorinated GHGs with carbon-iodine bond(s),Other,Other,Other
+Fluorinert FC-72,Other,Other,Other
+Fluorotelomer alcohols,Other,Other,Other
+Fomblin 14/6,Other_Full,Other_Full,Other Fully Fluorinated GHGs
+Fomblin 16/6,Other_Full,Other_Full,Other Fully Fluorinated GHGs
+Fomblin Y25/6,Other_Full,Other_Full,Other Fully Fluorinated GHGs
+Fomblin Y-LVAC 25-6,Other_Full,Other_Full,Other Fully Fluorinated GHGs
+Fully fluorinated GHGs,Other_Full,Other_Full,Other Fully Fluorinated GHGs
+Hexafluoropropylene oxide,Other,Other,Other
+HFC-1132a; VF2,HFC,HFC,HFC-1132a
+HFC-227ea,HFC,HFC,HFC-227ea
+HFE-347mcc3,HFE,HFE,HFE-347mcc3
+"HFE-7300 (1,1,1,2,2,3,4,5,5,5-decafluoro-3-methoxy-4-trifluoromethyl-pentane)",HFE,HFE,HFE-7300
+HT-270,Other,Other,Other
+"Methyl 2,2,2-trifluoroacetate",Other_Full,Other_Full,"Fluorinated acetates, carbonofluoridates, and fluorinated alcohols other than fluorotelomer alcohols"
+Methyl pentafluoropropionate,Other,Other,Other
+Methyl Perfluorobutyrate,Other,Other,Other
+NONE,Other,Other,Other
+Other fluorinated GHGs,Other_Full,Other_Full,Other Fully Fluorinated GHGs
+Pentafluoro(trifluoromethoxy)-ethane,Other,Other,Other
+Perfluorinated Difunctional Acid Fluoride,Other,Other,Other
+Perfluoro compounds (primarily compounds with 12 carbons),PFC,PFC,Perfluorocarbons (PFCs)
+Perfluoro(methylcyclopropane),PFC,PFC,Perfluorocarbons (PFCs)
+Perfluoro[Butanesulfonyl Fluoride-4-Vinyl Ether],PFC,PFC,Perfluorocarbons (PFCs)
+Perfluoro-2-(2-Fluorosulfonylethoxy) Propyl Vinyl Ether,PFC,PFC,Perfluorocarbons (PFCs)
+Perfluorobutanesulfonyl fluoride,PFC,PFC,Perfluorocarbons (PFCs)
+PERFLUOROBUTANOYL FLUORIDE,PFC,PFC,Perfluorocarbons (PFCs)
+Perfluorobutyric Acid,PFC,PFC,Perfluorocarbons (PFCs)
+Perfluorodiethyl ether,PFC,PFC,Perfluorocarbons (PFCs)
+Perfluoroethanesulfonyl Fluoride,PFC,PFC,Perfluorocarbons (PFCs)
+Perfluoroethyl vinyl ether,PFC,PFC,Perfluorocarbons (PFCs)
+Perfluoroisobutyric Acid Fluoride,PFC,PFC,Perfluorocarbons (PFCs)
+Perfluoromethoxypropionyl Fluoride,PFC,PFC,Perfluorocarbons (PFCs)
+Perfluoropropionyl fluoride,PFC,PFC,Perfluorocarbons (PFCs)
+Perfluoropropyl vinyl ether,PFC,PFC,Perfluorocarbons (PFCs)
+Perfluorosolv PFS-2,PFC,PFC,Perfluorocarbons (PFCs)
+PFC-1216; Dyneon HFP,PFC,PFC,"Unsaturated PFCs, unsaturated HFCs, unsaturated HCFCs, unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones"
+PFC-6-1-12,Other_Full,Other_Full,Fully fluorinated GHGs
+PMVE; HFE-216,PFC,PFC,"Unsaturated PFCs, unsaturated HFCs, unsaturated HCFCs, unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones"
+Saturated HFCs with 3 or more carbon-hydrogen bonds,HFC,HFC,Saturated HFCs with 3 or more carbon-hydrogen bonds
+Saturated HFEs and HCFEs with 2 carbon-hydrogen bonds,HFE,HFE,Saturated HFEs and HCFEs with 2 carbon-hydrogen bonds
+Saturated HFEs and HCFEs with 3 or more carbon-hydrogen bonds,HFE,HFE,Saturated HFEs and HCFEs with 3 or more carbon-hydrogen bonds
+Saturated hydrofluorocarbons (HFCs) with 2 or fewer carbon-hydrogen bonds,HFC,HFC,Saturated hydrofluorocarbons (HFCs) with 2 or fewer carbon-hydrogen bonds
+Saturated hydrofluoroethers (HFEs) and hydrochlorofluoroethers (HCFEs) with 1 carbon-hydrogen bond,HFE,HFE,Saturated hydrofluoroethers (HFEs) and hydrochlorofluoroethers (HCFEs) with 1 carbon-hydrogen bond
+Trifluoroacetic Acid,Other,Other,Other
+Trifluoroacetic Anhydride,Other,Other,Other
+Trifluoroacetyl fluoride,Other,Other,Other
+Trifluoromethanesulfonic Acid,Other,Other,Other
+Trifluoromethyl sulphur pentafluoride,Other_Full,Other_Full,Fully fluorinated GHGs
+"Unsaturated perfluorocarbons (PFCs), unsaturated HFCs, unsaturated hydrochlorofluorocarbons (HCFCs), unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones",PFC,PFC,"Unsaturated perfluorocarbons (PFCs), unsaturated HFCs, unsaturated hydrochlorofluorocarbons (HCFCs), unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones"
