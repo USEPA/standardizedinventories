@@ -679,7 +679,7 @@ if __name__ == '__main__':
             ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].fillna(0)
             ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].astype(int).astype(str)
             ghgrp_facility.loc[ghgrp_facility['NAICS']=='0','NAICS'] = None
-            ghgrp_facility_sort_values(by=['FacilityID'], inplace=True)
+            ghgrp_facility.sort_values(by=['FacilityID'], inplace=True)
             ghgrp_facility.to_csv(output_dir + 'facility/GHGRP_' + year + '.csv', index=False)
             
             validate_national_totals_by_subpart(ghgrp, year)
