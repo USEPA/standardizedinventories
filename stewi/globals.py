@@ -5,6 +5,7 @@ pd.options.mode.chained_assignment = None
 import json
 import logging as log
 import os
+import numpy as np
 import yaml
 import time
 import subprocess
@@ -48,7 +49,7 @@ source_metadata = {
     'StEWI_Version':stewi_version,
     }
 
-inventory_single_compartments = {"NEI":"air","RCRAInfo":"waste"}
+inventory_single_compartments = {"NEI":"air","RCRAInfo":"waste","GHGRP":"air"}
 
 
 def set_stewi_meta(file_name, category):
@@ -87,12 +88,14 @@ def url_is_alive(url):
         return False
 
 
-def download_table(filepath, url, get_time=False, zip_dir=''):
+def download_table(filepath, url, get_time=False, zip_dir=None):
     if not os.path.exists(filepath):
         if url[-4:].lower() == '.zip':
             import zipfile, requests, io
             table_request = requests.get(url).content
             zip_file = zipfile.ZipFile(io.BytesIO(table_request))
+            if zip_dir is None:
+                zip_dir = os.path.abspath(os.path.join(filepath, "../../.."))
             zip_file.extractall(zip_dir)
         elif 'xls' in url.lower() or url.lower()[-5:] == 'excel':
             import urllib, shutil
@@ -119,7 +122,7 @@ def set_dir(directory_name):
 def import_table(path_or_reference, skip_lines=0, get_time=False):
     if '.core.frame.DataFrame' in str(type(path_or_reference)): import_file = path_or_reference
     elif path_or_reference[-3:].lower() == 'csv':
-        import_file = pd.read_csv(path_or_reference)
+        import_file = pd.read_csv(path_or_reference, low_memory=False)
     elif 'xls' in path_or_reference[-4:].lower():
         import_file = pd.ExcelFile(path_or_reference)
         import_file = {sheet: import_file.parse(sheet, skiprows=skip_lines) for sheet in import_file.sheet_names}
@@ -207,13 +210,16 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
             group_by_columns = ['FlowName']
             if 'Compartment' in inventory_df.keys(): group_by_columns += ['Compartment']
             if 'State' in inventory_df.keys(): group_by_columns += ['State']
-        elif group_by == 'facility': group_by_columns = ['FlowName', 'FacilityID']
+        elif group_by == 'facility':
+            group_by_columns = ['FlowName', 'FacilityID']
+        elif group_by == 'subpart':
+            group_by_columns = ['FlowName', 'SubpartName']
         inventory_df['FlowAmount'] = inventory_df['FlowAmount'].fillna(0.0)
         reference_df['FlowAmount'] = reference_df['FlowAmount'].fillna(0.0)
         inventory_sums = inventory_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
         reference_sums = reference_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
     if filepath: reference_sums.to_csv(filepath, index=False)
-    validation_df = inventory_sums.merge(reference_sums, how='outer', on=group_by_columns)
+    validation_df = inventory_sums.merge(reference_sums, how='outer', on=group_by_columns).reset_index(drop=True)
     validation_df = validation_df.fillna(0.0)
     amount_x_list = []
     amount_y_list = []
@@ -229,6 +235,10 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
                 pct_diff_list.append(0.0)
                 amount_y_list.append(amount_y)
                 conclusion.append('Both inventory and reference are zero or null')
+            elif amount_y == np.inf:
+                amount_y_list.append(np.nan)
+                pct_diff_list.append(100.0)
+                conclusion.append('Reference contains infinity values. Check prior calculations.')
             else:
                 amount_y_list.append(amount_y)
                 pct_diff_list.append(100.0)
@@ -241,6 +251,11 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
             pct_diff_list.append(100.0)
             conclusion.append('Reference value is zero or null')
             continue
+        elif amount_y == np.inf:
+            amount_x_list.append(amount_x)
+            amount_y_list.append(np.nan)
+            pct_diff_list.append(100.0)
+            conclusion.append('Reference contains infinity values. Check prior calculations.')
         else:
             pct_diff = 100.0 * abs(amount_y - amount_x) / amount_y
             pct_diff_list.append(pct_diff)
@@ -258,6 +273,7 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
     validation_df = validation_df.drop(['FlowAmount_x', 'FlowAmount_y'], axis=1)
     if error_count > 0:
         log.warning('%s potential issues in validation exceeding tolerance', str(error_count))
+
     return validation_df
 
 
@@ -351,6 +367,9 @@ def weighted_average(df, data_col, weight_col, by_col):
         to the data_col in the aggregated dataframe.
 
     """
+    # remove any negative values for weight or data col
+    df.loc[df[data_col] < 0, data_col] = 0
+    df.loc[df[weight_col] < 0, weight_col] = 0
     df['_data_times_weight'] = df[data_col] * df[weight_col]
     df['_weight_where_notnull'] = df[weight_col] * pd.notnull(df[data_col])
     g = df.groupby(by_col)
@@ -438,6 +457,19 @@ flowbyfacility_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
                          'Unit': [{'dtype': 'str'}, {'required': True}],
                          'ReliabilityScore': [{'dtype': 'float'}, {'required': True}],
                          }
+
+facility_fields = {'FacilityID':[{'dtype': 'str'}, {'required': True}],
+                   'FacilityName':[{'dtype': 'str'}, {'required': False}],
+                   'Address':[{'dtype': 'str'}, {'required': False}],
+                   'City':[{'dtype': 'str'}, {'required': False}],
+                   'State':[{'dtype': 'str'}, {'required': True}],
+                   'Zip':[{'dtype': 'int'}, {'required': False}],
+                   'Latitude':[{'dtype': 'float'}, {'required': False}],
+                   'Longitude':[{'dtype': 'float'}, {'required': False}],
+                   'County':[{'dtype': 'str'}, {'required': False}],
+                   'NAICS':[{'dtype': 'str'}, {'required': False}],
+                   'SIC':[{'dtype': 'str'}, {'required': False}],
+                   }
 
 flowbySCC_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
                     'Compartment': [{'dtype': 'str'}, {'required': True}],

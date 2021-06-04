@@ -1,0 +1,103 @@
+FlowName,SubpartName,Inventory_Amount,Reference_Amount,Percent_Difference,Conclusion
+BIOCO2,AA,28859940000.0,81070077800.0,64.40124299473659,Percent difference exceeds tolerance
+BIOCO2,C,59635898813.05901,59635479600.0,0.0007029591475162157,Statistically similar
+BIOCO2,D,3782459000.0,3782459000.0,0.0,Identical
+BIOCO2,EE,0.0,0.0,0.0,Both inventory and reference are zero or null
+BIOCO2,G,0.0,0.0,0.0,Both inventory and reference are zero or null
+BIOCO2,GG,0.0,0.0,0.0,Both inventory and reference are zero or null
+BIOCO2,H,732524400.0,732524400.0,0.0,Identical
+BIOCO2,K,0.0,0.0,0.0,Both inventory and reference are zero or null
+BIOCO2,N,0.0,0.0,0.0,Both inventory and reference are zero or null
+BIOCO2,P,0.0,0.0,0.0,Both inventory and reference are zero or null
+BIOCO2,Q,0.0,0.0,0.0,Both inventory and reference are zero or null
+BIOCO2,S,0.0,0.0,0.0,Both inventory and reference are zero or null
+BIOCO2,TT,0.0,0.0,0.0,Both inventory and reference are zero or null
+BIOCO2,W,0.0,0.0,0.0,Both inventory and reference are zero or null
+BIOCO2,X,0.0,0.0,0.0,Both inventory and reference are zero or null
+BIOCO2,Y,0.0,0.0,0.0,Both inventory and reference are zero or null
+CH4,AA,3424300.0,1841550.0,85.94662105291738,Percent difference exceeds tolerance
+CH4,C,35520710.2594994,35545242.2594994,0.06901626895915688,Statistically similar
+CH4,D,125513601.43599999,125513601.436,1.1872148534791133e-14,Statistically similar
+CH4,EE,0.0,0.0,0.0,Both inventory and reference are zero or null
+CH4,FF,1513654060.0,1513654060.0,0.0,Identical
+CH4,G,0.0,0.0,0.0,Both inventory and reference are zero or null
+CH4,GG,0.0,0.0,0.0,Both inventory and reference are zero or null
+CH4,H,2555960.0,2555960.0,0.0,Identical
+CH4,HH,3400914930.0,3400914930.0,0.0,Identical
+CH4,II,78331970.0,78332870.0,0.0011489429660881823,Statistically similar
+CH4,K,736540.0,736540.0,0.0,Identical
+CH4,N,0.0,0.0,0.0,Both inventory and reference are zero or null
+CH4,P,186570.0,186570.0,0.0,Identical
+CH4,Q,22310.0,22310.0,0.0,Identical
+CH4,S,49580.0,49580.0,0.0,Identical
+CH4,TT,324292259.0,324292259.0,0.0,Identical
+CH4,W,3574839180.0,3574709821.4999995,0.0036187133070900886,Statistically similar
+CH4,X,8382460.0,8382460.0,0.0,Identical
+CH4,Y,26129040.0,26129040.0,0.0,Identical
+CO2,AA,18776351800.0,5587653500.0,236.0328588735862,Percent difference exceeds tolerance
+CO2,BB,108254600.0,108254600.0,0.0,Identical
+CO2,C,547130172393.089,547865024049.0381,0.13413005461055347,Statistically similar
+CO2,CC,1303462900.0,1303462900.0,0.0,Identical
+CO2,D,1728785007852.25,1728785007852.25,0.0,Identical
+CO2,EE,1339291900.0,1339291900.0,0.0,Identical
+CO2,F,1205215900.0,1205215900.0,0.0,Identical
+CO2,FF,5615100.0,5615100.0,0.0,Identical
+CO2,G,19104229300.0,19104229300.0,0.0,Identical
+CO2,GG,565038800.0,565038800.0,0.0,Identical
+CO2,H,64340995400.0,64340995400.0,0.0,Identical
+CO2,K,2082162300.0,2082162300.0,0.0,Identical
+CO2,N,1970927500.0,1970927500.0,0.0,Identical
+CO2,P,44133178300.0,44133178300.0,0.0,Identical
+CO2,Q,27964252100.0,27964252100.0,0.0,Identical
+CO2,R,672995500.0,672995500.0,0.0,Identical
+CO2,S,16538644900.0,16538644900.0,0.0,Identical
+CO2,T,2186015.0,2186015.0,0.0,Identical
+CO2,TT,0.0,0.0,0.0,Both inventory and reference are zero or null
+CO2,U,109922400.0,109922400.0,0.0,Identical
+CO2,W,125278022400.0,125278024305.40001,1.520937147372576e-06,Statistically similar
+CO2,X,10657840600.0,10657840600.0,0.0,Identical
+CO2,Y,54363773200.0,54363773200.0,0.0,Identical
+HFC (CO2e),I,358852555.00000006,358852555.0,1.660978692917224e-14,Statistically similar
+HFC (CO2e),L,18826918.89999999,1877702768.5,98.99734296525324,Percent difference exceeds tolerance
+HFC (CO2e),O,5160043000.0,5160042200.0,1.5503749174764502e-05,Statistically similar
+HFC (CO2e),T,3905330.0,3905330.0,0.0,Identical
+HFE (CO2e),I,707798.1000000001,2944228.6999999997,75.95981249690284,Percent difference exceeds tolerance
+HFE (CO2e),L,1486172.8000000005,51092867.300000004,97.09123234115305,Percent difference exceeds tolerance
+N2O,AA,1267788.0,367837.0,244.66027071773638,Percent difference exceeds tolerance
+N2O,C,6321739.013880461,6325374.82594994,0.05747978846348321,Statistically similar
+N2O,D,21526139.2767,21526139.276699997,1.7305891458642505e-14,Statistically similar
+N2O,E,24737761.0,24737761.0,0.0,Identical
+N2O,EE,0.0,0.0,0.0,Both inventory and reference are zero or null
+N2O,G,0.0,0.0,0.0,Both inventory and reference are zero or null
+N2O,GG,0.0,0.0,0.0,Both inventory and reference are zero or null
+N2O,H,376649.0,376649.0,0.0,Identical
+N2O,I,908004.0,908004.0,0.0,Identical
+N2O,K,0.0,0.0,0.0,Both inventory and reference are zero or null
+N2O,N,0.0,0.0,0.0,Both inventory and reference are zero or null
+N2O,P,2829.0,2829.0,0.0,Identical
+N2O,Q,7334.0,7334.0,0.0,Identical
+N2O,S,7210.0,7210.0,0.0,Identical
+N2O,TT,0.0,0.0,0.0,Both inventory and reference are zero or null
+N2O,V,32043956.0,32043956.0,0.0,Identical
+N2O,W,292164.0,292208.3,0.015160418099002787,Statistically similar
+N2O,X,25025.0,25025.0,0.0,Identical
+N2O,Y,390133.0,390133.0,0.0,Identical
+NF3,I,33820.799999999996,33820.8,2.1513262886103894e-14,Statistically similar
+NF3,L,23314.4,23314.4,0.0,Identical
+Other (CO2e),I,22251.499999999996,5200.0,327.91346153846143,Percent difference exceeds tolerance
+Other (CO2e),L,520930.20000000007,59257500.0,99.12090418934312,Percent difference exceeds tolerance
+Other_Full (CO2e),I,41046.700000000004,562118570.0,99.99269785732216,Percent difference exceeds tolerance
+Other_Full (CO2e),L,25434755.7,443031220.0,94.25892475478365,Percent difference exceeds tolerance
+PFC (CO2e),DD,0.0,0.0,0.0,Both inventory and reference are zero or null
+PFC (CO2e),F,1045641459.0,1045641459.0,0.0,Identical
+PFC (CO2e),I,2888863931.037,2881661251.5210013,0.24994886238613628,Statistically similar
+PFC (CO2e),L,4393214.500000002,1147363908.0,99.61710365217449,Percent difference exceeds tolerance
+PFC (CO2e),SS,4434.0,4434.0,0.0,Identical
+SF6,DD,111607.20000000001,111607.19999999994,6.519254684449955e-14,Statistically similar
+SF6,I,31352.7,31352.7,0.0,Identical
+SF6,SS,6660.6,6660.6,0.0,Identical
+SF6,T,29291.699999999997,29291.699999999997,0.0,Identical
+Very_Short (CO2e),T,6562.0,656.2,899.9999999999999,Percent difference exceeds tolerance
+CO2,Z,0.0,932949900.0,100.0,Inventory value is zero or null
+Very_Short (CO2e),I,0.0,264.61599999999993,100.0,Inventory value is zero or null
+Very_Short (CO2e),L,0.0,4727870.359999999,100.0,Inventory value is zero or null

@@ -28,7 +28,7 @@ FRSpath = paths.local_path + ext_folder
 
 FRS_config = config(modulepath)['databases']['FRS']
 
-stewi_inventories = ["NEI","TRI","eGRID","RCRAInfo", "DMR"]
+stewi_inventories = ["NEI","TRI","eGRID","RCRAInfo", "DMR", "GHGRP"]
 
 inventory_to_FRS_pgm_acronymn = {"NEI":"EIS",
                                  "TRI":"TRIS",

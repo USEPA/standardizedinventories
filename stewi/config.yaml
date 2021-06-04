@@ -62,3 +62,27 @@ databases:
       base_url: 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_custom_data_annual?'
       pollutant_list_url: 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_loading_tool_params?output=csv'
       state_url: 'https://ofmpub.epa.gov/echo/dmr_rest_services.get_state_stats?p_year=__year__&output=csv'
+  GHGRP:
+      most_recent_year: '2019'
+      enviro_url: 'https://data.epa.gov/efservice/'
+      url: 'https://www.epa.gov/sites/production/files/2020-11/'
+      data_summaries_url: '2019_data_summary_spreadsheets.zip'
+        # Data Summary Spreadsheets: .zip file containing multi-year spreadsheets containing
+        # the most important high-level information for facilities, as well as yearly
+        # spreadsheets containing slightly more detailed information, including
+        # reported emissions by greenhouse gas and process.
+      esbb_subparts_url: 'e_s_cems_bb_cc_ll_full_data_set_10_21_2020.xlsx'
+        # Subparts E, S-CEMS, BB, CC, LL Data Set: .xlsx file containing publicly available data
+        # reported by facilities in the following industries across all reporting years:
+        # Adipic Acid Production (E), Lime Manufacturing (S, CEMS reporters only), 
+        # Silicon Carbide Production (BB), Soda Ash Manufacturing (CC) and 
+        # Coal-based Liquid Fuel Suppliers (LL).
+        # LL is not included because it is a supplier, rather than an emitter.
+      lo_subparts_url: 'ghgp_l_o_freq_request_data_10_2020.xlsx'
+        # Subparts L, O Data Set: .xlsx file containing publicly available data
+        # reported by facilities under: 
+        # Subpart L (Fluorinated Gas Production) and 
+        # Subpart O (HCFC-22 Production and HFC-23 Destruction)
+        # across all reporting years.
+      subpart_L_GWPs_url: 'https://ccdsupport.com/confluence/download/attachments/63996073/Subpart%20L%20Calculation%20Spreadsheet%20-%20Summarize%20Process%20Level%20CO2e%20by%20f-GHG.xls?version=1&modificationDate=1427459649000&api=v2'
+
