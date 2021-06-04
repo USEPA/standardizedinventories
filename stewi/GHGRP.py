@@ -228,7 +228,8 @@ def download_and_parse_subpart_tables(year):
 
         # concatenate temporary dataframe to master ghgrp1 dataframe
         ghgrp1 = pd.concat([ghgrp1, temp_df])
-           
+    
+    ghgrp1.reset_index(drop=True, inplace=True)       
     # for subpart C, calculate total stationary fuel combustion emissions by greenhouse gas 
     # emissions are calculated as the sum of four methodological alternatives for
     # calculating emissions from combustion (Tier 1-4), plus an alternative to any
@@ -270,6 +271,13 @@ def download_and_parse_subpart_tables(year):
     
     # combine all GHG name columns from different tables into one
     ghgrp1['Flow Description'] = ghgrp1[name_cols].fillna('').sum(axis=1)
+    
+    # use alias if it exists and flow is Other
+    alias = [c for c in ghgrp1.columns if c in alias_cols]
+    for col in alias:
+        mask = ((ghgrp1['Flow Description'] == 'Other') & ~(ghgrp1[col].isna()))
+        ghgrp1.loc[mask, 'Flow Description'] = ghgrp1[col]
+    
     # combine all GHG quantity columns from different tables into one
     ghgrp1['FlowAmount'] = ghgrp1[quantity_cols].astype('float').fillna(0).sum(axis=1)
     # combine all method equation columns from different tables into one
@@ -493,6 +501,7 @@ if __name__ == '__main__':
     # define column groupings
     ghgrp_columns = import_table(ghgrp_data_dir + 'ghgrp_columns.csv')
     name_cols = list(ghgrp_columns[ghgrp_columns['ghg_name'] == 1]['column_name'])
+    alias_cols = list(ghgrp_columns[ghgrp_columns['ghg_alias'] == 1]['column_name'])
     quantity_cols = list(ghgrp_columns[ghgrp_columns['ghg_quantity'] == 1]['column_name'])
     co2_cols = list(ghgrp_columns[ghgrp_columns['co2'] == 1]['column_name'])
     ch4_cols = list(ghgrp_columns[ghgrp_columns['ch4'] == 1]['column_name'])
@@ -541,7 +550,7 @@ if __name__ == '__main__':
             # download subpart emissions tables for report year and save locally
             # parse subpart emissions data to match standardized EPA format
             ghgrp1 = download_and_parse_subpart_tables(year)
-                                     
+
             # parse emissions data for subparts E, BB, CC, LL (S already accounted for)
             ghgrp2 = parse_additional_suparts_data(esbb_subparts_path, 'esbb_subparts_columns.csv', year) 
         
@@ -583,6 +592,9 @@ if __name__ == '__main__':
             ghg_mapping = pd.read_csv(ghgrp_data_dir + 'ghg_mapping.csv',
                                       usecols=['Flow Description', 'FlowName', 'GAS_CODE'])
             ghgrp = pd.merge(ghgrp, ghg_mapping, on='Flow Description', how='left')
+            missing = ghgrp[ghgrp['FlowName'].isna()]
+            if len(missing)>0:
+                log.warning('some flows are unmapped')
             ghgrp.drop('Flow Description', axis=1, inplace=True)
             
             # rename certain columns for consistency
@@ -593,13 +605,11 @@ if __name__ == '__main__':
             # pickle data and save to network
             log.info('saving GHGRP data to pickle')
             ghgrp.to_pickle('work/GHGRP_' + year + '.pk')
-                                           
-        # if any option other than 'A' is selected, load the ghgrp dataframe from the local network
-        else:
+
+
+        if args.Option == 'B':
             log.info('extracting data from GHGRP pickle')
             ghgrp = pd.read_pickle('work/GHGRP_' + year + '.pk')
-                               
-        if args.Option == 'B':
             
             # import data reliability scores 
             ghgrp_reliability_table = reliability_table[reliability_table['Source'] == 'GHGRPa']
