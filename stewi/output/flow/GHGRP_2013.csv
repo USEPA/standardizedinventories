@@ -1,11 +1,56 @@
-FlowName,FlowID,Compartment,Unit
-Biogenic CO2,8.0,air,kg
-Methane,2.0,air,kg
-Nitrous Oxide,3.0,air,kg
-Carbon Dioxide,1.0,air,kg
-PFCs,11.0,air,kg
-Fluoroform,7.0,air,kg
-HFCs,10.0,air,kg
-Sulfur Hexafluoride,6.0,air,kg
-Nitrogen Triflouride,9.0,air,kg
-Other,13.0,air,kg
+FlowName,FlowCode,Compartment,Unit
+Biogenic CO2,BIOCO2,air,kg
+Methane,CH4,air,kg
+Carbon Dioxide,CO2,air,kg
+HFC-1132a,HFC,air,kg
+HFC-125,HFC,air,kg
+HFC-134a,HFC,air,kg
+HFC-143a,HFC,air,kg
+HFC-152a,HFC,air,kg
+HFC-227ea,HFC,air,kg
+HFC-23,HFC,air,kg
+HFC-236fa,HFC,air,kg
+HFC-245fa,HFC,air,kg
+HFC-32,HFC,air,kg
+HFC-365mfc,HFC,air,kg
+HFC-41,HFC,air,kg
+HFC-43-10mee,HFC,air,kg
+Saturated HFCs with 3 or more carbon-hydrogen bonds,HFC,air,kg
+Saturated hydrofluorocarbons (HFCs) with 2 or fewer carbon-hydrogen bonds,HFC,air,kg
+HFE-347mcc3,HFE,air,kg
+HFE-449s1 (HFE-7100) Chemical blend,HFE,air,kg
+HFE-569sf2 (HFE-7200) Chemical blend,HFE,air,kg
+HFE-7100,HFE,air,kg
+HFE-7200,HFE,air,kg
+HFE-72DA,HFE,air,kg
+HFE-7300,HFE,air,kg
+HFE-7500,HFE,air,kg
+Saturated HFEs and HCFEs with 1 carbon-hydrogen bond,HFE,air,kg
+Saturated HFEs and HCFEs with 2 carbon-hydrogen bonds,HFE,air,kg
+Saturated HFEs and HCFEs with 3 or more carbon-hydrogen bonds,HFE,air,kg
+Saturated hydrofluoroethers (HFEs) and hydrochlorofluoroethers (HCFEs) with 1 carbon-hydrogen bond,HFE,air,kg
+Nitrous Oxide,N2O,air,kg
+Nitrogen Triflouride,NF3,air,kg
+FC-770 (Perfluoroisopropylmorpholine),Other,air,kg
+Other,Other,air,kg
+"PFC-5-1-14 (Perfluorohexane, FC-72)",Other,air,kg
+"Fluorinated acetates, carbonofluoridates, and fluorinated alcohols other than fluorotelomer alcohols",Other_Full,air,kg
+Fully fluorinated GHGs,Other_Full,air,kg
+Other Fully Fluorinated GHGs,Other_Full,air,kg
+Perfluorotripropylamine,Other_Full,air,kg
+PFC C-1418,PFC,air,kg
+PFC-116 (Perfluoroethane),PFC,air,kg
+PFC-14 (Perfluoromethane),PFC,air,kg
+PFC-218 (Perfluoropropane),PFC,air,kg
+PFC-3-1-10 (Perfluorobutane),PFC,air,kg
+PFC-318 (Perfluorocyclobutane),PFC,air,kg
+PFC-4-1-12 (Perfluoropentane),PFC,air,kg
+PFC-5-1-14 (Perfluorohexane),PFC,air,kg
+PFC-9-1-18,PFC,air,kg
+PFPMIE (HT-70),PFC,air,kg
+"Perfluorobuta-1,3-diene",PFC,air,kg
+Perfluorocarbons (PFCs),PFC,air,kg
+Perfluorocyclopropane,PFC,air,kg
+"Unsaturated PFCs, unsaturated HFCs, unsaturated HCFCs, unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones",PFC,air,kg
+"Unsaturated perfluorocarbons (PFCs), unsaturated HFCs, unsaturated hydrochlorofluorocarbons (HCFCs), unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones",PFC,air,kg
+Sulfur Hexafluoride,SF6,air,kg

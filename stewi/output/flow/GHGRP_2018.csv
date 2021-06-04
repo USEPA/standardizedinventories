@@ -12,7 +12,6 @@ HFC-23,HFC,air,kg
 HFC-236fa,HFC,air,kg
 HFC-245fa,HFC,air,kg
 HFC-32,HFC,air,kg
-HFC-365mfc,HFC,air,kg
 HFC-41,HFC,air,kg
 HFC-43-10mee,HFC,air,kg
 Saturated HFCs with 3 or more carbon-hydrogen bonds,HFC,air,kg
@@ -50,3 +49,4 @@ Perfluorocyclopropane,PFC,air,kg
 "Unsaturated PFCs, unsaturated HFCs, unsaturated HCFCs, unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones",PFC,air,kg
 "Unsaturated perfluorocarbons (PFCs), unsaturated HFCs, unsaturated hydrochlorofluorocarbons (HCFCs), unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones",PFC,air,kg
 Sulfur Hexafluoride,SF6,air,kg
+NOVEC 649/1230,Very_Short,air,kg
