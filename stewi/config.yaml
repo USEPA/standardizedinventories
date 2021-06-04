@@ -21,7 +21,11 @@ databases:
     '2018':
         file_name: 'eGRID2018_Data_v2.xlsx'
         file_version: 'v2'
-        download_url: 'https://www.epa.gov/sites/production/files/2020-03/egrid2018_data_v2.xlsx'        
+        download_url: 'https://www.epa.gov/sites/production/files/2020-03/egrid2018_data_v2.xlsx'
+    '2019':
+        file_name: 'eGRID2019_data.xlsx'
+        file_version: ''
+        download_url: 'https://www.epa.gov/sites/production/files/2021-02/egrid2019_data.xlsx'
   NEI:
     url: 'http://eis.epa.gov'
     '2011':

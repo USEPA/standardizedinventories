@@ -1,6 +1,7 @@
 from setuptools import setup
 
-install_requires=['numpy==1.19.3',
+install_requires=['esupy @ git+git://github.com/USEPA/esupy@v0.1.1#egg=esupy',
+                  'numpy==1.19.3',
                   'pandas>=0.22',
                   'requests>=2.20',
                   'bs4',
@@ -20,7 +21,7 @@ else:
 setup(
     name="StEWI",
     version="0.9.7",
-    author="Wesley Ingwersen, Matthew Bergman, Jose Hernandez-Betancur, Tapajyoti Ghosh, Mo Li",
+    author="Wesley Ingwersen, Ben Young, Matthew Bergman, Jose Hernandez-Betancur, Tapajyoti Ghosh, Mo Li",
     author_email="ingwersen.wesley@epa.gov",
     description="Standardized Emission And Waste Inventories (StEWI)"
                 "provides processed EPA release and emissions inventories "
@@ -33,14 +34,12 @@ setup(
     # https://setuptools.readthedocs.io/en/latest/setuptools.html#including-data-files
     package_data={'stewi': ["data/*.*",
                             "data/DMR/*.*",
-                            "output/*.*",
-                            "output/facility/*.*",
-                            "output/flow/*.*",
-                            "output/flowbyfacility/*.*",
-                            "output/flowbySCC/*.*",
-                            "output/validation/*.*"],
+                            "data/TRI/*.*",
+                            "data/NEI/*.*",
+                            "data/eGRID/*.*",
+                            "data/RCRA/*.*",],
                   'chemicalmatcher': ["data/*.*", "output/*.*", "config.yaml"],
-                  'facilitymatcher': ["data/*.*", "output/*.*", "config.yaml"],
+                  'facilitymatcher': ["data/*.*", "config.yaml"],
                   'stewicombo': ["data/*.*"]},
     include_package_data=True,
     install_requires=install_requires,

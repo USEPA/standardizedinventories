@@ -1,14 +1,26 @@
 import re
 import os
-#Variables and functions for common use
-import chemicalmatcher
 import pandas as pd
+from datetime import datetime
+
+import chemicalmatcher
 import stewi
+from stewi.globals import log, set_stewi_meta, read_source_metadata,\
+    flowbyfacility_fields
+from esupy.processed_data_mgmt import Paths, write_df_to_file, write_metadata_to_file,\
+    load_preprocessed_output, read_into_df
 
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'stewicombo/'
 
 data_dir = modulepath + 'data/'
+
+#Common declaration of write format for package data products
+write_format = "parquet"
+
+paths = Paths()
+paths.local_path = os.path.realpath(paths.local_path + "/stewicombo")
+output_dir = paths.local_path
 
 INVENTORY_PREFERENCE_BY_COMPARTMENT = {"air":["eGRID","GHGRP","NEI","TRI"],
                                        "water":["DMR", "TRI"],
@@ -20,7 +32,7 @@ LOOKUP_FIELDS = ["FRS_ID", "Compartment", "SRS_ID"]
 # pandas might infer wrong type, force cast skeptical columns
 FORCE_COLUMN_TYPES = {
     "SRS_CAS": "str"
-}
+    }
 
 KEEP_ALL_DUPLICATES =  True
 INCLUDE_ORIGINAL =  True
@@ -31,8 +43,18 @@ COL_FUNC_PAIRS = {
     "FacilityID": "join_with_underscore",
     "FlowAmount": "sum",
     "DataReliability": "reliablity_weighted_sum:FlowAmount"
-}
+    }
 COL_FUNC_DEFAULT = "get_first_item"
+
+VOC_srs = pd.read_csv(data_dir+'VOC_SRS_IDs.csv',dtype=str,index_col=False,header=0)
+VOC_srs = VOC_srs['SRS_IDs']
+
+def set_stewicombo_meta(file_name, category):
+    stewicombo_meta = set_stewi_meta(file_name, category)
+    stewicombo_meta.tool = "stewicombo"
+    stewicombo_meta.ext = write_format
+    return stewicombo_meta
+
 
 #Remove substring from inventory name
 def get_id_before_underscore(inventory_id):
@@ -41,11 +63,6 @@ def get_id_before_underscore(inventory_id):
         inventory_id = inventory_id[0:underscore_match.start()]
     return inventory_id
 
-VOC_srs = pd.read_csv(data_dir+'VOC_SRS_IDs.csv',dtype=str,index_col=False,header=0)
-VOC_srs = VOC_srs['SRS_IDs']
-
-columns_to_keep = ['FacilityID', 'FlowAmount', 'FlowName','Compartment','Unit','DataReliability','Source','Year','FRS_ID']
-
 
 def getInventoriesforFacilityMatches(inventory_dict,facilitymatches,filter_for_LCI,base_inventory=None):
 
@@ -53,6 +70,7 @@ def getInventoriesforFacilityMatches(inventory_dict,facilitymatches,filter_for_L
         base_inventory_FRS = facilitymatches[facilitymatches['Source'] == base_inventory]
         base_inventory_FRS_list = list(pd.unique(base_inventory_FRS['FRS_ID']))
 
+    columns_to_keep = list(flowbyfacility_fields.keys()) + ['Source','Year','FRS_ID']
     inventories = pd.DataFrame()
     for k in inventory_dict.keys():
         inventory = stewi.getInventory(k,inventory_dict[k],'flowbyfacility',filter_for_LCI)
@@ -69,7 +87,8 @@ def getInventoriesforFacilityMatches(inventory_dict,facilitymatches,filter_for_L
 
         #Add metadata
         inventory["Year"] = inventory_dict[k]
-        inventory = inventory[columns_to_keep]
+        cols_to_keep = [c for c in columns_to_keep if c in inventory]
+        inventory = inventory[cols_to_keep]
         inventories = pd.concat([inventories,inventory])
 
     #drop duplicates - not sure why there are duplicates - none found in recent attempts
@@ -79,7 +98,8 @@ def getInventoriesforFacilityMatches(inventory_dict,facilitymatches,filter_for_L
 
 def addChemicalMatches(inventories_df):
     #Bring in chemical matches
-    chemicalmatches = chemicalmatcher.get_matches_for_StEWI()
+    inventory_list = list(inventories_df['Source'].unique())
+    chemicalmatches = chemicalmatcher.get_matches_for_StEWI(inventory_list = inventory_list)
     chemicalmatches = chemicalmatches.drop(columns=['FlowID'])
     chemicalmatches = chemicalmatches.drop_duplicates(subset=['FlowName','Source'])
     inventories = pd.merge(inventories_df,chemicalmatches,on=(['FlowName','Source']),how='left')
@@ -107,3 +127,46 @@ def addBaseInventoryIDs(inventories,facilitymatches,base_inventory):
         inventories.loc[inventories['Source']==base_inventory,colname_base_inventory_id] = inventories['FacilityID_first']
         inventories = inventories.drop(columns='FacilityID_first')
     return inventories
+
+def storeCombinedInventory(df, file_name, category=''):
+    """Stores the inventory dataframe to local directory based on category"""
+    meta = set_stewicombo_meta(file_name, category)
+    method_path = output_dir + '/' + meta.category
+    try:
+        log.info('saving ' + meta.name_data + ' to ' + method_path)
+        write_df_to_file(df,paths,meta)
+    except:
+        log.error('Failed to save inventory')
+
+def getCombinedInventory(file_name, category=''):
+    """Reads the inventory dataframe from local directory"""
+    if ".parquet" in file_name:
+        name = file_name
+        method_path = output_dir + '/' + category
+        inventory = read_into_df(method_path + name)
+    else:
+        meta = set_stewicombo_meta(file_name, category)
+        method_path = output_dir + '/' + meta.category
+        name = meta.name_data
+        inventory = load_preprocessed_output(meta, paths)
+    if inventory is None:
+        log.info(name + ' not found in ' + method_path)
+    else:
+        log.info('loaded ' + name + ' from ' + method_path)    
+    return inventory
+
+def write_metadata(file_name, metadata_dict, category=''):
+    meta = set_stewicombo_meta(file_name, category=category)
+    meta.tool_meta = metadata_dict
+    write_metadata_to_file(paths, meta)
+
+def compile_metadata(inventory_dict):
+    inventory_meta = {}
+    #inventory_meta['InventoryDictionary'] = inventory_dict
+    creation_time = datetime.now().strftime('%d-%b-%Y')
+    if creation_time is not None:
+        inventory_meta['InventoryGenerationDate'] = creation_time
+    for source, year in inventory_dict.items():
+        inventory_meta[source] = stewi.getMetadata(source, year)
+    
+    return inventory_meta

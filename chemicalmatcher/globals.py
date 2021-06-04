@@ -4,20 +4,17 @@ import requests
 import json
 import urllib
 
+from stewi.globals import config, log
+
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'chemicalmatcher/'
 
 output_dir = modulepath + 'output/'
 data_dir = modulepath + 'data/'
 
+SRSconfig = config(modulepath)['databases']['SRS']
 #Base URL for queries
-def config():
-    configfile = None
-    with open(modulepath + 'config.yaml', mode='r') as f:
-        configfile = yaml.load(f,Loader=yaml.FullLoader)
-    return configfile
-
-base  = config()['databases']['SRS']['url']
+base  = SRSconfig['url']
 
 #for querying more than 1 name at a time
 #namelistprefix = 'substances/name?nameList='
@@ -66,7 +63,7 @@ def get_SRSInfo_for_program_list(inventory):
     for listname in inventory_to_SRSlist_acronymns[inventory]:
         listname = urllib.parse.quote(listname)
         url = base + substancesbylistname + listname
-        print('Getting '+ listname)
+        log.debug('Getting %s', listname)
         flow_info = query_SRS_for_program_list(url,inventory)
         srs_flow_df = pd.concat([srs_flow_df,flow_info])
     #drop duplicates
