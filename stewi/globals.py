@@ -19,7 +19,7 @@ except NameError: modulepath = 'stewi/'
 data_dir = modulepath + 'data/'
 
 log.basicConfig(level=log.INFO, format='%(levelname)s %(message)s')
-stewi_version = '0.9.7'
+stewi_version = '0.9.8'
 
 #Common declaration of write format for package data products
 write_format = "parquet"
