@@ -409,7 +409,7 @@ def validate_national_totals_by_subpart(tab_df, year):
     subpart_L_GWPs.rename(columns={'Flow Name':'FlowName'}, inplace=True)
     tab_df = tab_df.merge(subpart_L_GWPs, how='left',
                           on=['FlowName','Flow Description'])
-    tab.df['CO2e_factor'] = tab.df['CO2e_factor'].fillna(1)
+    tab_df['CO2e_factor'] = tab_df['CO2e_factor'].fillna(1)
     tab_df.loc[mask, 'AmountCO2e'] = tab_df['FlowAmount']*tab_df['CO2e_factor']
     
     # for subset of flows, use CO2e for validation
@@ -551,7 +551,7 @@ if __name__ == '__main__':
             ghgrp3 = parse_additional_suparts_data(lo_subparts_path, 'o_subparts_columns.csv', year)
 
             # convert subpart O data from CO2e to mass of HFC23 emitted, maintain CO2e for validation
-            ghgrp3['AmountCO2e'] = ghgrp3['FlowAmount']
+            ghgrp3['AmountCO2e'] = ghgrp3['FlowAmount']*1000
             ghgrp3.loc[ghgrp3['SUBPART_NAME'] == 'O', 'FlowAmount'] =\
                 ghgrp3['FlowAmount']/HFC23GWP
             ghgrp3.loc[ghgrp3['SUBPART_NAME'] == 'O', 'Flow Description'] =\
@@ -570,7 +570,7 @@ if __name__ == '__main__':
             # Flow Name column becomes new Flow Description
             ghgrp4.rename(columns={'Flow Name' : 'Flow Description'}, inplace=True)
             # calculate mass flow amount based on emissions in CO2e and GWP
-            ghgrp4['AmountCO2e'] = ghgrp4['FlowAmount']
+            ghgrp4['AmountCO2e'] = ghgrp4['FlowAmount']*1000
             ghgrp4['FlowAmount (mass)'] = ghgrp4['FlowAmount'] / ghgrp4['CO2e_factor']
             # drop unnecessary columns
             ghgrp4.drop(columns=['FlowAmount', 'CO2e_factor'],
