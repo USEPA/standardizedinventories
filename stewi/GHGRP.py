@@ -657,6 +657,8 @@ if __name__ == '__main__':
             # generate flows output and save to network
             flow_columns = ['FlowName', 'FlowCode']
             ghgrp_flow = ghgrp[flow_columns].drop_duplicates()
+            ghgrp_flow.dropna(subset=['FlowName'], inplace=True)
+            ghgrp_flow.sort_values(by=['FlowCode','FlowName'], inplace=True)
             ghgrp_flow['Compartment'] = 'air'
             ghgrp_flow['Unit'] = 'kg'
             ghgrp_flow.to_csv(output_dir + 'flow/GHGRP_' + year + '.csv', index=False)
@@ -677,6 +679,7 @@ if __name__ == '__main__':
             ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].fillna(0)
             ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].astype(int).astype(str)
             ghgrp_facility.loc[ghgrp_facility['NAICS']=='0','NAICS'] = None
+            ghgrp_facility_sort_values(by=['FacilityID'], inplace=True)
             ghgrp_facility.to_csv(output_dir + 'facility/GHGRP_' + year + '.csv', index=False)
             
             validate_national_totals_by_subpart(ghgrp, year)
