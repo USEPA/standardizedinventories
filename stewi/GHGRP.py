@@ -457,7 +457,7 @@ def generate_national_totals_validation(validation_table, year):
     reference_df_agg.reset_index(inplace=True)
     reference_df_agg.columns = reference_df_agg.columns.droplevel(level=1)
     # save reference dataframe to network
-    reference_df_agg.to_csv(ghgrp_data_dir + year + '_GHGRP_NationalTotals.csv', index=False)    
+    reference_df_agg.to_csv(data_dir + year + '_GHGRP_NationalTotals.csv', index=False)    
 
 def validate_national_totals_by_subpart(tab_df, year):
     log.info('validating flowbyfacility against national totals')
