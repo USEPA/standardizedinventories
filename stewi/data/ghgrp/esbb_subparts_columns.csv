@@ -1,0 +1,11 @@
+﻿subpart_abbr,tab_name,column_type,column_name
+E,Adipic Acid,quantity,Rounded N2O Emissions from Adipic Acid Production (metric tons N20)
+E,Adipic Acid,method,Type of abatement technologies
+E,Adipic Acid,method,Are N2O emissions estimated for this production unit using an Adminstrator-Approved Alternate Method or the Site Specific Emission Factor
+E,Adipic Acid,method,Name of Alternate Method (98.56(k)(1)):
+E,Adipic Acid,method,Description of the Alternate Method (98.56(k)(2)):
+E,Adipic Acid,method,Method Used for the Performance Test
+BB,Silicon Carbide,quantity,Total Reported Emissions Under Subpart  BB (metric tons CO2e)
+BB,Silicon Carbide,method,Indicate whether carbon content of the petroleum coke is based on reports from the supplier or through self measurement using applicable ASTM standard method
+CC,Soda Ash,quantity,Total Reported Emissions Under Subpart  CC (metric tons CO2e)
+CC,Soda Ash,method,"Indicate whether CO2 emissions were calculated using a trona input method, a soda ash output method, a site-specific emission factor method, or CEMS"

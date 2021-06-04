@@ -1,0 +1,9 @@
+﻿subpart_abbr,tab_name,column_type,column_name
+L,Emissions from P&T Proc by Chem,quantity,Fluorinated GHG Emissions (metric tons)
+L,Emissions from P&T Proc by Chem,quantity,Fluorinated GHG Emissions (mt CO2e)
+L,Emissions from P&T Proc by Chem,flow,Fluorinated GHG Group Name
+L,Emissions from P&T Proc by Chem,flow,Fluorinated GHG Name
+L,Emissions Destruct Prev Prod,quantity,Fluorinated GHG Emissions (metric tons)
+L,Emissions Destruct Prev Prod,flow,Fluorinated GHG Name
+L,Emissions Container Venting,quantity,Fluorinated GHG Emissions  (metric tons)
+L,Emissions Container Venting,flow,Fluorinated GHG Name
