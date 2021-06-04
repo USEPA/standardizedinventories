@@ -94,7 +94,7 @@ def import_table(path_or_reference, skip_lines=0, get_time=False):
     import time
     if '.core.frame.DataFrame' in str(type(path_or_reference)): import_file = path_or_reference
     elif path_or_reference[-3:].lower() == 'csv':
-        import_file = pd.read_csv(path_or_reference)
+        import_file = pd.read_csv(path_or_reference, low_memory=False)
     elif 'xls' in path_or_reference[-4:].lower():
         import_file = pd.ExcelFile(path_or_reference)
         import_file = {sheet: import_file.parse(sheet, skiprows=skip_lines) for sheet in import_file.sheet_names}
