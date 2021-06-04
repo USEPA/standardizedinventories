@@ -35,7 +35,7 @@ from stewi.globals import set_dir, download_table, source_metadata,\
     validate_inventory, write_validation_result,\
     weighted_average, data_dir, output_dir, reliability_table,\
     flowbyfacility_fields, flowbySCC_fields, facility_fields, config,\
-    storeInventory
+    storeInventory, paths, FileMeta
 import pandas as pd
 import numpy as np
 import requests
@@ -46,11 +46,9 @@ import logging as log
 
 
 _config = config()['databases']['GHGRP']
-## define directories
-data_dir = data_dir # stewi data directory
-output_dir = output_dir # stewi output directory
-ghgrp_data_dir = set_dir(data_dir + 'GHGRP/') # stewi data directory --> ghgrp
-ghgrp_external_dir = set_dir(data_dir + '/../../../GHGRP Data Files/') # external GHGRP data directory
+ghgrp_data_dir = data_dir + 'GHGRP/'
+ext_folder = '/GHGRP Data Files/'
+ghgrp_external_dir = paths.local_path + ext_folder
    
 # Flow codes that are reported in validation in CO2e
 flows_CO2e = ['PFC', 'HFC', 'Other','Very_Short', 'HFE', 'Other_Full']
@@ -88,7 +86,7 @@ def download_chunks(table, table_count, row_start=0, report_year='', output_ext=
         row_end = row_start + 9999
         table_url = generate_url(table=table, report_year=report_year, row_start=row_start, row_end=row_end,
                                  output_ext='csv')
-        print('url: ' + table_url)
+        log.debug('url: %s', table_url)
         while True:
             try:
                 table_temp, temp_time = import_table(table_url, get_time=True)
@@ -205,12 +203,12 @@ def download_and_parse_subpart_tables(year):
         else:
             # determine number of rows in subpart emissions table
             subpart_count = get_row_count(subpart_emissions_table, report_year=year)
-            log.info('Downloading ' + subpart_emissions_table + '(rows: ' + str(subpart_count) + ')')
+            log.info('Downloading %s (rows: %i)', subpart_emissions_table, subpart_count)
             # download data in chunks
             while True:
                 try:
                     temp_df = download_chunks(table=subpart_emissions_table, table_count=subpart_count, report_year=year, filepath=filepath)
-                    log.info('Done downloading.')
+                    log.debug('Done downloading.')
                     break
                 except ValueError: continue
                 except: break
