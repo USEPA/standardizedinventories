@@ -239,7 +239,7 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
     validation_df['Percent_Difference'] = pct_diff_list
     validation_df['Conclusion'] = conclusion
     validation_df = validation_df.drop(['FlowAmount_x', 'FlowAmount_y'], axis=1)
-    print(validation_df)
+
     return validation_df
 
 

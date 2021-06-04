@@ -32,7 +32,7 @@ Envirofacts web services documentation can be found at: https://www.epa.gov/envi
 
 from stewi.globals import set_dir, download_table, inventory_metadata,\
     write_metadata, get_relpath, import_table, drop_excel_sheets,\
-    validate_inventory, validation_summary, write_validation_result,\
+    validate_inventory, write_validation_result,\
     weighted_average, data_dir, output_dir, reliability_table,\
     flowbyfacility_fields, flowbySCC_fields, facility_fields, config
 import pandas as pd
@@ -40,7 +40,6 @@ import numpy as np
 import requests
 from xml.dom import minidom
 import os
-from datetime import datetime
 import argparse
 import logging as log
 
