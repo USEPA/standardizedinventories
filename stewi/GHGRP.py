@@ -694,7 +694,7 @@ if __name__ == '__main__':
             validation_table = 'V_GHG_EMITTER_SUBPART'
             
             # define filepath for reference data
-            ref_filepath = ghgrp_external_dir + 'GHGRP_reference' + year + '.csv'
+            ref_filepath = ghgrp_external_dir + 'GHGRP_reference.csv'
             
             # if the reference file exists, load the data
             if os.path.exists(ref_filepath):
@@ -724,6 +724,7 @@ if __name__ == '__main__':
             # parse reference dataframe to prepare it for validation
             reference_df['YEAR'] = reference_df['YEAR'].astype('str')
             reference_df = reference_df[reference_df['YEAR'] == year]
+            reference_df.reset_index(drop=True, inplace=True)
             reference_df['FlowAmount'] = reference_df['GHG_QUANTITY'].astype(float) * 1000
             # Maintain some flows in CO2e for validation
             reference_df.loc[reference_df['GAS_CODE'].isin(flows_CO2e), 
