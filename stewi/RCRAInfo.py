@@ -149,9 +149,9 @@ def download_zip(Tables, query):
     options.add_experimental_option('prefs', prefs)
     browser = webdriver.Chrome(ChromeDriverManager().install(), options = options)
     browser.maximize_window()
-    browser.set_page_load_timeout(180)
+    browser.set_page_load_timeout(30)
     browser.get(_config['url'])
-    time.sleep(30)
+    time.sleep(5)
     Table_of_tables = browser.find_element_by_xpath(query)
     rows = Table_of_tables.find_elements_by_css_selector('tr')[1:] # Excluding header
     # Extracting zip files for Biennial Report Tables
@@ -197,10 +197,9 @@ def organizing_files_by_year(Tables, Years_saved):
             df = pd.read_fwf(rcra_external_dir + File, widths = BRwidths,\
                         header = None, names = BRnames,
                         encoding = 'utf-8')
-            df.sort_values(by=['Report Cycle'])
-            df = df[df['Report Cycle'].apply(lambda x: str(x).isnumeric())]
+            df = df[df['Report Cycle'].apply(lambda x: str(x).replace('.0','').isdigit())]
             df['Report Cycle'] = df['Report Cycle'].astype(int)
-            df = df[~df['Report Cycle'].isin(Years_saved)]
+            #df = df[~df['Report Cycle'].isin(Years_saved)]
             Years = list(df['Report Cycle'].unique())
             for Year in Years:
                 if re.match(r'\d{4}', str(int(Year))):
@@ -230,15 +229,11 @@ def Generate_RCRAInfo_files_csv(report_year):
     RCRAInfoBRtextfile = rcra_external_dir + 'RCRAInfo_by_year/br_reporting_' + report_year + '.txt'
     #Get file columns widths
     linewidthsdf = pd.read_csv(rcra_data_dir + 'RCRA_FlatFile_LineComponents.csv')
-    BRwidths = linewidthsdf['Size']
     #Metadata
     BR_meta = source_metadata
     #Get columns to keep
     RCRAfieldstokeepdf = pd.read_csv(rcra_data_dir + 'RCRA_required_fields.txt', header = None)
     RCRAfieldstokeep = list(RCRAfieldstokeepdf[0])
-    #Get total row count of the file
-    with open(RCRAInfoBRtextfile, 'rb') as rcrafile:
-        row_count = sum([1 for row in rcrafile]) - 1
     BR = pd.read_csv(RCRAInfoBRtextfile, header = 0, usecols = RCRAfieldstokeep, sep = '\t',
                     low_memory = False, error_bad_lines = False, encoding = 'ISO-8859-1')
     log.info('completed reading %s',RCRAInfoBRtextfile)
