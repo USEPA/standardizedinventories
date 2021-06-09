@@ -104,6 +104,7 @@ def generate_national_totals(year):
     del df
     df_National['FlowAmount'] = df_National['FlowAmount'].round(3)
     df_National = df_National[cols]
+    df_National = map_national_totals(df_National)
     df_National.sort_values(by=['FlowName','Compartment'], inplace=True)
     log.info('saving TRI_%s_NationalTotals.csv to %s', year, data_dir)
     df_National.to_csv(data_dir + 'TRI_' + year + '_NationalTotals.csv', index = False)
@@ -122,6 +123,25 @@ def generate_national_totals(year):
                        'Date Acquired':date_created,
                        }
     update_validationsets_sources(validation_dict, date_acquired=True)
+
+def map_national_totals(reference_df):
+    import fedelemflowlist
+    tri = fedelemflowlist.get_flowmapping('TRI')
+    tri = tri[['SourceFlowName', 'TargetFlowName']].drop_duplicates()
+    df = tri.groupby('TargetFlowName')['SourceFlowName'].apply(
+        lambda x: x.unique()).reset_index(drop=True)
+    df = pd.DataFrame(df.tolist(), columns = ['FlowName','Name','Name2'])
+    name_map = pd.melt(df, id_vars = ['FlowName'], value_vars = ['Name','Name2'],
+                  value_name = 'DataName').dropna(subset=['DataName'])
+    name_map.drop('variable', axis=1, inplace=True)
+    name_map.drop_duplicates(subset=['FlowName'], inplace=True)
+    # map reference_df to TRI flows
+    mapped_df = reference_df.merge(name_map, how = 'left', on = ['FlowName'])
+    mapped_df['FlowName'] = mapped_df['DataName'].fillna(mapped_df['FlowName'])
+    mapped_df.drop('DataName', axis=1, inplace=True)
+    if mapped_df['FlowAmount'].sum() != reference_df['FlowAmount'].sum():
+        log.warning('Error on mapping, data loss')
+    return mapped_df
 
 # Function for calculating weighted average and avoiding ZeroDivisionError, which ocurres
 # "when all weights along axis are zero".
