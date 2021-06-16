@@ -128,7 +128,7 @@ def waste_description_cleaner(x):
 def extracting_files(path_unzip, name):
     with zipfile.ZipFile(path_unzip + name + '.zip') as z:
         z.extractall(path_unzip)
-    log.info('files stored to %s', path_unzip)
+    log.info('%s stored to %s', name, path_unzip)
     os.remove(path_unzip + name + '.zip')
 
 
@@ -191,33 +191,37 @@ def download_zip(Tables, query):
 
 def organizing_files_by_year(Tables, Year):
     Year = int(Year)
+    dir_RCRA_by_year = set_dir(rcra_external_dir + 'RCRAInfo_by_year/')
     for Table  in Tables:
-        dir_RCRA_by_year = set_dir(rcra_external_dir + 'RCRAInfo_by_year/')
-        linewidthsdf = pd.read_csv(rcra_data_dir + 'RCRA_FlatFile_LineComponents.csv')
-        BRnames = linewidthsdf['Data Element Name'].tolist()
-        Files = [file for file in os.listdir(rcra_external_dir)
-                 if ((file.startswith(Table)) & file.endswith('.csv') &
-                     (str(Year) in file))]
-        Files.sort()
-        df_full = pd.DataFrame()
-        for File in Files:
-            log.info('extracting %s from %s', File, rcra_external_dir)
-            df = pd.read_csv(rcra_external_dir + File, header = 0,
-                             usecols = list(range(0,len(BRnames))),
-                             names = BRnames, 
-                             low_memory = False,
-                             encoding = 'utf-8')
-            df = df[df['Report Cycle'].apply(lambda x: str(x).replace('.0','').isdigit())]
-            df['Report Cycle'] = df['Report Cycle'].astype(int)
-            df = df[df['Report Cycle']==Year]
-            df_full = pd.concat([df_full, df])
-        log.info('saving to %s...', dir_RCRA_by_year)
-        df_full.to_csv(dir_RCRA_by_year + 'br_reporting_' + str(int(Year))  +'.csv')
+        if 'BR_REPORTING' in Table:
+            log.info('organizing data for %s from %s ...', Table, str(Year))
+            linewidthsdf = pd.read_csv(rcra_data_dir + 'RCRA_FlatFile_LineComponents.csv')
+            BRnames = linewidthsdf['Data Element Name'].tolist()
+            Files = [file for file in os.listdir(rcra_external_dir)
+                     if ((file.startswith(Table)) & file.endswith('.csv') &
+                         (str(Year) in file))]
+            Files.sort()
+            df_full = pd.DataFrame()
+            for File in Files:
+                log.info('extracting %s from %s', File, rcra_external_dir)
+                df = pd.read_csv(rcra_external_dir + File, header = 0,
+                                 usecols = list(range(0,len(BRnames))),
+                                 names = BRnames, 
+                                 low_memory = False,
+                                 encoding = 'utf-8')
+                df = df[df['Report Cycle'].apply(lambda x: str(x).replace('.0','').isdigit())]
+                df['Report Cycle'] = df['Report Cycle'].astype(int)
+                df = df[df['Report Cycle']==Year]
+                df_full = pd.concat([df_full, df])
+            filename = dir_RCRA_by_year + + 'br_reporting_' + str(Year)  +'.csv'
+            log.info('saving to %s ...', filename)
+            df_full.to_csv(filename, index = False)
+        else:
+            log.info('skipping %s', Table)
 
 def Generate_RCRAInfo_files_csv(report_year):
+    log.info('generating inventory files for %s', report_year)
     RCRAInfoBRtextfile = rcra_external_dir + 'RCRAInfo_by_year/br_reporting_' + report_year + '.csv'
-    #Get file columns widths
-    #linewidthsdf = pd.read_csv(rcra_data_dir + 'RCRA_FlatFile_LineComponents.csv')
     #Metadata
     BR_meta = source_metadata
     #Get columns to keep
@@ -328,12 +332,14 @@ def Generate_RCRAInfo_files_csv(report_year):
     BR['Amount_kg'] = USton_kg*BR['Generation Tons']
     ##Read in waste descriptions
     linewidthsdf = pd.read_csv(rcra_data_dir + 'RCRAInfo_LU_WasteCode_LineComponents.csv')
-    widths = linewidthsdf['Size']
     names = linewidthsdf['Data Element Name']
-    File_lu = [file for file in os.listdir(rcra_external_dir) if 'lu_waste_code' in file.lower()][0]
+    File_lu = [file for file in os.listdir(rcra_external_dir) 
+               if (('lu_waste_code' in file.lower()) & (file.endswith('.csv')))][0]
     wastecodesfile = rcra_external_dir + File_lu
     if os.path.exists(wastecodesfile):
-        WasteCodes = pd.read_fwf(wastecodesfile,widths=widths,header=None,names=names)
+        WasteCodes = pd.read_csv(wastecodesfile,
+                                 header=0,
+                                 names=names)
     else:
         log.error('waste codes file missing, download and unzip waste code'
                   ' file to %s', rcra_external_dir)
@@ -458,9 +464,8 @@ if __name__ == '__main__':
                         [C] Create RCRAInfo for StEWI',
                         type = str)
 
-    parser.add_argument('-Y', '--Year',
+    parser.add_argument('-Y', '--Years', nargs= '+',
                         help = 'What RCRA Biennial Report year you want to retrieve or generate for StEWI',
-                        nargs= '?',
                         type = str,
                         default = None)
 
@@ -473,24 +478,25 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-
-    ##Adds sepcified Year to BR_REPORTING table
-    tables = args.Tables
-    if 'BR_REPORTING' in tables:
-        args.Tables[tables.index('BR_REPORTING')] = 'BR_REPORTING' + '_' + args.Year
-
-    if args.Option == 'A':
-        '''If issues in running this option to download the data, go to the 
-        specified url and find the BR_REPORTING_year.zip file and save to 
-        rcra_external_dir. Also requires HD_LU_WASTE_CODE.zip'''
-        query = _config['queries']['Table_of_tables']
-        download_zip(args.Tables, query)
-
-    elif args.Option == 'B':
-
-        organizing_files_by_year(args.Tables, args.Year)
-
-    elif args.Option == 'C':
-
-        Generate_RCRAInfo_files_csv(args.Year)
+       
+    for year in args.Years:
+        ##Adds sepcified Year to BR_REPORTING table
+        tables = args.Tables.copy()
+        if 'BR_REPORTING' in args.Tables:
+            tables[args.Tables.index('BR_REPORTING')] = 'BR_REPORTING' + '_' + year
+    
+        if args.Option == 'A':
+            '''If issues in running this option to download the data, go to the 
+            specified url and find the BR_REPORTING_year.zip file and save to 
+            rcra_external_dir. Also requires HD_LU_WASTE_CODE.zip'''
+            query = _config['queries']['Table_of_tables']
+            download_zip(tables, query)
+    
+        elif args.Option == 'B':
+    
+            organizing_files_by_year(args.Tables, year)
+    
+        elif args.Option == 'C':
+    
+            Generate_RCRAInfo_files_csv(year)
         
