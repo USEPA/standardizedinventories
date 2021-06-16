@@ -128,10 +128,12 @@ def waste_description_cleaner(x):
 def extracting_files(path_unzip, name):
     with zipfile.ZipFile(path_unzip + name + '.zip') as z:
         z.extractall(path_unzip)
+    log.info('files stored to %s', path_unzip)
     os.remove(path_unzip + name + '.zip')
 
 
 def download_zip(Tables, query):
+    log.info('Initiating download via browswer...')
     regex = re.compile(r'(.+).zip\s?\(\d+.?\d*\s?[a-zA-Z]{2,}\)')
     options = webdriver.ChromeOptions()
     options.add_argument('--disable-notifications')
@@ -171,6 +173,9 @@ def download_zip(Tables, query):
     # Download the desired zip
     if Tables == [None]:
         Tables = list(Links.keys())
+    log.info('If download fails, locate %s and save zip file to %s and code'
+             ' will proceed',
+             Tables, rcra_external_dir)
     for name in Tables:
         browser.get(Links[name])
         condition = checkforFile(rcra_external_dir + name + '.zip')
@@ -180,72 +185,55 @@ def download_zip(Tables, query):
             condition = checkforFile(rcra_external_dir + name + '.zip')
         time.sleep(5)
         extracting_files(rcra_external_dir, name)
+    log.info('file extraction complete')
     browser.quit()
 
 
-def organizing_files_by_year(Tables, Years_saved):
+def organizing_files_by_year(Tables, Year):
+    Year = int(Year)
     for Table  in Tables:
-        # Get file columns widths
         dir_RCRA_by_year = set_dir(rcra_external_dir + 'RCRAInfo_by_year/')
         linewidthsdf = pd.read_csv(rcra_data_dir + 'RCRA_FlatFile_LineComponents.csv')
-        BRwidths = linewidthsdf['Size'].astype(int).tolist()
         BRnames = linewidthsdf['Data Element Name'].tolist()
-        Files = [file for file in os.listdir(rcra_external_dir) if ((file.startswith(Table)) & file.endswith('.txt'))]
+        Files = [file for file in os.listdir(rcra_external_dir)
+                 if ((file.startswith(Table)) & file.endswith('.csv') &
+                     (str(Year) in file))]
         Files.sort()
+        df_full = pd.DataFrame()
         for File in Files:
             log.info('extracting %s from %s', File, rcra_external_dir)
-            df = pd.read_fwf(rcra_external_dir + File, widths = BRwidths,\
-                        header = None, names = BRnames,
-                        encoding = 'utf-8')
+            df = pd.read_csv(rcra_external_dir + File, header = 0,
+                             usecols = list(range(0,len(BRnames))),
+                             names = BRnames, 
+                             low_memory = False,
+                             encoding = 'utf-8')
             df = df[df['Report Cycle'].apply(lambda x: str(x).replace('.0','').isdigit())]
             df['Report Cycle'] = df['Report Cycle'].astype(int)
-            #df = df[~df['Report Cycle'].isin(Years_saved)]
-            Years = list(df['Report Cycle'].unique())
-            for Year in Years:
-                if re.match(r'\d{4}', str(int(Year))):
-                    df_year = df[df['Report Cycle'] == Year]
-                    Path_directory = dir_RCRA_by_year + 'br_reporting_' + str(int(Year)) + '.txt'
-                    condition = True
-                    while condition:
-                        try:
-                            log.info('saving to %s', Path_directory)
-                            if os.path.exists(Path_directory):
-                                with open(Path_directory, 'a') as f:
-                                    df_year.to_csv(f, header = False, sep = '\t', index = False)
-                            else:
-                                df_year.to_csv(Path_directory, sep = '\t', index = False)
-                            condition = False
-                        except UnicodeEncodeError:
-                            for column in df_year:
-                                if df_year[column].dtype == object:
-                                    df_year[column] = df_year[column].map(lambda x: x.replace(u'\uFFFD', '?') \
-                                                    if type(x) == str else x)
-                            condition = True
-                else:
-                    continue
-
+            df = df[df['Report Cycle']==Year]
+            df_full = pd.concat([df_full, df])
+        log.info('saving to %s...', dir_RCRA_by_year)
+        df_full.to_csv(dir_RCRA_by_year + 'br_reporting_' + str(int(Year))  +'.csv')
 
 def Generate_RCRAInfo_files_csv(report_year):
-    RCRAInfoBRtextfile = rcra_external_dir + 'RCRAInfo_by_year/br_reporting_' + report_year + '.txt'
+    RCRAInfoBRtextfile = rcra_external_dir + 'RCRAInfo_by_year/br_reporting_' + report_year + '.csv'
     #Get file columns widths
-    linewidthsdf = pd.read_csv(rcra_data_dir + 'RCRA_FlatFile_LineComponents.csv')
+    #linewidthsdf = pd.read_csv(rcra_data_dir + 'RCRA_FlatFile_LineComponents.csv')
     #Metadata
     BR_meta = source_metadata
     #Get columns to keep
     RCRAfieldstokeepdf = pd.read_csv(rcra_data_dir + 'RCRA_required_fields.txt', header = None)
     RCRAfieldstokeep = list(RCRAfieldstokeepdf[0])
-    BR = pd.read_csv(RCRAInfoBRtextfile, header = 0, usecols = RCRAfieldstokeep, sep = '\t',
+    BR = pd.read_csv(RCRAInfoBRtextfile, header = 0, usecols = RCRAfieldstokeep,
                     low_memory = False, error_bad_lines = False, encoding = 'ISO-8859-1')
     log.info('completed reading %s',RCRAInfoBRtextfile)
     # Checking the Waste Generation Data Health
     BR = BR[pd.to_numeric(BR['Generation Tons'], errors = 'coerce').notnull()]
     BR['Generation Tons'] = BR['Generation Tons'].astype(float)
-    print(BR.head())
     #Pickle as a backup
     # BR.to_pickle('work/BR_'+ report_year + '.pk')
     #Read in to start from a pickle
     # BR = pd.read_pickle('work/BR_'+report_year+'.pk')
-    print(len(BR))
+    log.info('number of records: %s', len(BR))
     #2001:838497
     #2003:770727
     #2005:697706
@@ -254,10 +242,10 @@ def Generate_RCRAInfo_files_csv(report_year):
     #2011:1590067
     #2013:1581899
     #2015:2053108
-    #2017:1446613
+    #2017:2118554
     #Validate correct import - number of states should be 50+ (includes PR and territories)
     states = BR['State'].unique()
-    print(len(states))
+    log.info('number of states: %s', len(states))
     #2001: 46
     #2003: 46
     #2005: 46
@@ -266,7 +254,7 @@ def Generate_RCRAInfo_files_csv(report_year):
     #2011: 56
     #2013: 56
     #2015: 57
-    #2017: 45
+    #2017: 54
     #Filtering to remove double counting and non BR waste records
     #Do not double count generation from sources that receive it only
     #Check sum of tons and number of records after each filter step
@@ -274,7 +262,7 @@ def Generate_RCRAInfo_files_csv(report_year):
     #Logic and Assumptions used to Analyze the Biennial Report. Office of Resource Conservation and Recovery
     #Drop lines with source code G61
     BR = BR[BR['Source Code'] != 'G61']
-    print(len(BR))
+    log.info('records of waste generation: %s', len(BR))
     #2001:798905
     #2003:722958
     #2005:650413
@@ -283,10 +271,10 @@ def Generate_RCRAInfo_files_csv(report_year):
     #2011:1496275
     #2013:1492245
     #2015:1959883
-    #2017:1375562
+    #2017:2020548
     #Only include wastes that are included in the National Biennial Report
     BR = BR[BR['Generator ID Included in NBR'] == 'Y']
-    print(len(BR))
+    log.info('records in NBR: %s', len(BR))
     #2001:734349
     #2003:629802
     #2005:482345
@@ -295,9 +283,9 @@ def Generate_RCRAInfo_files_csv(report_year):
     #2011:1284796
     #2013:1283457
     #2015:1759711
-    #2017:1269987
+    #2017:1860567
     BR = BR[BR['Generator Waste Stream Included in NBR'] == 'Y']
-    print(len(BR))
+    log.info('records in NBR waste stream: %s', len(BR))
     #2001:172539
     #2003:167488
     #2005:152036
@@ -306,7 +294,7 @@ def Generate_RCRAInfo_files_csv(report_year):
     #2011:209342
     #2013:256978
     #2015:288980
-    #2017:202842
+    #2017:273877
     #Remove imported wastes, source codes G63-G75
     ImportSourceCodes = pd.read_csv(rcra_data_dir + 'RCRAImportSourceCodes.txt', header=None)
     ImportSourceCodes = ImportSourceCodes[0].tolist()
@@ -314,10 +302,9 @@ def Generate_RCRAInfo_files_csv(report_year):
     SourceCodestoKeep = []
     for item in SourceCodesPresent:
         if item not in ImportSourceCodes:
-            #print(item)
             SourceCodestoKeep.append(item)
     BR = BR[BR['Source Code'].isin(SourceCodestoKeep)]
-    print(len(BR))
+    log.info('records excluding imported wastes: %s', len(BR))
     #2001:172539
     #2003:167264
     #2005:151638
@@ -326,7 +313,7 @@ def Generate_RCRAInfo_files_csv(report_year):
     #2011:209306
     #2013:256844
     #2015:286813
-    #2017:202513
+    #2017:273670
     #Reassign the NAICS to a string
     BR['NAICS'] = BR['Primary NAICS'].astype('str')
     BR.drop('Primary NAICS', axis=1, inplace=True)
@@ -345,7 +332,11 @@ def Generate_RCRAInfo_files_csv(report_year):
     names = linewidthsdf['Data Element Name']
     File_lu = [file for file in os.listdir(rcra_external_dir) if 'lu_waste_code' in file.lower()][0]
     wastecodesfile = rcra_external_dir + File_lu
-    WasteCodes = pd.read_fwf(wastecodesfile,widths=widths,header=None,names=names)
+    if os.path.exists(wastecodesfile):
+        WasteCodes = pd.read_fwf(wastecodesfile,widths=widths,header=None,names=names)
+    else:
+        log.error('waste codes file missing, download and unzip waste code'
+                  ' file to %s', rcra_external_dir)
     WasteCodes = WasteCodes[['Waste Code', 'Code Type', 'Waste Code Description']]
     #Remove rows where any fields are na description is missing
     WasteCodes.dropna(inplace=True)
@@ -438,7 +429,7 @@ def validate_national_totals(report_year, flowbyfacility):
     log.info('validating data against national totals')
     file_path = data_dir + 'RCRAInfo_' + report_year + '_NationalTotals.csv'
     if (os.path.exists(file_path)):
-        BR_national_total = pd.read_csv(file_path, dtype={"FlowAmount":np.float})
+        BR_national_total = pd.read_csv(file_path, dtype={"FlowAmount":float})
         BR_national_total['FlowAmount_kg'] = 0
         BR_national_total = unit_convert(BR_national_total, 'FlowAmount_kg', 
                                          'Unit', 'Tons', 907.18474, 'FlowAmount')
@@ -490,18 +481,14 @@ if __name__ == '__main__':
 
     if args.Option == 'A':
         '''If issues in running this option to download the data, go to the 
-        specified url and find the BR_REPORTING_year.zip file and extract to 
+        specified url and find the BR_REPORTING_year.zip file and save to 
         rcra_external_dir. Also requires HD_LU_WASTE_CODE.zip'''
         query = _config['queries']['Table_of_tables']
         download_zip(args.Tables, query)
 
     elif args.Option == 'B':
 
-        regex =  re.compile(r'RCRAInfo_(\d{4})')
-        PathWithSavingData = output_dir + '/flowbyfacility'
-        files = os.listdir(PathWithSavingData)
-        RCRAInfo_years_saved = [int(re.search(regex, file).group(1)) for file in files if re.match(regex, file)]
-        organizing_files_by_year(args.Tables, RCRAInfo_years_saved)
+        organizing_files_by_year(args.Tables, args.Year)
 
     elif args.Option == 'C':
 
