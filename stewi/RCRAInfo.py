@@ -108,7 +108,7 @@ import time, datetime
 from stewi.globals import write_metadata,unit_convert,validate_inventory,\
     write_validation_result, set_dir, data_dir, config,\
     checkforFile, USton_kg, source_metadata, reliability_table, paths,\
-    log, storeInventory
+    log, storeInventory, compile_source_metadata, read_source_metadata
 
 
 _config = config()['databases']['RCRAInfo']
@@ -196,18 +196,18 @@ def download_zip(Tables, query):
 
 def organizing_files_by_year(Tables, Year):
     Year = int(Year)
-    for Table  in Tables:
+    for Table in Tables:
         if 'BR_REPORTING' in Table:
             log.info('organizing data for %s from %s ...', Table, str(Year))
             linewidthsdf = pd.read_csv(rcra_data_dir +
                                        'RCRA_FlatFile_LineComponents.csv')
             BRnames = linewidthsdf['Data Element Name'].tolist()
-            Files = [file for file in os.listdir(rcra_external_dir)
+            files = [file for file in os.listdir(rcra_external_dir)
                      if ((file.startswith(Table)) & file.endswith('.csv') &
                          (str(Year) in file))]
-            Files.sort()
+            files.sort()
             df_full = pd.DataFrame()
-            for File in Files:
+            for File in files:
                 log.info('extracting %s from %s', File, rcra_external_dir)
                 df = pd.read_csv(rcra_external_dir + File, header = 0,
                                  usecols = list(range(0,len(BRnames))),
@@ -219,9 +219,10 @@ def organizing_files_by_year(Tables, Year):
                 df['Report Cycle'] = df['Report Cycle'].astype(int)
                 df = df[df['Report Cycle']==Year]
                 df_full = pd.concat([df_full, df])
-            filename = dir_RCRA_by_year + + 'br_reporting_' + str(Year) + '.csv'
+            filename = dir_RCRA_by_year + 'br_reporting_' + str(Year) + '.csv'
             log.info('saving to %s ...', filename)
             df_full.to_csv(filename, index = False)
+            generate_metadata(Year, files, datatype = 'source')
         else:
             log.info('skipping %s', Table)
 
@@ -425,13 +426,25 @@ def Generate_RCRAInfo_files_csv(report_year):
     validate_national_totals(report_year, flowbyfacility)
     
     #Record metadata
-    BR_meta = source_metadata
-    try: retrieval_time = os.path.getctime(filepath)
-    except: retrieval_time = time.time()
-    BR_meta['SourceAquisitionTime'] = time.ctime(retrieval_time)
-    BR_meta['SourceFileName'] = filepath
-    BR_meta['SourceURL'] = _config['url']
-    write_metadata('RCRAInfo', report_year, BR_meta)
+    generate_metadata(report_year, filepath, datatype = 'inventory')
+    
+
+def generate_metadata(year, files, datatype = 'inventory'):
+    """
+    Gets metadata and writes to .json
+    """
+    if datatype == 'source':
+        source_path = [rcra_external_dir + p for p in files]
+        source_path = [os.path.realpath(p) for p in source_path]
+        source_meta = compile_source_metadata(source_path, _config, year)
+        source_meta['SourceType'] = 'Zip file'
+        source_meta['SourceURL'] = _config['url']
+        write_metadata('RCRAInfo_'+ str(year), source_meta,
+                       category=ext_folder, datatype='source')
+    else:
+        source_meta = read_source_metadata(rcra_external_dir + 'RCRAInfo_'+ year)['tool_meta']
+        write_metadata('RCRAInfo_'+year, source_meta, datatype=datatype)    
+    
 
 def validate_national_totals(report_year, flowbyfacility):
     ##VALIDATION
