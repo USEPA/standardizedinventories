@@ -97,9 +97,7 @@ See more documentation of files at https://rcrapublic.epa.gov/rcrainfoweb/
 """
 
 import pandas as pd
-
 import zipfile
-import numpy as np
 import argparse
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -108,16 +106,16 @@ import os
 import time, datetime
 
 from stewi.globals import write_metadata,unit_convert,validate_inventory,\
-    write_validation_result, set_dir,output_dir,data_dir, config,\
+    write_validation_result, set_dir, data_dir, config,\
     checkforFile, USton_kg, source_metadata, reliability_table, paths,\
     log, storeInventory
 
 
 _config = config()['databases']['RCRAInfo']
-
 ext_folder = '/RCRAInfo Data Files/'
 rcra_external_dir = paths.local_path + ext_folder
 rcra_data_dir = data_dir + 'RCRAInfo/'
+dir_RCRA_by_year = set_dir(rcra_external_dir + 'RCRAInfo_by_year/')
 
 def waste_description_cleaner(x):
     if (x == 'from br conversion') or (x =='From 1989 BR data'):
@@ -149,7 +147,8 @@ def download_zip(Tables, query):
             'safebrowsing_for_trusted_sources_enabled': False,
             'safebrowsing.enabled': False}
     options.add_experimental_option('prefs', prefs)
-    browser = webdriver.Chrome(ChromeDriverManager().install(), options = options)
+    browser = webdriver.Chrome(ChromeDriverManager().install(),
+                               options = options)
     browser.maximize_window()
     browser.set_page_load_timeout(30)
     browser.get(_config['url'])
@@ -162,14 +161,20 @@ def download_zip(Tables, query):
         loop = 'YES'
         while loop == 'YES':
             try:
-                Table_name = re.search(regex, row.find_elements_by_css_selector('td')[3].text).group(1)
-                Link = row.find_elements_by_css_selector('td')[3].find_elements_by_css_selector('a')[0].get_attribute('href')
+                Table_name = re.search(
+                    regex, row.find_elements_by_css_selector('td')[3].text
+                    ).group(1)
+                Link = row.find_elements_by_css_selector('td')[3]\
+                    .find_elements_by_css_selector('a')[0]\
+                        .get_attribute('href')
                 Links.update({Table_name:Link})
                 loop = 'NO'
             except AttributeError:
                 loop = 'YES'
                 now = datetime.datetime.now()
-                print('AttributeError occurred with selenium due to not appropriate charging of website.\nHour: {}:{}:{}'.format(now.hour,now.minute,now.second))
+                print('AttributeError occurred with selenium due to not '
+                      'appropriate charging of website.\nHour: '
+                      '{}:{}:{}'.format(now.hour,now.minute,now.second))
     # Download the desired zip
     if Tables == [None]:
         Tables = list(Links.keys())
@@ -191,11 +196,11 @@ def download_zip(Tables, query):
 
 def organizing_files_by_year(Tables, Year):
     Year = int(Year)
-    dir_RCRA_by_year = set_dir(rcra_external_dir + 'RCRAInfo_by_year/')
     for Table  in Tables:
         if 'BR_REPORTING' in Table:
             log.info('organizing data for %s from %s ...', Table, str(Year))
-            linewidthsdf = pd.read_csv(rcra_data_dir + 'RCRA_FlatFile_LineComponents.csv')
+            linewidthsdf = pd.read_csv(rcra_data_dir +
+                                       'RCRA_FlatFile_LineComponents.csv')
             BRnames = linewidthsdf['Data Element Name'].tolist()
             Files = [file for file in os.listdir(rcra_external_dir)
                      if ((file.startswith(Table)) & file.endswith('.csv') &
@@ -209,11 +214,12 @@ def organizing_files_by_year(Tables, Year):
                                  names = BRnames, 
                                  low_memory = False,
                                  encoding = 'utf-8')
-                df = df[df['Report Cycle'].apply(lambda x: str(x).replace('.0','').isdigit())]
+                df = df[df['Report Cycle'].apply(
+                    lambda x: str(x).replace('.0','').isdigit())]
                 df['Report Cycle'] = df['Report Cycle'].astype(int)
                 df = df[df['Report Cycle']==Year]
                 df_full = pd.concat([df_full, df])
-            filename = dir_RCRA_by_year + + 'br_reporting_' + str(Year)  +'.csv'
+            filename = dir_RCRA_by_year + + 'br_reporting_' + str(Year) + '.csv'
             log.info('saving to %s ...', filename)
             df_full.to_csv(filename, index = False)
         else:
@@ -221,22 +227,17 @@ def organizing_files_by_year(Tables, Year):
 
 def Generate_RCRAInfo_files_csv(report_year):
     log.info('generating inventory files for %s', report_year)
-    RCRAInfoBRtextfile = rcra_external_dir + 'RCRAInfo_by_year/br_reporting_' + report_year + '.csv'
-    #Metadata
-    BR_meta = source_metadata
+    filepath = (dir_RCRA_by_year + 'br_reporting_' + report_year + '.csv')
     #Get columns to keep
-    RCRAfieldstokeepdf = pd.read_csv(rcra_data_dir + 'RCRA_required_fields.txt', header = None)
-    RCRAfieldstokeep = list(RCRAfieldstokeepdf[0])
-    BR = pd.read_csv(RCRAInfoBRtextfile, header = 0, usecols = RCRAfieldstokeep,
-                    low_memory = False, error_bad_lines = False, encoding = 'ISO-8859-1')
-    log.info('completed reading %s',RCRAInfoBRtextfile)
+    fieldstokeep = pd.read_csv(rcra_data_dir + 'RCRA_required_fields.txt',
+                               header = None)
+    BR = pd.read_csv(filepath, header = 0, usecols = list(fieldstokeep[0]),
+                    low_memory = False, error_bad_lines = False,
+                    encoding = 'ISO-8859-1')
+    log.info('completed reading %s',filepath)
     # Checking the Waste Generation Data Health
     BR = BR[pd.to_numeric(BR['Generation Tons'], errors = 'coerce').notnull()]
     BR['Generation Tons'] = BR['Generation Tons'].astype(float)
-    #Pickle as a backup
-    # BR.to_pickle('work/BR_'+ report_year + '.pk')
-    #Read in to start from a pickle
-    # BR = pd.read_pickle('work/BR_'+report_year+'.pk')
     log.info('number of records: %s', len(BR))
     #2001:838497
     #2003:770727
@@ -247,7 +248,8 @@ def Generate_RCRAInfo_files_csv(report_year):
     #2013:1581899
     #2015:2053108
     #2017:2118554
-    #Validate correct import - number of states should be 50+ (includes PR and territories)
+    #Validate correct import - number of states should be 50+ 
+    #(includes PR and territories)
     states = BR['State'].unique()
     log.info('number of states: %s', len(states))
     #2001: 46
@@ -263,7 +265,8 @@ def Generate_RCRAInfo_files_csv(report_year):
     #Do not double count generation from sources that receive it only
     #Check sum of tons and number of records after each filter step
     #See EPA 2013. Biennial Report Analytical Methodologies: Data Selection
-    #Logic and Assumptions used to Analyze the Biennial Report. Office of Resource Conservation and Recovery
+    #Logic and Assumptions used to Analyze the Biennial Report.
+    #Office of Resource Conservation and Recovery
     #Drop lines with source code G61
     BR = BR[BR['Source Code'] != 'G61']
     log.info('records of waste generation: %s', len(BR))
@@ -300,14 +303,12 @@ def Generate_RCRAInfo_files_csv(report_year):
     #2015:288980
     #2017:273877
     #Remove imported wastes, source codes G63-G75
-    ImportSourceCodes = pd.read_csv(rcra_data_dir + 'RCRAImportSourceCodes.txt', header=None)
-    ImportSourceCodes = ImportSourceCodes[0].tolist()
-    SourceCodesPresent = BR['Source Code'].unique().tolist()
-    SourceCodestoKeep = []
-    for item in SourceCodesPresent:
-        if item not in ImportSourceCodes:
-            SourceCodestoKeep.append(item)
-    BR = BR[BR['Source Code'].isin(SourceCodestoKeep)]
+    import_source_codes = pd.read_csv(rcra_data_dir + 'RCRAImportSourceCodes.txt',
+                                    header=None)
+    import_source_codes = import_source_codes[0].tolist()
+    source_codes_to_keep = [x for x in BR['Source Code'].unique().tolist() if
+                            x not in import_source_codes]
+    BR = BR[BR['Source Code'].isin(source_codes_to_keep)]
     log.info('records excluding imported wastes: %s', len(BR))
     #2001:172539
     #2003:167264
@@ -323,7 +324,8 @@ def Generate_RCRAInfo_files_csv(report_year):
     BR.drop('Primary NAICS', axis=1, inplace=True)
     #Create field for DQI Reliability Score with fixed value from CSV
     #Currently generating a warning
-    rcrainfo_reliability_table = reliability_table[reliability_table['Source']=='RCRAInfo']
+    rcrainfo_reliability_table = reliability_table[
+        reliability_table['Source']=='RCRAInfo']
     rcrainfo_reliability_table.drop('Source', axis=1, inplace=True)
     BR['DataReliability'] = float(rcrainfo_reliability_table['DQI Reliability Score'])
     #Create a new field to put converted amount in
@@ -337,26 +339,29 @@ def Generate_RCRAInfo_files_csv(report_year):
                if (('lu_waste_code' in file.lower()) & (file.endswith('.csv')))][0]
     wastecodesfile = rcra_external_dir + File_lu
     if os.path.exists(wastecodesfile):
-        WasteCodes = pd.read_csv(wastecodesfile,
+        waste_codes = pd.read_csv(wastecodesfile,
                                  header=0,
                                  names=names)
+        waste_codes = waste_codes[['Waste Code', 'Code Type',
+                                   'Waste Code Description']]
+        #Remove rows where any fields are na description is missing
+        waste_codes.dropna(inplace=True)
     else:
         log.error('waste codes file missing, download and unzip waste code'
                   ' file to %s', rcra_external_dir)
-    WasteCodes = WasteCodes[['Waste Code', 'Code Type', 'Waste Code Description']]
-    #Remove rows where any fields are na description is missing
-    WasteCodes.dropna(inplace=True)
-    #Bring in form codes
+
     #Replace form code with the code name
     form_code_name_file = rcra_data_dir + 'RCRA_LU_FORM_CODE.csv'
-    form_code_table_cols_needed = ['FORM_CODE','FORM_CODE_NAME']
-    form_code_name_df = pd.read_csv(form_code_name_file,header=0,usecols=form_code_table_cols_needed)
+    form_code_name_df = pd.read_csv(form_code_name_file, header=0,
+                                    usecols=['FORM_CODE','FORM_CODE_NAME'])
     #Merge waste codes with BR records
-    BR = pd.merge(BR,WasteCodes,left_on='Waste Code Group',right_on='Waste Code',how='left')
+    BR = pd.merge(BR, waste_codes, left_on='Waste Code Group',
+                  right_on='Waste Code',how='left')
     #Rename code type to make it clear
     BR.rename(columns={'Code Type':'Waste Code Type'},inplace=True)
     #Merge form codes with BR
-    BR = pd.merge(BR,form_code_name_df,left_on='Form Code',right_on='FORM_CODE',how='left')
+    BR = pd.merge(BR,form_code_name_df,left_on='Form Code',
+                  right_on='FORM_CODE',how='left')
     #Drop duplicates from merge
     BR.drop(columns=['FORM_CODE','Waste Code Group'], inplace=True)
     #Set flow name to Waste Code Description
@@ -364,8 +369,6 @@ def Generate_RCRAInfo_files_csv(report_year):
     #BR['FlowNameSource'] = 'Waste Code Description'
     #If a useful Waste Code Description is present, use it
     BR['FlowName'] = BR['FlowName'].apply(waste_description_cleaner)
-    #Check unique flow names
-    pd.unique(BR['FlowName'])
     #If there is not useful waste code, fill it with the Form Code Name
     #Find the NAs in FlowName and then give that source of Form Code
     BR.loc[BR['FlowName'].isnull(),'FlowNameSource'] = 'Form Code'
@@ -386,47 +389,47 @@ def Generate_RCRAInfo_files_csv(report_year):
     BR.rename(columns={'Handler ID':'FacilityID'}, inplace=True)
     #rename new name
     BR.rename(columns={'Amount_kg':'FlowAmount'}, inplace=True)
+
     #Prepare flows file
     flows = BR[['FlowName','FlowID','FlowNameSource']]
-    #Drop duplicates
     flows = flows.drop_duplicates()
     flows['Compartment']='Waste'
     flows['Unit']='kg'
     #Sort them by the flow names
     flows.sort_values(by='FlowName',axis=0,inplace=True)
-    #Export them
-    #flows.to_csv(output_dir + '/flow/RCRAInfo_' + report_year + '.csv',index=False)
     storeInventory(flows, 'RCRAInfo_' + report_year, 'flow')
+
     #Prepare facilities file
     facilities = BR[['FacilityID', 'Handler Name','Location Street Number',
            'Location Street 1', 'Location Street 2', 'Location City',
            'Location State', 'Location Zip', 'County Name','NAICS']]
-    #Drop duplicates
     facilities.drop_duplicates(inplace=True)
     facilities['Location Street Number'] = facilities['Location Street Number'].apply(str)
     facilities['Location Street Number'].fillna('',inplace=True)
-    facilities['Address'] = facilities['Location Street Number'] + ' ' + facilities['Location Street 1'] + ' ' + facilities['Location Street 2']
-    facilities.drop(columns=['Location Street Number','Location Street 1','Location Street 2'],inplace=True)
+    facilities['Address'] = facilities['Location Street Number'] + ' ' +\
+        facilities['Location Street 1'] + ' ' + facilities['Location Street 2']
+    facilities.drop(columns=['Location Street Number','Location Street 1',
+                             'Location Street 2'],inplace=True)
     facilities.rename(columns={'Primary NAICS':'NAICS',
                             'Handler Name':'FacilityName',
                             'Location City':'City',
                             'Location State':'State',
                             'Location Zip':'Zip',
                             'County Name':'County'}, inplace=True)
-    #facilities.to_csv(output_dir + '/facility/RCRAInfo_' + report_year + '.csv',index=False)
     storeInventory(facilities, 'RCRAInfo_' + report_year, 'facility')
     #Prepare flow by facility
-    flowbyfacility = BR.groupby(['FacilityID','DataReliability','FlowName'])['FlowAmount'].sum().reset_index()
-    #flowbyfacility.to_csv(output_dir + '/flowbyfacility/RCRAInfo_' + report_year + '.csv',index=False)
+    flowbyfacility = BR.groupby(['FacilityID','DataReliability',
+                                 'FlowName'])['FlowAmount'].sum().reset_index()
     storeInventory(flowbyfacility, 'RCRAInfo_' + report_year, 'flowbyfacility')
     
     validate_national_totals(report_year, flowbyfacility)
     
     #Record metadata
-    try: retrieval_time = os.path.getctime(RCRAInfoBRtextfile)
+    BR_meta = source_metadata
+    try: retrieval_time = os.path.getctime(filepath)
     except: retrieval_time = time.time()
     BR_meta['SourceAquisitionTime'] = time.ctime(retrieval_time)
-    BR_meta['SourceFileName'] = RCRAInfoBRtextfile
+    BR_meta['SourceFileName'] = filepath
     BR_meta['SourceURL'] = _config['url']
     write_metadata('RCRAInfo', report_year, BR_meta)
 
@@ -447,7 +450,8 @@ def validate_national_totals(report_year, flowbyfacility):
         sum_of_flowbyfacility_df = pd.DataFrame({'FlowAmount':[sum_of_flowbyfacility],
                                                  'FlowName':'ALL',
                                                  'Compartment':'waste'})
-        validation_df = validate_inventory(sum_of_flowbyfacility_df,BR_national_total,group_by='flow')
+        validation_df = validate_inventory(sum_of_flowbyfacility_df,
+                                           BR_national_total,group_by='flow')
         write_validation_result('RCRAInfo', report_year, validation_df)
     else:
         log.warning('validation file for RCRAInfo_%s does not exist.', report_year)
@@ -465,14 +469,16 @@ if __name__ == '__main__':
                         type = str)
 
     parser.add_argument('-Y', '--Years', nargs= '+',
-                        help = 'What RCRA Biennial Report year you want to retrieve or generate for StEWI',
+                        help = 'What RCRA Biennial Report year you want to '
+                        'retrieve or generate for StEWI',
                         type = str,
                         default = None)
 
     parser.add_argument('-T', '--Tables', nargs = '+',
                         help = 'What RCRAInfo tables you want.\
                         Check:\
-                        https://rcrainfopreprod.epa.gov/rcrainfo-help/application/publicHelp/index.htm',
+                        https://rcrainfopreprod.epa.gov/rcrainfo-help/\
+                        application/publicHelp/index.htm',
                         required = False,
                         default = ['BR_REPORTING'])
 
