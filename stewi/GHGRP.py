@@ -38,12 +38,13 @@ import time
 import os
 import argparse
 
-from stewi.globals import download_table, source_metadata,\
-    write_metadata, get_relpath, import_table, drop_excel_sheets,\
+from stewi.globals import download_table,\
+    write_metadata, import_table, drop_excel_sheets,\
     validate_inventory, write_validation_result,\
     weighted_average, data_dir, reliability_table,\
     flowbyfacility_fields, flowbySCC_fields, facility_fields, config,\
-    storeInventory, paths, log, update_validationsets_sources
+    storeInventory, paths, log, update_validationsets_sources,\
+    compile_source_metadata, read_source_metadata
 
 _config = config()['databases']['GHGRP']
 ghgrp_data_dir = data_dir + 'GHGRP/'
@@ -54,17 +55,20 @@ ghgrp_external_dir = paths.local_path + ext_folder
 flows_CO2e = ['PFC', 'HFC', 'Other','Very_Short', 'HFE', 'Other_Full']
 
 
-def generate_url(table, report_year='', row_start=0, row_end=9999, output_ext='JSON'):
-    # Input a specific table name to generate the query URL to submit
+def generate_url(table, report_year='', row_start=0, row_end=9999,
+                 output_ext='JSON'):
+    '''Input a specific table name to generate the query URL to submit'''
     request_url = _config['enviro_url'] + table
     if report_year != '': request_url += '/REPORTING_YEAR/=/' + report_year
-    if row_start != '': request_url += '/ROWS/' + str(row_start) + ':' + str(row_end)
+    if row_start != '': request_url += '/ROWS/' + str(row_start) + ':' +\
+        str(row_end)
     request_url += '/' + output_ext
     return request_url
 
 
 def get_row_count(table, report_year):
-    # Input specific table name, returns number of rows from API as XML then converts to integer
+    '''Input specific table name, returns number of rows from API as XML
+    then converts to integer'''
     count_url = _config['enviro_url'] + table
     if report_year != '': count_url += '/REPORTING_YEAR/=/' + report_year
     count_url += '/COUNT'
@@ -79,27 +83,32 @@ def get_row_count(table, report_year):
     return table_count
 
 
-def download_chunks(table, table_count, row_start=0, report_year='', output_ext='JSON', filepath=''):
+def download_chunks(table, table_count, row_start=0, report_year='',
+                    output_ext='csv', filepath=''):
+    ''' docstring '''
     # Generate URL for each 10,000 row grouping and add to DataFrame
     output_table = pd.DataFrame()
     while row_start <= table_count:
         row_end = row_start + 9999
-        table_url = generate_url(table=table, report_year=report_year, row_start=row_start, row_end=row_end,
-                                 output_ext='csv')
+        table_url = generate_url(table=table, report_year=report_year,
+                                 row_start=row_start, row_end=row_end,
+                                 output_ext=output_ext)
         log.debug('url: %s', table_url)
         while True:
             try:
                 table_temp, temp_time = import_table(table_url, get_time=True)
-                time_meta.append(temp_time)
-                url_meta.append(table_url)
-                type_meta.append('Database')
-                filename_meta.append(get_relpath(filepath))
                 break
             except ValueError: continue
             except: break
         output_table = pd.concat([output_table, table_temp])
         row_start += 10000
-    output_table.drop_duplicates(inplace=True)
+    ghgrp_metadata['time_meta'].append(temp_time)
+    ghgrp_metadata['url_meta'].append(generate_url(table, 
+                                         report_year=year, 
+                                         row_start='', 
+                                         output_ext='CSV'))
+    ghgrp_metadata['type_meta'].append('Database')
+    ghgrp_metadata['filename_meta'].append(filepath)
     if filepath: output_table.to_csv(filepath, index=False)
     return output_table
 
@@ -151,6 +160,63 @@ def get_facilities(facilities_file):
     return facilities_df
 
 
+def download_excel_tables():
+    # define required tables for download
+    required_tables = [[data_summaries_path, _config['url']+_config['data_summaries_url'], 'Zip File'], 
+                       [esbb_subparts_path, _config['url']+_config['esbb_subparts_url'], 'Static File'],
+                       [lo_subparts_path, _config['url']+_config['lo_subparts_url'], 'Static File'],
+                       ]
+    
+    # download each table from web and save locally
+    for table in required_tables:
+        temp_time = download_table(filepath=table[0], url=table[1], 
+                                   get_time=True, zip_dir=table[0])
+        # record metadata
+        ghgrp_metadata['time_meta'].append(temp_time)
+        ghgrp_metadata['url_meta'].append(table[1])
+        ghgrp_metadata['type_meta'].append(table[2])
+        ghgrp_metadata['filename_meta'].append(table[0])
+
+def import_or_download_table(filepath, table, year):
+    # if data already exists on local network, import the data
+    if os.path.exists(filepath):
+        log.info('Importing data from %s', table)
+        table_df, creation_time = import_table(filepath, get_time=True)
+        ghgrp_metadata['time_meta'].append(creation_time)
+        ghgrp_metadata['filename_meta'].append(filepath)
+        ghgrp_metadata['type_meta'].append('Database')
+        ghgrp_metadata['url_meta'].append(generate_url(table, 
+                                     report_year=year, 
+                                     row_start='', 
+                                     output_ext='CSV'))
+    
+    # otherwise, download the data and save to the network
+    else:
+        # determine number of rows in subpart emissions table
+        row_count = get_row_count(table, report_year=year)
+        log.info('Downloading %s (rows: %i)', table, row_count)
+        # download data in chunks
+        while True:
+            try:
+                table_df = download_chunks(table=table,
+                                          table_count=row_count,
+                                          report_year=year,
+                                          filepath=filepath)
+                log.debug('Done downloading.')
+                break
+            except ValueError: continue
+            except: break
+    
+    # for all columns in the temporary dataframe, remove subpart-specific prefixes
+    for col in table_df:
+        table_df.rename(columns={col : col[len(table) + 1:]}, inplace=True)
+        
+    # drop any unnamed columns
+    if 'unnamed' in table_df.columns[len(table_df.columns) - 1].lower() or table_df.columns[len(table_df.columns) - 1] == '':
+        table_df.drop(table_df.columns[len(table_df.columns) - 1], axis=1, inplace=True)
+        
+    return table_df
+
 def download_and_parse_subpart_tables(year):
     """
     Generates a list of required subpart tables, based on report year.
@@ -182,53 +248,14 @@ def download_and_parse_subpart_tables(year):
         # define filepath where subpart emissions table will be stored
         filepath = tables_dir + subpart_emissions_table + '.csv'
         
-        # if data already exists on local network, import the data
-        if os.path.exists(filepath):
-            log.info('Importing data from %s', subpart_emissions_table)
-            temp_df, temp_time = import_table(filepath, get_time=True)
-            table_length = len(temp_df)
-            row_start = 0
-            while row_start < table_length:
-                time_meta.append(temp_time)
-                filename_meta.append(get_relpath(filepath))
-                type_meta.append('Database')
-                url_meta.append(generate_url(subpart_emissions_table, 
-                                             report_year=year, 
-                                             row_start=row_start, 
-                                             row_end=row_start + 10000, 
-                                             output_ext='CSV'))
-                row_start += 10000
-        
-        # otherwise, download the data and save to the network
-        else:
-            # determine number of rows in subpart emissions table
-            subpart_count = get_row_count(subpart_emissions_table, report_year=year)
-            log.info('Downloading %s (rows: %i)', subpart_emissions_table, subpart_count)
-            # download data in chunks
-            while True:
-                try:
-                    temp_df = download_chunks(table=subpart_emissions_table,
-                                              table_count=subpart_count,
-                                              report_year=year,
-                                              filepath=filepath)
-                    log.debug('Done downloading.')
-                    break
-                except ValueError: continue
-                except: break
-        
-        # for all columns in the temporary dataframe, remove subpart-specific prefixes
-        for col in temp_df:
-            temp_df.rename(columns={col : col[len(subpart_emissions_table) + 1:]}, inplace=True)
-            
-        # drop any unnamed columns
-        if 'unnamed' in temp_df.columns[len(temp_df.columns) - 1].lower() or temp_df.columns[len(temp_df.columns) - 1] == '':
-            temp_df.drop(temp_df.columns[len(temp_df.columns) - 1], axis=1, inplace=True)
+        table_df = import_or_download_table(filepath, subpart_emissions_table,
+                                            year)
         
         # add 1-2 letter subpart abbreviation
-        temp_df['SUBPART_NAME'] = list(year_tables.loc[year_tables['TABLE'] == subpart_emissions_table, 'SUBPART'])[0]
+        table_df['SUBPART_NAME'] = list(year_tables.loc[year_tables['TABLE'] == subpart_emissions_table, 'SUBPART'])[0]
 
         # concatenate temporary dataframe to master ghgrp1 dataframe
-        ghgrp1 = pd.concat([ghgrp1, temp_df])
+        ghgrp1 = pd.concat([ghgrp1, table_df])
     
     ghgrp1.reset_index(drop=True, inplace=True)       
     # for subpart C, calculate total stationary fuel combustion emissions by greenhouse gas 
@@ -306,14 +333,17 @@ def download_and_parse_subpart_tables(year):
         ['METHOD', 'SUBPART_NAME', 'UNIT_NAME', 'FUEL_TYPE']),
         1, inplace=True)
     # 'unpivot' data to create separate line items for each group column
-    ghgrp1b = ghgrp1b.melt(id_vars = base_cols + ['METHOD', 'SUBPART_NAME', 'UNIT_NAME', 'FUEL_TYPE'], 
+    ghgrp1b = ghgrp1b.melt(id_vars = base_cols + ['METHOD', 'SUBPART_NAME',
+                                                  'UNIT_NAME', 'FUEL_TYPE'], 
                            var_name = 'Flow Description', 
                            value_name = 'FlowAmount')
 
     # combine data for same generating unit and fuel type
     ghgrp1b['UNIT_NAME'] = ghgrp1b['UNIT_NAME'].fillna('tmp')
     ghgrp1b['FUEL_TYPE'] = ghgrp1b['FUEL_TYPE'].fillna('tmp')
-    ghgrp1b = ghgrp1b.groupby(['FACILITY_ID','REPORTING_YEAR','SUBPART_NAME','UNIT_NAME','FUEL_TYPE','Flow Description'])\
+    ghgrp1b = ghgrp1b.groupby(['FACILITY_ID','REPORTING_YEAR',
+                               'SUBPART_NAME','UNIT_NAME','FUEL_TYPE',
+                               'Flow Description'])\
         .agg({'FlowAmount':['sum'], 'METHOD':['sum']})
     ghgrp1b = ghgrp1b.reset_index()
     ghgrp1b.columns = ghgrp1b.columns.droplevel(level=1)
@@ -418,35 +448,7 @@ def generate_national_totals_validation(validation_table, year):
     # define filepath for reference data
     ref_filepath = ghgrp_external_dir + 'GHGRP_reference.csv'
     
-    # if the reference file exists, load the data
-    if os.path.exists(ref_filepath):
-        reference_df, temp_time = import_table(ref_filepath, get_time=True)
-        table_length = len(reference_df)
-        row_start = 0
-        while row_start < table_length:
-            time_meta.append(temp_time)
-            filename_meta.append(get_relpath(ref_filepath))
-            type_meta.append('Database')
-            url_meta.append(generate_url(validation_table,
-                                         report_year=year,
-                                         row_start=row_start,
-                                         row_end=row_start + 10000,
-                                         output_ext='CSV'))
-            row_start += 10000
-    
-    # if the file does not exist, download it in chuncks
-    else: 
-        log.info('reference dataset not found, downloding from source')
-        reference_df = download_chunks(validation_table, get_row_count(validation_table, year), filepath=ref_filepath)
-               
-    # for all columns in the reference dataframe, remove subpart-specific prefixes
-    for col in reference_df:
-        reference_df.rename(columns={col : col[len(validation_table) + 1:]}, inplace=True)
-        
-    # drop any unnamed columns
-    if 'unnamed' in reference_df.columns[len(reference_df.columns) - 1].lower() or reference_df.columns[
-        len(reference_df.columns) - 1] == '':
-        reference_df.drop(reference_df.columns[len(reference_df.columns) - 1], axis=1, inplace=True)
+    reference_df = import_or_download_table(ref_filepath, validation_table, year)
                 
     # parse reference dataframe to prepare it for validation
     reference_df['YEAR'] = reference_df['YEAR'].astype('str')
@@ -523,6 +525,23 @@ def validate_national_totals_by_subpart(tab_df, year):
                           'FlowName'] = validation_result['FlowName']+' (CO2e)'
     write_validation_result('GHGRP', year, validation_result)
     
+
+def generate_metadata(year, metadata_dict, datatype = 'inventory'):
+    """
+    Gets metadata and writes to .json
+    """
+    if datatype == 'source':
+        source_path = metadata_dict['filename_meta']
+        source_meta = compile_source_metadata(source_path, _config, year)
+        source_meta['SourceType'] = metadata_dict['type_meta']
+        source_meta['SourceURL'] = metadata_dict['url_meta']
+        source_meta['SourceAcquisitionTime'] = metadata_dict['time_meta']
+        write_metadata('GHGRP_'+year, source_meta,
+                       category=ext_folder, datatype='source')
+    else:
+        source_meta = read_source_metadata(ghgrp_external_dir + 'GHGRP_'+ year)['tool_meta']
+        write_metadata('GHGRP_'+year, source_meta, datatype=datatype)
+
 def load_subpart_l_gwp():
     
     # load global warming potentials for subpart L calculation
@@ -612,31 +631,17 @@ if __name__ == '__main__':
     lo_subparts_path = ghgrp_external_dir + _config['lo_subparts_url']
     
     # set format for metadata file
-    ghgrp_metadata = source_metadata 
-    time_meta = []
-    filename_meta = []
-    type_meta = []
-    url_meta = []
+    ghgrp_metadata = {} 
+    ghgrp_metadata['time_meta'] = []
+    ghgrp_metadata['filename_meta'] = []
+    ghgrp_metadata['type_meta'] = []
+    ghgrp_metadata['url_meta'] = []
     
     for year in GHGRPyears:
         pickle_file = ghgrp_external_dir + 'GHGRP_' + year + '.pk'
         if args.Option == 'A':
             
-            # define required tables for download
-            required_tables = [[data_summaries_path, _config['url']+_config['data_summaries_url'], 'Static File'], 
-                               [esbb_subparts_path, _config['url']+_config['esbb_subparts_url'], 'Static File'],
-                               [lo_subparts_path, _config['url']+_config['lo_subparts_url'], 'Static File'],
-                               ]
-            
-            # download each table from web and save locally
-            for table in required_tables:
-                temp_time = download_table(filepath=table[0], url=table[1], 
-                                           get_time=True, zip_dir=table[0])
-                # record metadata
-                time_meta.append(temp_time)
-                url_meta.append(table[1])
-                type_meta.append(table[2])
-                filename_meta.append(get_relpath(table[0]))
+            download_excel_tables()
  
             # download subpart emissions tables for report year and save locally
             # parse subpart emissions data to match standardized EPA format
@@ -696,6 +701,9 @@ if __name__ == '__main__':
             # pickle data and save to network
             log.info('saving processed GHGRP data to %s', pickle_file)
             ghgrp.to_pickle(pickle_file)
+            
+            #Metadata
+            generate_metadata(year, ghgrp_metadata, datatype='source')
 
         if args.Option == 'B':
             log.info('extracting data from %s', pickle_file)
@@ -767,11 +775,7 @@ if __name__ == '__main__':
             validate_national_totals_by_subpart(ghgrp, year)
             
             # Record metadata compiled from all GHGRP files and tables
-            ghgrp_metadata['SourceAquisitionTime'] = time_meta
-            ghgrp_metadata['SourceFileName'] = filename_meta
-            ghgrp_metadata['SourceType'] = type_meta
-            ghgrp_metadata['SourceURL'] = url_meta
-            write_metadata('GHGRP', year, ghgrp_metadata)
+            generate_metadata(year, ghgrp_metadata, datatype='inventory')
       
         elif args.Option == 'C':
             log.info('generating national totals for validation')
