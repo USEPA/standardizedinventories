@@ -45,7 +45,7 @@ source_metadata = {
     'SourceFileName':'NA',
     'SourceURL':'NA',
     'SourceVersion':'NA',
-    'SourceAquisitionTime':'NA',
+    'SourceAcquisitionTime':'NA',
     'StEWI_Version':stewi_version,
     }
 
@@ -108,6 +108,9 @@ def download_table(filepath, url, get_time=False, zip_dir=None):
             try: retrieval_time = os.path.getctime(filepath)
             except: retrieval_time = time.time()
             return time.ctime(retrieval_time)
+    elif get_time:
+        return time.ctime(os.path.getctime(filepath))
+        
 
 
 def set_dir(directory_name):
@@ -120,17 +123,17 @@ def set_dir(directory_name):
 
 
 def import_table(path_or_reference, skip_lines=0, get_time=False):
-    if '.core.frame.DataFrame' in str(type(path_or_reference)): import_file = path_or_reference
+    if '.core.frame.DataFrame' in str(type(path_or_reference)): df = path_or_reference
     elif path_or_reference[-3:].lower() == 'csv':
-        import_file = pd.read_csv(path_or_reference, low_memory=False)
+        df = pd.read_csv(path_or_reference, low_memory=False)
     elif 'xls' in path_or_reference[-4:].lower():
         import_file = pd.ExcelFile(path_or_reference)
-        import_file = {sheet: import_file.parse(sheet, skiprows=skip_lines) for sheet in import_file.sheet_names}
+        df = {sheet: import_file.parse(sheet, skiprows=skip_lines) for sheet in import_file.sheet_names}
     if get_time:
         try: retrieval_time = os.path.getctime(path_or_reference)
         except: retrieval_time = time.time()
-        return import_file, retrieval_time
-    return import_file
+        return df, time.ctime(retrieval_time)
+    return df
 
 
 def drop_excel_sheets(excel_dict, drop_sheets):
@@ -300,7 +303,7 @@ def write_validation_result(inventory_acronym,year,validation_df):
     validation_metadata['SourceFileName'] = validation_set_info['Name']
     validation_metadata['SourceVersion'] = validation_set_info['Version']
     validation_metadata['SourceURL'] = validation_set_info['URL']
-    validation_metadata['SourceAquisitionTime'] = validation_set_info['Date Acquired']
+    validation_metadata['SourceAcquisitionTime'] = validation_set_info['Date Acquired']
     validation_metadata['Criteria'] = validation_set_info['Criteria']
     #Write metadata to file
     write_metadata(inventory_acronym + '_' + year, validation_metadata, datatype="validation")
@@ -423,7 +426,7 @@ def compile_source_metadata(sourcefile, config, year):
         filename = sourcefile
     data_retrieval_time = time.ctime(os.path.getmtime(filename))
     if data_retrieval_time is not None:
-        metadata['SourceAquisitionTime'] = data_retrieval_time
+        metadata['SourceAcquisitionTime'] = data_retrieval_time
     metadata['SourceFileName'] = sourcefile
     metadata['SourceURL'] = config['url']
     if year in config:

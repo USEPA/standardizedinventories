@@ -63,7 +63,7 @@ def download_extract_FRS_combined_national(file=None):
         #zip_file.extract(file, path = FRSpath)
         source_dict['SourceFileName']=file
         name = strip_file_extension(file)
-    source_dict['SourceAquisitionTime']= datetime.now().strftime('%d-%b-%Y')
+    source_dict['SourceAcquisitionTime']= datetime.now().strftime('%d-%b-%Y')
     write_metadata(name, source_dict, category=ext_folder)
 
 def read_FRS_file(file_name, col_dict):
