@@ -107,8 +107,9 @@ import time, datetime
 
 from stewi.globals import write_metadata,unit_convert,validate_inventory,\
     write_validation_result, set_dir, data_dir, config,\
-    checkforFile, USton_kg, source_metadata, reliability_table, paths,\
-    log, storeInventory, compile_source_metadata, read_source_metadata
+    checkforFile, USton_kg, reliability_table, paths,\
+    log, storeInventory, compile_source_metadata, read_source_metadata,\
+    update_validationsets_sources, filter_states
 
 
 _config = config()['databases']['RCRAInfo']
@@ -445,26 +446,48 @@ def generate_metadata(year, files, datatype = 'inventory'):
         source_meta = read_source_metadata(rcra_external_dir + 'RCRAInfo_'+ year)['tool_meta']
         write_metadata('RCRAInfo_'+year, source_meta, datatype=datatype)    
     
+def generate_state_totals(year):
+    totals = pd.read_csv(rcra_data_dir + 'RCRA_state_totals.csv')
+    totals = totals.rename(columns={'Location Name':'state_name'})
+    totals = totals[['state_name',year]]
+    totals['FlowAmount_kg'] = totals[year] * USton_kg
+    totals.drop(labels=year, axis=1, inplace=True)
+    state_codes = pd.read_csv(data_dir + 'state_codes.csv',
+                              usecols = ['states','state_name'])
+    totals = totals.merge(state_codes, on = 'state_name')
+    totals = totals.rename(columns={'states':'State'})
+    filename = data_dir + 'RCRAInfo_' + year + '_StateTotals.csv'
+    totals.to_csv(filename, index=False)
+    
+    # Update validationSets_Sources.csv
+    date_created = time.strptime(time.ctime(os.path.getctime(filename)))
+    date_created = time.strftime('%d-%b-%Y', date_created)
+    validation_dict = {'Inventory':'RCRAInfo',
+                       #'Version':'',
+                       'Year':year,
+                       'Name':'Trends Analysis',
+                       'URL':'https://rcrapublic.epa.gov/rcrainfoweb/action/modules/br/trends/view',
+                       'Criteria':'Location: National, Metric: Generation, '
+                       'Generators To Include: All Generators Included In The NBR',
+                       'Date Acquired':date_created,
+                       }
+    update_validationsets_sources(validation_dict, date_acquired=True)    
 
 def validate_national_totals(report_year, flowbyfacility):
     ##VALIDATION
     log.info('validating data against national totals')
-    file_path = data_dir + 'RCRAInfo_' + report_year + '_NationalTotals.csv'
+    file_path = data_dir + 'RCRAInfo_' + report_year + '_StateTotals.csv'
     if (os.path.exists(file_path)):
-        BR_national_total = pd.read_csv(file_path, dtype={"FlowAmount":float})
-        BR_national_total['FlowAmount_kg'] = 0
-        BR_national_total = unit_convert(BR_national_total, 'FlowAmount_kg', 
-                                         'Unit', 'Tons', 907.18474, 'FlowAmount')
-        BR_national_total.drop(['FlowAmount','Unit'],axis=1,inplace=True)
+        totals = pd.read_csv(file_path, dtype={"FlowAmount_kg":float})
         # Rename cols to match reference format
-        BR_national_total.rename(columns={'FlowAmount_kg':'FlowAmount'},inplace=True)
+        totals.rename(columns={'FlowAmount_kg':'FlowAmount'},inplace=True)
         #Validate total waste generated against national totals
-        sum_of_flowbyfacility = flowbyfacility['FlowAmount'].sum()
-        sum_of_flowbyfacility_df = pd.DataFrame({'FlowAmount':[sum_of_flowbyfacility],
-                                                 'FlowName':'ALL',
-                                                 'Compartment':'waste'})
-        validation_df = validate_inventory(sum_of_flowbyfacility_df,
-                                           BR_national_total,group_by='flow')
+        flowbyfacility['State'] = flowbyfacility['FacilityID'].str[0:2]
+        flowbyfacility = filter_states(flowbyfacility,
+                                       include_dc = False,
+                                       include_territories = False)
+        validation_df = validate_inventory(flowbyfacility,
+                                           totals,group_by='state')
         write_validation_result('RCRAInfo', report_year, validation_df)
     else:
         log.warning('validation file for RCRAInfo_%s does not exist.', report_year)
@@ -478,7 +501,8 @@ if __name__ == '__main__':
                         help = 'What do you want to do:\
                         [A] Extract information from RCRAInfo.\
                         [B] Organize files for each year.\
-                        [C] Create RCRAInfo for StEWI',
+                        [C] Create RCRAInfo for StEWI\
+                        [D] Process state totals for validation',
                         type = str)
 
     parser.add_argument('-Y', '--Years', nargs= '+',
@@ -518,4 +542,10 @@ if __name__ == '__main__':
         elif args.Option == 'C':
     
             Generate_RCRAInfo_files_csv(year)
+        
+        elif args.Option == 'D':
+            '''State totals are compiled from the Trends Analysis website
+            and stored as csv. New years will be added as data becomes
+            available'''
+            generate_state_totals(year)
         

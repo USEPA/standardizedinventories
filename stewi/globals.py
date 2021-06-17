@@ -191,8 +191,7 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
     Compare inventory resulting from script output with a reference DataFrame from another source
     :param inventory_df: DataFrame of inventory resulting from script output
     :param reference_df: Reference DataFrame to compare emission quantities against. Must have same keys as inventory_df
-    :param group_by: 'flow' for species summed across facilities, 'facility' to check species by facility,
-                      or 'overall' for summed mass of all species
+    :param group_by: 'flow' for species summed across facilities, 'facility' to check species by facility
     :param tolerance: Maximum acceptable percent difference between inventory and reference values
     :return: DataFrame containing 'Conclusion' of statistical comparison and 'Percent_Difference'
     """
@@ -202,22 +201,19 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
     if pd.api.types.is_string_dtype(reference_df['FlowAmount']):
         reference_df['FlowAmount'] = reference_df['FlowAmount'].str.replace(',', '')
         reference_df['FlowAmount'] = pd.to_numeric(reference_df['FlowAmount'])
-    if group_by == 'overall':
-        inventory_sums = inventory_df['FlowAmount'].sum()
-        reference_sums = reference_df['FlowAmount'].sum()
-    else:
-        if group_by == 'flow':
-            group_by_columns = ['FlowName']
-            if 'Compartment' in inventory_df.keys(): group_by_columns += ['Compartment']
-            if 'State' in inventory_df.keys(): group_by_columns += ['State']
-        elif group_by == 'facility':
-            group_by_columns = ['FlowName', 'FacilityID']
-        elif group_by == 'subpart':
-            group_by_columns = ['FlowName', 'SubpartName']
-        inventory_df['FlowAmount'] = inventory_df['FlowAmount'].fillna(0.0)
-        reference_df['FlowAmount'] = reference_df['FlowAmount'].fillna(0.0)
-        inventory_sums = inventory_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
-        reference_sums = reference_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
+    if group_by == 'flow':
+        group_by_columns = ['FlowName']
+        if 'Compartment' in inventory_df.keys(): group_by_columns += ['Compartment']
+    elif group_by == 'state':
+        group_by_columns = ['State']
+    elif group_by == 'facility':
+        group_by_columns = ['FlowName', 'FacilityID']
+    elif group_by == 'subpart':
+        group_by_columns = ['FlowName', 'SubpartName']
+    inventory_df['FlowAmount'] = inventory_df['FlowAmount'].fillna(0.0)
+    reference_df['FlowAmount'] = reference_df['FlowAmount'].fillna(0.0)
+    inventory_sums = inventory_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
+    reference_sums = reference_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
     if filepath: reference_sums.to_csv(filepath, index=False)
     validation_df = inventory_sums.merge(reference_sums, how='outer', on=group_by_columns).reset_index(drop=True)
     validation_df = validation_df.fillna(0.0)
