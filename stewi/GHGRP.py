@@ -495,7 +495,7 @@ def validate_national_totals_by_subpart(tab_df, year):
                            'FlowCode':'FlowName'}, inplace=True)
     
     # import and parse reference data
-    ref_df = import_table(data_dir + year + '_GHGRP_NationalTotals.csv')
+    ref_df = import_table(data_dir + 'GHGRP_'+ year + '_NationalTotals.csv')
     ref_df.drop(['FlowName'], axis=1, inplace=True)
     ref_df.rename(columns={'SUBPART_NAME': 'SubpartName',
                            'FlowCode':'FlowName'}, inplace=True)
