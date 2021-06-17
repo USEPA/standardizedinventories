@@ -34,6 +34,7 @@ import pandas as pd
 import numpy as np
 import requests
 from xml.dom import minidom
+import time
 import os
 import argparse
 
@@ -42,7 +43,7 @@ from stewi.globals import download_table, source_metadata,\
     validate_inventory, write_validation_result,\
     weighted_average, data_dir, reliability_table,\
     flowbyfacility_fields, flowbySCC_fields, facility_fields, config,\
-    storeInventory, paths, FileMeta, log
+    storeInventory, paths, log, update_validationsets_sources
 
 _config = config()['databases']['GHGRP']
 ghgrp_data_dir = data_dir + 'GHGRP/'
@@ -435,6 +436,7 @@ def generate_national_totals_validation(validation_table, year):
     
     # if the file does not exist, download it in chuncks
     else: 
+        log.info('reference dataset not found, downloding from source')
         reference_df = download_chunks(validation_table, get_row_count(validation_table, year), filepath=ref_filepath)
                
     # for all columns in the reference dataframe, remove subpart-specific prefixes
@@ -470,7 +472,22 @@ def generate_national_totals_validation(validation_table, year):
     reference_df_agg.reset_index(inplace=True)
     reference_df_agg.columns = reference_df_agg.columns.droplevel(level=1)
     # save reference dataframe to network
-    reference_df_agg.to_csv(data_dir + year + '_GHGRP_NationalTotals.csv', index=False)    
+    reference_df_agg.to_csv(data_dir + 'GHGRP_'+ year + '_NationalTotals.csv',
+                            index=False)    
+
+    # Update validationSets_Sources.csv
+    date_created = time.strptime(time.ctime(os.path.getctime(ref_filepath)))
+    date_created = time.strftime('%d-%b-%Y', date_created)
+    validation_dict = {'Inventory':'GHGRP',
+                       #'Version':'',
+                       'Year':year,
+                       'Name':'GHGRP Table V_GHG_EMITTER_SUBPART',
+                       'URL': generate_url(validation_table, report_year = '',
+                       row_start='', output_ext='CSV'),
+                       'Criteria':'',
+                       'Date Acquired':date_created,
+                       }
+    update_validationsets_sources(validation_dict, date_acquired=True)
 
 def validate_national_totals_by_subpart(tab_df, year):
     log.info('validating flowbyfacility against national totals')
@@ -713,19 +730,14 @@ if __name__ == '__main__':
             storeInventory(ghgrp_fbs,'GHGRP_'+year,'flowbySCC')
             
             log.info('generating flowbyfacility output')
-            
             fbf_columns = [c for c in flowbyfacility_fields.keys() if c in ghgrp]
             ghgrp_fbf = ghgrp[fbf_columns]
             
             # aggregate instances of more than one flow for same facility and flow type
             ghgrp_fbf_2 = aggregate(ghgrp_fbf, ['FacilityID', 'FlowName'])
-                      
-            # save results to output directory
             storeInventory(ghgrp_fbf_2,'GHGRP_'+year,'flowbyfacility')
         
             log.info('generating flows output')
-
-            # generate flows output and save to network
             flow_columns = ['FlowName', 'FlowCode']
             ghgrp_flow = ghgrp[flow_columns].drop_duplicates()
             ghgrp_flow.dropna(subset=['FlowName'], inplace=True)
@@ -735,7 +747,6 @@ if __name__ == '__main__':
             storeInventory(ghgrp_flow,'GHGRP_'+year,'flow')
         
             log.info('generating facilities output')
-            
             # return dataframe of GHGRP facilities
             facilities_df = get_facilities(data_summaries_path + 'ghgp_data_' + year + '.xlsx')
             
@@ -763,7 +774,7 @@ if __name__ == '__main__':
             write_metadata('GHGRP', year, ghgrp_metadata)
       
         elif args.Option == 'C':
-            log.info('downloading national totals for validation')
+            log.info('generating national totals for validation')
             validation_table = 'V_GHG_EMITTER_SUBPART'
             generate_national_totals_validation(validation_table, year)
             
