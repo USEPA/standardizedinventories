@@ -1,5 +1,5 @@
-## Flow-By-SCC Process Format
-Provides totals by source classification code (SCC) for units operating in an EPA facility. Currently only applies to NEI.
+## Flow-By-Process Format
+Provides totals by facility process. Currently only applies to NEI and GHGRP.
 
 Field | Type | Required? | Description
 ----- | ---- | --------  | -----------
@@ -9,4 +9,4 @@ FacilityID | String | Y | a unique identification number used by the inventory t
 DataReliability | Numeric | Y | A score of data reliability based on reporting values associated with the amount see [US EPA Data Quality System](https://cfpub.epa.gov/si/si_public_record_report.cfm?dirEntryId=321834) and [Cashman et al. 2017](http://dx.doi.org/10.1021/acs.est.6b02160)
 Compartment | String | Y | Name of compartment to which release goes, e.g. "air", "water", "ground". Used for inventory sources characterizing releases to multiple compartments.
 Unit | String | Y | SI unit acronym. 'kg' for mass flows; 'MJ' for energy flows
-SCC | String | Y | [EPA Source Classification Codes](https://ofmpub.epa.gov/sccsearch/)
+Process | String | Y | [NEI: EPA Source Classification Codes](https://ofmpub.epa.gov/sccsearch/) or [GHGRP Subparts](https://www.epa.gov/ghgreporting/resources-subpart-ghg-reporting)

@@ -37,8 +37,8 @@ except:
 reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',
                                 usecols=['Source', 'Code', 'DQI Reliability Score'])
 
-stewi_formats = ['flowbyfacility', 'flow', 'facility', 'flowbySCC']
-inventory_formats = ['flowbyfacility', 'flowbySCC']
+stewi_formats = ['flowbyfacility', 'flow', 'facility', 'flowbyprocess']
+inventory_formats = ['flowbyfacility', 'flowbyprocess']
 
 source_metadata = {
     'SourceType': 'Static File',  #Other types are "Web service"
@@ -470,18 +470,18 @@ facility_fields = {'FacilityID':[{'dtype': 'str'}, {'required': True}],
                    'SIC':[{'dtype': 'str'}, {'required': False}],
                    }
 
-flowbySCC_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
+flowbyprocess_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
                     'Compartment': [{'dtype': 'str'}, {'required': True}],
                     'FlowAmount': [{'dtype': 'float'}, {'required': True}],
                     'FacilityID': [{'dtype': 'str'}, {'required': True}],
                     'DataReliability': [{'dtype': 'float'}, {'required': True}],
                     'Unit': [{'dtype': 'str'}, {'required': True}],
-                    'SCC': [{'dtype': 'str'}, {'required': True}],
+                    'Process': [{'dtype': 'str'}, {'required': True}],
                     'ReliabilityScore': [{'dtype': 'float'}, {'required': True}],                    
                     }
 
 format_dict = {'flowbyfacility': flowbyfacility_fields,
-               'flowbySCC': flowbySCC_fields}
+               'flowbyprocess': flowbyprocess_fields}
 
 def get_required_fields(format='flowbyfacility'):
     fields = format_dict[format]

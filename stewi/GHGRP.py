@@ -42,7 +42,7 @@ from stewi.globals import download_table,\
     write_metadata, import_table, drop_excel_sheets,\
     validate_inventory, write_validation_result,\
     weighted_average, data_dir, reliability_table,\
-    flowbyfacility_fields, flowbySCC_fields, facility_fields, config,\
+    flowbyfacility_fields, flowbyprocess_fields, facility_fields, config,\
     storeInventory, paths, log, update_validationsets_sources,\
     compile_source_metadata, read_source_metadata
 
@@ -510,7 +510,7 @@ def validate_national_totals_by_subpart(tab_df, year):
     
     # parse tabulated data            
     tab_df.drop(['FacilityID','DataReliability','FlowName'], axis=1, inplace=True)
-    tab_df.rename(columns={'SCC': 'SubpartName',
+    tab_df.rename(columns={'Process': 'SubpartName',
                            'FlowCode':'FlowName'}, inplace=True)
     
     # import and parse reference data
@@ -725,17 +725,16 @@ if __name__ == '__main__':
             ghgrp['FlowAmount'] = 1000 * ghgrp['FlowAmount'].astype('float')
             
             # rename reliability score column for consistency
-            # temporary assign as SCC for consistency with NEI
             ghgrp.rename(columns={'DQI Reliability Score': 'DataReliability',
-                                  'SUBPART_NAME':'SCC'}, inplace=True)
+                                  'SUBPART_NAME':'Process'}, inplace=True)
             
             log.info('generating flowbysubpart output')
             
             # generate flowbysubpart
-            fbs_columns = [c for c in flowbySCC_fields.keys() if c in ghgrp]
+            fbs_columns = [c for c in flowbyprocess_fields.keys() if c in ghgrp]
             ghgrp_fbs = ghgrp[fbs_columns]
-            ghgrp_fbs = aggregate(ghgrp_fbs, ['FacilityID', 'FlowName', 'SCC'])
-            storeInventory(ghgrp_fbs,'GHGRP_'+year,'flowbySCC')
+            ghgrp_fbs = aggregate(ghgrp_fbs, ['FacilityID', 'FlowName', 'Process'])
+            storeInventory(ghgrp_fbs,'GHGRP_'+year,'flowbyprocess')
             
             log.info('generating flowbyfacility output')
             fbf_columns = [c for c in flowbyfacility_fields.keys() if c in ghgrp]

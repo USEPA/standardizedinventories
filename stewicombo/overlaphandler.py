@@ -164,7 +164,7 @@ def remove_flow_overlap(df, aggregate_flow, contributing_flows, compartment='air
     df_contributing_flows = df_contributing_flows[df_contributing_flows['Compartment']==compartment]
     match_conditions = ['FacilityID','Source','Compartment']
     if SCC:
-        match_conditions.append('SCC')
+        match_conditions.append('Process')
 
     df_contributing_flows = df_contributing_flows.groupby(match_conditions, as_index=False)['FlowAmount'].sum()
 

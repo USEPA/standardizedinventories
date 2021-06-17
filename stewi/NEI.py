@@ -10,7 +10,7 @@ Options:
     A - for processing downloaded NEI Point from EIS
     B - for generating inventory files for StEWI: 
         flowbyfacility
-        flowbySCC
+        flowbyprocess
         flows
         facilities
     C - for downloading national totals for validation
@@ -333,10 +333,9 @@ if __name__ == '__main__':
             #2011: 1840866
 
             log.info('generating flow by SCC output')
-            nei_flowbySCC = nei_aggregate_to_custom_level(nei_point, 'SCC')
-            #nei_flowbySCC.to_csv(output_dir+'flowbySCC/NEI_'+year+'.csv',index=False)
-            storeInventory(nei_flowbySCC, 'NEI_'+year, 'flowbySCC')
-            log.debug(len(nei_flowbySCC))
+            nei_flowbyprocess = nei_aggregate_to_custom_level(nei_point, 'Process')
+            storeInventory(nei_flowbyprocess, 'NEI_'+year, 'flowbyprocess')
+            log.debug(len(nei_flowbyprocess))
             #2017: 4055707
 
             log.info('generating flows output')
