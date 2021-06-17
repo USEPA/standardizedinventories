@@ -334,6 +334,7 @@ if __name__ == '__main__':
 
             log.info('generating flow by SCC output')
             nei_flowbyprocess = nei_aggregate_to_custom_level(nei_point, 'Process')
+            nei_flowbyprocess['ProcessType'] = 'SCC'
             storeInventory(nei_flowbyprocess, 'NEI_'+year, 'flowbyprocess')
             log.debug(len(nei_flowbyprocess))
             #2017: 4055707

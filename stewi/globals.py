@@ -454,7 +454,7 @@ flowbyfacility_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
                          'FacilityID': [{'dtype': 'str'}, {'required': True}],
                          'DataReliability': [{'dtype': 'float'}, {'required': True}],
                          'Unit': [{'dtype': 'str'}, {'required': True}],
-                         'ReliabilityScore': [{'dtype': 'float'}, {'required': True}],
+                         'ReliabilityScore': [{'dtype': 'float'}, {'required': False}],
                          }
 
 facility_fields = {'FacilityID':[{'dtype': 'str'}, {'required': True}],
@@ -477,7 +477,8 @@ flowbyprocess_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
                     'DataReliability': [{'dtype': 'float'}, {'required': True}],
                     'Unit': [{'dtype': 'str'}, {'required': True}],
                     'Process': [{'dtype': 'str'}, {'required': True}],
-                    'ReliabilityScore': [{'dtype': 'float'}, {'required': True}],                    
+                    'ProcessType': [{'dtype': 'str'}, {'required': False}],
+                    'ReliabilityScore': [{'dtype': 'float'}, {'required': False}],                    
                     }
 
 format_dict = {'flowbyfacility': flowbyfacility_fields,

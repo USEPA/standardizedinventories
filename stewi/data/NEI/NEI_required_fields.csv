@@ -15,7 +15,7 @@ FlowID,pollutant_code,pollutant code,pollutant code,pollutant code
 FlowAmount,actual_emissions_tpy,total emissions,total emissions,total emissions
 UOM,,emissions uom,emissions uom,emissions uom
 ReliabilityScore,emission_calc_method_code,calc method code,calc method code,calc method code
-SCC,scc,scc,scc,scc
+Process,scc,scc,scc,scc
 UnitID,emission_unit_id,eis unit id,eis unit id,eis unit id
 UnitType,unit_type_code,unit type,unit type,unit type
 StackHeight,stack_height (ft),,,

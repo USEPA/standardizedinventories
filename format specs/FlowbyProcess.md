@@ -10,3 +10,4 @@ DataReliability | Numeric | Y | A score of data reliability based on reporting v
 Compartment | String | Y | Name of compartment to which release goes, e.g. "air", "water", "ground". Used for inventory sources characterizing releases to multiple compartments.
 Unit | String | Y | SI unit acronym. 'kg' for mass flows; 'MJ' for energy flows
 Process | String | Y | [NEI: EPA Source Classification Codes](https://ofmpub.epa.gov/sccsearch/) or [GHGRP Subparts](https://www.epa.gov/ghgreporting/resources-subpart-ghg-reporting)
+ProcessType | String | N | Indicator describing the item in the 'Process' field

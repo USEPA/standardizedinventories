@@ -727,6 +727,7 @@ if __name__ == '__main__':
             # rename reliability score column for consistency
             ghgrp.rename(columns={'DQI Reliability Score': 'DataReliability',
                                   'SUBPART_NAME':'Process'}, inplace=True)
+            ghgrp['ProcessType'] = 'Subpart'
             
             log.info('generating flowbysubpart output')
             
