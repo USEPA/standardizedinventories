@@ -485,7 +485,7 @@ def validate_national_totals_by_subpart(tab_df, year):
     log.info('validating flowbyfacility against national totals')
 
     # apply CO2e factors for some flows
-    mask = (tab_df['AmountCO2e'].isna() & tab_df['FlowCode'].isin(flows_CO2e))
+    mask = (tab_df['AmountCO2e'].isna() & tab_df['FlowID'].isin(flows_CO2e))
     tab_df.loc[mask, 'Flow Description'] = 'Fluorinated GHG Emissions (mt CO2e)'
     subpart_L_GWPs = load_subpart_l_gwp()
     subpart_L_GWPs.rename(columns={'Flow Name':'FlowName'}, inplace=True)
@@ -495,13 +495,13 @@ def validate_national_totals_by_subpart(tab_df, year):
     tab_df.loc[mask, 'AmountCO2e'] = tab_df['FlowAmount']*tab_df['CO2e_factor']
     
     # for subset of flows, use CO2e for validation
-    mask = tab_df['FlowCode'].isin(flows_CO2e)
+    mask = tab_df['FlowID'].isin(flows_CO2e)
     tab_df.loc[mask, 'FlowAmount'] = tab_df['AmountCO2e']
     
     # parse tabulated data            
     tab_df.drop(['FacilityID','DataReliability','FlowName'], axis=1, inplace=True)
     tab_df.rename(columns={'Process': 'SubpartName',
-                           'FlowCode':'FlowName'}, inplace=True)
+                           'FlowID':'FlowName'}, inplace=True)
     
     # import and parse reference data
     ref_df = import_table(data_dir + 'GHGRP_'+ year + '_NationalTotals.csv')
@@ -716,7 +716,8 @@ if __name__ == '__main__':
             
             # rename reliability score column for consistency
             ghgrp.rename(columns={'DQI Reliability Score': 'DataReliability',
-                                  'SUBPART_NAME':'Process'}, inplace=True)
+                                  'SUBPART_NAME':'Process',
+                                  'FlowCode':'FlowID'}, inplace=True)
             ghgrp['ProcessType'] = 'Subpart'
             
             log.info('generating flowbysubpart output')
@@ -736,10 +737,10 @@ if __name__ == '__main__':
             storeInventory(ghgrp_fbf_2,'GHGRP_'+year,'flowbyfacility')
         
             log.info('generating flows output')
-            flow_columns = ['FlowName', 'FlowCode']
+            flow_columns = ['FlowName', 'FlowID']
             ghgrp_flow = ghgrp[flow_columns].drop_duplicates()
             ghgrp_flow.dropna(subset=['FlowName'], inplace=True)
-            ghgrp_flow.sort_values(by=['FlowCode','FlowName'], inplace=True)
+            ghgrp_flow.sort_values(by=['FlowID','FlowName'], inplace=True)
             ghgrp_flow['Compartment'] = 'air'
             ghgrp_flow['Unit'] = 'kg'
             storeInventory(ghgrp_flow,'GHGRP_'+year,'flow')
