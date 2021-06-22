@@ -1,13 +1,21 @@
+# globals.py (facilitymatcher)
+# !/usr/bin/env python3
+# coding=utf-8
+"""
+Supporting variables and functions used in facilitymatcher
+"""
+
 import zipfile
 import io
 import requests
 import json
 import pandas as pd
-pd.options.mode.chained_assignment = None
-import os, yaml
+import os
 from datetime import datetime
 from stewi.globals import log, set_stewi_meta, source_metadata, config,\
     read_source_metadata
+import facilitymatcher.WriteFacilityMatchesforStEWI as write_fm
+import facilitymatcher.WriteFRSNAICSforStEWI as write_naics
 from esupy.processed_data_mgmt import Paths, load_preprocessed_output,\
     write_df_to_file, write_metadata_to_file
 from esupy.util import strip_file_extension
@@ -28,15 +36,9 @@ FRSpath = paths.local_path + ext_folder
 
 FRS_config = config(modulepath)['databases']['FRS']
 
-stewi_inventories = ["NEI","TRI","eGRID","RCRAInfo", "DMR", "GHGRP"]
+inventory_to_FRS_pgm_acronymn = FRS_config['program_dictionary']
+stewi_inventories = list(inventory_to_FRS_pgm_acronymn.keys())
 
-inventory_to_FRS_pgm_acronymn = {"NEI":"EIS",
-                                 "TRI":"TRIS",
-                                 "eGRID":"EGRID",
-                                 "GHGRP":"E-GGRT",
-                                 "RCRAInfo":"RCRAINFO",
-                                 "DMR":"NPDES",
-                                 }
 
 def set_facilitymatcher_meta(file_name, category):
     facilitymatcher_meta = set_stewi_meta(file_name, category)
@@ -45,10 +47,9 @@ def set_facilitymatcher_meta(file_name, category):
     return facilitymatcher_meta
 
 
-
 def download_extract_FRS_combined_national(file=None):
     url = FRS_config['url']
-    log.info('initiating url request')
+    log.info('initiating url request from %s', url)
     request = requests.get(url).content
     zip_file = zipfile.ZipFile(io.BytesIO(request))
     source_dict = dict(source_metadata)
@@ -60,13 +61,15 @@ def download_extract_FRS_combined_national(file=None):
         zip_file.extractall(FRSpath)
     else:
         log.info('extracting %s from %s', file, url)
-        #zip_file.extract(file, path = FRSpath)
+        zip_file.extract(file, path = FRSpath)
         source_dict['SourceFileName']=file
         name = strip_file_extension(file)
     source_dict['SourceAcquisitionTime']= datetime.now().strftime('%d-%b-%Y')
     write_metadata(name, source_dict, category=ext_folder)
 
+
 def read_FRS_file(file_name, col_dict):
+    """Retrieves FRS data file stored locally"""
     file_meta = set_facilitymatcher_meta(file_name, category=ext_folder)
     log.info('loading %s from %s', file_meta.name_data, FRSpath)
     file_meta.name_data = strip_file_extension(file_meta.name_data)
@@ -78,7 +81,7 @@ def read_FRS_file(file_name, col_dict):
     return df_FRS
 
 def store_fm_file(df, file_name, category='', sources=[]):
-    """Stores the inventory dataframe to local directory based on category"""
+    """Stores the facilitymatcher file to local directory"""
     meta = set_facilitymatcher_meta(file_name, category)
     method_path = output_dir + '/' + meta.category
     try:
@@ -93,8 +96,19 @@ def store_fm_file(df, file_name, category='', sources=[]):
         log.error('Failed to save inventory')
 
 def read_fm_file(file_name):
+    """
+    Read facilitymatcher file into dataframe. If not present, generate the file
+    via script"""
     file_meta = set_facilitymatcher_meta(file_name, category='')
     df = load_preprocessed_output(file_meta, paths)
+    if df is None:
+        log.info('%s not found in %s, writing facility matches to file',
+                 file_name, output_dir)
+        if file_name == 'FacilityMatchList_forStEWI':
+            write_fm.write_facility_matches()
+        elif file_name == 'FRS_NAICSforStEWI':
+            write_naics.write_NAICS_matches()
+        df = load_preprocessed_output(file_meta, paths)
     col_dict = {"FRS_ID": "str",
                 "FacilityID": "str",
                 "NAICS": "str"}
@@ -115,7 +129,7 @@ def filter_by_program_list(df,program_list):
 
 #Only can be applied after renaming the programs to inventories
 def filter_by_inventory_list(df,inventory_list):
-    df = df[df['Source'].isin(inventory_list)]
+    df = df[df['Source'].isin(inventory_list)].reset_index(drop = True)
     return df
 
 #Only can be applied after renaming the programs to inventories

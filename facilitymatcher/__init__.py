@@ -1,16 +1,21 @@
+# __init__.py (facilitymatcher)
+# !/usr/bin/env python3
+# coding=utf-8
 """
-Functions to match facilities across inventories
+Public API for facilitymatcher. Functions to match facilities across inventories
 """
-import pandas as pd
-from facilitymatcher.globals import filter_by_inventory_list, stewi_inventories, \
+
+
+from facilitymatcher.globals import filter_by_inventory_list, stewi_inventories,\
     filter_by_facility_list, filter_by_inventory_id_list, read_fm_file
 
 
 def get_matches_for_inventories(inventory_list=stewi_inventories):
-    """Returns all facility matches for given inventories
+    """
+    Returns all facility matches for given inventories
 
-    :param inventory_list: list of inventories for desired matches using StEWI inventory names
-     e.g. ['NEI','TRI']
+    :param inventory_list: list of inventories for desired matches using
+        StEWI inventory names e.g. ['NEI','TRI']
     :return: dataframe in FacilityMatches standard output format
     """
     facilitymatches = read_fm_file('FacilityMatchList_forStEWI')
@@ -18,14 +23,17 @@ def get_matches_for_inventories(inventory_list=stewi_inventories):
     return facilitymatches
 
 
-def get_FRS_NAICSInfo_for_facility_list(frs_id_list, inventories_of_interest_list=None):
-    """Returns the FRS NAICS codes for the facilities of interest.
+def get_FRS_NAICSInfo_for_facility_list(frs_id_list,
+                                        inventories_of_interest_list=None):
+    """
+    Returns the FRS NAICS codes for the facilities of interest.
     Optionally it will also filter that FRS info by inventories of interest
     :param frs_id_list: list of FRS IDs
-     e.g. ['110000491735', '110000491744']
-    :param inventories_of_interest_list: list of inventories to filter NAICS info by,
-     using StEWI inventory names e.g. ['NEI']
-    :return: dataframe with columns 'FRS_ID', 'Source', 'NAICS', 'PRIMARY_INDICATOR'
+         e.g. ['110000491735', '110000491744']
+    :param inventories_of_interest_list: list of inventories to filter NAICS
+        info by using StEWI inventory names e.g. ['NEI']
+    :return: dataframe with columns 'FRS_ID', 'Source', 'NAICS',
+        'PRIMARY_INDICATOR'
     """
     all_NAICS = read_fm_file('FRS_NAICSforStEWI')
     if frs_id_list is not None:
@@ -38,16 +46,18 @@ def get_FRS_NAICSInfo_for_facility_list(frs_id_list, inventories_of_interest_lis
     return NAICS_of_interest
 
 
-def get_matches_for_id_list(base_inventory, id_list, inventory_list=stewi_inventories):
-    """Returns facility matches given a list of inventories of interest,
-     a base inventory and list of ids from that inventory.
+def get_matches_for_id_list(base_inventory, id_list,
+                            inventory_list=stewi_inventories):
+    """
+    Returns facility matches given a list of inventories of interest,
+    a base inventory and list of ids from that inventory.
 
     :param base_inventory: str base inventory corresponding to id_list (e.g. 'NEI)
     :param id_list: list of inventory ids (note not FRS_IDs)
-     e.g. ['661411', '677611']
+         e.g. ['661411', '677611']
     :param inventory_list: list of inventories for desired matches
-     using StEWI inventory names. defaults to all stewi inventories.
-     e.g. ['NEI','TRI']
+         using StEWI inventory names. defaults to all stewi inventories.
+         e.g. ['NEI','TRI']
     :return: dataframe in FacilityMatches standard output format
     """
     facilitymatches = read_fm_file('FacilityMatchList_forStEWI')
