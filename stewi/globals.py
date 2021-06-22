@@ -12,6 +12,7 @@ import subprocess
 from datetime import datetime
 from esupy.processed_data_mgmt import Paths, FileMeta, load_preprocessed_output,\
     write_df_to_file, create_paths_if_missing, write_metadata_to_file
+from esupy.dqi import get_weighted_average
 
 try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'stewi/'
@@ -344,38 +345,20 @@ def validation_summary(validation_df, filepath=''):
     if filepath: validation_summary_df.to_csv(filepath, index=False)
     return validation_summary_df
 
-def weighted_average(df, data_col, weight_col, by_col):
+def aggregate(df, grouping_vars):
     """
-    Generates a weighted average result based on passed columns
-    Parameters
-    ----------
-    df : DataFrame
-        Dataframe prior to aggregating from which a weighted average is calculated
-    data_col : str
-        Name of column to be averaged.
-    weight_col : str
-        Name of column to serve as the weighting.
-    by_col : list
-        List of columns on which the dataframe is aggregated.
-
-    Returns
-    -------
-    result : series
-        Series reflecting the weighted average values for the data_col,
-        at length consistent with the aggregated dataframe, to be reapplied
-        to the data_col in the aggregated dataframe.
-
+    Aggregate a 'FlowAmount' in a dataframe based on the passed grouping_vars
+    and generating a weighted average for data quality fields
     """
-    # remove any negative values for weight or data col
-    df.loc[df[data_col] < 0, data_col] = 0
-    df.loc[df[weight_col] < 0, weight_col] = 0
-    df['_data_times_weight'] = df[data_col] * df[weight_col]
-    df['_weight_where_notnull'] = df[weight_col] * pd.notnull(df[data_col])
-    g = df.groupby(by_col)
-    result = g['_data_times_weight'].sum() / g['_weight_where_notnull'].sum()
-    del df['_data_times_weight'], df['_weight_where_notnull']
-    return result
-
+    df_agg = df.groupby(grouping_vars).agg({'FlowAmount': ['sum']})
+    df_agg['DataReliability']=get_weighted_average(
+        df, 'DataReliability', 'FlowAmount', grouping_vars)
+    df_agg = df_agg.reset_index()
+    df_agg.columns = df_agg.columns.droplevel(level=1)
+    # drop those rows where flow amount is negative, zero, or NaN
+    df_agg = df_agg[df_agg['FlowAmount'] > 0]
+    df_agg = df_agg[df_agg['FlowAmount'].notna()]
+    return df_agg
 
 # Convert amounts. Note this could be replaced with a conversion utility
 def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):

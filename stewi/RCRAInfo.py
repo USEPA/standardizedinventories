@@ -105,11 +105,11 @@ import re
 import os
 import time, datetime
 
-from stewi.globals import write_metadata,unit_convert,validate_inventory,\
+from stewi.globals import write_metadata,validate_inventory,\
     write_validation_result, set_dir, data_dir, config,\
     checkforFile, USton_kg, reliability_table, paths,\
     log, storeInventory, compile_source_metadata, read_source_metadata,\
-    update_validationsets_sources, filter_states
+    update_validationsets_sources, filter_states, aggregate
 
 
 _config = config()['databases']['RCRAInfo']
@@ -131,7 +131,7 @@ def extracting_files(path_unzip, name):
     os.remove(path_unzip + name + '.zip')
 
 
-def download_zip(Tables, query):
+def download_and_extract_zip(Tables, query):
     log.info('Initiating download via browswer...')
     regex = re.compile(r'(.+).zip\s?\(\d+.?\d*\s?[a-zA-Z]{2,}\)')
     options = webdriver.ChromeOptions()
@@ -420,8 +420,7 @@ def Generate_RCRAInfo_files_csv(report_year):
                             'County Name':'County'}, inplace=True)
     storeInventory(facilities, 'RCRAInfo_' + report_year, 'facility')
     #Prepare flow by facility
-    flowbyfacility = BR.groupby(['FacilityID','DataReliability',
-                                 'FlowName'])['FlowAmount'].sum().reset_index()
+    flowbyfacility = aggregate(BR, ['FacilityID','FlowName'])
     storeInventory(flowbyfacility, 'RCRAInfo_' + report_year, 'flowbyfacility')
     
     validate_national_totals(report_year, flowbyfacility)
@@ -533,14 +532,12 @@ if __name__ == '__main__':
             specified url and find the BR_REPORTING_year.zip file and save to 
             rcra_external_dir. Also requires HD_LU_WASTE_CODE.zip'''
             query = _config['queries']['Table_of_tables']
-            download_zip(tables, query)
+            download_and_extract_zip(tables, query)
     
         elif args.Option == 'B':
-    
             organizing_files_by_year(args.Tables, year)
     
         elif args.Option == 'C':
-    
             Generate_RCRAInfo_files_csv(year)
         
         elif args.Option == 'D':

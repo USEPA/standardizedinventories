@@ -41,10 +41,10 @@ import argparse
 from stewi.globals import download_table,\
     write_metadata, import_table, drop_excel_sheets,\
     validate_inventory, write_validation_result,\
-    weighted_average, data_dir, reliability_table,\
+    data_dir, reliability_table,\
     flowbyfacility_fields, flowbyprocess_fields, facility_fields, config,\
     storeInventory, paths, log, update_validationsets_sources,\
-    compile_source_metadata, read_source_metadata
+    compile_source_metadata, read_source_metadata, aggregate
 
 _config = config()['databases']['GHGRP']
 ghgrp_data_dir = data_dir + 'GHGRP/'
@@ -433,16 +433,6 @@ def parse_additional_suparts_data(addtnl_subparts_path, subpart_cols_file, year)
     
     return ghgrp
 
-def aggregate(df, grouping_vars):
-    df_agg = df.groupby(grouping_vars).agg({'FlowAmount': ['sum']})
-    df_agg['DataReliability']=weighted_average(
-        df, 'DataReliability', 'FlowAmount', grouping_vars)
-    df_agg = df_agg.reset_index()
-    df_agg.columns = df_agg.columns.droplevel(level=1)
-    # drop those rows where flow amount is negative, zero, or NaN
-    df_agg = df_agg[df_agg['FlowAmount'] > 0]
-    df_agg = df_agg[df_agg['FlowAmount'].notna()]
-    return df_agg
 
 def generate_national_totals_validation(validation_table, year):
     # define filepath for reference data

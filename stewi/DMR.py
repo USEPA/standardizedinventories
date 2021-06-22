@@ -17,11 +17,11 @@ import os
 import requests
 import sys
 import pandas as pd
-from stewi.globals import set_dir, filter_inventory, filter_states,\
+from stewi.globals import filter_inventory, filter_states,\
     validate_inventory, write_validation_result, unit_convert,\
-    output_dir, data_dir, lb_kg, write_metadata, reliability_table,\
-    weighted_average, log, compile_source_metadata, config, storeInventory,\
-    paths, read_source_metadata, update_validationsets_sources
+    data_dir, lb_kg, write_metadata, reliability_table,\
+    log, compile_source_metadata, config, storeInventory,\
+    paths, read_source_metadata, update_validationsets_sources, aggregate
 import argparse
 
 _config = config()['databases']['DMR']
@@ -353,22 +353,6 @@ def read_pollutant_parameter_list(parameter_grouping = PARAM_GROUP):
                               'PARAMETER_CODE':'FlowID'}, inplace=True)
     return flows
 
-def aggregate_to_facility(df):
-    """
-    Aggregates DMR dataframe to flow by facility
-    """
-    # drops rows if flow amount or reliability score is zero
-    df = df[(df['FlowAmount'] > 0) & (df['ReliabilityScore'] > 0)]
-
-    grouping_vars = ['FacilityID', 'FlowName']
-    dmrbyfacility = df.groupby(grouping_vars).agg({'FlowAmount': ['sum']})
-    dmrbyfacility['ReliabilityScore']=weighted_average(
-        df, 'ReliabilityScore', 'FlowAmount', grouping_vars)
-
-    dmrbyfacility = dmrbyfacility.reset_index()
-    dmrbyfacility.columns = dmrbyfacility.columns.droplevel(level=1)
-
-    return dmrbyfacility
 
 def consolidate_nutrients(df, drop_list, nutrient):
     """
@@ -545,7 +529,6 @@ if __name__ == '__main__':
             facility_columns = ['FacilityID', 'FacilityName', 'City', 'State', 'Zip', 'Latitude', 'Longitude',
                                 'County', 'NAICS', 'SIC'] #'Address' not in DMR
             dmr_facility = dmr_df[facility_columns].drop_duplicates()
-            #dmr_facility.to_csv(set_dir(output_dir + 'facility/')+'DMR_' + DMRyear + '.csv', index=False)
             storeInventory(dmr_facility, 'DMR_' + DMRyear, 'facility')
             
             # generate output for flow
@@ -559,10 +542,9 @@ if __name__ == '__main__':
             
             # generate output for flowbyfacility
             fbf_columns = ['FlowName', 'FlowAmount', 'FacilityID', 'ReliabilityScore']
-            dmr_fbf = aggregate_to_facility(dmr_df[fbf_columns])
+            dmr_fbf = aggregate(dmr_df[fbf_columns], ['FacilityID','FlowName'])
             dmr_fbf['Compartment'] = 'water'
             dmr_fbf['Unit'] = 'kg'
-            #dmr_fbf.to_csv(set_dir(output_dir + 'flowbyfacility/')+'DMR_' + DMRyear + '.csv', index=False)
             storeInventory(dmr_fbf, 'DMR_' + DMRyear, 'flowbyfacility')
 
             # write metadata

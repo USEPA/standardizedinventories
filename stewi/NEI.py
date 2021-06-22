@@ -22,11 +22,10 @@ Year:
     2011
 """
 
-import stewi
-from stewi.globals import set_dir,output_dir,data_dir,write_metadata,\
-    validate_inventory,write_validation_result,USton_kg,lb_kg,weighted_average,\
+from stewi.globals import data_dir,write_metadata,\
+    validate_inventory,write_validation_result,USton_kg,lb_kg,\
     log, storeInventory, config, compile_source_metadata, read_source_metadata,\
-    paths, update_validationsets_sources
+    paths, update_validationsets_sources, aggregate
 import pandas as pd
 import numpy as np
 import os
@@ -128,45 +127,6 @@ def standardize_output(year, source='Point'):
     return nei
 
 
-def nei_aggregate_to_facility_level(nei_):
-    """
-    Aggregates NEI dataframe to flow by facility
-    """
-    # drops rows if flow amount or reliability score is zero
-    nei_ = nei_[(nei_['FlowAmount'] > 0) & (nei_['DataReliability'] > 0)]
-
-    grouping_vars = ['FacilityID', 'FlowName']
-    neibyfacility = nei_.groupby(grouping_vars).agg({'FlowAmount': ['sum']})
-    neibyfacility['DataReliability']=weighted_average(
-        nei_, 'DataReliability', 'FlowAmount', grouping_vars)
-
-    neibyfacility = neibyfacility.reset_index()
-    neibyfacility.columns = neibyfacility.columns.droplevel(level=1)
-
-    return neibyfacility
-
-def nei_aggregate_to_custom_level(nei_, field):
-    """
-    Aggregates NEI dataframe to flow by facility by custom level (e.g. SCC)
-    """
-    # drops rows if flow amount or reliability score is zero
-    nei_ = nei_[(nei_['FlowAmount'] > 0) & (nei_['DataReliability'] > 0)]
-
-    grouping_vars = ['FacilityID', 'FlowName']
-    if type(field) is str:
-        grouping_vars.append(field)
-    elif type(field) is list:
-        grouping_vars.extend(field)
-    neicustom = nei_.groupby(grouping_vars).agg({'FlowAmount': ['sum']})
-    neicustom['DataReliability']=weighted_average(
-        nei_, 'DataReliability', 'FlowAmount', grouping_vars)
-
-    neicustom = neicustom.reset_index()
-    neicustom.columns = neicustom.columns.droplevel(level=1)
-
-    return neicustom
-
-
 def generate_national_totals(year):
     """
     Downloads and parses pollutant national totals from 'Facility-level by
@@ -190,6 +150,7 @@ def generate_national_totals(year):
     requests_ftp.monkeypatch_session()
     try:
         r = requests.Session().get(url)
+        #r = requests.Session().get(url, verify=False)
     except requests.exceptions.ConnectionError:
         log.error("URL Connection Error for " + url)
     try:
@@ -323,7 +284,7 @@ if __name__ == '__main__':
             nei_point = nei_point.reset_index()
 
             log.info('generating flow by facility output')
-            nei_flowbyfacility = nei_aggregate_to_facility_level(nei_point)
+            nei_flowbyfacility = aggregate(nei_point, ['FacilityID','FlowName'])
             #nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+year+'.csv',index=False)
             storeInventory(nei_flowbyfacility,'NEI_'+year,'flowbyfacility')
             log.debug(len(nei_flowbyfacility))
@@ -333,7 +294,8 @@ if __name__ == '__main__':
             #2011: 1840866
 
             log.info('generating flow by SCC output')
-            nei_flowbyprocess = nei_aggregate_to_custom_level(nei_point, 'Process')
+            nei_flowbyprocess = aggregate(nei_point, ['FacilityID',
+                                                      'FlowName','Process'])
             nei_flowbyprocess['ProcessType'] = 'SCC'
             storeInventory(nei_flowbyprocess, 'NEI_'+year, 'flowbyprocess')
             log.debug(len(nei_flowbyprocess))
