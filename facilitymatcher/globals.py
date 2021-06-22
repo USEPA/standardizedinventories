@@ -8,7 +8,6 @@ Supporting variables and functions used in facilitymatcher
 import zipfile
 import io
 import requests
-import json
 import pandas as pd
 import os
 from datetime import datetime
@@ -147,12 +146,11 @@ def filter_by_facility_list(df,facility_list):
     df = df[df['FRS_ID'].isin(facility_list)]
     return df
 
-#Returns list of acronymns for inventories that correspond to
+
 def get_programs_for_inventory_list(list_of_inventories):
-    program_list = []
-    for l in list_of_inventories:
-        pgm_acronym = inventory_to_FRS_pgm_acronymn[l]
-        program_list.append(pgm_acronym)
+    """Returns list of program acronymns for passed inventories"""
+    program_list = [p for i, p in inventory_to_FRS_pgm_acronymn.items() if
+                    i in list_of_inventories]
     return program_list
 
 def invert_inventory_to_FRS():
@@ -160,28 +158,6 @@ def invert_inventory_to_FRS():
                                      inventory_to_FRS_pgm_acronymn.items()}
     return FRS_to_inventory_pgm_acronymn
 
-#Function to return facility info from FRS web service
-#Limitation - the web service only matches on facility at a time
-##example
-#id='2'
-#program_acronym='EGRID'
-def callFRSforProgramAcronymandIDfromAPI(program_acronym, id):
-    # base url
-    base = 'http://ofmpub.epa.gov/enviro/frs_rest_services'
-    facilityquery = base + '.get_facilities?'
-    pgm_sys_id = 'pgm_sys_id='
-    pgm_sys_acrnm = 'pgm_sys_acrnm='
-    output = 'output=JSON'
-    url = facilityquery + pgm_sys_acrnm + program_acronym + '&'\
-        + pgm_sys_id + id + '&' + output
-    facilityresponse = requests.get(url)
-    facilityjson = json.loads(facilityresponse.text)['Results']
-    facilityinfo = facilityjson['FRSFacility']
-    return facilityinfo
-
-def getFRSIDfromAPIfaciltyinfo(facilityinfo):
-    FRSID = facilityinfo[0]['RegistryId']
-    return FRSID
 
 def add_manual_matches(df_matches):
     #Read in manual matches
