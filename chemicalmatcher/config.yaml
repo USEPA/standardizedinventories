@@ -4,3 +4,18 @@ databases:
     queries:
       caslistprefix: substances/cas?casList=
       sep: '%7c'
+    inventory_lists:
+      RCRAInfo:
+          - 'RCRA F Waste'
+          - 'RCRA U Waste'
+          - 'RCRA K Waste'
+          - 'RCRA P Waste'
+          - 'RCRA T Char'
+      TRI:
+          - 'TRIPS'
+      NEI:
+          - 'EIS'
+      DMR:
+          - 'PCS'
+          - 'ICIS'
+          - 'NPDES'
