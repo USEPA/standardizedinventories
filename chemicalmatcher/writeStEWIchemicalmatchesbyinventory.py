@@ -60,14 +60,13 @@ def writeChemicalMatches():
         inventory_flows = all_list_names[all_list_names['Source'] == source]
     
         if inventory_query_type[source] == 'list':
-        # make sure flowid is a string
+            # make sure flowid is a string
             inventory_flows['FlowID'] = inventory_flows['FlowID'].map(str)
-        # query SRS to get entire list and then merge with it
+            # query SRS to get entire list and then merge with it
             list_srs_info = get_SRSInfo_for_program_list(source)
-            #merge this with the original list using FlowID
+            # merge this with the original list using FlowID
             list_srs_info = pd.merge(inventory_flows,list_srs_info,left_on='FlowID',right_on='PGM_ID',how='left')
-        if inventory_query_type[source] == 'name':
-    
+        elif inventory_query_type[source] == 'name':
             #For names, query SRS one by one to get results
             list_srs_info = pd.DataFrame(columns=["FlowName", "SRS_ID", "SRS_CAS", "Source"])
             errors_srs = pd.DataFrame(columns=["FlowName", "Source", "ErrorType"])
