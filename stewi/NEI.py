@@ -22,10 +22,6 @@ Year:
     2011
 """
 
-from stewi.globals import data_dir,write_metadata,\
-    validate_inventory,write_validation_result,USton_kg,lb_kg,\
-    log, storeInventory, config, compile_source_metadata, read_source_metadata,\
-    paths, update_validationsets_sources, aggregate
 import pandas as pd
 import numpy as np
 import os
@@ -36,6 +32,12 @@ import requests_ftp
 import zipfile
 import io
 
+from stewi.globals import data_dir,write_metadata,\
+    validate_inventory,write_validation_result,USton_kg,lb_kg,\
+    log, storeInventory, config, compile_source_metadata, read_source_metadata,\
+    paths, update_validationsets_sources, aggregate, reliability_table
+
+
 _config = config()['databases']['NEI']
 ext_folder = '/NEI Data Files/'
 nei_external_dir = paths.local_path + ext_folder
@@ -45,17 +47,11 @@ def read_data(year,file):
     """
     Reads the NEI data in the named file and returns a dataframe based on
     identified columns
-    Parameters
-    ----------
-    year : str
-        Year of NEI dataset for identifying field names
-    file : str
-        File name (csv) containing NEI data.
 
-    Returns
-    -------
-    file_result : DataFrame
-        DataFrame of NEI data from a single file with standardized column names.
+    :param year : str, Year of NEI dataset for identifying field names
+    :param file : str, File name (csv) containing NEI data.
+    :returns file_result : DataFrame of NEI data from a single file
+        with standardized column names.
     """
     file_result = pd.DataFrame(columns=list(nei_required_fields['StandardizedEPA']))
     # read nei file by chunks
@@ -67,8 +63,9 @@ def read_data(year,file):
             chunksize=100000,
             low_memory=False):
         # change column names to Standardized EPA names
-        file_chunk = file_chunk.rename(columns=pd.Series(list(nei_required_fields['StandardizedEPA']),
-                                                         index=list(nei_required_fields[year])).to_dict())
+        file_chunk = file_chunk.rename(
+            columns=pd.Series(list(nei_required_fields['StandardizedEPA']),
+                              index=list(nei_required_fields[year])).to_dict())
         # concatenate all chunks
         file_result = pd.concat([file_result,file_chunk])
     return file_result
@@ -77,19 +74,13 @@ def read_data(year,file):
 def standardize_output(year, source='Point'):
     """
     Reads and parses NEI data
-    Parameters
-    ----------
-    year : str
-        Year of NEI dataset  
 
-    Returns
-    -------
-    nei : DataFrame
-        Dataframe of parsed NEI data.
+    :param year : str, Year of NEI dataset  
+    :returns nei: DataFrame of parsed NEI data.
     """
     # extract file paths
     file_paths = nei_file_path
-    log.info('identified ' +str(len(file_paths)) + ' files: '+ ' '.join(file_paths))
+    log.info('identified %s files: '.join(file_paths), str(len(file_paths)))
     nei = pd.DataFrame()
     # read in nei files and concatenate all nei files into one dataframe
     for file in file_paths[0:]:
@@ -102,22 +93,25 @@ def standardize_output(year, source='Point'):
 
     log.info('adding Data Quality information')
     if source == 'Point':
-        reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',
-                                        usecols=['Source','Code','DQI Reliability Score'])
-        nei_reliability_table = reliability_table[reliability_table['Source'] == 'NEI']
+        nei_reliability_table = reliability_table[
+            reliability_table['Source'] == 'NEI']
         nei_reliability_table['Code'] = nei_reliability_table['Code'].astype(float)
         nei['ReliabilityScore'] = nei['ReliabilityScore'].astype(float)
-        nei = nei.merge(nei_reliability_table, left_on='ReliabilityScore', right_on='Code', how='left')
+        nei = nei.merge(nei_reliability_table, left_on='ReliabilityScore',
+                        right_on='Code', how='left')
         nei['DataReliability'] = nei['DQI Reliability Score']
         # drop Code and DQI Reliability Score columns
-        nei = nei.drop(['Code', 'DQI Reliability Score', 'ReliabilityScore'], 1)
+        nei = nei.drop(['Code', 'DQI Reliability Score',
+                        'ReliabilityScore'], 1)
     
         nei['Compartment']='air'
         '''
         # Modify compartment based on stack height (ft)
         nei.loc[nei['StackHeight'] < 32, 'Compartment'] = 'air/ground'
-        nei.loc[(nei['StackHeight'] >= 32) & (nei['StackHeight'] < 164), 'Compartment'] = 'air/low'
-        nei.loc[(nei['StackHeight'] >= 164) & (nei['StackHeight'] < 492), 'Compartment'] = 'air/high'
+        nei.loc[(nei['StackHeight'] >= 32) & (nei['StackHeight'] < 164),
+                'Compartment'] = 'air/low'
+        nei.loc[(nei['StackHeight'] >= 164) & (nei['StackHeight'] < 492),
+                'Compartment'] = 'air/high'
         nei.loc[nei['StackHeight'] >= 492, 'Compartment'] = 'air/very high'
         '''
     else:
@@ -132,10 +126,8 @@ def generate_national_totals(year):
     Downloads and parses pollutant national totals from 'Facility-level by
     Pollutant' data downloaded from EPA website. Used for validation.
     Creates NationalTotals.csv files.
-    Parameters
-    ----------
-    year : str
-        Year of NEI data for comparison.
+
+    :param year : str, Year of NEI data for comparison.
     """
     log.info('Downloading national totals')
     
@@ -186,7 +178,8 @@ def generate_national_totals(year):
     # rename columns to match standard format
     df.columns = ['FlowID', 'FlowName', 'FlowAmount', 'UOM']
     # convert LB/TON to KG
-    df['FlowAmount'] = np.where(df['UOM']=='LB',df['FlowAmount']*lb_kg,df['FlowAmount']*USton_kg)
+    df['FlowAmount'] = np.where(df['UOM']=='LB',
+                                df['FlowAmount']*lb_kg,df['FlowAmount']*USton_kg)
     df = df.drop(['UOM'],1)
     # sum across all facilities to create national totals
     df = df.groupby(['FlowID','FlowName'])['FlowAmount'].sum().reset_index()
@@ -201,8 +194,8 @@ def generate_national_totals(year):
                        'Year':year,
                        'Name':'NEI Data',
                        'URL':url,
-                       'Criteria':'Data Summaries tab, Facility-level by Pollutant '
-                       'zip file download, summed to national level',
+                       'Criteria':'Data Summaries tab, Facility-level by '
+                       'Pollutant zip file download, summed to national level',
                        }
     update_validationsets_sources(validation_dict)
 
@@ -215,11 +208,14 @@ def validate_national_totals(nei_flowbyfacility, year):
         generate_national_totals(year)
     else:
         log.info('using already processed national totals validation file')
-    nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ year + '_NationalTotals.csv',
-                                      header=0,dtype={"FlowAmount[kg]":np.float})
+    nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ year + \
+                                      '_NationalTotals.csv',
+                                      header=0,dtype={"FlowAmount[kg]":float})
     nei_flowbyfacility.drop(['Compartment'],1, inplace = True)
-    nei_national_totals.rename(columns={'FlowAmount[kg]':'FlowAmount'},inplace=True)
-    validation_result = validate_inventory(nei_flowbyfacility, nei_national_totals,
+    nei_national_totals.rename(columns={'FlowAmount[kg]':'FlowAmount'},
+                               inplace=True)
+    validation_result = validate_inventory(nei_flowbyfacility,
+                                           nei_national_totals,
                                            group_by='flow', tolerance=5.0)
     write_validation_result('NEI',year,validation_result)
 
@@ -232,9 +228,11 @@ def generate_metadata(year, datatype = 'inventory'):
         source_path = [nei_external_dir + p for p in nei_file_path]
         source_path = [os.path.realpath(p) for p in source_path]
         source_meta = compile_source_metadata(source_path, _config, year)
-        write_metadata('NEI_'+year, source_meta, category=ext_folder, datatype='source')
+        write_metadata('NEI_'+year, source_meta, category=ext_folder,
+                       datatype='source')
     else:
-        source_meta = read_source_metadata(nei_external_dir + 'NEI_'+ year)['tool_meta']
+        source_meta = read_source_metadata(
+            nei_external_dir + 'NEI_'+ year)['tool_meta']
         write_metadata('NEI_'+year, source_meta, datatype=datatype)
     
 
@@ -245,7 +243,8 @@ if __name__ == '__main__':
     parser.add_argument('Option',
                         help = 'What do you want to do:\
                         [A] Process and pickle NEI data\
-                        [B] Generate StEWI inventory outputs and validate to national totals\
+                        [B] Generate StEWI inventory outputs and validate \
+                            to national totals\
                         [C] Download national totals',
                         type = str)
 
@@ -262,7 +261,8 @@ if __name__ == '__main__':
         pickle_file = nei_external_dir + 'NEI_' + year + '.pk'
         if args.Option == 'A':
 
-            nei_required_fields = pd.read_table(nei_data_dir + 'NEI_required_fields.csv',sep=',')
+            nei_required_fields = pd.read_table(
+                nei_data_dir + 'NEI_required_fields.csv',sep=',')
             nei_required_fields = nei_required_fields[[year,'StandardizedEPA']]
             nei_file_path = _config[year]['file_name']
 
@@ -276,16 +276,17 @@ if __name__ == '__main__':
             try:            
                 nei_point = pd.read_pickle(pickle_file)
             except FileNotFoundError:
-                log.error('pickle file not found. Please run option A before proceeding')
+                log.error('pickle file not found. Please run option A '
+                          'before proceeding')
                 sys.exit(0)
-            # for backwards compatability if ReliabilityScore was used to generate pickle
+            # for backwards compatability if ReliabilityScore was used to
+            # generate pickle
             if 'ReliabilityScore' in nei_point:
                 nei_point['DataReliability'] = nei_point['ReliabilityScore']
             nei_point = nei_point.reset_index()
 
             log.info('generating flow by facility output')
             nei_flowbyfacility = aggregate(nei_point, ['FacilityID','FlowName'])
-            #nei_flowbyfacility.to_csv(output_dir+'flowbyfacility/NEI_'+year+'.csv',index=False)
             storeInventory(nei_flowbyfacility,'NEI_'+year,'flowbyfacility')
             log.debug(len(nei_flowbyfacility))
             #2017: 2184786
@@ -306,7 +307,6 @@ if __name__ == '__main__':
             nei_flows = nei_flows.drop_duplicates()
             nei_flows['Unit']='kg'
             nei_flows = nei_flows.sort_values(by='FlowName',axis=0)
-            #nei_flows.to_csv(output_dir+'/flow/'+'NEI_'+year+'.csv',index=False)
             storeInventory(nei_flows, 'NEI_'+year, 'flow')
             log.debug(len(nei_flows))
             #2017: 293
@@ -315,11 +315,11 @@ if __name__ == '__main__':
             #2011: 277
 
             log.info('generating facility output')
-            facility = nei_point[['FacilityID', 'FacilityName', 'Address', 'City', 'State', 
-                                  'Zip', 'Latitude', 'Longitude', 'NAICS', 'County']]
+            facility = nei_point[['FacilityID', 'FacilityName', 'Address',
+                                  'City', 'State', 'Zip', 'Latitude',
+                                  'Longitude', 'NAICS', 'County']]
             facility = facility.drop_duplicates('FacilityID')
             facility = facility.astype({'Zip':'str'})
-            #facility.to_csv(output_dir+'/facility/'+'NEI_'+year+'.csv',index=False)
             storeInventory(facility, 'NEI_'+year, 'facility')
             log.debug(len(facility))
             #2017: 87162
