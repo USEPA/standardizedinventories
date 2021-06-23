@@ -7,10 +7,11 @@ import chemicalmatcher
 import stewi
 from stewi.globals import log, set_stewi_meta, read_source_metadata,\
     flowbyfacility_fields
-from esupy.processed_data_mgmt import Paths, write_df_to_file, write_metadata_to_file,\
-    load_preprocessed_output, read_into_df
+from esupy.processed_data_mgmt import Paths, write_df_to_file,\
+    write_metadata_to_file, load_preprocessed_output, read_into_df
 
-try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
+try: modulepath = os.path.dirname(
+    os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'stewicombo/'
 
 data_dir = modulepath + 'data/'
@@ -46,7 +47,8 @@ COL_FUNC_PAIRS = {
     }
 COL_FUNC_DEFAULT = "get_first_item"
 
-VOC_srs = pd.read_csv(data_dir+'VOC_SRS_IDs.csv',dtype=str,index_col=False,header=0)
+VOC_srs = pd.read_csv(data_dir+'VOC_SRS_IDs.csv',
+                      dtype=str,index_col=False,header=0)
 VOC_srs = VOC_srs['SRS_IDs']
 
 def set_stewicombo_meta(file_name, category):
@@ -64,67 +66,109 @@ def get_id_before_underscore(inventory_id):
     return inventory_id
 
 
-def getInventoriesforFacilityMatches(inventory_dict,facilitymatches,filter_for_LCI,base_inventory=None):
-
+def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
+                                     filter_for_LCI, base_inventory=None):
+    """
+    Retrieves stored flowbyfacility datasets based on passed dictionary
+    and filters them if necessary. Returns only those facilities with an FRS_ID
+    except for those in the base_inventory where all are returned
+    
+    : param inventory_dict: 
+    : param facilitymatches: 
+    : param filter_for_LCI: 
+    : param base_inventory:
+    """
     if base_inventory is not None:
-        base_inventory_FRS = facilitymatches[facilitymatches['Source'] == base_inventory]
-        base_inventory_FRS_list = list(pd.unique(base_inventory_FRS['FRS_ID']))
+        # Identify the FRS in the base inventory and keep only those
+        # base_inventory_FRS = facilitymatches[
+        #     facilitymatches['Source'] == base_inventory]
+        base_FRS_list = list(pd.unique(facilitymatches[
+            facilitymatches['Source'] == base_inventory]['FRS_ID']))
 
-    columns_to_keep = list(flowbyfacility_fields.keys()) + ['Source','Year','FRS_ID']
+    columns_to_keep = list(flowbyfacility_fields.keys()) + ['Source',
+                                                            'Year','FRS_ID']
     inventories = pd.DataFrame()
     for k in inventory_dict.keys():
-        inventory = stewi.getInventory(k,inventory_dict[k],'flowbyfacility',filter_for_LCI)
-        #Get facilities from that matching table to filter this with
-        inventory_facilitymatches = facilitymatches[facilitymatches['Source'] == k]
+        inventory = stewi.getInventory(k, inventory_dict[k],
+                                       'flowbyfacility', filter_for_LCI)
+        if inventory is None:
+            break
         inventory["Source"] = k
+        # Merge in FRS_ID
+        inventory = pd.merge(inventory,
+                             facilitymatches[facilitymatches['Source'] == k],
+                             on=['FacilityID', 'Source'], how='left')
+        if inventory['FRS_ID'].isna().sum() > 0:
+            log.debug('Some facilities missing FRS_ID')
 
-        # Merge inventories based on facility matches
-        inventory = pd.merge(inventory, inventory_facilitymatches, on=['FacilityID', 'Source'], how='left')
-
-        # If this isn't the base inventory, remove records not for the FRS_IDs of interest
+        # If this isn't the base inventory, filter records for facilities not
+        # found in the base inventory
         if (k is not base_inventory) & (base_inventory is not None):
-            inventory = inventory[inventory['FRS_ID'].isin(base_inventory_FRS_list)]
+            inventory = inventory[inventory['FRS_ID'].isin(
+                base_FRS_list)]
 
-        #Add metadata
+        # Add metadata
         inventory["Year"] = inventory_dict[k]
         cols_to_keep = [c for c in columns_to_keep if c in inventory]
         inventory = inventory[cols_to_keep]
         inventories = pd.concat([inventories,inventory])
 
-    #drop duplicates - not sure why there are duplicates - none found in recent attempts
-    inventories = inventories.drop_duplicates()
     return inventories
 
 
 def addChemicalMatches(inventories_df):
     #Bring in chemical matches
     inventory_list = list(inventories_df['Source'].unique())
-    chemicalmatches = chemicalmatcher.get_matches_for_StEWI(inventory_list = inventory_list)
+    chemicalmatches = chemicalmatcher.get_matches_for_StEWI(
+        inventory_list = inventory_list)
+    chemicalmatches = chemicalmatches[
+        chemicalmatches['Source'].isin(inventory_list)]
     chemicalmatches = chemicalmatches.drop(columns=['FlowID'])
-    chemicalmatches = chemicalmatches.drop_duplicates(subset=['FlowName','Source'])
-    inventories = pd.merge(inventories_df,chemicalmatches,on=(['FlowName','Source']),how='left')
+    chemicalmatches = chemicalmatches.drop_duplicates(subset=['FlowName',
+                                                              'Source'])
+    inventories = pd.merge(inventories_df,
+                           chemicalmatches,
+                           on=['FlowName','Source'],
+                           how='left')
+    # Compare unmatched flows to flows_missing_SRS_ list to ensure none missing
+    missing_flows = inventories.loc[
+        inventories['SRS_ID'].isna()][['FlowName','Source']].drop_duplicates()
+    cm_missing = chemicalmatcher.read_cm_file('missing')
+    missing_flows = missing_flows.assign(missing = missing_flows['FlowName'].\
+                                         isin(cm_missing['FlowName'])==False)
+    if sum(missing_flows.missing)>0:
+        log.warning('New unknown flows identified, run chemicalmatcher')
+        
     return inventories
 
 
 def addBaseInventoryIDs(inventories,facilitymatches,base_inventory):
     #Add in base program ids
-    base_inventory_FRS = facilitymatches[facilitymatches['Source'] == base_inventory]
+    base_inventory_FRS = facilitymatches[
+        facilitymatches['Source'] == base_inventory]
     base_inventory_FRS = base_inventory_FRS[['FacilityID','FRS_ID']]
 
     #If there are more than one PGM_SYS_ID duplicates, choose only the first
-    base_inventory_FRS_first = base_inventory_FRS.drop_duplicates(subset='FRS_ID',keep='first')
+    base_inventory_FRS_first = base_inventory_FRS.drop_duplicates(
+        subset='FRS_ID',keep='first')
     colname_base_inventory_id = base_inventory + '_ID'
-    base_inventory_FRS_first = base_inventory_FRS_first.rename(columns={"FacilityID":colname_base_inventory_id})
+    base_inventory_FRS_first = base_inventory_FRS_first.rename(
+        columns={"FacilityID":colname_base_inventory_id})
     #Merge this based with inventories
-    inventories = pd.merge(inventories,base_inventory_FRS_first,on='FRS_ID',how='left')
-    #Put original facilityID into the new column when its is the source of the emission. This corrects mismatches
-    #in the case of more than one base inventory id to FRS_ID
+    inventories = pd.merge(inventories,base_inventory_FRS_first,on='FRS_ID',
+                           how='left')
+    #Put original facilityID into the new column when its is the source of 
+    # the emission. This corrects mismatches in the case of more than 
+    # one base inventory id to FRS_ID
     inventory_acronyms = pd.unique(inventories['Source'])
     if base_inventory in inventory_acronyms:
-        #The presence of an underscore indicates more than one facilityid was used. If this is the case, get it before the underscore
+        #The presence of an underscore indicates more than one facilityid 
+        # was used. If this is the case, get it before the underscore
         inventories['FacilityID_first'] = inventories['FacilityID']
-        inventories['FacilityID_first'] = inventories['FacilityID_first'].apply(lambda x: get_id_before_underscore(x))
-        inventories.loc[inventories['Source']==base_inventory,colname_base_inventory_id] = inventories['FacilityID_first']
+        inventories['FacilityID_first'] = inventories['FacilityID_first'].\
+            apply(lambda x: get_id_before_underscore(x))
+        inventories.loc[inventories['Source']==base_inventory,
+                        colname_base_inventory_id] = inventories['FacilityID_first']
         inventories = inventories.drop(columns='FacilityID_first')
     return inventories
 
@@ -170,3 +214,9 @@ def compile_metadata(inventory_dict):
         inventory_meta[source] = stewi.getMetadata(source, year)
     
     return inventory_meta
+
+def filter_by_compartment(df, compartments):
+    #TODO disaggregate compartments to include all children
+    df = df[df['Compartment'].isin(compartments)]
+    return df
+

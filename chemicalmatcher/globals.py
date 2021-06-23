@@ -145,8 +145,12 @@ def add_manual_matches(df_matches,include_proxies=True):
     df_matches = df_matches.drop(columns=['SRS_ID_Manual'])
     return df_matches
 
-def read_cm_file():
-    df = pd.read_csv(output_dir+'ChemicalsByInventorywithSRS_IDS_forStEWI.csv',
+def read_cm_file(file = 'match'):
+    if file == 'match':
+        name = 'ChemicalsByInventorywithSRS_IDS_forStEWI.csv'
+    elif file == 'missing':
+        name = 'flows_missing_SRS_ID.csv'
+    df = pd.read_csv(output_dir + name,
                 dtype={"SRS_ID":"str"})
     return df
 
