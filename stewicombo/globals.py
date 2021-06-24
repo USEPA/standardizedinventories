@@ -1,3 +1,9 @@
+# globals.py (stewicombo)
+# !/usr/bin/env python3
+# coding=utf-8
+"""
+Supporting variables and functions used in stewicombo
+"""
 import re
 import os
 import pandas as pd
@@ -5,8 +11,7 @@ from datetime import datetime
 
 import chemicalmatcher
 import stewi
-from stewi.globals import log, set_stewi_meta, read_source_metadata,\
-    flowbyfacility_fields
+from stewi.globals import log, set_stewi_meta, flowbyfacility_fields
 from esupy.processed_data_mgmt import Paths, write_df_to_file,\
     write_metadata_to_file, load_preprocessed_output, read_into_df
 

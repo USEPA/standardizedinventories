@@ -19,7 +19,8 @@ from esupy.processed_data_mgmt import Paths, load_preprocessed_output,\
     write_df_to_file, write_metadata_to_file
 from esupy.util import strip_file_extension
 
-try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
+try: modulepath = os.path.dirname(
+    os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'facilitymatcher/'
 
 data_dir = modulepath + 'data/'

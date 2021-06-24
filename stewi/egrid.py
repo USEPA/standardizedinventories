@@ -1,4 +1,6 @@
-#!/usr/bin/env python
+# eGRID.py (stewi)
+# !/usr/bin/env python3
+# coding=utf-8
 """
 Imports eGRID data and processes to Standardized EPA output format.
 Uses the eGRID data files from EPA.

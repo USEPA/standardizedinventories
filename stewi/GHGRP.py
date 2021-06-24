@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+# GHGRP.py (stewi)
+# !/usr/bin/env python3
 # coding=utf-8
-
 """
 Imports GHGRP data and processes to Standardized EPA output format.
 This file requires parameters be passed like:

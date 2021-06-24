@@ -1,4 +1,6 @@
-#!/usr/bin/env python
+# TRI.py (stewi)
+# !/usr/bin/env python3
+# coding=utf-8
 """
 Downloads TRI Basic Plus files specified in paramaters for specified year
 This file requires parameters be passed like:

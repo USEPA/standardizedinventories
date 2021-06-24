@@ -10,7 +10,7 @@ from stewicombo.overlaphandler import aggregate_and_remove_overlap
 from stewicombo.globals import get_id_before_underscore,\
     getInventoriesforFacilityMatches, filter_by_compartment,\
     addChemicalMatches, addBaseInventoryIDs, storeCombinedInventory,\
-    write_metadata, compile_metadata, getCombinedInventory, log
+    write_metadata, compile_metadata, getCombinedInventory
 
 
 def combineFullInventories(inventory_dict, filter_for_LCI=True, 

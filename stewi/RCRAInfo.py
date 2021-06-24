@@ -1,5 +1,6 @@
-# -*- coding: utf-8 -*-
-#!/usr/bin/env python
+# RCRAInfo.py (stewi)
+# !/usr/bin/env python3
+# coding=utf-8
 """
 Download specified Biennial Report files from EPA RCRAInfo system   for specified year
 This file requires parameters be passed like:

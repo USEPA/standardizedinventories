@@ -1,4 +1,6 @@
-#!/usr/bin/env python
+# NEI.py (stewi)
+# !/usr/bin/env python3
+# coding=utf-8
 """
 Imports NEI data and processes to Standardized EPA output format.
 Uses the NEI data exports from EIS. Must contain locally downloaded data for
