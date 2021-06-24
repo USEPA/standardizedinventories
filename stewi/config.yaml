@@ -5,7 +5,7 @@ databases:
       TRI_year_reported: 'option'
       TRI_zip: 'value'
   RCRAInfo:
-    url: https://rcrapublic.epa.gov/rcra-public-export
+    url: https://rcrapublic.epa.gov/rcra-public-export/?outputType=CSV
     queries:
       Table_of_tables: "//table[@id='tables']"
   eGRID:
@@ -21,7 +21,11 @@ databases:
     '2018':
         file_name: 'eGRID2018_Data_v2.xlsx'
         file_version: 'v2'
-        download_url: 'https://www.epa.gov/sites/production/files/2020-03/egrid2018_data_v2.xlsx'        
+        download_url: 'https://www.epa.gov/sites/production/files/2020-03/egrid2018_data_v2.xlsx'
+    '2019':
+        file_name: 'eGRID2019_data.xlsx'
+        file_version: ''
+        download_url: 'https://www.epa.gov/sites/production/files/2021-02/egrid2019_data.xlsx'
   NEI:
     url: 'http://eis.epa.gov'
     '2011':
@@ -48,9 +52,9 @@ databases:
             - 'sppd_rtr_13597.csv'
             - 'sppd_rtr_13602.csv'
         file_version: 'v1'
-    national_url: 'ftp://newftp.epa.gov/air/nei/__year__/data_summaries/__version___facility.zip'
+    national_url: 'ftp://gaftp.epa.gov/air/nei/__year__/data_summaries/__version___facility.zip'
     national_version:
-        '2017': '2017v1/2017neiApr'
+        '2017': '2017v1/2017neiJan'
         '2014': '2014v2/2014neiv2'
         '2011': '2011v2/2011neiv2'
   DMR:

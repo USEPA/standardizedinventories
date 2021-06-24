@@ -2,30 +2,44 @@
 """
 Downloads TRI Basic Plus files specified in paramaters for specified year
 This file requires parameters be passed like:
-Option Year -F File1 File2 … FileN
-where Option is either A, B, C:
+    Option Year -F File1 File2 ... FileN
+    where Option is either A, B, C:
 Options
-A - for extracting files from TRI Data Plus web site
-B - for organizing TRI National Totals files from TRI_chem_release_Year.csv (this is expected to be download before and to be organized as it is described in TRI.py).
-C - for organizing TRI as required by StEWI
+    A - for downloading and extracting files from TRI Data Plus web site
+    B - for organizing TRI National Totals files from TRI_chem_release_Year.csv
+    (this is expected to be download before and to be organized as it is
+    described in TRI.py).
+    C - for generating StEWI output files and validation from downloaded data
 Year is like 2010 with coverage up to 2018
 Files are:
-1a - Releases and Other Waste Mgmt
-3a - Off Site Transfers
-See more documentation of files at https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-guides
+    1a - Releases and Other Waste Mgmt
+    3a - Off Site Transfers
+See more documentation of files at 
+https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-guides
 """
 
 import requests
 import zipfile
 from bs4 import BeautifulSoup
 import pandas as pd
-import numpy as np
 import time
 import os.path, os, io, sys
-from stewi.globals import unit_convert,set_dir,output_dir,data_dir,reliability_table,inventory_metadata,\
-    validate_inventory,write_validation_result,write_metadata,url_is_alive,get_relpath,lb_kg,g_kg,config
 import argparse
 import re
+
+import fedelemflowlist
+from esupy.processed_data_mgmt import create_paths_if_missing
+from stewi.globals import unit_convert,data_dir,\
+    reliability_table,validate_inventory,\
+    write_validation_result,write_metadata,url_is_alive,\
+    lb_kg,g_kg,config,storeInventory,log, paths, compile_source_metadata,\
+    read_source_metadata, update_validationsets_sources, aggregate
+
+
+ext_folder = '/TRI Data Files/'
+tri_external_dir = paths.local_path + ext_folder
+_config = config()['databases']['TRI']
+tri_data_dir = data_dir + 'TRI/'
 
 def visit(url):
     html  = requests.get(url).text
@@ -41,41 +55,52 @@ def link_zip(url, queries, year):
     return TRI_zip_options[year]
 
 
-def extacting_TRI_data_files(link_zip, files, year):
-    external_dir = set_dir(data_dir + '../../../')
+def extract_TRI_data_files(link_zip, files, year):
     r_file = requests.get(link_zip)
     for file in files:
-        df_columns = pd.read_csv(data_dir + 'TRI_File_' + file + '_columns.txt', header = 0)
+        df_columns = pd.read_csv(tri_data_dir + 'TRI_File_' +\
+                                 file + '_columns.txt', header = 0)
         columns = list(df_columns['Names'])
         n_columns = len(columns)
+        filename = 'US_' + file + '_' + year
+        dic = {}
+        i = 0
         with zipfile.ZipFile(io.BytesIO(r_file.content)) as z:
-            z.extract('US_' + file + '_' + year + '.txt' , external_dir + 'TRI')
-        df = pd.read_csv(external_dir + 'TRI/US_' + file + '_' + year + '.txt',
-                        header = None, encoding = 'ISO-8859-1',
-                        error_bad_lines = False,
-                        sep = '\t',
-                        low_memory = False,
-                        skiprows = [0],
-                        lineterminator = '\n',
-                        usecols = range(n_columns)) # avoiding \r\n created in Windows OS
+            with io.TextIOWrapper(z.open(filename + '.txt',
+                                         mode='r'),) as txtfile:
+                for line in txtfile:
+                    dic[i] = pd.Series(re.split("\t",line)).truncate(after=n_columns-1)
+                    i+=1
+        # remove the first row in the dictionary which is the original headers
+        del dic[0]
+        df = pd.DataFrame.from_dict(dic, orient='index')
         df.columns = columns
-        df.to_csv(external_dir + 'TRI/US_' + file + '_' + year + '.txt',
-                    sep = '\t', index = False)
+        create_paths_if_missing(tri_external_dir)
+        df.to_csv(tri_external_dir + filename + '.csv', index = False)
+        log.info(filename + '.csv saved to ' + tri_external_dir)
 
-# National Totals
-def Generate_National_Total(year):
-    df = pd.read_csv(data_dir + 'TRI_chem_release_' + year + '.csv', header = 0)
+
+def generate_national_totals(year):
+    """Generate dataframe of national emissions and save to csv. Requires the
+    chem_release dataset to be downloaded manually prior to running"""
+    filename = tri_data_dir + 'TRI_chem_release_' + year + '.csv'
+    df = pd.read_csv(filename, header = 0)
     df.replace(',', 0.0, inplace = True)
-    print(df.info())
+    df.replace('.', 0.0, inplace = True)
     cols = ['Compartment', 'FlowName', 'Unit', 'FlowAmount']
-    compartments = {'air': ['Fugitive Air Emissions', 'Point Source Air Emissions'],
-     	        'water': ['Surface Water Discharges'],
-                'soil': ['On-site Land Treatment', 'Other On-site Land Disposal',
-                        'Off-site Land Treatment', 'Other Off-site Land Disposal']}
+    compartments = {'air': ['Fugitive Air Emissions',
+                            'Point Source Air Emissions'],
+                    'water': ['Surface Water Discharges'],
+                    'soil': ['On-site Land Treatment',
+                             'Other On-site Land Disposal',
+                             'Off-site Land Treatment',
+                             'Other Off-site Land Disposal']}
     df_National = pd.DataFrame()
     for compartment, columns in compartments.items():
         df_aux = df[['Chemical'] + columns]
-        df_aux['FlowAmount'] = df_aux[columns].astype('float').sum(axis = 1)
+        for column in columns:
+            df_aux[column] = df_aux[column].str.replace(',','').astype('float')
+        df_aux['FlowAmount'] = df_aux[columns].sum(axis = 1)
         df_aux.rename(columns = {'Chemical': 'FlowName'}, inplace = True)
         df_aux['Unit'] = 'Pounds'
         df_aux['Compartment'] = compartment
@@ -86,28 +111,68 @@ def Generate_National_Total(year):
     del df
     df_National['FlowAmount'] = df_National['FlowAmount'].round(3)
     df_National = df_National[cols]
-    df_National.to_csv(data_dir + 'TRI_' + year + '_NationalTotals.csv', index = False)
+    df_National = map_to_fedefl(df_National)
+    df_National.sort_values(by=['FlowName','Compartment'], inplace=True)
+    log.info('saving TRI_%s_NationalTotals.csv to %s', year, data_dir)
+    df_National.to_csv(data_dir + 'TRI_' + year + '_NationalTotals.csv',
+                       index = False)
+    
+    # Update validationSets_Sources.csv
+    date_created = time.strptime(time.ctime(os.path.getctime(filename)))
+    date_created = time.strftime('%d-%b-%Y', date_created)
+    validation_dict = {'Inventory':'TRI',
+                       #'Version':'',
+                       'Year':year,
+                       'Name':'TRI Explorer',
+                       'URL':'https://enviro.epa.gov/triexplorer/tri_release.chemical',
+                       'Criteria':'Year, All of United States, All Chemicals, '
+                       'All Industries, Details:(Other On-Site Disposal or '
+                       'Other Releases, Other Off-Site Disposal or Other Releases), '
+                       'mapped to FEDEFL',
+                       'Date Acquired':date_created,
+                       }
+    update_validationsets_sources(validation_dict, date_acquired=True)
+
+def map_to_fedefl(df):
+    tri = fedelemflowlist.get_flowmapping('TRI')
+    tri = tri[['SourceFlowName', 'TargetFlowName']].drop_duplicates()
+    mapped_df = df.merge(tri, how = 'left', left_on = 'FlowName',
+                                   right_on = 'SourceFlowName')
+    if mapped_df['FlowAmount'].sum() != df['FlowAmount'].sum():
+        log.warning('Error on mapping, data loss')
+    # validation throws errors when mixture and trade secret chemicals are 
+    # maintained so drop them while they remain unmapped
+    criteria = (mapped_df['TargetFlowName'].isna() &
+                (mapped_df['FlowName'].str.lower().str.contains('trade secret') |
+                mapped_df['FlowName'].str.lower().str.contains('mixture')))
+    mapped_df = mapped_df[~criteria].reset_index(drop = True)
+    missing_flows = mapped_df[mapped_df['TargetFlowName'].isna()]['FlowName']
+    missing_flows = missing_flows.drop_duplicates().sort_values()
+    if len(missing_flows) > 0:
+        log.warning('flows from reference df missing in mapping file')
+    mapped_df.loc[~mapped_df['TargetFlowName'].isna(),
+                  'FlowName'] = mapped_df['TargetFlowName']
+    mapped_df = mapped_df.drop(columns=['SourceFlowName','TargetFlowName'])
+    return mapped_df
 
 
-# Function for calculating weighted average and avoiding ZeroDivisionError, which ocurres
-# "when all weights along axis are zero".
-def weight_mean(v, w):
-    try:
-        return np.average(v, weights = w)
-    except ZeroDivisionError:
-        return v.mean()
-
-# Import list of fields from TRI that are desired for LCI
 def imp_fields(tri_fields_txt):
+    """
+    Import list of fields from TRI that are desired for LCI
+    """
     tri_required_fields_csv = tri_fields_txt
     tri_req_fields = pd.read_csv(tri_required_fields_csv, header=None)
     tri_req_fields = list(tri_req_fields[0])
     return tri_req_fields
 
-# Import in pieces grabbing main fields plus unique amount and basis of estimate fields
-# assigns fields to variables
+
 def concat_req_field(list):
-    source_name = ['TRIFID','CHEMICAL NAME', 'CAS NUMBER','UNIT OF MEASURE'] + list
+    """
+    Import in pieces grabbing main fields plus unique amount and basis 
+    of estimate fields assigns fields to variables
+    """
+    source_name = ['TRIFID','CHEMICAL NAME', 'CAS NUMBER',
+                   'UNIT OF MEASURE'] + list
     return source_name
 
 
@@ -119,12 +184,14 @@ def dict_create(k, v):
 # Cycle through file importing by release type, the dictionary key
 def import_TRI_by_release_type(d, year):
     # Import TRI file
-    external_dir = set_dir(data_dir + '../../../')
-    tri_release_output_fieldnames = ['FacilityID', 'CAS', 'FlowName', 'Unit', 'FlowAmount','Basis of Estimate','ReleaseType']
+    tri_release_output_fieldnames = ['FacilityID', 'CAS', 'FlowName',
+                                     'Unit', 'FlowAmount','Basis of Estimate',
+                                     'ReleaseType']
     tri = pd.DataFrame()
     for k, v in d.items():
         #create a data type dictionary
-        dtype_dict = {'TRIFID':"str", 'CHEMICAL NAME':"str", 'CAS NUMBER':"str",'UNIT OF MEASURE':"str"}
+        dtype_dict = {'TRIFID':"str", 'CHEMICAL NAME':"str",
+                      'CAS NUMBER':"str",'UNIT OF MEASURE':"str"}
         #If a basis of estimate field is present, set its type to string
         if len(v) > 5:
             dtype_dict[v[5]] = "str"
@@ -132,14 +199,18 @@ def import_TRI_by_release_type(d, year):
             file = '3a'
         else:
             file = '1a'
-        tri_csv = external_dir + 'TRI/US_' + file + '_' + year + '.txt'
-        tri_part = pd.read_csv(tri_csv, sep='\t', header=0, usecols = v, dtype = dtype_dict, na_values = ['NO'],
-                                error_bad_lines = False, low_memory = False,
-                                converters = {v[4]: lambda x:  pd.to_numeric(x, errors = 'coerce')})
-
-        tri_part['ReleaseType'] = k
-        tri_part.columns = tri_release_output_fieldnames
-        tri = pd.concat([tri,tri_part])
+        tri_csv = tri_external_dir + 'US_' + file + '_' + year + '.csv'
+        try:
+            tri_part = pd.read_csv(tri_csv, usecols = v,
+                                   low_memory = False)
+            tri_part['ReleaseType'] = k
+            tri_part.columns = tri_release_output_fieldnames
+            tri = pd.concat([tri,tri_part])
+        except FileNotFoundError:
+            log.error('%s.csv file not found in %s', file, tri_csv)
+    if len(tri)==0:
+        log.error('No data found. Please run option A before proceeding')
+        sys.exit(0)
     return tri
 
 # There is white space after some basis of estimate codes...remove it here
@@ -148,23 +219,41 @@ def strip_coln_white_space(df, coln):
     return df
 
 
+def validate_national_totals(inv, TRIyear):
+    #VALIDATE
+    log.info('validating data against national totals')
+    if (os.path.exists(data_dir + 'TRI_'+ TRIyear + '_NationalTotals.csv')):
+        tri_national_totals = pd.read_csv(data_dir + 'TRI_'+ TRIyear +\
+                                          '_NationalTotals.csv',
+                                          header=0,dtype={"FlowAmount":float})
+        tri_national_totals['FlowAmount_kg']=0
+        tri_national_totals = unit_convert(tri_national_totals, 'FlowAmount_kg',
+                                           'Unit', 'Pounds', lb_kg, 'FlowAmount')
+        # drop old amount and units
+        tri_national_totals.drop('FlowAmount',axis=1,inplace=True)
+        tri_national_totals.drop('Unit',axis=1,inplace=True)
+        # Rename cols to match reference format
+        tri_national_totals.rename(columns={'FlowAmount_kg':'FlowAmount'},
+                                   inplace=True)
+        inv = map_to_fedefl(inv)
+        validation_result = validate_inventory(inv, tri_national_totals,
+                                               group_by='flow', tolerance=5.0)
+        write_validation_result('TRI',TRIyear,validation_result)
+    else:
+        log.warning('validation file for TRI_%s does not exist. Please run '
+                    'option B', TRIyear)
+
 def Generate_TRI_files_csv(TRIyear, Files):
-    _config = config()['databases']['TRI']
-    tri_url = _config['url']
-    link_zip_TRI = link_zip(tri_url, _config['queries'], TRIyear)
-    regex = re.compile(r'https://www3.epa.gov/tri/current/US_\d{4}_?(\d*)\.zip')
-    tri_version = re.search(regex, link_zip_TRI).group(1)
-    if not tri_version:
-        tri_version = 'last'
-    tri_required_fields = imp_fields(data_dir + 'TRI_required_fields.txt')
-    keys = imp_fields(data_dir + 'TRI_keys.txt') # the same function can be used
-    import_facility = tri_required_fields[0:10]
+    """Generate TRI inventories from downloaded files"""
+    tri_required_fields = imp_fields(tri_data_dir + 'TRI_required_fields.txt')
+    keys = imp_fields(tri_data_dir + 'TRI_keys.txt') # the same function can be used
     values = list()
     for p in range(len(keys)):
         start = 13 + 2*p
         end =  start + 1
         values.append(concat_req_field(tri_required_fields[start:end + 1]))
-    # Create a dictionary that had the import fields for each release type to use in import process
+    # Create a dictionary that had the import fields for each release 
+    # type to use in import process
     import_dict = dict_create(keys, values)
     # Build the TRI DataFrame
     tri = import_TRI_by_release_type(import_dict, TRIyear)
@@ -180,74 +269,52 @@ def Generate_TRI_files_csv(TRIyear, Files):
     tri_reliability_table = reliability_table[reliability_table['Source']=='TRI']
     tri_reliability_table.drop('Source', axis=1, inplace=True)
     #Merge with reliability table to get
-    tri = pd.merge(tri,tri_reliability_table,left_on='Basis of Estimate',right_on='Code',how='left')
+    tri = pd.merge(tri,tri_reliability_table,left_on='Basis of Estimate',
+                   right_on='Code',how='left')
     # Fill NAs with 5 for DQI reliability score
     tri['DQI Reliability Score'] = tri['DQI Reliability Score'].fillna(value=5)
     # Drop unneeded columns
-    tri.drop('Basis of Estimate',axis=1,inplace=True)
-    tri.drop('Code',axis=1,inplace=True)
+    tri.drop(['Basis of Estimate', 'Code'],axis=1,inplace=True)
     # Replace source info with Context
-    source_cnxt = data_dir + 'TRI_ReleaseType_to_Compartment.csv'
+    source_cnxt = tri_data_dir + 'TRI_ReleaseType_to_Compartment.csv'
     source_to_context = pd.read_csv(source_cnxt)
     tri = pd.merge(tri, source_to_context, how='left')
     # Convert units to ref mass unit of kg
-    # Create a new field to put converted amount in
     tri['Amount_kg'] = 0.0
     tri = unit_convert(tri, 'Amount_kg', 'Unit', 'Pounds', lb_kg, 'FlowAmount')
     tri = unit_convert(tri, 'Amount_kg', 'Unit', 'Grams', g_kg, 'FlowAmount')
-    # drop old amount and units
-    tri.drop('FlowAmount',axis=1,inplace=True)
-    tri.drop('Unit',axis=1,inplace=True)
+    tri.drop(['FlowAmount', 'Unit'],axis=1,inplace=True)
     # Rename cols to match reference format
-    tri.rename(columns={'Amount_kg':'FlowAmount'}, inplace=True)
-    tri.rename(columns={'DQI Reliability Score':'DataReliability'}, inplace=True)
+    tri.rename(columns={'Amount_kg':'FlowAmount',
+                        'DQI Reliability Score':'DataReliability'}
+               , inplace=True)
     #Drop release type
     tri.drop('ReleaseType',axis=1,inplace=True)
     #Group by facility, flow and compartment to aggregate different release types
     grouping_vars = ['FacilityID', 'FlowName','CAS','Compartment']
-    # Create a specialized weighted mean function to use for aggregation of reliability
-    wm = lambda x: weight_mean(x, tri.loc[x.index, "FlowAmount"])
-    # Groupby and aggregate with your dictionary:
-    tri = tri.groupby(grouping_vars).agg({'FlowAmount':'sum','DataReliability': wm})
-    tri = tri.reset_index()
+    tri = aggregate(tri, grouping_vars)
 
-    #VALIDATE
-    tri_national_totals = pd.read_csv(data_dir + 'TRI_'+ TRIyear + '_NationalTotals.csv',header=0,dtype={"FlowAmount":np.float})
-    tri_national_totals['FlowAmount_kg']=0
-    tri_national_totals = unit_convert(tri_national_totals, 'FlowAmount_kg', 'Unit', 'Pounds', 0.4535924, 'FlowAmount')
-    # drop old amount and units
-    tri_national_totals.drop('FlowAmount',axis=1,inplace=True)
-    tri_national_totals.drop('Unit',axis=1,inplace=True)
-    # Rename cols to match reference format
-    tri_national_totals.rename(columns={'FlowAmount_kg':'FlowAmount'},inplace=True)
-    validation_result = validate_inventory(tri, tri_national_totals, group_by='flow', tolerance=5.0)
-    write_validation_result('TRI',TRIyear,validation_result)
+    validate_national_totals(tri, TRIyear)
+    
     #FLOWS
     flows = tri.groupby(['FlowName','CAS','Compartment']).count().reset_index()
     #stack by compartment
     flowsdf = flows[['FlowName','CAS','Compartment']]
     flowsdf['FlowID'] = flowsdf['CAS']
-    #export chemicals
-    #!!!Still needs CAS number and FlowID
-    flowsdf.to_csv(output_dir+'flow/'+'TRI_'+ TRIyear + '.csv', index=False)
+    storeInventory(flowsdf, 'TRI_' + TRIyear, 'flow')
+    
     #FLOW BY FACILITY
-    #drop CAS
     tri.drop(columns=['CAS'],inplace=True)
-    tri_file_name = 'TRI_' + TRIyear + '.csv'
-    tri.to_csv(output_dir + 'flowbyfacility/' + tri_file_name, index=False)
+    storeInventory(tri, 'TRI_' + TRIyear, 'flowbyfacility')
+    
     #FACILITY
     ##Import and handle TRI facility data
-    tri_facility = pd.read_csv(set_dir(data_dir + '../../../') + 'TRI/US_1a_' + TRIyear + '.txt',
-                                    sep='\t', header=0, usecols=import_facility,
-                                    error_bad_lines=False,
+    import_facility = tri_required_fields[0:10]
+    tri_facility = pd.read_csv(tri_external_dir + 'US_1a_' + TRIyear + '.csv',
+                                    usecols=import_facility,
                                     low_memory = False)
     #get unique facilities
-    tri_facility_unique_ids = pd.unique(tri_facility['TRIFID'])
-    tri_facility_unique_rows  = tri_facility.drop_duplicates()
-    #Use group by to elimiate additional ID duplicates
-    #tri_facility_unique_rows_agg = tri_facility_unique_rows.groupby(['TRIFID'])
-    #tri_facility_final = tri_facility_unique_rows_agg.aggregate()
-    tri_facility_final = tri_facility_unique_rows
+    tri_facility_final  = tri_facility.drop_duplicates()
     #rename columns
     TRI_facility_name_crosswalk = {
                                 'TRIFID':'FacilityID',
@@ -262,18 +329,30 @@ def Generate_TRI_files_csv(TRIyear, Files):
                                 'LONGITUDE':'Longitude'
                                   }
     tri_facility_final.rename(columns=TRI_facility_name_crosswalk,inplace=True)
-    tri_facility_final.to_csv(output_dir+'facility/'+'TRI_'+ TRIyear + '.csv', index=False)
-    # Record TRI metadata
-    external_dir = set_dir(data_dir + '../../../')
-    for file in Files:
-        tri_csv = external_dir + 'TRI/US_' + file + '_' + TRIyear + '.txt'
-        try: retrieval_time = os.path.getctime(tri_csv)
-        except: retrieval_time = time.time()
-        tri_metadata['SourceAquisitionTime'] = time.ctime(retrieval_time)
-        tri_metadata['SourceFileName'] = get_relpath(tri_csv)
-        tri_metadata['SourceURL'] = tri_url
-        tri_metadata['SourceVersion'] = tri_version
-        write_metadata('TRI', TRIyear, tri_metadata)
+    storeInventory(tri_facility_final, 'TRI_' + TRIyear, 'facility')
+
+
+def generate_metadata(year, files, datatype = 'inventory'):
+    """
+    Gets metadata and writes to .json
+    """
+    if datatype == 'source':
+        source_path = [tri_external_dir + 'US_' + p + '_' + \
+                       year + '.csv' for p in files]
+        source_path = [os.path.realpath(p) for p in source_path]
+        source_meta = compile_source_metadata(source_path, _config, year)
+        source_meta['SourceType'] = 'Zip file'
+        tri_url = _config['url']
+        link_zip_TRI = link_zip(tri_url, _config['queries'], TRIyear)
+        regex = re.compile(r'https://www3.epa.gov/tri/current/US_\d{4}_?(\d*)\.zip')
+        tri_version = re.search(regex, link_zip_TRI).group(1)
+        if not tri_version:
+            tri_version = 'last'
+        source_meta['SourceVersion'] = tri_version
+        write_metadata('TRI_'+year, source_meta, category=ext_folder, datatype='source')
+    else:
+        source_meta = read_source_metadata(tri_external_dir + 'TRI_'+ year)['tool_meta']
+        write_metadata('TRI_'+year, source_meta, datatype=datatype)
 
 
 if __name__ == '__main__':
@@ -282,9 +361,10 @@ if __name__ == '__main__':
 
     parser.add_argument('Option',
                         help = 'What do you want to do:\
-                        [A] Extract TRI flat files from TRI Data Plus.\
-                        [B] National Totals for TRI.\
-                        [C] Organize files',
+                        [A] Download and TRI flat files from TRI Data Plus.\
+                        [B] Format national totals for TRI from download \
+                        national files.\
+                        [C] Generate StEWI inventory files from downloaded files',
                         type = str)
 
     parser.add_argument('-Y', '--Year', nargs = '+',
@@ -294,42 +374,45 @@ if __name__ == '__main__':
     parser.add_argument('-F', '--Files', nargs = '+',
                         help = 'What TRI Files you want (e.g., 1a, 2a, etc).\
                         Check:\
-                        https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-guides',
+                        https://www.epa.gov/toxics-release-inventory-tri-program/\
+                            tri-basic-plus-data-files-guides',
+                        default = ['1a','3a'],
                         required = False)
 
     args = parser.parse_args()
-
-    # Set some metadata
     TRIyears = args.Year
-    tri_metadata = inventory_metadata
+    TRIFiles = args.Files
 
     for TRIyear in TRIyears:
 
         if args.Option == 'A':
-
-            _config = config()['databases']['TRI']
+            log.info('downloading TRI files from source for %s', TRIyear)
             tri_url = _config['url']
             if url_is_alive(tri_url):
                 link_zip_TRI = link_zip(tri_url, _config['queries'], TRIyear)
-                extacting_TRI_data_files(link_zip_TRI, args.Files, TRIyear)
+                extract_TRI_data_files(link_zip_TRI, TRIFiles, TRIyear)
+                generate_metadata(TRIyear, TRIFiles, datatype='source')
             else:
-                print('The URL in config.yaml ({}) for TRI is not reachable.'.format(tri_url))
+                log.error('The URL in config.yaml ({}) for TRI is not '
+                          'reachable.'.format(tri_url))
 
         elif args.Option == 'B':
-
             # Website for National Totals
-            # https://enviro.epa.gov/triexplorer/tri_release.chemical (revised as of 4/20/2020)
+            # https://enviro.epa.gov/triexplorer/tri_release.chemical
             # Steps:
-            # (1) Select Year of Data, All of United States, All Chemicals, All Industry,
-            #  and other needed option (this is based on the desired year)
+            # (1) Select Year of Data, All of United States, All Chemicals,
+            # All Industry, and other needed option (this is based on the
+            # desired year)
             # (2) Export to CSV
-            # (3) Drop the not needed rows
+            # (3) Drop the not needed rows, including the extra dioxin row 
+            # at the bottom
             # (4) Organize the columns as they are needed (check existing files)
             # (5) Save the file like TRI_chem_release_year.csv in data folder
             # (6) Run this code
 
-            Generate_National_Total(TRIyear)
+            generate_national_totals(TRIyear)
 
         elif args.Option == 'C':
-
-            Generate_TRI_files_csv(TRIyear, args.Files)
+            log.info('generating TRI inventory from files for %s', TRIyear)
+            Generate_TRI_files_csv(TRIyear, TRIFiles)
+            generate_metadata(TRIyear, TRIFiles, datatype='inventory')

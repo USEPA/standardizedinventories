@@ -729,6 +729,35 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 10280,"trans-1,2-Dichloroethylene",,46362,DMR
 10693,"trans-1,3-Dichloropropene",,39275,DMR
 49263,"trans-1,4-Dichloro-2-butene",110-57-6,96270,DMR
+,Carbon Dioxide,124-38-9,46795,GHGRP
+,HFC-125,354-33-6,46467,GHGRP
+,HFC-134a,811-97-2,44103,GHGRP
+,HFC-143a,420-46-2,45982,GHGRP
+,HFC-152a,75-37-6,48930,GHGRP
+,HFC-227ea,431-89-0,45949,GHGRP
+,HFC-23,75-46-7,48926,GHGRP
+,HFC-236fa,690-39-1,87519,GHGRP
+,HFC-245fa,460-73-1,82059,GHGRP
+,HFC-32,75-10-5,87907,GHGRP
+,HFC-41,593-53-3,45079,GHGRP
+,HFC-43-10mee,138495-42-8,85287,GHGRP
+,HFE-347mcc3,28523-86-6,99082,GHGRP
+,HFE-449s1 (HFE-7100) Chemical blend,163702-07-6,84608,GHGRP
+,HFE-569sf2 (HFE-7200) Chemical blend,163702-05-4,84610,GHGRP
+,Methane,74-82-8,48548,GHGRP
+,Nitrous Oxide,10024-97-2,94780,GHGRP
+,PFC C-1418,559-40-0,82048,GHGRP
+,PFC-116 (Perfluoroethane),76-16-4,48830,GHGRP
+,PFC-14 (Perfluoromethane),75-73-0,48910,GHGRP
+,PFC-218 (Perfluoropropane),76-19-7,87754,GHGRP
+,PFC-3-1-10 (Perfluorobutane),355-25-9,46458,GHGRP
+,PFC-318 (Perfluorocyclobutane),115-25-3,95777,GHGRP
+,PFC-4-1-12 (Perfluoropentane),678-26-2,44347,GHGRP
+,PFC-9-1-18,306-94-5,91644,GHGRP
+,PFPMIE (HT-70),,125291,GHGRP
+,"Perfluorobuta-1,3-diene",685-63-2,44333,GHGRP
+,Perfluorocyclopropane,931-91-9,99112,GHGRP
+,Sulfur Hexafluoride,2551-62-4,39886,GHGRP
 67425,(Ethylenebis(Oxyethylenenitrilo)) Tetraacetic Acid,67-42-5,49030,NEI
 79345,"1,1,2,2-Tetrachloroethane",79-34-5,48715,NEI
 79005,"1,1,2-Trichloroethane",79-00-5,48739,NEI
@@ -2215,6 +2244,472 @@ N874,WARFARIN AND SALTS,,35888,TRI
 7440666,ZINC (FUME OR DUST),7440-66-6,36815,TRI
 N982,ZINC COMPOUNDS,,35887,TRI
 12122677,ZINEB,12122-67-7,60385,TRI
+354110,"1,1,1,2-tetrachloro-2-fluoroethane (hcfc-121a)",354-11-0,92334,TRI
+630206,"1,1,1,2-tetrachloroethane",630-20-6,44565,TRI
+71556,"1,1,1-trichloroethane",71-55-6,48567,TRI
+79345,"1,1,2,2-tetrachloroethane",79-34-5,48715,TRI
+79005,"1,1,2-trichloroethane",79-00-5,48739,TRI
+1717006,"1,1-dichloro-1-fluoroethane (hcfc-141b)",1717-00-6,40976,TRI
+57147,"1,1-dimethylhydrazine",57-14-7,48940,TRI
+96184,"1,2,3-trichloropropane",96-18-4,48142,TRI
+120821,"1,2,4-trichlorobenzene",120-82-1,47007,TRI
+95636,"1,2,4-trimethylbenzene",95-63-6,47743,TRI
+106887,"1,2-butylene oxide",106-88-7,47498,TRI
+96128,"1,2-dibromo-3-chloropropane",96-12-8,48146,TRI
+106934,"1,2-dibromoethane",106-93-4,47495,TRI
+354234,"1,2-dichloro-1,1,2-trifluoroethane (hcfc-123a)",354-23-4,46471,TRI
+1649087,"1,2-dichloro-1,1-difluoroethane (hcfc-132b)",1649-08-7,41379,TRI
+95501,"1,2-dichlorobenzene",95-50-1,47750,TRI
+107062,"1,2-dichloroethane",107-06-2,47485,TRI
+540590,"1,2-dichloroethylene",540-59-0,45537,TRI
+78875,"1,2-dichloropropane",78-87-5,48750,TRI
+122667,"1,2-diphenylhydrazine",122-66-7,47248,TRI
+95545,"1,2-phenylenediamine",95-54-5,47747,TRI
+106990,"1,3-butadiene",106-99-0,47490,TRI
+541731,"1,3-dichlorobenzene",541-73-1,91424,TRI
+542756,"1,3-dichloropropylene",542-75-6,45499,TRI
+108452,"1,3-phenylenediamine",108-45-2,96450,TRI
+1120714,"1,3-propane sultone",1120-71-4,43483,TRI
+764410,"1,4-dichloro-2-butene",764-41-0,44180,TRI
+106467,"1,4-dichlorobenzene",106-46-7,47524,TRI
+123911,"1,4-dioxane",123-91-1,46821,TRI
+4080313,"1-(3-chloroallyl)-3,5,7-triaza-1-azoniaadamantane chloride",4080-31-3,93988,TRI
+106945,1-bromopropane,106-94-5,47494,TRI
+354256,"1-chloro-1,1,2,2-tetrafluoroethane (hcfc-124a)",354-25-6,46470,TRI
+75683,"1-chloro-1,1-difluoroethane (hcfc-142b)",75-68-3,48914,TRI
+3296900,"2,2-bis(bromomethyl)-1,3-propanediol",3296-90-0,93124,TRI
+306832,"2,2-dichloro-1,1,1-trifluoroethane (hcfc-123)",306-83-2,46265,TRI
+78886,"2,3-dichloropropene",78-88-6,48749,TRI
+95954,"2,4,5-trichlorophenol",95-95-4,47719,TRI
+88062,"2,4,6-trichlorophenol",88-06-2,48401,TRI
+94757,"2,4-d",94-75-7,48475,TRI
+1929733,"2,4-d 2-butoxyethyl ester",1929-73-3,40126,TRI
+1928434,"2,4-d 2-ethylhexyl ester",1928-43-4,91753,TRI
+2702729,"2,4-d sodium salt",2702-72-9,42746,TRI
+95807,"2,4-diaminotoluene",95-80-7,47729,TRI
+120832,"2,4-dichlorophenol",120-83-2,94933,TRI
+105679,"2,4-dimethylphenol",105-67-9,96968,TRI
+51285,"2,4-dinitrophenol",51-28-5,49177,TRI
+121142,"2,4-dinitrotoluene",121-14-2,46998,TRI
+541537,"2,4-dithiobiuret",541-53-7,45519,TRI
+606202,"2,6-dinitrotoluene",606-20-2,90476,TRI
+87627,"2,6-xylidine",87-62-7,48418,TRI
+53963,2-acetylaminofluorene,53-96-3,49152,TRI
+2837890,"2-chloro-1,1,1,2-tetrafluoroethane (hcfc-124)",2837-89-0,41686,TRI
+75887,"2-chloro-1,1,1-trifluoroethane (hcfc-133a)",75-88-7,48896,TRI
+110805,2-ethoxyethanol,110-80-5,47661,TRI
+149304,2-mercaptobenzothiazole,149-30-4,46403,TRI
+109864,2-methoxyethanol,109-86-4,47321,TRI
+75865,2-methyllactonitrile,75-86-5,48898,TRI
+109068,2-methylpyridine,109-06-8,47369,TRI
+88755,2-nitrophenol,88-75-5,88124,TRI
+79469,2-nitropropane,79-46-9,48708,TRI
+90437,2-phenylphenol,90-43-7,48299,TRI
+91941,"3,3'-dichlorobenzidine",91-94-1,48246,TRI
+612839,"3,3'-dichlorobenzidine dihydrochloride",612-83-9,90122,TRI
+119904,"3,3'-dimethoxybenzidine",119-90-4,47040,TRI
+20325400,"3,3'-dimethoxybenzidine dihydrochloride",20325-40-0,94314,TRI
+119937,"3,3'-dimethylbenzidine",119-93-7,95217,TRI
+460355,"3-chloro-1,1,1-trifluoropropane (hcfc-253fb)",460-35-5,45893,TRI
+563473,3-chloro-2-methyl-1-propene,563-47-3,45666,TRI
+542767,3-chloropropionitrile,542-76-7,45498,TRI
+55406536,3-iodo-2-propynyl butylcarbamate,55406-53-6,49728,TRI
+101804,"4,4'-diaminodiphenyl ether",101-80-4,47821,TRI
+80057,"4,4'-isopropylidenediphenol",80-05-7,48694,TRI
+101144,"4,4'-methylenebis(2-chloroaniline)",101-14-4,47850,TRI
+101779,"4,4'-methylenedianiline",101-77-9,47823,TRI
+534521,"4,6-dinitro-o-cresol",534-52-1,45599,TRI
+92671,4-aminobiphenyl,92-67-1,87829,TRI
+60117,4-dimethylaminoazobenzene,60-11-7,49098,TRI
+100027,4-nitrophenol,100-02-7,47917,TRI
+99558,5-nitro-o-toluidine,99-55-8,87241,TRI
+30560191,acephate,30560-19-1,58753,TRI
+75070,acetaldehyde,75-07-0,48526,TRI
+60355,acetamide,60-35-5,49089,TRI
+75058,acetonitrile,75-05-8,48527,TRI
+98862,acetophenone,98-86-2,47967,TRI
+62476599,"acifluorfen, sodium salt",62476-59-9,89542,TRI
+107028,acrolein,107-02-8,47488,TRI
+79061,acrylamide,79-06-1,48733,TRI
+79107,acrylic acid,79-10-7,48729,TRI
+107131,acrylonitrile,107-13-1,47480,TRI
+15972608,alachlor,15972-60-8,60955,TRI
+116063,aldicarb,116-06-3,47144,TRI
+309002,aldrin,309-00-2,46257,TRI
+107186,allyl alcohol,107-18-6,47477,TRI
+107051,allyl chloride,107-05-1,47486,TRI
+107119,allylamine,107-11-9,96702,TRI
+134327,alpha-naphthylamine,,46621,TRI
+7429905,aluminum (fume or dust),7429-90-5,37021,TRI
+1344281,aluminum oxide (fibrous forms),1344-28-1,42955,TRI
+20859738,aluminum phosphide,20859-73-8,57599,TRI
+834128,ametryn,834-12-8,43683,TRI
+61825,amitrole,61-82-5,49075,TRI
+7664417,ammonia,7664-41-7,38644,TRI
+62533,aniline,62-53-3,49067,TRI
+120127,anthracene,120-12-7,95212,TRI
+7440360,antimony,7440-36-0,36975,TRI
+N010,antimony compounds,,35865,TRI
+7440382,arsenic,7440-38-2,36973,TRI
+N020,arsenic compounds,,35920,TRI
+1332214,asbestos (friable),1332-21-4,16369,TRI
+1912249,atrazine,1912-24-9,91913,TRI
+7440393,barium,7440-39-3,36972,TRI
+N040,barium compounds (except for barium sulfate (cas no. 7727-43-7)),,35919,TRI
+1861401,benfluralin,1861-40-1,92106,TRI
+17804352,benomyl,17804-35-2,36086,TRI
+98873,benzal chloride,98-87-3,87272,TRI
+71432,benzene,71-43-2,98385,TRI
+92875,benzidine,92-87-5,48195,TRI
+191242,"benzo[g,h,i]perylene",191-24-2,91912,TRI
+98077,benzoic trichloride,98-07-7,87374,TRI
+98884,benzoyl chloride,98-88-4,47966,TRI
+94360,benzoyl peroxide,94-36-0,48495,TRI
+100447,benzyl chloride,100-44-7,94767,TRI
+7440417,beryllium,7440-41-7,36837,TRI
+N050,beryllium compounds,,35863,TRI
+91598,beta-naphthylamine,,48259,TRI
+82657043,bifenthrin,82657-04-3,85911,TRI
+92524,biphenyl,92-52-4,48214,TRI
+108601,bis(2-chloro-1-methylethyl) ether,108-60-1,47402,TRI
+111911,bis(2-chloroethoxy)methane,111-91-1,96048,TRI
+111444,bis(2-chloroethyl) ether,111-44-4,46914,TRI
+542881,bis(chloromethyl) ether,542-88-1,45495,TRI
+10294345,boron trichloride,10294-34-5,39059,TRI
+7637072,boron trifluoride,7/2/7637,38667,TRI
+7726956,bromine,7726-95-6,38476,TRI
+353593,bromochlorodifluoromethane (halon 1211),353-59-3,92341,TRI
+75252,bromoform,75-25-2,48938,TRI
+74839,bromomethane,74-83-9,48547,TRI
+75638,bromotrifluoromethane (halon 1301),75-63-8,48917,TRI
+1689845,bromoxynil,1689-84-5,41164,TRI
+1689992,bromoxynil octanoate,1689-99-2,41163,TRI
+357573,brucine,357-57-3,92161,TRI
+141322,butyl acrylate,141-32-2,46147,TRI
+123728,butyraldehyde,123-72-8,94699,TRI
+1937377,c.i. direct black 38,1937-37-7,40116,TRI
+28407376,c.i. direct blue 218,28407-37-6,92583,TRI
+492808,c.i. solvent yellow 34,492-80-8,45801,TRI
+7440439,cadmium,7440-43-9,36835,TRI
+N078,cadmium compounds,,35862,TRI
+156627,calcium cyanamide,156-62-7,46361,TRI
+133062,captan,133-06-2,46639,TRI
+63252,carbaryl,63-25-2,49061,TRI
+1563662,carbofuran,1563-66-2,41800,TRI
+75150,carbon disulfide,75-15-0,48521,TRI
+56235,carbon tetrachloride,56-23-5,48965,TRI
+463581,carbonyl sulfide,463-58-1,45878,TRI
+5234684,carboxin,5234-68-4,42241,TRI
+120809,catechol,120-80-9,47008,TRI
+N230,certain glycol ethers,,35893,TRI
+57749,chlordane,57-74-9,49134,TRI
+90982324,chlorimuron-ethyl,90982-32-4,87979,TRI
+7782505,chlorine,7782-50-5,38144,TRI
+10049044,chlorine dioxide,10049-04-4,39291,TRI
+79118,chloroacetic acid,79-11-8,48728,TRI
+108907,chlorobenzene,108-90-7,47379,TRI
+510156,chlorobenzilate,510-15-6,46053,TRI
+75456,chlorodifluoromethane (hcfc-22),75-45-6,48927,TRI
+75003,chloroethane,75-00-3,48532,TRI
+67663,chloroform,67-66-3,49020,TRI
+74873,chloromethane,74-87-3,48543,TRI
+107302,chloromethyl methyl ether,107-30-2,47472,TRI
+N084,chlorophenols,1336-35-2,82789,TRI
+76062,chloropicrin,76-06-2,87860,TRI
+126998,chloroprene,126-99-8,46756,TRI
+1897456,chlorothalonil,1897-45-6,40313,TRI
+75729,chlorotrifluoromethane (cfc-13),75-72-9,48911,TRI
+64902723,chlorsulfuron,64902-72-3,89687,TRI
+7440473,chromium,7440-47-3,36831,TRI
+N090,chromium compounds (except for chromite ore mined in the transvaal region),,35917,TRI
+7440484,cobalt,7440-48-4,36830,TRI
+N096,cobalt compounds,,35860,TRI
+7440508,copper,7440-50-8,36829,TRI
+N100,copper compounds,,35897,TRI
+8001589,creosote,8001-58-9,16148,TRI
+1319773,cresol (mixed isomers),1319-77-3,43230,TRI
+4170303,crotonaldehyde,4170-30-3,40185,TRI
+98828,cumene,98-82-8,47969,TRI
+80159,cumene hydroperoxide,80-15-9,87190,TRI
+N106,cyanide compounds,,35859,TRI
+1134232,cycloate,1134-23-2,43437,TRI
+110827,cyclohexane,110-82-7,47659,TRI
+108930,cyclohexanol,108-93-0,47377,TRI
+68359375,cyfluthrin,68359-37-5,90789,TRI
+533744,dazomet,533-74-4,45614,TRI
+1163195,decabromodiphenyl oxide,1163-19-5,95770,TRI
+117817,di(2-ethylhexyl) phthalate,117-81-7,95501,TRI
+2303164,diallate,2303-16-4,41313,TRI
+25376458,diaminotoluene (mixed isomers),25376-45-8,56189,TRI
+333415,diazinon,333-41-5,46209,TRI
+132649,dibenzofuran,132-64-9,46646,TRI
+84742,dibutyl phthalate,84-74-2,48873,TRI
+1918009,dicamba,1918-00-9,40140,TRI
+25321226,dichlorobenzene (mixed isomers),25321-22-6,56401,TRI
+75274,dichlorobromomethane,75-27-4,48936,TRI
+75718,dichlorodifluoromethane (cfc-12),75-71-8,48912,TRI
+75434,dichlorofluoromethane (hcfc-21),75-43-4,48928,TRI
+75092,dichloromethane,75-09-2,48524,TRI
+97234,dichlorophene,97-23-4,48101,TRI
+76142,dichlorotetrafluoroethane (cfc-114),,48831,TRI
+62737,dichlorvos,62-73-7,89211,TRI
+115322,dicofol,115-32-2,47163,TRI
+77736,dicyclopentadiene,77-73-6,48803,TRI
+1464535,diepoxybutane,1464-53-5,97651,TRI
+111422,diethanolamine,111-42-2,46916,TRI
+64675,diethyl sulfate,64-67-5,49050,TRI
+94586,dihydrosafrole,94-58-6,48488,TRI
+N120,diisocyanates,,35885,TRI
+60515,dimethoate,60-51-5,90490,TRI
+131113,dimethyl phthalate,131-11-3,97998,TRI
+77781,dimethyl sulfate,77-78-1,48799,TRI
+124403,dimethylamine,124-40-3,46794,TRI
+2300665,dimethylamine dicamba,2300-66-5,41316,TRI
+79447,dimethylcarbamoyl chloride,79-44-7,48709,TRI
+88857,dinitrobutyl phenol,88-85-7,88121,TRI
+25321146,dinitrotoluene (mixed isomers),25321-14-6,91492,TRI
+N150,dioxin and dioxin-like compounds,,35957,TRI
+122394,diphenylamine,122-39-4,47259,TRI
+2164070,dipotassium endothall,2164-07-0,41765,TRI
+136458,dipropyl isocinchomeronate,136-45-8,46580,TRI
+330541,diuron,330-54-1,46215,TRI
+106898,epichlorohydrin,106-89-8,96714,TRI
+13194484,ethoprop,13194-48-4,97974,TRI
+140885,ethyl acrylate,140-88-5,97768,TRI
+541413,ethyl chloroformate,541-41-3,91429,TRI
+100414,ethylbenzene,100-41-4,94770,TRI
+74851,ethylene,74-85-1,48545,TRI
+107211,ethylene glycol,107-21-1,47475,TRI
+75218,ethylene oxide,75-21-8,48517,TRI
+96457,ethylene thiourea,96-45-7,48129,TRI
+N171,"ethylenebisdithiocarbamic acid, salts and esters",,35868,TRI
+151564,ethyleneimine,151-56-4,46377,TRI
+75343,ethylidene dichloride,75-34-3,48932,TRI
+14484641,ferbam,14484-64-1,60313,TRI
+7782414,fluorine,7782-41-4,38148,TRI
+51218,fluorouracil,51-21-8,89828,TRI
+133073,folpet,133-07-3,97937,TRI
+72178020,fomesafen,72178-02-0,63875,TRI
+50000,formaldehyde,50-00-0,49201,TRI
+64186,formic acid,64-18-6,49053,TRI
+76131,freon 113 (cfc-113),76-13-1,48832,TRI
+110009,furan,110-00-9,47712,TRI
+556525,glycidol,556-52-5,90176,TRI
+76448,heptachlor,76-44-8,87744,TRI
+N270,hexabromocyclododecane,,126135,TRI
+87683,"hexachloro-1,3-butadiene",87-68-3,48415,TRI
+118741,hexachlorobenzene,118-74-1,95480,TRI
+77474,hexachlorocyclopentadiene,77-47-4,48812,TRI
+67721,hexachloroethane,67-72-1,49017,TRI
+70304,hexachlorophene,70-30-4,87232,TRI
+51235042,hexazinone,51235-04-2,55696,TRI
+67485294,hydramethylnon,67485-29-4,73866,TRI
+302012,hydrazine,302-01-2,46284,TRI
+7647010,"hydrochloric acid (acid aerosols including mists, vapors, gas, fog, and other airborne forms of any particle size)",,38657,TRI
+74908,hydrogen cyanide,74-90-8,48540,TRI
+7664393,hydrogen fluoride,7664-39-3,87730,TRI
+7783064,hydrogen sulfide,6/4/7783,38126,TRI
+123319,hydroquinone,123-31-9,47211,TRI
+13463406,iron pentacarbonyl,13463-40-6,60585,TRI
+78842,isobutyraldehyde,78-84-2,48752,TRI
+465736,isodrin,465-73-6,90776,TRI
+78795,isoprene,78-79-5,48755,TRI
+67630,"isopropyl alcohol (only persons who manufacture by the strong acid process are subject, no supplier notification)",,49022,TRI
+120581,isosafrole,120-58-1,47016,TRI
+7439921,lead,7439-92-1,37012,TRI
+N420,lead compounds,,35857,TRI
+58899,lindane,58-89-9,49118,TRI
+330552,linuron,330-55-2,93118,TRI
+554132,lithium carbonate,554-13-2,90347,TRI
+108394,m-cresol,108-39-4,47414,TRI
+99650,m-dinitrobenzene,99-65-0,47935,TRI
+108383,m-xylene,108-38-3,96452,TRI
+121755,malathion,121-75-5,46970,TRI
+108316,maleic anhydride,108-31-6,47417,TRI
+109773,malononitrile,109-77-3,47330,TRI
+7439965,manganese,7439-96-5,37008,TRI
+N450,manganese compounds,,35856,TRI
+93652,mecoprop,93-65-2,48156,TRI
+7439976,mercury,7439-97-6,37007,TRI
+N458,mercury compounds,,35797,TRI
+150505,merphos,150-50-5,46392,TRI
+126987,methacrylonitrile,126-98-7,46757,TRI
+137428,metham sodium,137-42-8,97819,TRI
+67561,methanol,67-56-1,49023,TRI
+2032657,methiocarb,2032-65-7,39720,TRI
+94746,methoxone,94-74-6,48476,TRI
+3653483,methoxone sodium salt,3653-48-3,41446,TRI
+72435,methoxychlor,72-43-5,48560,TRI
+96333,methyl acrylate,96-33-3,48133,TRI
+79221,methyl chlorocarbonate,79-22-1,48721,TRI
+60344,methyl hydrazine,60-34-4,49090,TRI
+74884,methyl iodide,74-88-4,48542,TRI
+108101,methyl isobutyl ketone,108-10-1,47428,TRI
+624839,methyl isocyanate,624-83-9,44702,TRI
+80626,methyl methacrylate,80-62-6,48666,TRI
+1634044,methyl tert-butyl ether,1634-04-4,41401,TRI
+74953,methylene bromide,74-95-3,48537,TRI
+21087649,metribuzin,21087-64-9,93379,TRI
+MIXTURE,mixture,,137414,TRI
+1313275,molybdenum trioxide,1313-27-5,42882,TRI
+76153,monochloropentafluoroethane (cfc-115),76-15-3,87758,TRI
+88671890,myclobutanil,88671-89-0,86172,TRI
+121697,"n,n-dimethylaniline",121-69-7,94909,TRI
+68122,"n,n-dimethylformamide",68-12-2,49011,TRI
+71363,n-butyl alcohol,71-36-3,48572,TRI
+110543,n-hexane,110-54-3,47684,TRI
+872504,n-methyl-2-pyrrolidone,872-50-4,44051,TRI
+924425,n-methylolacrylamide,924-42-5,43925,TRI
+759739,n-nitroso-n-ethylurea,759-73-9,44206,TRI
+684935,n-nitroso-n-methylurea,684-93-5,44334,TRI
+924163,n-nitrosodi-n-butylamine,924-16-3,43926,TRI
+621647,n-nitrosodi-n-propylamine,621-64-7,44785,TRI
+55185,n-nitrosodiethylamine,55-18-5,48982,TRI
+86306,n-nitrosodiphenylamine,86-30-6,48460,TRI
+4549400,n-nitrosomethylvinylamine,4549-40-0,93674,TRI
+100754,n-nitrosopiperidine,100-75-4,47866,TRI
+300765,naled,300-76-5,46292,TRI
+91203,naphthalene,91-20-3,48273,TRI
+7440020,nickel,7440-02-0,37003,TRI
+N495,nickel compounds,,35855,TRI
+N503,nicotine and salts,,35867,TRI
+1929824,nitrapyrin,1929-82-4,91749,TRI
+N511,nitrate compounds (water dissociable; reportable only when in aqueous solution),,35891,TRI
+7697372,nitric acid,7697-37-2,38622,TRI
+139139,nitrilotriacetic acid,139-13-9,46891,TRI
+98953,nitrobenzene,98-95-3,87268,TRI
+55630,nitroglycerin,55-63-0,48975,TRI
+75525,nitromethane,75-52-5,48924,TRI
+N530,nonylphenol,,126137,TRI
+90040,o-anisidine,90-04-0,48311,TRI
+95487,o-cresol,95-48-7,47752,TRI
+95534,o-toluidine,95-53-4,47748,TRI
+636215,o-toluidine hydrochloride,636-21-5,44525,TRI
+95476,o-xylene,95-47-6,87536,TRI
+29082744,octachlorostyrene,29082-74-4,59178,TRI
+20816120,osmium tetroxide,20816-12-0,57607,TRI
+19666309,oxadiazon,19666-30-9,58712,TRI
+42874033,oxyfluorfen,42874-03-3,93815,TRI
+10028156,ozone,10028-15-6,39347,TRI
+106478,p-chloroaniline,106-47-8,47523,TRI
+120718,p-cresidine,120-71-8,47012,TRI
+106445,p-cresol,106-44-5,47526,TRI
+100016,p-nitroaniline,100-01-6,47918,TRI
+106503,p-phenylenediamine,106-50-3,47520,TRI
+106423,p-xylene,106-42-3,47528,TRI
+123637,paraldehyde,123-63-7,94701,TRI
+1910425,paraquat dichloride,1910-42-5,40147,TRI
+56382,parathion,56-38-2,48961,TRI
+40487421,pendimethalin,40487-42-1,52605,TRI
+608935,pentachlorobenzene,608-93-5,90315,TRI
+76017,pentachloroethane,76-01-7,48888,TRI
+87865,pentachlorophenol,87-86-5,48409,TRI
+57330,pentobarbital sodium,57-33-0,89588,TRI
+79210,peracetic acid,79-21-0,48722,TRI
+52645531,permethrin,52645-53-1,55274,TRI
+85018,phenanthrene,85-01-8,98155,TRI
+108952,phenol,108-95-2,47376,TRI
+26002802,phenothrin,26002-80-2,57679,TRI
+57410,phenytoin,57-41-0,49147,TRI
+75445,phosgene,75-44-5,87890,TRI
+7803512,phosphine,7803-51-2,37301,TRI
+12185103,phosphorus (yellow or white),,,TRI
+85449,phthalic anhydride,85-44-9,48853,TRI
+1918021,picloram,2/1/1918,91763,TRI
+88891,picric acid,88-89-1,88120,TRI
+51036,piperonyl butoxide,51-03-6,49180,TRI
+N583,polychlorinated alkanes (c10-c13),,101895,TRI
+1336363,polychlorinated biphenyls,1336-36-3,16366,TRI
+N590,polycyclic aromatic compounds,,35883,TRI
+7758012,potassium bromate,1/2/7758,38344,TRI
+128030,potassium dimethyldithiocarbamate,128-03-0,94449,TRI
+137417,potassium n-methyldithiocarbamate,137-41-7,46561,TRI
+7287196,prometryn,7287-19-6,88330,TRI
+23950585,pronamide,23950-58-5,58676,TRI
+1918167,propachlor,1918-16-7,40139,TRI
+709988,propanil,709-98-8,44251,TRI
+2312358,propargite,2312-35-8,41141,TRI
+107197,propargyl alcohol,107-19-7,47476,TRI
+60207901,propiconazole,60207-90-1,90668,TRI
+123386,propionaldehyde,123-38-6,94706,TRI
+114261,propoxur,114-26-1,95786,TRI
+115071,propylene,115-07-1,47173,TRI
+75569,propylene oxide,75-56-9,48922,TRI
+75558,propyleneimine,75-55-8,87885,TRI
+110861,pyridine,110-86-1,46949,TRI
+91225,quinoline,91-22-5,87972,TRI
+106514,quinone,106-51-4,47519,TRI
+82688,quintozene,82-68-8,98352,TRI
+10453868,resmethrin,10453-86-8,38942,TRI
+78488,"s,s,s-tributyltrithiophosphate",78-48-8,48767,TRI
+759944,s-ethyl dipropylthiocarbamate,759-94-4,44205,TRI
+81072,"saccharin (only persons who manufacture are subject, no supplier notification)",,48660,TRI
+94597,safrole,94-59-7,48487,TRI
+78922,sec-butyl alcohol,78-92-2,48747,TRI
+7782492,selenium,7782-49-2,38145,TRI
+N725,selenium compounds,,35854,TRI
+7440224,silver,7440-22-4,36986,TRI
+N740,silver compounds,,35973,TRI
+122349,simazine,122-34-9,94729,TRI
+26628228,sodium azide,26628-22-8,56116,TRI
+1982690,sodium dicamba,1982-69-0,39920,TRI
+128041,sodium dimethyldithiocarbamate,128-04-1,46728,TRI
+62748,sodium fluoroacetate,62-74-8,49063,TRI
+7632000,sodium nitrite,7632-00-0,38675,TRI
+N746,strychnine and salts,,35866,TRI
+100425,styrene,100-42-5,47892,TRI
+96093,styrene oxide,96-09-3,48148,TRI
+7664939,"sulfuric acid (acid aerosols including mists, vapors, gas, fog, and other airborne forms of any particle size)",,38642,TRI
+2699798,sulfuryl fluoride,2699-79-8,93141,TRI
+34014181,tebuthiuron,34014-18-1,55077,TRI
+5902512,terbacil,5902-51-2,38062,TRI
+75650,tert-butyl alcohol,75-65-0,87876,TRI
+79947,tetrabromobisphenol a,79-94-7,48698,TRI
+127184,tetrachloroethylene,127-18-4,46750,TRI
+961115,tetrachlorvinphos,961-11-5,87419,TRI
+64755,tetracycline hydrochloride,64-75-5,89692,TRI
+116143,tetrafluoroethylene,116-14-3,47141,TRI
+7440280,thallium,7440-28-0,36981,TRI
+N760,thallium compounds,,35889,TRI
+62555,thioacetamide,62-55-5,49065,TRI
+28249776,thiobencarb,28249-77-6,92602,TRI
+59669260,thiodicarb,59669-26-0,51689,TRI
+23564058,thiophanate-methyl,,92271,TRI
+79196,thiosemicarbazide,79-19-6,48724,TRI
+62566,thiourea,62-56-6,89392,TRI
+137268,thiram,137-26-8,97821,TRI
+7550450,titanium tetrachloride,7550-45-0,39509,TRI
+108883,toluene,108-88-3,47380,TRI
+26471625,toluene diisocyanate (mixed isomers),26471-62-5,93340,TRI
+584849,"toluene-2,4-diisocyanate",584-84-9,45190,TRI
+91087,"toluene-2,6-diisocyanate",91-08-7,48278,TRI
+8001352,toxaphene,8001-35-2,87298,TRI
+TRD SECRT,trade secret,,137413,TRI
+10061026,"trans-1,3-dichloropropene",10061-02-6,39275,TRI
+110576,"trans-1,4-dichloro-2-butene",110-57-6,96270,TRI
+43121433,triadimefon,43121-43-3,53469,TRI
+2303175,triallate,2303-17-5,41312,TRI
+101200480,tribenuron-methyl,101200-48-0,63362,TRI
+52686,trichlorfon,52-68-6,49159,TRI
+76028,trichloroacetyl chloride,76-02-8,48887,TRI
+79016,trichloroethylene,79-01-6,48738,TRI
+75694,trichlorofluoromethane (cfc-11),75-69-4,87874,TRI
+57213691,triclopyr-triethylammonium salt,57213-69-1,51045,TRI
+121448,triethylamine,121-44-8,46986,TRI
+1582098,trifluralin,1582-09-8,93632,TRI
+126727,"tris(2,3-dibromopropyl) phosphate",126-72-7,94461,TRI
+72571,trypan blue,72-57-1,48556,TRI
+51796,urethane,51-79-6,49165,TRI
+7440622,vanadium (except when contained in an alloy),,36819,TRI
+N770,vanadium compounds,,35961,TRI
+108054,vinyl acetate,108-05-4,96461,TRI
+75014,vinyl chloride,75-01-4,48531,TRI
+75025,vinyl fluoride,75-02-5,48530,TRI
+75354,vinylidene chloride,75-35-4,48931,TRI
+N874,warfarin and salts,,35888,TRI
+1330207,xylene (mixed isomers),1330-20-7,43047,TRI
+7440666,zinc (fume or dust),7440-66-6,36815,TRI
+N982,zinc compounds,,35887,TRI
 ,Carbon dioxide,124-38-9,46795,eGRID
 ,Methane,74-82-8,48548,eGRID
 ,Nitrogen oxides,,96397,eGRID
