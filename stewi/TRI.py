@@ -27,6 +27,7 @@ import os.path, os, io, sys
 import argparse
 import re
 
+import fedelemflowlist
 from esupy.processed_data_mgmt import create_paths_if_missing
 from stewi.globals import unit_convert,data_dir,\
     reliability_table,validate_inventory,\
@@ -110,7 +111,7 @@ def generate_national_totals(year):
     del df
     df_National['FlowAmount'] = df_National['FlowAmount'].round(3)
     df_National = df_National[cols]
-    df_National = map_national_totals(df_National)
+    df_National = map_to_fedefl(df_National)
     df_National.sort_values(by=['FlowName','Compartment'], inplace=True)
     log.info('saving TRI_%s_NationalTotals.csv to %s', year, data_dir)
     df_National.to_csv(data_dir + 'TRI_' + year + '_NationalTotals.csv',
@@ -126,28 +127,32 @@ def generate_national_totals(year):
                        'URL':'https://enviro.epa.gov/triexplorer/tri_release.chemical',
                        'Criteria':'Year, All of United States, All Chemicals, '
                        'All Industries, Details:(Other On-Site Disposal or '
-                       'Other Releases, Other Off-Site Disposal or Other Releases)',
+                       'Other Releases, Other Off-Site Disposal or Other Releases), '
+                       'mapped to FEDEFL',
                        'Date Acquired':date_created,
                        }
     update_validationsets_sources(validation_dict, date_acquired=True)
 
-def map_national_totals(reference_df):
-    import fedelemflowlist
+def map_to_fedefl(df):
     tri = fedelemflowlist.get_flowmapping('TRI')
     tri = tri[['SourceFlowName', 'TargetFlowName']].drop_duplicates()
-    df = tri.groupby('TargetFlowName')['SourceFlowName'].apply(
-        lambda x: x.unique()).reset_index(drop=True)
-    df = pd.DataFrame(df.tolist(), columns = ['FlowName','Name','Name2'])
-    name_map = pd.melt(df, id_vars = ['FlowName'], value_vars = ['Name','Name2'],
-                  value_name = 'DataName').dropna(subset=['DataName'])
-    name_map.drop('variable', axis=1, inplace=True)
-    name_map.drop_duplicates(subset=['FlowName'], inplace=True)
-    # map reference_df to TRI flows
-    mapped_df = reference_df.merge(name_map, how = 'left', on = ['FlowName'])
-    mapped_df['FlowName'] = mapped_df['DataName'].fillna(mapped_df['FlowName'])
-    mapped_df.drop('DataName', axis=1, inplace=True)
-    if mapped_df['FlowAmount'].sum() != reference_df['FlowAmount'].sum():
+    mapped_df = df.merge(tri, how = 'left', left_on = 'FlowName',
+                                   right_on = 'SourceFlowName')
+    if mapped_df['FlowAmount'].sum() != df['FlowAmount'].sum():
         log.warning('Error on mapping, data loss')
+    # validation throws errors when mixture and trade secret chemicals are 
+    # maintained so drop them while they remain unmapped
+    criteria = (mapped_df['TargetFlowName'].isna() &
+                (mapped_df['FlowName'].str.lower().str.contains('trade secret') |
+                mapped_df['FlowName'].str.lower().str.contains('mixture')))
+    mapped_df = mapped_df[~criteria].reset_index(drop = True)
+    missing_flows = mapped_df[mapped_df['TargetFlowName'].isna()]['FlowName']
+    missing_flows = missing_flows.drop_duplicates().sort_values()
+    if len(missing_flows) > 0:
+        log.warning('flows from reference df missing in mapping file')
+    mapped_df.loc[~mapped_df['TargetFlowName'].isna(),
+                  'FlowName'] = mapped_df['TargetFlowName']
+    mapped_df = mapped_df.drop(columns=['SourceFlowName','TargetFlowName'])
     return mapped_df
 
 
@@ -230,9 +235,7 @@ def validate_national_totals(inv, TRIyear):
         # Rename cols to match reference format
         tri_national_totals.rename(columns={'FlowAmount_kg':'FlowAmount'},
                                    inplace=True)
-        # set FlowName to lower case to prevent validation case mismatch
-        tri_national_totals['FlowName'] = tri_national_totals['FlowName'].str.lower()
-        inv['FlowName'] = inv['FlowName'].str.lower()
+        inv = map_to_fedefl(inv)
         validation_result = validate_inventory(inv, tri_national_totals,
                                                group_by='flow', tolerance=5.0)
         write_validation_result('TRI',TRIyear,validation_result)
