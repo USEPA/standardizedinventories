@@ -1,7 +1,11 @@
-#!/usr/bin/env python
+# globals.py (stewi)
+# !/usr/bin/env python3
+# coding=utf-8
+"""
+Supporting variables and functions used in stewi
+"""
 
 import pandas as pd
-pd.options.mode.chained_assignment = None
 import json
 import logging as log
 import os
@@ -10,11 +14,14 @@ import yaml
 import time
 import subprocess
 from datetime import datetime
-from esupy.processed_data_mgmt import Paths, FileMeta, load_preprocessed_output,\
+
+from esupy.processed_data_mgmt import Paths, FileMeta,\
+    load_preprocessed_output,\
     write_df_to_file, create_paths_if_missing, write_metadata_to_file
 from esupy.dqi import get_weighted_average
 
-try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
+try: modulepath = os.path.dirname(os.path.realpath(
+    __file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'stewi/'
 
 data_dir = modulepath + 'data/'
@@ -30,13 +37,15 @@ paths.local_path = os.path.realpath(paths.local_path + "/stewi")
 output_dir = paths.local_path
 
 try:
-    git_hash = subprocess.check_output(['git', 'rev-parse', 'HEAD']).strip().decode(
-        'ascii')[0:7]
+    git_hash = subprocess.check_output(
+        ['git','rev-parse','HEAD']).strip().decode('ascii')[0:7]
 except:
     git_hash = None
 
-reliability_table = pd.read_csv(data_dir + 'DQ_Reliability_Scores_Table3-3fromERGreport.csv',
-                                usecols=['Source', 'Code', 'DQI Reliability Score'])
+dq_file = 'DQ_Reliability_Scores_Table3-3fromERGreport.csv'
+reliability_table = pd.read_csv(data_dir + dq_file,
+                                usecols=['Source', 'Code',
+                                         'DQI Reliability Score'])
 
 stewi_formats = ['flowbyfacility', 'flow', 'facility', 'flowbyprocess']
 inventory_formats = ['flowbyfacility', 'flowbyprocess']
@@ -50,7 +59,10 @@ source_metadata = {
     'StEWI_Version':stewi_version,
     }
 
-inventory_single_compartments = {"NEI":"air","RCRAInfo":"waste","GHGRP":"air"}
+inventory_single_compartments = {"NEI":"air",
+                                 "RCRAInfo":"waste",
+                                 "GHGRP":"air",
+                                 "DMR":"water"}
 
 
 def set_stewi_meta(file_name, category):
@@ -124,12 +136,14 @@ def set_dir(directory_name):
 
 
 def import_table(path_or_reference, skip_lines=0, get_time=False):
-    if '.core.frame.DataFrame' in str(type(path_or_reference)): df = path_or_reference
+    if '.core.frame.DataFrame' in str(type(path_or_reference)):
+        df = path_or_reference
     elif path_or_reference[-3:].lower() == 'csv':
         df = pd.read_csv(path_or_reference, low_memory=False)
     elif 'xls' in path_or_reference[-4:].lower():
         import_file = pd.ExcelFile(path_or_reference)
-        df = {sheet: import_file.parse(sheet, skiprows=skip_lines) for sheet in import_file.sheet_names}
+        df = {sheet: import_file.parse(sheet, skiprows=skip_lines)
+              for sheet in import_file.sheet_names}
     if get_time:
         try: retrieval_time = os.path.getctime(path_or_reference)
         except: retrieval_time = time.time()
@@ -149,10 +163,12 @@ def drop_excel_sheets(excel_dict, drop_sheets):
 def filter_inventory(inventory, criteria_table, filter_type, marker=None):
     """
     :param inventory_df: DataFrame to be filtered
-    :param criteria_file: Can be a list of items to drop/keep, or a table of FlowName, FacilityID, etc. with columns
-                          marking rows to drop
+    :param criteria_file: Can be a list of items to drop/keep, or a table
+                        of FlowName, FacilityID, etc. with columns
+                        marking rows to drop
     :param filter_type: drop, keep, mark_drop, mark_keep
-    :param marker: Non-empty fields are considered marked by default. Option to specify 'x', 'yes', '1', etc.
+    :param marker: Non-empty fields are considered marked by default.
+        Option to specify 'x', 'yes', '1', etc.
     :return: DataFrame
     """
     inventory = import_table(inventory); criteria_table = import_table(criteria_table)
@@ -161,8 +177,10 @@ def filter_inventory(inventory, criteria_table, filter_type, marker=None):
             for column in inventory:
                 if column == criteria_column:
                     criteria = set(criteria_table[criteria_column])
-                    if filter_type == 'drop': inventory = inventory[~inventory[column].isin(criteria)]
-                    elif filter_type == 'keep': inventory = inventory[inventory[column].isin(criteria)]
+                    if filter_type == 'drop':
+                        inventory = inventory[~inventory[column].isin(criteria)]
+                    elif filter_type == 'keep':
+                        inventory = inventory[inventory[column].isin(criteria)]
     elif filter_type in ('mark_drop', 'mark_keep'):
         standard_format = import_table(data_dir + 'flowbyfacility_format.csv')
         must_match = standard_format['Name'][standard_format['Name'].isin(criteria_table.keys())]
@@ -170,11 +188,15 @@ def filter_inventory(inventory, criteria_table, filter_type, marker=None):
             if criteria_column in must_match: continue
             for field in must_match:
                 if filter_type == 'mark_drop':
-                    if marker is None: inventory = inventory[~inventory[field].isin(criteria_table[field][criteria_table[criteria_column] != ''])]
-                    else: inventory = inventory[~inventory[field].isin(criteria_table[field][criteria_table[criteria_column] == marker])]
+                    if marker is None:
+                        inventory = inventory[~inventory[field].isin(criteria_table[field][criteria_table[criteria_column] != ''])]
+                    else:
+                        inventory = inventory[~inventory[field].isin(criteria_table[field][criteria_table[criteria_column] == marker])]
                 if filter_type == 'mark_keep':
-                    if marker is None: inventory = inventory[inventory[field].isin(criteria_table[field][criteria_table[criteria_column] != ''])]
-                    else: inventory = inventory[inventory[field].isin(criteria_table[field][criteria_table[criteria_column] == marker])]
+                    if marker is None:
+                        inventory = inventory[inventory[field].isin(criteria_table[field][criteria_table[criteria_column] != ''])]
+                    else:
+                        inventory = inventory[inventory[field].isin(criteria_table[field][criteria_table[criteria_column] == marker])]
     return inventory.reset_index(drop=True)
 
 
@@ -464,8 +486,17 @@ flowbyprocess_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
                     'ReliabilityScore': [{'dtype': 'float'}, {'required': False}],                    
                     }
 
+flow_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
+               'FlowID': [{'dtype': 'str'}, {'required': True}],
+               'CAS':  [{'dtype': 'str'}, {'required': False}],
+               'Compartment': [{'dtype': 'str'}, {'required': False}],
+               'Unit': [{'dtype': 'str'}, {'required': False}],
+               }
+
 format_dict = {'flowbyfacility': flowbyfacility_fields,
-               'flowbyprocess': flowbyprocess_fields}
+               'flowbyprocess': flowbyprocess_fields,
+               'facility': facility_fields,
+               'flow': flow_fields}
 
 def get_required_fields(format='flowbyfacility'):
     fields = format_dict[format]
@@ -522,6 +553,13 @@ def readInventory(file_name, category):
     method_path = output_dir + '/' + meta.category
     if inventory is None:
         log.info(meta.name_data + ' not found in ' + method_path)
+        log.error('requested inventory does not exist, try '
+                  'seeAvailableInventoriesandYears()')
     else:
-        log.info('loaded ' + meta.name_data + ' from ' + method_path)    
+        log.info('loaded ' + meta.name_data + ' from ' + method_path)
+        fields = get_optional_fields(category)
+        cols_in_df = [c for c in fields if c in inventory]
+        for c in cols_in_df:
+            if fields[c] == 'str':
+                inventory[c] = inventory[c].astype('str')
     return inventory
