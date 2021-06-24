@@ -16,7 +16,7 @@ import subprocess
 from datetime import datetime
 
 from esupy.processed_data_mgmt import Paths, FileMeta,\
-    load_preprocessed_output,\
+    load_preprocessed_output, remove_extra_files,\
     write_df_to_file, create_paths_if_missing, write_metadata_to_file
 from esupy.dqi import get_weighted_average
 
@@ -35,6 +35,9 @@ write_format = "parquet"
 paths = Paths()
 paths.local_path = os.path.realpath(paths.local_path + "/stewi")
 output_dir = paths.local_path
+
+# global variable to replace stored inventory files when saving
+replace_files = False
 
 try:
     git_hash = subprocess.check_output(
@@ -541,13 +544,15 @@ def get_relpath(filepath):
     return os.path.relpath(filepath, '.').replace('\\', '/') + '/'
 
 
-def storeInventory(df, file_name, category):
+def storeInventory(df, file_name, category, replace_files = replace_files):
     """Stores the inventory dataframe to local directory based on category"""
     meta = set_stewi_meta(file_name, category)
     method_path = output_dir + '/' + meta.category
     try:
         log.info('saving ' + meta.name_data + ' to ' + method_path)
         write_df_to_file(df,paths,meta)
+        if replace_files:
+            remove_extra_files(meta, paths)
     except:
         log.error('Failed to save inventory')
 
