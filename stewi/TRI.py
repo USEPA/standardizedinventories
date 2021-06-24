@@ -266,7 +266,8 @@ def Generate_TRI_files_csv(TRIyear, Files):
     #Drop 0 for FlowAmount
     tri = tri[tri['FlowAmount'] != 0]
     # Import reliability scores for TRI
-    tri_reliability_table = reliability_table[reliability_table['Source']=='TRI']
+    tri_reliability_table = reliability_table.loc[
+        reliability_table['Source']=='TRI'].reset_index(drop = True)
     tri_reliability_table.drop('Source', axis=1, inplace=True)
     #Merge with reliability table to get
     tri = pd.merge(tri,tri_reliability_table,left_on='Basis of Estimate',
@@ -286,8 +287,8 @@ def Generate_TRI_files_csv(TRIyear, Files):
     tri.drop(['FlowAmount', 'Unit'],axis=1,inplace=True)
     # Rename cols to match reference format
     tri.rename(columns={'Amount_kg':'FlowAmount',
-                        'DQI Reliability Score':'DataReliability'}
-               , inplace=True)
+                        'DQI Reliability Score':'DataReliability'},
+               inplace=True)
     #Drop release type
     tri.drop('ReleaseType',axis=1,inplace=True)
     #Group by facility, flow and compartment to aggregate different release types
@@ -297,10 +298,9 @@ def Generate_TRI_files_csv(TRIyear, Files):
     validate_national_totals(tri, TRIyear)
     
     #FLOWS
-    flows = tri.groupby(['FlowName','CAS','Compartment']).count().reset_index()
-    #stack by compartment
-    flowsdf = flows[['FlowName','CAS','Compartment']]
-    flowsdf['FlowID'] = flowsdf['CAS']
+    flowsdf = tri[['FlowName','CAS','Compartment']
+                  ].drop_duplicates().reset_index(drop=True)
+    flowsdf.loc[:,'FlowID'] = flowsdf['CAS']
     storeInventory(flowsdf, 'TRI_' + TRIyear, 'flow')
     
     #FLOW BY FACILITY
@@ -314,7 +314,7 @@ def Generate_TRI_files_csv(TRIyear, Files):
                                     usecols=import_facility,
                                     low_memory = False)
     #get unique facilities
-    tri_facility_final  = tri_facility.drop_duplicates()
+    tri_facility  = tri_facility.drop_duplicates(ignore_index = True)
     #rename columns
     TRI_facility_name_crosswalk = {
                                 'TRIFID':'FacilityID',
@@ -328,8 +328,9 @@ def Generate_TRI_files_csv(TRIyear, Files):
                                 'LATITUDE': 'Latitude',
                                 'LONGITUDE':'Longitude'
                                   }
-    tri_facility_final.rename(columns=TRI_facility_name_crosswalk,inplace=True)
-    storeInventory(tri_facility_final, 'TRI_' + TRIyear, 'facility')
+    tri_facility.rename(columns=TRI_facility_name_crosswalk,
+                              inplace=True)
+    storeInventory(tri_facility, 'TRI_' + TRIyear, 'facility')
 
 
 def generate_metadata(year, files, datatype = 'inventory'):
