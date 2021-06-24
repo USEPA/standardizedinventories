@@ -384,8 +384,13 @@ def aggregate(df, grouping_vars):
 
 # Convert amounts. Note this could be replaced with a conversion utility
 def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
-    df[coln1][df[coln2] == unit] = conversion_factor * df[coln3]
+    """
+    Converts values in coln3 if coln2 == unit, based on the conversion
+    factor, and assigns to coln1
+    """
+    df.loc[df[coln2] == unit, coln1] = conversion_factor * df[coln3]
     return df
+
 #Conversion factors
 USton_kg = 907.18474
 lb_kg = 0.4535924
