@@ -21,18 +21,17 @@ Year:
 """
 
 import pandas as pd
-import numpy as np
 import argparse
 import os
-from stewi.globals import data_dir,write_metadata,\
-    unit_convert,log,MMBtu_MJ,MWh_MJ,config,\
-    validate_inventory,write_validation_result,USton_kg,lb_kg,\
-    compile_source_metadata, remove_line_breaks, paths, storeInventory,\
-    read_source_metadata, readInventory, update_validationsets_sources
 import requests
 import zipfile
 import io
 
+from stewi.globals import data_dir,write_metadata,\
+    unit_convert,log,MMBtu_MJ,MWh_MJ,config,\
+    validate_inventory,write_validation_result,USton_kg,lb_kg,\
+    compile_source_metadata, remove_line_breaks, paths, storeInventory,\
+    read_source_metadata, update_validationsets_sources
 
 _config = config()['databases']['eGRID']
 
@@ -58,7 +57,7 @@ def download_eGRID(year):
     '''
     Downloads eGRID files from EPA website
     '''
-    log.info('downloading eGRID data for ' + year)
+    log.info('downloading eGRID data for %s', year)
     
     ## make http request
     r = []
@@ -68,7 +67,7 @@ def download_eGRID(year):
     try:
         r = requests.Session().get(download_url)
     except requests.exceptions.ConnectionError:
-        log.error("URL Connection Error for " + download_url)
+        log.error("URL Connection Error for %s", download_url)
     try:
         r.raise_for_status()
     except requests.exceptions.HTTPError:
@@ -122,7 +121,7 @@ def generate_eGRID_files(year):
 
     :param year: str, Year of eGRID dataset  
     '''
-    log.info('generating eGRID files for '+ year)
+    log.info('generating eGRID files for %s', year)
     
     egrid = extract_eGRID_excel(year, 'PLNT')
     #get list of columns not in the required fields and drop them
@@ -170,9 +169,10 @@ def generate_eGRID_files(year):
                                 'Unit unadjusted annual NOx emissions (tons)',
                                 'Unit unadjusted annual SO2 emissions (tons)',
                                 'Unit unadjusted annual CO2 emissions (tons)']
-    #First multiply by flows
-    unit_egrid[rel_score_cols] = np.multiply(unit_egrid[rel_score_cols],
-                                                     unit_egrid[flows_used_for_weighting])
+
+    for i in range(len(rel_score_cols)):
+        unit_egrid[rel_score_cols[i]] = unit_egrid[rel_score_cols[i]]*\
+            unit_egrid[flows_used_for_weighting[i]]
 
     #Aggregate the multiplied scores at the plant level
     unit_egrid_rel = unit_egrid.groupby(
@@ -182,13 +182,11 @@ def generate_eGRID_files(year):
     unit_egrid_final = unit_egrid_rel.merge(unit_egrid_flows,
                                             on = ['FacilityID'],
                                             how = 'inner')
-
-    # To avoid the RuntimeWarning:
-    np.seterr(divide='ignore',invalid='ignore')
-    unit_egrid_final[rel_score_cols] = np.divide(unit_egrid_final[rel_score_cols],
-                                                 unit_egrid_final[flows_used_for_weighting])
-    np.seterr(divide='warn',invalid='warn')
-
+    
+    for i in range(len(rel_score_cols)):
+        unit_egrid_final[rel_score_cols[i]] = unit_egrid_final[rel_score_cols[i]]/\
+            unit_egrid_final[flows_used_for_weighting[i]]
+    
     unit_emissions_with_rel_scores = ['Heat','Nitrogen oxides',
                                       'Sulfur dioxide','Carbon dioxide']    
     unit_egrid_final[unit_emissions_with_rel_scores] = unit_egrid_final[rel_score_cols]
@@ -240,7 +238,7 @@ def generate_eGRID_files(year):
     flowbyfac = flowbyfac.merge(rel_scores_by_facility,
                                 on = ['FacilityID','FlowName'], how = 'left')
     #Assign electricity to a reliabilty score of 1
-    flowbyfac['DataReliability'].loc[flowbyfac['FlowName']=='Electricity'] = 1
+    flowbyfac.loc[flowbyfac['FlowName']=='Electricity', 'DataReliability'] = 1
     #Replace NaNs with 5
     flowbyfac['DataReliability']=flowbyfac['DataReliability'].replace({None:5})
     
@@ -314,8 +312,9 @@ def generate_eGRID_files(year):
     flows = flows.sort_values(by='FlowName',axis=0)
     storeInventory(flows, 'eGRID_' + year, 'flow')
 
+    validate_eGRID(year, flowbyfac)
 
-def validate_eGRID(year):
+def validate_eGRID(year, flowbyfac):
     #VALIDATE
     log.info('validating data against national totals')
     validation_file = data_dir + 'eGRID_'+ year + '_NationalTotals.csv'
@@ -336,7 +335,6 @@ def validate_eGRID(year):
             MWh_MJ, 'FlowAmount')
         # drop old unit
         egrid_national_totals.drop('Unit',axis=1,inplace=True)
-        flowbyfac = readInventory('eGRID_'+ year, 'flowbyfacility')
         validation_result = validate_inventory(flowbyfac, egrid_national_totals,
                                                group_by='flow', tolerance=5.0)
         write_validation_result('eGRID',year,validation_result)
@@ -428,7 +426,6 @@ if __name__ == '__main__':
             #process data
             generate_eGRID_files(year)
             generate_metadata(year, datatype='inventory')
-            validate_eGRID(year)
             
         if args.Option == 'C':
             #download and store national totals
