@@ -462,14 +462,12 @@ def remove_line_breaks(df, headers_only = True):
         df = df.replace(to_replace=['\r\n','\n'],value=[' ', ' '], regex=True)
     return df    
 
-# ReliabilityScore maintained in dict for accessing legacy datasets
-flowbyfacility_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
+flowbyfacility_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],
+                         'FlowName': [{'dtype': 'str'}, {'required': True}],
                          'Compartment': [{'dtype': 'str'}, {'required': True}],
                          'FlowAmount': [{'dtype': 'float'}, {'required': True}],
-                         'FacilityID': [{'dtype': 'str'}, {'required': True}],
-                         'DataReliability': [{'dtype': 'float'}, {'required': True}],
                          'Unit': [{'dtype': 'str'}, {'required': True}],
-                         'ReliabilityScore': [{'dtype': 'float'}, {'required': False}],
+                         'DataReliability': [{'dtype': 'float'}, {'required': True}],
                          }
 
 facility_fields = {'FacilityID':[{'dtype': 'str'}, {'required': True}],
@@ -485,15 +483,14 @@ facility_fields = {'FacilityID':[{'dtype': 'str'}, {'required': True}],
                    'SIC':[{'dtype': 'str'}, {'required': False}],
                    }
 
-flowbyprocess_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
+flowbyprocess_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],
+                    'FlowName': [{'dtype': 'str'}, {'required': True}],
                     'Compartment': [{'dtype': 'str'}, {'required': True}],
                     'FlowAmount': [{'dtype': 'float'}, {'required': True}],
-                    'FacilityID': [{'dtype': 'str'}, {'required': True}],
-                    'DataReliability': [{'dtype': 'float'}, {'required': True}],
                     'Unit': [{'dtype': 'str'}, {'required': True}],
+                    'DataReliability': [{'dtype': 'float'}, {'required': True}],
                     'Process': [{'dtype': 'str'}, {'required': True}],
                     'ProcessType': [{'dtype': 'str'}, {'required': False}],
-                    'ReliabilityScore': [{'dtype': 'float'}, {'required': False}],                    
                     }
 
 flow_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
@@ -525,7 +522,6 @@ def add_missing_fields(df, inventory_acronym, format='flowbyfacility'):
     # Rename for legacy datasets
     if 'ReliabilityScore' in df.columns:
         df.rename(columns={'ReliabilityScore':'DataReliability'}, inplace=True)
-    del fields['ReliabilityScore']
     # Add in units and compartment if not present
     if 'Unit' not in df.columns:
         df['Unit'] = 'kg'
