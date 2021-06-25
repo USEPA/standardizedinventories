@@ -18,6 +18,7 @@ Options:
     C - for downloading national totals for validation
 
 Year: 
+    2019
     2018
     2017
     2016
@@ -25,9 +26,12 @@ Year:
     2014
     2013
     2012
+    2011
     
-Models with tables available at https://www.epa.gov/enviro/greenhouse-gas-model
-Envirofacts web services documentation can be found at: https://www.epa.gov/enviro/web-services
+Models with tables available at:
+    https://www.epa.gov/enviro/greenhouse-gas-model
+Envirofacts web services documentation can be found at:
+    https://www.epa.gov/enviro/web-services
 """
 
 import pandas as pd
@@ -124,7 +128,9 @@ def get_facilities(facilities_file):
     # load .xlsx file from filepath
     facilities_dict = import_table(facilities_file, skip_lines=3)
     # drop excel worksheets that we do not need
-    facilities_dict = drop_excel_sheets(facilities_dict, drop_sheets=['Industry Type', 'FAQs about this Data'])
+    facilities_dict = drop_excel_sheets(facilities_dict,
+                                        drop_sheets=['Industry Type',
+                                                     'FAQs about this Data'])
     
     # for all remaining worksheets, concatenate into single dataframe
     # certain columns need to be renamed for consistency
@@ -142,8 +148,10 @@ def get_facilities(facilities_file):
     for s in facilities_dict.keys():
         for k in col_dict.keys():
             if k in facilities_dict[s]:
-                facilities_dict[s].rename(columns={k:col_dict[k]}, inplace=True)
-        facilities_df = pd.concat([facilities_df, facilities_dict[s]]).reset_index(drop=True)
+                facilities_dict[s].rename(columns={k:col_dict[k]},
+                                          inplace=True)
+        facilities_df = pd.concat([facilities_df,
+                                   facilities_dict[s]]).reset_index(drop=True)
 
     # rename certain columns
     facilities_df = facilities_df.rename(columns={'Facility Id': 'FacilityID',
@@ -162,9 +170,15 @@ def get_facilities(facilities_file):
 
 def download_excel_tables():
     # define required tables for download
-    required_tables = [[data_summaries_path, _config['url']+_config['data_summaries_url'], 'Zip File'], 
-                       [esbb_subparts_path, _config['url']+_config['esbb_subparts_url'], 'Static File'],
-                       [lo_subparts_path, _config['url']+_config['lo_subparts_url'], 'Static File'],
+    required_tables = [[data_summaries_path,
+                        _config['url']+_config['data_summaries_url'],
+                        'Zip File'], 
+                       [esbb_subparts_path,
+                        _config['url']+_config['esbb_subparts_url'],
+                        'Static File'],
+                       [lo_subparts_path,
+                        _config['url']+_config['lo_subparts_url'],
+                        'Static File'],
                        ]
     
     # download each table from web and save locally
@@ -212,8 +226,10 @@ def import_or_download_table(filepath, table, year):
         table_df.rename(columns={col : col[len(table) + 1:]}, inplace=True)
         
     # drop any unnamed columns
-    if 'unnamed' in table_df.columns[len(table_df.columns) - 1].lower() or table_df.columns[len(table_df.columns) - 1] == '':
-        table_df.drop(table_df.columns[len(table_df.columns) - 1], axis=1, inplace=True)
+    if ('unnamed' in table_df.columns[len(table_df.columns) - 1].lower()
+        ) or (table_df.columns[len(table_df.columns) - 1] == ''):
+        table_df.drop(table_df.columns[len(table_df.columns) - 1],
+                      axis=1, inplace=True)
         
     return table_df
 
@@ -225,11 +241,14 @@ def download_and_parse_subpart_tables(year):
     master dataframe.
     """ 
     # import list of all ghgrp tables
-    ghgrp_tables_df = import_table(ghgrp_data_dir + 'all_ghgrp_tables_years.csv').fillna('')
+    ghgrp_tables_df = import_table(ghgrp_data_dir +\
+                                   'all_ghgrp_tables_years.csv').fillna('')
     # filter to obtain only those tables included in the report year
-    year_tables = ghgrp_tables_df[ghgrp_tables_df['REPORTING_YEAR'].str.contains(year)]
+    year_tables = ghgrp_tables_df[ghgrp_tables_df['REPORTING_YEAR'
+                                                  ].str.contains(year)]
     # filter to obtain only those tables that include primary emissions
-    year_tables = year_tables[year_tables['PrimaryEmissions'] == 1].reset_index(drop=True)
+    year_tables = year_tables[year_tables['PrimaryEmissions'] == 1
+                              ].reset_index(drop=True)
     
     # data directory where subpart emissions tables will be stored
     tables_dir = ghgrp_external_dir + 'tables/' + year + '/'
@@ -252,7 +271,8 @@ def download_and_parse_subpart_tables(year):
                                             year)
         
         # add 1-2 letter subpart abbreviation
-        table_df['SUBPART_NAME'] = list(year_tables.loc[year_tables['TABLE'] == subpart_emissions_table, 'SUBPART'])[0]
+        table_df['SUBPART_NAME'] = list(year_tables.loc[
+            year_tables['TABLE'] == subpart_emissions_table, 'SUBPART'])[0]
 
         # concatenate temporary dataframe to master ghgrp1 dataframe
         ghgrp1 = pd.concat([ghgrp1, table_df])
@@ -313,9 +333,9 @@ def download_and_parse_subpart_tables(year):
     
     ## split dataframe into two separate dataframes based on flow description
     # if flow description has been populated:
-    ghgrp1a = ghgrp1[ghgrp1['Flow Description'] != '']
+    ghgrp1a = ghgrp1.loc[ghgrp1['Flow Description'] != ''].reset_index(drop=True)
     # if flow description is blank:
-    ghgrp1b = ghgrp1[ghgrp1['Flow Description'] == '']
+    ghgrp1b = ghgrp1.loc[ghgrp1['Flow Description'] == ''].reset_index(drop=True)
     
     ## parse data where flow description has been populated (ghgrp1a)
     # keep only the necessary columns; drop all others
@@ -360,6 +380,7 @@ def download_and_parse_subpart_tables(year):
 
 def parse_additional_suparts_data(addtnl_subparts_path, subpart_cols_file, year):
     
+    log.info('loading additional subpart data from %s', addtnl_subparts_path)
     # load .xslx data for additional subparts from filepath
     addtnl_subparts_dict = import_table(addtnl_subparts_path)
     # import column headers data for additional subparts
@@ -388,13 +409,15 @@ def parse_additional_suparts_data(addtnl_subparts_path, subpart_cols_file, year)
             col_dict[i] = list(cols.loc[cols['column_type'] == i]['column_name'])
 
         # create temporary dataframe from worksheet, using just the desired columns      
-        subpart_df = addtnl_subparts_dict[tab][addtnl_base_cols + list(set().union(*col_dict.values()))]
+        subpart_df = addtnl_subparts_dict[tab][
+            addtnl_base_cols + list(set().union(*col_dict.values()))]
         # keep only those data for the specified report year
         subpart_df = subpart_df[subpart_df['Year'] == int(year)]
         
         if 'method' in col_dict.keys():
             # combine all method equation columns into one, drop old method columns
-            subpart_df['METHOD'] = subpart_df[col_dict['method']].fillna('').sum(axis=1)
+            subpart_df['METHOD'] = subpart_df[col_dict['method']
+                                              ].fillna('').sum(axis=1)
             subpart_df.drop(col_dict['method'], axis=1, inplace=True)
         else:
             subpart_df['METHOD'] = ''
@@ -402,9 +425,11 @@ def parse_additional_suparts_data(addtnl_subparts_path, subpart_cols_file, year)
         if 'flow' in col_dict.keys():
             n = len(col_dict['flow'])
             i = 1
-            subpart_df.rename(columns={col_dict['flow'][0]:'Flow Name'}, inplace=True)
+            subpart_df.rename(columns={col_dict['flow'][0]:'Flow Name'},
+                              inplace=True)
             while i<n:
-                subpart_df['Flow Name'].fillna(subpart_df[col_dict['flow'][i]], inplace=True)
+                subpart_df['Flow Name'].fillna(subpart_df[col_dict['flow'][i]],
+                                               inplace=True)
                 del subpart_df[col_dict['flow'][i]]
                 i+= 1
         fields = []
@@ -529,7 +554,8 @@ def generate_metadata(year, metadata_dict, datatype = 'inventory'):
         write_metadata('GHGRP_'+year, source_meta,
                        category=ext_folder, datatype='source')
     else:
-        source_meta = read_source_metadata(ghgrp_external_dir + 'GHGRP_'+ year)['tool_meta']
+        source_meta = read_source_metadata(ghgrp_external_dir + 'GHGRP_'+\
+                                           year)['tool_meta']
         write_metadata('GHGRP_'+year, source_meta, datatype=datatype)
 
 def load_subpart_l_gwp():
@@ -555,10 +581,12 @@ def load_subpart_l_gwp():
     # rename certain fluorinated GHG groups for consistency
     table2['Flow Name'] = table2['Flow Name'].str.replace(
         'Saturated HFCs with 2 or fewer carbon-hydrogen bonds',
-        'Saturated hydrofluorocarbons (HFCs) with 2 or fewer carbon-hydrogen bonds')
+        'Saturated hydrofluorocarbons (HFCs) with 2 or fewer '
+        'carbon-hydrogen bonds')
     table2['Flow Name'] = table2['Flow Name'].str.replace(
         'Saturated HFEs and HCFEs with 1 carbon-hydrogen bond',
-        'Saturated hydrofluoroethers (HFEs) and hydrochlorofluoroethers (HCFEs) with 1 carbon-hydrogen bond')
+        'Saturated hydrofluoroethers (HFEs) and hydrochlorofluoroethers '
+        '(HCFEs) with 1 carbon-hydrogen bond')
     table2['Flow Name'] = table2['Flow Name'].str.replace(
         'Unsaturated PFCs, unsaturated HFCs, unsaturated HCFCs, '
         'unsaturated halogenated ethers, unsaturated halogenated '
@@ -600,23 +628,24 @@ if __name__ == '__main__':
     HFC23GWP = 14800
     
     # define column groupings
-    ghgrp_columns = import_table(ghgrp_data_dir + 'ghgrp_columns.csv')
-    name_cols = list(ghgrp_columns[ghgrp_columns['ghg_name'] == 1]['column_name'])
-    alias_cols = list(ghgrp_columns[ghgrp_columns['ghg_alias'] == 1]['column_name'])
-    quantity_cols = list(ghgrp_columns[ghgrp_columns['ghg_quantity'] == 1]['column_name'])
-    co2_cols = list(ghgrp_columns[ghgrp_columns['co2'] == 1]['column_name'])
-    ch4_cols = list(ghgrp_columns[ghgrp_columns['ch4'] == 1]['column_name'])
-    n2o_cols = list(ghgrp_columns[ghgrp_columns['n2o'] == 1]['column_name'])
-    co2e_cols = list(ghgrp_columns[ghgrp_columns['co2e_quantity'] == 1]['column_name'])
-    subpart_c_cols = list(ghgrp_columns[ghgrp_columns['subpart_c'] == 1]['column_name'])
-    method_cols = list(ghgrp_columns[ghgrp_columns['method'] == 1]['column_name'])
-    base_cols = list(ghgrp_columns[ghgrp_columns['base_columns'] == 1]['column_name'])
+    ghgrp_cols = import_table(ghgrp_data_dir + 'ghgrp_columns.csv')
+    name_cols = list(ghgrp_cols[ghgrp_cols['ghg_name'] == 1]['column_name'])
+    alias_cols = list(ghgrp_cols[ghgrp_cols['ghg_alias'] == 1]['column_name'])
+    quantity_cols = list(ghgrp_cols[ghgrp_cols['ghg_quantity'] == 1]['column_name'])
+    co2_cols = list(ghgrp_cols[ghgrp_cols['co2'] == 1]['column_name'])
+    ch4_cols = list(ghgrp_cols[ghgrp_cols['ch4'] == 1]['column_name'])
+    n2o_cols = list(ghgrp_cols[ghgrp_cols['n2o'] == 1]['column_name'])
+    co2e_cols = list(ghgrp_cols[ghgrp_cols['co2e_quantity'] == 1]['column_name'])
+    subpart_c_cols = list(ghgrp_cols[ghgrp_cols['subpart_c'] == 1]['column_name'])
+    method_cols = list(ghgrp_cols[ghgrp_cols['method'] == 1]['column_name'])
+    base_cols = list(ghgrp_cols[ghgrp_cols['base_columns'] == 1]['column_name'])
     info_cols = name_cols + quantity_cols + method_cols
     group_cols = co2_cols + ch4_cols + n2o_cols 
     ghg_cols = base_cols + info_cols + group_cols
     
     # define filepaths for downloaded data
-    data_summaries_path = ghgrp_external_dir + _config['most_recent_year'] + '_data_summary_spreadsheets/'
+    data_summaries_path = ghgrp_external_dir + _config['most_recent_year'] +\
+        '_data_summary_spreadsheets/'
     esbb_subparts_path = ghgrp_external_dir + _config['esbb_subparts_url']
     lo_subparts_path = ghgrp_external_dir + _config['lo_subparts_url']
     
@@ -638,12 +667,15 @@ if __name__ == '__main__':
             ghgrp1 = download_and_parse_subpart_tables(year)
 
             # parse emissions data for subparts E, BB, CC, LL (S already accounted for)
-            ghgrp2 = parse_additional_suparts_data(esbb_subparts_path, 'esbb_subparts_columns.csv', year) 
+            ghgrp2 = parse_additional_suparts_data(esbb_subparts_path,
+                                                   'esbb_subparts_columns.csv', year) 
         
             # parse emissions data for subpart O
-            ghgrp3 = parse_additional_suparts_data(lo_subparts_path, 'o_subparts_columns.csv', year)
+            ghgrp3 = parse_additional_suparts_data(lo_subparts_path,
+                                                   'o_subparts_columns.csv', year)
 
-            # convert subpart O data from CO2e to mass of HFC23 emitted, maintain CO2e for validation
+            # convert subpart O data from CO2e to mass of HFC23 emitted,
+            # maintain CO2e for validation
             ghgrp3['AmountCO2e'] = ghgrp3['FlowAmount']*1000
             ghgrp3.loc[ghgrp3['SUBPART_NAME'] == 'O', 'FlowAmount'] =\
                 ghgrp3['FlowAmount']/HFC23GWP
@@ -651,7 +683,8 @@ if __name__ == '__main__':
                 'Total Reported Emissions Under Subpart O (metric tons HFC-23)'
    
             # parse emissions data for subpart L
-            ghgrp4 = parse_additional_suparts_data(lo_subparts_path, 'l_subparts_columns.csv', year)
+            ghgrp4 = parse_additional_suparts_data(lo_subparts_path,
+                                                   'l_subparts_columns.csv', year)
 
             subpart_L_GWPs = load_subpart_l_gwp()
             ghgrp4 = ghgrp4.merge(subpart_L_GWPs, how='left',
@@ -669,15 +702,19 @@ if __name__ == '__main__':
             ghgrp4.drop(columns=['FlowAmount', 'CO2e_factor'],
                                  inplace=True)
             # rename Flow Amount column
-            ghgrp4.rename(columns={'FlowAmount (mass)' : 'FlowAmount'}, inplace=True)
+            ghgrp4.rename(columns={'FlowAmount (mass)' : 'FlowAmount'}, 
+                          inplace=True)
                 
             # concatenate ghgrp1, ghgrp2, ghgrp3, and ghgrp4
-            ghgrp = pd.concat([ghgrp1, ghgrp2, ghgrp3, ghgrp4]).reset_index(drop=True)
+            ghgrp = pd.concat([ghgrp1, ghgrp2,
+                               ghgrp3, ghgrp4]).reset_index(drop=True)
                         
             # map flow descriptions to standard gas names from GHGRP
             ghg_mapping = pd.read_csv(ghgrp_data_dir + 'ghg_mapping.csv',
-                                      usecols=['Flow Description', 'FlowName', 'GAS_CODE'])
-            ghgrp = pd.merge(ghgrp, ghg_mapping, on='Flow Description', how='left')
+                                      usecols=['Flow Description', 'FlowName',
+                                               'GAS_CODE'])
+            ghgrp = pd.merge(ghgrp, ghg_mapping, on='Flow Description',
+                             how='left')
             missing = ghgrp[ghgrp['FlowName'].isna()]
             if len(missing)>0:
                 log.warning('some flows are unmapped')
@@ -700,7 +737,8 @@ if __name__ == '__main__':
             ghgrp = pd.read_pickle(pickle_file)
             
             # import data reliability scores 
-            ghgrp_reliability_table = reliability_table[reliability_table['Source'] == 'GHGRPa']
+            ghgrp_reliability_table = reliability_table[
+                reliability_table['Source'] == 'GHGRPa']
             ghgrp_reliability_table.drop('Source', axis=1, inplace=True)
             
             # add reliability scores
@@ -709,7 +747,8 @@ if __name__ == '__main__':
                              right_on='Code', how='left')
                         
             # fill NAs with 5 for DQI reliability score
-            ghgrp['DQI Reliability Score'] = ghgrp['DQI Reliability Score'].fillna(value=5)
+            ghgrp['DQI Reliability Score'] = ghgrp['DQI Reliability Score'
+                                                   ].fillna(value=5)
                        
             # convert metric tons to kilograms
             ghgrp['FlowAmount'] = 1000 * ghgrp['FlowAmount'].astype('float')
@@ -747,7 +786,8 @@ if __name__ == '__main__':
         
             log.info('generating facilities output')
             # return dataframe of GHGRP facilities
-            facilities_df = get_facilities(data_summaries_path + 'ghgp_data_' + year + '.xlsx')
+            facilities_df = get_facilities(data_summaries_path +\
+                                           'ghgp_data_' + year + '.xlsx')
             
             # add facility information based on facility ID
             ghgrp = ghgrp.merge(facilities_df, on='FacilityID', how='left')
