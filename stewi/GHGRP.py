@@ -737,8 +737,8 @@ if __name__ == '__main__':
             ghgrp = pd.read_pickle(pickle_file)
             
             # import data reliability scores 
-            ghgrp_reliability_table = reliability_table[
-                reliability_table['Source'] == 'GHGRPa']
+            ghgrp_reliability_table = reliability_table.loc[
+                reliability_table['Source'] == 'GHGRPa'].reset_index(drop=True)
             ghgrp_reliability_table.drop('Source', axis=1, inplace=True)
             
             # add reliability scores
