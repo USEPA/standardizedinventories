@@ -18,6 +18,10 @@ Files are:
     3a - Off Site Transfers
 See more documentation of files at 
 https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-guides
+
+Years:
+    2008 through 2019
+
 """
 
 import requests
@@ -97,9 +101,12 @@ def generate_national_totals(year):
                              'Other On-site Land Disposal',
                              'Off-site Land Treatment',
                              'Other Off-site Land Disposal']}
+    # remove entries where all values are 0
+    v = [col for col in df.columns if col != 'Chemical']
+    df = df.loc[~(df[v]==0).all(axis=1)]
     df_National = pd.DataFrame()
     for compartment, columns in compartments.items():
-        df_aux = df[['Chemical'] + columns]
+        df_aux = df[['Chemical'] + columns].reset_index(drop=True)
         for column in columns:
             df_aux[column] = df_aux[column].str.replace(',','').astype('float')
         df_aux['FlowAmount'] = df_aux[columns].sum(axis = 1)
@@ -406,6 +413,8 @@ if __name__ == '__main__':
             # (1) Select Year of Data, All of United States, All Chemicals,
             # All Industry, and other needed option (this is based on the
             # desired year)
+            # Columns: check 'Other On-site Disposal or Other Releases' and
+            # 'Other Off-site Disposal or Other Releases'
             # (2) Export to CSV
             # (3) Drop the not needed rows, including the extra dioxin row 
             # at the bottom
