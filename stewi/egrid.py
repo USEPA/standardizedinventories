@@ -98,7 +98,8 @@ def extract_eGRID_excel(year, sheetname, index='field'):
     eGRIDfile = eGRIDfilepath + _config[year]['file_name']
     if index != 'field': header = 1
     else: header = 0
-    df = pd.read_excel(eGRIDfile, sheet_name=sheetname+year[2:], header=header)
+    df = pd.read_excel(eGRIDfile, sheet_name=sheetname+year[2:],
+                       header=header, engine = 'openpyxl')
     df = remove_line_breaks(df)
     if index == 'field':
         #drop first row which are column name abbreviations
@@ -283,7 +284,7 @@ def generate_eGRID_files(year):
                      'Plant geothermal generation percent (resource mix)',
                      'Plant other fossil generation percent (resource mix)',
                      'Plant other unknown / purchased fuel generation '
-                         'percent (resource mix)']]
+                         'percent (resource mix)']].reset_index(drop=True)
     
     # Data starting in 2018 for resource mix is listed as percentage.
     # For consistency multiply by 100
