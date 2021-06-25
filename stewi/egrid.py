@@ -30,7 +30,8 @@ from stewi.globals import data_dir,write_metadata,\
     unit_convert,log,MMBtu_MJ,MWh_MJ,config,\
     validate_inventory,write_validation_result,USton_kg,lb_kg,\
     compile_source_metadata, remove_line_breaks, paths, storeInventory,\
-    read_source_metadata, update_validationsets_sources, make_http_request
+    read_source_metadata, readInventory, update_validationsets_sources,\
+    make_http_request
 
 _config = config()['databases']['eGRID']
 
@@ -302,9 +303,8 @@ def generate_eGRID_files(year):
     flows = flows.sort_values(by='FlowName',axis=0)
     storeInventory(flows, 'eGRID_' + year, 'flow')
 
-    validate_eGRID(year, flowbyfac)
 
-def validate_eGRID(year, flowbyfac):
+def validate_eGRID(year):
     #VALIDATE
     log.info('validating data against national totals')
     validation_file = data_dir + 'eGRID_'+ year + '_NationalTotals.csv'
@@ -325,6 +325,7 @@ def validate_eGRID(year, flowbyfac):
             MWh_MJ, 'FlowAmount')
         # drop old unit
         egrid_national_totals.drop('Unit',axis=1,inplace=True)
+        flowbyfac = readInventory('eGRID_'+ year, 'flowbyfacility')
         validation_result = validate_inventory(flowbyfac, egrid_national_totals,
                                                group_by='flow', tolerance=5.0)
         write_validation_result('eGRID',year,validation_result)
@@ -416,6 +417,7 @@ if __name__ == '__main__':
             #process data
             generate_eGRID_files(year)
             generate_metadata(year, datatype='inventory')
+            validate_eGRID(year)
             
         if args.Option == 'C':
             #download and store national totals
