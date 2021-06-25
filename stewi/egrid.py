@@ -231,7 +231,7 @@ def generate_eGRID_files(year):
     #Assign electricity to a reliabilty score of 1
     flowbyfac.loc[flowbyfac['FlowName']=='Electricity', 'DataReliability'] = 1
     #Replace NaNs with 5
-    flowbyfac['DataReliability']=flowbyfac['DataReliability'].replace({None:5})
+    flowbyfac['DataReliability']=flowbyfac['DataReliability'].fillna(5)
     
     #Methane and nitrous oxide reliability scores
     #Assign 3 to all facilities except for certain fuel types where 
