@@ -19,6 +19,7 @@ from esupy.processed_data_mgmt import Paths, FileMeta,\
     load_preprocessed_output, remove_extra_files,\
     write_df_to_file, create_paths_if_missing, write_metadata_to_file
 from esupy.dqi import get_weighted_average
+from esupy.remote import make_http_request
 
 try: modulepath = os.path.dirname(os.path.realpath(
     __file__)).replace('\\', '/') + '/'

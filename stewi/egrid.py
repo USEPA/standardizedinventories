@@ -23,7 +23,6 @@ Year:
 import pandas as pd
 import argparse
 import os
-import requests
 import zipfile
 import io
 
@@ -31,7 +30,7 @@ from stewi.globals import data_dir,write_metadata,\
     unit_convert,log,MMBtu_MJ,MWh_MJ,config,\
     validate_inventory,write_validation_result,USton_kg,lb_kg,\
     compile_source_metadata, remove_line_breaks, paths, storeInventory,\
-    read_source_metadata, update_validationsets_sources
+    read_source_metadata, update_validationsets_sources, make_http_request
 
 _config = config()['databases']['eGRID']
 
@@ -59,19 +58,10 @@ def download_eGRID(year):
     '''
     log.info('downloading eGRID data for %s', year)
     
-    ## make http request
-    r = []
     download_url = _config[year]['download_url']
     egrid_file_name = _config[year]['file_name']
 
-    try:
-        r = requests.Session().get(download_url)
-    except requests.exceptions.ConnectionError:
-        log.error("URL Connection Error for %s", download_url)
-    try:
-        r.raise_for_status()
-    except requests.exceptions.HTTPError:
-        log.error('Error in URL request!')
+    r = make_http_request(download_url)
         
     ## extract .xlsx workbook
     if year == '2016' or year == '2014':
