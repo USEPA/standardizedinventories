@@ -5,9 +5,6 @@ water,"1,1,1,2-Tetrachloroethane",Pounds,5.0
 air,"1,1,1-Trichloroethane",Pounds,64931.91
 soil,"1,1,1-Trichloroethane",Pounds,11488.1
 water,"1,1,1-Trichloroethane",Pounds,90.0
-air,"1,1,2,2-Tetrachloro-1-fluoroethane (HCFC-121)",Pounds,0.0
-soil,"1,1,2,2-Tetrachloro-1-fluoroethane (HCFC-121)",Pounds,0.0
-water,"1,1,2,2-Tetrachloro-1-fluoroethane (HCFC-121)",Pounds,0.0
 air,"1,1,2,2-Tetrachloroethane",Pounds,3994.01
 soil,"1,1,2,2-Tetrachloroethane",Pounds,0.0
 water,"1,1,2,2-Tetrachloroethane",Pounds,5.0
@@ -59,9 +56,6 @@ water,"1,2-Phenylenediamine",Pounds,0.0
 air,"1,3-Butadiene",Pounds,1234606.39
 soil,"1,3-Butadiene",Pounds,1.64
 water,"1,3-Butadiene",Pounds,354.9
-air,"1,3-Dichloro-1,1,2,2,3-pentafluoropropane (HCFC-225cb)",Pounds,73.0
-soil,"1,3-Dichloro-1,1,2,2,3-pentafluoropropane (HCFC-225cb)",Pounds,0.0
-water,"1,3-Dichloro-1,1,2,2,3-pentafluoropropane (HCFC-225cb)",Pounds,0.0
 air,"1,3-Dichloropropene",Pounds,7193.14
 soil,"1,3-Dichloropropene",Pounds,0.0
 water,"1,3-Dichloropropene",Pounds,168.0
@@ -188,9 +182,9 @@ water,"3,3'-Dimethoxybenzidine dihydrochloride",Pounds,0.0
 air,"3,3'-Dimethylbenzidine",Pounds,13.66
 soil,"3,3'-Dimethylbenzidine",Pounds,0.0
 water,"3,3'-Dimethylbenzidine",Pounds,0.0
-air,"3,3-Dichloro-1,1,1,2,2-pentafluoropropane (HCFC-225ca)",Pounds,3756.0
-soil,"3,3-Dichloro-1,1,1,2,2-pentafluoropropane (HCFC-225ca)",Pounds,0.0
-water,"3,3-Dichloro-1,1,1,2,2-pentafluoropropane (HCFC-225ca)",Pounds,0.0
+air,"3,3-Bis(4-hydroxyphenyl)phthalide",Pounds,0.0
+soil,"3,3-Bis(4-hydroxyphenyl)phthalide",Pounds,0.0
+water,"3,3-Bis(4-hydroxyphenyl)phthalide",Pounds,0.0
 air,3-Chloro-2-methyl-1-propene,Pounds,93.0
 soil,3-Chloro-2-methyl-1-propene,Pounds,0.0
 water,3-Chloro-2-methyl-1-propene,Pounds,0.0
@@ -410,9 +404,6 @@ water,Butyl acrylate,Pounds,14.32
 air,Butyraldehyde,Pounds,333314.16
 soil,Butyraldehyde,Pounds,33.0
 water,Butyraldehyde,Pounds,33787.25
-air,C.I. Basic Green 4,Pounds,0.0
-soil,C.I. Basic Green 4,Pounds,0.0
-water,C.I. Basic Green 4,Pounds,0.0
 air,C.I. Direct Black 38,Pounds,12.62
 soil,C.I. Direct Black 38,Pounds,0.0
 water,C.I. Direct Black 38,Pounds,0.0
@@ -743,6 +734,9 @@ water,Glycidol,Pounds,37516.0
 air,"Glycol ethers, subset",Pounds,13801638.73
 soil,"Glycol ethers, subset",Pounds,69122.46
 water,"Glycol ethers, subset",Pounds,86068.2
+air,HCFC-121,Pounds,0.0
+soil,HCFC-121,Pounds,0.0
+water,HCFC-121,Pounds,0.0
 air,HCFC-121a,Pounds,10.0
 soil,HCFC-121a,Pounds,0.0
 water,HCFC-121a,Pounds,0.0
@@ -776,6 +770,12 @@ water,HCFC-21,Pounds,0.0
 air,HCFC-22,Pounds,2331929.7
 soil,HCFC-22,Pounds,0.0
 water,HCFC-22,Pounds,3939.0
+air,HCFC-225ca,Pounds,3756.0
+soil,HCFC-225ca,Pounds,0.0
+water,HCFC-225ca,Pounds,0.0
+air,HCFC-225cb,Pounds,73.0
+soil,HCFC-225cb,Pounds,0.0
+water,HCFC-225cb,Pounds,0.0
 air,HCFC-253fb,Pounds,169.0
 soil,HCFC-253fb,Pounds,0.0
 water,HCFC-253fb,Pounds,0.0
@@ -875,6 +875,9 @@ water,Lithium carbonate,Pounds,2057.81
 air,MCPA,Pounds,116.0
 soil,MCPA,Pounds,0.0
 water,MCPA,Pounds,0.0
+air,Malachite green,Pounds,0.0
+soil,Malachite green,Pounds,0.0
+water,Malachite green,Pounds,0.0
 air,Malathion,Pounds,489.69
 soil,Malathion,Pounds,0.0
 water,Malathion,Pounds,5.0
@@ -1091,9 +1094,6 @@ water,Phenanthrene,Pounds,458.27
 air,Phenol,Pounds,4474007.23
 soil,Phenol,Pounds,16555.652
 water,Phenol,Pounds,34199.59
-air,Phenolphthalein,Pounds,0.0
-soil,Phenolphthalein,Pounds,0.0
-water,Phenolphthalein,Pounds,0.0
 air,Phenothrin,Pounds,20.0
 soil,Phenothrin,Pounds,0.0
 water,Phenothrin,Pounds,0.0

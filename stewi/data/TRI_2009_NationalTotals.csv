@@ -5,9 +5,6 @@ water,"1,1,1,2-Tetrachloroethane",Pounds,0.0
 air,"1,1,1-Trichloroethane",Pounds,73062.17
 soil,"1,1,1-Trichloroethane",Pounds,14795.05
 water,"1,1,1-Trichloroethane",Pounds,223.0
-air,"1,1,2,2-Tetrachloro-1-fluoroethane (HCFC-121)",Pounds,0.0
-soil,"1,1,2,2-Tetrachloro-1-fluoroethane (HCFC-121)",Pounds,0.0
-water,"1,1,2,2-Tetrachloro-1-fluoroethane (HCFC-121)",Pounds,0.0
 air,"1,1,2,2-Tetrachloroethane",Pounds,3833.19
 soil,"1,1,2,2-Tetrachloroethane",Pounds,0.0
 water,"1,1,2,2-Tetrachloroethane",Pounds,285.0
@@ -56,9 +53,6 @@ water,"1,2-Phenylenediamine",Pounds,0.0
 air,"1,3-Butadiene",Pounds,1171035.89
 soil,"1,3-Butadiene",Pounds,1.0
 water,"1,3-Butadiene",Pounds,645.66
-air,"1,3-Dichloro-1,1,2,2,3-pentafluoropropane (HCFC-225cb)",Pounds,18952.0
-soil,"1,3-Dichloro-1,1,2,2,3-pentafluoropropane (HCFC-225cb)",Pounds,0.0
-water,"1,3-Dichloro-1,1,2,2,3-pentafluoropropane (HCFC-225cb)",Pounds,0.0
 air,"1,3-Dichloropropene",Pounds,6590.71
 soil,"1,3-Dichloropropene",Pounds,0.0
 water,"1,3-Dichloropropene",Pounds,2.0
@@ -176,9 +170,6 @@ water,"3,3'-Dimethoxybenzidine dihydrochloride",Pounds,0.0
 air,"3,3'-Dimethylbenzidine",Pounds,0.0
 soil,"3,3'-Dimethylbenzidine",Pounds,0.0
 water,"3,3'-Dimethylbenzidine",Pounds,0.0
-air,"3,3-Dichloro-1,1,1,2,2-pentafluoropropane (HCFC-225ca)",Pounds,37238.2
-soil,"3,3-Dichloro-1,1,1,2,2-pentafluoropropane (HCFC-225ca)",Pounds,0.0
-water,"3,3-Dichloro-1,1,1,2,2-pentafluoropropane (HCFC-225ca)",Pounds,0.0
 air,3-Chloro-2-methyl-1-propene,Pounds,108.0
 soil,3-Chloro-2-methyl-1-propene,Pounds,0.0
 water,3-Chloro-2-methyl-1-propene,Pounds,0.0
@@ -698,6 +689,9 @@ water,Formic acid,Pounds,499074.44
 air,"Glycol ethers, subset",Pounds,12895583.04
 soil,"Glycol ethers, subset",Pounds,20524.57
 water,"Glycol ethers, subset",Pounds,64981.0
+air,HCFC-121,Pounds,0.0
+soil,HCFC-121,Pounds,0.0
+water,HCFC-121,Pounds,0.0
 air,HCFC-121a,Pounds,4.994
 soil,HCFC-121a,Pounds,0.0
 water,HCFC-121a,Pounds,0.0
@@ -731,6 +725,12 @@ water,HCFC-21,Pounds,0.0
 air,HCFC-22,Pounds,3781298.34
 soil,HCFC-22,Pounds,45673.0
 water,HCFC-22,Pounds,2798.01
+air,HCFC-225ca,Pounds,37238.2
+soil,HCFC-225ca,Pounds,0.0
+water,HCFC-225ca,Pounds,0.0
+air,HCFC-225cb,Pounds,18952.0
+soil,HCFC-225cb,Pounds,0.0
+water,HCFC-225cb,Pounds,0.0
 air,Halon 1211,Pounds,1154.0
 soil,Halon 1211,Pounds,0.0
 water,Halon 1211,Pounds,0.0

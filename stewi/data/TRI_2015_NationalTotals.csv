@@ -173,9 +173,9 @@ water,"3,3'-Dimethoxybenzidine dihydrochloride",Pounds,0.0
 air,"3,3'-Dimethylbenzidine",Pounds,6.05
 soil,"3,3'-Dimethylbenzidine",Pounds,0.0
 water,"3,3'-Dimethylbenzidine",Pounds,0.0
-air,"3,3-Dichloro-1,1,1,2,2-pentafluoropropane (HCFC-225ca)",Pounds,2773.0
-soil,"3,3-Dichloro-1,1,1,2,2-pentafluoropropane (HCFC-225ca)",Pounds,0.0
-water,"3,3-Dichloro-1,1,1,2,2-pentafluoropropane (HCFC-225ca)",Pounds,0.0
+air,"3,3-Bis(4-hydroxyphenyl)phthalide",Pounds,0.0
+soil,"3,3-Bis(4-hydroxyphenyl)phthalide",Pounds,0.0
+water,"3,3-Bis(4-hydroxyphenyl)phthalide",Pounds,0.0
 air,3-Chloro-2-methyl-1-propene,Pounds,421.02
 soil,3-Chloro-2-methyl-1-propene,Pounds,0.0
 water,3-Chloro-2-methyl-1-propene,Pounds,0.0
@@ -758,6 +758,9 @@ water,HCFC-21,Pounds,0.0
 air,HCFC-22,Pounds,1574957.49
 soil,HCFC-22,Pounds,0.0
 water,HCFC-22,Pounds,0.0
+air,HCFC-225ca,Pounds,2773.0
+soil,HCFC-225ca,Pounds,0.0
+water,HCFC-225ca,Pounds,0.0
 air,HCFC-253fb,Pounds,174.0
 soil,HCFC-253fb,Pounds,0.0
 water,HCFC-253fb,Pounds,0.0
@@ -1070,9 +1073,6 @@ water,Phenanthrene,Pounds,220.37
 air,Phenol,Pounds,3662332.96
 soil,Phenol,Pounds,5568.432
 water,Phenol,Pounds,30163.32
-air,Phenolphthalein,Pounds,0.0
-soil,Phenolphthalein,Pounds,0.0
-water,Phenolphthalein,Pounds,0.0
 air,Phenothrin,Pounds,20.0
 soil,Phenothrin,Pounds,0.0
 water,Phenothrin,Pounds,0.0
