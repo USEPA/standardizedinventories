@@ -108,7 +108,7 @@ import time, datetime
 
 from stewi.globals import write_metadata,validate_inventory,\
     write_validation_result, set_dir, data_dir, config,\
-    checkforFile, USton_kg, reliability_table, paths,\
+    checkforFile, USton_kg, get_reliability_table_for_source, paths,\
     log, storeInventory, compile_source_metadata, read_source_metadata,\
     update_validationsets_sources, filter_states, aggregate
 
@@ -327,9 +327,7 @@ def Generate_RCRAInfo_files_csv(report_year):
     BR.drop('Primary NAICS', axis=1, inplace=True)
     #Create field for DQI Reliability Score with fixed value from CSV
     #Currently generating a warning
-    rcrainfo_reliability_table = reliability_table[
-        reliability_table['Source']=='RCRAInfo']
-    rcrainfo_reliability_table.drop('Source', axis=1, inplace=True)
+    rcrainfo_reliability_table = get_reliability_table_for_source('RCRAInfo')
     BR['DataReliability'] = float(rcrainfo_reliability_table['DQI Reliability Score'])
     #Create a new field to put converted amount in
     BR['Amount_kg'] = 0.0

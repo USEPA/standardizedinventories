@@ -36,7 +36,7 @@ import re
 import fedelemflowlist
 from esupy.processed_data_mgmt import create_paths_if_missing
 from stewi.globals import unit_convert,data_dir,\
-    reliability_table,validate_inventory,\
+    get_reliability_table_for_source,validate_inventory,\
     write_validation_result,write_metadata,url_is_alive,\
     lb_kg,g_kg,config,storeInventory,log, paths, compile_source_metadata,\
     read_source_metadata, update_validationsets_sources, aggregate
@@ -158,7 +158,7 @@ def map_to_fedefl(df):
     missing_flows = mapped_df[mapped_df['TargetFlowName'].isna()]['FlowName']
     missing_flows = missing_flows.drop_duplicates().sort_values()
     if len(missing_flows) > 0:
-        log.warning('flows from reference df missing in mapping file')
+        log.debug('flows from reference df missing in mapping file')
     mapped_df.loc[~mapped_df['TargetFlowName'].isna(),
                   'FlowName'] = mapped_df['TargetFlowName']
     mapped_df = mapped_df.drop(columns=['SourceFlowName','TargetFlowName'])
@@ -275,9 +275,7 @@ def Generate_TRI_files_csv(TRIyear, Files):
     #Drop 0 for FlowAmount
     tri = tri[tri['FlowAmount'] != 0]
     # Import reliability scores for TRI
-    tri_reliability_table = reliability_table.loc[
-        reliability_table['Source']=='TRI'].reset_index(drop = True)
-    tri_reliability_table.drop('Source', axis=1, inplace=True)
+    tri_reliability_table = get_reliability_table_for_source('TRI')
     #Merge with reliability table to get
     tri = pd.merge(tri,tri_reliability_table,left_on='Basis of Estimate',
                    right_on='Code',how='left')

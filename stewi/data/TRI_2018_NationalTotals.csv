@@ -179,6 +179,9 @@ water,"3,3'-Dimethoxybenzidine dihydrochloride",Pounds,0.0
 air,"3,3'-Dimethylbenzidine",Pounds,7.04
 soil,"3,3'-Dimethylbenzidine",Pounds,0.0
 water,"3,3'-Dimethylbenzidine",Pounds,0.0
+air,"3,3-Bis(4-hydroxyphenyl)phthalide",Pounds,0.0
+soil,"3,3-Bis(4-hydroxyphenyl)phthalide",Pounds,0.0
+water,"3,3-Bis(4-hydroxyphenyl)phthalide",Pounds,0.0
 air,3-Chloro-2-methyl-1-propene,Pounds,395.0
 soil,3-Chloro-2-methyl-1-propene,Pounds,0.0
 water,3-Chloro-2-methyl-1-propene,Pounds,0.0
@@ -407,9 +410,6 @@ water,Butyraldehyde,Pounds,55728.2
 air,C.I. Direct Blue 218,Pounds,8.99
 soil,C.I. Direct Blue 218,Pounds,0.0
 water,C.I. Direct Blue 218,Pounds,0.0
-air,C.I. Food Red 15,Pounds,0.0
-soil,C.I. Food Red 15,Pounds,0.0
-water,C.I. Food Red 15,Pounds,0.0
 air,CFC-11,Pounds,182119.47
 soil,CFC-11,Pounds,0.0
 water,CFC-11,Pounds,34.0
@@ -1085,9 +1085,6 @@ water,Phenanthrene,Pounds,258.64
 air,Phenol,Pounds,3405088.18
 soil,Phenol,Pounds,1492.642
 water,Phenol,Pounds,23775.91
-air,Phenolphthalein,Pounds,0.0
-soil,Phenolphthalein,Pounds,0.0
-water,Phenolphthalein,Pounds,0.0
 air,Phenothrin,Pounds,20.0
 soil,Phenothrin,Pounds,0.0
 water,Phenothrin,Pounds,0.0
@@ -1175,6 +1172,9 @@ water,Quinoline,Pounds,0.0
 air,Quinone,Pounds,8.04
 soil,Quinone,Pounds,0.0
 water,Quinone,Pounds,0.0
+air,Rhodamine B,Pounds,0.0
+soil,Rhodamine B,Pounds,0.0
+water,Rhodamine B,Pounds,0.0
 air,S-Ethyl dipropylthiocarbamate,Pounds,56.17
 soil,S-Ethyl dipropylthiocarbamate,Pounds,0.0
 water,S-Ethyl dipropylthiocarbamate,Pounds,0.0

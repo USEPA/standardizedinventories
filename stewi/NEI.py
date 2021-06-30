@@ -37,7 +37,8 @@ import io
 from stewi.globals import data_dir,write_metadata,\
     validate_inventory,write_validation_result,USton_kg,lb_kg,\
     log, storeInventory, config, compile_source_metadata, read_source_metadata,\
-    paths, update_validationsets_sources, aggregate, reliability_table
+    paths, update_validationsets_sources, aggregate,\
+    get_reliability_table_for_source
 
 
 _config = config()['databases']['NEI']
@@ -95,8 +96,7 @@ def standardize_output(year, source='Point'):
 
     log.info('adding Data Quality information')
     if source == 'Point':
-        nei_reliability_table = reliability_table[
-            reliability_table['Source'] == 'NEI']
+        nei_reliability_table = get_reliability_table_for_source('NEI')
         nei_reliability_table['Code'] = nei_reliability_table['Code'].astype(float)
         nei['ReliabilityScore'] = nei['ReliabilityScore'].astype(float)
         nei = nei.merge(nei_reliability_table, left_on='ReliabilityScore',
