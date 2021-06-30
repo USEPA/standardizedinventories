@@ -45,7 +45,7 @@ import argparse
 from stewi.globals import download_table,\
     write_metadata, import_table, drop_excel_sheets,\
     validate_inventory, write_validation_result,\
-    data_dir, reliability_table,\
+    data_dir, get_reliability_table_for_source,\
     flowbyfacility_fields, flowbyprocess_fields, facility_fields, config,\
     storeInventory, paths, log, update_validationsets_sources,\
     compile_source_metadata, read_source_metadata, aggregate
@@ -737,9 +737,7 @@ if __name__ == '__main__':
             ghgrp = pd.read_pickle(pickle_file)
             
             # import data reliability scores 
-            ghgrp_reliability_table = reliability_table.loc[
-                reliability_table['Source'] == 'GHGRPa'].reset_index(drop=True)
-            ghgrp_reliability_table.drop('Source', axis=1, inplace=True)
+            ghgrp_reliability_table = get_reliability_table_for_source('GHGRPa')
             
             # add reliability scores
             ghgrp = pd.merge(ghgrp, ghgrp_reliability_table,

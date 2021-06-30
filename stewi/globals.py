@@ -46,11 +46,6 @@ try:
 except:
     git_hash = None
 
-dq_file = 'DQ_Reliability_Scores_Table3-3fromERGreport.csv'
-reliability_table = pd.read_csv(data_dir + dq_file,
-                                usecols=['Source', 'Code',
-                                         'DQI Reliability Score'])
-
 stewi_formats = ['flowbyfacility', 'flow', 'facility', 'flowbyprocess']
 inventory_formats = ['flowbyfacility', 'flowbyprocess']
 
@@ -571,3 +566,12 @@ def readInventory(file_name, category):
             if fields[c] == 'str':
                 inventory[c] = inventory[c].astype('str')
     return inventory
+
+
+def get_reliability_table_for_source(source):
+    dq_file = 'DQ_Reliability_Scores_Table3-3fromERGreport.csv'
+    df = pd.read_csv(data_dir + dq_file, usecols=['Source', 'Code',
+                                                  'DQI Reliability Score'])
+    df = df.loc[df['Source'] == source].reset_index(drop=True)
+    df.drop('Source', axis=1, inplace=True)
+    return df
