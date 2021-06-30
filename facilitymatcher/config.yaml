@@ -1,3 +1,12 @@
 databases:
   FRS:
     url: https://ofmext.epa.gov/FLA/www3/state_files/national_combined.zip
+    FRS_bridge_file: 'NATIONAL_ENVIRONMENTAL_INTEREST_FILE.CSV'
+    FRS_NAICS_file: 'NATIONAL_NAICS_FILE.CSV'
+    program_dictionary:
+        NEI: 'EIS'
+        TRI: 'TRIS'
+        eGRID: 'EGRID'
+        GHGRP: 'E-GGRT'
+        RCRAInfo: 'RCRAINFO'
+        DMR: 'NPDES'

@@ -1,0 +1,9 @@
+FlowName,Compartment,FlowAmount,Unit
+Heat,input,37839414274.053,MMBtu
+Electricity,product,4140185857.271,MWh
+Nitrogen oxides,air,1212642.439,tons
+Sulfur dioxide,air,1120750.513,tons
+Carbon dioxide,air,1830437294.407,tons
+Methane,air,309115550.675,lbs
+Nitrous oxide,air,43768446.144,lbs
+Steam,output,2161173735.2000003,MMBtu
