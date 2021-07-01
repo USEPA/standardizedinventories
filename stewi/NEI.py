@@ -38,7 +38,7 @@ from stewi.globals import data_dir,write_metadata,\
     validate_inventory,write_validation_result,USton_kg,lb_kg,\
     log, storeInventory, config, compile_source_metadata, read_source_metadata,\
     paths, update_validationsets_sources, aggregate,\
-    get_reliability_table_for_source
+    get_reliability_table_for_source, set_stewi_meta
 
 
 _config = config()['databases']['NEI']
@@ -138,6 +138,7 @@ def generate_national_totals(year):
     version = _config['national_version'][year]
     url = build_url.replace('__year__', year)
     url = url.replace('__version__', version)
+    print(url)
     
     ## make http request
     r = []
@@ -213,7 +214,6 @@ def validate_national_totals(nei_flowbyfacility, year):
     nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ year + \
                                       '_NationalTotals.csv',
                                       header=0,dtype={"FlowAmount[kg]":float})
-    nei_flowbyfacility.drop(['Compartment'],1, inplace = True)
     nei_national_totals.rename(columns={'FlowAmount[kg]':'FlowAmount'},
                                inplace=True)
     validation_result = validate_inventory(nei_flowbyfacility,
@@ -233,8 +233,10 @@ def generate_metadata(year, datatype = 'inventory'):
         write_metadata('NEI_'+year, source_meta, category=ext_folder,
                        datatype='source')
     else:
+        meta = set_stewi_meta('NEI_'+year, category=ext_folder)
+        file = meta.name_data + "_v" + meta.tool_version + "_" + meta.git_hash
         source_meta = read_source_metadata(
-            nei_external_dir + 'NEI_'+ year)['tool_meta']
+            nei_external_dir + file)['tool_meta']
         write_metadata('NEI_'+year, source_meta, datatype=datatype)
     
 

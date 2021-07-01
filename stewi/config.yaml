@@ -42,15 +42,18 @@ databases:
         file_version: 'v2'
     '2016':
         file_name:
-            - '../NEI/2016_NEI_R1-3/emis_sum_proc_5828.csv'
-            - '../NEI/2016_NEI_R4-6/emis_sum_proc_5829.csv'
-            - '../NEI/2016_NEI_R7-10/emis_sum_proc_5830.csv'
-        file_version: ''
+            - '2016/sppd_rtr_16974.csv'
+            - '2016/sppd_rtr_16998.csv'
+        file_version: 'v1'
     '2017':
         file_name: 
-            - 'sppd_rtr_13595.csv'
-            - 'sppd_rtr_13597.csv'
-            - 'sppd_rtr_13602.csv'
+            - '2017/sppd_rtr_16940.csv'
+            - '2017/sppd_rtr_16958.csv'
+        file_version: 'v1'
+    '2018':
+        file_name: 
+            - '2018/sppd_rtr_16938.csv'
+            - '2018/sppd_rtr_16939.csv'
         file_version: 'v1'
     national_url: 'ftp://gaftp.epa.gov/air/nei/__year__/data_summaries/__version___facility.zip'
     national_version:
