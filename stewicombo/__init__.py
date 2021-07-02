@@ -10,7 +10,8 @@ from stewicombo.overlaphandler import aggregate_and_remove_overlap
 from stewicombo.globals import get_id_before_underscore,\
     getInventoriesforFacilityMatches, filter_by_compartment,\
     addChemicalMatches, addBaseInventoryIDs, storeCombinedInventory,\
-    write_metadata, compile_metadata, getCombinedInventory
+    write_metadata, compile_metadata, getCombinedInventory,\
+    download_stewicombo_from_remote
 
 
 def combineFullInventories(inventory_dict, filter_for_LCI=True, 
@@ -132,13 +133,30 @@ def combineInventoriesforFacilityList(base_inventory, inventory_dict,
     return inventories
 
 def saveInventory(name, combinedinventory_df, inventory_dict):
+    """Saves a combined inventory in local directory with metadata
+    
+    :param name: str, desired name for dataset e.g. 'CAP_HAP_national_2017'
+    :param combinedinventory_df: df to save
+    :inventory_dict: dictionary of inventories and years, used to compile
+        metadata for saved inventory
+    """
     storeCombinedInventory(combinedinventory_df, name)
     inventory_meta = compile_metadata(inventory_dict)
     write_metadata(name, inventory_meta)
 
 
-def getInventory(name):
+def getInventory(name, download_if_missing=False):
+    """Retrieves locally stored inventory in Flow-By-Facility Combined Format
+    
+    :param name: str, name of dataset or name of file, e.g.
+        'CAP_HAP_national_2017' or 'CAP_HAP_national_2017_v0.9.7_5cf36c0.parquet'
+    :param download_if_missing: bool, if True will attempt to load from
+        remote server prior to generating if file not found locally
+    """
     combinedinventory_df = getCombinedInventory(name)
+    if combinedinventory_df is None and download_if_missing:
+        download_stewicombo_from_remote(name)
+        combinedinventory_df = getCombinedInventory(name)
     return combinedinventory_df
     
 
@@ -150,7 +168,6 @@ def pivotCombinedInventories(combinedinventory_df):
     :return: pandas pivot_table
     """
     # Group the results by facility,flow,and compartment
-    # Use a pivot table
     combinedinventory_df_pt = combinedinventory_df.pivot_table(
         values=['FlowAmount','DataReliability'],
         index=['FRS_ID','SRS_ID','Compartment'],

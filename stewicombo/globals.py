@@ -13,7 +13,8 @@ import chemicalmatcher
 import stewi
 from stewi.globals import log, set_stewi_meta, flowbyfacility_fields
 from esupy.processed_data_mgmt import Paths, write_df_to_file,\
-    write_metadata_to_file, load_preprocessed_output, read_into_df
+    write_metadata_to_file, load_preprocessed_output, read_into_df,\
+    download_from_remote
 
 try: modulepath = os.path.dirname(
     os.path.realpath(__file__)).replace('\\', '/') + '/'
@@ -56,15 +57,17 @@ VOC_srs = pd.read_csv(data_dir+'VOC_SRS_IDs.csv',
                       dtype=str,index_col=False,header=0)
 VOC_srs = VOC_srs['SRS_IDs']
 
-def set_stewicombo_meta(file_name, category):
+def set_stewicombo_meta(file_name, category=''):
+    """Creates a class of esupy FileMeta; category used for optional
+    categorization"""
     stewicombo_meta = set_stewi_meta(file_name, category)
     stewicombo_meta.tool = "stewicombo"
     stewicombo_meta.ext = write_format
     return stewicombo_meta
 
 
-#Remove substring from inventory name
 def get_id_before_underscore(inventory_id):
+    """Removes substring from inventory name"""
     underscore_match = re.search('_', inventory_id)
     if underscore_match is not None:
         inventory_id = inventory_id[0:underscore_match.start()]
@@ -122,6 +125,8 @@ def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
 
 
 def addChemicalMatches(inventories_df):
+    """Adds data for chemical matches to inventory or combined inventory df
+    """
     #Bring in chemical matches
     inventory_list = list(inventories_df['Source'].unique())
     chemicalmatches = chemicalmatcher.get_matches_for_StEWI(
@@ -187,22 +192,29 @@ def storeCombinedInventory(df, file_name, category=''):
     except:
         log.error('Failed to save inventory')
 
-def getCombinedInventory(file_name, category=''):
-    """Reads the inventory dataframe from local directory"""
-    if ".parquet" in file_name:
-        name = file_name
+def getCombinedInventory(name, category=''):
+    """Reads the inventory dataframe from local directory
+    :param name: str, name of dataset or name of file
+    """
+    if ("."+write_format) in name:
         method_path = output_dir + '/' + category
         inventory = read_into_df(method_path + name)
     else:
-        meta = set_stewicombo_meta(file_name, category)
+        meta = set_stewicombo_meta(name, category)
         method_path = output_dir + '/' + meta.category
-        name = meta.name_data
         inventory = load_preprocessed_output(meta, paths)
     if inventory is None:
-        log.info(name + ' not found in ' + method_path)
+        log.info('%s not found in %s', name, method_path)
     else:
-        log.info('loaded ' + name + ' from ' + method_path)    
+        log.info('loaded %s from %s',name, method_path)    
     return inventory
+
+def download_stewicombo_from_remote(name):
+    """Prepares metadata and downloads file via esupy"""
+    meta = set_stewicombo_meta(name, category = '')
+    log.info('attempting download of %s from %s', name, paths.remote_path)
+    download_from_remote(meta, paths)
+    
 
 def write_metadata(file_name, metadata_dict, category=''):
     meta = set_stewicombo_meta(file_name, category=category)
