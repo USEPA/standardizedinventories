@@ -11,7 +11,7 @@ to combine the data, and optionally remove overlaps and remove double counting o
 ## USEPA Inventories Covered By Data Reporting Year* (current version)
 
 |Source|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|
-|---|---|---|---|---|---|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
 |[Discharge Monitoring Reports](https://www.epa.gov/) | | | | | | |x|x|x|x|x|x|
 |[Greenhouse Gas Reporting Program](https://www.epa.gov/ghgreporting) | | | |x|x|x|x|x|x|x|x|x|
 |[Emissions & Generation Resource Integrated Database](https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid) | | | | | | |x| |x| |x|x|
@@ -73,7 +73,7 @@ NEI data are downloaded from the EPA Emissions Inventory System (EIS) Gateway an
 
 ### RCRAInfo
 
-RCRAInfo data are sourced from the [Public Data Files](https://rcrapublic.epa.gov/rcrainfoweb/action/main-menu/view))
+RCRAInfo data are sourced from the [Public Data Files](https://rcrapublic.epa.gov/rcrainfoweb/action/main-menu/view)
 
 ### TRI
 
