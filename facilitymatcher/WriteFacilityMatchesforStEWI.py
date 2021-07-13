@@ -40,7 +40,8 @@ def write_facility_matches():
     egrid_unique_frs = set(list(pd.unique(egrid_bridges['REGISTRY_ID'])))
     
     eia_not_in_egrid = eia_unique_frs - egrid_unique_frs
-    eia_to_add = eia_bridges[eia_bridges['REGISTRY_ID'].isin(eia_not_in_egrid)]
+    eia_to_add = eia_bridges[eia_bridges['REGISTRY_ID'].isin(
+        eia_not_in_egrid)].reset_index(drop=True)
     
     # Rename to EGRID and add the subset back
     eia_to_add['PGM_SYS_ACRNM'] = 'EGRID'
