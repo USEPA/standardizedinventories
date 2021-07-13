@@ -37,7 +37,8 @@ def writeChemicalMatches():
     for source in sources:
         log.info('accessing SRS for ' + source)
         # Get df with inventory flows
-        inventory_flows = all_list_names[all_list_names['Source'] == source]
+        inventory_flows = all_list_names[all_list_names['Source'] ==
+                                         source].reset_index(drop=True)
     
         if inventory_query_type[source] == 'list':
             # make sure flowid is a string
