@@ -339,7 +339,7 @@ def Generate_TRI_files_csv(TRIyear, Files):
                               inplace=True)
     store_inventory(tri_facility, 'TRI_' + TRIyear, 'facility')
 
-TRIyear ='2017'
+
 def generate_metadata(year, files, datatype = 'inventory'):
     """
     Gets metadata and writes to .json

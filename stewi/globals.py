@@ -75,6 +75,7 @@ def set_stewi_meta(file_name, inventory_format = ''):
     stewi_meta.tool_version = stewi_version
     stewi_meta.ext = write_format
     stewi_meta.git_hash = git_hash
+    stewi_meta.date_created = datetime.now().strftime('%d-%b-%Y')
     return stewi_meta
 
 

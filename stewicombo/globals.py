@@ -7,7 +7,6 @@ Supporting variables and functions used in stewicombo
 import re
 import os
 import pandas as pd
-from datetime import datetime
 
 import chemicalmatcher
 import stewi
@@ -228,9 +227,6 @@ def compile_metadata(inventory_dict):
     metadata file"""
     inventory_meta = {}
     #inventory_meta['InventoryDictionary'] = inventory_dict
-    creation_time = datetime.now().strftime('%d-%b-%Y')
-    if creation_time is not None:
-        inventory_meta['InventoryGenerationDate'] = creation_time
     for source, year in inventory_dict.items():
         inventory_meta[source] = stewi.getMetadata(source, year)
     return inventory_meta
