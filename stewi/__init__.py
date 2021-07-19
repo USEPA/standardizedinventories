@@ -10,7 +10,7 @@ inventory in standard formats
 import os
 from stewi.globals import get_required_fields, filter_inventory,\
     log, filter_states, add_missing_fields, output_dir, data_dir,\
-    write_format, read_inventory, stewi_formats, paths\
+    write_format, read_inventory, stewi_formats, paths,\
     read_source_metadata, inventory_formats, set_stewi_meta
 
 
