@@ -10,7 +10,8 @@ import pandas as pd
 
 import chemicalmatcher
 import stewi
-from stewi.globals import log, set_stewi_meta, flowbyfacility_fields
+from stewi.globals import log, set_stewi_meta, flowbyfacility_fields,\
+    write_format
 from esupy.processed_data_mgmt import Paths, write_df_to_file,\
     write_metadata_to_file, load_preprocessed_output, read_into_df,\
     download_from_remote
