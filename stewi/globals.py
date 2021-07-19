@@ -65,7 +65,7 @@ inventory_single_compartments = {"NEI":"air",
                                  "DMR":"water"}
 
 
-def set_stewi_meta(file_name, inventory_format):
+def set_stewi_meta(file_name, inventory_format = ''):
     """Creates a class of esupy FileMeta with the inventory_format assigned
     as category"""
     stewi_meta = FileMeta()
@@ -439,12 +439,8 @@ def read_source_metadata(file_meta, paths = paths):
     :param paths: object of class Paths
     :return: metadata dictionary
     """
-    file_meta.ext = '' # ignore extension when finding source files
+    file_meta.ext = 'json'
     path = find_file(file_meta, paths)
-    if '_metadata.json' not in path:
-        path = path[0:path.rfind('.')] + '_metadata.json'
-    if not(os.path.exists(path)):
-        path = path[0:(path.rfind('\\')+1)] + file_meta.name_data + '_metadata.json'
     try:
         with open(path, 'r') as file:
             file_contents = file.read()

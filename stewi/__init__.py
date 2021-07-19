@@ -11,7 +11,7 @@ import os
 from stewi.globals import get_required_fields, filter_inventory,\
     log, filter_states, add_missing_fields, output_dir, data_dir,\
     write_format, read_inventory, stewi_formats,\
-    read_source_metadata, inventory_formats
+    read_source_metadata, inventory_formats, set_stewi_meta
 
 
 def getAvailableInventoriesandYears(stewiformat='flowbyfacility'):
@@ -153,5 +153,5 @@ def getMetadata(inventory_acroynym, year):
     :param year: e.g. 2014
     :return: metadata dictionary
     """
-    meta = read_source_metadata(inventory_acroynym + '_' + str(year))
+    meta = read_source_metadata(set_stewi_meta(inventory_acroynym + '_' + str(year)))
     return meta
