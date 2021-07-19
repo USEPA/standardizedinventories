@@ -18,7 +18,7 @@ from datetime import datetime
 from esupy.processed_data_mgmt import Paths, FileMeta,\
     load_preprocessed_output, remove_extra_files,\
     write_df_to_file, create_paths_if_missing, write_metadata_to_file,\
-    find_file
+    find_file, read_source_metadata
 from esupy.remote import make_http_request
 from esupy.dqi import get_weighted_average
 
@@ -432,24 +432,6 @@ def write_metadata(file_name, metadata_dict, category='',
                   '_validationset_metadata.json', 'w') as file:
             file.write(json.dumps(metadata_dict, indent=4))
 
-
-def read_source_metadata(file_meta, paths = paths):
-    """return the locally saved metadata dictionary from JSON
-    
-    :param file_meta: object of class FileMeta
-    :param paths: object of class Paths
-    :return: metadata dictionary
-    """
-    file_meta.ext = 'json'
-    path = find_file(file_meta, paths)
-    try:
-        with open(path, 'r') as file:
-            file_contents = file.read()
-            metadata = json.loads(file_contents)
-            return metadata
-    except FileNotFoundError:
-        log.warning("metadata not found for source data")
-        return None
 
 def compile_source_metadata(sourcefile, config, year):
     """Compiles metadata related to the source data downloaded to generate inventory

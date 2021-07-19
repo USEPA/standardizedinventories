@@ -11,12 +11,11 @@ import requests
 import pandas as pd
 import os
 from datetime import datetime
-from stewi.globals import log, set_stewi_meta, source_metadata, config,\
-    read_source_metadata
+from stewi.globals import log, set_stewi_meta, source_metadata, config
 import facilitymatcher.WriteFacilityMatchesforStEWI as write_fm
 import facilitymatcher.WriteFRSNAICSforStEWI as write_naics
 from esupy.processed_data_mgmt import Paths, load_preprocessed_output,\
-    write_df_to_file, write_metadata_to_file
+    write_df_to_file, write_metadata_to_file, read_source_metadata
 from esupy.util import strip_file_extension
 
 try: modulepath = os.path.dirname(
@@ -88,10 +87,9 @@ def store_fm_file(df, file_name, category='', sources=[]):
         write_df_to_file(df,paths,meta)
         metadata_dict={}
         for source in sources:
-            metadata_dict[source] = read_source_metadata(
+            metadata_dict[source] = read_source_metadata(paths,
                 set_facilitymatcher_meta(strip_file_extension(source),
-                                         ext_folder),
-                paths)['tool_meta']
+                                         ext_folder))['tool_meta']
         write_fm_metadata(file_name, metadata_dict)
     except:
         log.error('Failed to save inventory')
