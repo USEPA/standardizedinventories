@@ -22,9 +22,6 @@ except NameError: modulepath = 'stewicombo/'
 
 data_dir = modulepath + 'data/'
 
-#Common declaration of write format for package data products
-write_format = "parquet"
-
 paths = Paths()
 paths.local_path = os.path.realpath(paths.local_path + "/stewicombo")
 output_dir = paths.local_path
@@ -62,7 +59,6 @@ def set_stewicombo_meta(file_name, category=''):
     categorization"""
     stewicombo_meta = set_stewi_meta(file_name, category)
     stewicombo_meta.tool = "stewicombo"
-    stewicombo_meta.ext = write_format
     return stewicombo_meta
 
 
@@ -216,12 +212,20 @@ def download_stewicombo_from_remote(name):
     download_from_remote(meta, paths)
     
 
-def write_metadata(file_name, metadata_dict, category=''):
+def write_stewicombo_metadata(file_name, metadata_dict, category=''):
+    """writes metadata specific to the combined inventory file to local
+    directory as a JSON file
+    :param file_name: str used as name of combined inventory
+    :param metadata_dict: dictionary of metadata to save
+    :param category: str, optional to save within a subfolder
+    """
     meta = set_stewicombo_meta(file_name, category=category)
     meta.tool_meta = metadata_dict
     write_metadata_to_file(paths, meta)
 
 def compile_metadata(inventory_dict):
+    """Compiles metadata from stewi inventory files for use in stewicombo
+    metadata file"""
     inventory_meta = {}
     #inventory_meta['InventoryDictionary'] = inventory_dict
     creation_time = datetime.now().strftime('%d-%b-%Y')
@@ -229,7 +233,6 @@ def compile_metadata(inventory_dict):
         inventory_meta['InventoryGenerationDate'] = creation_time
     for source, year in inventory_dict.items():
         inventory_meta[source] = stewi.getMetadata(source, year)
-    
     return inventory_meta
 
 def filter_by_compartment(df, compartments):

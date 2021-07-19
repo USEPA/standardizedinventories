@@ -17,7 +17,9 @@ from datetime import datetime
 
 from esupy.processed_data_mgmt import Paths, FileMeta,\
     load_preprocessed_output, remove_extra_files,\
-    write_df_to_file, create_paths_if_missing, write_metadata_to_file
+    write_df_to_file, create_paths_if_missing, write_metadata_to_file,\
+    find_file
+from esupy.remote import make_http_request
 from esupy.dqi import get_weighted_average
 
 try: modulepath = os.path.dirname(os.path.realpath(
@@ -37,7 +39,7 @@ paths.local_path = os.path.realpath(paths.local_path + "/stewi")
 output_dir = paths.local_path
 
 # global variable to replace stored inventory files when saving
-replace_files = False
+replace_files = True
 
 try:
     git_hash = subprocess.check_output(
@@ -408,19 +410,20 @@ MWh_MJ = 3600
 g_kg = 0.001
 
 
-def write_metadata(file_name, metadata_dict, inventory_format='',
+def write_metadata(file_name, metadata_dict, category='',
                    datatype="inventory"):
     """writes metadata specific to the inventory in file_name to local
     directory as a JSON file
     :param file_name: str in the form of inventory_year
     :param metadata_dict: dictionary of metadata to save
-    :param inventory_format: str of a stewi format type e.g. 'flowbyfacility'
+    :param category: str of a stewi format type e.g. 'flowbyfacility'
+        or source category e.g. 'TRI Data Files'
     :param datatype: 'inventory' when saving StEWI output files, 'source'
         when downloading and processing source data, 'validation' for saving
         validation metadata
     """
     if (datatype == "inventory") or (datatype == "source"):
-        meta = set_stewi_meta(file_name, inventory_format=inventory_format)
+        meta = set_stewi_meta(file_name, inventory_format=category)
         meta.tool_meta = metadata_dict
         write_metadata_to_file(paths, meta)
     elif datatype == "validation":
@@ -429,13 +432,21 @@ def write_metadata(file_name, metadata_dict, inventory_format='',
             file.write(json.dumps(metadata_dict, indent=4))
 
 
-def read_source_metadata(path):
+def read_source_metadata(file_meta, paths = paths):
     """return the locally saved metadata dictionary from JSON
-    :param path: str in the form of dir/inv_year
+    
+    :param file_meta: object of class FileMeta
+    :param paths: object of class Paths
     :return: metadata dictionary
     """
+    file_meta.ext = '' # ignore extension when finding source files
+    path = find_file(file_meta, paths)
+    if '_metadata.json' not in path:
+        path = path[0:path.rfind('.')] + '_metadata.json'
+    if not(os.path.exists(path)):
+        path = path[0:(path.rfind('\\')+1)] + file_meta.name_data + '_metadata.json'
     try:
-        with open(path + '_metadata.json', 'r') as file:
+        with open(path, 'r') as file:
             file_contents = file.read()
             metadata = json.loads(file_contents)
             return metadata
@@ -561,7 +572,7 @@ def checkforFile(filepath):
     return os.path.exists(filepath)
 
 
-def storeInventory(df, file_name, inventory_format, replace_files = replace_files):
+def store_inventory(df, file_name, inventory_format, replace_files = replace_files):
     """Stores the inventory dataframe to local directory based on inventory format
     :param df: dataframe of processed inventory to save
     :param file_name: str of inventory_year e.g. 'TRI_2016'
@@ -579,7 +590,7 @@ def storeInventory(df, file_name, inventory_format, replace_files = replace_file
     except:
         log.error('Failed to save inventory')
 
-def readInventory(file_name, inventory_format):
+def read_inventory(file_name, inventory_format):
     """Returns the inventory as dataframe from local directory
     :param file_name: str of inventory_year e.g. 'TRI_2016'
     :param inventory_format: str of a stewi format type e.g. 'flowbyfacility'

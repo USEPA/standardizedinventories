@@ -7,7 +7,7 @@ Public API for facilitymatcher. Functions to match facilities across inventories
 
 
 from facilitymatcher.globals import filter_by_inventory_list, stewi_inventories,\
-    filter_by_facility_list, filter_by_inventory_id_list, read_fm_file
+    filter_by_facility_list, filter_by_inventory_id_list, get_fm_file
 
 
 def get_matches_for_inventories(inventory_list=stewi_inventories):
@@ -18,7 +18,7 @@ def get_matches_for_inventories(inventory_list=stewi_inventories):
         StEWI inventory names e.g. ['NEI','TRI']
     :return: dataframe in FacilityMatches standard output format
     """
-    facilitymatches = read_fm_file('FacilityMatchList_forStEWI')
+    facilitymatches = get_fm_file('FacilityMatchList_forStEWI')
     facilitymatches = filter_by_inventory_list(facilitymatches, inventory_list)
     return facilitymatches
 
@@ -35,7 +35,7 @@ def get_FRS_NAICSInfo_for_facility_list(frs_id_list,
     :return: dataframe with columns 'FRS_ID', 'Source', 'NAICS',
         'PRIMARY_INDICATOR'
     """
-    all_NAICS = read_fm_file('FRS_NAICSforStEWI')
+    all_NAICS = get_fm_file('FRS_NAICSforStEWI')
     if frs_id_list is not None:
         NAICS_of_interest = filter_by_facility_list(all_NAICS, frs_id_list)
     else:
@@ -60,7 +60,7 @@ def get_matches_for_id_list(base_inventory, id_list,
          e.g. ['NEI','TRI']
     :return: dataframe in FacilityMatches standard output format
     """
-    facilitymatches = read_fm_file('FacilityMatchList_forStEWI')
+    facilitymatches = get_fm_file('FacilityMatchList_forStEWI')
     facilitymatches = filter_by_inventory_id_list(facilitymatches, inventory_list,
                                                   base_inventory, id_list)
     return facilitymatches

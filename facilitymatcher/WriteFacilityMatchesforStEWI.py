@@ -12,7 +12,7 @@ import facilitymatcher.globals as glob
 
 def write_facility_matches():
     file = glob.FRS_config['FRS_bridge_file']
-    file_path = glob.FRSpath + file
+    file_path = glob.FRSpath + '/' + file
 
     # Check to see if file exists
     if not(os.path.exists(file_path)):

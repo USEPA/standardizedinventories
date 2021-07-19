@@ -25,14 +25,11 @@ except NameError: modulepath = 'facilitymatcher/'
 
 data_dir = modulepath + 'data/'
 
-#Common declaration of write format for package data products
-write_format = "parquet"
-
 paths = Paths()
 paths.local_path = os.path.realpath(paths.local_path + "/facilitymatcher")
 output_dir = paths.local_path
-ext_folder = '/FRS Data Files/'
-FRSpath = paths.local_path + ext_folder
+ext_folder = 'FRS Data Files'
+FRSpath = paths.local_path + '/' + ext_folder
 
 FRS_config = config(modulepath)['databases']['FRS']
 
@@ -41,13 +38,15 @@ stewi_inventories = list(inventory_to_FRS_pgm_acronymn.keys())
 
 
 def set_facilitymatcher_meta(file_name, category):
+    """Creates a class of esupy FileMeta"""
     facilitymatcher_meta = set_stewi_meta(file_name, category)
     facilitymatcher_meta.tool = "facilitymatcher"
-    facilitymatcher_meta.ext = write_format
     return facilitymatcher_meta
 
 
 def download_extract_FRS_combined_national(file=None):
+    """download and extract file from source and store it and metadata 
+    in local directory"""
     url = FRS_config['url']
     log.info('initiating url request from %s', url)
     request = requests.get(url).content
@@ -65,7 +64,7 @@ def download_extract_FRS_combined_national(file=None):
         source_dict['SourceFileName']=file
         name = strip_file_extension(file)
     source_dict['SourceAcquisitionTime']= datetime.now().strftime('%d-%b-%Y')
-    write_metadata(name, source_dict, category=ext_folder)
+    write_fm_metadata(name, source_dict, category=ext_folder)
 
 
 def read_FRS_file(file_name, col_dict):
@@ -90,14 +89,15 @@ def store_fm_file(df, file_name, category='', sources=[]):
         metadata_dict={}
         for source in sources:
             metadata_dict[source] = read_source_metadata(
-                output_dir + ext_folder + strip_file_extension(source))['tool_meta']
-        write_metadata(file_name, metadata_dict)
+                set_facilitymatcher_meta(strip_file_extension(source),
+                                         ext_folder),
+                paths)['tool_meta']
+        write_fm_metadata(file_name, metadata_dict)
     except:
         log.error('Failed to save inventory')
 
-def read_fm_file(file_name):
-    """
-    Read facilitymatcher file into dataframe. If not present, generate the file
+def get_fm_file(file_name):
+    """Read facilitymatcher file into dataframe. If not present, generate the file
     via script"""
     file_meta = set_facilitymatcher_meta(file_name, category='')
     df = load_preprocessed_output(file_meta, paths)
@@ -117,7 +117,8 @@ def read_fm_file(file_name):
             df[k] = df[k].astype(v)
     return df
 
-def write_metadata(file_name, metadata_dict, category=''):
+def write_fm_metadata(file_name, metadata_dict, category=''):
+    """generate and store metadata for facility matcher file"""
     meta = set_facilitymatcher_meta(file_name, category=category)
     meta.tool_meta = metadata_dict
     write_metadata_to_file(paths, meta)
