@@ -36,14 +36,14 @@ import io
 
 from stewi.globals import data_dir,write_metadata,\
     validate_inventory,write_validation_result,USton_kg,lb_kg,\
-    log, storeInventory, config, compile_source_metadata, read_source_metadata,\
+    log, store_inventory, config, compile_source_metadata, read_source_metadata,\
     paths, update_validationsets_sources, aggregate,\
-    get_reliability_table_for_source
+    get_reliability_table_for_source, set_stewi_meta
 
 
 _config = config()['databases']['NEI']
-ext_folder = '/NEI Data Files/'
-nei_external_dir = paths.local_path + ext_folder
+ext_folder = 'NEI Data Files'
+nei_external_dir = paths.local_path + '/' + ext_folder + '/'
 nei_data_dir = data_dir + 'NEI/'
     
 def read_data(year,file):
@@ -233,8 +233,8 @@ def generate_metadata(year, datatype = 'inventory'):
         write_metadata('NEI_'+year, source_meta, category=ext_folder,
                        datatype='source')
     else:
-        source_meta = read_source_metadata(
-            nei_external_dir + 'NEI_'+ year)['tool_meta']
+        source_meta = read_source_metadata(set_stewi_meta('NEI_'+ year, 
+                                           ext_folder))['tool_meta']
         write_metadata('NEI_'+year, source_meta, datatype=datatype)
     
 
@@ -289,7 +289,7 @@ if __name__ == '__main__':
 
             log.info('generating flow by facility output')
             nei_flowbyfacility = aggregate(nei_point, ['FacilityID','FlowName'])
-            storeInventory(nei_flowbyfacility,'NEI_'+year,'flowbyfacility')
+            store_inventory(nei_flowbyfacility,'NEI_'+year,'flowbyfacility')
             log.debug(len(nei_flowbyfacility))
             #2017: 2184786
             #2016: 1965918
@@ -300,7 +300,7 @@ if __name__ == '__main__':
             nei_flowbyprocess = aggregate(nei_point, ['FacilityID',
                                                       'FlowName','Process'])
             nei_flowbyprocess['ProcessType'] = 'SCC'
-            storeInventory(nei_flowbyprocess, 'NEI_'+year, 'flowbyprocess')
+            store_inventory(nei_flowbyprocess, 'NEI_'+year, 'flowbyprocess')
             log.debug(len(nei_flowbyprocess))
             #2017: 4055707
 
@@ -309,7 +309,7 @@ if __name__ == '__main__':
             nei_flows = nei_flows.drop_duplicates()
             nei_flows['Unit']='kg'
             nei_flows = nei_flows.sort_values(by='FlowName',axis=0)
-            storeInventory(nei_flows, 'NEI_'+year, 'flow')
+            store_inventory(nei_flows, 'NEI_'+year, 'flow')
             log.debug(len(nei_flows))
             #2017: 293
             #2016: 282
@@ -322,7 +322,7 @@ if __name__ == '__main__':
                                   'Longitude', 'NAICS', 'County']]
             facility = facility.drop_duplicates('FacilityID')
             facility = facility.astype({'Zip':'str'})
-            storeInventory(facility, 'NEI_'+year, 'facility')
+            store_inventory(facility, 'NEI_'+year, 'facility')
             log.debug(len(facility))
             #2017: 87162
             #2016: 85802

@@ -29,15 +29,15 @@ import io
 from stewi.globals import data_dir,write_metadata,\
     unit_convert,log,MMBtu_MJ,MWh_MJ,config,\
     validate_inventory,write_validation_result,USton_kg,lb_kg,\
-    compile_source_metadata, remove_line_breaks, paths, storeInventory,\
-    read_source_metadata, readInventory, update_validationsets_sources,\
-    make_http_request
+    compile_source_metadata, remove_line_breaks, paths, store_inventory,\
+    read_source_metadata, read_inventory, update_validationsets_sources,\
+    make_http_request, set_stewi_meta
 
 _config = config()['databases']['eGRID']
 
 # set filepath
-ext_folder = '/eGRID Data Files/'
-eGRIDfilepath = paths.local_path + ext_folder
+ext_folder = 'eGRID Data Files'
+eGRIDfilepath = paths.local_path + '/' + ext_folder + '/'
 eGRID_data_dir = data_dir + 'eGRID/'
 
 # Import list of fields from egrid that are desired for LCI
@@ -90,8 +90,8 @@ def generate_metadata(year, datatype = 'inventory'):
         write_metadata('eGRID_'+year, source_meta, category=ext_folder,
                        datatype='source')
     else:
-        source_meta = read_source_metadata(
-            eGRIDfilepath + 'eGRID_'+ year)['tool_meta']
+        source_meta = read_source_metadata(set_stewi_meta('eGRID_'+ year,
+                                           ext_folder))['tool_meta']
         write_metadata('eGRID_'+year, source_meta, datatype=datatype)    
 
 def extract_eGRID_excel(year, sheetname, index='field'):
@@ -263,7 +263,7 @@ def generate_eGRID_files(year):
     flowbyfac = flowbyfac.drop(columns='OriginalName')
     
     #Write flowbyfacility file to output
-    storeInventory(flowbyfac, 'eGRID_' + year, 'flowbyfacility')
+    store_inventory(flowbyfac, 'eGRID_' + year, 'flowbyfacility')
     
     ##Creation of the facility file
     #Need to change column names manually
@@ -296,13 +296,13 @@ def generate_eGRID_files(year):
     #2018: 10964
     #2016: 9709
     #2014: 8503
-    storeInventory(facility, 'eGRID_' + year, 'facility')
+    store_inventory(facility, 'eGRID_' + year, 'facility')
     
     ##Write flows file
     flows = flowbyfac[['FlowName','Compartment','Unit']]
     flows = flows.drop_duplicates()
     flows = flows.sort_values(by='FlowName',axis=0)
-    storeInventory(flows, 'eGRID_' + year, 'flow')
+    store_inventory(flows, 'eGRID_' + year, 'flow')
 
 
 def validate_eGRID(year):
@@ -326,7 +326,7 @@ def validate_eGRID(year):
             MWh_MJ, 'FlowAmount')
         # drop old unit
         egrid_national_totals.drop('Unit',axis=1,inplace=True)
-        flowbyfac = readInventory('eGRID_'+ year, 'flowbyfacility')
+        flowbyfac = read_inventory('eGRID_'+ year, 'flowbyfacility')
         validation_result = validate_inventory(flowbyfac, egrid_national_totals,
                                                group_by='flow', tolerance=5.0)
         write_validation_result('eGRID',year,validation_result)

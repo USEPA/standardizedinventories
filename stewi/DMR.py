@@ -29,14 +29,14 @@ import pandas as pd
 from stewi.globals import filter_inventory, filter_states,\
     validate_inventory, write_validation_result, unit_convert,\
     data_dir, lb_kg, write_metadata, get_reliability_table_for_source,\
-    log, compile_source_metadata, config, storeInventory,\
+    log, compile_source_metadata, config, store_inventory, set_stewi_meta,\
     paths, read_source_metadata, update_validationsets_sources, aggregate
 import argparse
 
 _config = config()['databases']['DMR']
 dmr_data_dir = data_dir + 'DMR/'
-ext_folder = '/DMR Data Files/'
-dmr_external_dir = paths.local_path + ext_folder
+ext_folder = 'DMR Data Files'
+dmr_external_dir = paths.local_path + '/' + ext_folder + '/'
 
 # two digit SIC codes from advanced search drop down stripped and formatted as a list
 sic2 = list(pd.read_csv(dmr_data_dir + '2_digit_SIC.csv',
@@ -372,8 +372,8 @@ def generate_metadata(year, datatype = 'inventory'):
         write_metadata('DMR_' + year, source_meta, category=ext_folder,
                        datatype='source')
     else:
-        source_meta = read_source_metadata(dmr_external_dir + 'DMR_' +\
-                                           year)['tool_meta']
+        source_meta = read_source_metadata(set_stewi_meta('DMR_' + year,
+                                           ext_folder))['tool_meta']
         write_metadata('DMR_'+year, source_meta, datatype=datatype)        
 
 def read_pollutant_parameter_list(parameter_grouping = PARAM_GROUP):
@@ -605,7 +605,7 @@ if __name__ == '__main__':
                                 'State', 'Zip', 'Latitude', 'Longitude',
                                 'County', 'NAICS', 'SIC'] #'Address' not in DMR
             dmr_facility = dmr_df[facility_columns].drop_duplicates()
-            storeInventory(dmr_facility, 'DMR_' + DMRyear, 'facility')
+            store_inventory(dmr_facility, 'DMR_' + DMRyear, 'facility')
             
             # generate output for flow
             flow_columns = ['FlowID','FlowName']
@@ -613,7 +613,7 @@ if __name__ == '__main__':
             dmr_flow.sort_values(by=['FlowName'],inplace=True)
             dmr_flow['Compartment'] = 'water'
             dmr_flow['Unit'] = 'kg'
-            storeInventory(dmr_flow, 'DMR_' + DMRyear, 'flow')
+            store_inventory(dmr_flow, 'DMR_' + DMRyear, 'flow')
             
             # generate output for flowbyfacility
             fbf_columns = ['FlowName', 'FlowAmount', 'FacilityID',
@@ -621,7 +621,7 @@ if __name__ == '__main__':
             dmr_fbf = aggregate(dmr_df[fbf_columns], ['FacilityID','FlowName'])
             dmr_fbf['Compartment'] = 'water'
             dmr_fbf['Unit'] = 'kg'
-            storeInventory(dmr_fbf, 'DMR_' + DMRyear, 'flowbyfacility')
+            store_inventory(dmr_fbf, 'DMR_' + DMRyear, 'flowbyfacility')
 
             # write metadata
             generate_metadata(DMRyear, datatype='inventory')
