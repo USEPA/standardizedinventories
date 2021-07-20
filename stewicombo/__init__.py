@@ -36,7 +36,8 @@ def combineFullInventories(inventory_dict, filter_for_LCI=True,
                                                    facilitymatches,
                                                    filter_for_LCI,
                                                    base_inventory = None)
-    
+    if len(inventories) == 0:
+        return None
     if compartments !=None:
         inventories = filter_by_compartment(inventories, compartments)
     

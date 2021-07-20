@@ -96,7 +96,7 @@ def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
         inventory = stewi.getInventory(k, inventory_dict[k],
                                        'flowbyfacility', filter_for_LCI)
         if inventory is None:
-            break
+            continue
         inventory["Source"] = k
         # Merge in FRS_ID
         inventory = pd.merge(inventory,
