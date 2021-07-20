@@ -555,7 +555,8 @@ def generate_metadata(year, metadata_dict, datatype = 'inventory'):
                        category=ext_folder, datatype='source')
     else:
         source_meta = read_source_metadata(paths, set_stewi_meta('GHGRP_' + year,
-                                           ext_folder))['tool_meta']
+                                           ext_folder),
+                                           force_JSON=True)['tool_meta']
         write_metadata('GHGRP_'+year, source_meta, datatype=datatype)
 
 def load_subpart_l_gwp():

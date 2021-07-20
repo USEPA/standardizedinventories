@@ -91,7 +91,8 @@ def generate_metadata(year, datatype = 'inventory'):
                        datatype='source')
     else:
         source_meta = read_source_metadata(paths, set_stewi_meta('eGRID_'+ year,
-                                           ext_folder))['tool_meta']
+                                           ext_folder),
+                                           force_JSON=True)['tool_meta']
         write_metadata('eGRID_'+year, source_meta, datatype=datatype)    
 
 def extract_eGRID_excel(year, sheetname, index='field'):

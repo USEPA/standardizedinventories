@@ -154,5 +154,6 @@ def getMetadata(inventory_acroynym, year):
     :return: metadata dictionary
     """
     meta = read_source_metadata(paths,
-                                set_stewi_meta(inventory_acroynym + '_' + str(year)))
+                                set_stewi_meta(inventory_acroynym + '_' + str(year)),
+                                force_JSON=True)
     return meta
