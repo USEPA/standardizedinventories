@@ -138,6 +138,7 @@ def generate_national_totals(year):
     version = _config['national_version'][year]
     url = build_url.replace('__year__', year)
     url = url.replace('__version__', version)
+    print(url)
     
     ## make http request
     r = []
@@ -213,7 +214,6 @@ def validate_national_totals(nei_flowbyfacility, year):
     nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ year + \
                                       '_NationalTotals.csv',
                                       header=0,dtype={"FlowAmount[kg]":float})
-    nei_flowbyfacility.drop(['Compartment'],1, inplace = True)
     nei_national_totals.rename(columns={'FlowAmount[kg]':'FlowAmount'},
                                inplace=True)
     validation_result = validate_inventory(nei_flowbyfacility,
