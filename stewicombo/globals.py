@@ -7,22 +7,20 @@ Supporting variables and functions used in stewicombo
 import re
 import os
 import pandas as pd
-from datetime import datetime
 
 import chemicalmatcher
 import stewi
-from stewi.globals import log, set_stewi_meta, flowbyfacility_fields
+from stewi.globals import log, set_stewi_meta, flowbyfacility_fields,\
+    write_format
 from esupy.processed_data_mgmt import Paths, write_df_to_file,\
-    write_metadata_to_file, load_preprocessed_output, read_into_df
+    write_metadata_to_file, load_preprocessed_output, read_into_df,\
+    download_from_remote
 
 try: modulepath = os.path.dirname(
     os.path.realpath(__file__)).replace('\\', '/') + '/'
 except NameError: modulepath = 'stewicombo/'
 
 data_dir = modulepath + 'data/'
-
-#Common declaration of write format for package data products
-write_format = "parquet"
 
 paths = Paths()
 paths.local_path = os.path.realpath(paths.local_path + "/stewicombo")
@@ -56,15 +54,16 @@ VOC_srs = pd.read_csv(data_dir+'VOC_SRS_IDs.csv',
                       dtype=str,index_col=False,header=0)
 VOC_srs = VOC_srs['SRS_IDs']
 
-def set_stewicombo_meta(file_name, category):
+def set_stewicombo_meta(file_name, category=''):
+    """Creates a class of esupy FileMeta; category used for optional
+    categorization"""
     stewicombo_meta = set_stewi_meta(file_name, category)
     stewicombo_meta.tool = "stewicombo"
-    stewicombo_meta.ext = write_format
     return stewicombo_meta
 
 
-#Remove substring from inventory name
 def get_id_before_underscore(inventory_id):
+    """Removes substring from inventory name"""
     underscore_match = re.search('_', inventory_id)
     if underscore_match is not None:
         inventory_id = inventory_id[0:underscore_match.start()]
@@ -97,7 +96,7 @@ def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
         inventory = stewi.getInventory(k, inventory_dict[k],
                                        'flowbyfacility', filter_for_LCI)
         if inventory is None:
-            break
+            continue
         inventory["Source"] = k
         # Merge in FRS_ID
         inventory = pd.merge(inventory,
@@ -122,6 +121,8 @@ def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
 
 
 def addChemicalMatches(inventories_df):
+    """Adds data for chemical matches to inventory or combined inventory df
+    """
     #Bring in chemical matches
     inventory_list = list(inventories_df['Source'].unique())
     chemicalmatches = chemicalmatcher.get_matches_for_StEWI(
@@ -187,37 +188,48 @@ def storeCombinedInventory(df, file_name, category=''):
     except:
         log.error('Failed to save inventory')
 
-def getCombinedInventory(file_name, category=''):
-    """Reads the inventory dataframe from local directory"""
-    if ".parquet" in file_name:
-        name = file_name
+def getCombinedInventory(name, category=''):
+    """Reads the inventory dataframe from local directory
+    :param name: str, name of dataset or name of file
+    """
+    if ("."+write_format) in name:
         method_path = output_dir + '/' + category
         inventory = read_into_df(method_path + name)
     else:
-        meta = set_stewicombo_meta(file_name, category)
+        meta = set_stewicombo_meta(name, category)
         method_path = output_dir + '/' + meta.category
-        name = meta.name_data
         inventory = load_preprocessed_output(meta, paths)
     if inventory is None:
-        log.info(name + ' not found in ' + method_path)
+        log.info('%s not found in %s', name, method_path)
     else:
-        log.info('loaded ' + name + ' from ' + method_path)    
+        log.info('loaded %s from %s',name, method_path)    
     return inventory
 
-def write_metadata(file_name, metadata_dict, category=''):
+def download_stewicombo_from_remote(name):
+    """Prepares metadata and downloads file via esupy"""
+    meta = set_stewicombo_meta(name, category = '')
+    log.info('attempting download of %s from %s', name, paths.remote_path)
+    download_from_remote(meta, paths)
+    
+
+def write_stewicombo_metadata(file_name, metadata_dict, category=''):
+    """writes metadata specific to the combined inventory file to local
+    directory as a JSON file
+    :param file_name: str used as name of combined inventory
+    :param metadata_dict: dictionary of metadata to save
+    :param category: str, optional to save within a subfolder
+    """
     meta = set_stewicombo_meta(file_name, category=category)
     meta.tool_meta = metadata_dict
     write_metadata_to_file(paths, meta)
 
 def compile_metadata(inventory_dict):
+    """Compiles metadata from stewi inventory files for use in stewicombo
+    metadata file"""
     inventory_meta = {}
     #inventory_meta['InventoryDictionary'] = inventory_dict
-    creation_time = datetime.now().strftime('%d-%b-%Y')
-    if creation_time is not None:
-        inventory_meta['InventoryGenerationDate'] = creation_time
     for source, year in inventory_dict.items():
         inventory_meta[source] = stewi.getMetadata(source, year)
-    
     return inventory_meta
 
 def filter_by_compartment(df, compartments):

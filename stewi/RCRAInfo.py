@@ -107,17 +107,18 @@ import os
 import time, datetime
 
 from stewi.globals import write_metadata,validate_inventory,\
-    write_validation_result, set_dir, data_dir, config,\
+    write_validation_result, data_dir, config,\
     checkforFile, USton_kg, get_reliability_table_for_source, paths,\
-    log, storeInventory, compile_source_metadata, read_source_metadata,\
-    update_validationsets_sources, filter_states, aggregate
+    log, store_inventory, compile_source_metadata, read_source_metadata,\
+    update_validationsets_sources, filter_states, aggregate,\
+    create_paths_if_missing, set_stewi_meta
 
 
 _config = config()['databases']['RCRAInfo']
-ext_folder = '/RCRAInfo Data Files/'
-rcra_external_dir = paths.local_path + ext_folder
+ext_folder = 'RCRAInfo Data Files'
+rcra_external_dir = paths.local_path + '/' + ext_folder + '/'
 rcra_data_dir = data_dir + 'RCRAInfo/'
-dir_RCRA_by_year = set_dir(rcra_external_dir + 'RCRAInfo_by_year/')
+dir_RCRA_by_year = rcra_external_dir + 'RCRAInfo_by_year/'
 
 def waste_description_cleaner(x):
     if (x == 'from br conversion') or (x =='From 1989 BR data'):
@@ -221,6 +222,7 @@ def organizing_files_by_year(Tables, Year):
                 df['Report Cycle'] = df['Report Cycle'].astype(int)
                 df = df[df['Report Cycle']==Year]
                 df_full = pd.concat([df_full, df])
+            create_paths_if_missing(dir_RCRA_by_year)
             filename = dir_RCRA_by_year + 'br_reporting_' + str(Year) + '.csv'
             log.info('saving to %s ...', filename)
             df_full.to_csv(filename, index = False)
@@ -398,7 +400,7 @@ def Generate_RCRAInfo_files_csv(report_year):
     flows['Unit']='kg'
     #Sort them by the flow names
     flows.sort_values(by='FlowName',axis=0,inplace=True)
-    storeInventory(flows, 'RCRAInfo_' + report_year, 'flow')
+    store_inventory(flows, 'RCRAInfo_' + report_year, 'flow')
 
     #Prepare facilities file
     facilities = BR[['FacilityID', 'Handler Name','Location Street Number',
@@ -417,10 +419,10 @@ def Generate_RCRAInfo_files_csv(report_year):
                             'Location State':'State',
                             'Location Zip':'Zip',
                             'County Name':'County'}, inplace=True)
-    storeInventory(facilities, 'RCRAInfo_' + report_year, 'facility')
+    store_inventory(facilities, 'RCRAInfo_' + report_year, 'facility')
     #Prepare flow by facility
     flowbyfacility = aggregate(BR, ['FacilityID','FlowName'])
-    storeInventory(flowbyfacility, 'RCRAInfo_' + report_year, 'flowbyfacility')
+    store_inventory(flowbyfacility, 'RCRAInfo_' + report_year, 'flowbyfacility')
     
     validate_national_totals(report_year, flowbyfacility)
     
@@ -441,7 +443,9 @@ def generate_metadata(year, files, datatype = 'inventory'):
         write_metadata('RCRAInfo_'+ str(year), source_meta,
                        category=ext_folder, datatype='source')
     else:
-        source_meta = read_source_metadata(rcra_external_dir + 'RCRAInfo_'+ year)['tool_meta']
+        source_meta = read_source_metadata(paths, set_stewi_meta('RCRAInfo_'+ year,
+                                           ext_folder),
+                                           force_JSON=True)['tool_meta']
         write_metadata('RCRAInfo_'+year, source_meta, datatype=datatype)    
     
 def generate_state_totals(year):

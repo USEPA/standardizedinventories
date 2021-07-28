@@ -17,9 +17,10 @@ from datetime import datetime
 
 from esupy.processed_data_mgmt import Paths, FileMeta,\
     load_preprocessed_output, remove_extra_files,\
-    write_df_to_file, create_paths_if_missing, write_metadata_to_file
-from esupy.dqi import get_weighted_average
+    write_df_to_file, create_paths_if_missing, write_metadata_to_file,\
+    find_file, read_source_metadata
 from esupy.remote import make_http_request
+from esupy.dqi import get_weighted_average
 
 try: modulepath = os.path.dirname(os.path.realpath(
     __file__)).replace('\\', '/') + '/'
@@ -38,7 +39,7 @@ paths.local_path = os.path.realpath(paths.local_path + "/stewi")
 output_dir = paths.local_path
 
 # global variable to replace stored inventory files when saving
-replace_files = False
+replace_files = True
 
 try:
     git_hash = subprocess.check_output(
@@ -64,18 +65,22 @@ inventory_single_compartments = {"NEI":"air",
                                  "DMR":"water"}
 
 
-def set_stewi_meta(file_name, category):
+def set_stewi_meta(file_name, inventory_format = ''):
+    """Creates a class of esupy FileMeta with the inventory_format assigned
+    as category"""
     stewi_meta = FileMeta()
     stewi_meta.name_data = file_name
-    stewi_meta.category = category
+    stewi_meta.category = inventory_format
     stewi_meta.tool = "StEWI"
     stewi_meta.tool_version = stewi_version
     stewi_meta.ext = write_format
     stewi_meta.git_hash = git_hash
+    stewi_meta.date_created = datetime.now().strftime('%d-%b-%Y')
     return stewi_meta
 
 
 def config(config_path=modulepath):
+    """Read and return stewi configuration file"""
     configfile = None
     with open(config_path + 'config.yaml', mode='r') as f:
         configfile = yaml.load(f,Loader=yaml.FullLoader)
@@ -123,16 +128,6 @@ def download_table(filepath, url, get_time=False, zip_dir=None):
     elif get_time:
         return time.ctime(os.path.getctime(filepath))
         
-
-
-def set_dir(directory_name):
-    path = os.path.realpath(directory_name + '/').replace('\\', '/') + '/'
-    if os.path.exists(path): pathname = path
-    else:
-        pathname = path
-        os.makedirs(pathname)
-    return pathname
-
 
 def import_table(path_or_reference, skip_lines=0, get_time=False):
     if '.core.frame.DataFrame' in str(type(path_or_reference)):
@@ -189,18 +184,23 @@ def filter_inventory(inventory, criteria_table, filter_type, marker=None):
             for field in must_match:
                 if filter_type == 'mark_drop':
                     if marker is None:
-                        inventory = inventory[~inventory[field].isin(criteria_table[field][criteria_table[criteria_column] != ''])]
+                        inventory = inventory[~inventory[field].isin(
+                            criteria_table[field][criteria_table[criteria_column] != ''])]
                     else:
-                        inventory = inventory[~inventory[field].isin(criteria_table[field][criteria_table[criteria_column] == marker])]
+                        inventory = inventory[~inventory[field].isin(
+                            criteria_table[field][criteria_table[criteria_column] == marker])]
                 if filter_type == 'mark_keep':
                     if marker is None:
-                        inventory = inventory[inventory[field].isin(criteria_table[field][criteria_table[criteria_column] != ''])]
+                        inventory = inventory[inventory[field].isin(
+                            criteria_table[field][criteria_table[criteria_column] != ''])]
                     else:
-                        inventory = inventory[inventory[field].isin(criteria_table[field][criteria_table[criteria_column] == marker])]
+                        inventory = inventory[inventory[field].isin(
+                            criteria_table[field][criteria_table[criteria_column] == marker])]
     return inventory.reset_index(drop=True)
 
 
-def filter_states(inventory_df, include_states=True, include_dc=True, include_territories=False):
+def filter_states(inventory_df, include_states=True, include_dc=True,
+                  include_territories=False):
     states_df = pd.read_csv(data_dir + 'state_codes.csv')
     states_filter = pd.DataFrame()
     states_list = []
@@ -212,14 +212,20 @@ def filter_states(inventory_df, include_states=True, include_dc=True, include_te
     return output_inventory
 
 
-def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.0, filepath=''):
+def validate_inventory(inventory_df, reference_df, group_by='flow',
+                       tolerance=5.0, filepath=''):
     """
-    Compare inventory resulting from script output with a reference DataFrame from another source
+    Compare inventory resulting from script output with a reference DataFrame
+    from another source
     :param inventory_df: DataFrame of inventory resulting from script output
-    :param reference_df: Reference DataFrame to compare emission quantities against. Must have same keys as inventory_df
-    :param group_by: 'flow' for species summed across facilities, 'facility' to check species by facility
-    :param tolerance: Maximum acceptable percent difference between inventory and reference values
-    :return: DataFrame containing 'Conclusion' of statistical comparison and 'Percent_Difference'
+    :param reference_df: Reference DataFrame to compare emission quantities against.
+        Must have same keys as inventory_df
+    :param group_by: 'flow' for species summed across facilities, 'facility'
+        to check species by facility
+    :param tolerance: Maximum acceptable percent difference between inventory
+        and reference values. Default is 5%
+    :return: DataFrame containing 'Conclusion' of statistical comparison and
+        'Percent_Difference'
     """
     if pd.api.types.is_string_dtype(inventory_df['FlowAmount']):
         inventory_df['FlowAmount'] = inventory_df['FlowAmount'].str.replace(',', '')
@@ -238,10 +244,13 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
         group_by_columns = ['FlowName', 'SubpartName']
     inventory_df['FlowAmount'] = inventory_df['FlowAmount'].fillna(0.0)
     reference_df['FlowAmount'] = reference_df['FlowAmount'].fillna(0.0)
-    inventory_sums = inventory_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
-    reference_sums = reference_df[group_by_columns + ['FlowAmount']].groupby(group_by_columns).sum().reset_index()
+    inventory_sums = inventory_df[group_by_columns + ['FlowAmount']].groupby(
+        group_by_columns).sum().reset_index()
+    reference_sums = reference_df[group_by_columns + ['FlowAmount']].groupby(
+        group_by_columns).sum().reset_index()
     if filepath: reference_sums.to_csv(filepath, index=False)
-    validation_df = inventory_sums.merge(reference_sums, how='outer', on=group_by_columns).reset_index(drop=True)
+    validation_df = inventory_sums.merge(reference_sums, how='outer',
+                                         on=group_by_columns).reset_index(drop=True)
     validation_df = validation_df.fillna(0.0)
     amount_x_list = []
     amount_y_list = []
@@ -294,28 +303,35 @@ def validate_inventory(inventory_df, reference_df, group_by='flow', tolerance=5.
     validation_df['Conclusion'] = conclusion
     validation_df = validation_df.drop(['FlowAmount_x', 'FlowAmount_y'], axis=1)
     if error_count > 0:
-        log.warning('%s potential issues in validation exceeding tolerance', str(error_count))
+        log.warning('%s potential issues in validation exceeding tolerance',
+                    str(error_count))
 
     return validation_df
 
 
 def read_ValidationSets_Sources():
+    """Read and return ValidationSets_Sources.csv file"""
     df = pd.read_csv(data_dir + 'ValidationSets_Sources.csv',header=0,
                      dtype={"Year":"str"})
     return df
 
 
 def write_validation_result(inventory_acronym,year,validation_df):
-    """Writes the validation result and associated metadata to the output"""
+    """Writes the validation result and associated metadata to the output
+    :param inventory_acronym: str for inventory e.g. 'TRI'
+    :param year: str for year e.g. '2016'
+    :param validation_df: df returned from validate_inventory function"""
     directory = output_dir + '/validation/'
     create_paths_if_missing(directory)
     log.info('writing validation result to ' + directory)
-    validation_df.to_csv(directory + inventory_acronym + '_' + year + '.csv',index=False)
+    validation_df.to_csv(directory + inventory_acronym + '_' + year + '.csv',
+                         index=False)
     #Get metadata on validation dataset
     validation_set_info_table = read_ValidationSets_Sources()
-    #Get record for year and
-    validation_set_info = validation_set_info_table[(validation_set_info_table['Inventory']==inventory_acronym)&
-                                                     (validation_set_info_table['Year']==year)]
+    #Get record for year and source
+    validation_set_info = validation_set_info_table[
+        (validation_set_info_table['Inventory']==inventory_acronym) &
+        (validation_set_info_table['Year']==year)]
     if len(validation_set_info)!=1:
         log.error('no validation metadata found')
         return
@@ -329,10 +345,16 @@ def write_validation_result(inventory_acronym,year,validation_df):
     validation_metadata['SourceAcquisitionTime'] = validation_set_info['Date Acquired']
     validation_metadata['Criteria'] = validation_set_info['Criteria']
     #Write metadata to file
-    write_metadata(inventory_acronym + '_' + year, validation_metadata, datatype="validation")
+    write_metadata(inventory_acronym + '_' + year, validation_metadata,
+                   datatype="validation")
 
 
 def update_validationsets_sources(validation_dict, date_acquired=False):
+    """Adds or replaces metadata dictionary of validation reference dataset to
+    the validation sets sources file
+    :param validation_dict: dictionary of validation metadata
+    :param date_acquired: 
+    """
     if not date_acquired:
         date = datetime.today().strftime('%d-%b-%Y')
         validation_dict['Date Acquired'] = date
@@ -354,23 +376,13 @@ def update_validationsets_sources(validation_dict, date_acquired=False):
     v_table.to_csv(data_dir + 'ValidationSets_Sources.csv', index=False)
     
 
-def validation_summary(validation_df, filepath=''):
-    """
-    Summarized output of validate_inventory function
-    :param validation_df:
-    :return: DataFrame containing 'Count' of each statistical conclusion and 'Avg_Pct_Difference'
-    """
-    validation_df['Count'] = validation_df['Conclusion']
-    validation_summary_df = validation_df[['Count', 'Conclusion']].groupby('Conclusion').count()
-    validation_summary_df['Avg_Pct_Difference'] = validation_df[['Percent_Difference', 'Conclusion']].groupby('Conclusion').mean()
-    validation_summary_df.reset_index(inplace=True)
-    if filepath: validation_summary_df.to_csv(filepath, index=False)
-    return validation_summary_df
-
 def aggregate(df, grouping_vars):
     """
     Aggregate a 'FlowAmount' in a dataframe based on the passed grouping_vars
     and generating a weighted average for data quality fields
+    :param df: dataframe to aggregate
+    :param grouping_vars: list of df column headers on which to groupby
+    :return: aggregated dataframe with weighted average data reliability score
     """
     df_agg = df.groupby(grouping_vars).agg({'FlowAmount': ['sum']})
     df_agg['DataReliability']=get_weighted_average(
@@ -398,36 +410,35 @@ MMBtu_MJ = 1055.056
 MWh_MJ = 3600
 g_kg = 0.001
 
-# Writes the metadata dictionary to a JSON file
-def write_metadata(file_name, metadata_dict, metapath=None, category='', datatype="inventory"):
+
+def write_metadata(file_name, metadata_dict, category='',
+                   datatype="inventory"):
+    """writes metadata specific to the inventory in file_name to local
+    directory as a JSON file
+    :param file_name: str in the form of inventory_year
+    :param metadata_dict: dictionary of metadata to save
+    :param category: str of a stewi format type e.g. 'flowbyfacility'
+        or source category e.g. 'TRI Data Files'
+    :param datatype: 'inventory' when saving StEWI output files, 'source'
+        when downloading and processing source data, 'validation' for saving
+        validation metadata
+    """
     if (datatype == "inventory") or (datatype == "source"):
-        meta = set_stewi_meta(file_name, category=category)
+        meta = set_stewi_meta(file_name, inventory_format=category)
         meta.tool_meta = metadata_dict
         write_metadata_to_file(paths, meta)
-        #with open(output_dir + '/' + inventoryname + '_' + report_year + '_metadata.json', 'w') as file:
-        #    file.write(json.dumps(metadata_dict))
     elif datatype == "validation":
-        with open(output_dir + '/validation/' + file_name + '_validationset_metadata.json', 'w') as file:
+        with open(output_dir + '/validation/' + file_name + \
+                  '_validationset_metadata.json', 'w') as file:
             file.write(json.dumps(metadata_dict, indent=4))
 
-
-# Returns the metadata dictionary for an inventory
-def read_source_metadata(path):
-    try:
-        with open(path + '_metadata.json', 'r') as file:
-            file_contents = file.read()
-            metadata = json.loads(file_contents)
-            return metadata
-    except FileNotFoundError:
-        log.warning("metadata not found for source data")
-        return None
 
 def compile_source_metadata(sourcefile, config, year):
     """Compiles metadata related to the source data downloaded to generate inventory
     :param sourcefile: str or list of source file names
     :param config:
     :param year:
-    returns: dictionary in the format of source_metadata
+    :returns dictionary in the format of source_metadata
     """
     metadata = dict(source_metadata)
     if isinstance(sourcefile, list):
@@ -500,20 +511,27 @@ format_dict = {'flowbyfacility': flowbyfacility_fields,
                'facility': facility_fields,
                'flow': flow_fields}
 
-def get_required_fields(format='flowbyfacility'):
-    fields = format_dict[format]
-    required_fields = {key: value[0]['dtype'] for key, value in fields.items() if value[1]['required'] is True}
+def get_required_fields(inventory_format='flowbyfacility'):
+    fields = format_dict[inventory_format]
+    required_fields = {key: value[0]['dtype'] for key, value
+                       in fields.items() if value[1]['required'] is True}
     return required_fields
 
 
-def get_optional_fields(format='flowbyfacility'):
-    fields = format_dict[format]
+def get_optional_fields(inventory_format='flowbyfacility'):
+    fields = format_dict[inventory_format]
     optional_fields = {key: value[0]['dtype'] for key, value in fields.items()}
     return optional_fields
 
 
-def add_missing_fields(df, inventory_acronym, format='flowbyfacility'):
-    fields = dict(format_dict[format])
+def add_missing_fields(df, inventory_acronym, inventory_format='flowbyfacility'):
+    """Adds and formats fields for stewi inventory file
+    :param df: dataframe of inventory data
+    :param inventory_acronym: str of inventory e.g. 'NEI'
+    :param inventory_format: str of a stewi format type e.g. 'flowbyfacility'
+    :return: dataframe of inventory containing all relevant columns 
+    """
+    fields = dict(format_dict[inventory_format])
     # Rename for legacy datasets
     if 'ReliabilityScore' in df.columns:
         df.rename(columns={'ReliabilityScore':'DataReliability'}, inplace=True)
@@ -533,13 +551,15 @@ def checkforFile(filepath):
     return os.path.exists(filepath)
 
 
-def get_relpath(filepath):
-    return os.path.relpath(filepath, '.').replace('\\', '/') + '/'
-
-
-def storeInventory(df, file_name, category, replace_files = replace_files):
-    """Stores the inventory dataframe to local directory based on category"""
-    meta = set_stewi_meta(file_name, category)
+def store_inventory(df, file_name, inventory_format, replace_files = replace_files):
+    """Stores the inventory dataframe to local directory based on inventory format
+    :param df: dataframe of processed inventory to save
+    :param file_name: str of inventory_year e.g. 'TRI_2016'
+    :param inventory_format: str of a stewi format type e.g. 'flowbyfacility'
+    :param replace_files: bool, True will use esupy function to delete existing
+        files of the same name
+    """
+    meta = set_stewi_meta(file_name, inventory_format)
     method_path = output_dir + '/' + meta.category
     try:
         log.info('saving ' + meta.name_data + ' to ' + method_path)
@@ -549,9 +569,13 @@ def storeInventory(df, file_name, category, replace_files = replace_files):
     except:
         log.error('Failed to save inventory')
 
-def readInventory(file_name, category):
-    """Returns the inventory as dataframe from local directory"""
-    meta = set_stewi_meta(file_name, category)
+def read_inventory(file_name, inventory_format):
+    """Returns the inventory as dataframe from local directory
+    :param file_name: str of inventory_year e.g. 'TRI_2016'
+    :param inventory_format: str of a stewi format type e.g. 'flowbyfacility'
+    :return: dataframe of stored inventory; if not present returns None
+    """
+    meta = set_stewi_meta(file_name, inventory_format)
     inventory = load_preprocessed_output(meta, paths)
     method_path = output_dir + '/' + meta.category
     if inventory is None:
@@ -560,7 +584,8 @@ def readInventory(file_name, category):
                   'seeAvailableInventoriesandYears()')
     else:
         log.info('loaded ' + meta.name_data + ' from ' + method_path)
-        fields = get_optional_fields(category)
+        # ensure dtype for str
+        fields = get_optional_fields(inventory_format)
         cols_in_df = [c for c in fields if c in inventory]
         for c in cols_in_df:
             if fields[c] == 'str':
@@ -569,6 +594,7 @@ def readInventory(file_name, category):
 
 
 def get_reliability_table_for_source(source):
+    """retrieve the reliability table within stewi"""
     dq_file = 'DQ_Reliability_Scores_Table3-3fromERGreport.csv'
     df = pd.read_csv(data_dir + dq_file, usecols=['Source', 'Code',
                                                   'DQI Reliability Score'])

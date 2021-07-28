@@ -45,15 +45,15 @@ import argparse
 from stewi.globals import download_table,\
     write_metadata, import_table, drop_excel_sheets,\
     validate_inventory, write_validation_result,\
-    data_dir, get_reliability_table_for_source,\
+    data_dir, get_reliability_table_for_source, set_stewi_meta,\
     flowbyfacility_fields, flowbyprocess_fields, facility_fields, config,\
-    storeInventory, paths, log, update_validationsets_sources,\
+    store_inventory, paths, log, update_validationsets_sources,\
     compile_source_metadata, read_source_metadata, aggregate
 
 _config = config()['databases']['GHGRP']
 ghgrp_data_dir = data_dir + 'GHGRP/'
-ext_folder = '/GHGRP Data Files/'
-ghgrp_external_dir = paths.local_path + ext_folder
+ext_folder = 'GHGRP Data Files'
+ghgrp_external_dir = paths.local_path + '/' + ext_folder + '/'
    
 # Flow codes that are reported in validation in CO2e
 flows_CO2e = ['PFC', 'HFC', 'Other','Very_Short', 'HFE', 'Other_Full']
@@ -554,8 +554,9 @@ def generate_metadata(year, metadata_dict, datatype = 'inventory'):
         write_metadata('GHGRP_'+year, source_meta,
                        category=ext_folder, datatype='source')
     else:
-        source_meta = read_source_metadata(ghgrp_external_dir + 'GHGRP_'+\
-                                           year)['tool_meta']
+        source_meta = read_source_metadata(paths, set_stewi_meta('GHGRP_' + year,
+                                           ext_folder),
+                                           force_JSON=True)['tool_meta']
         write_metadata('GHGRP_'+year, source_meta, datatype=datatype)
 
 def load_subpart_l_gwp():
@@ -763,7 +764,7 @@ if __name__ == '__main__':
             fbs_columns = [c for c in flowbyprocess_fields.keys() if c in ghgrp]
             ghgrp_fbs = ghgrp[fbs_columns]
             ghgrp_fbs = aggregate(ghgrp_fbs, ['FacilityID', 'FlowName', 'Process'])
-            storeInventory(ghgrp_fbs,'GHGRP_'+year,'flowbyprocess')
+            store_inventory(ghgrp_fbs,'GHGRP_'+year,'flowbyprocess')
             
             log.info('generating flowbyfacility output')
             fbf_columns = [c for c in flowbyfacility_fields.keys() if c in ghgrp]
@@ -771,7 +772,7 @@ if __name__ == '__main__':
             
             # aggregate instances of more than one flow for same facility and flow type
             ghgrp_fbf_2 = aggregate(ghgrp_fbf, ['FacilityID', 'FlowName'])
-            storeInventory(ghgrp_fbf_2,'GHGRP_'+year,'flowbyfacility')
+            store_inventory(ghgrp_fbf_2,'GHGRP_'+year,'flowbyfacility')
         
             log.info('generating flows output')
             flow_columns = ['FlowName', 'FlowID']
@@ -780,7 +781,7 @@ if __name__ == '__main__':
             ghgrp_flow.sort_values(by=['FlowID','FlowName'], inplace=True)
             ghgrp_flow['Compartment'] = 'air'
             ghgrp_flow['Unit'] = 'kg'
-            storeInventory(ghgrp_flow,'GHGRP_'+year,'flow')
+            store_inventory(ghgrp_flow,'GHGRP_'+year,'flow')
         
             log.info('generating facilities output')
             # return dataframe of GHGRP facilities
@@ -799,7 +800,7 @@ if __name__ == '__main__':
             ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].astype(int).astype(str)
             ghgrp_facility.loc[ghgrp_facility['NAICS']=='0','NAICS'] = None
             ghgrp_facility.sort_values(by=['FacilityID'], inplace=True)
-            storeInventory(ghgrp_facility,'GHGRP_'+year,'facility')
+            store_inventory(ghgrp_facility,'GHGRP_'+year,'facility')
             
             validate_national_totals_by_subpart(ghgrp, year)
             

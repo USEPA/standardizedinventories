@@ -10,8 +10,8 @@ inventory in standard formats
 import os
 from stewi.globals import get_required_fields, filter_inventory,\
     log, filter_states, add_missing_fields, output_dir, data_dir,\
-    write_format, readInventory, stewi_formats,\
-    read_source_metadata, inventory_formats
+    write_format, read_inventory, stewi_formats, paths,\
+    read_source_metadata, inventory_formats, set_stewi_meta
 
 
 def getAvailableInventoriesandYears(stewiformat='flowbyfacility'):
@@ -84,7 +84,7 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
                   stewiformat)
         return None
     fields = get_required_fields(stewiformat)
-    inventory = readInventory(inventory_acronym + '_' + str(year), stewiformat)
+    inventory = read_inventory(inventory_acronym + '_' + str(year), stewiformat)
     if inventory is None:
         return None
     fields = {key: value for key, value in fields.items() if key in list(inventory)}
@@ -134,7 +134,7 @@ def getInventoryFlows(inventory_acronym, year):
     :param year: e.g. 2014
     :return: dataframe with standard flows format
     """
-    flows = readInventory(inventory_acronym + '_' + str(year), 'flow')
+    flows = read_inventory(inventory_acronym + '_' + str(year), 'flow')
     return flows
 
 
@@ -144,10 +144,16 @@ def getInventoryFacilities(inventory_acronym, year):
     :param year: e.g. 2014
     :return: dataframe with standard flows format
     """
-    facilities = readInventory(inventory_acronym + '_' + str(year), 'facility')
+    facilities = read_inventory(inventory_acronym + '_' + str(year), 'facility')
     return facilities
 
-def getMetadata(inventory_acroynym,year):
-    meta = read_source_metadata(output_dir+ '/' + inventory_acroynym 
-                                + '_' + str(year))
+def getMetadata(inventory_acroynym, year):
+    """Returns metadata in the form of a dictionary as read from stored JSON file
+    :param inventory_acronym: e.g. 'TRI'
+    :param year: e.g. 2014
+    :return: metadata dictionary
+    """
+    meta = read_source_metadata(paths,
+                                set_stewi_meta(inventory_acroynym + '_' + str(year)),
+                                force_JSON=True)
     return meta

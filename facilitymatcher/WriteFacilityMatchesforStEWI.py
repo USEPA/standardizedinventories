@@ -12,7 +12,7 @@ import facilitymatcher.globals as glob
 
 def write_facility_matches():
     file = glob.FRS_config['FRS_bridge_file']
-    file_path = glob.FRSpath + file
+    file_path = glob.FRSpath + '/' + file
 
     # Check to see if file exists
     if not(os.path.exists(file_path)):
@@ -40,7 +40,8 @@ def write_facility_matches():
     egrid_unique_frs = set(list(pd.unique(egrid_bridges['REGISTRY_ID'])))
     
     eia_not_in_egrid = eia_unique_frs - egrid_unique_frs
-    eia_to_add = eia_bridges[eia_bridges['REGISTRY_ID'].isin(eia_not_in_egrid)]
+    eia_to_add = eia_bridges[eia_bridges['REGISTRY_ID'].isin(
+        eia_not_in_egrid)].reset_index(drop=True)
     
     # Rename to EGRID and add the subset back
     eia_to_add['PGM_SYS_ACRNM'] = 'EGRID'

@@ -35,15 +35,15 @@ import re
 
 import fedelemflowlist
 from esupy.processed_data_mgmt import create_paths_if_missing
-from stewi.globals import unit_convert,data_dir,\
+from stewi.globals import unit_convert,data_dir, set_stewi_meta,\
     get_reliability_table_for_source,validate_inventory,\
     write_validation_result,write_metadata,url_is_alive,\
-    lb_kg,g_kg,config,storeInventory,log, paths, compile_source_metadata,\
+    lb_kg,g_kg,config,store_inventory,log, paths, compile_source_metadata,\
     read_source_metadata, update_validationsets_sources, aggregate
 
 
-ext_folder = '/TRI Data Files/'
-tri_external_dir = paths.local_path + ext_folder
+ext_folder = 'TRI Data Files'
+tri_external_dir = paths.local_path + '/' + ext_folder + '/'
 _config = config()['databases']['TRI']
 tri_data_dir = data_dir + 'TRI/'
 
@@ -308,11 +308,11 @@ def Generate_TRI_files_csv(TRIyear, Files):
     flowsdf = tri[['FlowName','CAS','Compartment']
                   ].drop_duplicates().reset_index(drop=True)
     flowsdf.loc[:,'FlowID'] = flowsdf['CAS']
-    storeInventory(flowsdf, 'TRI_' + TRIyear, 'flow')
+    store_inventory(flowsdf, 'TRI_' + TRIyear, 'flow')
     
     #FLOW BY FACILITY
     tri.drop(columns=['CAS'],inplace=True)
-    storeInventory(tri, 'TRI_' + TRIyear, 'flowbyfacility')
+    store_inventory(tri, 'TRI_' + TRIyear, 'flowbyfacility')
     
     #FACILITY
     ##Import and handle TRI facility data
@@ -337,7 +337,7 @@ def Generate_TRI_files_csv(TRIyear, Files):
                                   }
     tri_facility.rename(columns=TRI_facility_name_crosswalk,
                               inplace=True)
-    storeInventory(tri_facility, 'TRI_' + TRIyear, 'facility')
+    store_inventory(tri_facility, 'TRI_' + TRIyear, 'facility')
 
 
 def generate_metadata(year, files, datatype = 'inventory'):
@@ -353,13 +353,16 @@ def generate_metadata(year, files, datatype = 'inventory'):
         tri_url = _config['url']
         link_zip_TRI = link_zip(tri_url, _config['queries'], TRIyear)
         regex = re.compile(r'https://www3.epa.gov/tri/current/US_\d{4}_?(\d*)\.zip')
-        tri_version = re.search(regex, link_zip_TRI).group(1)
+        tri_version = re.search(regex, link_zip_TRI).group(0)
         if not tri_version:
             tri_version = 'last'
         source_meta['SourceVersion'] = tri_version
-        write_metadata('TRI_'+year, source_meta, category=ext_folder, datatype='source')
+        write_metadata('TRI_'+year, source_meta, category=ext_folder,
+                       datatype='source')
     else:
-        source_meta = read_source_metadata(tri_external_dir + 'TRI_'+ year)['tool_meta']
+        source_meta = read_source_metadata(paths, set_stewi_meta('TRI_'+ year, 
+                                                          ext_folder),
+                                           force_JSON=True)['tool_meta']
         write_metadata('TRI_'+year, source_meta, datatype=datatype)
 
 
