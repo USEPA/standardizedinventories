@@ -68,7 +68,7 @@ databases:
             - '2018/sppd_rtr_16938.csv'
             - '2018/sppd_rtr_16939.csv'
         file_version: 'v1'
-    national_url: 'ftp://gaftp.epa.gov/air/nei/__year__/data_summaries/__version___facility.zip'
+    national_url: 'https://gaftp.epa.gov/air/nei/__year__/data_summaries/__version___facility.zip'
     national_version:
         '2017': '2017v1/2017neiJan'
         '2014': '2014v2/2014neiv2'

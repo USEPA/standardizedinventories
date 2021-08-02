@@ -34,7 +34,6 @@ import os
 import sys
 import argparse
 import requests
-import requests_ftp
 import zipfile
 import io
 
@@ -146,10 +145,8 @@ def generate_national_totals(year):
     
     ## make http request
     r = []
-    requests_ftp.monkeypatch_session()
     try:
-        r = requests.Session().get(url)
-        #r = requests.Session().get(url, verify=False)
+        r = requests.Session().get(url, verify=False)
     except requests.exceptions.ConnectionError:
         log.error("URL Connection Error for " + url)
     try:
@@ -335,8 +332,15 @@ if __name__ == '__main__':
             #2011: 95565
 
             generate_metadata(year, datatype='inventory')
-            validate_national_totals(nei_flowbyfacility, year)
+            
+            if year in ['2011','2014','2017']:
+                validate_national_totals(nei_flowbyfacility, year)
+            else: 
+                log.info('no validation performed')
                     
         elif args.Option == 'C':
-            generate_national_totals(year)
+            if year in ['2011','2014','2017']:
+                generate_national_totals(year)
+            else:
+                log.info('national totals do not exist for year %s' % year)
         
