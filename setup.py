@@ -1,7 +1,7 @@
 from setuptools import setup
 
 install_requires=['esupy @ git+git://github.com/USEPA/esupy@v0.1.2#egg=esupy',
-                  'numpy==1.19.3',
+                  'numpy>=1.20.1',
                   'pandas>=0.22',
                   'requests>=2.20',
                   'bs4',
