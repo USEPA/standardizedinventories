@@ -1,36 +1,46 @@
-# link: https://www.epa.gov/frs/epa-state-combined-csv-download-files
+"""
+This script gets FRS data in the form of the FRS combined national files
+It uses the bridges in the 'NATIONAL_NAICS_FILE.CSV'
+It writes NAICS by facility for StEWI
+"""
+import os
 
-import pandas as pd
-from facilitymatcher.globals import stewi_inventories,get_programs_for_inventory_list,\
-    filter_by_program_list,invert_inventory_to_FRS, output_dir
+import facilitymatcher.globals as glob
 
-FRSpath = '../FRS/'
-FRS_NAICS_file = 'NATIONAL_NAICS_FILE.CSV'
-FRS_NAICS_file_path = FRSpath + FRS_NAICS_file
+def write_NAICS_matches():
+    file = glob.FRS_config['FRS_NAICS_file']
+    file_path = glob.FRSpath + '/' + file
+    
+    #Check to see if file exists
+    if not(os.path.exists(file_path)):
+        glob.download_extract_FRS_combined_national(file)
+    
+    col_dict = {'REGISTRY_ID':'str',
+                'PGM_SYS_ACRNM':'str',
+                'NAICS_CODE':'str',
+                'PRIMARY_INDICATOR':'str'}
+    FRS_NAICS = glob.read_FRS_file(file, col_dict)
+    
+    #Filter this list for stewi
+    #Programs of interest
+    stewi_programs = glob.get_programs_for_inventory_list(glob.stewi_inventories)
+    
+    #Limit to EPA programs of interest for StEWI
+    stewi_NAICS = glob.filter_by_program_list(FRS_NAICS,stewi_programs)
+    
+    #Drop duplicates
+    stewi_NAICS = stewi_NAICS.drop_duplicates()
+    
+    #Replace program acronymn with inventory acronymn
+    program_to_inventory = glob.invert_inventory_to_FRS()
+    stewi_NAICS['PGM_SYS_ACRNM'] = stewi_NAICS['PGM_SYS_ACRNM'].replace(to_replace=program_to_inventory)
+    
+    #Rename columns to be consistent with standards
+    stewi_NAICS = stewi_NAICS.rename(columns={'REGISTRY_ID':'FRS_ID',
+                                              'PGM_SYS_ACRNM':'Source',
+                                              'NAICS_CODE':'NAICS'})
+    
+    glob.store_fm_file(stewi_NAICS,'FRS_NAICSforStEWI', sources=[file])
 
-FRS_NAICS = pd.read_csv(FRS_NAICS_file_path, header=0, nrows=100)
-columns_to_keep = ['REGISTRY_ID', 'PGM_SYS_ACRNM', 'NAICS_CODE', 'PRIMARY_INDICATOR']
-dtype_dict = {'REGISTRY_ID':'str','NAICS_CODE':'str'}
-FRS_NAICS = pd.read_csv(FRS_NAICS_file_path, header=0, usecols=columns_to_keep, dtype=dtype_dict)
-
-#Load from pickle
-#FRS_NAICS = pd.read_pickle('work/FRS_NAICS.pk')
-
-#Filter this list for stewi
-#Programs of interest
-stewi_programs = get_programs_for_inventory_list(stewi_inventories)
-
-#Limit to EPA programs of interest for StEWI
-stewi_NAICS = filter_by_program_list(FRS_NAICS,stewi_programs)
-
-#Drop duplicates
-stewi_NAICS = stewi_NAICS.drop_duplicates()
-
-#Replace program acronymn with inventory acronymn
-program_to_inventory = invert_inventory_to_FRS()
-stewi_NAICS['PGM_SYS_ACRNM'] = stewi_NAICS['PGM_SYS_ACRNM'].replace(to_replace=program_to_inventory)
-
-#Rename columns to be consistent with standards
-stewi_NAICS = stewi_NAICS.rename(columns={'REGISTRY_ID':'FRS_ID','PGM_SYS_ACRNM':'Source','NAICS_CODE':'NAICS'})
-
-stewi_NAICS.to_csv(output_dir + 'FRS_NAICSforStEWI.csv',index=False)
+if __name__ == '__main__':
+    write_NAICS_matches()

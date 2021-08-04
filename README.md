@@ -8,18 +8,19 @@ StEWI consists of a core module, `stewi`, that digests and provides the USEPA in
 and `chemicalmatcher`, provide commons IDs for facilities and flows across inventories, which is used by the `stewicombo` module
 to combine the data, and optionally remove overlaps and remove double counting of groups of chemicals based on user preferences.
 
-## USEPA Inventories Covered By Data Reporting Year (current version)
+## USEPA Inventories Covered By Data Reporting Year* (current version)
 
-|Source|2001|2002|2003|2004|2005|2006|2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program)*|x|x|x|x|x|x|x|x|x|x|x|x|x|x|x|x|x|x|
-|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)|x| |x| |x| |x| |x| |x| |x| |x| |x| |
-|[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)**| | | | | | | | | | |x| | |x| |x|x| |
-|[Emissions & Generation Resource Integrated Database](https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid)| | | | | | | | | | | | | |x| |x| |x|
-|[Discharge Monitoring Reports](https://www.epa.gov/)| | | | | | | | | | | | | |x|x|x|x| |
-|[Greenhouse Gas Reporting Program](https://www.epa.gov/ghgreporting)| | | | | | | | | | | | |x |x |x |x |x |x |
+|Source|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|[Discharge Monitoring Reports](https://www.epa.gov/) | | | | | | |x|x|x|x|x|x|
+|[Greenhouse Gas Reporting Program](https://www.epa.gov/ghgreporting) | | | |x|x|x|x|x|x|x|x|x|
+|[Emissions & Generation Resource Integrated Database](https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid) | | | | | | |x| |x| |x|x|
+|[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)** | | | |x|x|x|x|x|x|x|x| |
+|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report) | |x| |x| |x| |x| |x| |x|
+|[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program) |x|x|x|x|x|x|x|x|x|x|x|x|
 
-*TRI available back through 1988
+*Some data are available prior to 2008 but have not been validated
+
 **Only point sources included at this time from NEI
 
 ## Standard output formats
@@ -28,9 +29,11 @@ The core `stewi` module produces the following output formats:
 
 [Flow-By-Facility](./format%20specs/FlowByFacility.md): Each row represents the total amount of release or waste of a single type in a given year from the given facility.
 
+[Flow-By-Process](./format%20specs/FlowByProcess.md): Each row represents the total amount of release or waste of a single type in a given year from a specific process within the given facility. Applicable only to NEI and GHGRP.
+
 [Facility](./format%20specs/Facility.md): Each row represents a unique facility in a given inventory and given year
 
-[Flow](./format%20specs/Flow.md):  Each row represents a unique flow (substance or waste) in a given inventory and given year
+[Flow](./format%20specs/Flow.md): Each row represents a unique flow (substance or waste) in a given inventory and given year
 
 The `chemicalmatcher` module produces:
 
@@ -46,7 +49,7 @@ The `stewicombo` module produces:
 
 ## Data Processing
 
-The following describes details related to the dataset processing specific to each dataset
+The following describes details related to dataset access and processing specific to each dataset
 
 ### DMR
 
@@ -55,6 +58,26 @@ Processing of the DMR uses the custom search option of the [Water Pollutant Load
 - Detection limit: Half - set all non-detects to ½ the detection limit
 - Estimation: On - estimates loads when monitoring data are not reported for one or more monitoring periods in a reporting year
 - Nutrient Aggregation: On - Nitrogen and Phosphorous flows are converted to N and P equivalents
+
+### eGRID
+
+eGRID data are sourced from EPA's [eGRID](https://www.epa.gov/egrid) site
+
+### GHGRP
+
+GHGRP data are sourced from EPA's [Envirofacts](https://enviro.epa.gov/)
+
+### NEI
+
+NEI data are downloaded from the EPA Emissions Inventory System (EIS) Gateway and hosted on EPA [Data Commons](https://edap-ord-data-commons.s3.amazonaws.com/index.html?prefix=stewi/) for access by StEWI
+
+### RCRAInfo
+
+RCRAInfo data are sourced from the [Public Data Files](https://rcrapublic.epa.gov/rcrainfoweb/action/main-menu/view)
+
+### TRI
+
+TRI data are sourced from the [Basic Plus Data files](https://www.epa.gov/toxics-release-inventory-tri-program/tri-data-and-tools)
 
 ## Wiki
 
