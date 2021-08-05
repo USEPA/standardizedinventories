@@ -18,11 +18,11 @@ from esupy.processed_data_mgmt import Paths, load_preprocessed_output,\
     write_df_to_file, write_metadata_to_file, read_source_metadata
 from esupy.util import strip_file_extension
 
-try: modulepath = os.path.dirname(
+try: MODULEPATH = os.path.dirname(
     os.path.realpath(__file__)).replace('\\', '/') + '/'
-except NameError: modulepath = 'facilitymatcher/'
+except NameError: MODULEPATH = 'facilitymatcher/'
 
-data_dir = modulepath + 'data/'
+data_dir = MODULEPATH + 'data/'
 
 paths = Paths()
 paths.local_path = os.path.realpath(paths.local_path + "/facilitymatcher")
@@ -30,7 +30,7 @@ output_dir = paths.local_path
 ext_folder = 'FRS Data Files'
 FRSpath = paths.local_path + '/' + ext_folder
 
-FRS_config = config(modulepath)['databases']['FRS']
+FRS_config = config(MODULEPATH)['databases']['FRS']
 
 inventory_to_FRS_pgm_acronymn = FRS_config['program_dictionary']
 stewi_inventories = list(inventory_to_FRS_pgm_acronymn.keys())
