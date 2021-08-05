@@ -18,9 +18,13 @@ Options:
     C - for downloading national totals for validation
 
 Year: 
+    2018
     2017
     2016
+    2015
     2014
+    2013
+    2012
     2011
 """
 
@@ -30,7 +34,6 @@ import os
 import sys
 import argparse
 import requests
-import requests_ftp
 import zipfile
 import io
 
@@ -138,13 +141,12 @@ def generate_national_totals(year):
     version = _config['national_version'][year]
     url = build_url.replace('__year__', year)
     url = url.replace('__version__', version)
+    print(url)
     
     ## make http request
     r = []
-    requests_ftp.monkeypatch_session()
     try:
-        r = requests.Session().get(url)
-        #r = requests.Session().get(url, verify=False)
+        r = requests.Session().get(url, verify=False)
     except requests.exceptions.ConnectionError:
         log.error("URL Connection Error for " + url)
     try:
@@ -213,7 +215,6 @@ def validate_national_totals(nei_flowbyfacility, year):
     nei_national_totals = pd.read_csv(data_dir + 'NEI_'+ year + \
                                       '_NationalTotals.csv',
                                       header=0,dtype={"FlowAmount[kg]":float})
-    nei_flowbyfacility.drop(['Compartment'],1, inplace = True)
     nei_national_totals.rename(columns={'FlowAmount[kg]':'FlowAmount'},
                                inplace=True)
     validation_result = validate_inventory(nei_flowbyfacility,
@@ -331,8 +332,15 @@ if __name__ == '__main__':
             #2011: 95565
 
             generate_metadata(year, datatype='inventory')
-            validate_national_totals(nei_flowbyfacility, year)
+            
+            if year in ['2011','2014','2017']:
+                validate_national_totals(nei_flowbyfacility, year)
+            else: 
+                log.info('no validation performed')
                     
         elif args.Option == 'C':
-            generate_national_totals(year)
+            if year in ['2011','2014','2017']:
+                generate_national_totals(year)
+            else:
+                log.info('national totals do not exist for year %s' % year)
         

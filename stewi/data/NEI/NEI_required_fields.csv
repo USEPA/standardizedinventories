@@ -1,21 +1,21 @@
-﻿StandardizedEPA,2017,2016,2014,2011
-FacilityID,sppd_facility_identifier,eis facility id,eis facility id,eis facility id
-FacilityName,facility_name,site name,site name,site name
-CompanyName,,company name,company name,company name
-Address,location_address,address,address,address
-City,city,city,city,city
-State,state_abbr,postal abbreviation,postal abbreviation,postal abbreviation
-Zip,zipcode,zip code,zip code,zip code
-Latitude,y_coordinate,site latitude,site latitude,site latitude
-Longitude,x_coordinate,site longitude,site longitude,site longitude
-NAICS,naics_primary,naics code,naics code,naics code
-County,county_name,county,county,county
-FlowName,pollutant_description,pollutant desc,pollutant desc,pollutant desc
-FlowID,pollutant_code,pollutant code,pollutant code,pollutant code
-FlowAmount,actual_emissions_tpy,total emissions,total emissions,total emissions
-UOM,,emissions uom,emissions uom,emissions uom
-ReliabilityScore,emission_calc_method_code,calc method code,calc method code,calc method code
-Process,scc,scc,scc,scc
-UnitID,emission_unit_id,eis unit id,eis unit id,eis unit id
-UnitType,unit_type_code,unit type,unit type,unit type
-StackHeight,stack_height (ft),,,
+﻿StandardizedEPA,2018,2017,2016,2015,2014,2013,2012,2011
+FacilityID,sppd_facility_identifier,sppd_facility_identifier,sppd_facility_identifier,sppd_facility_identifier,sppd_facility_identifier,sppd_facility_identifier,sppd_facility_identifier,sppd_facility_identifier
+FacilityName,facility_name,facility_name,facility_name,facility_name,facility_name,facility_name,facility_name,facility_name
+CompanyName,,,,,,,,
+Address,location_address,location_address,location_address,location_address,location_address,location_address,location_address,location_address
+City,city,city,city,city,city,city,city,city
+State,state_abbr,state_abbr,state_abbr,state_abbr,state_abbr,state_abbr,state_abbr,state_abbr
+Zip,zipcode,zipcode,zipcode,zipcode,zipcode,zipcode,zipcode,zipcode
+Latitude,y_coordinate,y_coordinate,y_coordinate,y_coordinate,y_coordinate,y_coordinate,y_coordinate,y_coordinate
+Longitude,x_coordinate,x_coordinate,x_coordinate,x_coordinate,x_coordinate,x_coordinate,x_coordinate,x_coordinate
+NAICS,naics_primary,naics_primary,naics_primary,naics_primary,naics_primary,naics_primary,naics_primary,naics_primary
+County,county_name,county_name,county_name,county_name,county_name,county_name,county_name,county_name
+FlowName,pollutant_description,pollutant_description,pollutant_description,pollutant_description,pollutant_description,pollutant_description,pollutant_description,pollutant_description
+FlowID,pollutant_code,pollutant_code,pollutant_code,pollutant_code,pollutant_code,pollutant_code,pollutant_code,pollutant_code
+FlowAmount,actual_emissions_tpy,actual_emissions_tpy,actual_emissions_tpy,actual_emissions_tpy,actual_emissions_tpy,actual_emissions_tpy,actual_emissions_tpy,actual_emissions_tpy
+UOM,,,,,,,,
+ReliabilityScore,emission_calc_method_code,emission_calc_method_code,emission_calc_method_code,emission_calc_method_code,emission_calc_method_code,emission_calc_method_code,emission_calc_method_code,emission_calc_method_code
+Process,scc,scc,scc,scc,scc,scc,scc,scc
+UnitID,emission_unit_id,emission_unit_id,emission_unit_id,emission_unit_id,emission_unit_id,emission_unit_id,emission_unit_id,emission_unit_id
+UnitType,unit_type_code,unit_type_code,unit_type_code,unit_type_code,,unit_type_code,unit_type_code,
+StackHeight,stack_height (ft),stack_height (ft),stack_height (ft),stack_height (ft),stack_height_ft,stack_height (ft),stack_height (ft),stack_height_ft
