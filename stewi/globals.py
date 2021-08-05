@@ -12,7 +12,6 @@ import os
 import numpy as np
 import yaml
 import time
-import subprocess
 from datetime import datetime
 
 from esupy.processed_data_mgmt import Paths, FileMeta,\
@@ -21,6 +20,7 @@ from esupy.processed_data_mgmt import Paths, FileMeta,\
     find_file, read_source_metadata
 from esupy.remote import make_http_request
 from esupy.dqi import get_weighted_average
+from esupy.util import get_git_hash
 
 try: modulepath = os.path.dirname(os.path.realpath(
     __file__)).replace('\\', '/') + '/'
@@ -41,11 +41,7 @@ output_dir = paths.local_path
 # global variable to replace stored inventory files when saving
 replace_files = True
 
-try:
-    git_hash = subprocess.check_output(
-        ['git','rev-parse','HEAD']).strip().decode('ascii')[0:7]
-except:
-    git_hash = None
+git_hash = get_git_hash()
 
 stewi_formats = ['flowbyfacility', 'flow', 'facility', 'flowbyprocess']
 inventory_formats = ['flowbyfacility', 'flowbyprocess']
