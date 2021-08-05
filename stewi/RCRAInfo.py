@@ -100,8 +100,6 @@ See more documentation of files at https://rcrapublic.epa.gov/rcrainfoweb/
 import pandas as pd
 import zipfile
 import argparse
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
 import re
 import os
 import time, datetime
@@ -112,6 +110,14 @@ from stewi.globals import write_metadata,validate_inventory,\
     log, store_inventory, compile_source_metadata, read_source_metadata,\
     update_validationsets_sources, filter_states, aggregate,\
     create_paths_if_missing, set_stewi_meta
+
+try:
+    from selenium import webdriver
+    from webdriver_manager.chrome import ChromeDriverManager
+except ImportError:
+    log.error('Must install selenium and webdriver_manager for RCRAInfo. '
+              'See install instructions for optional package '
+              'installation or install them indepedently and retry.')
 
 
 _config = config()['databases']['RCRAInfo']
