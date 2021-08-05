@@ -1,22 +1,12 @@
 from setuptools import setup
 
-install_requires=['esupy @ git+git://github.com/USEPA/esupy@v0.1.2#egg=esupy',
+install_requires=['esupy @ git+git://github.com/USEPA/esupy@v0.1.5#egg=esupy',
                   'numpy>=1.20.1',
                   'pandas>=0.22',
                   'requests>=2.20',
-                  'bs4',
-                  'argparse',
-                  'regex',
-                  'selenium',
-                  'PyYAML>=5.1',
-                  'webdriver_manager']
-
-import struct
-bit_size = struct.calcsize("P") * 8
-if bit_size == 32:
-    install_requires.append('fastparquet>=0.4')
-else:
-    install_requires.append('pyarrow>=0.14') 
+                  'beautifulsoup4>=4.9.3',
+                  'regex>=2021.4.4',
+                  ]
 
 setup(
     name="StEWI",
@@ -43,6 +33,8 @@ setup(
                   'stewicombo': ["data/*.*"]},
     include_package_data=True,
     install_requires=install_requires,
+    extras_require={"RCRAInfo": ['webdriver_manager>=3.4.2',
+                                 'selenium>=3.141.0']},
     classifiers=[
         "Development Status :: Beta",
         "Environment :: Console",
