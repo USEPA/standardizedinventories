@@ -11,16 +11,16 @@ import pandas as pd
 import chemicalmatcher
 import stewi
 from stewi.globals import log, set_stewi_meta, flowbyfacility_fields,\
-    write_format
+    WRITE_FORMAT
 from esupy.processed_data_mgmt import Paths, write_df_to_file,\
     write_metadata_to_file, load_preprocessed_output, read_into_df,\
     download_from_remote
 
-try: modulepath = os.path.dirname(
+try: MODULEPATH = os.path.dirname(
     os.path.realpath(__file__)).replace('\\', '/') + '/'
-except NameError: modulepath = 'stewicombo/'
+except NameError: MODULEPATH = 'stewicombo/'
 
-data_dir = modulepath + 'data/'
+data_dir = MODULEPATH + 'data/'
 
 paths = Paths()
 paths.local_path = os.path.realpath(paths.local_path + "/stewicombo")
@@ -192,7 +192,7 @@ def getCombinedInventory(name, category=''):
     """Reads the inventory dataframe from local directory
     :param name: str, name of dataset or name of file
     """
-    if ("."+write_format) in name:
+    if ("."+WRITE_FORMAT) in name:
         method_path = output_dir + '/' + category
         inventory = read_into_df(method_path + name)
     else:

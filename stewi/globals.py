@@ -12,7 +12,6 @@ import os
 import numpy as np
 import yaml
 import time
-import subprocess
 from datetime import datetime
 
 from esupy.processed_data_mgmt import Paths, FileMeta,\
@@ -21,31 +20,29 @@ from esupy.processed_data_mgmt import Paths, FileMeta,\
     find_file, read_source_metadata
 from esupy.remote import make_http_request
 from esupy.dqi import get_weighted_average
+from esupy.util import get_git_hash
 
-try: modulepath = os.path.dirname(os.path.realpath(
+try: MODULEPATH = os.path.dirname(os.path.realpath(
     __file__)).replace('\\', '/') + '/'
-except NameError: modulepath = 'stewi/'
+except NameError: MODULEPATH = 'stewi/'
 
-data_dir = modulepath + 'data/'
+data_dir = MODULEPATH + 'data/'
 
 log.basicConfig(level=log.INFO, format='%(levelname)s %(message)s')
-stewi_version = '0.9.9'
+STEWI_VERSION = '0.9.9'
+
 
 #Common declaration of write format for package data products
-write_format = "parquet"
+WRITE_FORMAT = "parquet"
 
 paths = Paths()
 paths.local_path = os.path.realpath(paths.local_path + "/stewi")
 output_dir = paths.local_path
 
 # global variable to replace stored inventory files when saving
-replace_files = True
+REPLACE_FILES = True
 
-try:
-    git_hash = subprocess.check_output(
-        ['git','rev-parse','HEAD']).strip().decode('ascii')[0:7]
-except:
-    git_hash = None
+git_hash = get_git_hash()
 
 stewi_formats = ['flowbyfacility', 'flow', 'facility', 'flowbyprocess']
 inventory_formats = ['flowbyfacility', 'flowbyprocess']
@@ -56,7 +53,7 @@ source_metadata = {
     'SourceURL':'NA',
     'SourceVersion':'NA',
     'SourceAcquisitionTime':'NA',
-    'StEWI_Version':stewi_version,
+    'StEWI_Version':STEWI_VERSION,
     }
 
 inventory_single_compartments = {"NEI":"air",
@@ -72,14 +69,14 @@ def set_stewi_meta(file_name, inventory_format = ''):
     stewi_meta.name_data = file_name
     stewi_meta.category = inventory_format
     stewi_meta.tool = "StEWI"
-    stewi_meta.tool_version = stewi_version
-    stewi_meta.ext = write_format
+    stewi_meta.tool_version = STEWI_VERSION
+    stewi_meta.ext = WRITE_FORMAT
     stewi_meta.git_hash = git_hash
     stewi_meta.date_created = datetime.now().strftime('%d-%b-%Y')
     return stewi_meta
 
 
-def config(config_path=modulepath):
+def config(config_path=MODULEPATH):
     """Read and return stewi configuration file"""
     configfile = None
     with open(config_path + 'config.yaml', mode='r') as f:
@@ -551,7 +548,7 @@ def checkforFile(filepath):
     return os.path.exists(filepath)
 
 
-def store_inventory(df, file_name, inventory_format, replace_files = replace_files):
+def store_inventory(df, file_name, inventory_format, replace_files = REPLACE_FILES):
     """Stores the inventory dataframe to local directory based on inventory format
     :param df: dataframe of processed inventory to save
     :param file_name: str of inventory_year e.g. 'TRI_2016'
