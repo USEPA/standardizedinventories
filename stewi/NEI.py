@@ -9,13 +9,13 @@ This file requires parameters be passed like:
     Option -y Year 
 
 Options:
-    A - for processing downloaded NEI Point from EIS
-    B - for generating inventory files for StEWI: 
+    A - for downloading NEI Point data and
+        generating inventory files for StEWI: 
         flowbyfacility
         flowbyprocess
         flows
         facilities
-    C - for downloading national totals for validation
+    B - for downloading national totals for validation
 
 Year: 
     2018
@@ -31,15 +31,16 @@ Year:
 import pandas as pd
 import numpy as np
 import os
-import sys
 import argparse
 import requests
 import zipfile
 import io
 
+from esupy.processed_data_mgmt import download_from_remote
+from esupy.util import strip_file_extension
 from stewi.globals import data_dir,write_metadata,\
     validate_inventory,write_validation_result,USton_kg,lb_kg,\
-    log, store_inventory, config, compile_source_metadata, read_source_metadata,\
+    log, store_inventory, config, read_source_metadata,\
     paths, update_validationsets_sources, aggregate,\
     get_reliability_table_for_source, set_stewi_meta
 
@@ -55,26 +56,16 @@ def read_data(year,file):
     identified columns
 
     :param year : str, Year of NEI dataset for identifying field names
-    :param file : str, File name (csv) containing NEI data.
-    :returns file_result : DataFrame of NEI data from a single file
+    :param file : str, File path containing NEI data (parquet).
+    :returns df : DataFrame of NEI data from a single file
         with standardized column names.
     """
-    file_result = pd.DataFrame(columns=list(nei_required_fields['StandardizedEPA']))
-    # read nei file by chunks
     usecols = list(nei_required_fields[year].dropna())
-    for file_chunk in pd.read_csv(
-            nei_external_dir + file,
-            usecols=usecols,
-            dtype={'sppd_facility_identifier':'str'},
-            chunksize=100000,
-            low_memory=False):
-        # change column names to Standardized EPA names
-        file_chunk = file_chunk.rename(
-            columns=pd.Series(list(nei_required_fields['StandardizedEPA']),
-                              index=list(nei_required_fields[year])).to_dict())
-        # concatenate all chunks
-        file_result = pd.concat([file_result,file_chunk])
-    return file_result
+    df = pd.read_parquet(file, columns = usecols, engine = 'pyarrow')
+    # change column names to Standardized EPA names
+    df = df.rename(columns=pd.Series(list(nei_required_fields['StandardizedEPA']),
+                                     index=list(nei_required_fields[year])).to_dict())
+    return df
 
 
 def standardize_output(year, source='Point'):
@@ -85,14 +76,19 @@ def standardize_output(year, source='Point'):
     :returns nei: DataFrame of parsed NEI data.
     """
     # extract file paths
-    file_paths = nei_file_path
-    log.info('identified %s files: '.join(file_paths), str(len(file_paths)))
+    log.info('identified %s files: ' + ', '.join(nei_file_path),
+             str(len(nei_file_path)))
     nei = pd.DataFrame()
     # read in nei files and concatenate all nei files into one dataframe
-    for file in file_paths[0:]:
+    for file in nei_file_path:
+        if(not(os.path.exists(nei_external_dir + file))):
+            # download file    
+            file_meta = set_stewi_meta(file)
+            file_meta.category = ext_folder
+            download_from_remote(file_meta, paths)
         # concatenate all other files
-        log.info('reading NEI data from '+ file)
-        nei = pd.concat([nei,read_data(year,file)])
+        log.info('reading NEI data from '+ nei_external_dir + file)
+        nei = pd.concat([nei,read_data(year, nei_external_dir + file)])
         log.debug(str(len(nei))+' records')
     # convert TON to KG
     nei['FlowAmount'] = nei['FlowAmount']*USton_kg
@@ -123,6 +119,7 @@ def standardize_output(year, source='Point'):
         nei['DataReliability'] = 3
     # add Source column
     nei['Source'] = source
+    nei.reset_index(drop=True)
     return nei
 
 
@@ -141,7 +138,6 @@ def generate_national_totals(year):
     version = _config['national_version'][year]
     url = build_url.replace('__year__', year)
     url = url.replace('__version__', version)
-    print(url)
     
     ## make http request
     r = []
@@ -227,16 +223,11 @@ def generate_metadata(year, datatype = 'inventory'):
     """
     Gets metadata and writes to .json
     """
-    if datatype == 'source':
-        source_path = [nei_external_dir + p for p in nei_file_path]
-        source_path = [os.path.realpath(p) for p in source_path]
-        source_meta = compile_source_metadata(source_path, _config, year)
-        write_metadata('NEI_'+year, source_meta, category=ext_folder,
-                       datatype='source')
-    else:
-        source_meta = read_source_metadata(paths, set_stewi_meta('NEI_'+ year, 
-                                           ext_folder),
-                                           force_JSON=True)['tool_meta']
+    if datatype == 'inventory':
+        source_meta = []
+        for file in nei_file_path:
+            meta = set_stewi_meta(strip_file_extension(file), ext_folder)
+            source_meta.append(read_source_metadata(paths, meta, force_JSON=True))
         write_metadata('NEI_'+year, source_meta, datatype=datatype)
     
 
@@ -246,10 +237,10 @@ if __name__ == '__main__':
 
     parser.add_argument('Option',
                         help = 'What do you want to do:\
-                        [A] Process and pickle NEI data\
-                        [B] Generate StEWI inventory outputs and validate \
+                        [A] Download NEI data and \
+                            generate StEWI inventory outputs and validate \
                             to national totals\
-                        [C] Download national totals',
+                        [B] Download national totals',
                         type = str)
 
     parser.add_argument('-y', '--Year', nargs = '+',
@@ -262,7 +253,6 @@ if __name__ == '__main__':
     
     for year in NEIyears:
 
-        pickle_file = nei_external_dir + 'NEI_' + year + '.pk'
         if args.Option == 'A':
 
             nei_required_fields = pd.read_table(
@@ -271,23 +261,6 @@ if __name__ == '__main__':
             nei_file_path = _config[year]['file_name']
 
             nei_point = standardize_output(year)
-            log.info('saving processed NEI to ' + pickle_file)
-            nei_point.to_pickle(pickle_file)
-            generate_metadata(year, datatype='source')
-
-        elif args.Option == 'B':
-            log.info('extracting data from NEI pickle')
-            try:            
-                nei_point = pd.read_pickle(pickle_file)
-            except FileNotFoundError:
-                log.error('pickle file not found. Please run option A '
-                          'before proceeding')
-                sys.exit(0)
-            # for backwards compatability if ReliabilityScore was used to
-            # generate pickle
-            if 'ReliabilityScore' in nei_point:
-                nei_point['DataReliability'] = nei_point['ReliabilityScore']
-            nei_point = nei_point.reset_index()
 
             log.info('generating flow by facility output')
             nei_flowbyfacility = aggregate(nei_point, ['FacilityID','FlowName'])
@@ -338,7 +311,7 @@ if __name__ == '__main__':
             else: 
                 log.info('no validation performed')
                     
-        elif args.Option == 'C':
+        elif args.Option == 'B':
             if year in ['2011','2014','2017']:
                 generate_national_totals(year)
             else:
