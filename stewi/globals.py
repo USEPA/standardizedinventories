@@ -40,7 +40,7 @@ paths.local_path = os.path.realpath(paths.local_path + "/stewi")
 output_dir = paths.local_path
 
 # global variable to replace stored inventory files when saving
-REPLACE_FILES = True
+REPLACE_FILES = False
 
 git_hash = get_git_hash()
 
