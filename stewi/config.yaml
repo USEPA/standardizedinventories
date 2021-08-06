@@ -1,6 +1,6 @@
 databases:
   TRI:
-    url: https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-calendar-years-1987-2017
+    url: https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-calendar-years-1987-present
     queries:
       TRI_year_reported: 'option'
       TRI_zip: 'value'
@@ -30,43 +30,43 @@ databases:
     url: 'http://eis.epa.gov'
     '2011':
         file_name:
-            - '2011/nei_2011_regions_1_thru_5.csv'
-            - '2011/nei_2011_regions_6_thru_10_and_other.csv'
+            - 'nei_2011_regions_1_thru_5.parquet'
+            - 'nei_2011_regions_6_thru_10_and_other.parquet'
         file_version: 'v3'
     '2012':
         file_name:
-            - '2012/sppd_rtr_17208.csv'
-            - '2012/sppd_rtr_17209.csv'
+            - 'sppd_rtr_17208.parquet'
+            - 'sppd_rtr_17209.parquet'
         file_version: 'v1'
     '2013':
         file_name:
-            - '2013/sppd_rtr_17198.csv'
-            - '2013/sppd_rtr_17207.csv'
+            - 'sppd_rtr_17198.parquet'
+            - 'sppd_rtr_17207.parquet'
         file_version: 'v1'    
     '2014':
         file_name:
-            - '2014/nei_2014_regions_1_thru_5.csv'
-            - '2014/nei_2014_regions_6_thru_10_and_other.csv'
+            - 'nei_2014_regions_1_thru_5.parquet'
+            - 'nei_2014_regions_6_thru_10_and_other.parquet'
         file_version: 'v2'
     '2015':
         file_name:
-            - '2015/sppd_rtr_17021.csv'
-            - '2015/sppd_rtr_17197.csv'
+            - 'sppd_rtr_17021.parquet'
+            - 'sppd_rtr_17197.parquet'
         file_version: 'v1'
     '2016':
         file_name:
-            - '2016/sppd_rtr_16974.csv'
-            - '2016/sppd_rtr_16998.csv'
+            - 'sppd_rtr_16974.parquet'
+            - 'sppd_rtr_16998.parquet'
         file_version: 'v1'
     '2017':
         file_name: 
-            - '2017/sppd_rtr_16940.csv'
-            - '2017/sppd_rtr_16958.csv'
+            - 'sppd_rtr_16940.parquet'
+            - 'sppd_rtr_16958.parquet'
         file_version: 'v1'
     '2018':
         file_name: 
-            - '2018/sppd_rtr_16938.csv'
-            - '2018/sppd_rtr_16939.csv'
+            - 'sppd_rtr_16938.parquet'
+            - 'sppd_rtr_16939.parquet'
         file_version: 'v1'
     national_url: 'https://gaftp.epa.gov/air/nei/__year__/data_summaries/__version___facility.zip'
     national_version:
