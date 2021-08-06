@@ -75,9 +75,6 @@ def standardize_output(year, source='Point'):
     :param year : str, Year of NEI dataset  
     :returns nei: DataFrame of parsed NEI data.
     """
-    # extract file paths
-    log.info('identified %s files: ' + ', '.join(nei_file_path),
-             str(len(nei_file_path)))
     nei = pd.DataFrame()
     # read in nei files and concatenate all nei files into one dataframe
     for file in nei_file_path:
