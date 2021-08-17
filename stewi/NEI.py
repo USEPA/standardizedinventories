@@ -79,9 +79,12 @@ def standardize_output(year, source='Point'):
     # read in nei files and concatenate all nei files into one dataframe
     for file in nei_file_path:
         if(not(os.path.exists(nei_external_dir + file))):
-            # download file    
-            file_meta = set_stewi_meta(file)
+            # download source file and metadata
+            file_meta = set_stewi_meta(strip_file_extension(file))
             file_meta.category = ext_folder
+            file_meta.tool = file_meta.tool.lower()
+            download_from_remote(file_meta, paths)
+            file_meta.name_data = file_meta.name_data + '_metadata'
             download_from_remote(file_meta, paths)
         # concatenate all other files
         log.info('reading NEI data from '+ nei_external_dir + file)
