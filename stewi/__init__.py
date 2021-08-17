@@ -120,8 +120,8 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
             import_source_codes = import_source_codes[0].tolist()
             source_codes_to_keep = [x for x in BR['Source Code'].unique().tolist() if
                                     x not in import_source_codes]
-            '''
             filter_type = 'drop'
+            '''
         if filter_type is not None:
             inventory = filter_inventory(inventory, filter_path, 
                                          filter_type=filter_type)
