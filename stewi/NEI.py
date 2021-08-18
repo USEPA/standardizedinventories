@@ -84,8 +84,6 @@ def standardize_output(year, source='Point'):
             file_meta.category = ext_folder
             file_meta.tool = file_meta.tool.lower()
             download_from_remote(file_meta, paths)
-            file_meta.name_data = file_meta.name_data + '_metadata'
-            download_from_remote(file_meta, paths)
         # concatenate all other files
         log.info('reading NEI data from '+ nei_external_dir + file)
         nei = pd.concat([nei,read_data(year, nei_external_dir + file)])
