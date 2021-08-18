@@ -33,7 +33,6 @@ import os.path, os, io, sys
 import argparse
 import re
 
-import fedelemflowlist
 from esupy.processed_data_mgmt import create_paths_if_missing
 from stewi.globals import unit_convert,data_dir, set_stewi_meta,\
     get_reliability_table_for_source,validate_inventory,\
@@ -121,6 +120,9 @@ def generate_national_totals(year):
     df_National['FlowAmount'] = df_National['FlowAmount'].round(3)
     df_National = df_National[cols]
     df_National = map_to_fedefl(df_National)
+    if df_National is None:
+        log.warning('Totals not generated')
+        return
     df_National.sort_values(by=['FlowName','Compartment'], inplace=True)
     log.info('saving TRI_%s_NationalTotals.csv to %s', year, data_dir)
     df_National.to_csv(data_dir + 'TRI_' + year + '_NationalTotals.csv',
@@ -143,6 +145,12 @@ def generate_national_totals(year):
     update_validationsets_sources(validation_dict, date_acquired=True)
 
 def map_to_fedefl(df):
+    try:
+        import fedelemflowlist
+    except ImportError:
+        log.warning('requires installation of fedelemflowlist, data will not '
+                    'validate correctly')
+        return None
     tri = fedelemflowlist.get_flowmapping('TRI')
     tri = tri[['SourceFlowName', 'TargetFlowName']].drop_duplicates()
     mapped_df = df.merge(tri, how = 'left', left_on = 'FlowName',
@@ -245,9 +253,10 @@ def validate_national_totals(inv, TRIyear):
         tri_national_totals.rename(columns={'FlowAmount_kg':'FlowAmount'},
                                    inplace=True)
         inv = map_to_fedefl(inv)
-        validation_result = validate_inventory(inv, tri_national_totals,
-                                               group_by='flow', tolerance=5.0)
-        write_validation_result('TRI',TRIyear,validation_result)
+        if inv is not None:
+            validation_result = validate_inventory(inv, tri_national_totals,
+                                                   group_by='flow', tolerance=5.0)
+            write_validation_result('TRI',TRIyear,validation_result)
     else:
         log.warning('validation file for TRI_%s does not exist. Please run '
                     'option B', TRIyear)
