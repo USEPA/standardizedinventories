@@ -79,6 +79,35 @@ RCRAInfo data are sourced from the [Public Data Files](https://rcrapublic.epa.go
 
 TRI data are sourced from the [Basic Plus Data files](https://www.epa.gov/toxics-release-inventory-tri-program/tri-data-and-tools)
 
+## Installation Instructions
+
+Install a release directly from github using pip. From a command line interface, run:
+> pip install git+https://github.com/USEPA/standardizedinventories.git@v0.9.8#egg=standardizedinventories
+
+where you can replace 'v0.9.8' with the version you wish to use under [Releases](https://github.com/USEPA/standardizedinventories/releases).
+
+Alternatively, to install from the most current point on the repository:
+```
+git clone https://github.com/USEPA/standardizedinventories.git
+cd standardizedinventories
+pip install . # or pip install -e . for devs
+```
+The current version contains optional dependencies (`selenium` and `webdriver_manager`) to download RCRAInfo data using a chrome browswer interface prior to generating those stewi inventories.
+See details in [RCRAInfo.py](https://github.com/USEPA/standardizedinventories/blob/master/stewi/RCRAInfo.py) for how to generate those inventories without these optional libraries.
+ 
+To download these optional dependencies use one of the following pip install commands:
+
+```
+pip install .["RCRAInfo"]
+```
+
+or
+
+```
+pip install . -r requirements.txt -r rcrainfo_requirements.txt 
+```
+
+
 ## Wiki
 
 See the [Wiki](https://github.com/USEPA/standardizedinventories/wiki) for instructions on installation and use and for

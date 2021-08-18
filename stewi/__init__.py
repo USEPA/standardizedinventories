@@ -10,7 +10,7 @@ inventory in standard formats
 import os
 from stewi.globals import get_required_fields, filter_inventory,\
     log, filter_states, add_missing_fields, output_dir, data_dir,\
-    write_format, read_inventory, stewi_formats, paths,\
+    WRITE_FORMAT, read_inventory, stewi_formats, paths,\
     read_source_metadata, inventory_formats, set_stewi_meta
 
 
@@ -33,8 +33,8 @@ def getAvailableInventoriesandYears(stewiformat='flowbyfacility'):
     outputfiles = []
     existing_inventories = {}
     for name in files:
-        if name.endswith(write_format):
-            _n = name[:-len('.'+write_format)]
+        if name.endswith(WRITE_FORMAT):
+            _n = name[:-len('.'+WRITE_FORMAT)]
             if '_v' in _n:
                 _n = _n[:_n.find('_v')]
             outputfiles.append(_n)
@@ -120,8 +120,8 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
             import_source_codes = import_source_codes[0].tolist()
             source_codes_to_keep = [x for x in BR['Source Code'].unique().tolist() if
                                     x not in import_source_codes]
-            '''
             filter_type = 'drop'
+            '''
         if filter_type is not None:
             inventory = filter_inventory(inventory, filter_path, 
                                          filter_type=filter_type)

@@ -6,13 +6,13 @@ import urllib
 
 from stewi.globals import config, log
 
-try: modulepath = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
-except NameError: modulepath = 'chemicalmatcher/'
+try: MODULEPATH = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
+except NameError: MODULEPATH = 'chemicalmatcher/'
 
-output_dir = modulepath + 'output/'
-data_dir = modulepath + 'data/'
+output_dir = MODULEPATH + 'output/'
+data_dir = MODULEPATH + 'data/'
 
-SRSconfig = config(modulepath)['databases']['SRS']
+SRSconfig = config(MODULEPATH)['databases']['SRS']
 base  = SRSconfig['url']
 
 #Certain characters return errors or missing results but if replaces
