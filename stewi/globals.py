@@ -566,19 +566,21 @@ def store_inventory(df, file_name, inventory_format, replace_files = REPLACE_FIL
     except:
         log.error('Failed to save inventory')
 
-def read_inventory(file_name, inventory_format):
+def read_inventory(inventory_acronym, year, inventory_format):
     """Returns the inventory as dataframe from local directory
-    :param file_name: str of inventory_year e.g. 'TRI_2016'
+    :param inventory_acronym: like 'TRI'
+    :param year: year as number like 2010
     :param inventory_format: str of a stewi format type e.g. 'flowbyfacility'
     :return: dataframe of stored inventory; if not present returns None
     """
+    file_name = inventory_acronym + '_' + str(year)
     meta = set_stewi_meta(file_name, inventory_format)
     inventory = load_preprocessed_output(meta, paths)
     method_path = output_dir + '/' + meta.category
     if inventory is None:
         log.info(meta.name_data + ' not found in ' + method_path)
-        log.error('requested inventory does not exist, try '
-                  'seeAvailableInventoriesandYears()')
+        log.info('requested inventory does not exist in local directory, '
+                 'it will be generated...')
     else:
         log.info('loaded ' + meta.name_data + ' from ' + method_path)
         # ensure dtype for str

@@ -327,7 +327,7 @@ def validate_eGRID(year):
             MWh_MJ, 'FlowAmount')
         # drop old unit
         egrid_national_totals.drop('Unit',axis=1,inplace=True)
-        flowbyfac = read_inventory('eGRID_'+ year, 'flowbyfacility')
+        flowbyfac = read_inventory('eGRID', year, 'flowbyfacility')
         validation_result = validate_inventory(flowbyfac, egrid_national_totals,
                                                group_by='flow', tolerance=5.0)
         write_validation_result('eGRID',year,validation_result)

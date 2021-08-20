@@ -84,7 +84,7 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
                   stewiformat)
         return None
     fields = get_required_fields(stewiformat)
-    inventory = read_inventory(inventory_acronym + '_' + str(year), stewiformat)
+    inventory = read_inventory(inventory_acronym, year, stewiformat)
     if inventory is None:
         return None
     fields = {key: value for key, value in fields.items() if key in list(inventory)}
@@ -134,7 +134,7 @@ def getInventoryFlows(inventory_acronym, year):
     :param year: e.g. 2014
     :return: dataframe with standard flows format
     """
-    flows = read_inventory(inventory_acronym + '_' + str(year), 'flow')
+    flows = read_inventory(inventory_acronym, year, 'flow')
     return flows
 
 
@@ -144,7 +144,7 @@ def getInventoryFacilities(inventory_acronym, year):
     :param year: e.g. 2014
     :return: dataframe with standard flows format
     """
-    facilities = read_inventory(inventory_acronym + '_' + str(year), 'facility')
+    facilities = read_inventory(inventory_acronym, year, 'facility')
     return facilities
 
 def getMetadata(inventory_acroynym, year):
