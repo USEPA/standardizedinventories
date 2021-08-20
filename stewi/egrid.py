@@ -6,7 +6,7 @@ Imports eGRID data and processes to Standardized EPA output format.
 Uses the eGRID data files from EPA.
 This file requires parameters be passed like:
 
-    Option -y Year 
+    Option -Y Year 
 
 Options:
     A - Download eGRID data
@@ -392,7 +392,7 @@ def generate_national_totals(year):
     update_validationsets_sources(validation_dict)
     
 
-if __name__ == '__main__':
+def main(**kwargs):
     
     parser = argparse.ArgumentParser(argument_default = argparse.SUPPRESS)
 
@@ -403,24 +403,28 @@ if __name__ == '__main__':
                         [C] National Totals',
                         type = str)
 
-    parser.add_argument('-y', '--Year', nargs = '+',
+    parser.add_argument('-Y', '--Year', nargs = '+',
                         help = 'What eGRID year you want to retrieve',
                         type = str)
     
-    args = parser.parse_args()
+    if len(kwargs) == 0:
+        kwargs = vars(parser.parse_args())
     
-    for year in args.Year:
-        if args.Option == 'A':
+    for year in kwargs['Year']:
+        if kwargs['Option'] == 'A':
             #download data
             download_eGRID(year)
             generate_metadata(year, datatype='source')
             
-        if args.Option == 'B':
+        if kwargs['Option'] == 'B':
             #process data
             generate_eGRID_files(year)
             generate_metadata(year, datatype='inventory')
             validate_eGRID(year)
             
-        if args.Option == 'C':
+        if kwargs['Option'] == 'C':
             #download and store national totals
             generate_national_totals(year)
+
+if __name__ == '__main__':
+    main()

@@ -606,7 +606,12 @@ def generate_inventory(inventory_acronym, year):
     """
     if inventory_acronym not in config()['databases']:
         log.error('requested inventory not available')
-    if inventory_acronym == 'NEI':
+    year = str(year)
+    if inventory_acronym == 'eGRID':
+        import stewi.egrid as eGRID
+        eGRID.main(Option = 'A', Year = [year])
+        eGRID.main(Option = 'B', Year = [year])
+    elif inventory_acronym == 'NEI':
         import stewi.NEI as NEI
         NEI.main(Option = 'A', Year = [year])
     
