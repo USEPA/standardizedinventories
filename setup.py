@@ -24,10 +24,11 @@ setup(
     # https://setuptools.readthedocs.io/en/latest/setuptools.html#including-data-files
     package_data={'stewi': ["data/*.*",
                             "data/DMR/*.*",
+                            "data/GHGRP/*.*",
                             "data/TRI/*.*",
                             "data/NEI/*.*",
                             "data/eGRID/*.*",
-                            "data/RCRA/*.*",],
+                            "data/RCRAInfo/*.*",],
                   'chemicalmatcher': ["data/*.*", "output/*.*", "config.yaml"],
                   'facilitymatcher': ["data/*.*", "config.yaml"],
                   'stewicombo': ["data/*.*"]},
