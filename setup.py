@@ -6,6 +6,7 @@ install_requires=['esupy @ git+git://github.com/USEPA/esupy@v0.1.7#egg=esupy',
                   'requests>=2.20',
                   'beautifulsoup4>=4.9.3',
                   'regex>=2021.4.4',
+                  'PyYAML>=5.1'
                   ]
 
 setup(
