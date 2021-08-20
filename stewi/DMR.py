@@ -148,7 +148,6 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
             else:
                 counter = 1
                 pages = 1
-                log.info('executing query for %s', state)
                 while counter <= pages:
                     filepath = path + 'state_' + state + '_' + str(counter) +\
                         '.pickle'
@@ -165,6 +164,8 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
                             pages = int(result['Results']['PageCount'])
                         success_list.append(state + '_' + str(counter))
                     else:
+                        if counter == 1:
+                            log.info('executing query for %s', state)
                         result = execute_query(url)
                         if str(type(result)) == "<class 'str'>":
                             log.error('error in state: %s', state)
