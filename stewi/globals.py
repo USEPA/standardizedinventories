@@ -567,7 +567,8 @@ def store_inventory(df, file_name, inventory_format, replace_files = REPLACE_FIL
         log.error('Failed to save inventory')
 
 def read_inventory(inventory_acronym, year, inventory_format):
-    """Returns the inventory as dataframe from local directory
+    """Returns the inventory as dataframe from local directory. If not found,
+    the inventory is generated.
     :param inventory_acronym: like 'TRI'
     :param year: year as number like 2010
     :param inventory_format: str of a stewi format type e.g. 'flowbyfacility'
@@ -581,6 +582,12 @@ def read_inventory(inventory_acronym, year, inventory_format):
         log.info(meta.name_data + ' not found in ' + method_path)
         log.info('requested inventory does not exist in local directory, '
                  'it will be generated...')
+        generate_inventory(inventory_acronym, year)
+        inventory = load_preprocessed_output(meta, paths)
+        if inventory is None:
+            log.error('error generating inventory')
+        else:
+            log.info('loaded ' + meta.name_data + ' from ' + method_path)
     else:
         log.info('loaded ' + meta.name_data + ' from ' + method_path)
         # ensure dtype for str
@@ -591,6 +598,19 @@ def read_inventory(inventory_acronym, year, inventory_format):
                 inventory[c] = inventory[c].astype('str')
     return inventory
 
+
+def generate_inventory(inventory_acronym, year):
+    """generates the passed inventory data by running the appropriate modules
+    :param inventory_acronym: like 'TRI'
+    :param year: year as number like 2010
+    """
+    if inventory_acronym not in config()['databases']:
+        log.error('requested inventory not available')
+    if inventory_acronym == 'NEI':
+        import stewi.NEI as NEI
+        NEI.main(Option = 'A', Year = [year])
+    
+    
 
 def get_reliability_table_for_source(source):
     """retrieve the reliability table within stewi"""

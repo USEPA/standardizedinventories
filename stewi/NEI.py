@@ -6,7 +6,7 @@ Imports NEI data and processes to Standardized EPA output format.
 Uses the NEI data exports from EIS. Must contain locally downloaded data for
 options A:C.
 This file requires parameters be passed like:
-    Option -y Year 
+    Option -Y Year 
 
 Options:
     A - for downloading NEI Point data and
@@ -60,6 +60,9 @@ def read_data(year,file):
     :returns df : DataFrame of NEI data from a single file
         with standardized column names.
     """
+    nei_required_fields = pd.read_table(
+        nei_data_dir + 'NEI_required_fields.csv',sep=',')
+    nei_required_fields = nei_required_fields[[year,'StandardizedEPA']]
     usecols = list(nei_required_fields[year].dropna())
     df = pd.read_parquet(file, columns = usecols, engine = 'pyarrow')
     # change column names to Standardized EPA names
@@ -77,8 +80,11 @@ def standardize_output(year, source='Point'):
     """
     nei = pd.DataFrame()
     # read in nei files and concatenate all nei files into one dataframe
+    nei_file_path = _config[year]['file_name']
     for file in nei_file_path:
         if(not(os.path.exists(nei_external_dir + file))):
+            log.info('%s not found in %s, downloading source data',
+                     file, nei_external_dir)
             # download source file and metadata
             file_meta = set_stewi_meta(strip_file_extension(file))
             file_meta.category = ext_folder
@@ -221,6 +227,7 @@ def generate_metadata(year, datatype = 'inventory'):
     """
     Gets metadata and writes to .json
     """
+    nei_file_path = _config[year]['file_name']
     if datatype == 'inventory':
         source_meta = []
         for file in nei_file_path:
@@ -229,7 +236,7 @@ def generate_metadata(year, datatype = 'inventory'):
         write_metadata('NEI_'+year, source_meta, datatype=datatype)
     
 
-if __name__ == '__main__':
+def main(**kwargs):
     
     parser = argparse.ArgumentParser(argument_default = argparse.SUPPRESS)
 
@@ -241,22 +248,18 @@ if __name__ == '__main__':
                         [B] Download national totals',
                         type = str)
 
-    parser.add_argument('-y', '--Year', nargs = '+',
+    parser.add_argument('-Y', '--Year', nargs = '+',
                         help = 'What NEI year(s) you want to retrieve',
                         type = str)
     
-    args = parser.parse_args()
+    if len(kwargs) == 0:
+        kwargs = vars(parser.parse_args())
     
-    NEIyears = args.Year
+    NEIyears = kwargs['Year']
     
     for year in NEIyears:
-
-        if args.Option == 'A':
-
-            nei_required_fields = pd.read_table(
-                nei_data_dir + 'NEI_required_fields.csv',sep=',')
-            nei_required_fields = nei_required_fields[[year,'StandardizedEPA']]
-            nei_file_path = _config[year]['file_name']
+        year = str(year)
+        if kwargs['Option'] == 'A':
 
             nei_point = standardize_output(year)
 
@@ -309,9 +312,11 @@ if __name__ == '__main__':
             else: 
                 log.info('no validation performed')
                     
-        elif args.Option == 'B':
+        elif kwargs['Option'] == 'B':
             if year in ['2011','2014','2017']:
                 generate_national_totals(year)
             else:
                 log.info('national totals do not exist for year %s' % year)
         
+if __name__ == '__main__':
+    main()
