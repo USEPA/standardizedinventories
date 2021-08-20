@@ -607,6 +607,10 @@ def generate_inventory(inventory_acronym, year):
     if inventory_acronym not in config()['databases']:
         log.error('requested inventory not available')
     year = str(year)
+    if inventory_acronym == 'DMR':
+        import stewi.DMR as DMR
+        DMR.main(Option = 'A', Year = [year])
+        DMR.main(Option = 'B', Year = [year])
     if inventory_acronym == 'eGRID':
         import stewi.egrid as eGRID
         eGRID.main(Option = 'A', Year = [year])
