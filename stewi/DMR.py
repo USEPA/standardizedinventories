@@ -148,7 +148,6 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
             else:
                 counter = 1
                 pages = 1
-                log.info('executing query for %s', state)
                 while counter <= pages:
                     filepath = path + 'state_' + state + '_' + str(counter) +\
                         '.pickle'
@@ -165,6 +164,8 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
                             pages = int(result['Results']['PageCount'])
                         success_list.append(state + '_' + str(counter))
                     else:
+                        if counter == 1:
+                            log.info('executing query for %s', state)
                         result = execute_query(url)
                         if str(type(result)) == "<class 'str'>":
                             log.error('error in state: %s', state)
@@ -497,7 +498,8 @@ def remove_nutrient_overlap_TRI(df, preference):
         
     return df
     
-if __name__ == '__main__':
+
+def main(**kwargs):
 
     parser = argparse.ArgumentParser(argument_default = argparse.SUPPRESS)
 
@@ -513,18 +515,17 @@ if __name__ == '__main__':
                         help = 'What DMR year(s) you want to retrieve',
                         type = str)
 
-    args = parser.parse_args()
+    if len(kwargs) == 0:
+        kwargs = vars(parser.parse_args())
 
-    DMRyears = args.Year
-    
-    for DMRyear in DMRyears:
+    for year in kwargs['Year']:
         
-        if args.Option == 'A':
-            log.info("Querying for %s", DMRyear)
+        if kwargs['Option'] == 'A':
+            log.info("Querying for %s", year)
    
             # Query by state, then by SIC-state where necessary
             state_max_error_list, state_no_data_list,\
-                state_success_list = query_dmr(year = DMRyear,
+                state_success_list = query_dmr(year = year,
                                                state_list=states)
             if (len(state_max_error_list) == 0) & (len(state_no_data_list) == 0):
                 log.info('all states succesfully downloaded')
@@ -533,51 +534,51 @@ if __name__ == '__main__':
                 log.error(state_max_error_list)
                 log.error(state_no_data_list)
                 sic_state_max_error_list, sic_state_no_data_list,\
-                    sic_state_success_list = query_dmr(year = DMRyear,
+                    sic_state_success_list = query_dmr(year = year,
                                                        sic_list = sic2,
                                                        state_list=state_max_error_list)
             
-            log.info("Querying nutrients for %s", DMRyear)
+            log.info("Querying nutrients for %s", year)
             # Query aggregated nutrients data
             n_state_max_error_list, n_state_no_data_list,\
-                n_state_success_list = query_dmr(year = DMRyear,
+                n_state_success_list = query_dmr(year = year,
                                                  nutrient='N',
                                                  state_list=states)
             if (len(n_state_max_error_list) == 0) & (len(n_state_no_data_list) == 0):
                 log.info('all states succesfully downloaded for N')
             else:
                 n_sic_state_max_error_list, n_sic_state_no_data_list,\
-                        n_sic_state_success_list = query_dmr(year = DMRyear,
+                        n_sic_state_success_list = query_dmr(year = year,
                                                              sic_list = sic2,
                                                              state_list=n_state_max_error_list,
                                                              nutrient='N')
             p_state_max_error_list, p_state_no_data_list,\
-                p_state_success_list = query_dmr(year = DMRyear,
+                p_state_success_list = query_dmr(year = year,
                                                  nutrient='P',
                                                  state_list=states)
             if (len(p_state_max_error_list) == 0) & (len(p_state_no_data_list) == 0):
                 log.info('all states succesfully downloaded for P')
             else:
                 p_sic_state_max_error_list, p_sic_state_no_data_list,\
-                    p_sic_state_success_list = query_dmr(year = DMRyear,
+                    p_sic_state_success_list = query_dmr(year = year,
                                                          sic_list = sic2,
                                                          state_list=p_state_max_error_list,
                                                          nutrient='P')
             
             # write metadata
-            generate_metadata(DMRyear, datatype='source')
+            generate_metadata(year, datatype='source')
             
-        if args.Option == 'B':
-            log.info('generating inventories for DMR %s', DMRyear)
-            state_df = generateDMR(DMRyear)
+        if kwargs['Option'] == 'B':
+            log.info('generating inventories for DMR %s', year)
+            state_df = generateDMR(year)
             state_df = filter_states(standardize_df(state_df))
 
             # Validation against state totals is done prior to combining
             # with aggregated nutrients
-            validateStateTotals(state_df, DMRyear)
+            validateStateTotals(state_df, year)
 
-            P_df = generateDMR(DMRyear, nutrient='P')
-            N_df = generateDMR(DMRyear, nutrient='N')
+            P_df = generateDMR(year, nutrient='P')
+            N_df = generateDMR(year, nutrient='N')
 
             nut_drop_list = read_pollutant_parameter_list()
             nut_drop_list = nut_drop_list[(nut_drop_list['NITROGEN'] == 'Y') | 
@@ -606,7 +607,7 @@ if __name__ == '__main__':
                                 'State', 'Zip', 'Latitude', 'Longitude',
                                 'County', 'NAICS', 'SIC'] #'Address' not in DMR
             dmr_facility = dmr_df[facility_columns].drop_duplicates()
-            store_inventory(dmr_facility, 'DMR_' + DMRyear, 'facility')
+            store_inventory(dmr_facility, 'DMR_' + year, 'facility')
             
             # generate output for flow
             flow_columns = ['FlowID','FlowName']
@@ -614,7 +615,7 @@ if __name__ == '__main__':
             dmr_flow.sort_values(by=['FlowName'],inplace=True)
             dmr_flow['Compartment'] = 'water'
             dmr_flow['Unit'] = 'kg'
-            store_inventory(dmr_flow, 'DMR_' + DMRyear, 'flow')
+            store_inventory(dmr_flow, 'DMR_' + year, 'flow')
             
             # generate output for flowbyfacility
             fbf_columns = ['FlowName', 'FlowAmount', 'FacilityID',
@@ -622,10 +623,13 @@ if __name__ == '__main__':
             dmr_fbf = aggregate(dmr_df[fbf_columns], ['FacilityID','FlowName'])
             dmr_fbf['Compartment'] = 'water'
             dmr_fbf['Unit'] = 'kg'
-            store_inventory(dmr_fbf, 'DMR_' + DMRyear, 'flowbyfacility')
+            store_inventory(dmr_fbf, 'DMR_' + year, 'flowbyfacility')
 
             # write metadata
-            generate_metadata(DMRyear, datatype='inventory')
+            generate_metadata(year, datatype='inventory')
 
-        if args.Option == 'C':
-            generateStateTotal(DMRyear)
+        if kwargs['Option'] == 'C':
+            generateStateTotal(year)
+
+if __name__ == '__main__':
+    main()

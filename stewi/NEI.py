@@ -255,10 +255,7 @@ def main(**kwargs):
     if len(kwargs) == 0:
         kwargs = vars(parser.parse_args())
     
-    NEIyears = kwargs['Year']
-    
-    for year in NEIyears:
-        year = str(year)
+    for year in kwargs['Year']:
         if kwargs['Option'] == 'A':
 
             nei_point = standardize_output(year)

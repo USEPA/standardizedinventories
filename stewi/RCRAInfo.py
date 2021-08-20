@@ -4,7 +4,7 @@
 """
 Download specified Biennial Report files from EPA RCRAInfo system   for specified year
 This file requires parameters be passed like:
-Option Year -T Table1 Table2 … TableN
+Option -Y Year -T Table1 Table2 ... TableN
 where Option is either A, B, C:
 Options
 A - for extracting files from RCRAInfo site
@@ -501,7 +501,7 @@ def validate_national_totals(report_year, flowbyfacility):
         log.warning('validation file for RCRAInfo_%s does not exist.', report_year)
 
 
-if __name__ == '__main__':
+def main(**kwargs):
 
     parser = argparse.ArgumentParser(argument_default = argparse.SUPPRESS)
 
@@ -513,7 +513,7 @@ if __name__ == '__main__':
                         [D] Process state totals for validation',
                         type = str)
 
-    parser.add_argument('-Y', '--Years', nargs= '+',
+    parser.add_argument('-Y', '--Year', nargs= '+',
                         help = 'What RCRA Biennial Report year you want to '
                         'retrieve or generate for StEWI',
                         type = str,
@@ -527,31 +527,33 @@ if __name__ == '__main__':
                         required = False,
                         default = ['BR_REPORTING'])
 
-    args = parser.parse_args()
-
+    if len(kwargs) == 0:
+        kwargs = vars(parser.parse_args())
        
-    for year in args.Years:
+    for year in kwargs['Year']:
         ##Adds sepcified Year to BR_REPORTING table
-        tables = args.Tables.copy()
-        if 'BR_REPORTING' in args.Tables:
-            tables[args.Tables.index('BR_REPORTING')] = 'BR_REPORTING' + '_' + year
+        tables = kwargs['Tables'].copy()
+        if 'BR_REPORTING' in kwargs['Tables']:
+            tables[kwargs['Tables'].index('BR_REPORTING')] = 'BR_REPORTING' + '_' + year
     
-        if args.Option == 'A':
+        if kwargs['Option'] == 'A':
             '''If issues in running this option to download the data, go to the 
             specified url and find the BR_REPORTING_year.zip file and save to 
             rcra_external_dir. Also requires HD_LU_WASTE_CODE.zip'''
             query = _config['queries']['Table_of_tables']
             download_and_extract_zip(tables, query)
     
-        elif args.Option == 'B':
-            organizing_files_by_year(args.Tables, year)
+        elif kwargs['Option'] == 'B':
+            organizing_files_by_year(kwargs['Tables'], year)
     
-        elif args.Option == 'C':
+        elif kwargs['Option'] == 'C':
             Generate_RCRAInfo_files_csv(year)
         
-        elif args.Option == 'D':
+        elif kwargs['Option'] == 'D':
             '''State totals are compiled from the Trends Analysis website
             and stored as csv. New years will be added as data becomes
             available'''
             generate_state_totals(year)
-        
+
+if __name__ == '__main__':
+    main()

@@ -4,7 +4,7 @@
 """
 Downloads TRI Basic Plus files specified in paramaters for specified year
 This file requires parameters be passed like:
-    Option Year -F File1 File2 ... FileN
+    Option -Y Year -F File1 File2 ... FileN
     where Option is either A, B, C:
 Options
     A - for downloading and extracting files from TRI Data Plus web site
@@ -360,7 +360,7 @@ def generate_metadata(year, files, datatype = 'inventory'):
         source_meta = compile_source_metadata(source_path, _config, year)
         source_meta['SourceType'] = 'Zip file'
         tri_url = _config['url']
-        link_zip_TRI = link_zip(tri_url, _config['queries'], TRIyear)
+        link_zip_TRI = link_zip(tri_url, _config['queries'], year)
         regex = re.compile(r'https://www3.epa.gov/tri/current/US_\d{4}_?(\d*)\.zip')
         tri_version = re.search(regex, link_zip_TRI).group(0)
         if not tri_version:
@@ -375,7 +375,7 @@ def generate_metadata(year, files, datatype = 'inventory'):
         write_metadata('TRI_'+year, source_meta, datatype=datatype)
 
 
-if __name__ == '__main__':
+def main(**kwargs):
 
     parser = argparse.ArgumentParser(argument_default = argparse.SUPPRESS)
 
@@ -399,24 +399,25 @@ if __name__ == '__main__':
                         default = ['1a','3a'],
                         required = False)
 
-    args = parser.parse_args()
-    TRIyears = args.Year
-    TRIFiles = args.Files
+    if len(kwargs) == 0:
+        kwargs = vars(parser.parse_args())
 
-    for TRIyear in TRIyears:
+    TRIFiles = kwargs['Files']
 
-        if args.Option == 'A':
-            log.info('downloading TRI files from source for %s', TRIyear)
+    for year in kwargs['Year']:
+
+        if kwargs['Option'] == 'A':
+            log.info('downloading TRI files from source for %s', year)
             tri_url = _config['url']
             if url_is_alive(tri_url):
-                link_zip_TRI = link_zip(tri_url, _config['queries'], TRIyear)
-                extract_TRI_data_files(link_zip_TRI, TRIFiles, TRIyear)
-                generate_metadata(TRIyear, TRIFiles, datatype='source')
+                link_zip_TRI = link_zip(tri_url, _config['queries'], year)
+                extract_TRI_data_files(link_zip_TRI, TRIFiles, year)
+                generate_metadata(year, TRIFiles, datatype='source')
             else:
                 log.error('The URL in config.yaml ({}) for TRI is not '
                           'reachable.'.format(tri_url))
 
-        elif args.Option == 'B':
+        elif kwargs['Option'] == 'B':
             # Website for National Totals
             # https://enviro.epa.gov/triexplorer/tri_release.chemical
             # Steps:
@@ -432,9 +433,12 @@ if __name__ == '__main__':
             # (5) Save the file like TRI_chem_release_year.csv in data folder
             # (6) Run this code
 
-            generate_national_totals(TRIyear)
+            generate_national_totals(year)
 
-        elif args.Option == 'C':
-            log.info('generating TRI inventory from files for %s', TRIyear)
-            Generate_TRI_files_csv(TRIyear, TRIFiles)
-            generate_metadata(TRIyear, TRIFiles, datatype='inventory')
+        elif kwargs['Option'] == 'C':
+            log.info('generating TRI inventory from files for %s', year)
+            Generate_TRI_files_csv(year, TRIFiles)
+            generate_metadata(year, TRIFiles, datatype='inventory')
+
+if __name__ == '__main__':
+    main()
