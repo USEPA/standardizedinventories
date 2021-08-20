@@ -611,6 +611,10 @@ def generate_inventory(inventory_acronym, year):
         import stewi.egrid as eGRID
         eGRID.main(Option = 'A', Year = [year])
         eGRID.main(Option = 'B', Year = [year])
+    if inventory_acronym == 'GHGRP':
+        import stewi.GHGRP as GHGRP
+        GHGRP.main(Option = 'A', Year = [year])
+        GHGRP.main(Option = 'B', Year = [year])
     elif inventory_acronym == 'NEI':
         import stewi.NEI as NEI
         NEI.main(Option = 'A', Year = [year])

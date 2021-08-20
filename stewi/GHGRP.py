@@ -5,7 +5,7 @@
 Imports GHGRP data and processes to Standardized EPA output format.
 This file requires parameters be passed like:
 
-    Option -y Year 
+    Option -Y Year 
 
 Options:
     A - for downloading and processing GHGRP data from web and saving locally
@@ -58,6 +58,40 @@ ghgrp_external_dir = paths.local_path + '/' + ext_folder + '/'
 # Flow codes that are reported in validation in CO2e
 flows_CO2e = ['PFC', 'HFC', 'Other','Very_Short', 'HFE', 'Other_Full']
 
+# define GWPs
+# (these values are from IPCC's AR4, which is consistent with GHGRP methodology)
+CH4GWP = 25
+N2OGWP = 298
+HFC23GWP = 14800
+
+# define column groupings
+ghgrp_cols = import_table(ghgrp_data_dir + 'ghgrp_columns.csv')
+name_cols = list(ghgrp_cols[ghgrp_cols['ghg_name'] == 1]['column_name'])
+alias_cols = list(ghgrp_cols[ghgrp_cols['ghg_alias'] == 1]['column_name'])
+quantity_cols = list(ghgrp_cols[ghgrp_cols['ghg_quantity'] == 1]['column_name'])
+co2_cols = list(ghgrp_cols[ghgrp_cols['co2'] == 1]['column_name'])
+ch4_cols = list(ghgrp_cols[ghgrp_cols['ch4'] == 1]['column_name'])
+n2o_cols = list(ghgrp_cols[ghgrp_cols['n2o'] == 1]['column_name'])
+co2e_cols = list(ghgrp_cols[ghgrp_cols['co2e_quantity'] == 1]['column_name'])
+subpart_c_cols = list(ghgrp_cols[ghgrp_cols['subpart_c'] == 1]['column_name'])
+method_cols = list(ghgrp_cols[ghgrp_cols['method'] == 1]['column_name'])
+base_cols = list(ghgrp_cols[ghgrp_cols['base_columns'] == 1]['column_name'])
+info_cols = name_cols + quantity_cols + method_cols
+group_cols = co2_cols + ch4_cols + n2o_cols 
+ghg_cols = base_cols + info_cols + group_cols
+
+# define filepaths for downloaded data
+data_summaries_path = ghgrp_external_dir + _config['most_recent_year'] +\
+    '_data_summary_spreadsheets/'
+esbb_subparts_path = ghgrp_external_dir + _config['esbb_subparts_url']
+lo_subparts_path = ghgrp_external_dir + _config['lo_subparts_url']
+   
+# set format for metadata file
+ghgrp_metadata = {} 
+ghgrp_metadata['time_meta'] = []
+ghgrp_metadata['filename_meta'] = []
+ghgrp_metadata['type_meta'] = []
+ghgrp_metadata['url_meta'] = []
 
 def generate_url(table, report_year='', row_start=0, row_end=9999,
                  output_ext='JSON'):
@@ -108,7 +142,7 @@ def download_chunks(table, table_count, row_start=0, report_year='',
         row_start += 10000
     ghgrp_metadata['time_meta'].append(temp_time)
     ghgrp_metadata['url_meta'].append(generate_url(table, 
-                                         report_year=year, 
+                                         report_year=report_year, 
                                          row_start='', 
                                          output_ext='CSV'))
     ghgrp_metadata['type_meta'].append('Database')
@@ -601,10 +635,8 @@ def load_subpart_l_gwp():
     subpart_L_GWPs['Flow Description'] = 'Fluorinated GHG Emissions (mt CO2e)'
     return subpart_L_GWPs
 
-########## START HERE ###############
-if __name__ == '__main__':
-    
-    ## parse Option and Year arguments
+
+def main(**kwargs):
     
     parser = argparse.ArgumentParser(argument_default = argparse.SUPPRESS)
 
@@ -615,51 +647,16 @@ if __name__ == '__main__':
                         [C] Download national totals data for validation',
                         type = str)
 
-    parser.add_argument('-y', '--Year', nargs = '+',
+    parser.add_argument('-Y', '--Year', nargs = '+',
                         help = 'What GHGRP year do you want to retrieve',
                         type = str)
     
-    args = parser.parse_args()
-    GHGRPyears = args.Year
+    if len(kwargs) == 0:
+        kwargs = vars(parser.parse_args())
     
-    # define GWPs
-    # (these values are from IPCC's AR4, which is consistent with GHGRP methodology)
-    CH4GWP = 25
-    N2OGWP = 298
-    HFC23GWP = 14800
-    
-    # define column groupings
-    ghgrp_cols = import_table(ghgrp_data_dir + 'ghgrp_columns.csv')
-    name_cols = list(ghgrp_cols[ghgrp_cols['ghg_name'] == 1]['column_name'])
-    alias_cols = list(ghgrp_cols[ghgrp_cols['ghg_alias'] == 1]['column_name'])
-    quantity_cols = list(ghgrp_cols[ghgrp_cols['ghg_quantity'] == 1]['column_name'])
-    co2_cols = list(ghgrp_cols[ghgrp_cols['co2'] == 1]['column_name'])
-    ch4_cols = list(ghgrp_cols[ghgrp_cols['ch4'] == 1]['column_name'])
-    n2o_cols = list(ghgrp_cols[ghgrp_cols['n2o'] == 1]['column_name'])
-    co2e_cols = list(ghgrp_cols[ghgrp_cols['co2e_quantity'] == 1]['column_name'])
-    subpart_c_cols = list(ghgrp_cols[ghgrp_cols['subpart_c'] == 1]['column_name'])
-    method_cols = list(ghgrp_cols[ghgrp_cols['method'] == 1]['column_name'])
-    base_cols = list(ghgrp_cols[ghgrp_cols['base_columns'] == 1]['column_name'])
-    info_cols = name_cols + quantity_cols + method_cols
-    group_cols = co2_cols + ch4_cols + n2o_cols 
-    ghg_cols = base_cols + info_cols + group_cols
-    
-    # define filepaths for downloaded data
-    data_summaries_path = ghgrp_external_dir + _config['most_recent_year'] +\
-        '_data_summary_spreadsheets/'
-    esbb_subparts_path = ghgrp_external_dir + _config['esbb_subparts_url']
-    lo_subparts_path = ghgrp_external_dir + _config['lo_subparts_url']
-    
-    # set format for metadata file
-    ghgrp_metadata = {} 
-    ghgrp_metadata['time_meta'] = []
-    ghgrp_metadata['filename_meta'] = []
-    ghgrp_metadata['type_meta'] = []
-    ghgrp_metadata['url_meta'] = []
-    
-    for year in GHGRPyears:
+    for year in kwargs['Year']:
         pickle_file = ghgrp_external_dir + 'GHGRP_' + year + '.pk'
-        if args.Option == 'A':
+        if kwargs['Option'] == 'A':
             
             download_excel_tables()
  
@@ -733,7 +730,7 @@ if __name__ == '__main__':
             #Metadata
             generate_metadata(year, ghgrp_metadata, datatype='source')
 
-        if args.Option == 'B':
+        if kwargs['Option'] == 'B':
             log.info('extracting data from %s', pickle_file)
             ghgrp = pd.read_pickle(pickle_file)
             
@@ -807,8 +804,10 @@ if __name__ == '__main__':
             # Record metadata compiled from all GHGRP files and tables
             generate_metadata(year, ghgrp_metadata, datatype='inventory')
       
-        elif args.Option == 'C':
+        elif kwargs['Option'] == 'C':
             log.info('generating national totals for validation')
             validation_table = 'V_GHG_EMITTER_SUBPART'
             generate_national_totals_validation(validation_table, year)
-            
+
+if __name__ == '__main__':
+    main()
