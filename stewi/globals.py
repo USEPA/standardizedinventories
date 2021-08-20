@@ -611,18 +611,25 @@ def generate_inventory(inventory_acronym, year):
         import stewi.DMR as DMR
         DMR.main(Option = 'A', Year = [year])
         DMR.main(Option = 'B', Year = [year])
-    if inventory_acronym == 'eGRID':
+    elif inventory_acronym == 'eGRID':
         import stewi.egrid as eGRID
         eGRID.main(Option = 'A', Year = [year])
         eGRID.main(Option = 'B', Year = [year])
-    if inventory_acronym == 'GHGRP':
+    elif inventory_acronym == 'GHGRP':
         import stewi.GHGRP as GHGRP
         GHGRP.main(Option = 'A', Year = [year])
         GHGRP.main(Option = 'B', Year = [year])
     elif inventory_acronym == 'NEI':
         import stewi.NEI as NEI
         NEI.main(Option = 'A', Year = [year])
-    
+    elif inventory_acronym == 'RCRAInfo':
+        import stewi.RCRAInfo as RCRAInfo
+        RCRAInfo.main(Option = 'A', Year = [year],
+                      Tables = ['BR_REPORTING', 'HD_LU_WASTE_CODE'])
+        RCRAInfo.main(Option = 'B', Year = [year],
+                      Tables = ['BR_REPORTING'])
+        RCRAInfo.main(Option = 'C', Year = [year])
+        
     
 
 def get_reliability_table_for_source(source):
