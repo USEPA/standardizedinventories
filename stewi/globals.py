@@ -633,7 +633,6 @@ def generate_inventory(inventory_acronym, year):
         import stewi.TRI as TRI
         TRI.main(Option = 'A', Year = [year], Files = ['1a', '3a'])
         TRI.main(Option = 'C', Year = [year], Files = ['1a', '3a'])
-        
     
 
 def get_reliability_table_for_source(source):
