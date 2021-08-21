@@ -6,8 +6,9 @@ Functions to support filtering of processed inventories
 """
 
 import pandas as pd
-from stewi.globals import data_dir, import_table
+from stewi.globals import data_dir, import_table, config
 
+filter_config = config(data_dir + 'filter.yaml')
 
 def apply_filter_to_inventory(inventory, inventory_acronym, filter_for_LCI,
                               US_States_Only):

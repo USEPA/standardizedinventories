@@ -12,7 +12,7 @@ except NameError: MODULEPATH = 'chemicalmatcher/'
 output_dir = MODULEPATH + 'output/'
 data_dir = MODULEPATH + 'data/'
 
-SRSconfig = config(MODULEPATH)['databases']['SRS']
+SRSconfig = config(MODULEPATH + 'config.yaml')['databases']['SRS']
 base  = SRSconfig['url']
 
 #Certain characters return errors or missing results but if replaces
