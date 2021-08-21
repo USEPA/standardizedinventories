@@ -150,6 +150,46 @@ def drop_excel_sheets(excel_dict, drop_sheets):
     return excel_dict
 
 
+def apply_filter_to_inventory(inventory, inventory_acronym, filter_for_LCI,
+                              US_States_Only):
+    # Apply filters if present
+    if US_States_Only:
+        inventory = filter_states(inventory)
+    if filter_for_LCI:
+        filter_path = data_dir
+        filter_type = None
+        if inventory_acronym == 'TRI':
+            filter_path += 'TRI_pollutant_omit_list.csv'
+            filter_type = 'drop'
+        elif inventory_acronym == 'DMR':
+            from stewi.DMR import remove_duplicate_organic_enrichment
+            inventory = remove_duplicate_organic_enrichment(inventory)
+            filter_path += 'DMR_pollutant_omit_list.csv'
+            filter_type = 'drop'
+        elif inventory_acronym == 'GHGRP':
+            filter_path += 'ghg_mapping.csv'
+            filter_type = 'keep'
+        elif inventory_acronym == 'NEI':
+            filter_path += 'NEI_pollutant_omit_list.csv'
+            filter_type = 'drop'
+        elif inventory_acronym == 'RCRAInfo':
+            # drop records where 'Generator ID Included in NBR' != 'Y'
+            # drop records where 'Generator Waste Stream Included in NBR' != 'Y'
+            '''
+            #Remove imported wastes, source codes G63-G75
+            import_source_codes = pd.read_csv(rcra_data_dir + 'RCRAImportSourceCodes.txt',
+                                            header=None)
+            import_source_codes = import_source_codes[0].tolist()
+            source_codes_to_keep = [x for x in BR['Source Code'].unique().tolist() if
+                                    x not in import_source_codes]
+            filter_type = 'drop'
+            '''
+        if filter_type is not None:
+            inventory = filter_inventory(inventory, filter_path, 
+                                         filter_type=filter_type)
+    return inventory
+
+
 def filter_inventory(inventory, criteria_table, filter_type, marker=None):
     """
     :param inventory_df: DataFrame to be filtered
