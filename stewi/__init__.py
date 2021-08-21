@@ -22,17 +22,17 @@ def getAvailableInventoriesandYears(stewiformat='flowbyfacility'):
         {NEI: [2014],
          TRI: [2015, 2016]}
     """
+    existing_inventories = {}
     if stewiformat not in stewi_formats:
         log.error('not a supported stewi format')
-        return
+        return existing_inventories
     directory = output_dir + '/' + stewiformat + '/'
     if os.path.exists(directory):
         files = os.listdir(directory)
     else:
         log.error('directory not found: ' + directory)
-        return
+        return existing_inventories
     outputfiles = []
-    existing_inventories = {}
     for name in files:
         if name.endswith(WRITE_FORMAT):
             _n = name[:-len('.'+WRITE_FORMAT)]
@@ -55,17 +55,21 @@ def getAvailableInventoriesandYears(stewiformat='flowbyfacility'):
         existing_inventories[key].sort()
     return existing_inventories
 
+
 def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
     """Gets available inventories and years for a given output format
     :param stewiformat: e.g. 'flowbyfacility' or 'flow' """
     existing_inventories = getAvailableInventoriesandYears(stewiformat)
-    print(stewiformat + ' inventories available (name, year):')
-    for i in existing_inventories.keys():
-        _s = i + ": "
-        for _y in existing_inventories[i]:
-            _s = _s + _y + ", "
-        _s = _s[:-2]
-        print(_s)
+    if existing_inventories == {}:
+        print('No inventories found')
+    else:
+        print(stewiformat + ' inventories available (name, year):')
+        for i in existing_inventories.keys():
+            _s = i + ": "
+            for _y in existing_inventories[i]:
+                _s = _s + _y + ", "
+            _s = _s[:-2]
+            print(_s)
 
 
 def getInventory(inventory_acronym, year, stewiformat='flowbyfacility', 
@@ -84,10 +88,10 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
         log.error('%s is not a supported format for getInventory',
                   stewiformat)
         return None
-    fields = get_required_fields(stewiformat)
     inventory = read_inventory(inventory_acronym, year, stewiformat)
     if inventory is None:
         return None
+    fields = get_required_fields(stewiformat)
     fields = {key: value for key, value in fields.items() if key in list(inventory)}
     inventory = inventory.astype(fields)
     inventory = add_missing_fields(inventory, inventory_acronym, stewiformat)
