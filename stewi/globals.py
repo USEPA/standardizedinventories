@@ -59,6 +59,48 @@ inventory_single_compartments = {"NEI":"air",
                                  "GHGRP":"air",
                                  "DMR":"water"}
 
+flowbyfacility_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],
+                         'FlowName': [{'dtype': 'str'}, {'required': True}],
+                         'Compartment': [{'dtype': 'str'}, {'required': True}],
+                         'FlowAmount': [{'dtype': 'float'}, {'required': True}],
+                         'Unit': [{'dtype': 'str'}, {'required': True}],
+                         'DataReliability': [{'dtype': 'float'}, {'required': True}],
+                         }
+
+facility_fields = {'FacilityID':[{'dtype': 'str'}, {'required': True}],
+                   'FacilityName':[{'dtype': 'str'}, {'required': False}],
+                   'Address':[{'dtype': 'str'}, {'required': False}],
+                   'City':[{'dtype': 'str'}, {'required': False}],
+                   'State':[{'dtype': 'str'}, {'required': True}],
+                   'Zip':[{'dtype': 'int'}, {'required': False}],
+                   'Latitude':[{'dtype': 'float'}, {'required': False}],
+                   'Longitude':[{'dtype': 'float'}, {'required': False}],
+                   'County':[{'dtype': 'str'}, {'required': False}],
+                   'NAICS':[{'dtype': 'str'}, {'required': False}],
+                   'SIC':[{'dtype': 'str'}, {'required': False}],
+                   }
+
+flowbyprocess_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],
+                    'FlowName': [{'dtype': 'str'}, {'required': True}],
+                    'Compartment': [{'dtype': 'str'}, {'required': True}],
+                    'FlowAmount': [{'dtype': 'float'}, {'required': True}],
+                    'Unit': [{'dtype': 'str'}, {'required': True}],
+                    'DataReliability': [{'dtype': 'float'}, {'required': True}],
+                    'Process': [{'dtype': 'str'}, {'required': True}],
+                    'ProcessType': [{'dtype': 'str'}, {'required': False}],
+                    }
+
+flow_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
+               'FlowID': [{'dtype': 'str'}, {'required': True}],
+               'CAS':  [{'dtype': 'str'}, {'required': False}],
+               'Compartment': [{'dtype': 'str'}, {'required': False}],
+               'Unit': [{'dtype': 'str'}, {'required': False}],
+               }
+
+format_dict = {'flowbyfacility': flowbyfacility_fields,
+               'flowbyprocess': flowbyprocess_fields,
+               'facility': facility_fields,
+               'flow': flow_fields}
 
 def set_stewi_meta(file_name, inventory_format = ''):
     """Creates a class of esupy FileMeta with the inventory_format assigned
@@ -339,48 +381,6 @@ def remove_line_breaks(df, headers_only = True):
         df = df.replace(to_replace=['\r\n','\n'],value=[' ', ' '], regex=True)
     return df    
 
-flowbyfacility_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],
-                         'FlowName': [{'dtype': 'str'}, {'required': True}],
-                         'Compartment': [{'dtype': 'str'}, {'required': True}],
-                         'FlowAmount': [{'dtype': 'float'}, {'required': True}],
-                         'Unit': [{'dtype': 'str'}, {'required': True}],
-                         'DataReliability': [{'dtype': 'float'}, {'required': True}],
-                         }
-
-facility_fields = {'FacilityID':[{'dtype': 'str'}, {'required': True}],
-                   'FacilityName':[{'dtype': 'str'}, {'required': False}],
-                   'Address':[{'dtype': 'str'}, {'required': False}],
-                   'City':[{'dtype': 'str'}, {'required': False}],
-                   'State':[{'dtype': 'str'}, {'required': True}],
-                   'Zip':[{'dtype': 'int'}, {'required': False}],
-                   'Latitude':[{'dtype': 'float'}, {'required': False}],
-                   'Longitude':[{'dtype': 'float'}, {'required': False}],
-                   'County':[{'dtype': 'str'}, {'required': False}],
-                   'NAICS':[{'dtype': 'str'}, {'required': False}],
-                   'SIC':[{'dtype': 'str'}, {'required': False}],
-                   }
-
-flowbyprocess_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],
-                    'FlowName': [{'dtype': 'str'}, {'required': True}],
-                    'Compartment': [{'dtype': 'str'}, {'required': True}],
-                    'FlowAmount': [{'dtype': 'float'}, {'required': True}],
-                    'Unit': [{'dtype': 'str'}, {'required': True}],
-                    'DataReliability': [{'dtype': 'float'}, {'required': True}],
-                    'Process': [{'dtype': 'str'}, {'required': True}],
-                    'ProcessType': [{'dtype': 'str'}, {'required': False}],
-                    }
-
-flow_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
-               'FlowID': [{'dtype': 'str'}, {'required': True}],
-               'CAS':  [{'dtype': 'str'}, {'required': False}],
-               'Compartment': [{'dtype': 'str'}, {'required': False}],
-               'Unit': [{'dtype': 'str'}, {'required': False}],
-               }
-
-format_dict = {'flowbyfacility': flowbyfacility_fields,
-               'flowbyprocess': flowbyprocess_fields,
-               'facility': facility_fields,
-               'flow': flow_fields}
 
 def get_required_fields(inventory_format='flowbyfacility'):
     fields = format_dict[inventory_format]
