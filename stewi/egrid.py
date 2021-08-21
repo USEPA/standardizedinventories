@@ -26,12 +26,14 @@ import os
 import zipfile
 import io
 
+from esupy.remote import make_http_request
 from stewi.globals import data_dir,write_metadata,\
-    unit_convert,log,MMBtu_MJ,MWh_MJ,config,\
-    validate_inventory,write_validation_result,USton_kg,lb_kg,\
+    unit_convert,log,MMBtu_MJ,MWh_MJ,config,USton_kg,lb_kg,\
     compile_source_metadata, remove_line_breaks, paths, store_inventory,\
-    read_source_metadata, read_inventory, update_validationsets_sources,\
-    make_http_request, set_stewi_meta
+    read_source_metadata, read_inventory, set_stewi_meta
+from stewi.validate import update_validationsets_sources, validate_inventory,\
+    write_validation_result
+
 
 _config = config()['databases']['eGRID']
 

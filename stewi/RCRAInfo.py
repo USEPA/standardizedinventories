@@ -104,12 +104,12 @@ import re
 import os
 import time, datetime
 
-from stewi.globals import write_metadata,validate_inventory,\
-    write_validation_result, data_dir, config,\
+from stewi.globals import write_metadata, data_dir, config,\
     checkforFile, USton_kg, get_reliability_table_for_source, paths,\
     log, store_inventory, compile_source_metadata, read_source_metadata,\
-    update_validationsets_sources, filter_states, aggregate,\
-    create_paths_if_missing, set_stewi_meta
+    filter_states, aggregate, create_paths_if_missing, set_stewi_meta
+from stewi.validate import update_validationsets_sources, validate_inventory,\
+    write_validation_result
 
 try:
     from selenium import webdriver

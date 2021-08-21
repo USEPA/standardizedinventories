@@ -35,10 +35,11 @@ import re
 
 from esupy.processed_data_mgmt import create_paths_if_missing
 from stewi.globals import unit_convert,data_dir, set_stewi_meta,\
-    get_reliability_table_for_source,validate_inventory,\
-    write_validation_result,write_metadata,url_is_alive,\
+    get_reliability_table_for_source, write_metadata,url_is_alive,\
     lb_kg,g_kg,config,store_inventory,log, paths, compile_source_metadata,\
-    read_source_metadata, update_validationsets_sources, aggregate
+    read_source_metadata, aggregate
+from stewi.validate import update_validationsets_sources, validate_inventory,\
+    write_validation_result
 
 
 ext_folder = 'TRI Data Files'

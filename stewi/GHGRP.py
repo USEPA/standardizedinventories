@@ -44,11 +44,13 @@ import argparse
 
 from stewi.globals import download_table,\
     write_metadata, import_table, drop_excel_sheets,\
-    validate_inventory, write_validation_result,\
     data_dir, get_reliability_table_for_source, set_stewi_meta,\
     flowbyfacility_fields, flowbyprocess_fields, facility_fields, config,\
-    store_inventory, paths, log, update_validationsets_sources,\
+    store_inventory, paths, log,\
     compile_source_metadata, read_source_metadata, aggregate
+from stewi.validate import update_validationsets_sources, validate_inventory,\
+    write_validation_result
+    
 
 _config = config()['databases']['GHGRP']
 ghgrp_data_dir = data_dir + 'GHGRP/'
