@@ -1,0 +1,76 @@
+filter_for_LCI:
+    description: Set of filters applied by default for use in LCI
+    filters:
+     - US_States_only
+     - flows_for_LCI
+     - remove_duplicate_organic_enrichment
+US_States_only:
+    description: Removes data not assigned to facilities in one of the 50 states or D.C.
+flows_for_LCI:
+    description: > 
+        Removes data for specific named flows which are not relevant for LCI or would represent
+        double counting.
+    TRI: # Flows to remove
+     - "MIXTURE"
+     - "POLYCYCLIC AROMATIC COMPOUNDS"
+     - "TRADE SECRET CHEMICAL"
+    DMR: # Flows to remove
+     - "Base neutrals & acid (Method 625), efflnt"
+     - "Base neutrals & acid (Method 625), total"
+     - "Solids, dry, discharge to sol. handling sys."
+     - "Solids, dry, removed from sol. handling sys."
+     - "Total agg concentration #1"
+     - "Total agg concentration #2"
+     - "Total agg concentration #3"
+     - "Total agg concentration #4"
+     - "Total agg concentration #5"
+     - "Total agg concentration #6"
+     - "Total agg concentration #7"
+     - "Total agg concentration #8"
+     - "Total base/neutral priority pollutants"
+    GHGRP:
+    NEI: # Flows to remove
+     - "Coal Tar"
+     - "Coke Oven Emissions"
+     - "Elemental Carbon portion of PM2.5-PRI"
+     - "Extractable Organic Matter (EOM)"
+     - "Fine Mineral Fibers"
+     - "Nickel Refinery Dust"
+     - "Nitrate portion of PM2.5-PRI"
+     - "Organic Carbon portion of PM2.5-PRI"
+     - "PM Condensible"
+     - "PM10 Filterable"
+     - "PM2.5 Filterable"
+     - "Remaining PMFINE portion of PM2.5-PRI"
+     - "Rockwool (Man-Made Fibers)"
+     - "Slagwool (Man-Made Fibers)"
+     - "Sulfate Portion of PM2.5-PRI"
+     - "PM10-Primary from certain diesel engines"
+     - "PM25-Primary from certain diesel engines"
+remove_duplicate_organic_enrichment:
+    description: > 
+        Facilities can report multiple forms of organic enrichment, BOD and COD,
+        which represent duplicate accounting of oxygen depletion. See Meyer et al.
+        2020
+National_Biennial_Report:
+    description: > 
+        Applies to RCRAInfo inventories, removes waste codes and facilities not
+        associated with the National Biennial Report. 
+imported_wastes:
+    description: > 
+        Applies to RCRAInfo inventories, removes waste for imported wastes based on
+        source code
+    source_codes: # to remove
+        - G63
+        - G64
+        - G65
+        - G66
+        - G67
+        - G68
+        - G69
+        - G70
+        - G71
+        - G72
+        - G73
+        - G74
+        - G75
