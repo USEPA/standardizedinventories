@@ -41,7 +41,9 @@ def apply_filter_to_inventory(inventory, inventory_acronym, filter_list):
     if 'flows_for_LCI' in filter_list:
         flow_filter_list = filter_config['flows_for_LCI'][inventory_acronym]
         filter_type = 'drop'
-        inventory = filter_inventory(inventory, flow_filter_list, 
+        inventory = filter_inventory(inventory,
+                                     pd.DataFrame(flow_filter_list,
+                                                  columns = ['FlowName']), 
                                      filter_type=filter_type)
         
         # elif inventory_acronym == 'GHGRP':
