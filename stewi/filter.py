@@ -10,50 +10,51 @@ from stewi.globals import data_dir, import_table, config
 
 filter_config = config(data_dir + 'filter.yaml')
 
-def apply_filter_to_inventory(inventory, inventory_acronym, filter_for_LCI,
-                              US_States_Only):
+def apply_filter_to_inventory(inventory, inventory_acronym, filter_list):
     # Apply filters if present
-    if US_States_Only:
+    if 'filter_for_LCI' in filter_list:
+        for name in filter_config['filter_for_LCI']['filters']:
+            if name not in filter_list:
+                filter_list.append(name)
+
+    if 'US_States_only' in filter_list:
         inventory = filter_states(inventory)
-    if filter_for_LCI:
-        filter_path = data_dir
-        filter_type = None
-        if inventory_acronym == 'TRI':
-            filter_path += 'TRI_pollutant_omit_list.csv'
-            filter_type = 'drop'
-        elif inventory_acronym == 'DMR':
+
+    if inventory_acronym == 'DMR':
+        if 'remove_duplicate_organic_enrichment' in filter_list:
             from stewi.DMR import remove_duplicate_organic_enrichment
             inventory = remove_duplicate_organic_enrichment(inventory)
-            filter_path += 'DMR_pollutant_omit_list.csv'
-            filter_type = 'drop'
-        elif inventory_acronym == 'GHGRP':
-            filter_path += 'ghg_mapping.csv'
-            filter_type = 'keep'
-        elif inventory_acronym == 'NEI':
-            filter_path += 'NEI_pollutant_omit_list.csv'
-            filter_type = 'drop'
-        elif inventory_acronym == 'RCRAInfo':
-            # drop records where 'Generator ID Included in NBR' != 'Y'
-            # drop records where 'Generator Waste Stream Included in NBR' != 'Y'
+
+    if inventory_acronym == 'RCRAInfo':
+        if 'National_Biennial_Report' in filter_list:
             '''
-            #Remove imported wastes, source codes G63-G75
-            import_source_codes = pd.read_csv(rcra_data_dir + 'RCRAImportSourceCodes.txt',
-                                            header=None)
-            import_source_codes = import_source_codes[0].tolist()
-            source_codes_to_keep = [x for x in BR['Source Code'].unique().tolist() if
-                                    x not in import_source_codes]
-            filter_type = 'drop'
+            BR = BR[BR['Source Code'] != 'G61']
+            BR = BR[BR['Generator ID Included in NBR'] == 'Y']
+            BR = BR[BR['Generator Waste Stream Included in NBR'] == 'Y']
             '''
-        if filter_type is not None:
-            inventory = filter_inventory(inventory, filter_path, 
-                                         filter_type=filter_type)
+        if 'imported_wastes' in filter_list:
+            source_codes = filter_config['imported_wastes']['source_codes']
+            '''
+            BR = BR[BR['Source Code'].isin(source_codes_to_keep)]
+            '''
+
+    if 'flows_for_LCI' in filter_list:
+        flow_filter_list = filter_config['flows_for_LCI'][inventory_acronym]
+        filter_type = 'drop'
+        inventory = filter_inventory(inventory, flow_filter_list, 
+                                     filter_type=filter_type)
+        
+        # elif inventory_acronym == 'GHGRP':
+        #     filter_path += 'ghg_mapping.csv'
+        #     filter_type = 'keep'
+        
     return inventory
 
 
 def filter_inventory(inventory, criteria_table, filter_type, marker=None):
     """
     :param inventory_df: DataFrame to be filtered
-    :param criteria_file: Can be a list of items to drop/keep, or a table
+    :param criteria_table: Can be a list of items to drop/keep, or a table
                         of FlowName, FacilityID, etc. with columns
                         marking rows to drop
     :param filter_type: drop, keep, mark_drop, mark_keep
@@ -61,7 +62,8 @@ def filter_inventory(inventory, criteria_table, filter_type, marker=None):
         Option to specify 'x', 'yes', '1', etc.
     :return: DataFrame
     """
-    inventory = import_table(inventory); criteria_table = import_table(criteria_table)
+    inventory = import_table(inventory)
+    criteria_table = import_table(criteria_table)
     if filter_type in ('drop', 'keep'):
         for criteria_column in criteria_table:
             for column in inventory:

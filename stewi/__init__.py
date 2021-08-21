@@ -11,8 +11,8 @@ import os
 from stewi.globals import get_required_fields,\
     log, add_missing_fields, output_dir,\
     WRITE_FORMAT, read_inventory, stewi_formats, paths,\
-    read_source_metadata, inventory_formats, set_stewi_meta,\
-    apply_filter_to_inventory
+    read_source_metadata, inventory_formats, set_stewi_meta
+from stewi.filter import apply_filter_to_inventory
 
 
 def getAvailableInventoriesandYears(stewiformat='flowbyfacility'):
@@ -73,12 +73,13 @@ def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
 
 
 def getInventory(inventory_acronym, year, stewiformat='flowbyfacility', 
-                 filter_for_LCI=False, US_States_Only=False):
+                 filter_list=[], filter_for_LCI=False, US_States_Only=False):
     """Returns an inventory in a standard output format
     :param inventory_acronym: like 'TRI'
     :param year: year as number like 2010
     :param stewiformat: standard output format for returning..'flowbyfacility'
         or 'flowbyprocess' only 
+    :param filter_list: a list of named filters to apply to inventory
     :param filter_for_LCI: whether or not to filter inventory for life
         cycle inventory creation
     :param US_States_Only: includes only US states
@@ -95,8 +96,18 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
     fields = {key: value for key, value in fields.items() if key in list(inventory)}
     inventory = inventory.astype(fields)
     inventory = add_missing_fields(inventory, inventory_acronym, stewiformat)
-    inventory = apply_filter_to_inventory(inventory, inventory_acronym, 
-                                          filter_for_LCI, US_States_Only)
+    
+    # for backwards compatability, maintain these optional parameters in getInventory
+    if filter_for_LCI:
+        if 'filter_for_LCI' not in filter_list:
+            filter_list.append('filter_for_LCI')
+    if US_States_Only:
+        if 'US_States_only' not in filter_list:
+            filter_list.append('US_States_only')
+            
+    if filter_list != []:
+        inventory = apply_filter_to_inventory(inventory, inventory_acronym, 
+                                              filter_list)
     return inventory
 
 
