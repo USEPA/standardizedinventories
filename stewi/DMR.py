@@ -26,12 +26,13 @@ import os
 import requests
 import sys
 import pandas as pd
-from stewi.globals import filter_inventory, filter_states, unit_convert,\
+from stewi.globals import unit_convert,\
     data_dir, lb_kg, write_metadata, get_reliability_table_for_source,\
     log, compile_source_metadata, config, store_inventory, set_stewi_meta,\
     paths, read_source_metadata, aggregate
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
+from stewi.filter import filter_inventory, filter_states
 import argparse
 
 _config = config()['databases']['DMR']
