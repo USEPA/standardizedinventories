@@ -72,7 +72,7 @@ facility_fields = {'FacilityID':[{'dtype': 'str'}, {'required': True}],
                    'Address':[{'dtype': 'str'}, {'required': False}],
                    'City':[{'dtype': 'str'}, {'required': False}],
                    'State':[{'dtype': 'str'}, {'required': True}],
-                   'Zip':[{'dtype': 'int'}, {'required': False}],
+                   'Zip':[{'dtype': 'str'}, {'required': False}],
                    'Latitude':[{'dtype': 'float'}, {'required': False}],
                    'Longitude':[{'dtype': 'float'}, {'required': False}],
                    'County':[{'dtype': 'str'}, {'required': False}],
@@ -192,7 +192,7 @@ def drop_excel_sheets(excel_dict, drop_sheets):
     return excel_dict
 
 
-def aggregate(df, grouping_vars):
+def aggregate(df, grouping_vars = None):
     """
     Aggregate a 'FlowAmount' in a dataframe based on the passed grouping_vars
     and generating a weighted average for data quality fields
@@ -200,6 +200,8 @@ def aggregate(df, grouping_vars):
     :param grouping_vars: list of df column headers on which to groupby
     :return: aggregated dataframe with weighted average data reliability score
     """
+    if grouping_vars is None:
+        grouping_vars = [x for x in df.columns if x not in ['FlowAmount','DataReliability']]
     df_agg = df.groupby(grouping_vars).agg({'FlowAmount': ['sum']})
     df_agg['DataReliability']=get_weighted_average(
         df, 'DataReliability', 'FlowAmount', grouping_vars)
@@ -294,12 +296,13 @@ def get_required_fields(inventory_format='flowbyfacility'):
 
 def get_optional_fields(inventory_format='flowbyfacility'):
     fields = format_dict[inventory_format]
-    optional_fields = {key: value[0]['dtype'] for key, value in fields.items()}
+    optional_fields = {key: value[0]['dtype'] for key, value
+                       in fields.items()}
     return optional_fields
 
 
 def add_missing_fields(df, inventory_acronym, inventory_format='flowbyfacility'):
-    """Adds and formats fields for stewi inventory file
+    """Adds all fields and formats for stewi inventory file
     :param df: dataframe of inventory data
     :param inventory_acronym: str of inventory e.g. 'NEI'
     :param inventory_format: str of a stewi format type e.g. 'flowbyfacility'
@@ -310,10 +313,15 @@ def add_missing_fields(df, inventory_acronym, inventory_format='flowbyfacility')
     if 'ReliabilityScore' in df.columns:
         df.rename(columns={'ReliabilityScore':'DataReliability'}, inplace=True)
     # Add in units and compartment if not present
-    if 'Unit' not in df.columns:
+    if ('Unit' in fields.keys()) & ('Unit' not in df.columns):
         df['Unit'] = 'kg'
-    if 'Compartment' not in df.columns:
-        df['Compartment'] = inventory_single_compartments[inventory_acronym]
+    if ('Compartment' in fields.keys()) & ('Compartment' not in df.columns):
+        try:
+            compartment = inventory_single_compartments[inventory_acronym]
+        except KeyError:
+            log.warning('no compartment found in inventory')
+            compartment = ''
+        df['Compartment'] = compartment
     for key in fields.keys():
         if key not in df.columns:
             df[key] = None
@@ -363,16 +371,13 @@ def read_inventory(inventory_acronym, year, inventory_format):
         inventory = load_preprocessed_output(meta, paths)
         if inventory is None:
             log.error('error generating inventory')
-        else:
-            log.info('loaded ' + meta.name_data + ' from ' + method_path)
-    else:
+    if inventory is not None:
         log.info('loaded ' + meta.name_data + ' from ' + method_path)
-        # ensure dtype for str
+        # ensure dtypes
         fields = get_optional_fields(inventory_format)
-        cols_in_df = [c for c in fields if c in inventory]
-        for c in cols_in_df:
-            if fields[c] == 'str':
-                inventory[c] = inventory[c].astype('str')
+        fields = {key: value for key, value in fields.items()
+                  if key in list(inventory)}
+        inventory = inventory.astype(fields)
     return inventory
 
 

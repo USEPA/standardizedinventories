@@ -8,10 +8,9 @@ inventory in standard formats
 
 
 import os
-from stewi.globals import get_required_fields,\
-    log, add_missing_fields, output_dir,\
+from stewi.globals import log, add_missing_fields, output_dir,\
     WRITE_FORMAT, read_inventory, stewi_formats, paths,\
-    read_source_metadata, inventory_formats, set_stewi_meta
+    read_source_metadata, inventory_formats, set_stewi_meta, aggregate
 from stewi.filter import apply_filter_to_inventory
 
 
@@ -92,11 +91,7 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
     inventory = read_inventory(inventory_acronym, year, stewiformat)
     if inventory is None:
         return None
-    fields = get_required_fields(stewiformat)
-    fields = {key: value for key, value in fields.items() if key in list(inventory)}
-    inventory = inventory.astype(fields)
-    inventory = add_missing_fields(inventory, inventory_acronym, stewiformat)
-    
+
     # for backwards compatability, maintain these optional parameters in getInventory
     if filter_for_LCI:
         if 'filter_for_LCI' not in filter_list:
@@ -108,6 +103,12 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
     if filter_list != []:
         inventory = apply_filter_to_inventory(inventory, inventory_acronym, 
                                               filter_list)
+
+    inventory = add_missing_fields(inventory, inventory_acronym, stewiformat)
+    
+    # After filting, may be necessary to reaggregate inventory again
+    inventory = aggregate(inventory)
+
     return inventory
 
 
@@ -118,6 +119,7 @@ def getInventoryFlows(inventory_acronym, year):
     :return: dataframe with standard flows format
     """
     flows = read_inventory(inventory_acronym, year, 'flow')
+    flows = add_missing_fields(flows, inventory_acronym, 'flow')
     return flows
 
 
@@ -128,6 +130,7 @@ def getInventoryFacilities(inventory_acronym, year):
     :return: dataframe with standard flows format
     """
     facilities = read_inventory(inventory_acronym, year, 'facility')
+    facilities = add_missing_fields(facilities, inventory_acronym, 'facility')
     return facilities
 
 def getMetadata(inventory_acroynym, year):
