@@ -6,11 +6,11 @@ Functions to support filtering of processed inventories
 """
 
 import pandas as pd
-from stewi.globals import data_dir, import_table, config
+from stewi.globals import data_dir, import_table, config, read_inventory
 
 filter_config = config(data_dir + 'filter.yaml')
 
-def apply_filter_to_inventory(inventory, inventory_acronym, filter_list):
+def apply_filter_to_inventory(inventory, inventory_acronym, year, filter_list):
     # Apply filters if present
     if 'filter_for_LCI' in filter_list:
         for name in filter_config['filter_for_LCI']['filters']:
@@ -27,16 +27,18 @@ def apply_filter_to_inventory(inventory, inventory_acronym, filter_list):
 
     if inventory_acronym == 'RCRAInfo':
         if 'National_Biennial_Report' in filter_list:
-            '''
-            BR = BR[BR['Source Code'] != 'G61']
-            BR = BR[BR['Generator ID Included in NBR'] == 'Y']
-            BR = BR[BR['Generator Waste Stream Included in NBR'] == 'Y']
-            '''
+            fac_list = read_inventory('RCRAInfo', year, 'facility')
+            fac_list = fac_list[['FacilityID',
+                                 'Generator ID Included in NBR']
+                                ].drop_duplicates(ignore_index = True)
+            inventory = inventory.merge(fac_list, how = 'left')
+            inventory = inventory[inventory['Generator ID Included in NBR'] == 'Y']
+            inventory = inventory[inventory['Source Code'] != 'G61']
+            inventory = inventory[inventory['Generator Waste Stream Included in NBR'] == 'Y']
+
         if 'imported_wastes' in filter_list:
-            source_codes = filter_config['imported_wastes']['source_codes']
-            '''
-            BR = BR[BR['Source Code'].isin(source_codes_to_keep)]
-            '''
+            imp_source_codes = filter_config['imported_wastes']['source_codes']
+            inventory = inventory[~inventory['Source Code'].isin(imp_source_codes)]
 
     if 'flows_for_LCI' in filter_list:
         flow_filter_list = filter_config['flows_for_LCI'][inventory_acronym]

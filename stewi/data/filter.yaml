@@ -4,6 +4,8 @@ filter_for_LCI:
      - US_States_only
      - flows_for_LCI
      - remove_duplicate_organic_enrichment
+     - National_Biennial_Report
+     - imported_wastes
 US_States_only:
     description: Removes data not assigned to facilities in one of the 50 states or D.C.
 flows_for_LCI:
@@ -47,6 +49,7 @@ flows_for_LCI:
      - "Sulfate Portion of PM2.5-PRI"
      - "PM10-Primary from certain diesel engines"
      - "PM25-Primary from certain diesel engines"
+    RCRAInfo: 
 remove_duplicate_organic_enrichment:
     description: > 
         Facilities can report multiple forms of organic enrichment, BOD and COD,

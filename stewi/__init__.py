@@ -101,7 +101,7 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
             filter_list.append('US_States_only')
             
     if filter_list != []:
-        inventory = apply_filter_to_inventory(inventory, inventory_acronym, 
+        inventory = apply_filter_to_inventory(inventory, inventory_acronym, year, 
                                               filter_list)
 
     inventory = add_missing_fields(inventory, inventory_acronym, stewiformat)
