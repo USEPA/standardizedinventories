@@ -110,7 +110,7 @@ from stewi.globals import write_metadata, data_dir, config,\
     aggregate, create_paths_if_missing, set_stewi_meta
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
-from stewi.validate import filter_states
+from stewi.filter import filter_states
 
 try:
     from selenium import webdriver
@@ -226,6 +226,10 @@ def organizing_files_by_year(Tables, Year):
                                  encoding = 'utf-8')
                 df = df[df['Report Cycle'].apply(
                     lambda x: str(x).replace('.0','').isdigit())]
+                if df['Location Street Number'].dtype != 'str':
+                    df['Location Street Number'] = df['Location Street Number'].astype(str)
+                    df['Location Street Number'] = df['Location Street Number'].apply(
+                        lambda x: str(x).replace('.0',''))
                 df['Report Cycle'] = df['Report Cycle'].astype(int)
                 df = df[df['Report Cycle']==Year]
                 df_full = pd.concat([df_full, df])
@@ -323,8 +327,6 @@ def Generate_RCRAInfo_files_csv(report_year):
     #Prepare flows file
     flows = BR[['FlowName','FlowID','FlowNameSource']]
     flows = flows.drop_duplicates(ignore_index=True)
-    flows['Compartment']='Waste'
-    flows['Unit']='kg'
     #Sort them by the flow names
     flows.sort_values(by='FlowName',axis=0,inplace=True)
     store_inventory(flows, 'RCRAInfo_' + report_year, 'flow')
@@ -335,10 +337,11 @@ def Generate_RCRAInfo_files_csv(report_year):
            'Location State', 'Location Zip', 'County Name',
            'NAICS', 'Generator ID Included in NBR']].reset_index(drop=True)
     facilities.drop_duplicates(inplace=True, ignore_index=True)
-    facilities['Location Street Number'] = facilities['Location Street Number'].apply(str)
-    facilities['Location Street Number'].fillna('',inplace=True)
-    facilities['Address'] = facilities['Location Street Number'] + ' ' +\
-        facilities['Location Street 1'] + ' ' + facilities['Location Street 2']
+    facilities['Address'] = facilities[['Location Street Number',
+                                      'Location Street 1',
+                                      'Location Street 2']].apply(
+                                          lambda x: ' '.join(x.dropna())
+                                          , axis=1)
     facilities.drop(columns=['Location Street Number','Location Street 1',
                              'Location Street 2'],inplace=True)
     facilities.rename(columns={'Primary NAICS':'NAICS',
