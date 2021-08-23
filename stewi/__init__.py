@@ -11,7 +11,7 @@ import os
 from stewi.globals import log, add_missing_fields, output_dir,\
     WRITE_FORMAT, read_inventory, stewi_formats, paths,\
     read_source_metadata, inventory_formats, set_stewi_meta, aggregate
-from stewi.filter import apply_filter_to_inventory
+from stewi.filter import apply_filter_to_inventory, filter_config
 
 
 def getAvailableInventoriesandYears(stewiformat='flowbyfacility'):
@@ -143,3 +143,11 @@ def getMetadata(inventory_acroynym, year):
                                 set_stewi_meta(inventory_acroynym + '_' + str(year)),
                                 force_JSON=True)
     return meta
+
+
+def seeAvailableInventoryFilters():
+    for f in filter_config:
+        print(f + ': ' + filter_config[f]['description'])
+        if (f == 'filter_for_LCI'):
+            print('Includes the following filters: ' + ', '.join(
+                filter_config[f]['filters']))
