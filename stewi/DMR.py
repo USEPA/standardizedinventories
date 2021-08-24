@@ -34,7 +34,7 @@ from stewi.globals import unit_convert,\
     paths, read_source_metadata, aggregate
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
-from stewi.filter import filter_inventory, filter_states, filter_config
+from stewi.filter import filter_states, filter_config
 
 
 _config = config()['databases']['DMR']
@@ -588,7 +588,7 @@ def main(**kwargs):
             nut_drop_list = read_pollutant_parameter_list()
             nut_drop_list = nut_drop_list[(nut_drop_list['NITROGEN'] == 'Y') | 
                                           (nut_drop_list['PHOSPHORUS'] == 'Y')]
-            nut_drop_list = nut_drop_list[['FlowName']].drop_duplicates()
+            nut_drop_list = list(set(nut_drop_list['FlowName']))
             
             # Consolidate N and P based flows to reflect nutrient aggregation
             P_df = consolidate_nutrients(P_df, nut_drop_list, 'P')
@@ -599,8 +599,7 @@ def main(**kwargs):
 
             # Filter out nitrogen and phosphorus flows before combining 
             # with aggregated nutrients            
-            dmr_nut_filtered = filter_inventory(state_df,
-                                                nut_drop_list, 'drop')
+            dmr_nut_filtered = state_df[~state_df['FlowName'].isin(nut_drop_list)]
             dmr_df = pd.concat([dmr_nut_filtered,
                                 nutrient_agg_df]).reset_index(drop=True)
 

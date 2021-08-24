@@ -1,4 +1,4 @@
-filter_for_LCI:
+filter_for_LCI: # Default filters to apply if filter_for_LCI = True
     description: Set of filters applied by default for use in LCI
     filters:
      - US_States_only

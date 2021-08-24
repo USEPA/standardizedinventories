@@ -11,7 +11,14 @@ from stewi.globals import data_dir, import_table, config, read_inventory
 filter_config = config(file = 'filter.yaml')
 
 def apply_filter_to_inventory(inventory, inventory_acronym, year, filter_list):
-    # Apply filters if present
+    """Applies one or more filters from a passed list to an inventory dataframe
+    :param inventory: df of stewi inventory of type flowbyfacility or flowbyprocess
+    :param inventory_acronym: str of inventory e.g. 'NEI'
+    :param year: year as number like 2010
+    :param filter_list: a list of named filters to apply to inventory
+    :return: DataFrame of filtered inventory    
+    """
+
     if 'filter_for_LCI' in filter_list:
         for name in filter_config['filter_for_LCI']['filters']:
             if name not in filter_list:
@@ -42,11 +49,7 @@ def apply_filter_to_inventory(inventory, inventory_acronym, year, filter_list):
 
     if 'flows_for_LCI' in filter_list:
         flow_filter_list = filter_config['flows_for_LCI'][inventory_acronym]
-        filter_type = 'drop'
-        inventory = filter_inventory(inventory,
-                                     pd.DataFrame(flow_filter_list,
-                                                  columns = ['FlowName']), 
-                                     filter_type=filter_type)
+        inventory = inventory[~inventory['FlowName'].isin(flow_filter_list)]
         
         # elif inventory_acronym == 'GHGRP':
         #     filter_path += 'ghg_mapping.csv'
@@ -55,60 +58,21 @@ def apply_filter_to_inventory(inventory, inventory_acronym, year, filter_list):
     return inventory
 
 
-def filter_inventory(inventory, criteria_table, filter_type, marker=None):
-    """
-    :param inventory_df: DataFrame to be filtered
-    :param criteria_table: Can be a list of items to drop/keep, or a table
-                        of FlowName, FacilityID, etc. with columns
-                        marking rows to drop
-    :param filter_type: drop, keep, mark_drop, mark_keep
-    :param marker: Non-empty fields are considered marked by default.
-        Option to specify 'x', 'yes', '1', etc.
-    :return: DataFrame
-    """
-    inventory = import_table(inventory)
-    criteria_table = import_table(criteria_table)
-    if filter_type in ('drop', 'keep'):
-        for criteria_column in criteria_table:
-            for column in inventory:
-                if column == criteria_column:
-                    criteria = set(criteria_table[criteria_column])
-                    if filter_type == 'drop':
-                        inventory = inventory[~inventory[column].isin(criteria)]
-                    elif filter_type == 'keep':
-                        inventory = inventory[inventory[column].isin(criteria)]
-    elif filter_type in ('mark_drop', 'mark_keep'):
-        standard_format = import_table(data_dir + 'flowbyfacility_format.csv')
-        must_match = standard_format['Name'][standard_format['Name'].isin(criteria_table.keys())]
-        for criteria_column in criteria_table:
-            if criteria_column in must_match: continue
-            for field in must_match:
-                if filter_type == 'mark_drop':
-                    if marker is None:
-                        inventory = inventory[~inventory[field].isin(
-                            criteria_table[field][criteria_table[criteria_column] != ''])]
-                    else:
-                        inventory = inventory[~inventory[field].isin(
-                            criteria_table[field][criteria_table[criteria_column] == marker])]
-                if filter_type == 'mark_keep':
-                    if marker is None:
-                        inventory = inventory[inventory[field].isin(
-                            criteria_table[field][criteria_table[criteria_column] != ''])]
-                    else:
-                        inventory = inventory[inventory[field].isin(
-                            criteria_table[field][criteria_table[criteria_column] == marker])]
-    return inventory.reset_index(drop=True)
-
-
 def filter_states(inventory_df, include_states=True, include_dc=True,
                   include_territories=False):
+    """Removes records from passed dataframe that are not included in the list of
+    states
+    :param inventory_df: dataframe that includes column 'State' of 2 digit strings
+    :param include_states: bool, True to include data from 50 U.S. states
+    :param include_dc: bool, True to include data from D.C.
+    :param include_territories: bool, True to include data from U.S. territories
+    :return: DataFrame
+    """
     states_df = pd.read_csv(data_dir + 'state_codes.csv')
-    states_filter = pd.DataFrame()
     states_list = []
     if include_states: states_list += list(states_df['states'].dropna())
     if include_dc: states_list += list(states_df['dc'].dropna())
     if include_territories: states_list += list(states_df['territories'].dropna())
-    states_filter['State'] = states_list
-    output_inventory = filter_inventory(inventory_df, states_filter, filter_type='keep')
+    output_inventory = inventory_df[inventory_df['State'].isin(states_list)]
     return output_inventory
 
