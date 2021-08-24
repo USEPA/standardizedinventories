@@ -405,7 +405,6 @@ def consolidate_nutrients(df, drop_list, nutrient):
     """
     Renames flows following nutrient aggregation to better handle flow overlaps
     """
-    drop_list = drop_list['FlowName'].to_list()
     if nutrient == 'P':
         flow = ['Phosphorus', 'PHOSP']
     elif nutrient == 'N':
