@@ -52,9 +52,10 @@ flows_for_LCI:
     RCRAInfo: 
 remove_duplicate_organic_enrichment:
     description: > 
-        Facilities can report multiple forms of organic enrichment, BOD and COD,
-        which represent duplicate accounting of oxygen depletion. See Meyer et al.
-        2020
+        Removes facility overlap of organic enrichment reporting. Facilities can
+        report multiple forms of organic enrichment, BOD and COD, which represent
+        duplicate accounting of oxygen depletion. See Meyer et al. 2020
+    flow_preference: 'COD'
 National_Biennial_Report:
     description: > 
         Applies to RCRAInfo inventories, removes waste codes and facilities not

@@ -26,14 +26,16 @@ import os
 import requests
 import sys
 import pandas as pd
+import argparse
+
 from stewi.globals import unit_convert,\
     data_dir, lb_kg, write_metadata, get_reliability_table_for_source,\
     log, compile_source_metadata, config, store_inventory, set_stewi_meta,\
     paths, read_source_metadata, aggregate
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
-from stewi.filter import filter_inventory, filter_states
-import argparse
+from stewi.filter import filter_inventory, filter_states, filter_config
+
 
 _config = config()['databases']['DMR']
 dmr_data_dir = data_dir + 'DMR/'
@@ -54,11 +56,11 @@ base_url = _config['base_url']
 PARAM_GROUP = True
 DETECTION = 'HALF'
 
-big_state_list = ['CA','KY','WV']
+big_state_list = ['CA','KY','WV', 'AL', 'PA','LA','MO', 'OH', 'CO', 'NY']
 
 def generate_url(report_year, base_url=base_url, sic='', region='', state='', 
                  nutrient='', nutrient_agg=False, param_group=False,
-                 detection='', estimation=True, responseset='100000',
+                 detection='', estimation=True, responseset='20000',
                  pageno='1', output_type='JSON'):
     
     """
@@ -128,7 +130,7 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
                     success_list.append(sic + '_' + state)
     else:
         for state in state_list:
-            if not state in big_state_list:
+            if (nutrient != '') | (state not in big_state_list):
                 filepath = path + 'state_' + state + '.pickle'
                 url = generate_url(report_year=year, state=state,
                                    param_group=PARAM_GROUP,
@@ -157,7 +159,7 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
                                        param_group=PARAM_GROUP,
                                        detection=DETECTION, nutrient = nutrient,
                                        nutrient_agg = nutrient_agg,
-                                       responseset = '3000',
+                                       responseset = '9000',
                                        pageno = str(counter))
                     if os.path.exists(filepath):
                         log.debug('file already exists for %s, skipping', state)
@@ -267,7 +269,7 @@ def generateDMR(year, nutrient=''):
         log.info('reading stored DMR queries by state...')
     for state in states:
         log.debug('accessing data for %s', state)
-        if not state in big_state_list:
+        if (nutrient != '') | (state not in big_state_list):
             filepath = path + 'state_' + state + '.pickle'
             result = unpickle(filepath)
             if result is None:
@@ -416,10 +418,11 @@ def consolidate_nutrients(df, drop_list, nutrient):
 def remove_duplicate_organic_enrichment(df):
     """
     Facilities can report multiple forms of organic enrichment, BOD and COD,
-    which represent duplicate accounting of oxygen depletion. See Myer et al.
+    which represent duplicate accounting of oxygen depletion. See Meyer et al.
     2020
     """
-    flow_preference = 'COD'
+    flow_preference = filter_config[
+        'remove_duplicate_organic_enrichment']['flow_preference']
 
     org_flow_list = read_pollutant_parameter_list()
     org_flow_list = org_flow_list[org_flow_list['ORGANIC_ENRICHMENT'] == 'Y']
