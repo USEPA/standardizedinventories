@@ -116,10 +116,11 @@ def set_stewi_meta(file_name, inventory_format = ''):
     return stewi_meta
 
 
-def config(config_path=MODULEPATH + 'config.yaml'):
+def config(config_path=MODULEPATH, file='config.yaml'):
     """Read and return stewi configuration file"""
     configfile = None
-    with open(config_path, mode='r') as f:
+    path = config_path + file
+    with open(path, mode='r') as f:
         configfile = yaml.load(f,Loader=yaml.FullLoader)
     return configfile
 

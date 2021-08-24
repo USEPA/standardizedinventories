@@ -8,7 +8,7 @@ Functions to support filtering of processed inventories
 import pandas as pd
 from stewi.globals import data_dir, import_table, config, read_inventory
 
-filter_config = config(data_dir + 'filter.yaml')
+filter_config = config(file = 'filter.yaml')
 
 def apply_filter_to_inventory(inventory, inventory_acronym, year, filter_list):
     # Apply filters if present
