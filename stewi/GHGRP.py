@@ -134,12 +134,11 @@ def download_chunks(table, table_count, row_start=0, report_year='',
                                  row_start=row_start, row_end=row_end,
                                  output_ext=output_ext)
         log.debug('url: %s', table_url)
-        while True:
-            try:
-                table_temp, temp_time = import_table(table_url, get_time=True)
-                break
-            except ValueError: continue
-            except: break
+        try:
+            table_temp, temp_time = import_table(table_url, get_time=True)
+        except pd.errors.ParserError:
+            log.error('error in downloading table %s', table)
+            return None
         output_table = pd.concat([output_table, table_temp])
         row_start += 10000
     ghgrp_metadata['time_meta'].append(temp_time)
@@ -246,16 +245,11 @@ def import_or_download_table(filepath, table, year):
         row_count = get_row_count(table, report_year=year)
         log.info('Downloading %s (rows: %i)', table, row_count)
         # download data in chunks
-        while True:
-            try:
-                table_df = download_chunks(table=table,
-                                          table_count=row_count,
-                                          report_year=year,
-                                          filepath=filepath)
-                log.debug('Done downloading.')
-                break
-            except ValueError: continue
-            except: break
+        table_df = download_chunks(table=table, table_count=row_count,
+                                   report_year=year, filepath=filepath)
+    
+    if table_df is None:
+        return None
     
     # for all columns in the temporary dataframe, remove subpart-specific prefixes
     for col in table_df:
@@ -306,6 +300,8 @@ def download_and_parse_subpart_tables(year):
         table_df = import_or_download_table(filepath, subpart_emissions_table,
                                             year)
         
+        if table_df is None:
+            continue
         # add 1-2 letter subpart abbreviation
         table_df['SUBPART_NAME'] = list(year_tables.loc[
             year_tables['TABLE'] == subpart_emissions_table, 'SUBPART'])[0]
