@@ -110,7 +110,7 @@ from stewi.globals import write_metadata, data_dir, config,\
     aggregate, create_paths_if_missing, set_stewi_meta
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
-from stewi.filter import filter_states
+from stewi.filter import apply_filter_to_inventory
 
 try:
     from selenium import webdriver
@@ -356,7 +356,7 @@ def Generate_RCRAInfo_files_csv(report_year):
                                     'Generator Waste Stream Included in NBR'])
     store_inventory(flowbyfacility, 'RCRAInfo_' + report_year, 'flowbyfacility')
     
-    validate_national_totals(report_year, flowbyfacility)
+    validate_state_totals(report_year, flowbyfacility)
     
     #Record metadata
     generate_metadata(report_year, filepath, datatype = 'inventory')
@@ -401,25 +401,27 @@ def generate_state_totals(year):
                        'Year':year,
                        'Name':'Trends Analysis',
                        'URL':'https://rcrapublic.epa.gov/rcrainfoweb/action/modules/br/trends/view',
-                       'Criteria':'Location: National, Metric: Generation, '
+                       'Criteria':'Location: State, Metric: Generation, '
                        'Generators To Include: All Generators Included In The NBR',
                        'Date Acquired':date_created,
                        }
     update_validationsets_sources(validation_dict, date_acquired=True)    
 
-def validate_national_totals(report_year, flowbyfacility):
+def validate_state_totals(report_year, flowbyfacility):
     ##VALIDATION
-    log.info('validating data against national totals')
+    log.info('validating data against state totals')
     file_path = data_dir + 'RCRAInfo_' + report_year + '_StateTotals.csv'
     if (os.path.exists(file_path)):
         totals = pd.read_csv(file_path, dtype={"FlowAmount_kg":float})
         # Rename cols to match reference format
         totals.rename(columns={'FlowAmount_kg':'FlowAmount'},inplace=True)
-        #Validate total waste generated against national totals
+        #Validate waste generated against state totals, include only NBR data
         flowbyfacility['State'] = flowbyfacility['FacilityID'].str[0:2]
-        flowbyfacility = filter_states(flowbyfacility,
-                                       include_dc = False,
-                                       include_territories = False)
+        flowbyfacility = apply_filter_to_inventory(flowbyfacility, 'RCRAInfo',
+                                                   report_year,
+                                                   ['National_Biennial_Report',
+                                                    'imported_wastes',
+                                                    'US_States_only'])
         validation_df = validate_inventory(flowbyfacility,
                                            totals,group_by='state')
         write_validation_result('RCRAInfo', report_year, validation_df)
