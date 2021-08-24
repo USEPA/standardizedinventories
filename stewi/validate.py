@@ -6,7 +6,7 @@ Functions to support validation of generated inventories
 """
 import pandas as pd
 import numpy as np
-import datetime
+from datetime import datetime
 
 from esupy.processed_data_mgmt import create_paths_if_missing
 from stewi.globals import log, data_dir, output_dir, write_metadata,\
