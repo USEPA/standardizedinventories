@@ -148,6 +148,6 @@ def getMetadata(inventory_acroynym, year):
 def seeAvailableInventoryFilters():
     for f in filter_config:
         print(f + ': ' + filter_config[f]['description'])
-        if (f == 'filter_for_LCI'):
+        if (filter_config[f]['type'] == 'set'):
             print('Includes the following filters: ' + ', '.join(
                 filter_config[f]['filters']))
