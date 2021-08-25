@@ -48,11 +48,11 @@ def apply_filter_to_inventory(inventory, inventory_acronym, year, filter_list):
 
         if 'imported_wastes' in filter_list:
             log.info('removing imported wastes')
-            imp_source_codes = filter_config['imported_wastes']['source_codes']
+            imp_source_codes = filter_config['imported_wastes']['parameters']['source_codes']
             inventory = inventory[~inventory['Source Code'].isin(imp_source_codes)]
 
     if 'flows_for_LCI' in filter_list:
-        flow_filter_list = filter_config['flows_for_LCI'][inventory_acronym]
+        flow_filter_list = filter_config['flows_for_LCI']['parameters'][inventory_acronym]
         if flow_filter_list is not None:
             log.info('removing flows not relevant for LCI')
             inventory = inventory[~inventory['FlowName'].isin(flow_filter_list)]

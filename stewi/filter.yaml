@@ -1,5 +1,11 @@
+# Definitions of filter sets and filters for filtering stewi flowby* data
+# All entries have a type which can be a 'set' or 'filter' and a 'description'
+# A 'set' contains a list of 'filters'
+# A 'filter' contains an optional list of 'parameters' which can be unique to each filter
+
 filter_for_LCI: # Default filters to apply if filter_for_LCI = True
-    description: Set of filters applied by default for use in LCI
+    type: set
+    description: Filters applied by default for use in LCI
     filters:
      - US_States_only
      - flows_for_LCI
@@ -7,75 +13,83 @@ filter_for_LCI: # Default filters to apply if filter_for_LCI = True
      - National_Biennial_Report
      - imported_wastes
 US_States_only:
+    type: filter
     description: Removes data not assigned to facilities in one of the 50 states or D.C.
 flows_for_LCI:
-    description: > 
+    type: filter
+    description: >
         Removes data for specific named flows which are not relevant for LCI or would represent
         double counting.
-    TRI: # Flows to remove
-     - "MIXTURE"
-     - "Mixture"
-     - "TRADE SECRET CHEMICAL"
-     - "Trade Secret"
-    DMR: # Flows to remove
-     - "Base neutrals & acid (Method 625), efflnt"
-     - "Base neutrals & acid (Method 625), total"
-     - "Solids, dry, discharge to sol. handling sys."
-     - "Solids, dry, removed from sol. handling sys."
-     - "Total agg concentration #1"
-     - "Total agg concentration #2"
-     - "Total agg concentration #3"
-     - "Total agg concentration #4"
-     - "Total agg concentration #5"
-     - "Total agg concentration #6"
-     - "Total agg concentration #7"
-     - "Total agg concentration #8"
-     - "Total base/neutral priority pollutants"
-    GHGRP:
-    NEI: # Flows to remove
-     - "Coal Tar"
-     - "Coke Oven Emissions"
-     - "Elemental Carbon portion of PM2.5-PRI"
-     - "Extractable Organic Matter (EOM)"
-     - "Fine Mineral Fibers"
-     - "Nickel Refinery Dust"
-     - "Nitrate portion of PM2.5-PRI"
-     - "Organic Carbon portion of PM2.5-PRI"
-     - "PM Condensible"
-     - "PM10 Filterable"
-     - "PM2.5 Filterable"
-     - "Remaining PMFINE portion of PM2.5-PRI"
-     - "Rockwool (Man-Made Fibers)"
-     - "Slagwool (Man-Made Fibers)"
-     - "Sulfate Portion of PM2.5-PRI"
-     - "PM10-Primary from certain diesel engines"
-     - "PM25-Primary from certain diesel engines"
-    RCRAInfo: 
+    parameters:
+      TRI: # Flows to remove
+       - "MIXTURE"
+       - "Mixture"
+       - "TRADE SECRET CHEMICAL"
+       - "Trade Secret"
+      DMR: # Flows to remove
+       - "Base neutrals & acid (Method 625), efflnt"
+       - "Base neutrals & acid (Method 625), total"
+       - "Solids, dry, discharge to sol. handling sys."
+       - "Solids, dry, removed from sol. handling sys."
+       - "Total agg concentration #1"
+       - "Total agg concentration #2"
+       - "Total agg concentration #3"
+       - "Total agg concentration #4"
+       - "Total agg concentration #5"
+       - "Total agg concentration #6"
+       - "Total agg concentration #7"
+       - "Total agg concentration #8"
+       - "Total base/neutral priority pollutants"
+      GHGRP:
+      NEI: # Flows to remove
+       - "Coal Tar"
+       - "Coke Oven Emissions"
+       - "Elemental Carbon portion of PM2.5-PRI"
+       - "Extractable Organic Matter (EOM)"
+       - "Fine Mineral Fibers"
+       - "Nickel Refinery Dust"
+       - "Nitrate portion of PM2.5-PRI"
+       - "Organic Carbon portion of PM2.5-PRI"
+       - "PM Condensible"
+       - "PM10 Filterable"
+       - "PM2.5 Filterable"
+       - "Remaining PMFINE portion of PM2.5-PRI"
+       - "Rockwool (Man-Made Fibers)"
+       - "Slagwool (Man-Made Fibers)"
+       - "Sulfate Portion of PM2.5-PRI"
+       - "PM10-Primary from certain diesel engines"
+       - "PM25-Primary from certain diesel engines"
+      RCRAInfo:
 remove_duplicate_organic_enrichment:
-    description: > 
+    type: filter
+    description: >
         Removes facility overlap of organic enrichment reporting. Facilities can
         report multiple forms of organic enrichment, BOD and COD, which represent
         duplicate accounting of oxygen depletion. See Meyer et al. 2020
-    flow_preference: 'COD'
+    parameters:
+      flow_preference: 'COD'
 National_Biennial_Report:
-    description: > 
+    type: filter
+    description: >
         Applies to RCRAInfo inventories, removes waste codes and facilities not
-        associated with the National Biennial Report. 
+        associated with the National Biennial Report.
 imported_wastes:
-    description: > 
+    type: filter
+    description: >
         Applies to RCRAInfo inventories, removes waste for imported wastes based on
         source code
-    source_codes: # to remove
-        - G63
-        - G64
-        - G65
-        - G66
-        - G67
-        - G68
-        - G69
-        - G70
-        - G71
-        - G72
-        - G73
-        - G74
-        - G75
+    parameters:
+      source_codes: # to remove
+          - G63
+          - G64
+          - G65
+          - G66
+          - G67
+          - G68
+          - G69
+          - G70
+          - G71
+          - G72
+          - G73
+          - G74
+          - G75
