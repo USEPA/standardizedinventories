@@ -71,14 +71,14 @@ def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
             print(_s)
 
 
-def getInventory(inventory_acronym, year, stewiformat='flowbyfacility', 
-                 filter_list=[], filter_for_LCI=False, US_States_Only=False):
+def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
+                 filters=[], filter_for_LCI=False, US_States_Only=False):
     """Returns an inventory in a standard output format
     :param inventory_acronym: like 'TRI'
     :param year: year as number like 2010
     :param stewiformat: standard output format for returning..'flowbyfacility'
         or 'flowbyprocess' only 
-    :param filter_list: a list of named filters to apply to inventory
+    :param filters: a list of named filters to apply to inventory
     :param filter_for_LCI: whether or not to filter inventory for life
         cycle inventory creation
     :param US_States_Only: includes only US states
@@ -94,15 +94,15 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
 
     # for backwards compatability, maintain these optional parameters in getInventory
     if filter_for_LCI:
-        if 'filter_for_LCI' not in filter_list:
-            filter_list.append('filter_for_LCI')
+        if 'filter_for_LCI' not in filters:
+            filters.append('filter_for_LCI')
     if US_States_Only:
-        if 'US_States_only' not in filter_list:
-            filter_list.append('US_States_only')
+        if 'US_States_only' not in filters:
+            filters.append('US_States_only')
             
-    if filter_list != []:
-        inventory = apply_filter_to_inventory(inventory, inventory_acronym, year, 
-                                              filter_list)
+    if filters != []:
+        inventory = apply_filter_to_inventory(inventory, inventory_acronym, year,
+                                              filters)
 
     inventory = add_missing_fields(inventory, inventory_acronym, stewiformat)
     
