@@ -463,7 +463,8 @@ def remove_duplicate_organic_enrichment(df):
 
 def remove_nutrient_overlap_TRI(df, preference):
     
-    tri_list = ['AMMONIA','NITRATE COMPOUNDS']
+    tri_list = ['AMMONIA','Ammonia',
+                'NITRATE COMPOUNDS', 'Nitrate Compounds']
     dmr_list = ['Nitrogen']
     combined_list = tri_list + dmr_list
     

@@ -14,8 +14,9 @@ flows_for_LCI:
         double counting.
     TRI: # Flows to remove
      - "MIXTURE"
-     - "POLYCYCLIC AROMATIC COMPOUNDS"
+     - "Mixture"
      - "TRADE SECRET CHEMICAL"
+     - "Trade Secret"
     DMR: # Flows to remove
      - "Base neutrals & acid (Method 625), efflnt"
      - "Base neutrals & acid (Method 625), total"
