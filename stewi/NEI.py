@@ -38,11 +38,11 @@ import io
 
 from esupy.processed_data_mgmt import download_from_remote
 from esupy.util import strip_file_extension
-from stewi.globals import data_dir,write_metadata,\
-    validate_inventory,write_validation_result,USton_kg,lb_kg,\
+from stewi.globals import data_dir,write_metadata, USton_kg,lb_kg,\
     log, store_inventory, config, read_source_metadata,\
-    paths, update_validationsets_sources, aggregate,\
-    get_reliability_table_for_source, set_stewi_meta
+    paths, aggregate, get_reliability_table_for_source, set_stewi_meta
+from stewi.validate import update_validationsets_sources, validate_inventory,\
+    write_validation_result
 
 
 _config = config()['databases']['NEI']

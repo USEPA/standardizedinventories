@@ -44,11 +44,13 @@ import argparse
 
 from stewi.globals import download_table,\
     write_metadata, import_table, drop_excel_sheets,\
-    validate_inventory, write_validation_result,\
     data_dir, get_reliability_table_for_source, set_stewi_meta,\
     flowbyfacility_fields, flowbyprocess_fields, facility_fields, config,\
-    store_inventory, paths, log, update_validationsets_sources,\
+    store_inventory, paths, log, create_paths_if_missing,\
     compile_source_metadata, read_source_metadata, aggregate
+from stewi.validate import update_validationsets_sources, validate_inventory,\
+    write_validation_result
+    
 
 _config = config()['databases']['GHGRP']
 ghgrp_data_dir = data_dir + 'GHGRP/'
@@ -132,12 +134,11 @@ def download_chunks(table, table_count, row_start=0, report_year='',
                                  row_start=row_start, row_end=row_end,
                                  output_ext=output_ext)
         log.debug('url: %s', table_url)
-        while True:
-            try:
-                table_temp, temp_time = import_table(table_url, get_time=True)
-                break
-            except ValueError: continue
-            except: break
+        try:
+            table_temp, temp_time = import_table(table_url, get_time=True)
+        except pd.errors.ParserError:
+            log.error('error in downloading table %s', table)
+            return None
         output_table = pd.concat([output_table, table_temp])
         row_start += 10000
     ghgrp_metadata['time_meta'].append(temp_time)
@@ -244,16 +245,11 @@ def import_or_download_table(filepath, table, year):
         row_count = get_row_count(table, report_year=year)
         log.info('Downloading %s (rows: %i)', table, row_count)
         # download data in chunks
-        while True:
-            try:
-                table_df = download_chunks(table=table,
-                                          table_count=row_count,
-                                          report_year=year,
-                                          filepath=filepath)
-                log.debug('Done downloading.')
-                break
-            except ValueError: continue
-            except: break
+        table_df = download_chunks(table=table, table_count=row_count,
+                                   report_year=year, filepath=filepath)
+    
+    if table_df is None:
+        return None
     
     # for all columns in the temporary dataframe, remove subpart-specific prefixes
     for col in table_df:
@@ -289,8 +285,7 @@ def download_and_parse_subpart_tables(year):
     log.info('downloading and processing GHGRP data to %s', tables_dir)
     
     # if directory does not already exist, create it
-    if not os.path.exists(tables_dir):
-        os.makedirs(tables_dir)
+    create_paths_if_missing(tables_dir)
         
     # initialize dataframe
     ghgrp1 = pd.DataFrame(columns=ghg_cols)
@@ -304,6 +299,8 @@ def download_and_parse_subpart_tables(year):
         table_df = import_or_download_table(filepath, subpart_emissions_table,
                                             year)
         
+        if table_df is None:
+            continue
         # add 1-2 letter subpart abbreviation
         table_df['SUBPART_NAME'] = list(year_tables.loc[
             year_tables['TABLE'] == subpart_emissions_table, 'SUBPART'])[0]
@@ -312,44 +309,13 @@ def download_and_parse_subpart_tables(year):
         ghgrp1 = pd.concat([ghgrp1, table_df])
     
     ghgrp1.reset_index(drop=True, inplace=True)       
-    # for subpart C, calculate total stationary fuel combustion emissions by greenhouse gas 
-    # emissions are calculated as the sum of four methodological alternatives for
-    # calculating emissions from combustion (Tier 1-4), plus an alternative to any
-    # of the four tiers for units that report year-round heat input data to EPA (Part 75)
-    ghgrp1[subpart_c_cols] = ghgrp1[subpart_c_cols].replace(np.nan, 0.0)
-    # nonbiogenic carbon:
-        # NOTE: 'PART_75_CO2_EMISSIONS_METHOD' includes biogenic carbon emissions, 
-        # so there will be a slight error here, but biogenic/nonbiogenic emissions 
-        # for Part 75 are not reported separately.
-    ghgrp1['c_co2'] = ghgrp1['TIER1_CO2_COMBUSTION_EMISSIONS'] + \
-                      ghgrp1['TIER2_CO2_COMBUSTION_EMISSIONS'] + \
-                      ghgrp1['TIER3_CO2_COMBUSTION_EMISSIONS'] + \
-                      ghgrp1['TIER_123_SORBENT_CO2_EMISSIONS'] + \
-                      ghgrp1['TIER_4_TOTAL_CO2_EMISSIONS'] - \
-                      ghgrp1['TIER_4_BIOGENIC_CO2_EMISSIONS'] + \
-                      ghgrp1['PART_75_CO2_EMISSIONS_METHOD'] -\
-                      ghgrp1['TIER123_BIOGENIC_CO2_EMISSIONS']              
-    # biogenic carbon:
-    ghgrp1['c_co2_b'] = ghgrp1['TIER123_BIOGENIC_CO2_EMISSIONS'] + \
-                        ghgrp1['TIER_4_BIOGENIC_CO2_EMISSIONS']
-    # methane:    
-    ghgrp1['c_ch4'] = ghgrp1['TIER1_CH4_COMBUSTION_EMISSIONS'] + \
-                      ghgrp1['TIER2_CH4_COMBUSTION_EMISSIONS'] + \
-                      ghgrp1['TIER3_CH4_COMBUSTION_EMISSIONS'] + \
-                      ghgrp1['T4CH4COMBUSTIONEMISSIONS'] + \
-                      ghgrp1['PART_75_CH4_EMISSIONS_CO2E']/CH4GWP
-    # nitrous oxide:
-    ghgrp1['c_n2o'] = ghgrp1['TIER1_N2O_COMBUSTION_EMISSIONS'] + \
-                      ghgrp1['TIER2_N2O_COMBUSTION_EMISSIONS'] + \
-                      ghgrp1['TIER3_N2O_COMBUSTION_EMISSIONS'] + \
-                      ghgrp1['T4N2OCOMBUSTIONEMISSIONS'] + \
-                      ghgrp1['PART_75_N2O_EMISSIONS_CO2E']/N2OGWP
-      
-    # add these new columns to the list of 'group' columns
-    expanded_group_cols = group_cols + ['c_co2', 'c_co2_b', 'c_ch4', 'c_n2o']
-
-    # drop subpart C columns because they are no longer needed
-    ghgrp1.drop(subpart_c_cols, axis=1, inplace=True)
+    
+    if 'C' in ghgrp1['SUBPART_NAME']:
+        ghgrp1 = calculate_combustion_emissions(ghgrp1)
+        # add these new columns to the list of 'group' columns
+        expanded_group_cols = group_cols + ['c_co2', 'c_co2_b', 'c_ch4', 'c_n2o']
+    else:
+        expanded_group_cols = group_cols
     
     # combine all GHG name columns from different tables into one
     ghgrp1['Flow Description'] = ghgrp1[name_cols].fillna('').sum(axis=1)
@@ -412,8 +378,47 @@ def download_and_parse_subpart_tables(year):
     return ghgrp1
 
 
+def calculate_combustion_emissions(df):
+    """For subpart C, calculate total stationary fuel combustion emissions by GHG. 
+    emissions are calculated as the sum of four methodological alternatives for
+    calculating emissions from combustion (Tier 1-4), plus an alternative to any
+    of the four tiers for units that report year-round heat input data to EPA (Part 75)
+    """
+    df[subpart_c_cols] = df[subpart_c_cols].replace(np.nan, 0.0)
+    # nonbiogenic carbon:
+        # NOTE: 'PART_75_CO2_EMISSIONS_METHOD' includes biogenic carbon emissions, 
+        # so there will be a slight error here, but biogenic/nonbiogenic emissions 
+        # for Part 75 are not reported separately.
+    df['c_co2'] = df['TIER1_CO2_COMBUSTION_EMISSIONS'] + \
+                      df['TIER2_CO2_COMBUSTION_EMISSIONS'] + \
+                      df['TIER3_CO2_COMBUSTION_EMISSIONS'] + \
+                      df['TIER_123_SORBENT_CO2_EMISSIONS'] + \
+                      df['TIER_4_TOTAL_CO2_EMISSIONS'] - \
+                      df['TIER_4_BIOGENIC_CO2_EMISSIONS'] + \
+                      df['PART_75_CO2_EMISSIONS_METHOD'] -\
+                      df['TIER123_BIOGENIC_CO2_EMISSIONS']              
+    # biogenic carbon:
+    df['c_co2_b'] = df['TIER123_BIOGENIC_CO2_EMISSIONS'] + \
+                        df['TIER_4_BIOGENIC_CO2_EMISSIONS']
+    # methane:    
+    df['c_ch4'] = df['TIER1_CH4_COMBUSTION_EMISSIONS'] + \
+                      df['TIER2_CH4_COMBUSTION_EMISSIONS'] + \
+                      df['TIER3_CH4_COMBUSTION_EMISSIONS'] + \
+                      df['T4CH4COMBUSTIONEMISSIONS'] + \
+                      df['PART_75_CH4_EMISSIONS_CO2E']/CH4GWP
+    # nitrous oxide:
+    df['c_n2o'] = df['TIER1_N2O_COMBUSTION_EMISSIONS'] + \
+                      df['TIER2_N2O_COMBUSTION_EMISSIONS'] + \
+                      df['TIER3_N2O_COMBUSTION_EMISSIONS'] + \
+                      df['T4N2OCOMBUSTIONEMISSIONS'] + \
+                      df['PART_75_N2O_EMISSIONS_CO2E']/N2OGWP
+      
+    # drop subpart C columns because they are no longer needed
+    df.drop(subpart_c_cols, axis=1, inplace=True)
+    return df
+
+
 def parse_additional_suparts_data(addtnl_subparts_path, subpart_cols_file, year):
-    
     log.info('loading additional subpart data from %s', addtnl_subparts_path)
     # load .xslx data for additional subparts from filepath
     addtnl_subparts_dict = import_table(addtnl_subparts_path)
@@ -491,6 +496,41 @@ def parse_additional_suparts_data(addtnl_subparts_path, subpart_cols_file, year)
                                   'Year': 'REPORTING_YEAR'})
     
     return ghgrp
+
+
+def parse_subpart_O(year):
+    # parse emissions data for subpart O
+    df = parse_additional_suparts_data(lo_subparts_path,
+                                       'o_subparts_columns.csv', year)
+    # convert subpart O data from CO2e to mass of HFC23 emitted,
+    # maintain CO2e for validation
+    df['AmountCO2e'] = df['FlowAmount']*1000
+    df.loc[df['SUBPART_NAME'] == 'O', 'FlowAmount'] =\
+        df['FlowAmount']/HFC23GWP
+    df.loc[df['SUBPART_NAME'] == 'O', 'Flow Description'] =\
+        'Total Reported Emissions Under Subpart O (metric tons HFC-23)'
+    return df
+
+
+def parse_subpart_L(year):
+    # parse emissions data for subpart L
+    df = parse_additional_suparts_data(lo_subparts_path,
+                                       'l_subparts_columns.csv', year)
+    subpart_L_GWPs = load_subpart_l_gwp()
+    df = df.merge(subpart_L_GWPs, how='left', on=['Flow Name','Flow Description'])
+    df['CO2e_factor'] = df['CO2e_factor'].fillna(1)
+    # drop old Flow Description column
+    df.drop(columns=['Flow Description'], inplace=True)
+    # Flow Name column becomes new Flow Description
+    df.rename(columns={'Flow Name' : 'Flow Description'}, inplace=True)
+    # calculate mass flow amount based on emissions in CO2e and GWP
+    df['AmountCO2e'] = df['FlowAmount']*1000
+    df['FlowAmount (mass)'] = df['FlowAmount'] / df['CO2e_factor']
+    # drop unnecessary columns
+    df.drop(columns=['FlowAmount', 'CO2e_factor'], inplace=True)
+    # rename Flow Amount column
+    df.rename(columns={'FlowAmount (mass)' : 'FlowAmount'}, inplace=True)
+    return df
 
 
 def generate_national_totals_validation(validation_table, year):
@@ -669,40 +709,11 @@ def main(**kwargs):
                                                    'esbb_subparts_columns.csv', year) 
         
             # parse emissions data for subpart O
-            ghgrp3 = parse_additional_suparts_data(lo_subparts_path,
-                                                   'o_subparts_columns.csv', year)
-
-            # convert subpart O data from CO2e to mass of HFC23 emitted,
-            # maintain CO2e for validation
-            ghgrp3['AmountCO2e'] = ghgrp3['FlowAmount']*1000
-            ghgrp3.loc[ghgrp3['SUBPART_NAME'] == 'O', 'FlowAmount'] =\
-                ghgrp3['FlowAmount']/HFC23GWP
-            ghgrp3.loc[ghgrp3['SUBPART_NAME'] == 'O', 'Flow Description'] =\
-                'Total Reported Emissions Under Subpart O (metric tons HFC-23)'
+            ghgrp3 = parse_subpart_O(year)
    
             # parse emissions data for subpart L
-            ghgrp4 = parse_additional_suparts_data(lo_subparts_path,
-                                                   'l_subparts_columns.csv', year)
-
-            subpart_L_GWPs = load_subpart_l_gwp()
-            ghgrp4 = ghgrp4.merge(subpart_L_GWPs, how='left',
-                                  on=['Flow Name',
-                                      'Flow Description'])
-            ghgrp4['CO2e_factor'] = ghgrp4['CO2e_factor'].fillna(1)
-            # drop old Flow Description column
-            ghgrp4.drop(columns=['Flow Description'], inplace=True)
-            # Flow Name column becomes new Flow Description
-            ghgrp4.rename(columns={'Flow Name' : 'Flow Description'}, inplace=True)
-            # calculate mass flow amount based on emissions in CO2e and GWP
-            ghgrp4['AmountCO2e'] = ghgrp4['FlowAmount']*1000
-            ghgrp4['FlowAmount (mass)'] = ghgrp4['FlowAmount'] / ghgrp4['CO2e_factor']
-            # drop unnecessary columns
-            ghgrp4.drop(columns=['FlowAmount', 'CO2e_factor'],
-                                 inplace=True)
-            # rename Flow Amount column
-            ghgrp4.rename(columns={'FlowAmount (mass)' : 'FlowAmount'}, 
-                          inplace=True)
-                
+            ghgrp4 = parse_subpart_L(year)
+                            
             # concatenate ghgrp1, ghgrp2, ghgrp3, and ghgrp4
             ghgrp = pd.concat([ghgrp1, ghgrp2,
                                ghgrp3, ghgrp4]).reset_index(drop=True)

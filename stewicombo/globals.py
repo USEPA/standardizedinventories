@@ -94,7 +94,8 @@ def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
     inventories = pd.DataFrame()
     for k in inventory_dict.keys():
         inventory = stewi.getInventory(k, inventory_dict[k],
-                                       'flowbyfacility', filter_for_LCI)
+                                       'flowbyfacility',
+                                       filter_for_LCI = filter_for_LCI)
         if inventory is None:
             continue
         inventory["Source"] = k
@@ -115,7 +116,7 @@ def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
         inventory["Year"] = inventory_dict[k]
         cols_to_keep = [c for c in columns_to_keep if c in inventory]
         inventory = inventory[cols_to_keep]
-        inventories = pd.concat([inventories,inventory])
+        inventories = pd.concat([inventories,inventory], ignore_index=True)
 
     return inventories
 

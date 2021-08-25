@@ -26,12 +26,16 @@ import os
 import requests
 import sys
 import pandas as pd
-from stewi.globals import filter_inventory, filter_states,\
-    validate_inventory, write_validation_result, unit_convert,\
+import argparse
+
+from stewi.globals import unit_convert,\
     data_dir, lb_kg, write_metadata, get_reliability_table_for_source,\
     log, compile_source_metadata, config, store_inventory, set_stewi_meta,\
-    paths, read_source_metadata, update_validationsets_sources, aggregate
-import argparse
+    paths, read_source_metadata, aggregate
+from stewi.validate import update_validationsets_sources, validate_inventory,\
+    write_validation_result
+from stewi.filter import filter_states, filter_config
+
 
 _config = config()['databases']['DMR']
 dmr_data_dir = data_dir + 'DMR/'
@@ -52,11 +56,11 @@ base_url = _config['base_url']
 PARAM_GROUP = True
 DETECTION = 'HALF'
 
-big_state_list = ['CA','KY','WV']
+big_state_list = ['CA','KY','WV', 'AL', 'PA','LA','MO', 'OH', 'CO', 'NY']
 
 def generate_url(report_year, base_url=base_url, sic='', region='', state='', 
                  nutrient='', nutrient_agg=False, param_group=False,
-                 detection='', estimation=True, responseset='100000',
+                 detection='', estimation=True, responseset='20000',
                  pageno='1', output_type='JSON'):
     
     """
@@ -126,7 +130,7 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
                     success_list.append(sic + '_' + state)
     else:
         for state in state_list:
-            if not state in big_state_list:
+            if (nutrient != '') | (state not in big_state_list):
                 filepath = path + 'state_' + state + '.pickle'
                 url = generate_url(report_year=year, state=state,
                                    param_group=PARAM_GROUP,
@@ -155,7 +159,7 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
                                        param_group=PARAM_GROUP,
                                        detection=DETECTION, nutrient = nutrient,
                                        nutrient_agg = nutrient_agg,
-                                       responseset = '3000',
+                                       responseset = '9000',
                                        pageno = str(counter))
                     if os.path.exists(filepath):
                         log.debug('file already exists for %s, skipping', state)
@@ -265,7 +269,7 @@ def generateDMR(year, nutrient=''):
         log.info('reading stored DMR queries by state...')
     for state in states:
         log.debug('accessing data for %s', state)
-        if not state in big_state_list:
+        if (nutrient != '') | (state not in big_state_list):
             filepath = path + 'state_' + state + '.pickle'
             result = unpickle(filepath)
             if result is None:
@@ -401,7 +405,6 @@ def consolidate_nutrients(df, drop_list, nutrient):
     """
     Renames flows following nutrient aggregation to better handle flow overlaps
     """
-    drop_list = drop_list['FlowName'].to_list()
     if nutrient == 'P':
         flow = ['Phosphorus', 'PHOSP']
     elif nutrient == 'N':
@@ -414,10 +417,11 @@ def consolidate_nutrients(df, drop_list, nutrient):
 def remove_duplicate_organic_enrichment(df):
     """
     Facilities can report multiple forms of organic enrichment, BOD and COD,
-    which represent duplicate accounting of oxygen depletion. See Myer et al.
+    which represent duplicate accounting of oxygen depletion. See Meyer et al.
     2020
     """
-    flow_preference = 'COD'
+    flow_preference = filter_config[
+        'remove_duplicate_organic_enrichment']['flow_preference']
 
     org_flow_list = read_pollutant_parameter_list()
     org_flow_list = org_flow_list[org_flow_list['ORGANIC_ENRICHMENT'] == 'Y']
@@ -459,7 +463,8 @@ def remove_duplicate_organic_enrichment(df):
 
 def remove_nutrient_overlap_TRI(df, preference):
     
-    tri_list = ['AMMONIA','NITRATE COMPOUNDS']
+    tri_list = ['AMMONIA','Ammonia',
+                'NITRATE COMPOUNDS', 'Nitrate Compounds']
     dmr_list = ['Nitrogen']
     combined_list = tri_list + dmr_list
     
@@ -583,7 +588,7 @@ def main(**kwargs):
             nut_drop_list = read_pollutant_parameter_list()
             nut_drop_list = nut_drop_list[(nut_drop_list['NITROGEN'] == 'Y') | 
                                           (nut_drop_list['PHOSPHORUS'] == 'Y')]
-            nut_drop_list = nut_drop_list[['FlowName']].drop_duplicates()
+            nut_drop_list = list(set(nut_drop_list['FlowName']))
             
             # Consolidate N and P based flows to reflect nutrient aggregation
             P_df = consolidate_nutrients(P_df, nut_drop_list, 'P')
@@ -594,8 +599,7 @@ def main(**kwargs):
 
             # Filter out nitrogen and phosphorus flows before combining 
             # with aggregated nutrients            
-            dmr_nut_filtered = filter_inventory(state_df,
-                                                nut_drop_list, 'drop')
+            dmr_nut_filtered = state_df[~state_df['FlowName'].isin(nut_drop_list)]
             dmr_df = pd.concat([dmr_nut_filtered,
                                 nutrient_agg_df]).reset_index(drop=True)
 

@@ -30,7 +30,7 @@ output_dir = paths.local_path
 ext_folder = 'FRS Data Files'
 FRSpath = paths.local_path + '/' + ext_folder
 
-FRS_config = config(MODULEPATH)['databases']['FRS']
+FRS_config = config(config_path = MODULEPATH)['databases']['FRS']
 
 inventory_to_FRS_pgm_acronymn = FRS_config['program_dictionary']
 stewi_inventories = list(inventory_to_FRS_pgm_acronymn.keys())

@@ -50,7 +50,7 @@ def aggregate_and_remove_overlap(df):
     if not INCLUDE_ORIGINAL and not KEEP_ALL_DUPLICATES:
         raise ValueError("Cannot have both INCLUDE_ORIGINAL and KEEP_REPEATED_DUPLICATES fields as False")
 
-    log.info("Aggregating inventories...")
+    log.info("Removing overlap between inventories...")
     
     if INCLUDE_ORIGINAL:
         keep = False
@@ -135,10 +135,11 @@ def aggregate_and_remove_overlap(df):
         counter+=1
     df = pd.concat(to_be_concat)
 
-    log.info("Adding any rows with NaN FRS_ID or SRS_ID")
+    log.debug("Adding any rows with NaN FRS_ID or SRS_ID")
     df = df.append(rows_with_nans_srs_frs, ignore_index=True)
     
-    df = remove_default_flow_overlaps(df, compartment='air', SCC=False)
+    if 'NEI' in df['Source'].values:
+        df = remove_default_flow_overlaps(df, compartment='air', SCC=False)
     log.info("Overlap removed.")
 
     return df

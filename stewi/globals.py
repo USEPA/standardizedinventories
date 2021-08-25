@@ -9,7 +9,6 @@ import pandas as pd
 import json
 import logging as log
 import os
-import numpy as np
 import yaml
 import time
 from datetime import datetime
@@ -17,8 +16,7 @@ from datetime import datetime
 from esupy.processed_data_mgmt import Paths, FileMeta,\
     load_preprocessed_output, remove_extra_files,\
     write_df_to_file, create_paths_if_missing, write_metadata_to_file,\
-    find_file, read_source_metadata
-from esupy.remote import make_http_request
+    read_source_metadata
 from esupy.dqi import get_weighted_average
 from esupy.util import get_git_hash
 
@@ -61,6 +59,48 @@ inventory_single_compartments = {"NEI":"air",
                                  "GHGRP":"air",
                                  "DMR":"water"}
 
+flowbyfacility_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],
+                         'FlowName': [{'dtype': 'str'}, {'required': True}],
+                         'Compartment': [{'dtype': 'str'}, {'required': True}],
+                         'FlowAmount': [{'dtype': 'float'}, {'required': True}],
+                         'Unit': [{'dtype': 'str'}, {'required': True}],
+                         'DataReliability': [{'dtype': 'float'}, {'required': True}],
+                         }
+
+facility_fields = {'FacilityID':[{'dtype': 'str'}, {'required': True}],
+                   'FacilityName':[{'dtype': 'str'}, {'required': False}],
+                   'Address':[{'dtype': 'str'}, {'required': False}],
+                   'City':[{'dtype': 'str'}, {'required': False}],
+                   'State':[{'dtype': 'str'}, {'required': True}],
+                   'Zip':[{'dtype': 'str'}, {'required': False}],
+                   'Latitude':[{'dtype': 'float'}, {'required': False}],
+                   'Longitude':[{'dtype': 'float'}, {'required': False}],
+                   'County':[{'dtype': 'str'}, {'required': False}],
+                   'NAICS':[{'dtype': 'str'}, {'required': False}],
+                   'SIC':[{'dtype': 'str'}, {'required': False}],
+                   }
+
+flowbyprocess_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],
+                    'FlowName': [{'dtype': 'str'}, {'required': True}],
+                    'Compartment': [{'dtype': 'str'}, {'required': True}],
+                    'FlowAmount': [{'dtype': 'float'}, {'required': True}],
+                    'Unit': [{'dtype': 'str'}, {'required': True}],
+                    'DataReliability': [{'dtype': 'float'}, {'required': True}],
+                    'Process': [{'dtype': 'str'}, {'required': True}],
+                    'ProcessType': [{'dtype': 'str'}, {'required': False}],
+                    }
+
+flow_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
+               'FlowID': [{'dtype': 'str'}, {'required': True}],
+               'CAS':  [{'dtype': 'str'}, {'required': False}],
+               'Compartment': [{'dtype': 'str'}, {'required': False}],
+               'Unit': [{'dtype': 'str'}, {'required': False}],
+               }
+
+format_dict = {'flowbyfacility': flowbyfacility_fields,
+               'flowbyprocess': flowbyprocess_fields,
+               'facility': facility_fields,
+               'flow': flow_fields}
 
 def set_stewi_meta(file_name, inventory_format = ''):
     """Creates a class of esupy FileMeta with the inventory_format assigned
@@ -76,10 +116,11 @@ def set_stewi_meta(file_name, inventory_format = ''):
     return stewi_meta
 
 
-def config(config_path=MODULEPATH):
+def config(config_path=MODULEPATH, file='config.yaml'):
     """Read and return stewi configuration file"""
     configfile = None
-    with open(config_path + 'config.yaml', mode='r') as f:
+    path = config_path + file
+    with open(path, mode='r') as f:
         configfile = yaml.load(f,Loader=yaml.FullLoader)
     return configfile
 
@@ -152,228 +193,7 @@ def drop_excel_sheets(excel_dict, drop_sheets):
     return excel_dict
 
 
-def filter_inventory(inventory, criteria_table, filter_type, marker=None):
-    """
-    :param inventory_df: DataFrame to be filtered
-    :param criteria_file: Can be a list of items to drop/keep, or a table
-                        of FlowName, FacilityID, etc. with columns
-                        marking rows to drop
-    :param filter_type: drop, keep, mark_drop, mark_keep
-    :param marker: Non-empty fields are considered marked by default.
-        Option to specify 'x', 'yes', '1', etc.
-    :return: DataFrame
-    """
-    inventory = import_table(inventory); criteria_table = import_table(criteria_table)
-    if filter_type in ('drop', 'keep'):
-        for criteria_column in criteria_table:
-            for column in inventory:
-                if column == criteria_column:
-                    criteria = set(criteria_table[criteria_column])
-                    if filter_type == 'drop':
-                        inventory = inventory[~inventory[column].isin(criteria)]
-                    elif filter_type == 'keep':
-                        inventory = inventory[inventory[column].isin(criteria)]
-    elif filter_type in ('mark_drop', 'mark_keep'):
-        standard_format = import_table(data_dir + 'flowbyfacility_format.csv')
-        must_match = standard_format['Name'][standard_format['Name'].isin(criteria_table.keys())]
-        for criteria_column in criteria_table:
-            if criteria_column in must_match: continue
-            for field in must_match:
-                if filter_type == 'mark_drop':
-                    if marker is None:
-                        inventory = inventory[~inventory[field].isin(
-                            criteria_table[field][criteria_table[criteria_column] != ''])]
-                    else:
-                        inventory = inventory[~inventory[field].isin(
-                            criteria_table[field][criteria_table[criteria_column] == marker])]
-                if filter_type == 'mark_keep':
-                    if marker is None:
-                        inventory = inventory[inventory[field].isin(
-                            criteria_table[field][criteria_table[criteria_column] != ''])]
-                    else:
-                        inventory = inventory[inventory[field].isin(
-                            criteria_table[field][criteria_table[criteria_column] == marker])]
-    return inventory.reset_index(drop=True)
-
-
-def filter_states(inventory_df, include_states=True, include_dc=True,
-                  include_territories=False):
-    states_df = pd.read_csv(data_dir + 'state_codes.csv')
-    states_filter = pd.DataFrame()
-    states_list = []
-    if include_states: states_list += list(states_df['states'].dropna())
-    if include_dc: states_list += list(states_df['dc'].dropna())
-    if include_territories: states_list += list(states_df['territories'].dropna())
-    states_filter['State'] = states_list
-    output_inventory = filter_inventory(inventory_df, states_filter, filter_type='keep')
-    return output_inventory
-
-
-def validate_inventory(inventory_df, reference_df, group_by='flow',
-                       tolerance=5.0, filepath=''):
-    """
-    Compare inventory resulting from script output with a reference DataFrame
-    from another source
-    :param inventory_df: DataFrame of inventory resulting from script output
-    :param reference_df: Reference DataFrame to compare emission quantities against.
-        Must have same keys as inventory_df
-    :param group_by: 'flow' for species summed across facilities, 'facility'
-        to check species by facility
-    :param tolerance: Maximum acceptable percent difference between inventory
-        and reference values. Default is 5%
-    :return: DataFrame containing 'Conclusion' of statistical comparison and
-        'Percent_Difference'
-    """
-    if pd.api.types.is_string_dtype(inventory_df['FlowAmount']):
-        inventory_df['FlowAmount'] = inventory_df['FlowAmount'].str.replace(',', '')
-        inventory_df['FlowAmount'] = pd.to_numeric(inventory_df['FlowAmount'])
-    if pd.api.types.is_string_dtype(reference_df['FlowAmount']):
-        reference_df['FlowAmount'] = reference_df['FlowAmount'].str.replace(',', '')
-        reference_df['FlowAmount'] = pd.to_numeric(reference_df['FlowAmount'])
-    if group_by == 'flow':
-        group_by_columns = ['FlowName']
-        if 'Compartment' in inventory_df.keys(): group_by_columns += ['Compartment']
-    elif group_by == 'state':
-        group_by_columns = ['State']
-    elif group_by == 'facility':
-        group_by_columns = ['FlowName', 'FacilityID']
-    elif group_by == 'subpart':
-        group_by_columns = ['FlowName', 'SubpartName']
-    inventory_df['FlowAmount'] = inventory_df['FlowAmount'].fillna(0.0)
-    reference_df['FlowAmount'] = reference_df['FlowAmount'].fillna(0.0)
-    inventory_sums = inventory_df[group_by_columns + ['FlowAmount']].groupby(
-        group_by_columns).sum().reset_index()
-    reference_sums = reference_df[group_by_columns + ['FlowAmount']].groupby(
-        group_by_columns).sum().reset_index()
-    if filepath: reference_sums.to_csv(filepath, index=False)
-    validation_df = inventory_sums.merge(reference_sums, how='outer',
-                                         on=group_by_columns).reset_index(drop=True)
-    validation_df = validation_df.fillna(0.0)
-    amount_x_list = []
-    amount_y_list = []
-    pct_diff_list = []
-    conclusion = []
-    error_count = 0
-    for index, row in validation_df.iterrows():
-        amount_x = float(row['FlowAmount_x'])
-        amount_y = float(row['FlowAmount_y'])
-        if amount_x == 0.0:
-            amount_x_list.append(amount_x)
-            if amount_y == 0.0:
-                pct_diff_list.append(0.0)
-                amount_y_list.append(amount_y)
-                conclusion.append('Both inventory and reference are zero or null')
-            elif amount_y == np.inf:
-                amount_y_list.append(np.nan)
-                pct_diff_list.append(100.0)
-                conclusion.append('Reference contains infinity values. Check prior calculations.')
-            else:
-                amount_y_list.append(amount_y)
-                pct_diff_list.append(100.0)
-                conclusion.append('Inventory value is zero or null')
-                error_count += 1
-            continue
-        elif amount_y == 0.0:
-            amount_x_list.append(amount_x)
-            amount_y_list.append(amount_y)
-            pct_diff_list.append(100.0)
-            conclusion.append('Reference value is zero or null')
-            continue
-        elif amount_y == np.inf:
-            amount_x_list.append(amount_x)
-            amount_y_list.append(np.nan)
-            pct_diff_list.append(100.0)
-            conclusion.append('Reference contains infinity values. Check prior calculations.')
-        else:
-            pct_diff = 100.0 * abs(amount_y - amount_x) / amount_y
-            pct_diff_list.append(pct_diff)
-            amount_x_list.append(amount_x)
-            amount_y_list.append(amount_y)
-            if pct_diff == 0.0: conclusion.append('Identical')
-            elif pct_diff <= tolerance: conclusion.append('Statistically similar')
-            elif pct_diff > tolerance:
-                conclusion.append('Percent difference exceeds tolerance')
-                error_count += 1
-    validation_df['Inventory_Amount'] = amount_x_list
-    validation_df['Reference_Amount'] = amount_y_list
-    validation_df['Percent_Difference'] = pct_diff_list
-    validation_df['Conclusion'] = conclusion
-    validation_df = validation_df.drop(['FlowAmount_x', 'FlowAmount_y'], axis=1)
-    if error_count > 0:
-        log.warning('%s potential issues in validation exceeding tolerance',
-                    str(error_count))
-
-    return validation_df
-
-
-def read_ValidationSets_Sources():
-    """Read and return ValidationSets_Sources.csv file"""
-    df = pd.read_csv(data_dir + 'ValidationSets_Sources.csv',header=0,
-                     dtype={"Year":"str"})
-    return df
-
-
-def write_validation_result(inventory_acronym,year,validation_df):
-    """Writes the validation result and associated metadata to the output
-    :param inventory_acronym: str for inventory e.g. 'TRI'
-    :param year: str for year e.g. '2016'
-    :param validation_df: df returned from validate_inventory function"""
-    directory = output_dir + '/validation/'
-    create_paths_if_missing(directory)
-    log.info('writing validation result to ' + directory)
-    validation_df.to_csv(directory + inventory_acronym + '_' + year + '.csv',
-                         index=False)
-    #Get metadata on validation dataset
-    validation_set_info_table = read_ValidationSets_Sources()
-    #Get record for year and source
-    validation_set_info = validation_set_info_table[
-        (validation_set_info_table['Inventory']==inventory_acronym) &
-        (validation_set_info_table['Year']==year)]
-    if len(validation_set_info)!=1:
-        log.error('no validation metadata found')
-        return
-    #Convert to Series
-    validation_set_info = validation_set_info.iloc[0,]
-    #Use the same format an inventory metadata to described the validation set data
-    validation_metadata = dict(source_metadata)
-    validation_metadata['SourceFileName'] = validation_set_info['Name']
-    validation_metadata['SourceVersion'] = validation_set_info['Version']
-    validation_metadata['SourceURL'] = validation_set_info['URL']
-    validation_metadata['SourceAcquisitionTime'] = validation_set_info['Date Acquired']
-    validation_metadata['Criteria'] = validation_set_info['Criteria']
-    #Write metadata to file
-    write_metadata(inventory_acronym + '_' + year, validation_metadata,
-                   datatype="validation")
-
-
-def update_validationsets_sources(validation_dict, date_acquired=False):
-    """Adds or replaces metadata dictionary of validation reference dataset to
-    the validation sets sources file
-    :param validation_dict: dictionary of validation metadata
-    :param date_acquired: 
-    """
-    if not date_acquired:
-        date = datetime.today().strftime('%d-%b-%Y')
-        validation_dict['Date Acquired'] = date
-    v_table = read_ValidationSets_Sources()
-    existing = v_table.loc[(v_table['Inventory'] == validation_dict['Inventory']) &
-                       (v_table['Year'] == validation_dict['Year'])]
-    if len(existing)>0:
-        i = existing.index[0]
-        v_table = v_table.loc[~v_table.index.isin(existing.index)]
-        line = pd.DataFrame.from_records([validation_dict], index=[(i)])
-    else:
-        inventories = list(v_table['Inventory'])
-        i = max(loc for loc, val in enumerate(inventories) if val == validation_dict['Inventory'])
-        line = pd.DataFrame.from_records([validation_dict], index=[(i+0.5)])
-    v_table = v_table.append(line, ignore_index=False)
-    v_table = v_table.sort_index().reset_index(drop=True)
-    log.info('updating ValidationSets_Sources.csv with %s %s', 
-             validation_dict['Inventory'], validation_dict['Year'])
-    v_table.to_csv(data_dir + 'ValidationSets_Sources.csv', index=False)
-    
-
-def aggregate(df, grouping_vars):
+def aggregate(df, grouping_vars = None):
     """
     Aggregate a 'FlowAmount' in a dataframe based on the passed grouping_vars
     and generating a weighted average for data quality fields
@@ -381,6 +201,8 @@ def aggregate(df, grouping_vars):
     :param grouping_vars: list of df column headers on which to groupby
     :return: aggregated dataframe with weighted average data reliability score
     """
+    if grouping_vars is None:
+        grouping_vars = [x for x in df.columns if x not in ['FlowAmount','DataReliability']]
     df_agg = df.groupby(grouping_vars).agg({'FlowAmount': ['sum']})
     df_agg['DataReliability']=get_weighted_average(
         df, 'DataReliability', 'FlowAmount', grouping_vars)
@@ -465,48 +287,6 @@ def remove_line_breaks(df, headers_only = True):
         df = df.replace(to_replace=['\r\n','\n'],value=[' ', ' '], regex=True)
     return df    
 
-flowbyfacility_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],
-                         'FlowName': [{'dtype': 'str'}, {'required': True}],
-                         'Compartment': [{'dtype': 'str'}, {'required': True}],
-                         'FlowAmount': [{'dtype': 'float'}, {'required': True}],
-                         'Unit': [{'dtype': 'str'}, {'required': True}],
-                         'DataReliability': [{'dtype': 'float'}, {'required': True}],
-                         }
-
-facility_fields = {'FacilityID':[{'dtype': 'str'}, {'required': True}],
-                   'FacilityName':[{'dtype': 'str'}, {'required': False}],
-                   'Address':[{'dtype': 'str'}, {'required': False}],
-                   'City':[{'dtype': 'str'}, {'required': False}],
-                   'State':[{'dtype': 'str'}, {'required': True}],
-                   'Zip':[{'dtype': 'int'}, {'required': False}],
-                   'Latitude':[{'dtype': 'float'}, {'required': False}],
-                   'Longitude':[{'dtype': 'float'}, {'required': False}],
-                   'County':[{'dtype': 'str'}, {'required': False}],
-                   'NAICS':[{'dtype': 'str'}, {'required': False}],
-                   'SIC':[{'dtype': 'str'}, {'required': False}],
-                   }
-
-flowbyprocess_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],
-                    'FlowName': [{'dtype': 'str'}, {'required': True}],
-                    'Compartment': [{'dtype': 'str'}, {'required': True}],
-                    'FlowAmount': [{'dtype': 'float'}, {'required': True}],
-                    'Unit': [{'dtype': 'str'}, {'required': True}],
-                    'DataReliability': [{'dtype': 'float'}, {'required': True}],
-                    'Process': [{'dtype': 'str'}, {'required': True}],
-                    'ProcessType': [{'dtype': 'str'}, {'required': False}],
-                    }
-
-flow_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
-               'FlowID': [{'dtype': 'str'}, {'required': True}],
-               'CAS':  [{'dtype': 'str'}, {'required': False}],
-               'Compartment': [{'dtype': 'str'}, {'required': False}],
-               'Unit': [{'dtype': 'str'}, {'required': False}],
-               }
-
-format_dict = {'flowbyfacility': flowbyfacility_fields,
-               'flowbyprocess': flowbyprocess_fields,
-               'facility': facility_fields,
-               'flow': flow_fields}
 
 def get_required_fields(inventory_format='flowbyfacility'):
     fields = format_dict[inventory_format]
@@ -517,12 +297,13 @@ def get_required_fields(inventory_format='flowbyfacility'):
 
 def get_optional_fields(inventory_format='flowbyfacility'):
     fields = format_dict[inventory_format]
-    optional_fields = {key: value[0]['dtype'] for key, value in fields.items()}
+    optional_fields = {key: value[0]['dtype'] for key, value
+                       in fields.items()}
     return optional_fields
 
 
 def add_missing_fields(df, inventory_acronym, inventory_format='flowbyfacility'):
-    """Adds and formats fields for stewi inventory file
+    """Adds all fields and formats for stewi inventory file
     :param df: dataframe of inventory data
     :param inventory_acronym: str of inventory e.g. 'NEI'
     :param inventory_format: str of a stewi format type e.g. 'flowbyfacility'
@@ -533,10 +314,15 @@ def add_missing_fields(df, inventory_acronym, inventory_format='flowbyfacility')
     if 'ReliabilityScore' in df.columns:
         df.rename(columns={'ReliabilityScore':'DataReliability'}, inplace=True)
     # Add in units and compartment if not present
-    if 'Unit' not in df.columns:
+    if ('Unit' in fields.keys()) & ('Unit' not in df.columns):
         df['Unit'] = 'kg'
-    if 'Compartment' not in df.columns:
-        df['Compartment'] = inventory_single_compartments[inventory_acronym]
+    if ('Compartment' in fields.keys()) & ('Compartment' not in df.columns):
+        try:
+            compartment = inventory_single_compartments[inventory_acronym]
+        except KeyError:
+            log.warning('no compartment found in inventory')
+            compartment = ''
+        df['Compartment'] = compartment
     for key in fields.keys():
         if key not in df.columns:
             df[key] = None
@@ -586,16 +372,13 @@ def read_inventory(inventory_acronym, year, inventory_format):
         inventory = load_preprocessed_output(meta, paths)
         if inventory is None:
             log.error('error generating inventory')
-        else:
-            log.info('loaded ' + meta.name_data + ' from ' + method_path)
-    else:
+    if inventory is not None:
         log.info('loaded ' + meta.name_data + ' from ' + method_path)
-        # ensure dtype for str
+        # ensure dtypes
         fields = get_optional_fields(inventory_format)
-        cols_in_df = [c for c in fields if c in inventory]
-        for c in cols_in_df:
-            if fields[c] == 'str':
-                inventory[c] = inventory[c].astype('str')
+        fields = {key: value for key, value in fields.items()
+                  if key in list(inventory)}
+        inventory = inventory.astype(fields)
     return inventory
 
 
