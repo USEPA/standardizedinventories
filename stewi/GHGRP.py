@@ -767,11 +767,12 @@ def main(**kwargs):
             ghgrp['ProcessType'] = 'Subpart'
             
             log.info('generating flowbysubpart output')
-            
+
             # generate flowbysubpart
             fbs_columns = [c for c in flowbyprocess_fields.keys() if c in ghgrp]
             ghgrp_fbs = ghgrp[fbs_columns]
-            ghgrp_fbs = aggregate(ghgrp_fbs, ['FacilityID', 'FlowName', 'Process'])
+            ghgrp_fbs = aggregate(ghgrp_fbs, ['FacilityID', 'FlowName', 'Process',
+                                              'ProcessType'])
             store_inventory(ghgrp_fbs,'GHGRP_'+year,'flowbyprocess')
             
             log.info('generating flowbyfacility output')
