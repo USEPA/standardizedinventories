@@ -42,8 +42,9 @@ ext_folder = 'eGRID Data Files'
 eGRIDfilepath = paths.local_path + '/' + ext_folder + '/'
 eGRID_data_dir = data_dir + 'eGRID/'
 
-# Import list of fields from egrid that are desired for LCI
+
 def imp_fields(fields_txt, year):
+    """Import list of fields from egrid that are desired for LCI"""
     egrid_req_fields_df = pd.read_csv(fields_txt, header=0)
     egrid_req_fields_df = remove_line_breaks(egrid_req_fields_df,
                                              headers_only=False)
@@ -56,9 +57,7 @@ def egrid_unit_convert(value,factor):
     return new_val;
 
 def download_eGRID(year):
-    '''
-    Downloads eGRID files from EPA website
-    '''
+    """Downloads eGRID files from EPA website"""
     log.info('downloading eGRID data for %s', year)
     
     download_url = _config[year]['download_url']
@@ -83,8 +82,8 @@ def download_eGRID(year):
     log.info('%s saved to %s', egrid_file_name, eGRIDfilepath)
 
 def generate_metadata(year, datatype = 'inventory'):
-    """
-    Gets metadata and writes to .json
+    """Generates metadata dictionary and writes to json for datatypes 'inventory'
+    or 'source'
     """
     if datatype == 'source':
         source_path = eGRIDfilepath + _config[year]['file_name']
@@ -98,6 +97,7 @@ def generate_metadata(year, datatype = 'inventory'):
         write_metadata('eGRID_'+year, source_meta, datatype=datatype)    
 
 def extract_eGRID_excel(year, sheetname, index='field'):
+    """Generates a dataframe from eGRID sheetname from file stored locally"""
     eGRIDfile = eGRIDfilepath + _config[year]['file_name']
     if index != 'field': header = 1
     else: header = 0
@@ -307,39 +307,40 @@ def generate_eGRID_files(year):
     flows = flows.sort_values(by='FlowName',axis=0)
     store_inventory(flows, 'eGRID_' + year, 'flow')
 
+    validate_eGRID(year, flowbyfac)
 
-def validate_eGRID(year):
-    #VALIDATE
-    log.info('validating data against national totals')
+def validate_eGRID(year, flowbyfac):
+    """Validates eGRID flowbyfacility data against national totals"""
     validation_file = data_dir + 'eGRID_'+ year + '_NationalTotals.csv'
-    if (os.path.exists(validation_file)):
-        egrid_national_totals = pd.read_csv(validation_file,header=0,
-                                            dtype={"FlowAmount":float})
-        egrid_national_totals = unit_convert(
-            egrid_national_totals,'FlowAmount', 'Unit', 'lbs',
-            lb_kg, 'FlowAmount')
-        egrid_national_totals = unit_convert(
-            egrid_national_totals,'FlowAmount', 'Unit', 'tons',
-            USton_kg, 'FlowAmount')
-        egrid_national_totals = unit_convert(
-            egrid_national_totals,'FlowAmount', 'Unit', 'MMBtu',
-            MMBtu_MJ, 'FlowAmount')
-        egrid_national_totals = unit_convert(
-            egrid_national_totals,'FlowAmount', 'Unit', 'MWh',
-            MWh_MJ, 'FlowAmount')
-        # drop old unit
-        egrid_national_totals.drop('Unit',axis=1,inplace=True)
-        flowbyfac = read_inventory('eGRID', year, 'flowbyfacility')
-        validation_result = validate_inventory(flowbyfac, egrid_national_totals,
-                                               group_by='flow', tolerance=5.0)
-        write_validation_result('eGRID',year,validation_result)
-    else:
-        log.warning('validation file for eGRID_%s does not exist. Please '
-                    'run option C', year)
+    if not(os.path.exists(validation_file)):
+        generate_national_totals(year)
+    log.info('validating data against national totals')
+    egrid_national_totals = pd.read_csv(validation_file,header=0,
+                                        dtype={"FlowAmount":float})
+    egrid_national_totals = unit_convert(
+        egrid_national_totals,'FlowAmount', 'Unit', 'lbs',
+        lb_kg, 'FlowAmount')
+    egrid_national_totals = unit_convert(
+        egrid_national_totals,'FlowAmount', 'Unit', 'tons',
+        USton_kg, 'FlowAmount')
+    egrid_national_totals = unit_convert(
+        egrid_national_totals,'FlowAmount', 'Unit', 'MMBtu',
+        MMBtu_MJ, 'FlowAmount')
+    egrid_national_totals = unit_convert(
+        egrid_national_totals,'FlowAmount', 'Unit', 'MWh',
+        MWh_MJ, 'FlowAmount')
+    # drop old unit
+    egrid_national_totals.drop('Unit',axis=1,inplace=True)
+    flowbyfac = read_inventory('eGRID', year, 'flowbyfacility')
+    validation_result = validate_inventory(flowbyfac, egrid_national_totals,
+                                           group_by='flow', tolerance=5.0)
+    write_validation_result('eGRID',year,validation_result)
+
 
 def generate_national_totals(year):
-    #Download and process eGRID national totals
-    log.info('Processing eGRID national totals for %s', year)
+    """Download and process eGRID national totals for validation. Resulting
+    file is stored in repository"""
+    log.info('Processing eGRID national totals for validation of %s', year)
     totals_dict = {'USHTIANT':'Heat',
                    'USNGENAN':'Electricity',
                    #'USETHRMO':'Steam', #PLNTYR sheet
@@ -419,10 +420,9 @@ def main(**kwargs):
             generate_metadata(year, datatype='source')
             
         if kwargs['Option'] == 'B':
-            #process data
+            #process and validate data
             generate_eGRID_files(year)
             generate_metadata(year, datatype='inventory')
-            validate_eGRID(year)
             
         if kwargs['Option'] == 'C':
             #download and store national totals

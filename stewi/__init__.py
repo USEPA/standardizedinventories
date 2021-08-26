@@ -146,6 +146,7 @@ def getMetadata(inventory_acroynym, year):
 
 
 def seeAvailableInventoryFilters():
+    """Prints available filters for use in getInventory"""
     for f in filter_config:
         print(f + ': ' + filter_config[f]['description'])
         if (filter_config[f]['type'] == 'set'):

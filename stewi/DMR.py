@@ -1,4 +1,6 @@
-#!/usr/bin/env python 
+# DMR.py (stewi)
+# !/usr/bin/env python3
+# coding=utf-8
 '''
 Queries DMR data by state, temporarily saves them,
 Web service documentation found at
@@ -253,8 +255,8 @@ def standardize_df(input_df):
         
     return output_df
 
-def generateDMR(year, nutrient=''):
-    """Loops through pickled data and combined into a dataframe. """
+def combine_DMR_inventory(year, nutrient=''):
+    """Loops through pickled data and combines into a dataframe. """
     path = dmr_external_dir + str(year)+ '/'
     if not os.path.exists(path):
         log.error('Data not found for %s in %s. Please run option A to '
@@ -301,12 +303,12 @@ def unpickle(filepath):
     result = pd.DataFrame(result['Results']['Results'])
     return result
 
-def generateStateTotal(year):
-    """Generates file of state totals as csv"""
+def download_state_totals_validation(year):
+    """Generates file of state totals downloaded from echo as csv for validation.
+    Annual totals are stored in the repository."""
     log.info('generating state totals')
     # https://echo.epa.gov/trends/loading-tool/get-data/state-statistics
     url = _config['state_url'].replace("__year__",year)
-    
     state_csv = pd.read_csv(url, header=2)
     state_totals = pd.DataFrame()
     state_totals['state_name']=state_csv['State']
@@ -336,13 +338,13 @@ def generateStateTotal(year):
                        }
     update_validationsets_sources(validation_dict)
 
-def validateStateTotals(df, year):
-    """ generate validation by state, sums across species. Details on results
+def validate_state_totals(df, year):
+    """Generate validation by state, sums across species. Details on results
     by state can be found in the search results help website"""
     # https://echo.epa.gov/help/loading-tool/water-pollution-search/search-results-help-dmr
     filepath = data_dir + 'DMR_' + year + '_StateTotals.csv'
     if not(os.path.exists(filepath)):
-        generateStateTotal(year)
+        download_state_totals_validation(year)
     log.info('validating against state totals')
     reference_df = pd.read_csv(filepath)
     reference_df['FlowAmount'] = 0.0
@@ -367,8 +369,8 @@ def validateStateTotals(df, year):
 
 
 def generate_metadata(year, datatype = 'inventory'):
-    """
-    Gets metadata and writes to .json
+    """Generates metadata dictionary and writes to json for datatypes 'inventory'
+    or 'source'
     """
     if datatype == 'source':
         source_path = dmr_external_dir + str(year)
@@ -383,6 +385,7 @@ def generate_metadata(year, datatype = 'inventory'):
         write_metadata('DMR_'+year, source_meta, datatype=datatype)        
 
 def read_pollutant_parameter_list(parameter_grouping = PARAM_GROUP):
+    """Read and parse the DMR pollutant parameter list"""
     url = _config['pollutant_list_url']
     flows = pd.read_csv(url, header=1, usecols=['POLLUTANT_CODE',
                                                 'POLLUTANT_DESC',
@@ -421,7 +424,7 @@ def remove_duplicate_organic_enrichment(df):
     2020
     """
     flow_preference = filter_config[
-        'remove_duplicate_organic_enrichment']['flow_preference']
+        'remove_duplicate_organic_enrichment']['parameters']['flow_preference']
 
     org_flow_list = read_pollutant_parameter_list()
     org_flow_list = org_flow_list[org_flow_list['ORGANIC_ENRICHMENT'] == 'Y']
@@ -462,7 +465,12 @@ def remove_duplicate_organic_enrichment(df):
     return df
 
 def remove_nutrient_overlap_TRI(df, preference):
-    
+    """Consolidates overlap of nutrient flows in a dataframe containing both
+    TRI and DMR data
+    :param df: dataframe in flowbyfacility combined format
+    :param preference: str 'DMR' or 'TRI'
+    :returns: dataframe with nonpreferred flows removed
+    """
     tri_list = ['AMMONIA','Ammonia',
                 'NITRATE COMPOUNDS', 'Nitrate Compounds']
     dmr_list = ['Nitrogen']
@@ -575,15 +583,15 @@ def main(**kwargs):
             
         if kwargs['Option'] == 'B':
             log.info('generating inventories for DMR %s', year)
-            state_df = generateDMR(year)
+            state_df = combine_DMR_inventory(year)
             state_df = filter_states(standardize_df(state_df))
 
             # Validation against state totals is done prior to combining
             # with aggregated nutrients
-            validateStateTotals(state_df, year)
+            validate_state_totals(state_df, year)
 
-            P_df = generateDMR(year, nutrient='P')
-            N_df = generateDMR(year, nutrient='N')
+            P_df = combine_DMR_inventory(year, nutrient='P')
+            N_df = combine_DMR_inventory(year, nutrient='N')
 
             nut_drop_list = read_pollutant_parameter_list()
             nut_drop_list = nut_drop_list[(nut_drop_list['NITROGEN'] == 'Y') | 
@@ -633,7 +641,7 @@ def main(**kwargs):
             generate_metadata(year, datatype='inventory')
 
         if kwargs['Option'] == 'C':
-            generateStateTotal(year)
+            download_state_totals_validation(year)
 
 if __name__ == '__main__':
     main()
