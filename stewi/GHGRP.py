@@ -309,8 +309,8 @@ def download_and_parse_subpart_tables(year):
         ghgrp1 = pd.concat([ghgrp1, table_df])
     
     ghgrp1.reset_index(drop=True, inplace=True)       
-    
-    if 'C' in ghgrp1['SUBPART_NAME']:
+
+    if 'C' in ghgrp1.SUBPART_NAME.unique():
         ghgrp1 = calculate_combustion_emissions(ghgrp1)
         # add these new columns to the list of 'group' columns
         expanded_group_cols = group_cols + ['c_co2', 'c_co2_b', 'c_ch4', 'c_n2o']
