@@ -460,9 +460,12 @@ def main(**kwargs):
        
     for year in kwargs['Year']:
         ##Adds sepcified Year to BR_REPORTING table
-        tables = kwargs['Tables'].copy()
-        if 'BR_REPORTING' in kwargs['Tables']:
-            tables[kwargs['Tables'].index('BR_REPORTING')] = 'BR_REPORTING' + '_' + year
+        if 'Tables' in kwargs:
+            tables = kwargs['Tables'].copy()
+            if 'BR_REPORTING' in kwargs['Tables']:
+                tables[kwargs['Tables'].index('BR_REPORTING')] = 'BR_REPORTING' + '_' + year
+        else:
+            tables = ['BR_REPORTING_'+year]
     
         if kwargs['Option'] == 'A':
             '''If issues in running this option to download the data, go to the 
