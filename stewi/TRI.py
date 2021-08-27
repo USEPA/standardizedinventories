@@ -72,8 +72,8 @@ def extract_TRI_data_files(link_zip, files, year):
         dic = {}
         i = 0
         with zipfile.ZipFile(io.BytesIO(r_file.content)) as z:
-            with io.TextIOWrapper(z.open(filename + '.txt',
-                                         mode='r'),) as txtfile:
+            with io.TextIOWrapper(z.open(filename + '.txt', mode='r'),
+                                  errors = 'replace') as txtfile:
                 for line in txtfile:
                     dic[i] = pd.Series(re.split("\t",line)).truncate(after=n_columns-1)
                     i+=1
