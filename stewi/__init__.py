@@ -104,7 +104,8 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
         inventory = apply_filter_to_inventory(inventory, inventory_acronym, year,
                                               filters)
 
-    inventory = add_missing_fields(inventory, inventory_acronym, stewiformat)
+    inventory = add_missing_fields(inventory, inventory_acronym, stewiformat,
+                                   maintain_columns = False)
     
     # After filting, may be necessary to reaggregate inventory again
     inventory = aggregate(inventory)
@@ -119,7 +120,8 @@ def getInventoryFlows(inventory_acronym, year):
     :return: dataframe with standard flows format
     """
     flows = read_inventory(inventory_acronym, year, 'flow')
-    flows = add_missing_fields(flows, inventory_acronym, 'flow')
+    flows = add_missing_fields(flows, inventory_acronym, 'flow',
+                               maintain_columns = False)
     return flows
 
 
@@ -130,7 +132,8 @@ def getInventoryFacilities(inventory_acronym, year):
     :return: dataframe with standard flows format
     """
     facilities = read_inventory(inventory_acronym, year, 'facility')
-    facilities = add_missing_fields(facilities, inventory_acronym, 'facility')
+    facilities = add_missing_fields(facilities, inventory_acronym, 'facility',
+                                    maintain_columns = True)
     return facilities
 
 def getMetadata(inventory_acroynym, year):

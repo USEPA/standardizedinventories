@@ -52,7 +52,10 @@ def apply_filter_to_inventory(inventory, inventory_acronym, year, filter_list):
             inventory = inventory[~inventory['Source Code'].isin(imp_source_codes)]
 
     if 'flows_for_LCI' in filter_list:
-        flow_filter_list = filter_config['flows_for_LCI']['parameters'][inventory_acronym]
+        try:
+            flow_filter_list = filter_config['flows_for_LCI']['parameters'][inventory_acronym]
+        except KeyError:
+            flow_filter_list = None
         if flow_filter_list is not None:
             log.info('removing flows not relevant for LCI')
             inventory = inventory[~inventory['FlowName'].isin(flow_filter_list)]

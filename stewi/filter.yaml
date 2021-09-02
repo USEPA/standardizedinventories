@@ -40,7 +40,6 @@ flows_for_LCI:
        - "Total agg concentration #7"
        - "Total agg concentration #8"
        - "Total base/neutral priority pollutants"
-      GHGRP:
       NEI: # Flows to remove
        - "Coal Tar"
        - "Coke Oven Emissions"
@@ -59,7 +58,6 @@ flows_for_LCI:
        - "Sulfate Portion of PM2.5-PRI"
        - "PM10-Primary from certain diesel engines"
        - "PM25-Primary from certain diesel engines"
-      RCRAInfo:
 remove_duplicate_organic_enrichment:
     type: filter
     description: >
