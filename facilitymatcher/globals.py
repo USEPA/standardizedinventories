@@ -165,7 +165,9 @@ def add_manual_matches(df_matches):
     manual_matches = pd.read_csv(data_dir+'facilitymatches_manual.csv',
                                  header=0, 
                                  dtype={'FacilityID':'str','FRS_ID':'str'})
-    #Append with list
+    #Append with list and drop any duplicates
     df_matches = pd.concat([df_matches,manual_matches], sort = False)
+    df_matches = df_matches[~df_matches.duplicated(keep='first')]
+    df_matches = df_matches.reset_index(drop=True)
     return df_matches
 
