@@ -1,1 +1,6 @@
-include stewi/config.yaml
+global-include *.yaml
+graft stewi/data
+graft stewicombo/data
+graft facilitymatcher/data
+graft chemicalmatcher/data
+graft chemicalmatcher/output
