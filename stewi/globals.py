@@ -27,7 +27,7 @@ except NameError: MODULEPATH = 'stewi/'
 data_dir = MODULEPATH + 'data/'
 
 log.basicConfig(level=log.INFO, format='%(levelname)s %(message)s')
-STEWI_VERSION = '0.9.9'
+STEWI_VERSION = '0.10.0'
 
 
 #Common declaration of write format for package data products
