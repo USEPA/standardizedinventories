@@ -78,7 +78,7 @@ def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
     except for those in the base_inventory where all are returned
     
     : param inventory_dict: 
-    : param facilitymatches: 
+    : param facilitymatches: dataframe matching FacilityMatches format
     : param filter_for_LCI: 
     : param base_inventory:
     """
@@ -99,9 +99,13 @@ def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
         if inventory is None:
             continue
         inventory["Source"] = k
-        # Merge in FRS_ID
+        # Merge in FRS_ID, ensure only single FRS added per facility ID, keeping
+        # first listed
+        facmatches = facilitymatches[facilitymatches['Source'] == k]
+        facmatches = facmatches.drop_duplicates(subset=['FacilityID','Source'],
+                                                keep='first')
         inventory = pd.merge(inventory,
-                             facilitymatches[facilitymatches['Source'] == k],
+                             facmatches,
                              on=['FacilityID', 'Source'], how='left')
         if inventory['FRS_ID'].isna().sum() > 0:
             log.debug('Some facilities missing FRS_ID')

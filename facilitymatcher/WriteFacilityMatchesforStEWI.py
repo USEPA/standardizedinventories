@@ -43,10 +43,12 @@ def write_facility_matches():
     eia_to_add = eia_bridges[eia_bridges['REGISTRY_ID'].isin(
         eia_not_in_egrid)].reset_index(drop=True)
     
-    # Rename to EGRID and add the subset back
+    # Rename to EGRID and add the subset back at the top so that EIA-860 is
+    # preferred to eGRID data for improved matching
     eia_to_add['PGM_SYS_ACRNM'] = 'EGRID'
-    stewi_bridges = pd.concat([stewi_bridges,eia_to_add])
+    stewi_bridges = pd.concat([eia_to_add, stewi_bridges], ignore_index=True)
     stewi_bridges = stewi_bridges.drop_duplicates()
+    stewi_bridges.reset_index(drop=True)
     
     # Replace program acronymn with inventory acronymn
     program_to_inventory = glob.invert_inventory_to_FRS()

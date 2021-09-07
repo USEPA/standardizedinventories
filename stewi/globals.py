@@ -27,7 +27,7 @@ except NameError: MODULEPATH = 'stewi/'
 data_dir = MODULEPATH + 'data/'
 
 log.basicConfig(level=log.INFO, format='%(levelname)s %(message)s')
-STEWI_VERSION = '0.9.9'
+STEWI_VERSION = '0.10.0'
 
 
 #Common declaration of write format for package data products
@@ -213,7 +213,7 @@ def aggregate(df, grouping_vars = None):
     df_agg = df_agg[df_agg['FlowAmount'].notna()]
     return df_agg
 
-# Convert amounts. Note this could be replaced with a conversion utility
+
 def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
     """
     Converts values in coln3 if coln2 == unit, based on the conversion
@@ -302,11 +302,14 @@ def get_optional_fields(inventory_format='flowbyfacility'):
     return optional_fields
 
 
-def add_missing_fields(df, inventory_acronym, inventory_format='flowbyfacility'):
+def add_missing_fields(df, inventory_acronym, inventory_format='flowbyfacility',
+                       maintain_columns = False):
     """Adds all fields and formats for stewi inventory file
     :param df: dataframe of inventory data
     :param inventory_acronym: str of inventory e.g. 'NEI'
     :param inventory_format: str of a stewi format type e.g. 'flowbyfacility'
+    :param maintain_columns: bool, if True do not delete any existing columns,
+        useful for inventories or inventory_formats that may have custom fields
     :return: dataframe of inventory containing all relevant columns 
     """
     fields = dict(format_dict[inventory_format])
@@ -327,7 +330,10 @@ def add_missing_fields(df, inventory_acronym, inventory_format='flowbyfacility')
         if key not in df.columns:
             df[key] = None
     # Resort
-    df = df[fields.keys()]
+    col_list = list(fields.keys())
+    if maintain_columns:
+        col_list = col_list + [c for c in df.columns if c not in list(fields.keys())]
+    df = df[col_list]
     return df
 
 def checkforFile(filepath):

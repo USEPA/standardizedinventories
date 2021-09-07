@@ -30,7 +30,7 @@ from esupy.remote import make_http_request
 from stewi.globals import data_dir,write_metadata,\
     unit_convert,log,MMBtu_MJ,MWh_MJ,config,USton_kg,lb_kg,\
     compile_source_metadata, remove_line_breaks, paths, store_inventory,\
-    read_source_metadata, read_inventory, set_stewi_meta
+    read_source_metadata, set_stewi_meta, get_optional_fields, aggregate
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
 
@@ -44,13 +44,29 @@ eGRID_data_dir = data_dir + 'eGRID/'
 
 
 def imp_fields(fields_txt, year):
-    """Import list of fields from egrid that are desired for LCI"""
-    egrid_req_fields_df = pd.read_csv(fields_txt, header=0)
+    """Import list of fields from egrid that are desired for LCI
+    Returns a list of source fields and a dictionary to stewi fields
+    :param fields_txt: str name of csv file
+    :param year: str year of egrid inventory"""
+    egrid_req_fields_df = pd.read_csv(eGRID_data_dir + fields_txt, header=0)
     egrid_req_fields_df = remove_line_breaks(egrid_req_fields_df,
                                              headers_only=False)
     egrid_req_fields = list(egrid_req_fields_df[year])
     col_dict = egrid_req_fields_df.set_index(year).to_dict()
     return egrid_req_fields, col_dict
+
+
+def filter_fields(fields_txt, field):
+    """Returns a list of fields that are marked in the field column
+    :param fields_txt: str name of csv file
+    :param field: str column to filter"""
+    egrid_req_fields_df = pd.read_csv(eGRID_data_dir + fields_txt, header=0)
+    egrid_req_fields_df = remove_line_breaks(egrid_req_fields_df,
+                                             headers_only=False)
+    egrid_req_fields_df = egrid_req_fields_df[
+        egrid_req_fields_df[field]==1].reset_index(drop=True)
+    egrid_req_fields = list(egrid_req_fields_df['StEWI'])
+    return egrid_req_fields
 
 def egrid_unit_convert(value,factor):
     new_val = value*factor;
@@ -108,115 +124,42 @@ def extract_eGRID_excel(year, sheetname, index='field'):
         #drop first row which are column name abbreviations
         df = df.drop([0])
     return df
-        
+
+
+def parse_eGRID(year, sheetname, fields_txt):
+    """Prepare eGRID sheet for processing"""
+    egrid = extract_eGRID_excel(year, sheetname)
+    #get list of columns not in the required fields and drop them
+    required_fields, col_dict = imp_fields(fields_txt, year)
+    colstodrop = list(set(list(egrid.columns)) - set(required_fields))
+    egrid = egrid.drop(colstodrop,axis=1)
+    egrid.rename(columns = col_dict['StEWI'], inplace=True)
+    return egrid
+
 def generate_eGRID_files(year):
-    '''
+    """
     Parses a locally downloaded eGRID file to generate output files for 'flow',
     'facility', and 'flowbyfacility'
-
     :param year: str, Year of eGRID dataset  
-    '''
+    """
     log.info('generating eGRID files for %s', year)
-    
-    egrid = extract_eGRID_excel(year, 'PLNT')
-    #get list of columns not in the required fields and drop them
-    required_fields, col_dict = imp_fields(eGRID_data_dir+\
-                                                 'eGRID_required_fields.csv',
-                                                 year)
-    colstodrop = list(set(list(egrid.columns)) - set(required_fields))
-    egrid2 = egrid.drop(colstodrop,axis=1)
-    egrid2.rename(columns = col_dict['StEWI'], inplace=True)
+    log.info('importing plant level emissions data')
+    egrid = parse_eGRID(year, 'PLNT', 'eGRID_required_fields.csv')
 
-    #Read in unit sheet to get comment fields related to source of heat,NOx,
-    #SO2, and CO2 emission estimates
-    unit_egrid = extract_eGRID_excel(year, 'UNT')
-    #get list of columns not in the required fields and drop them
-    unit_rqd_fields, unit_col_dict = imp_fields(eGRID_data_dir+\
-                                                'eGRID_unit_level_required_fields.csv',
-                                                year)
-    colstodrop = list(set(list(unit_egrid.columns)) - \
-                      set(unit_rqd_fields))
-    unit_egrid = unit_egrid.drop(colstodrop,axis=1)
-    unit_egrid.rename(columns = unit_col_dict['StEWI'], inplace=True)
+    flowbyfac_fields = filter_fields('eGRID_required_fields.csv', 'flowbyfac_fields')
     
-    #Import reliability mapping. Merge one by one.
-    rel_scores_heat_SO2_CO2_NOx = pd.read_csv(
-        eGRID_data_dir+'eGRID_unit_level_reliability_scores.csv')
-
-    rel_score_dict = {'ReliabilityScore_heat':'Unit unadjusted annual '
-                          'heat input source',
-                      'ReliabilityScore_NOx':'Unit unadjusted annual '
-                          'NOx emissions source',
-                      'ReliabilityScore_SO2':'Unit unadjusted annual '
-                          'SO2 emissions source',
-                      'ReliabilityScore_CO2':'Unit unadjusted annual '
-                          'CO2 emissions source'}
-    rel_score_cols = list(rel_score_dict.keys())
-   
-    for k, v in rel_score_dict.items():
-        unit_egrid = unit_egrid.merge(rel_scores_heat_SO2_CO2_NOx,
-                                        left_on =[v], right_on =['Source'], how = 'left')
-        unit_egrid = unit_egrid.rename(columns= {'ReliabilityScore':k})
-        del unit_egrid['Source']
-    
-    #Calculate reliability scores at plant level using flow-weighted average.
-    flows_used_for_weighting = ['Unit unadjusted annual heat input (MMBtu)',
-                                'Unit unadjusted annual NOx emissions (tons)',
-                                'Unit unadjusted annual SO2 emissions (tons)',
-                                'Unit unadjusted annual CO2 emissions (tons)']
-
-    for i in range(len(rel_score_cols)):
-        unit_egrid[rel_score_cols[i]] = unit_egrid[rel_score_cols[i]]*\
-            unit_egrid[flows_used_for_weighting[i]]
-
-    #Aggregate the multiplied scores at the plant level
-    unit_egrid_rel = unit_egrid.groupby(
-        ['FacilityID'])[rel_score_cols].sum().reset_index()
-    unit_egrid_flows = unit_egrid.groupby(
-        ['FacilityID'])[flows_used_for_weighting].sum().reset_index()
-    unit_egrid_final = unit_egrid_rel.merge(unit_egrid_flows,
-                                            on = ['FacilityID'],
-                                            how = 'inner')
-    
-    for i in range(len(rel_score_cols)):
-        unit_egrid_final[rel_score_cols[i]] = unit_egrid_final[rel_score_cols[i]]/\
-            unit_egrid_final[flows_used_for_weighting[i]]
-    
-    unit_emissions_with_rel_scores = ['Heat','Nitrogen oxides',
-                                      'Sulfur dioxide','Carbon dioxide']    
-    unit_egrid_final[unit_emissions_with_rel_scores] = unit_egrid_final[rel_score_cols]
-    rel_scores_by_facility = pd.melt(unit_egrid_final,
-                                     id_vars=['FacilityID'],
-                                     value_vars=unit_emissions_with_rel_scores,
-                                     var_name='FlowName',
-                                     value_name='DataReliability')
-    
-    ##Create FLOWBYFACILITY output
-    flowbyfac_fields = {'FacilityID':'FacilityID',
-                        'Plant primary fuel':'Plant primary fuel',
-                        'Plant total annual heat input (MMBtu)':'Heat',
-                        'Plant annual net generation (MWh)':'Electricity',
-                        'Plant annual NOx emissions (tons)':'Nitrogen oxides',
-                        'Plant annual SO2 emissions (tons)':'Sulfur dioxide',
-                        'Plant annual CO2 emissions (tons)':'Carbon dioxide',
-                        'Plant annual CH4 emissions (lbs)':'Methane',
-                        'Plant annual N2O emissions (lbs)':'Nitrous oxide',
-                        'CHP plant useful thermal output (MMBtu)':'Steam'
-                        }
-    
-    flowbyfac_prelim = egrid2[list(flowbyfac_fields.keys())]
-    flowbyfac_prelim = flowbyfac_prelim.rename(columns=flowbyfac_fields)
-    nox_so2_co2 = egrid_unit_convert(flowbyfac_prelim[['Nitrogen oxides',
-                                                       'Sulfur dioxide',
-                                                       'Carbon dioxide']],USton_kg)
-    ch4_n2o = egrid_unit_convert(flowbyfac_prelim[['Methane',
-                                                   'Nitrous oxide']],lb_kg)
-    heat_steam = egrid_unit_convert(flowbyfac_prelim[['Heat',
-                                                      'Steam']],MMBtu_MJ)
-    electricity = egrid_unit_convert(flowbyfac_prelim[['Electricity']],MWh_MJ)
-    facilityid = flowbyfac_prelim[['FacilityID','Plant primary fuel']]
-    frames = [facilityid,nox_so2_co2,ch4_n2o,heat_steam,electricity]
-    flowbyfac_stacked = pd.concat(frames,axis = 1)
+    flowbyfac_prelim = egrid[flowbyfac_fields]
+    conversion = []
+    conversion.append(flowbyfac_prelim[['FacilityID','Plant primary fuel']])
+    conversion.append(egrid_unit_convert(flowbyfac_prelim[['Nitrogen oxides',
+                                                        'Sulfur dioxide',
+                                                        'Carbon dioxide']],USton_kg))
+    conversion.append(egrid_unit_convert(flowbyfac_prelim[['Methane',
+                                                    'Nitrous oxide']],lb_kg))
+    conversion.append(egrid_unit_convert(flowbyfac_prelim[['Heat',
+                                                      'Steam']],MMBtu_MJ))
+    conversion.append(egrid_unit_convert(flowbyfac_prelim[['Electricity']],MWh_MJ))
+    flowbyfac_stacked = pd.concat(conversion,axis = 1)
     #Create flowbyfac
     flowbyfac = pd.melt(flowbyfac_stacked,
                         id_vars=['FacilityID','Plant primary fuel'],
@@ -225,10 +168,44 @@ def generate_eGRID_files(year):
     
     #Dropping na emissions
     flowbyfac = flowbyfac.dropna(subset=['FlowAmount'])
+    flowbyfac['FlowAmount'] = pd.to_numeric(flowbyfac['FlowAmount'])
     flowbyfac = flowbyfac.sort_values(by = ['FacilityID'], axis=0, 
                                       ascending=True, inplace=False, 
                                       kind='quicksort', na_position='last')
     
+    #Read in unit sheet to get comment fields related to source of heat, NOx,
+    #SO2, and CO2 emission estimates for calculating data quality information
+    log.info('importing unit level data to assess data quality')
+    unit_egrid = parse_eGRID(year, 'UNT', 'eGRID_unit_level_required_fields.csv')
+    
+    rel_score_cols = filter_fields('eGRID_unit_level_required_fields.csv',
+                                   'reliability_flows')
+    
+    flows_used_for_weighting = filter_fields('eGRID_unit_level_required_fields.csv',
+                                             'weighting_flows')
+
+    unit_emissions_with_rel_scores = ['Heat','Nitrogen oxides',
+                                      'Sulfur dioxide','Carbon dioxide'] 
+   
+    unit_egrid.update(unit_egrid[rel_score_cols].fillna(''))
+    unit_egrid.update(unit_egrid[flows_used_for_weighting].fillna(0))
+    # Generate combined columns as lists before exploding lists into multiple rows
+    unit_egrid['FlowName'] = unit_egrid.apply(lambda _: unit_emissions_with_rel_scores, axis=1)
+    unit_egrid['ReliabilitySource'] = unit_egrid[rel_score_cols].values.tolist()
+    unit_egrid['FlowAmount'] = unit_egrid[flows_used_for_weighting].values.tolist()
+    unit_egrid = unit_egrid.drop(columns=rel_score_cols+flows_used_for_weighting)
+    unit_egrid = unit_egrid.set_index(list(
+        unit_egrid.columns.difference(['FlowName','ReliabilitySource','FlowAmount']))
+        ).apply(pd.Series.explode).reset_index()
+
+    dq_mapping = pd.read_csv(
+        eGRID_data_dir+'eGRID_unit_level_reliability_scores.csv')
+    unit_egrid = unit_egrid.merge(dq_mapping, how='left')
+    
+    # Aggregate data reliability scores by facility and flow
+    rel_scores_by_facility = aggregate(unit_egrid, grouping_vars=['FacilityID','FlowName'])
+    rel_scores_by_facility = rel_scores_by_facility.drop(columns=['FlowAmount'])
+
     #Merge in heat_SO2_CO2_NOx reliability scores calculated from unit sheet
     flowbyfac = flowbyfac.merge(rel_scores_by_facility,
                                 on = ['FacilityID','FlowName'], how = 'left')
@@ -252,42 +229,25 @@ def generate_eGRID_files(year):
                     (flowbyfac['Plant primary fuel'] != 'SLW'))
                     ,'DataReliability'] = 2
     
-    #Now the plant primary fuel is no longer needed
-    flowbyfac = flowbyfac.drop(columns = ['Plant primary fuel'])
-    
     #Import flow compartments
     flow_compartments = pd.read_csv(eGRID_data_dir+'eGRID_flow_compartments.csv',
                                     header=0)
-    
-    #Merge in with flowbyfacility
     flowbyfac = pd.merge(flowbyfac,flow_compartments,on='FlowName',how='left')
     
-    #Drop original name
-    flowbyfac = flowbyfac.drop(columns='OriginalName')
+    #Drop unneeded columns
+    flowbyfac = flowbyfac.drop(columns=['Plant primary fuel','OriginalName'])
     
     #Write flowbyfacility file to output
     store_inventory(flowbyfac, 'eGRID_' + year, 'flowbyfacility')
     
     ##Creation of the facility file
     #Need to change column names manually
-    facility=egrid2[['FacilityName','Plant operator name','FacilityID',
-                     'State','eGRID subregion acronym','Plant county name',
-                     'Plant latitude', 'Plant longitude','Plant primary fuel',
-                     'Plant primary coal/oil/gas/ other fossil fuel category',
-                     'NERC region acronym',
-                     'Balancing Authority Name','Balancing Authority Code',
-                     'Plant coal generation percent (resource mix)',
-                     'Plant oil generation percent (resource mix)',
-                     'Plant gas generation percent (resource mix)',
-                     'Plant nuclear generation percent (resource mix)',
-                     'Plant hydro generation percent (resource mix)',
-                     'Plant biomass generation percent (resource mix)',
-                     'Plant wind generation percent (resource mix)',
-                     'Plant solar generation percent (resource mix)',
-                     'Plant geothermal generation percent (resource mix)',
-                     'Plant other fossil generation percent (resource mix)',
-                     'Plant other unknown / purchased fuel generation '
-                         'percent (resource mix)']].reset_index(drop=True)
+    fac_fields = get_optional_fields('facility')
+    fac_fields = list(fac_fields.keys())
+    egrid_fields = filter_fields('eGRID_required_fields.csv', 'facility_fields')
+    egrid_fac_fields = [c for c in egrid if c in (egrid_fields + fac_fields)]
+    
+    facility=egrid[egrid_fac_fields].reset_index(drop=True)
     
     # Data starting in 2018 for resource mix is listed as percentage.
     # For consistency multiply by 100
@@ -331,7 +291,6 @@ def validate_eGRID(year, flowbyfac):
         MWh_MJ, 'FlowAmount')
     # drop old unit
     egrid_national_totals.drop('Unit',axis=1,inplace=True)
-    flowbyfac = read_inventory('eGRID', year, 'flowbyfacility')
     validation_result = validate_inventory(flowbyfac, egrid_national_totals,
                                            group_by='flow', tolerance=5.0)
     write_validation_result('eGRID',year,validation_result)
