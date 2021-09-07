@@ -1,4 +1,4 @@
-git+git://github.com/USEPA/esupy.git@v0.1.7#egg=esupy
+git+https://github.com/USEPA/esupy.git@v0.1.7#egg=esupy
 pandas>=0.22                   # Powerful data structures for data analysis, time series, and statistics.
 numpy>=1.20.1                  # NumPy is the fundamental package for array computing with Python
 requests>=2.20                 # Python HTTP for Humans; used for webservice calls
