@@ -84,7 +84,7 @@ def writeChemicalMatches():
     #Remove waste code and PGM_ID
     all_lists_srs_info = all_lists_srs_info.drop(columns=['PGM_ID'])
     all_lists_srs_info = all_lists_srs_info.sort_values(['Source','FlowName',
-                                                         'SRS_ID'])
+                                                         'SRS_ID', 'FlowID'])
     
     #Add in manually found matches
     all_lists_srs_info = add_manual_matches(all_lists_srs_info)
@@ -120,6 +120,8 @@ def extract_flows_for_chemical_matcher():
         if source == 'TRI':
             list_names_years['FlowID']= list_names_years['FlowID'].apply(
                 lambda x: x.lstrip('0'))
+            list_names_years['FlowID']= list_names_years['FlowID'].apply(
+                lambda x: x.replace('-',''))
         list_names_years = list_names_years.drop_duplicates()
         list_names_years['Source'] = source
         all_list_names = pd.concat([all_list_names,list_names_years],

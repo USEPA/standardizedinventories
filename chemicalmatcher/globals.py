@@ -50,6 +50,9 @@ def get_SRSInfo_for_program_list(inventory):
         srs_flow_df = pd.concat([srs_flow_df,flow_info])
     #drop duplicates
     srs_flow_df.drop_duplicates(inplace=True)
+    if(inventory=='TRI'):
+        srs_flow_df['PGM_ID']= srs_flow_df['PGM_ID'].apply(
+            lambda x: str(x).lstrip('0'))
     #sort by alt_id
     srs_flow_df.sort_values(by='PGM_ID',inplace=True)
     return srs_flow_df
