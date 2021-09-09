@@ -59,7 +59,7 @@ Processing of the DMR uses the custom search option of the [Water Pollutant Load
 - Estimation: On - estimates loads when monitoring data are not reported for one or more monitoring periods in a reporting year
 - Nutrient Aggregation: On - Nitrogen and Phosphorous flows are converted to N and P equivalents
 
-For validation, the sum of facility releases (excluding N & P) are compared against reported state totals.
+For validation, the sum of facility releases (excluding N & P) are compared against reported state totals. Some validation issues are expected due to differences in default parameters used by the water pollutant loading tool for calculating state totals.
 
 ### eGRID
 
@@ -69,7 +69,7 @@ For validation, the sum of facility releases are compared against reported U.S. 
 ### GHGRP
 
 GHGRP data are sourced from EPA's [Envirofacts API](https://enviro.epa.gov/)
-For validation, the sum of facility releases by subpart are compared against reported U.S. totals by subpart and flow.
+For validation, the sum of facility releases by subpart are compared against reported U.S. totals by subpart and flow. The validation of some flows (HFC, HFE, and PFCs) are reported in carbon dioxide equivalents. Mixed reporting of these flows in the source data in units of mass or carbon dioxide equivalents results in validation issues.
 
 ### NEI
 
@@ -84,7 +84,6 @@ For validation, the sum of facility waste generation are compared against report
 ### TRI
 
 TRI data are sourced from the [Basic Plus Data files](https://www.epa.gov/toxics-release-inventory-tri-program/tri-data-and-tools)
-
 For validation, the sum of facility releases are compared to national totals by flow from the TRI Explorer.
 
 ## Combined Inventories
