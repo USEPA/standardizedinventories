@@ -58,30 +58,27 @@ Processing of the DMR uses the custom search option of the [Water Pollutant Load
 - Detection limit: Half - set all non-detects to ½ the detection limit
 - Estimation: On - estimates loads when monitoring data are not reported for one or more monitoring periods in a reporting year
 - Nutrient Aggregation: On - Nitrogen and Phosphorous flows are converted to N and P equivalents
+
 For validation, the sum of facility releases (excluding N & P) are compared against reported state totals.
 
 ### eGRID
 
 eGRID data are sourced from EPA's [eGRID](https://www.epa.gov/egrid) site.
-
 For validation, the sum of facility releases are compared against reported U.S. totals by flow.
 
 ### GHGRP
 
 GHGRP data are sourced from EPA's [Envirofacts API](https://enviro.epa.gov/)
-
 For validation, the sum of facility releases by subpart are compared against reported U.S. totals by subpart and flow.
 
 ### NEI
 
 NEI data are downloaded from the EPA Emissions Inventory System (EIS) Gateway and hosted on EPA [Data Commons](https://edap-ord-data-commons.s3.amazonaws.com/index.html?prefix=stewi/) for access by StEWI.
-
 For validation, the sum of facility releases are compared against reported totals by flow. Validation is only available for triennial datasets.
 
 ### RCRAInfo
 
 RCRAInfo data are sourced from the [Public Data Files](https://rcrapublic.epa.gov/rcrainfoweb/action/main-menu/view)
-
 For validation, the sum of facility waste generation are compared against reported state totals as calculated for the National Biennial Report.
 
 ### TRI
@@ -92,10 +89,10 @@ For validation, the sum of facility releases are compared to national totals by 
 
 ## Combined Inventories
 
-'stewicombo' combines inventory data from within and across selected inventories by matching facilities in the [Facility Registry Service](https://www.epa.gov/frs) and chemical flows using the [Substance Registry Service](https://sor.epa.gov/sor_internet/registry/substreg/LandingPage.do).
-If the 'remove_overlap' parameter is set to True (default), 'stewicombo' combines records using the following default logic:
+`stewicombo` module combines inventory data from within and across selected inventories by matching facilities in the [Facility Registry Service](https://www.epa.gov/frs) and chemical flows using the [Substance Registry Service](https://sor.epa.gov/sor_internet/registry/substreg/LandingPage.do).
+If the `remove_overlap` parameter is set to True (default), `stewicombo` combines records using the following default logic:
 - Records that share a common compartment, SRS ID and FRS ID _within_ an inventory are summed.
-- Records that share a common compartment, SRS ID and FRS ID _across_ an inventory are assessed by compartment preference (see 'INVENTORY_PREFERENCE_BY_COMPARTMENT').
+- Records that share a common compartment, SRS ID and FRS ID _across_ an inventory are assessed by compartment preference (see `INVENTORY_PREFERENCE_BY_COMPARTMENT`).
 - Additional steps are taken to avoid overlap of:
     - nutrient flow releases to water between the TRI and DMR
     - particulate matter releases to air reflecting PM < 10 and PM < 2.5 in the NEI
