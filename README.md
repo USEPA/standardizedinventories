@@ -8,20 +8,20 @@ StEWI consists of a core module, `stewi`, that digests and provides the USEPA in
 and `chemicalmatcher`, provide commons IDs for facilities and flows across inventories, which is used by the `stewicombo` module
 to combine the data, and optionally remove overlaps and remove double counting of groups of chemicals based on user preferences.
 
-## USEPA Inventories Covered By Data Reporting Year* (current version)
+## USEPA Inventories Covered By Data Reporting Year (current version)
 
 |Source|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-|[Discharge Monitoring Reports](https://www.epa.gov/) | | | | | | |x|x|x|x|x|x|
+|[Discharge Monitoring Reports](https://www.epa.gov/)* | | | | | | |x|x|x|x|x|x|
 |[Greenhouse Gas Reporting Program](https://www.epa.gov/ghgreporting) | | | |x|x|x|x|x|x|x|x|x|
 |[Emissions & Generation Resource Integrated Database](https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid) | | | | | | |x| |x| |x|x|
-|[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)** | | | |x|x|x|x|x|x|x|x| |
-|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report) | |x| |x| |x| |x| |x| |x|
-|[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program) |x|x|x|x|x|x|x|x|x|x|x|x|
+|[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)** | | | |x|i|i|x|i|i|x|i| |
+|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)* | |x| |x| |x| |x| |x| |x|
+|[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program)* |x|x|x|x|x|x|x|x|x|x|x|x|
 
-*Some data are available prior to 2008 but have not been validated
+*Earlier data exist and are accessible but have not been validated
 
-**Only point sources included at this time from NEI
+**Only point sources included at this time from NEI; _i_ interim years between triennial releases, accessed through the Emissions Inventory System, are not validated
 
 ## Standard output formats
 
@@ -49,7 +49,7 @@ The `stewicombo` module produces:
 
 ## Data Processing
 
-The following describes details related to dataset access and processing specific to each dataset
+The following describes details related to dataset access, processing, and validation
 
 ### DMR
 
@@ -58,33 +58,56 @@ Processing of the DMR uses the custom search option of the [Water Pollutant Load
 - Detection limit: Half - set all non-detects to ½ the detection limit
 - Estimation: On - estimates loads when monitoring data are not reported for one or more monitoring periods in a reporting year
 - Nutrient Aggregation: On - Nitrogen and Phosphorous flows are converted to N and P equivalents
+For validation, the sum of facility releases (excluding N & P) are compared against reported state totals.
 
 ### eGRID
 
-eGRID data are sourced from EPA's [eGRID](https://www.epa.gov/egrid) site
+eGRID data are sourced from EPA's [eGRID](https://www.epa.gov/egrid) site.
+
+For validation, the sum of facility releases are compared against reported U.S. totals by flow.
 
 ### GHGRP
 
-GHGRP data are sourced from EPA's [Envirofacts](https://enviro.epa.gov/)
+GHGRP data are sourced from EPA's [Envirofacts API](https://enviro.epa.gov/)
+
+For validation, the sum of facility releases by subpart are compared against reported U.S. totals by subpart and flow.
 
 ### NEI
 
-NEI data are downloaded from the EPA Emissions Inventory System (EIS) Gateway and hosted on EPA [Data Commons](https://edap-ord-data-commons.s3.amazonaws.com/index.html?prefix=stewi/) for access by StEWI
+NEI data are downloaded from the EPA Emissions Inventory System (EIS) Gateway and hosted on EPA [Data Commons](https://edap-ord-data-commons.s3.amazonaws.com/index.html?prefix=stewi/) for access by StEWI.
+
+For validation, the sum of facility releases are compared against reported totals by flow. Validation is only available for triennial datasets.
 
 ### RCRAInfo
 
 RCRAInfo data are sourced from the [Public Data Files](https://rcrapublic.epa.gov/rcrainfoweb/action/main-menu/view)
 
+For validation, the sum of facility waste generation are compared against reported state totals as calculated for the National Biennial Report.
+
 ### TRI
 
 TRI data are sourced from the [Basic Plus Data files](https://www.epa.gov/toxics-release-inventory-tri-program/tri-data-and-tools)
 
+For validation, the sum of facility releases are compared to national totals by flow from the TRI Explorer.
+
+## Combined Inventories
+
+'stewicombo' combines inventory data from within and across selected inventories by matching facilities in the [Facility Registry Service](https://www.epa.gov/frs) and chemical flows using the [Substance Registry Service](https://sor.epa.gov/sor_internet/registry/substreg/LandingPage.do).
+If the 'remove_overlap' parameter is set to True (default), 'stewicombo' combines records using the following default logic:
+- Records that share a common compartment, SRS ID and FRS ID _within_ an inventory are summed.
+- Records that share a common compartment, SRS ID and FRS ID _across_ an inventory are assessed by compartment preference (see 'INVENTORY_PREFERENCE_BY_COMPARTMENT').
+- Additional steps are taken to avoid overlap of:
+    - nutrient flow releases to water between the TRI and DMR
+    - particulate matter releases to air reflecting PM < 10 and PM < 2.5 in the NEI
+    - [Volatile Organic Compound (VOC)](https://github.com/USEPA/standardizedinventories/blob/master/stewicombo/data/VOC_SRS_IDs.csv) releases to air for individually reported VOCs and grouped VOCs 
+
+
 ## Installation Instructions
 
 Install a release directly from github using pip. From a command line interface, run:
-> pip install git+https://github.com/USEPA/standardizedinventories.git@v0.9.8#egg=standardizedinventories
+> pip install git+https://github.com/USEPA/standardizedinventories.git@v0.10.0#egg=StEWI
 
-where you can replace 'v0.9.8' with the version you wish to use under [Releases](https://github.com/USEPA/standardizedinventories/releases).
+where you can replace 'v0.10.0' with the version you wish to use under [Releases](https://github.com/USEPA/standardizedinventories/releases).
 
 Alternatively, to install from the most current point on the repository:
 ```
