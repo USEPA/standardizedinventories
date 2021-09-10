@@ -126,10 +126,10 @@ def get_row_count(table, report_year):
 def download_chunks(table, table_count, row_start=0, report_year='',
                     output_ext='csv', filepath=''):
     ''' docstring '''
-    # Generate URL for each 10,000 row grouping and add to DataFrame
+    # Generate URL for each 5,000 row grouping and add to DataFrame
     output_table = pd.DataFrame()
     while row_start <= table_count:
-        row_end = row_start + 9999
+        row_end = row_start + 4999
         table_url = generate_url(table=table, report_year=report_year,
                                  row_start=row_start, row_end=row_end,
                                  output_ext=output_ext)
@@ -140,7 +140,7 @@ def download_chunks(table, table_count, row_start=0, report_year='',
             log.error('error in downloading table %s', table)
             return None
         output_table = pd.concat([output_table, table_temp])
-        row_start += 10000
+        row_start += 5000
     ghgrp_metadata['time_meta'].append(temp_time)
     ghgrp_metadata['url_meta'].append(generate_url(table, 
                                          report_year=report_year, 
