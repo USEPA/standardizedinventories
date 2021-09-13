@@ -41,6 +41,7 @@ from xml.dom import minidom
 import time
 import os
 import argparse
+import warnings
 
 from stewi.globals import download_table,\
     write_metadata, import_table, drop_excel_sheets,\
@@ -309,7 +310,7 @@ def download_and_parse_subpart_tables(year):
         ghgrp1 = pd.concat([ghgrp1, table_df])
     
     ghgrp1.reset_index(drop=True, inplace=True)       
-
+    log.info('Parsing table data...')
     if 'C' in ghgrp1.SUBPART_NAME.unique():
         ghgrp1 = calculate_combustion_emissions(ghgrp1)
         # add these new columns to the list of 'group' columns
@@ -420,8 +421,12 @@ def calculate_combustion_emissions(df):
 
 def parse_additional_suparts_data(addtnl_subparts_path, subpart_cols_file, year):
     log.info('loading additional subpart data from %s', addtnl_subparts_path)
-    # load .xslx data for additional subparts from filepath
-    addtnl_subparts_dict = import_table(addtnl_subparts_path)
+
+    with warnings.catch_warnings():
+        #Avoid the UserWarning for openpyxl "Unknown extension is not supported"
+        warnings.filterwarnings("ignore", category=UserWarning)
+        # load .xslx data for additional subparts from filepath
+        addtnl_subparts_dict = import_table(addtnl_subparts_path)
     # import column headers data for additional subparts
     subpart_cols = import_table(ghgrp_data_dir + subpart_cols_file)
     # get list of tabs to process
@@ -486,7 +491,7 @@ def parse_additional_suparts_data(addtnl_subparts_path, subpart_cols_file, year)
         temp_df['SUBPART_NAME'] = cols['subpart_abbr'][0]
         
         # concatentate temporary dataframe with master dataframe
-        ghgrp = pd.concat([ghgrp, temp_df])
+        ghgrp = pd.concat([ghgrp, temp_df], ignore_index=True)
             
     # drop those rows where flow amount is negative, zero, or NaN
     ghgrp = ghgrp[ghgrp['FlowAmount'] > 0]
