@@ -173,10 +173,8 @@ def import_table(path_or_reference, skip_lines=0, get_time=False):
     elif path_or_reference[-3:].lower() == 'csv':
         df = pd.read_csv(path_or_reference, low_memory=False)
     elif 'xls' in path_or_reference[-4:].lower():
-        import_file = pd.ExcelFile(path_or_reference)
-        df = {sheet: import_file.parse(sheet, skiprows=skip_lines,
-                                       engine='openpyxl')
-              for sheet in import_file.sheet_names}
+        df = pd.read_excel(path_or_reference, sheet_name=None,
+                           skiprows=skip_lines)
     if get_time:
         try: retrieval_time = os.path.getctime(path_or_reference)
         except: retrieval_time = time.time()
