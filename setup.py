@@ -2,7 +2,7 @@ from setuptools import setup
 
 install_requires=['esupy @ git+https://github.com/USEPA/esupy@v0.1.7#egg=esupy',
                   'numpy>=1.20.1',
-                  'pandas>=0.22',
+                  'pandas>=1.2',
                   'requests>=2.20',
                   'beautifulsoup4>=4.9.3',
                   'regex>=2021.4.4',
