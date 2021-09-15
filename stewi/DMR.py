@@ -471,8 +471,9 @@ def remove_nutrient_overlap_TRI(df, preference):
     :param preference: str 'DMR' or 'TRI'
     :returns: dataframe with nonpreferred flows removed
     """
-    tri_list = ['AMMONIA','Ammonia',
-                'NITRATE COMPOUNDS', 'Nitrate Compounds']
+    tri_list = ['Ammonia',
+                'Nitrate Compounds',
+                'Nitrate compounds (water dissociable; reportable only when in aqueous solution)']
     dmr_list = ['Nitrogen']
     combined_list = tri_list + dmr_list
     
