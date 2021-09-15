@@ -6,7 +6,7 @@ Functions to support filtering of processed inventories
 """
 
 import pandas as pd
-from stewi.globals import data_dir, import_table, config, read_inventory, log
+from stewi.globals import data_dir, config, read_inventory, log
 
 filter_config = config(file = 'filter.yaml')
 
