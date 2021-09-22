@@ -14,4 +14,6 @@ County |String|N|County Name|
 NAICS |String|N|[NAICS code](https://www.census.gov/cgi-bin/sssd/naics/naicsrch?chart=2012), NAICS 2012 is assumed.|
 SIC |String|N|[Standard Industry Classification (1987)](https://www.osha.gov/pls/imis/sicsearch.html)|
 
+Additional fields specific to individual inventories are maintained in some cases.
+- eGRID [facility fields](https://github.com/USEPA/standardizedinventories/blob/master/stewi/data/eGRID/eGRID_required_fields.csv)
 

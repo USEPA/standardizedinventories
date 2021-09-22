@@ -9,21 +9,11 @@ DataReliability | Numeric | Y | A score of data reliability based on reporting v
 Compartment | String | Y | Name of compartment to which release goes, e.g. "air", "water", "ground". Used for inventory sources characterizing releases to multiple compartments.
 Unit | String | Y | SI unit acronym. 'kg' for mass flows; 'MJ' for energy flows
 Source |String |Y | The standard acronym for the inventory that includes this flow|
+Year | String | Y | The year of the inventory
 SRS_ID |String |N | The [Substance Registry Service (FRS)](https://iaspub.epa.gov/sor_internet/registry/substreg/home/overview/home.do) substance ID number |
+SRS_CAS | String | N | The [Substance Registry Service (FRS)](https://iaspub.epa.gov/sor_internet/registry/substreg/home/overview/home.do) substance CAS number | 
 FRS_ID |String |N | The [Facility Registry Service (FRS)](https://iaspub.epa.gov/sor_internet/registry/facilreg/home/basicinformation/) facility ID number |
+FacilityIDs_Combined | String | N | Concatenated FacilityID when FRS_ID is shared
 %Source%_ID|String| N | The FacilityID number of the base inventory source used for selecting facilities to be combined | 
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

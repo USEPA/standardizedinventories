@@ -373,6 +373,11 @@ def main(**kwargs):
         kwargs = vars(parser.parse_args())
     
     for year in kwargs['Year']:
+
+        if year not in _config:
+            log.error(f'Requested eGRID year {year} is not available')
+            continue
+
         if kwargs['Option'] == 'A':
             #download data
             download_eGRID(year)

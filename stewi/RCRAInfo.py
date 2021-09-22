@@ -2,7 +2,7 @@
 # !/usr/bin/env python3
 # coding=utf-8
 """
-Download specified Biennial Report files from EPA RCRAInfo system   for specified year
+Download specified Biennial Report files from EPA RCRAInfo system for specified year
 This file requires parameters be passed like:
 Option -Y Year -T Table1 Table2 ... TableN
 where Option is either A, B, C:
@@ -192,6 +192,8 @@ def download_and_extract_zip(Tables, query):
              ' will proceed',
              Tables, rcra_external_dir)
     for name in Tables:
+        if checkforFile(rcra_external_dir + name + '_0.csv'):
+            continue
         browser.get(Links[name])
         condition = checkforFile(rcra_external_dir + name + '.zip')
         while condition is False:
