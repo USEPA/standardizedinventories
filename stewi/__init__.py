@@ -125,6 +125,8 @@ def getInventoryFlows(inventory_acronym, year):
     :return: dataframe with standard flows format
     """
     flows = read_inventory(inventory_acronym, year, 'flow')
+    if flows is None:
+        return None
     flows = add_missing_fields(flows, inventory_acronym, 'flow',
                                maintain_columns=False)
     return flows
@@ -138,6 +140,8 @@ def getInventoryFacilities(inventory_acronym, year):
     :return: dataframe with standard flows format
     """
     facilities = read_inventory(inventory_acronym, year, 'facility')
+    if facilities is None:
+        return None
     facilities = add_missing_fields(facilities, inventory_acronym, 'facility',
                                     maintain_columns=True)
     return facilities
