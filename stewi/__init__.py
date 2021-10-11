@@ -8,7 +8,7 @@ inventory in standard formats
 
 
 import os
-from stewi.globals import log, add_missing_fields, output_dir,\
+from stewi.globals import log, add_missing_fields,\
     WRITE_FORMAT, read_inventory, stewi_formats, paths,\
     read_source_metadata, inventory_formats, set_stewi_meta, aggregate
 from stewi.filter import apply_filter_to_inventory, filter_config
@@ -26,7 +26,7 @@ def getAvailableInventoriesandYears(stewiformat='flowbyfacility'):
     if stewiformat not in stewi_formats:
         log.error('not a supported stewi format')
         return existing_inventories
-    directory = output_dir + '/' + stewiformat + '/'
+    directory = paths.local_path + '/' + stewiformat + '/'
     if os.path.exists(directory):
         files = os.listdir(directory)
     else:
@@ -159,7 +159,7 @@ def getMetadata(inventory_acroynym, year):
 def seeAvailableInventoryFilters():
     """Print available filters for use in getInventory."""
     for f in filter_config:
-        print(f'{f}: ' + filter_config[f]['description'])
+        print(f"{f}: {filter_config[f]['description']}")
         if (filter_config[f]['type'] == 'set'):
             print('Includes the following filters: ' + ', '.join(
                 filter_config[f]['filters']))

@@ -14,9 +14,9 @@ from stewicombo.globals import get_id_before_underscore,\
     download_stewicombo_from_remote
 
 
-def combineFullInventories(inventory_dict, filter_for_LCI=True, 
+def combineFullInventories(inventory_dict, filter_for_LCI=True,
                            remove_overlap=True, compartments=None):
-    """Combines full stewi inventories
+    """Combine full stewi inventories.
 
     :param inventory_dict: dictionary of inventories and years,
          e.g. {"TRI":"2014","NEI":"2014","RCRAInfo":"2015"}
@@ -28,21 +28,20 @@ def combineFullInventories(inventory_dict, filter_for_LCI=True,
                                                           'air', 'land')
     :return: Flow-By-Facility Combined Format
     """
-
     inventory_acronyms = list(inventory_dict.keys())
     facilitymatches = facilitymatcher.get_matches_for_inventories(
         inventory_acronyms)
     inventories = getInventoriesforFacilityMatches(inventory_dict,
                                                    facilitymatches,
                                                    filter_for_LCI,
-                                                   base_inventory = None)
+                                                   base_inventory=None)
     if len(inventories) == 0:
         return None
-    if compartments !=None:
+    if compartments is not None:
         inventories = filter_by_compartment(inventories, compartments)
-    
+
     inventories = addChemicalMatches(inventories)
-   
+
     # Aggregate and remove overlap if requested
     if remove_overlap:
         inventories = aggregate_and_remove_overlap(inventories)
@@ -56,11 +55,10 @@ def combineFullInventories(inventory_dict, filter_for_LCI=True,
 
 
 def combineInventoriesforFacilitiesinBaseInventory(base_inventory,
-                                                  inventory_dict,
-                                                  filter_for_LCI=True,
-                                                  remove_overlap=True):
-    """Combines stewi inventories for all facilities present in a given
-    base_inventory inventory
+                                                   inventory_dict,
+                                                   filter_for_LCI=True,
+                                                   remove_overlap=True):
+    """Combine stewi inventories for all facilities present in base_inventory.
 
     The base_inventory must be in the inventory_dict
     :param base_inventory: reference inventory e.g. "TRI"
@@ -72,7 +70,6 @@ def combineInventoriesforFacilitiesinBaseInventory(base_inventory,
         based on preferences defined in globals
     :return: Flow-By-Facility Combined Format
     """
-
     inventory_acronyms = list(inventory_dict.keys())
     facilitymatches = facilitymatcher.get_matches_for_inventories(
         inventory_acronyms)
@@ -91,11 +88,10 @@ def combineInventoriesforFacilitiesinBaseInventory(base_inventory,
     return inventories
 
 
-def combineInventoriesforFacilityList(base_inventory, inventory_dict, 
+def combineInventoriesforFacilityList(base_inventory, inventory_dict,
                                       facility_id_list,
                                       filter_for_LCI=True, remove_overlap=True):
-    """Combines stewi flowbyfacility inventories for all facilities
-    present in a given facility id list for the base_inventory
+    """Combine inventories for all facilities present in facility id list for base_inventory.
 
     The base_inventory must be in the inventory_dict
     :param base_inventory: reference inventory e.g. "TRI"
@@ -109,7 +105,6 @@ def combineInventoriesforFacilityList(base_inventory, inventory_dict,
         based on preferences defined in globals
     :return: Flow-By-Facility Combined Format
     """
-
     inventory_acronyms = list(inventory_dict.keys())
     facilitymatches = facilitymatcher.get_matches_for_id_list(
         base_inventory, facility_id_list, inventory_acronyms)
@@ -133,9 +128,10 @@ def combineInventoriesforFacilityList(base_inventory, inventory_dict,
                                       base_inventory)
     return inventories
 
+
 def saveInventory(name, combinedinventory_df, inventory_dict):
-    """Saves a combined inventory in local directory with metadata
-    
+    """Save a combined inventory in local directory with metadata.
+
     :param name: str, desired name for dataset e.g. 'CAP_HAP_national_2017'
     :param combinedinventory_df: df to save
     :param inventory_dict: dictionary of inventories and years, used to compile
@@ -147,8 +143,8 @@ def saveInventory(name, combinedinventory_df, inventory_dict):
 
 
 def getInventory(name, download_if_missing=False):
-    """Retrieves locally stored inventory in Flow-By-Facility Combined Format
-    
+    """Retrieve locally stored inventory in Flow-By-Facility Combined Format.
+
     :param name: str, name of dataset or name of file, e.g.
         'CAP_HAP_national_2017' or 'CAP_HAP_national_2017_v0.9.7_5cf36c0.parquet'
     :param download_if_missing: bool, if True will attempt to load from
@@ -160,10 +156,10 @@ def getInventory(name, download_if_missing=False):
         download_stewicombo_from_remote(name)
         combinedinventory_df = getCombinedInventory(name)
     return combinedinventory_df
-    
+
 
 def pivotCombinedInventories(combinedinventory_df):
-    """Creates a pivot table of combined emissions
+    """Create a pivot table of combined emissions.
 
     :param combinedinventory_df: pandas dataframe returned from a
         'combineInventories..' function
@@ -171,7 +167,7 @@ def pivotCombinedInventories(combinedinventory_df):
     """
     # Group the results by facility,flow,and compartment
     combinedinventory_df_pt = combinedinventory_df.pivot_table(
-        values=['FlowAmount','DataReliability'],
-        index=['FRS_ID','SRS_ID','Compartment'],
+        values=['FlowAmount', 'DataReliability'],
+        index=['FRS_ID', 'SRS_ID', 'Compartment'],
         columns='Source')
     return combinedinventory_df_pt

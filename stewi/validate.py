@@ -9,15 +9,14 @@ import numpy as np
 from datetime import datetime
 
 from esupy.processed_data_mgmt import create_paths_if_missing
-from stewi.globals import log, data_dir, output_dir, write_metadata,\
+from stewi.globals import log, data_dir, paths, write_metadata,\
     source_metadata
 
 
 def validate_inventory(inventory_df, reference_df, group_by='flow',
                        tolerance=5.0, filepath=''):
-    """
-    Compare inventory resulting from script output with a reference DataFrame
-    from another source
+    """Compare inventory output with a reference DataFrame from another source.
+
     :param inventory_df: DataFrame of inventory resulting from script output
     :param reference_df: Reference DataFrame to compare emission quantities against.
         Must have same keys as inventory_df
@@ -36,7 +35,8 @@ def validate_inventory(inventory_df, reference_df, group_by='flow',
         reference_df['FlowAmount'] = pd.to_numeric(reference_df['FlowAmount'])
     if group_by == 'flow':
         group_by_columns = ['FlowName']
-        if 'Compartment' in inventory_df.keys(): group_by_columns += ['Compartment']
+        if 'Compartment' in inventory_df.keys():
+            group_by_columns += ['Compartment']
     elif group_by == 'state':
         group_by_columns = ['State']
     elif group_by == 'facility':
@@ -49,7 +49,8 @@ def validate_inventory(inventory_df, reference_df, group_by='flow',
         group_by_columns).sum().reset_index()
     reference_sums = reference_df[group_by_columns + ['FlowAmount']].groupby(
         group_by_columns).sum().reset_index()
-    if filepath: reference_sums.to_csv(filepath, index=False)
+    if filepath:
+        reference_sums.to_csv(filepath, index=False)
     validation_df = inventory_sums.merge(reference_sums, how='outer',
                                          on=group_by_columns).reset_index(drop=True)
     validation_df = validation_df.fillna(0.0)
@@ -95,8 +96,10 @@ def validate_inventory(inventory_df, reference_df, group_by='flow',
             pct_diff_list.append(pct_diff)
             amount_x_list.append(amount_x)
             amount_y_list.append(amount_y)
-            if pct_diff == 0.0: conclusion.append('Identical')
-            elif pct_diff <= tolerance: conclusion.append('Statistically similar')
+            if pct_diff == 0.0:
+                conclusion.append('Identical')
+            elif pct_diff <= tolerance:
+                conclusion.append('Statistically similar')
             elif pct_diff > tolerance:
                 conclusion.append('Percent difference exceeds tolerance')
                 error_count += 1
@@ -106,77 +109,78 @@ def validate_inventory(inventory_df, reference_df, group_by='flow',
     validation_df['Conclusion'] = conclusion
     validation_df = validation_df.drop(['FlowAmount_x', 'FlowAmount_y'], axis=1)
     if error_count > 0:
-        log.warning('%s potential issues in validation exceeding tolerance',
-                    str(error_count))
+        log.warning(f'{str(error_count)} potential issues in validation '
+                    'exceeding tolerance')
 
     return validation_df
 
 
 def read_ValidationSets_Sources():
-    """Read and return ValidationSets_Sources.csv file"""
-    df = pd.read_csv(data_dir + 'ValidationSets_Sources.csv',header=0,
-                     dtype={"Year":"str"})
+    """Read and return ValidationSets_Sources.csv file."""
+    df = pd.read_csv(data_dir + 'ValidationSets_Sources.csv', header=0,
+                     dtype={"Year": "str"})
     return df
 
 
-def write_validation_result(inventory_acronym,year,validation_df):
-    """Writes the validation result and associated metadata to the output
+def write_validation_result(inventory_acronym, year, validation_df):
+    """Write the validation result and associated metadata to local dir.
+
     :param inventory_acronym: str for inventory e.g. 'TRI'
     :param year: str for year e.g. '2016'
-    :param validation_df: df returned from validate_inventory function"""
-    directory = output_dir + '/validation/'
+    :param validation_df: df returned from validate_inventory function
+    """
+    directory = paths.local_path + '/validation/'
     create_paths_if_missing(directory)
-    log.info('writing validation result to ' + directory)
+    log.info(f'writing validation result to {directory}')
     validation_df.to_csv(directory + inventory_acronym + '_' + year + '.csv',
                          index=False)
-    #Get metadata on validation dataset
+    # Get metadata on validation dataset
     validation_set_info_table = read_ValidationSets_Sources()
-    #Get record for year and source
+    # Get record for year and source
     validation_set_info = validation_set_info_table[
-        (validation_set_info_table['Inventory']==inventory_acronym) &
-        (validation_set_info_table['Year']==year)]
-    if len(validation_set_info)!=1:
+        (validation_set_info_table['Inventory'] == inventory_acronym) &
+        (validation_set_info_table['Year'] == year)]
+    if len(validation_set_info) != 1:
         log.error('no validation metadata found')
         return
-    #Convert to Series
-    validation_set_info = validation_set_info.iloc[0,]
-    #Use the same format an inventory metadata to described the validation set data
+    # Convert to Series
+    validation_set_info = validation_set_info.iloc[0, ]
+    # Use the same format an inventory metadata to described the validation set data
     validation_metadata = dict(source_metadata)
     validation_metadata['SourceFileName'] = validation_set_info['Name']
     validation_metadata['SourceVersion'] = validation_set_info['Version']
     validation_metadata['SourceURL'] = validation_set_info['URL']
     validation_metadata['SourceAcquisitionTime'] = validation_set_info['Date Acquired']
     validation_metadata['Criteria'] = validation_set_info['Criteria']
-    #Write metadata to file
+    # Write metadata to file
     write_metadata(inventory_acronym + '_' + year, validation_metadata,
                    datatype="validation")
 
 
 def update_validationsets_sources(validation_dict, date_acquired=False):
-    """Adds or replaces metadata dictionary of validation reference dataset to
-    the validation sets sources file
+    """Add or replaces metadata dictionary of validation reference dataset to
+    the validation sets sources file.
+
     :param validation_dict: dictionary of validation metadata
-    :param date_acquired: 
+    :param date_acquired:
     """
     if not date_acquired:
         date = datetime.today().strftime('%d-%b-%Y')
         validation_dict['Date Acquired'] = date
     v_table = read_ValidationSets_Sources()
     existing = v_table.loc[(v_table['Inventory'] == validation_dict['Inventory']) &
-                       (v_table['Year'] == validation_dict['Year'])]
-    if len(existing)>0:
+                           (v_table['Year'] == validation_dict['Year'])]
+    if len(existing) > 0:
         i = existing.index[0]
         v_table = v_table.loc[~v_table.index.isin(existing.index)]
         line = pd.DataFrame.from_records([validation_dict], index=[(i)])
     else:
         inventories = list(v_table['Inventory'])
-        i = max(loc for loc, val in enumerate(inventories) 
+        i = max(loc for loc, val in enumerate(inventories)
                 if val == validation_dict['Inventory'])
         line = pd.DataFrame.from_records([validation_dict], index=[(i+0.5)])
     v_table = v_table.append(line, ignore_index=False)
     v_table = v_table.sort_index().reset_index(drop=True)
-    log.info('updating ValidationSets_Sources.csv with %s %s', 
-             validation_dict['Inventory'], validation_dict['Year'])
+    log.info("updating ValidationSets_Sources.csv with ",
+             f"{validation_dict['Inventory']} {validation_dict['Year']}")
     v_table.to_csv(data_dir + 'ValidationSets_Sources.csv', index=False)
-    
-
