@@ -121,10 +121,10 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
                 log.debug(f'file already exists for {str(params)}, skipping')
                 success_list.append(sic + '_' + state)
             else:
-                log.info(f'executing query for {str(params)}')
+                log.debug(f'executing query for {sic}_{state}')
                 result = execute_query(url)
                 if str(type(result)) == "<class 'str'>":
-                    log.error(f'error in state: {sic}_{state}')
+                    log.debug(f'error in state: {sic}_{state}')
                     if result == 'no_data': no_data_list.append(sic + '_' + state)
                     elif result == 'max_error': max_error_list.append(sic + '_' + state)
                 else:
@@ -268,7 +268,7 @@ def combine_DMR_inventory(year, nutrient=''):
     else:
         log.info('reading stored DMR queries by state...')
     for state in states:
-        log.debug('accessing data for %s', state)
+        log.debug(f'accessing data for {state}')
         if (nutrient != '') | (state not in big_state_list):
             filepath = path + 'state_' + state + '.pickle'
             result = unpickle(filepath)
@@ -276,19 +276,12 @@ def combine_DMR_inventory(year, nutrient=''):
                 log.warning('No data found for %s', state)
             output_df = pd.concat([output_df, result])
         else: # multiple files for each state
-            counter = 1
-            while True:
-                try:
-                    filepath = path + 'state_' + state + '_' +\
-                        str(counter) + '.pickle'
+            log.debug(f'looping through data for {state}')
+            for file in os.listdir(path):
+                if file.startswith('state_' + state) & file.endswith('.pickle'):
+                    filepath = path + file
                     result = unpickle(filepath)
-                    if result is None:
-                        log.debug('No data found for {state}_{str(counter)}')
-                        break
                     output_df = pd.concat([output_df, result])
-                    counter += 1
-                except: pass
-
     return output_df
 
 
@@ -548,13 +541,16 @@ def main(**kwargs):
             if (len(state_max_error_list) == 0) & (len(state_no_data_list) == 0):
                 log.info('all states succesfully downloaded')
             else:
-                log.error('Max error: ')
-                log.error(state_max_error_list)
-                log.error(state_no_data_list)
+                if (len(state_max_error_list) > 0):
+                    log.error(f"Max error: {' '.join(state_max_error_list)}")
+                if (len(state_no_data_list) > 0):
+                    log.error(f"No data error: {' '.join(state_no_data_list)}")
                 sic_state_max_error_list, sic_state_no_data_list,\
                     sic_state_success_list = query_dmr(year=year,
                                                        sic_list=sic2,
                                                        state_list=state_max_error_list)
+                if len(sic_state_max_error_list) > 0:
+                    log.error(f"Max error: {' '.join(sic_state_max_error_list)}")
 
             log.info(f"Querying nutrients for {year}")
             # Query aggregated nutrients data
