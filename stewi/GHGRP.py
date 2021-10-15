@@ -336,19 +336,19 @@ def download_and_parse_subpart_tables(year):
 
     # parse data where flow description has been populated (ghgrp1a)
     # keep only the necessary columns; drop all others
-    ghgrp1a.drop(ghgrp1a.columns.difference(base_cols +
-                                            ['Flow Description',
-                                             'FlowAmount',
-                                             'METHOD',
-                                             'SUBPART_NAME']),
-                 1, inplace=True)
+    ghgrp1a.drop(columns=ghgrp1a.columns.difference(base_cols +
+                                                    ['Flow Description',
+                                                     'FlowAmount',
+                                                     'METHOD',
+                                                     'SUBPART_NAME']),
+                 inplace=True)
 
     # parse data where flow description is blank (ghgrp1b)
     # keep only the necessary columns; drop all others
-    ghgrp1b.drop(ghgrp1b.columns.difference(
+    ghgrp1b.drop(columns=ghgrp1b.columns.difference(
         base_cols + expanded_group_cols +
         ['METHOD', 'SUBPART_NAME', 'UNIT_NAME', 'FUEL_TYPE']),
-        1, inplace=True)
+        inplace=True)
     # 'unpivot' data to create separate line items for each group column
     ghgrp1b = ghgrp1b.melt(id_vars=base_cols + ['METHOD', 'SUBPART_NAME',
                                                 'UNIT_NAME', 'FUEL_TYPE'],
