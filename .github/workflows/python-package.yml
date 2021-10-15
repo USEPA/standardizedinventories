@@ -1,4 +1,4 @@
-# This workflow will install Python dependencies, run tests and lint 
+# This workflow will install Python dependencies, run tests and lint
 # across operating systems, select versions of Python, and user + dev environments
 # For more info see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
@@ -9,6 +9,8 @@ on:
     #branches: [master, develop]  # excluding for initial testing purposes
     paths-ignore: # prevents workflow execution when only these types of files are modified
       - '**.md'  # prevent md files (e.g., README.md) in any repo dir from trigering workflow
+      - '**.yml'
+      - '**.yaml'
       - 'LICENSE'
       - '.gitignore'
   pull_request:
@@ -57,7 +59,7 @@ jobs:
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --extend-ignore=E26,E701
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
