@@ -121,7 +121,7 @@ def standardize_output(year, source='Point'):
         nei['DataReliability'] = 3
     # add Source column
     nei['Source'] = source
-    nei.reset_index(drop=True)
+    nei.reset_index(drop=True, inplace=True)
     return nei
 
 
