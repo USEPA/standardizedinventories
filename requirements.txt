@@ -5,3 +5,4 @@ requests>=2.20                 # Python HTTP for Humans; used for webservice cal
 beautifulsoup4>=4.9.3
 regex>=2021.4.4
 PyYAML>=5.1
+openpyxl>=3.0.7
