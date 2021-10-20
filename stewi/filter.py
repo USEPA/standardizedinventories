@@ -11,7 +11,7 @@ from stewi.globals import data_dir, config, read_inventory, log
 filter_config = config(file='filter.yaml')
 
 
-def apply_filter_to_inventory(inventory, inventory_acronym, year, filter_list):
+def apply_filters_to_inventory(inventory, inventory_acronym, year, filter_list):
     """Apply one or more filters from a passed list to an inventory dataframe.
 
     :param inventory: df of stewi inventory of type flowbyfacility or flowbyprocess
