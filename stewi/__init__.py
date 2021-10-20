@@ -11,7 +11,7 @@ import os
 from stewi.globals import log, add_missing_fields,\
     WRITE_FORMAT, read_inventory, paths,\
     read_source_metadata, set_stewi_meta, aggregate
-from stewi.filter import apply_filter_to_inventory, filter_config
+from stewi.filter import apply_filters_to_inventory, filter_config
 from stewi.formats import StewiFormat, ensure_format
 
 
@@ -54,7 +54,7 @@ def getAvailableInventoriesandYears(stewiformat='flowbyfacility'):
     return existing_inventories
 
 
-def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
+def printAvailableInventories(stewiformat='flowbyfacility'):
     """Print available inventories and years for a given output format.
 
     :param stewiformat: str e.g. 'flowbyfacility' or 'flow'
@@ -64,12 +64,7 @@ def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
         print('No inventories found')
     else:
         print(f'{stewiformat} inventories available (name, year):')
-        for i in existing_inventories.keys():
-            _s = i + ": "
-            for _y in existing_inventories[i]:
-                _s = _s + _y + ", "
-            _s = _s[:-2]
-            print(_s)
+        print("\n".join([f'{k}: {", ".join(v)}' for k, v in existing_inventories.items()]))
 
 
 def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
@@ -87,20 +82,23 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
     """
     f = ensure_format(stewiformat)
     inventory = read_inventory(inventory_acronym, year, f)
-    if inventory is None:
-        return None
 
     # for backwards compatability, maintain these optional parameters in getInventory
     if filter_for_LCI:
+        log.warning(r'"filter_for_LCI" parameter is deprecated and will be removed '
+                    'as a paramter in getInventory in future release.\n'
+                    r'Add "filter_for_LCI" to filters.')
         if 'filter_for_LCI' not in filters:
             filters.append('filter_for_LCI')
     if US_States_Only:
+        log.warning(r'"US_States_Only" parameter is deprecated and will be removed '
+                    'as a paramter in getInventory in future release.\n'
+                    r'Add "US_States_only" to filters.')
         if 'US_States_only' not in filters:
             filters.append('US_States_only')
 
-    if filters != []:
-        inventory = apply_filter_to_inventory(inventory, inventory_acronym, year,
-                                              filters)
+    inventory = apply_filters_to_inventory(inventory, inventory_acronym, year,
+                                           filters)
 
     inventory = add_missing_fields(inventory, inventory_acronym, f,
                                    maintain_columns=False)
