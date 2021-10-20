@@ -41,9 +41,6 @@ REPLACE_FILES = False
 
 GIT_HASH = get_git_hash()
 
-stewi_formats = ['flowbyfacility', 'flow', 'facility', 'flowbyprocess']
-inventory_formats = ['flowbyfacility', 'flowbyprocess']
-
 source_metadata = {
     'SourceType': 'Static File',  # Other types are "Web service"
     'SourceFileName': 'NA',
@@ -58,55 +55,12 @@ inventory_single_compartments = {"NEI": "air",
                                  "GHGRP": "air",
                                  "DMR": "water"}
 
-flowbyfacility_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],
-                         'FlowName': [{'dtype': 'str'}, {'required': True}],
-                         'Compartment': [{'dtype': 'str'}, {'required': True}],
-                         'FlowAmount': [{'dtype': 'float'}, {'required': True}],
-                         'Unit': [{'dtype': 'str'}, {'required': True}],
-                         'DataReliability': [{'dtype': 'float'}, {'required': True}],
-                         }
 
-facility_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],
-                   'FacilityName': [{'dtype': 'str'}, {'required': False}],
-                   'Address': [{'dtype': 'str'}, {'required': False}],
-                   'City': [{'dtype': 'str'}, {'required': False}],
-                   'State': [{'dtype': 'str'}, {'required': True}],
-                   'Zip': [{'dtype': 'str'}, {'required': False}],
-                   'Latitude': [{'dtype': 'float'}, {'required': False}],
-                   'Longitude': [{'dtype': 'float'}, {'required': False}],
-                   'County': [{'dtype': 'str'}, {'required': False}],
-                   'NAICS': [{'dtype': 'str'}, {'required': False}],
-                   'SIC': [{'dtype': 'str'}, {'required': False}],
-                   }
-
-flowbyprocess_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],
-                        'FlowName': [{'dtype': 'str'}, {'required': True}],
-                        'Compartment': [{'dtype': 'str'}, {'required': True}],
-                        'FlowAmount': [{'dtype': 'float'}, {'required': True}],
-                        'Unit': [{'dtype': 'str'}, {'required': True}],
-                        'DataReliability': [{'dtype': 'float'}, {'required': True}],
-                        'Process': [{'dtype': 'str'}, {'required': True}],
-                        'ProcessType': [{'dtype': 'str'}, {'required': False}],
-                        }
-
-flow_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
-               'FlowID': [{'dtype': 'str'}, {'required': True}],
-               'CAS': [{'dtype': 'str'}, {'required': False}],
-               'Compartment': [{'dtype': 'str'}, {'required': False}],
-               'Unit': [{'dtype': 'str'}, {'required': False}],
-               }
-
-format_dict = {'flowbyfacility': flowbyfacility_fields,
-               'flowbyprocess': flowbyprocess_fields,
-               'facility': facility_fields,
-               'flow': flow_fields}
-
-
-def set_stewi_meta(file_name, inventory_format=''):
-    """Create a class of esupy FileMeta with inventory_format assigned as category."""
+def set_stewi_meta(file_name, stewiformat=''):
+    """Create a class of esupy FileMeta with stewiformat assigned as category."""
     stewi_meta = FileMeta()
     stewi_meta.name_data = file_name
-    stewi_meta.category = inventory_format
+    stewi_meta.category = stewiformat
     stewi_meta.tool = "StEWI"
     stewi_meta.tool_version = STEWI_VERSION
     stewi_meta.ext = WRITE_FORMAT
@@ -239,7 +193,7 @@ def write_metadata(file_name, metadata_dict, category='',
         validation metadata
     """
     if (datatype == "inventory") or (datatype == "source"):
-        meta = set_stewi_meta(file_name, inventory_format=category)
+        meta = set_stewi_meta(file_name, stewiformat=category)
         meta.tool_meta = metadata_dict
         write_metadata_to_file(paths, meta)
     elif datatype == "validation":
@@ -286,52 +240,36 @@ def remove_line_breaks(df, headers_only=True):
     return df
 
 
-def get_required_fields(inventory_format='flowbyfacility'):
-    fields = format_dict[inventory_format]
-    required_fields = {key: value[0]['dtype'] for key, value
-                       in fields.items() if value[1]['required'] is True}
-    return required_fields
-
-
-def get_optional_fields(inventory_format='flowbyfacility'):
-    fields = format_dict[inventory_format]
-    optional_fields = {key: value[0]['dtype'] for key, value
-                       in fields.items()}
-    return optional_fields
-
-
-def add_missing_fields(df, inventory_acronym, inventory_format='flowbyfacility',
-                       maintain_columns=False):
+def add_missing_fields(df, inventory_acronym, f, maintain_columns=False):
     """Add all fields and formats for stewi inventory file.
 
     :param df: dataframe of inventory data
     :param inventory_acronym: str of inventory e.g. 'NEI'
-    :param inventory_format: str of a stewi format type e.g. 'flowbyfacility'
+    :param f: object of class StewiFormat
     :param maintain_columns: bool, if True do not delete any existing columns,
-        useful for inventories or inventory_formats that may have custom fields
+        useful for inventories or inventory formats that may have custom fields
     :return: dataframe of inventory containing all relevant columns
     """
-    fields = dict(format_dict[inventory_format])
     # Rename for legacy datasets
-    if 'ReliabilityScore' in df.columns:
+    if 'ReliabilityScore' in df:
         df.rename(columns={'ReliabilityScore': 'DataReliability'}, inplace=True)
     # Add in units and compartment if not present
-    if ('Unit' in fields.keys()) & ('Unit' not in df.columns):
+    if ('Unit' in f.fields()) & ('Unit' not in df):
         df['Unit'] = 'kg'
-    if ('Compartment' in fields.keys()) & ('Compartment' not in df.columns):
+    if ('Compartment' in f.fields()) & ('Compartment' not in df):
         try:
             compartment = inventory_single_compartments[inventory_acronym]
         except KeyError:
             log.warning('no compartment found in inventory')
             compartment = ''
         df['Compartment'] = compartment
-    for key in fields.keys():
-        if key not in df.columns:
-            df[key] = None
+    for field in f.fields():
+        if field not in df:
+            df[field] = None
     # Resort
-    col_list = list(fields.keys())
+    col_list = f.fields()
     if maintain_columns:
-        col_list = col_list + [c for c in df.columns if c not in list(fields.keys())]
+        col_list = col_list + [c for c in df if c not in f.fields()]
     df = df[col_list]
     return df
 
@@ -340,16 +278,16 @@ def checkforFile(filepath):
     return os.path.exists(filepath)
 
 
-def store_inventory(df, file_name, inventory_format, replace_files=REPLACE_FILES):
+def store_inventory(df, file_name, f, replace_files=REPLACE_FILES):
     """Store inventory to local directory based on inventory format.
 
     :param df: dataframe of processed inventory to save
     :param file_name: str of inventory_year e.g. 'TRI_2016'
-    :param inventory_format: str of a stewi format type e.g. 'flowbyfacility'
+    :param f: object of class StewiFormat
     :param replace_files: bool, True will use esupy function to delete existing
         files of the same name
     """
-    meta = set_stewi_meta(file_name, inventory_format)
+    meta = set_stewi_meta(file_name, str(f))
     method_path = paths.local_path + '/' + meta.category
     try:
         log.info(f'saving {meta.name_data} to {method_path}')
@@ -360,16 +298,16 @@ def store_inventory(df, file_name, inventory_format, replace_files=REPLACE_FILES
         log.error('Failed to save inventory')
 
 
-def read_inventory(inventory_acronym, year, inventory_format):
+def read_inventory(inventory_acronym, year, f):
     """Return the inventory from local directory. If not found, generate it.
 
     :param inventory_acronym: like 'TRI'
     :param year: year as number like 2010
-    :param inventory_format: str of a stewi format type e.g. 'flowbyfacility'
+    :param f: object of class StewiFormat
     :return: dataframe of stored inventory; if not present returns None
     """
     file_name = inventory_acronym + '_' + str(year)
-    meta = set_stewi_meta(file_name, inventory_format)
+    meta = set_stewi_meta(file_name, str(f))
     inventory = load_preprocessed_output(meta, paths)
     method_path = paths.local_path + '/' + meta.category
     if inventory is None:
@@ -383,7 +321,7 @@ def read_inventory(inventory_acronym, year, inventory_format):
     if inventory is not None:
         log.info(f'loaded {meta.name_data} from {method_path}')
         # ensure dtypes
-        fields = get_optional_fields(inventory_format)
+        fields = f.field_types()
         fields = {key: value for key, value in fields.items()
                   if key in list(inventory)}
         inventory = inventory.astype(fields)

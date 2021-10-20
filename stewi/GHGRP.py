@@ -45,12 +45,12 @@ import warnings
 
 from stewi.globals import download_table,\
     write_metadata, import_table, drop_excel_sheets,\
-    data_dir, get_reliability_table_for_source, set_stewi_meta,\
-    flowbyfacility_fields, flowbyprocess_fields, facility_fields, config,\
+    data_dir, get_reliability_table_for_source, set_stewi_meta, config,\
     store_inventory, paths, log, create_paths_if_missing,\
     compile_source_metadata, read_source_metadata, aggregate
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
+from stewi.formats import StewiFormat
 
 
 _config = config()['databases']['GHGRP']
@@ -195,8 +195,7 @@ def get_facilities(facilities_file):
                                                   'Facility Name': 'FacilityName',
                                                   'Zip Code': 'Zip'})
     # keep only those columns we are interested in retaining
-    fac_columns = [c for c in facility_fields.keys() if c in facilities_df]
-    facilities_df = facilities_df[fac_columns]
+    facilities_df = facilities_df[StewiFormat.FACILITY.subset_fields(facilities_df)]
 
     # drop any duplicates
     facilities_df.drop_duplicates(inplace=True)
@@ -766,15 +765,13 @@ def main(**kwargs):
             log.info('generating flowbysubpart output')
 
             # generate flowbysubpart
-            fbs_columns = [c for c in flowbyprocess_fields.keys() if c in ghgrp]
-            ghgrp_fbs = ghgrp[fbs_columns]
+            ghgrp_fbs = ghgrp[StewiFormat.FLOWBYPROCESS.subset_fields(ghgrp)]
             ghgrp_fbs = aggregate(ghgrp_fbs, ['FacilityID', 'FlowName', 'Process',
                                               'ProcessType'])
             store_inventory(ghgrp_fbs, 'GHGRP_' + year, 'flowbyprocess')
 
             log.info('generating flowbyfacility output')
-            fbf_columns = [c for c in flowbyfacility_fields.keys() if c in ghgrp]
-            ghgrp_fbf = ghgrp[fbf_columns]
+            ghgrp_fbf = ghgrp[StewiFormat.FLOWBYFACILITY.subset_fields(ghgrp)]
 
             # aggregate instances of more than one flow for same facility and flow type
             ghgrp_fbf_2 = aggregate(ghgrp_fbf, ['FacilityID', 'FlowName'])
@@ -797,8 +794,7 @@ def main(**kwargs):
             ghgrp = ghgrp.merge(facilities_df, on='FacilityID', how='left')
 
             # generate facilities output and save to network
-            facility_columns = [c for c in facility_fields.keys() if c in ghgrp]
-            ghgrp_facility = ghgrp[facility_columns].drop_duplicates()
+            ghgrp_facility = ghgrp[StewiFormat.FACILITY.subset_fields(ghgrp)].drop_duplicates()
             ghgrp_facility.dropna(subset=['FacilityName'], inplace=True)
             # ensure NAICS does not have trailing decimal/zero
             ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].fillna(0)

@@ -33,6 +33,7 @@ from stewi.globals import data_dir, write_metadata,\
     read_source_metadata, set_stewi_meta, get_optional_fields, aggregate
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
+from stewi.formats import StewiFormat
 
 
 _config = config()['databases']['eGRID']
@@ -245,10 +246,9 @@ def generate_eGRID_files(year):
 
     # Creation of the facility file
     # Need to change column names manually
-    fac_fields = get_optional_fields('facility')
-    fac_fields = list(fac_fields.keys())
     egrid_fields = filter_fields('eGRID_required_fields.csv', 'facility_fields')
-    egrid_fac_fields = [c for c in egrid if c in (egrid_fields + fac_fields)]
+    egrid_fac_fields = [c for c in egrid if c in (egrid_fields +
+                                                  StewiFormat.FACILITY.fields())]
 
     facility = egrid[egrid_fac_fields].reset_index(drop=True)
 
