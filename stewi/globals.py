@@ -29,6 +29,12 @@ data_dir = MODULEPATH + 'data/'
 log.basicConfig(level=log.INFO, format='%(levelname)s %(message)s')
 STEWI_VERSION = '0.10.0'
 
+# Conversion factors
+USton_kg = 907.18474
+lb_kg = 0.4535924
+MMBtu_MJ = 1055.056
+MWh_MJ = 3600
+g_kg = 0.001
 
 # Common declaration of write format for package data products
 WRITE_FORMAT = "parquet"
@@ -121,27 +127,20 @@ def download_table(filepath, url, get_time=False, zip_dir=None):
 
 
 def import_table(path_or_reference, skip_lines=0, get_time=False):
-    if '.core.frame.DataFrame' in str(type(path_or_reference)):
+    if isinstance(path_or_reference, pd.DataFrame):
         df = path_or_reference
-    elif path_or_reference[-3:].lower() == 'csv':
+    elif path_or_reference.lower().endswith('csv'):
         df = pd.read_csv(path_or_reference, low_memory=False)
-    elif 'xls' in path_or_reference[-4:].lower():
+    elif path_or_reference.lower().endswith('xls'):
         df = pd.read_excel(path_or_reference, sheet_name=None,
                            skiprows=skip_lines)
+    else:
+        log.exception('Error importing table')
     if get_time:
         try: retrieval_time = os.path.getctime(path_or_reference)
         except: retrieval_time = time.time()
         return df, time.ctime(retrieval_time)
     return df
-
-
-def drop_excel_sheets(excel_dict, drop_sheets):
-    for s in drop_sheets:
-        try:
-            excel_dict.pop(s)
-        except KeyError:
-            continue
-    return excel_dict
 
 
 def aggregate(df, grouping_vars=None):
@@ -171,13 +170,6 @@ def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
     """
     df.loc[df[coln2] == unit, coln1] = conversion_factor * df[coln3]
     return df
-
-# Conversion factors
-USton_kg = 907.18474
-lb_kg = 0.4535924
-MMBtu_MJ = 1055.056
-MWh_MJ = 3600
-g_kg = 0.001
 
 
 def write_metadata(file_name, metadata_dict, category='',

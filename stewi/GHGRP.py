@@ -43,8 +43,7 @@ import os
 import argparse
 import warnings
 
-from stewi.globals import download_table,\
-    write_metadata, import_table, drop_excel_sheets,\
+from stewi.globals import download_table, write_metadata, import_table, \
     data_dir, get_reliability_table_for_source, set_stewi_meta, config,\
     store_inventory, paths, log, create_paths_if_missing,\
     compile_source_metadata, read_source_metadata, aggregate
@@ -159,14 +158,11 @@ def get_facilities(facilities_file):
     Parses data to create dataframe of GHGRP facilities along with identifying
     information such as address, zip code, lat and long.
     """
-    # initialize destination dataframe
-    facilities_df = pd.DataFrame()
     # load .xlsx file from filepath
     facilities_dict = import_table(facilities_file, skip_lines=3)
     # drop excel worksheets that we do not need
-    facilities_dict = drop_excel_sheets(facilities_dict,
-                                        drop_sheets=['Industry Type',
-                                                     'FAQs about this Data'])
+    for s in ['Industry Type', 'FAQs about this Data']:
+        facilities_dict.pop(s, None)
 
     # for all remaining worksheets, concatenate into single dataframe
     # certain columns need to be renamed for consistency
@@ -180,7 +176,7 @@ def get_facilities(facilities_file):
                 #'State where Emissions Occur':'State',
                 'Reported Zip Code': 'Zip Code',
                 }
-
+    facilities_df = pd.DataFrame()
     for s in facilities_dict.keys():
         for k in col_dict.keys():
             if k in facilities_dict[s]:
