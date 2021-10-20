@@ -131,7 +131,7 @@ def import_table(path_or_reference, skip_lines=0, get_time=False):
         df = path_or_reference
     elif path_or_reference.lower().endswith('csv'):
         df = pd.read_csv(path_or_reference, low_memory=False)
-    elif path_or_reference.lower().endswith('xls'):
+    elif '.xls' in path_or_reference.lower():
         df = pd.read_excel(path_or_reference, sheet_name=None,
                            skiprows=skip_lines)
     else:
