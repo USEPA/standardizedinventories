@@ -8,14 +8,15 @@ inventory in standard formats
 
 
 import os
-from stewi.globals import log, add_missing_fields, output_dir,\
+from stewi.globals import log, add_missing_fields,\
     WRITE_FORMAT, read_inventory, stewi_formats, paths,\
     read_source_metadata, inventory_formats, set_stewi_meta, aggregate
 from stewi.filter import apply_filter_to_inventory, filter_config
 
 
 def getAvailableInventoriesandYears(stewiformat='flowbyfacility'):
-    """Gets available inventories and years for a given output format
+    """Get available inventories and years for a given output format.
+
     :param stewiformat: e.g. 'flowbyfacility'
     :return: existing_inventories dictionary of inventories like:
         {NEI: [2014],
@@ -25,16 +26,16 @@ def getAvailableInventoriesandYears(stewiformat='flowbyfacility'):
     if stewiformat not in stewi_formats:
         log.error('not a supported stewi format')
         return existing_inventories
-    directory = output_dir + '/' + stewiformat + '/'
+    directory = paths.local_path + '/' + stewiformat + '/'
     if os.path.exists(directory):
         files = os.listdir(directory)
     else:
-        log.error('directory not found: ' + directory)
+        log.error(f'directory not found: {directory}')
         return existing_inventories
     outputfiles = []
     for name in files:
         if name.endswith(WRITE_FORMAT):
-            _n = name[:-len('.'+WRITE_FORMAT)]
+            _n = name[:-len('.' + WRITE_FORMAT)]
             if '_v' in _n:
                 _n = _n[:_n.find('_v')]
             outputfiles.append(_n)
@@ -56,13 +57,15 @@ def getAvailableInventoriesandYears(stewiformat='flowbyfacility'):
 
 
 def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
-    """Gets available inventories and years for a given output format
-    :param stewiformat: e.g. 'flowbyfacility' or 'flow' """
+    """Print available inventories and years for a given output format.
+
+    :param stewiformat: e.g. 'flowbyfacility' or 'flow'
+    """
     existing_inventories = getAvailableInventoriesandYears(stewiformat)
     if existing_inventories == {}:
         print('No inventories found')
     else:
-        print(stewiformat + ' inventories available (name, year):')
+        print(f'{stewiformat} inventories available (name, year):')
         for i in existing_inventories.keys():
             _s = i + ": "
             for _y in existing_inventories[i]:
@@ -73,11 +76,12 @@ def seeAvailableInventoriesandYears(stewiformat='flowbyfacility'):
 
 def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
                  filters=[], filter_for_LCI=False, US_States_Only=False):
-    """Returns an inventory in a standard output format
+    """Return or generate an inventory in a standard output format.
+
     :param inventory_acronym: like 'TRI'
     :param year: year as number like 2010
     :param stewiformat: standard output format for returning..'flowbyfacility'
-        or 'flowbyprocess' only 
+        or 'flowbyprocess' only
     :param filters: a list of named filters to apply to inventory
     :param filter_for_LCI: whether or not to filter inventory for life
         cycle inventory creation
@@ -99,14 +103,14 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
     if US_States_Only:
         if 'US_States_only' not in filters:
             filters.append('US_States_only')
-            
+
     if filters != []:
         inventory = apply_filter_to_inventory(inventory, inventory_acronym, year,
                                               filters)
 
     inventory = add_missing_fields(inventory, inventory_acronym, stewiformat,
-                                   maintain_columns = False)
-    
+                                   maintain_columns=False)
+
     # After filting, may be necessary to reaggregate inventory again
     inventory = aggregate(inventory)
 
@@ -114,30 +118,38 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
 
 
 def getInventoryFlows(inventory_acronym, year):
-    """Returns flows for an inventory
+    """Return flows for an inventory.
+
     :param inventory_acronym: e.g. 'TRI'
     :param year: e.g. 2014
     :return: dataframe with standard flows format
     """
     flows = read_inventory(inventory_acronym, year, 'flow')
+    if flows is None:
+        return None
     flows = add_missing_fields(flows, inventory_acronym, 'flow',
-                               maintain_columns = False)
+                               maintain_columns=False)
     return flows
 
 
 def getInventoryFacilities(inventory_acronym, year):
-    """Returns flows for an inventory
+    """Return flows for an inventory.
+
     :param inventory_acronym: e.g. 'TRI'
     :param year: e.g. 2014
     :return: dataframe with standard flows format
     """
     facilities = read_inventory(inventory_acronym, year, 'facility')
+    if facilities is None:
+        return None
     facilities = add_missing_fields(facilities, inventory_acronym, 'facility',
-                                    maintain_columns = True)
+                                    maintain_columns=True)
     return facilities
 
+
 def getMetadata(inventory_acroynym, year):
-    """Returns metadata in the form of a dictionary as read from stored JSON file
+    """Return metadata in the form of a dictionary as read from stored JSON file.
+
     :param inventory_acronym: e.g. 'TRI'
     :param year: e.g. 2014
     :return: metadata dictionary
@@ -149,9 +161,9 @@ def getMetadata(inventory_acroynym, year):
 
 
 def seeAvailableInventoryFilters():
-    """Prints available filters for use in getInventory"""
+    """Print available filters for use in getInventory."""
     for f in filter_config:
-        print(f + ': ' + filter_config[f]['description'])
+        print(f"{f}: {filter_config[f]['description']}")
         if (filter_config[f]['type'] == 'set'):
             print('Includes the following filters: ' + ', '.join(
                 filter_config[f]['filters']))
