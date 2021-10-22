@@ -6,7 +6,7 @@ name: complete-install-lint-test
 
 on:
   push:
-    #branches: [master, develop]  # excluding for initial testing purposes
+    branches: [master, develop]  # excluding for initial testing purposes
     paths-ignore: # prevents workflow execution when only these types of files are modified
       - '**.md'  # prevent md files (e.g., README.md) in any repo dir from trigering workflow
       - '**.yml'
@@ -61,7 +61,7 @@ jobs:
         # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --extend-ignore=E26,E701 --exit-zero --max-line-length=127 --statistics
+        flake8 . --count --extend-ignore=E12,E26,E231,E251,E701 --exit-zero --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
         pytest --doctest-modules
