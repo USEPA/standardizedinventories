@@ -10,7 +10,7 @@ def test_inventory_generation():
     error_list = []
     for inventory in config()['databases']:
         # skip RCRAInfo due to browswer download, DMR due to time constraints
-        if inventory in ['RCRAInfo', 'DMR']:
+        if inventory in ['RCRAInfo', 'DMR', 'GHGRP']:
             continue
         df = stewi.getInventory(inventory, year)
 
