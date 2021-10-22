@@ -63,7 +63,7 @@ def read_data(year, file):
         nei_data_dir + 'NEI_required_fields.csv', sep=',')
     nei_required_fields = nei_required_fields[[year, 'StandardizedEPA']]
     usecols = list(nei_required_fields[year].dropna())
-    df = pd.read_parquet(file, columns=usecols, engine='pyarrow')
+    df = pd.read_parquet(file, columns=usecols)
     # change column names to Standardized EPA names
     df = df.rename(columns=pd.Series(list(nei_required_fields['StandardizedEPA']),
                                      index=list(nei_required_fields[year])).to_dict())
