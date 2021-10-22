@@ -54,29 +54,25 @@ def programsynonymlookupbyCAS(cas_list,inventories_of_interest):
     #Get the cas and then the synonyms for the programs of interest
     #add each one to a dictionary
     for chemical in chemicallistjson:
-       #get cas
-       chemicaldict = {}
-       chemicaldict['CAS'] = chemical['currentCasNumber']
-       #get synonyms
-       df = pd.DataFrame(chemical['synonyms'])
-       dfwithlistsofinterest = df[df['listName'].isin(lists_of_interest)]
+        #get cas
+        chemicaldict = {}
+        chemicaldict['CAS'] = chemical['currentCasNumber']
+        #get synonyms
+        df = pd.DataFrame(chemical['synonyms'])
+        dfwithlistsofinterest = df[df['listName'].isin(lists_of_interest)]
 
-       for l in lists_of_interest:
-           record = dfwithlistsofinterest[dfwithlistsofinterest["listName"] == l]["synonymName"]
-           list_acronym = program_of_interest_to_inventory_mapping[l]
-           if len(record.values) == 0:
-               #no synonym is present
-               chemicaldict[list_acronym] = None
-           else:
-               syn = record.values[0]
-               chemicaldict[list_acronym] = syn
-       all_chemical_list.append(chemicaldict)
+        for l in lists_of_interest:
+            record = dfwithlistsofinterest[dfwithlistsofinterest["listName"] == l]["synonymName"]
+            list_acronym = program_of_interest_to_inventory_mapping[l]
+            if len(record.values) == 0:
+                #no synonym is present
+                chemicaldict[list_acronym] = None
+            else:
+                syn = record.values[0]
+                chemicaldict[list_acronym] = syn
+        all_chemical_list.append(chemicaldict)
 
     #Write it into a df
     all_chemical_synonyms = pd.DataFrame(all_chemical_list)
 
     return all_chemical_synonyms
-
-
-
-
