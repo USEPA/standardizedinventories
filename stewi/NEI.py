@@ -104,8 +104,8 @@ def standardize_output(year, source='Point'):
                         right_on='Code', how='left')
         nei['DataReliability'] = nei['DQI Reliability Score']
         # drop Code and DQI Reliability Score columns
-        nei = nei.drop(['Code', 'DQI Reliability Score',
-                        'ReliabilityScore'], 1)
+        nei = nei.drop(columns = ['Code', 'DQI Reliability Score',
+                                  'ReliabilityScore'])
 
         nei['Compartment'] = 'air'
         """
@@ -121,7 +121,7 @@ def standardize_output(year, source='Point'):
         nei['DataReliability'] = 3
     # add Source column
     nei['Source'] = source
-    nei.reset_index(drop=True)
+    nei.reset_index(drop=True, inplace=True)
     return nei
 
 
