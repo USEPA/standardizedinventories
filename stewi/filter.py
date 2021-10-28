@@ -6,7 +6,7 @@ Functions to support filtering of processed inventories
 """
 
 import pandas as pd
-from stewi.globals import data_dir, config, read_inventory, log
+from stewi.globals import DATA_PATH, config, read_inventory, log
 
 filter_config = config(file='filter.yaml')
 
@@ -72,7 +72,7 @@ def filter_states(inventory_df, inventory_acronym=None, year=None,
     :param include_territories: bool, True to include data from U.S. territories
     :return: DataFrame
     """
-    states_df = pd.read_csv(data_dir + 'state_codes.csv')
+    states_df = pd.read_csv(DATA_PATH.joinpath('state_codes.csv'))
     states_list = []
     if 'State' not in inventory_df:
         if all(p is not None for p in [inventory_acronym, year]):

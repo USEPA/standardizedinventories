@@ -12,19 +12,18 @@ import os
 import yaml
 import time
 from datetime import datetime
+from pathlib import Path
 
 from esupy.processed_data_mgmt import Paths, FileMeta,\
     load_preprocessed_output, remove_extra_files,\
-    write_df_to_file, create_paths_if_missing, write_metadata_to_file,\
+    write_df_to_file, write_metadata_to_file,\
     read_source_metadata
 from esupy.dqi import get_weighted_average
 from esupy.util import get_git_hash
 
-try: MODULEPATH = os.path.dirname(os.path.realpath(
-    __file__)).replace('\\', '/') + '/'
-except NameError: MODULEPATH = 'stewi/'
 
-data_dir = MODULEPATH + 'data/'
+MODULEPATH = Path(__file__).resolve().parent
+DATA_PATH = MODULEPATH / 'data'
 
 log.basicConfig(level=log.INFO, format='%(levelname)s %(message)s')
 STEWI_VERSION = '0.10.0'
@@ -78,7 +77,7 @@ def set_stewi_meta(file_name, stewiformat=''):
 def config(config_path=MODULEPATH, file='config.yaml'):
     """Read and return stewi configuration file."""
     configfile = None
-    path = config_path + file
+    path = config_path.joinpath(file)
     with open(path, mode='r') as f:
         configfile = yaml.load(f, Loader=yaml.FullLoader)
     return configfile
@@ -360,8 +359,8 @@ def generate_inventory(inventory_acronym, year):
 def get_reliability_table_for_source(source):
     """Retrieve the reliability table within stewi."""
     dq_file = 'DQ_Reliability_Scores_Table3-3fromERGreport.csv'
-    df = pd.read_csv(data_dir + dq_file, usecols=['Source', 'Code',
-                                                  'DQI Reliability Score'])
+    df = pd.read_csv(DATA_PATH.joinpath(dq_file), usecols=['Source', 'Code',
+                                                          'DQI Reliability Score'])
     df = df.loc[df['Source'] == source].reset_index(drop=True)
     df.drop('Source', axis=1, inplace=True)
     return df

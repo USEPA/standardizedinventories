@@ -29,9 +29,10 @@ import requests
 import sys
 import pandas as pd
 import argparse
+from pathlib import Path
 
 from stewi.globals import unit_convert,\
-    data_dir, lb_kg, write_metadata, get_reliability_table_for_source,\
+    DATA_PATH, lb_kg, write_metadata, get_reliability_table_for_source,\
     log, compile_source_metadata, config, store_inventory, set_stewi_meta,\
     paths, read_source_metadata, aggregate
 from stewi.validate import update_validationsets_sources, validate_inventory,\
@@ -40,11 +41,11 @@ from stewi.filter import filter_states, filter_config
 
 
 _config = config()['databases']['DMR']
-dmr_data_dir = data_dir + 'DMR/'
-ext_folder = 'DMR Data Files'
-dmr_external_dir = paths.local_path + '/' + ext_folder + '/'
+DMR_DATA_PATH = DATA_PATH / 'DMR'
+EXT_DIR = 'DMR Data Files'
+OUTPUT_PATH = Path(paths.local_path).joinpath(EXT_DIR)
 
-states_df = pd.read_csv(data_dir + 'state_codes.csv')
+states_df = pd.read_csv(DATA_PATH.joinpath('state_codes.csv'))
 states = list(states_df['states']) + list(states_df['dc']) +\
     list(states_df['territories'])
 states = [x for x in states if str(x) != 'nan']
@@ -85,6 +86,7 @@ def generate_url(report_year, base_url=base_url, sic='', region='', state='',
 def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
     """Loop through a set of states and sics to download and pickle DMR data.
 
+    :param year: str, year of data
     :param sic_list: Option to break up queries further by list of 2-digit
         SIC codes
     :param state_list: List of states to include in query
@@ -92,16 +94,15 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
         Input 'N' or 'P'
     :return: max_error_list, no_data_list, success_list
     """
-    path = dmr_external_dir + '/' + str(year) + '/'
+    path = OUTPUT_PATH.joinpath(year)
+    path.mkdir(parents=True, exist_ok=True)
     max_error_list, no_data_list, success_list = [], [], []
     param_list = []
-    if not os.path.exists(path):
-        os.makedirs(path)
+    filestub = ''
     nutrient_agg = False
     if nutrient:
-        path = path + nutrient + '_'
+        filestub = nutrient + "_"
         nutrient_agg = True
-
     if sic_list:
         param_list = [[sic, state] for sic in sic_list for state in state_list]
     if param_list:
@@ -109,32 +110,34 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
         for params in param_list:
             sic = params[0]
             state = params[1]
-            filepath = path + 'state_' + state + '_sic_' + sic + '.pickle'
+            filename = f"{filestub}state_{state}_sic_{sic}.pickle"
+            filepath = path.joinpath(filename)
             url = generate_url(report_year=year, sic=sic, state=state,
                                nutrient=nutrient, nutrient_agg=nutrient_agg,
                                param_group=PARAM_GROUP, detection=DETECTION)
-            if os.path.exists(filepath):
+            if filepath.is_file():
                 log.debug(f'file already exists for {str(params)}, skipping')
-                success_list.append(sic + '_' + state)
+                success_list.append(f"{sic}_{state}")
             else:
                 log.debug(f'executing query for {sic}_{state}')
                 result = execute_query(url)
                 if str(type(result)) == "<class 'str'>":
                     log.debug(f'error in state: {sic}_{state}')
-                    if result == 'no_data': no_data_list.append(sic + '_' + state)
-                    elif result == 'max_error': max_error_list.append(sic + '_' + state)
+                    if result == 'no_data': no_data_list.append(f"{sic}_{state}")
+                    elif result == 'max_error': max_error_list.append(f"{sic}_{state}")
                 else:
                     pd.to_pickle(result, filepath)
-                    success_list.append(sic + '_' + state)
+                    success_list.append(f"{sic}_{state}")
     else:
         for state in state_list:
             if (nutrient != '') | (state not in big_state_list):
-                filepath = path + 'state_' + state + '.pickle'
+                filename = f"{filestub}state_{state}.pickle"
+                filepath = path.joinpath(filename)
                 url = generate_url(report_year=year, state=state,
                                    param_group=PARAM_GROUP,
                                    detection=DETECTION, nutrient=nutrient,
                                    nutrient_agg=nutrient_agg)
-                if os.path.exists(filepath):
+                if filepath.is_file():
                     log.debug(f'file already exists for {state}, skipping')
                     success_list.append(state)
                 else:
@@ -151,15 +154,15 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
                 counter = 1
                 pages = 1
                 while counter <= pages:
-                    filepath = path + 'state_' + state + '_' + str(counter) +\
-                        '.pickle'
+                    filename = f"{filename}state_{state}_{str(counter)}.pickle"
+                    filepath = path.joinpath(filename)
                     url = generate_url(report_year=year, state=state,
                                        param_group=PARAM_GROUP,
                                        detection=DETECTION, nutrient=nutrient,
                                        nutrient_agg=nutrient_agg,
                                        responseset='9000',
                                        pageno=str(counter))
-                    if os.path.exists(filepath):
+                    if filepath.is_file():
                         log.debug(f'file already exists for {state}, skipping')
                         if counter == 1:
                             result = pd.read_pickle(filepath)
@@ -201,8 +204,8 @@ def execute_query(url):
 
 def standardize_df(input_df):
     """Modify DMR data to meet StEWI specifications."""
-    dmr_required_fields = pd.read_csv(dmr_data_dir +
-                                      'DMR_required_fields.txt',
+    dmr_required_fields = pd.read_csv(DMR_DATA_PATH
+                                      .joinpath('DMR_required_fields.txt'),
                                       header=None)[0]
     output_df = input_df[dmr_required_fields].copy()
     dmr_reliability_table = get_reliability_table_for_source('DMR')
@@ -252,9 +255,9 @@ def standardize_df(input_df):
 
 def combine_DMR_inventory(year, nutrient=''):
     """Loop through pickled data and combines into a dataframe."""
-    path = dmr_external_dir + str(year) + '/'
-    if not os.path.exists(path):
-        log.error(f'Data not found for {year} in {dmr_external_dir}. '
+    path = OUTPUT_PATH.joinpath(year)
+    if not path.is_dir():
+        log.error(f'Data not found for {year} in {OUTPUT_PATH}. '
                   'Please run option A to download data before proceeding')
         sys.exit(0)
     output_df = pd.DataFrame()
@@ -314,8 +317,8 @@ def download_state_totals_validation(year):
     state_totals.drop(columns=['state_name'], inplace=True)
     state_totals.dropna(subset=['states'], inplace=True)
     state_totals.rename(columns={'states': 'State'}, inplace=True)
-    log.info(f'saving DMR_{year}_StateTotals.csv to {data_dir}')
-    state_totals.to_csv(data_dir + 'DMR_' + year + '_StateTotals.csv',
+    log.info(f'saving DMR_{year}_StateTotals.csv to {DATA_PATH}')
+    state_totals.to_csv(DATA_PATH.joinpath(f"DMR_{year}_StateTotals.csv"),
                         index=False)
 
     # Update validationSets_Sources.csv
@@ -336,8 +339,8 @@ def validate_state_totals(df, year):
     Details on results by state can be found in the search results help website
     https://echo.epa.gov/help/loading-tool/water-pollution-search/search-results-help-dmr
     """
-    filepath = data_dir + 'DMR_' + year + '_StateTotals.csv'
-    if not(os.path.exists(filepath)):
+    filepath = DATA_PATH.joinpath(f"DMR_{year}_StateTotals.csv")
+    if not filepath.is_file():
         download_state_totals_validation(year)
     log.info('validating against state totals')
     reference_df = pd.read_csv(filepath)
@@ -347,7 +350,7 @@ def validate_state_totals(df, year):
     reference_df = reference_df[['FlowName', 'State', 'FlowAmount']]
 
     # to match the state totals, only compare NPD facilities, and remove some flows
-    flow_exclude = pd.read_csv(dmr_data_dir + 'DMR_state_filter_list.csv')
+    flow_exclude = pd.read_csv(DMR_DATA_PATH.joinpath('DMR_state_filter_list.csv'))
     state_flow_exclude_list = flow_exclude['POLLUTANT_DESC'].to_list()
 
     dmr_by_state = df[~df['FlowName'].isin(state_flow_exclude_list)]
@@ -365,16 +368,16 @@ def validate_state_totals(df, year):
 def generate_metadata(year, datatype='inventory'):
     """Generate metadata and write to json for datatypes 'inventory' or 'source'."""
     if datatype == 'source':
-        source_path = dmr_external_dir + str(year)
+        source_path = OUTPUT_PATH.joinpath(year)
         source_meta = compile_source_metadata(source_path, _config, year)
         source_meta['SourceType'] = 'Web Service'
-        write_metadata('DMR_' + year, source_meta, category=ext_folder,
+        write_metadata(f"DMR_{year}", source_meta, category=EXT_DIR,
                        datatype='source')
     else:
-        source_meta = read_source_metadata(paths, set_stewi_meta('DMR_' + year,
-                                           ext_folder),
+        source_meta = read_source_metadata(paths, set_stewi_meta(f"DMR_{year}",
+                                           EXT_DIR),
                                            force_JSON=True)['tool_meta']
-        write_metadata('DMR_' + year, source_meta, datatype=datatype)
+        write_metadata(f"DMR_{year}", source_meta, datatype=datatype)
 
 
 def read_pollutant_parameter_list(parameter_grouping=PARAM_GROUP):
@@ -531,7 +534,7 @@ def main(**kwargs):
             log.info(f"Querying for {year}")
 
             # two digit SIC codes from advanced search drop down stripped and formatted as a list
-            sic2 = list(pd.read_csv(dmr_data_dir + '2_digit_SIC.csv',
+            sic2 = list(pd.read_csv(DMR_DATA_PATH.joinpath('2_digit_SIC.csv'),
                         dtype={'SIC2': str})['SIC2'])
             # Query by state, then by SIC-state where necessary
             state_max_error_list, state_no_data_list,\

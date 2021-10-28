@@ -7,9 +7,9 @@ Functions to support validation of generated inventories
 import pandas as pd
 import numpy as np
 from datetime import datetime
+from pathlib import Path
 
-from esupy.processed_data_mgmt import create_paths_if_missing
-from stewi.globals import log, data_dir, paths, write_metadata,\
+from stewi.globals import log, DATA_PATH, paths, write_metadata,\
     source_metadata
 
 
@@ -117,8 +117,8 @@ def validate_inventory(inventory_df, reference_df, group_by='flow',
 
 def read_ValidationSets_Sources():
     """Read and return ValidationSets_Sources.csv file."""
-    df = pd.read_csv(data_dir + 'ValidationSets_Sources.csv', header=0,
-                     dtype={"Year": "str"})
+    df = pd.read_csv(DATA_PATH.joinpath('ValidationSets_Sources.csv'),
+                     header=0, dtype={"Year": "str"})
     return df
 
 
@@ -129,10 +129,10 @@ def write_validation_result(inventory_acronym, year, validation_df):
     :param year: str for year e.g. '2016'
     :param validation_df: df returned from validate_inventory function
     """
-    directory = paths.local_path + '/validation/'
-    create_paths_if_missing(directory)
+    directory = Path(paths.local_path).joinpath('validation')
+    directory.mkdir(parents=True, exist_ok=True)
     log.info(f'writing validation result to {directory}')
-    validation_df.to_csv(directory + inventory_acronym + '_' + year + '.csv',
+    validation_df.to_csv(directory.joinpath(f"{inventory_acronym}_{year}.csv"),
                          index=False)
     # Get metadata on validation dataset
     validation_set_info_table = read_ValidationSets_Sources()
@@ -183,4 +183,4 @@ def update_validationsets_sources(validation_dict, date_acquired=False):
     v_table = v_table.sort_index().reset_index(drop=True)
     log.info("updating ValidationSets_Sources.csv with ",
              f"{validation_dict['Inventory']} {validation_dict['Year']}")
-    v_table.to_csv(data_dir + 'ValidationSets_Sources.csv', index=False)
+    v_table.to_csv(DATA_PATH.joinpath('ValidationSets_Sources.csv'), index=False)
