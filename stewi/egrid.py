@@ -30,7 +30,7 @@ from esupy.remote import make_http_request
 from stewi.globals import data_dir, write_metadata,\
     unit_convert, log, MMBtu_MJ, MWh_MJ, config, USton_kg, lb_kg,\
     compile_source_metadata, remove_line_breaks, paths, store_inventory,\
-    read_source_metadata, set_stewi_meta, get_optional_fields, aggregate
+    read_source_metadata, set_stewi_meta, aggregate
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
 from stewi.formats import StewiFormat
