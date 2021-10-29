@@ -28,6 +28,7 @@ import os
 import requests
 import pandas as pd
 import argparse
+import urllib
 from pathlib import Path
 
 from stewi.globals import unit_convert,\
@@ -46,44 +47,53 @@ EXT_DIR = 'DMR Data Files'
 OUTPUT_PATH = Path(paths.local_path).joinpath(EXT_DIR)
 
 states_df = pd.read_csv(DATA_PATH.joinpath('state_codes.csv'))
-states = list(states_df['states']) + list(states_df['dc']) +\
+STATES = list(states_df['states']) + list(states_df['dc']) +\
     list(states_df['territories'])
-states = [x for x in states if str(x) != 'nan']
-base_url = _config['base_url']
+STATES = tuple(x for x in STATES if str(x) != 'nan')
 
 # Values used for StEWI query
 PARAM_GROUP = True
 DETECTION = 'HALF'
+ESTIMATION = True
 
-big_state_list = ['CA', 'KY', 'WV', 'AL', 'PA', 'LA', 'MO', 'OH', 'CO', 'NY']
+BIG_STATES = {'CA', 'KY', 'WV', 'AL', 'PA', 'LA', 'MO', 'OH', 'CO', 'NY'}
 
 
-def generate_url(report_year, base_url=base_url, sic='', region='', state='',
-                 nutrient='', nutrient_agg=False, param_group=False,
-                 detection='', estimation=True, responseset='20000',
-                 pageno='1', output_type='JSON'):
+def generate_url(report_year, **kwargs):
     """Generate the url for DMR query.
+
+    :param kwargs: potential arguments include:
+        p_sic2: sic region 2 digit code
+        p_st: state 2 letter abbreviation
+        p_poll_cat: N or P
+        p_nutrient_agg: Y or N
+        ResponseSet: int
+        PageNo: int
 
     See web service documentation for details
     https://echo.epa.gov/tools/web-services/loading-tool#/Custom%20Search/get_dmr_rest_services_get_custom_data_facility
     """
-    url = base_url + 'p_year=' + report_year
-    if sic: url += '&p_sic2=' + sic
-    if region: url += '&p_reg=' + region
-    if state: url += '&p_st=' + state
-    if nutrient: url += '&p_poll_cat=Nut' + nutrient
-    if nutrient_agg: url += '&p_nutrient_agg=Y' # default is N
-    if param_group: url += '&p_param_group=Y' # default is N
-    if detection: url += '&p_nd=' + detection # default is ZERO
-    if not estimation: url += '&p_est=N' # default is Y
-    if responseset: url += '&ResponseSet=' + str(responseset)
-    if pageno: url += '&PageNo=' + str(pageno)
-    if output_type: url += '&output=' + output_type
+
+    params = {k: v for k, v in kwargs.items() if v}
+
+    params['p_year'] = report_year
+    params['p_nd'] = DETECTION
+    params['output'] = 'JSON'
+    if 'p_poll_cat' in params:
+        params['p_poll_cat'] = 'Nut' + params['p_poll_cat'].value
+    if PARAM_GROUP:
+        params['p_param_group'] = 'Y'  # default is N
+    if not ESTIMATION:
+        params['p_est'] = 'N'  # default is Y
+    if 'ResponseSet' not in params:
+        params['ResponseSet'] = '20000'
+
+    url = _config['base_url'] + urllib.parse.urlencode(params)
 
     return url
 
 
-def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
+def query_dmr(year, sic_list=[], state_list=STATES, nutrient=''):
     """Loop through a set of states and sics to download and pickle DMR data.
 
     :param year: str, year of data
@@ -99,10 +109,10 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
     max_error_list, no_data_list, success_list = [], [], []
     param_list = []
     filestub = ''
-    nutrient_agg = False
+    nutrient_agg = 'N'
     if nutrient:
         filestub = nutrient + "_"
-        nutrient_agg = True
+        nutrient_agg = 'Y'
     if sic_list:
         param_list = [[sic, state] for sic in sic_list for state in state_list]
     if param_list:
@@ -112,9 +122,8 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
             state = params[1]
             filename = f"{filestub}state_{state}_sic_{sic}.pickle"
             filepath = path.joinpath(filename)
-            url = generate_url(report_year=year, sic=sic, state=state,
-                               nutrient=nutrient, nutrient_agg=nutrient_agg,
-                               param_group=PARAM_GROUP, detection=DETECTION)
+            url = generate_url(year, p_sic2=sic, p_st=state,
+                               p_poll_cat=nutrient, p_nutrient_agg=nutrient_agg)
             if filepath.is_file():
                 log.debug(f'file already exists for {str(params)}, skipping')
                 success_list.append(f"{sic}_{state}")
@@ -130,13 +139,11 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
                     success_list.append(f"{sic}_{state}")
     else:
         for state in state_list:
-            if (nutrient != '') | (state not in big_state_list):
+            if (nutrient != '') | (state not in BIG_STATES):
                 filename = f"{filestub}state_{state}.pickle"
                 filepath = path.joinpath(filename)
-                url = generate_url(report_year=year, state=state,
-                                   param_group=PARAM_GROUP,
-                                   detection=DETECTION, nutrient=nutrient,
-                                   nutrient_agg=nutrient_agg)
+                url = generate_url(year, p_st=state, p_poll_cat=nutrient,
+                                   p_nutrient_agg=nutrient_agg)
                 if filepath.is_file():
                     log.debug(f'file already exists for {state}, skipping')
                     success_list.append(state)
@@ -156,12 +163,11 @@ def query_dmr(year, sic_list=[], state_list=states, nutrient=''):
                 while counter <= pages:
                     filename = f"{filename}state_{state}_{str(counter)}.pickle"
                     filepath = path.joinpath(filename)
-                    url = generate_url(report_year=year, state=state,
-                                       param_group=PARAM_GROUP,
-                                       detection=DETECTION, nutrient=nutrient,
-                                       nutrient_agg=nutrient_agg,
-                                       responseset='9000',
-                                       pageno=str(counter))
+                    url = generate_url(year, p_st=state,
+                                       p_poll_cat=nutrient,
+                                       p_nutrient_agg=nutrient_agg,
+                                       ResponseSet='9000',
+                                       PageNo=str(counter))
                     if filepath.is_file():
                         log.debug(f'file already exists for {state}, skipping')
                         if counter == 1:
@@ -264,9 +270,9 @@ def combine_DMR_inventory(year, nutrient=''):
         log.info(f'reading stored DMR queries by state for {nutrient}...')
     else:
         log.info('reading stored DMR queries by state...')
-    for state in states:
+    for state in STATES:
         log.debug(f'accessing data for {state}')
-        if (nutrient != '') | (state not in big_state_list):
+        if (nutrient != '') | (state not in BIG_STATES):
             filepath = path + 'state_' + state + '.pickle'
             result = unpickle(filepath)
             if result is None:
@@ -537,7 +543,7 @@ def main(**kwargs):
             # Query by state, then by SIC-state where necessary
             state_max_error_list, state_no_data_list,\
                 state_success_list = query_dmr(year=year,
-                                               state_list=states)
+                                               state_list=STATES)
             if (len(state_max_error_list) == 0) & (len(state_no_data_list) == 0):
                 log.info('all states succesfully downloaded')
             else:
@@ -557,7 +563,7 @@ def main(**kwargs):
             n_state_max_error_list, n_state_no_data_list,\
                 n_state_success_list = query_dmr(year=year,
                                                  nutrient='N',
-                                                 state_list=states)
+                                                 state_list=STATES)
             if (len(n_state_max_error_list) == 0) & (len(n_state_no_data_list) == 0):
                 log.info('all states succesfully downloaded for N')
             else:
@@ -569,7 +575,7 @@ def main(**kwargs):
             p_state_max_error_list, p_state_no_data_list,\
                 p_state_success_list = query_dmr(year=year,
                                                  nutrient='P',
-                                                 state_list=states)
+                                                 state_list=STATES)
             if (len(p_state_max_error_list) == 0) & (len(p_state_no_data_list) == 0):
                 log.info('all states succesfully downloaded for P')
             else:
