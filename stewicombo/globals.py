@@ -7,6 +7,7 @@ Supporting variables and functions used in stewicombo
 import re
 import os
 import pandas as pd
+from pathlib import Path
 
 import chemicalmatcher
 import stewi
@@ -16,11 +17,9 @@ from esupy.processed_data_mgmt import Paths, write_df_to_file,\
     write_metadata_to_file, load_preprocessed_output, read_into_df,\
     download_from_remote
 
-try: MODULEPATH = os.path.dirname(
-    os.path.realpath(__file__)).replace('\\', '/') + '/'
-except NameError: MODULEPATH = 'stewicombo/'
+MODULEPATH = Path(__file__).resolve().parent
+DATA_PATH = MODULEPATH / 'data'
 
-data_dir = MODULEPATH + 'data/'
 
 paths = Paths()
 paths.local_path = os.path.realpath(paths.local_path + "/stewicombo")
@@ -50,7 +49,7 @@ COL_FUNC_PAIRS = {
     }
 COL_FUNC_DEFAULT = "get_first_item"
 
-VOC_srs = pd.read_csv(data_dir + 'VOC_SRS_IDs.csv',
+VOC_srs = pd.read_csv(DATA_PATH.joinpath('VOC_SRS_IDs.csv'),
                       dtype=str, index_col=False, header=0)
 VOC_srs = VOC_srs['SRS_IDs']
 

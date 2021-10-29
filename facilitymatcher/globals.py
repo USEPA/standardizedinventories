@@ -11,6 +11,8 @@ import requests
 import pandas as pd
 import os
 from datetime import datetime
+from pathlib import Path
+
 from stewi.globals import log, set_stewi_meta, source_metadata, config
 import facilitymatcher.WriteFacilityMatchesforStEWI as write_fm
 import facilitymatcher.WriteFRSNAICSforStEWI as write_naics
@@ -18,11 +20,8 @@ from esupy.processed_data_mgmt import Paths, load_preprocessed_output,\
     write_df_to_file, write_metadata_to_file, read_source_metadata
 from esupy.util import strip_file_extension
 
-try: MODULEPATH = os.path.dirname(
-    os.path.realpath(__file__)).replace('\\', '/') + '/'
-except NameError: MODULEPATH = 'facilitymatcher/'
-
-data_dir = MODULEPATH + 'data/'
+MODULEPATH = Path(__file__).resolve().parent
+DATA_PATH = MODULEPATH / 'data'
 
 paths = Paths()
 paths.local_path = os.path.realpath(paths.local_path + "/facilitymatcher")
@@ -168,7 +167,7 @@ def invert_inventory_to_FRS():
 
 def add_manual_matches(df_matches):
     #Read in manual matches
-    manual_matches = pd.read_csv(data_dir + 'facilitymatches_manual.csv',
+    manual_matches = pd.read_csv(DATA_PATH.joinpath('facilitymatches_manual.csv'),
                                  header=0,
                                  dtype={'FacilityID': 'str', 'FRS_ID': 'str'})
     #Append with list and drop any duplicates
