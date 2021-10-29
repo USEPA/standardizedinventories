@@ -7,7 +7,6 @@ inventory in standard formats
 """
 
 
-import os
 from stewi.globals import log, add_missing_fields,\
     WRITE_FORMAT, read_inventory, paths,\
     read_source_metadata, set_stewi_meta, aggregate
@@ -140,7 +139,7 @@ def getMetadata(inventory_acroynym, year):
     :return: metadata dictionary
     """
     meta = read_source_metadata(paths,
-                                set_stewi_meta(inventory_acroynym + '_' + str(year)),
+                                set_stewi_meta(f"{inventory_acroynym}_{str(year)}"),
                                 force_JSON=True)
     return meta
 

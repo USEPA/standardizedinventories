@@ -310,18 +310,18 @@ def Generate_TRI_files_csv(TRIyear, Files):
 
     validate_national_totals(tri, TRIyear)
 
-    #FLOWS
+    # FLOWS
     flowsdf = tri[['FlowName', 'CAS', 'Compartment']
                   ].drop_duplicates().reset_index(drop=True)
     flowsdf.loc[:, 'FlowID'] = flowsdf['CAS']
     store_inventory(flowsdf, 'TRI_' + TRIyear, 'flow')
 
-    #FLOW BY FACILITY
+    # FLOW BY FACILITY
     tri.drop(columns=['CAS'], inplace=True)
     store_inventory(tri, 'TRI_' + TRIyear, 'flowbyfacility')
 
-    #FACILITY
-    ##Import and handle TRI facility data
+    # FACILITY
+    # Import and handle TRI facility data
     import_facility = tri_required_fields[0:10]
     tri_facility = pd.read_csv(OUTPUT_PATH.joinpath(f'US_1a_{TRIyear}.csv'),
                                usecols=import_facility,

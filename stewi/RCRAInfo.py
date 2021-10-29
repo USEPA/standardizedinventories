@@ -102,7 +102,8 @@ import zipfile
 import argparse
 import re
 import os
-import time, datetime
+import time
+import datetime
 from pathlib import Path
 
 from stewi.globals import write_metadata, DATA_PATH, config,\
