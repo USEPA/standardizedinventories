@@ -110,7 +110,7 @@ def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
 
         # If this isn't the base inventory, filter records for facilities not
         # found in the base inventory
-        if (k is not base_inventory) & (base_inventory is not None):
+        if k is not base_inventory and base_inventory is not None:
             inventory = inventory[inventory['FRS_ID'].isin(
                 base_FRS_list)]
 

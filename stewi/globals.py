@@ -241,9 +241,9 @@ def add_missing_fields(df, inventory_acronym, f, maintain_columns=False):
     if 'ReliabilityScore' in df:
         df.rename(columns={'ReliabilityScore': 'DataReliability'}, inplace=True)
     # Add in units and compartment if not present
-    if ('Unit' in f.fields()) & ('Unit' not in df):
+    if 'Unit' in f.fields() and 'Unit' not in df:
         df['Unit'] = 'kg'
-    if ('Compartment' in f.fields()) & ('Compartment' not in df):
+    if 'Compartment' in f.fields() and 'Compartment' not in df:
         try:
             compartment = inventory_single_compartments[inventory_acronym]
         except KeyError:

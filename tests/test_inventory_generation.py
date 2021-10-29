@@ -36,7 +36,7 @@ def test_TRI_generation():
     assert stewi.getInventory('TRI', year) is not None
 
 
-@pytest.mark.skip(reason="GHGRP is skipped for time constraints")
+#@pytest.mark.skip(reason="GHGRP is skipped for time constraints")
 def test_GHGRP_generation():
     assert stewi.getInventory('GHGRP', year) is not None
 

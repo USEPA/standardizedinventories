@@ -24,7 +24,6 @@ Year:
 
 """
 
-import os
 import requests
 import pandas as pd
 import argparse

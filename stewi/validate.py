@@ -78,7 +78,6 @@ def validate_inventory(inventory_df, reference_df, group_by='flow',
                 pct_diff_list.append(100.0)
                 conclusion.append('Inventory value is zero or null')
                 error_count += 1
-            continue
         elif amount_y == 0.0:
             amount_x_list.append(amount_x)
             amount_y_list.append(amount_y)

@@ -215,7 +215,7 @@ def import_TRI_by_release_type(d, year):
         # If a basis of estimate field is present, set its type to string
         if len(v) > 5:
             dtype_dict[v[5]] = "str"
-        if (k == 'offsiteland') | (k == 'offsiteother'):
+        if k == 'offsiteland' or k == 'offsiteother':
             file = '3a'
         else:
             file = '1a'
