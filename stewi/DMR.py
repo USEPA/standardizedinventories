@@ -44,10 +44,6 @@ dmr_data_dir = data_dir + 'DMR/'
 ext_folder = 'DMR Data Files'
 dmr_external_dir = paths.local_path + '/' + ext_folder + '/'
 
-# two digit SIC codes from advanced search drop down stripped and formatted as a list
-sic2 = list(pd.read_csv(dmr_data_dir + '2_digit_SIC.csv',
-                        dtype={'SIC2': str})['SIC2'])
-
 states_df = pd.read_csv(data_dir + 'state_codes.csv')
 states = list(states_df['states']) + list(states_df['dc']) +\
     list(states_df['territories'])
@@ -534,6 +530,9 @@ def main(**kwargs):
         if kwargs['Option'] == 'A':
             log.info(f"Querying for {year}")
 
+            # two digit SIC codes from advanced search drop down stripped and formatted as a list
+            sic2 = list(pd.read_csv(dmr_data_dir + '2_digit_SIC.csv',
+                        dtype={'SIC2': str})['SIC2'])
             # Query by state, then by SIC-state where necessary
             state_max_error_list, state_no_data_list,\
                 state_success_list = query_dmr(year=year,

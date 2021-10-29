@@ -10,8 +10,8 @@ import pandas as pd
 
 import chemicalmatcher
 import stewi
-from stewi.globals import log, set_stewi_meta, flowbyfacility_fields,\
-    WRITE_FORMAT
+from stewi.globals import log, set_stewi_meta, WRITE_FORMAT
+from stewi.formats import StewiFormat
 from esupy.processed_data_mgmt import Paths, write_df_to_file,\
     write_metadata_to_file, load_preprocessed_output, read_into_df,\
     download_from_remote
@@ -88,8 +88,8 @@ def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
         base_FRS_list = list(pd.unique(facilitymatches[
             facilitymatches['Source'] == base_inventory]['FRS_ID']))
 
-    columns_to_keep = list(flowbyfacility_fields.keys()) + ['Source',
-                                                            'Year', 'FRS_ID']
+    columns_to_keep = StewiFormat.FLOWBYFACILITY.fields() + ['Source',
+                                                             'Year', 'FRS_ID']
     inventories = pd.DataFrame()
     for k in inventory_dict.keys():
         inventory = stewi.getInventory(k, inventory_dict[k],

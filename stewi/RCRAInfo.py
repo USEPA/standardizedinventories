@@ -110,7 +110,7 @@ from stewi.globals import write_metadata, data_dir, config,\
     aggregate, create_paths_if_missing, set_stewi_meta
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
-from stewi.filter import apply_filter_to_inventory
+from stewi.filter import apply_filters_to_inventory
 
 try:
     from selenium import webdriver
@@ -413,11 +413,11 @@ def validate_state_totals(report_year, flowbyfacility):
         totals.rename(columns={'FlowAmount_kg': 'FlowAmount'}, inplace=True)
         # Validate waste generated against state totals, include only NBR data
         flowbyfacility['State'] = flowbyfacility['FacilityID'].str[0:2]
-        flowbyfacility = apply_filter_to_inventory(flowbyfacility, 'RCRAInfo',
-                                                   report_year,
-                                                   ['National_Biennial_Report',
-                                                    'imported_wastes',
-                                                    'US_States_only'])
+        flowbyfacility = apply_filters_to_inventory(flowbyfacility, 'RCRAInfo',
+                                                    report_year,
+                                                    ['National_Biennial_Report',
+                                                     'imported_wastes',
+                                                     'US_States_only'])
         validation_df = validate_inventory(flowbyfacility,
                                            totals, group_by='state')
         write_validation_result('RCRAInfo', report_year, validation_df)

@@ -43,14 +43,13 @@ import os
 import argparse
 import warnings
 
-from stewi.globals import download_table,\
-    write_metadata, import_table, drop_excel_sheets,\
-    data_dir, get_reliability_table_for_source, set_stewi_meta,\
-    flowbyfacility_fields, flowbyprocess_fields, facility_fields, config,\
+from stewi.globals import download_table, write_metadata, import_table, \
+    data_dir, get_reliability_table_for_source, set_stewi_meta, config,\
     store_inventory, paths, log, create_paths_if_missing,\
     compile_source_metadata, read_source_metadata, aggregate
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
+from stewi.formats import StewiFormat
 
 
 _config = config()['databases']['GHGRP']
@@ -89,12 +88,19 @@ data_summaries_path = ghgrp_external_dir + _config['most_recent_year'] +\
 esbb_subparts_path = ghgrp_external_dir + _config['esbb_subparts_url']
 lo_subparts_path = ghgrp_external_dir + _config['lo_subparts_url']
 
-# set format for metadata file
-ghgrp_metadata = {}
-ghgrp_metadata['time_meta'] = []
-ghgrp_metadata['filename_meta'] = []
-ghgrp_metadata['type_meta'] = []
-ghgrp_metadata['url_meta'] = []
+
+class MetaGHGRP:
+    def __init__(self):
+        self.time = []
+        self.filename = []
+        self.filetype = []
+        self.url = []
+
+    def add(self, time, filename, filetype, url):
+        self.time.append(time)
+        self.filename.append(filename)
+        self.filetype.append(filetype)
+        self.url.append(url)
 
 
 def generate_url(table, report_year='', row_start=0, row_end=9999,
@@ -124,7 +130,7 @@ def get_row_count(table, report_year):
     return table_count
 
 
-def download_chunks(table, table_count, row_start=0, report_year='',
+def download_chunks(table, table_count, m, row_start=0, report_year='',
                     output_ext='csv', filepath=''):
     """ docstring """
     # Generate URL for each 5,000 row grouping and add to DataFrame
@@ -142,14 +148,11 @@ def download_chunks(table, table_count, row_start=0, report_year='',
             return None
         output_table = pd.concat([output_table, table_temp])
         row_start += 5000
-    ghgrp_metadata['time_meta'].append(temp_time)
-    ghgrp_metadata['url_meta'].append(generate_url(table,
-                                                   report_year=report_year,
-                                                   row_start='',
-                                                   output_ext='CSV'))
-    ghgrp_metadata['type_meta'].append('Database')
-    ghgrp_metadata['filename_meta'].append(filepath)
-    if filepath: output_table.to_csv(filepath, index=False)
+    m.add(time=temp_time, url=generate_url(table, report_year=report_year,
+                                           row_start='', output_ext='CSV'),
+          filetype='Database', filename=filepath)
+    if filepath:
+        output_table.to_csv(filepath, index=False)
     return output_table
 
 
@@ -159,14 +162,11 @@ def get_facilities(facilities_file):
     Parses data to create dataframe of GHGRP facilities along with identifying
     information such as address, zip code, lat and long.
     """
-    # initialize destination dataframe
-    facilities_df = pd.DataFrame()
     # load .xlsx file from filepath
     facilities_dict = import_table(facilities_file, skip_lines=3)
     # drop excel worksheets that we do not need
-    facilities_dict = drop_excel_sheets(facilities_dict,
-                                        drop_sheets=['Industry Type',
-                                                     'FAQs about this Data'])
+    for s in ['Industry Type', 'FAQs about this Data']:
+        facilities_dict.pop(s, None)
 
     # for all remaining worksheets, concatenate into single dataframe
     # certain columns need to be renamed for consistency
@@ -180,7 +180,7 @@ def get_facilities(facilities_file):
                 #'State where Emissions Occur':'State',
                 'Reported Zip Code': 'Zip Code',
                 }
-
+    facilities_df = pd.DataFrame()
     for s in facilities_dict.keys():
         for k in col_dict.keys():
             if k in facilities_dict[s]:
@@ -195,8 +195,7 @@ def get_facilities(facilities_file):
                                                   'Facility Name': 'FacilityName',
                                                   'Zip Code': 'Zip'})
     # keep only those columns we are interested in retaining
-    fac_columns = [c for c in facility_fields.keys() if c in facilities_df]
-    facilities_df = facilities_df[fac_columns]
+    facilities_df = facilities_df[StewiFormat.FACILITY.subset_fields(facilities_df)]
 
     # drop any duplicates
     facilities_df.drop_duplicates(inplace=True)
@@ -204,7 +203,7 @@ def get_facilities(facilities_file):
     return facilities_df
 
 
-def download_excel_tables():
+def download_excel_tables(m):
     # define required tables for download
     required_tables = [[data_summaries_path,
                         _config['url'] + _config['data_summaries_url'],
@@ -222,23 +221,17 @@ def download_excel_tables():
         temp_time = download_table(filepath=table[0], url=table[1],
                                    get_time=True, zip_dir=table[0])
         # record metadata
-        ghgrp_metadata['time_meta'].append(temp_time)
-        ghgrp_metadata['url_meta'].append(table[1])
-        ghgrp_metadata['type_meta'].append(table[2])
-        ghgrp_metadata['filename_meta'].append(table[0])
+        m.add(time=temp_time, filename=table[0], url=table[1], filetype=table[2])
 
-def import_or_download_table(filepath, table, year):
+
+def import_or_download_table(filepath, table, year, m):
     # if data already exists on local network, import the data
     if os.path.exists(filepath):
         log.info(f'Importing data from {table}')
         table_df, creation_time = import_table(filepath, get_time=True)
-        ghgrp_metadata['time_meta'].append(creation_time)
-        ghgrp_metadata['filename_meta'].append(filepath)
-        ghgrp_metadata['type_meta'].append('Database')
-        ghgrp_metadata['url_meta'].append(generate_url(table,
-                                                       report_year=year,
-                                                       row_start='',
-                                                       output_ext='CSV'))
+        m.add(time=creation_time, filename=filepath, filetype='Database',
+              url=generate_url(table, report_year=year, row_start='',
+                               output_ext='CSV'))
 
     # otherwise, download the data and save to the network
     else:
@@ -246,7 +239,7 @@ def import_or_download_table(filepath, table, year):
         row_count = get_row_count(table, report_year=year)
         log.info('Downloading %s (rows: %i)', table, row_count)
         # download data in chunks
-        table_df = download_chunks(table=table, table_count=row_count,
+        table_df = download_chunks(table=table, table_count=row_count, m=m,
                                    report_year=year, filepath=filepath)
 
     if table_df is None:
@@ -264,7 +257,7 @@ def import_or_download_table(filepath, table, year):
 
     return table_df
 
-def download_and_parse_subpart_tables(year):
+def download_and_parse_subpart_tables(year, m):
     """
     Generates a list of required subpart tables, based on report year.
     Downloads all subpart tables in the list and saves them to local network.
@@ -295,7 +288,7 @@ def download_and_parse_subpart_tables(year):
         filepath = tables_dir + subpart_emissions_table + '.csv'
 
         table_df = import_or_download_table(filepath, subpart_emissions_table,
-                                            year)
+                                            year, m)
         if table_df is None:
             continue
         # add 1-2 letter subpart abbreviation
@@ -534,11 +527,12 @@ def parse_subpart_L(year):
     return df
 
 
-def generate_national_totals_validation(validation_table, year):
+def generate_national_totals_validation(validation_table, year, m):
     # define filepath for reference data
     ref_filepath = ghgrp_external_dir + 'GHGRP_reference.csv'
 
-    reference_df = import_or_download_table(ref_filepath, validation_table, year)
+    reference_df = import_or_download_table(ref_filepath, validation_table,
+                                            year, m)
 
     # parse reference dataframe to prepare it for validation
     reference_df['YEAR'] = reference_df['YEAR'].astype('str')
@@ -616,14 +610,14 @@ def validate_national_totals_by_subpart(tab_df, year):
     write_validation_result('GHGRP', year, validation_result)
 
 
-def generate_metadata(year, metadata_dict, datatype='inventory'):
+def generate_metadata(year, m, datatype='inventory'):
     """Get metadata and writes to .json."""
     if datatype == 'source':
-        source_path = metadata_dict['filename_meta']
+        source_path = m.filename
         source_meta = compile_source_metadata(source_path, _config, year)
-        source_meta['SourceType'] = metadata_dict['type_meta']
-        source_meta['SourceURL'] = metadata_dict['url_meta']
-        source_meta['SourceAcquisitionTime'] = metadata_dict['time_meta']
+        source_meta['SourceType'] = m.filetype
+        source_meta['SourceURL'] = m.url
+        source_meta['SourceAcquisitionTime'] = m.time
         write_metadata('GHGRP_' + year, source_meta,
                        category=ext_folder, datatype='source')
     else:
@@ -696,11 +690,12 @@ def main(**kwargs):
         pickle_file = ghgrp_external_dir + 'GHGRP_' + year + '.pk'
         if kwargs['Option'] == 'A':
 
-            download_excel_tables()
+            m = MetaGHGRP()
+            download_excel_tables(m)
 
             # download subpart emissions tables for report year and save locally
             # parse subpart emissions data to match standardized EPA format
-            ghgrp1 = download_and_parse_subpart_tables(year)
+            ghgrp1 = download_and_parse_subpart_tables(year, m)
 
             # parse emissions data for subparts E, BB, CC, LL (S already accounted for)
             ghgrp2 = parse_additional_suparts_data(esbb_subparts_path,
@@ -736,7 +731,7 @@ def main(**kwargs):
             log.info(f'saving processed GHGRP data to {pickle_file}')
             ghgrp.to_pickle(pickle_file)
 
-            generate_metadata(year, ghgrp_metadata, datatype='source')
+            generate_metadata(year, m, datatype='source')
 
         if kwargs['Option'] == 'B':
             log.info(f'extracting data from {pickle_file}')
@@ -766,15 +761,13 @@ def main(**kwargs):
             log.info('generating flowbysubpart output')
 
             # generate flowbysubpart
-            fbs_columns = [c for c in flowbyprocess_fields.keys() if c in ghgrp]
-            ghgrp_fbs = ghgrp[fbs_columns]
+            ghgrp_fbs = ghgrp[StewiFormat.FLOWBYPROCESS.subset_fields(ghgrp)]
             ghgrp_fbs = aggregate(ghgrp_fbs, ['FacilityID', 'FlowName', 'Process',
                                               'ProcessType'])
             store_inventory(ghgrp_fbs, 'GHGRP_' + year, 'flowbyprocess')
 
             log.info('generating flowbyfacility output')
-            fbf_columns = [c for c in flowbyfacility_fields.keys() if c in ghgrp]
-            ghgrp_fbf = ghgrp[fbf_columns]
+            ghgrp_fbf = ghgrp[StewiFormat.FLOWBYFACILITY.subset_fields(ghgrp)]
 
             # aggregate instances of more than one flow for same facility and flow type
             ghgrp_fbf_2 = aggregate(ghgrp_fbf, ['FacilityID', 'FlowName'])
@@ -797,8 +790,7 @@ def main(**kwargs):
             ghgrp = ghgrp.merge(facilities_df, on='FacilityID', how='left')
 
             # generate facilities output and save to network
-            facility_columns = [c for c in facility_fields.keys() if c in ghgrp]
-            ghgrp_facility = ghgrp[facility_columns].drop_duplicates()
+            ghgrp_facility = ghgrp[StewiFormat.FACILITY.subset_fields(ghgrp)].drop_duplicates()
             ghgrp_facility.dropna(subset=['FacilityName'], inplace=True)
             # ensure NAICS does not have trailing decimal/zero
             ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].fillna(0)
@@ -810,7 +802,7 @@ def main(**kwargs):
             validate_national_totals_by_subpart(ghgrp, year)
 
             # Record metadata compiled from all GHGRP files and tables
-            generate_metadata(year, ghgrp_metadata, datatype='inventory')
+            generate_metadata(year, m=None, datatype='inventory')
 
         elif kwargs['Option'] == 'C':
             log.info('generating national totals for validation')

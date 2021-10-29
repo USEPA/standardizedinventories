@@ -58,7 +58,5 @@ def get_matches_for_id_list(base_inventory, id_list,
          e.g. ['NEI','TRI']
     :return: dataframe in FacilityMatches standard output format
     """
-    facilitymatches = get_fm_file('FacilityMatchList_forStEWI')
-    facilitymatches = filter_by_inventory_id_list(facilitymatches, inventory_list,
-                                                  base_inventory, id_list)
-    return facilitymatches
+    return filter_by_inventory_id_list(get_fm_file('FacilityMatchList_forStEWI'),
+                                       inventory_list, base_inventory, id_list)

@@ -15,7 +15,7 @@ on:
       - '.gitignore'
   pull_request:
     branches: [master, develop]
-    types: [opened, reopened]  # excluding syncronize to prevent commits to PR's from duplicating tests
+    # types: [opened, reopened]  # excluding syncronize to prevent commits to PR's from duplicating tests
     paths-ignore:
       - '**.md'  # prevent md files (e.g., README.md) in any repo dir from triggering workflow
       - '**.bib'
@@ -34,7 +34,7 @@ jobs:
         py-version: [3.8, 3.9]
         build-type:
         - user
-        # - dev
+        - dev
 
     steps:
     - uses: actions/checkout@v2
