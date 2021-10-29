@@ -15,7 +15,7 @@ on:
       - '.gitignore'
   pull_request:
     branches: [master, develop]
-    types: [opened, reopened]  # excluding syncronize to prevent commits to PR's from duplicating tests
+    # types: [opened, reopened]  # excluding syncronize to prevent commits to PR's from duplicating tests
     paths-ignore:
       - '**.md'
       - 'LICENSE'
@@ -30,7 +30,9 @@ jobs:
       matrix:  # max 256 jobs per workflow
         os: [ubuntu-latest, windows-latest, macos-latest]
         py-version: [3.8, 3.9]
-        build-type: [dev]
+        build-type:
+        - user
+        - dev
 
     steps:
     - uses: actions/checkout@v2
