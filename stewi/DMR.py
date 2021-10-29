@@ -80,7 +80,7 @@ def generate_url(report_year, **kwargs):
     params['p_nd'] = DETECTION
     params['output'] = 'JSON'
     if 'p_poll_cat' in params:
-        params['p_poll_cat'] = 'Nut' + params['p_poll_cat'].value
+        params['p_poll_cat'] = 'Nut' + params['p_poll_cat']
     if PARAM_GROUP:
         params['p_param_group'] = 'Y'  # default is N
     if not ESTIMATION:
@@ -106,7 +106,7 @@ def query_dmr(year, sic_list=[], state_list=STATES, nutrient=''):
     """
     path = OUTPUT_PATH.joinpath(year)
     path.mkdir(parents=True, exist_ok=True)
-    max_error_list, no_data_list, success_list = [], [], []
+    results = {}
     param_list = []
     filestub = ''
     nutrient_agg = 'N'
@@ -115,7 +115,6 @@ def query_dmr(year, sic_list=[], state_list=STATES, nutrient=''):
         nutrient_agg = 'Y'
     if sic_list:
         param_list = [[sic, state] for sic in sic_list for state in state_list]
-    if param_list:
         log.info('Breaking up queries further by SIC')
         for params in param_list:
             sic = params[0]
@@ -124,19 +123,7 @@ def query_dmr(year, sic_list=[], state_list=STATES, nutrient=''):
             filepath = path.joinpath(filename)
             url = generate_url(year, p_sic2=sic, p_st=state,
                                p_poll_cat=nutrient, p_nutrient_agg=nutrient_agg)
-            if filepath.is_file():
-                log.debug(f'file already exists for {str(params)}, skipping')
-                success_list.append(f"{sic}_{state}")
-            else:
-                log.debug(f'executing query for {sic}_{state}')
-                result = execute_query(url)
-                if str(type(result)) == "<class 'str'>":
-                    log.debug(f'error in state: {sic}_{state}')
-                    if result == 'no_data': no_data_list.append(f"{sic}_{state}")
-                    elif result == 'max_error': max_error_list.append(f"{sic}_{state}")
-                else:
-                    pd.to_pickle(result, filepath)
-                    success_list.append(f"{sic}_{state}")
+            results[state] = download_data(url, filepath, state)
     else:
         for state in state_list:
             if (nutrient != '') | (state not in BIG_STATES):
@@ -144,51 +131,42 @@ def query_dmr(year, sic_list=[], state_list=STATES, nutrient=''):
                 filepath = path.joinpath(filename)
                 url = generate_url(year, p_st=state, p_poll_cat=nutrient,
                                    p_nutrient_agg=nutrient_agg)
-                if filepath.is_file():
-                    log.debug(f'file already exists for {state}, skipping')
-                    success_list.append(state)
-                else:
-                    log.info(f'executing query for {state}')
-                    result = execute_query(url)
-                    if str(type(result)) == "<class 'str'>":
-                        log.error(f'error in state: {state}')
-                        if result == 'no_data': no_data_list.append(state)
-                        elif result == 'max_error': max_error_list.append(state)
-                    else:
-                        pd.to_pickle(result, filepath)
-                        success_list.append(state)
-            else:
+
+                results[state] = download_data(url, filepath, state)
+            else:  # BIG_STATES
                 counter = 1
                 pages = 1
                 while counter <= pages:
-                    filename = f"{filename}state_{state}_{str(counter)}.pickle"
+                    filename = f"{filestub}state_{state}_{str(counter)}.pickle"
                     filepath = path.joinpath(filename)
                     url = generate_url(year, p_st=state,
                                        p_poll_cat=nutrient,
                                        p_nutrient_agg=nutrient_agg,
                                        ResponseSet='9000',
                                        PageNo=str(counter))
-                    if filepath.is_file():
-                        log.debug(f'file already exists for {state}, skipping')
-                        if counter == 1:
-                            result = pd.read_pickle(filepath)
-                            pages = int(result['Results']['PageCount'])
-                        success_list.append(state + '_' + str(counter))
-                    else:
-                        if counter == 1:
-                            log.info(f'executing query for {state}')
-                        result = execute_query(url)
-                        if str(type(result)) == "<class 'str'>":
-                            log.error(f'error in state: {state}')
-                            if result == 'no_data': no_data_list.append(state)
-                            elif result == 'max_error': max_error_list.append(state)
-                        else:
-                            if counter == 1: pages = int(result['Results']['PageCount'])
-                            pd.to_pickle(result, filepath)
-                            success_list.append(state + '_' + str(counter))
+                    results[state] = download_data(url, filepath, state)
+                    if counter == 1:
+                        # identify the number of pages to pull
+                        result = pd.read_pickle(filepath)
+                        pages = int(result['Results']['PageCount'])
                     counter += 1
 
-    return max_error_list, no_data_list, success_list
+    return results
+
+
+def download_data(url, filepath: Path, state) -> str:
+    if filepath.is_file():
+        log.debug(f'file already exists for {state}, skipping')
+        return 'success'
+    else:
+        log.info(f'executing query for {state}')
+        result = execute_query(url)
+        if isinstance(result, str):
+            log.error(f'error in state: {state}')
+            return result
+        else:
+            pd.to_pickle(result, filepath)
+            return 'success'
 
 
 def execute_query(url):
@@ -203,9 +181,12 @@ def execute_query(url):
     if 'Error' in result.index:
         if result['Results'].astype(str).str.contains('Maximum').any():
             return 'max_error'
-        else: return 'other_error'
-    elif 'NoDataMsg' in result.index: return 'no_data'
-    else: return result
+        else:
+            return 'other_error'
+    elif 'NoDataMsg' in result.index:
+        return 'no_data'
+    else:
+        return result
 
 
 def standardize_df(input_df):
@@ -265,26 +246,25 @@ def combine_DMR_inventory(year, nutrient=''):
     if not path.is_dir():
         raise stewi.exceptions.DataNotFoundError
     output_df = pd.DataFrame()
+    filestub = ''
     if nutrient:
-        path += nutrient + '_'
+        filestub = nutrient + '_'
         log.info(f'reading stored DMR queries by state for {nutrient}...')
     else:
         log.info('reading stored DMR queries by state...')
     for state in STATES:
         log.debug(f'accessing data for {state}')
         if (nutrient != '') | (state not in BIG_STATES):
-            filepath = path + 'state_' + state + '.pickle'
+            filepath = path.joinpath(f'{filestub}state_{state}.pickle')
             result = unpickle(filepath)
             if result is None:
-                log.warning('No data found for %s', state)
+                log.warning(f'No data found for {state}')
             output_df = pd.concat([output_df, result])
         else: # multiple files for each state
             log.debug(f'looping through data for {state}')
-            for file in os.listdir(path):
-                if file.startswith('state_' + state) & file.endswith('.pickle'):
-                    filepath = path + file
-                    result = unpickle(filepath)
-                    output_df = pd.concat([output_df, result])
+            for file in path.glob(f'state_{state}*.pickle'):
+                result = unpickle(file)
+                output_df = pd.concat([output_df, result])
     return output_df
 
 
@@ -372,7 +352,7 @@ def validate_state_totals(df, year):
 def generate_metadata(year, datatype='inventory'):
     """Generate metadata and write to json for datatypes 'inventory' or 'source'."""
     if datatype == 'source':
-        source_path = OUTPUT_PATH.joinpath(year)
+        source_path = str(OUTPUT_PATH.joinpath(year))
         source_meta = compile_source_metadata(source_path, _config, year)
         source_meta['SourceType'] = 'Web Service'
         write_metadata(f"DMR_{year}", source_meta, category=EXT_DIR,
@@ -541,9 +521,9 @@ def main(**kwargs):
             sic2 = list(pd.read_csv(DMR_DATA_PATH.joinpath('2_digit_SIC.csv'),
                         dtype={'SIC2': str})['SIC2'])
             # Query by state, then by SIC-state where necessary
-            state_max_error_list, state_no_data_list,\
-                state_success_list = query_dmr(year=year,
-                                               state_list=STATES)
+            result_dict = query_dmr(year=year, state_list=STATES)
+            state_max_error_list = [s for s in result_dict.keys() if result_dict[s] == 'max_error']
+            state_no_data_list = [s for s in result_dict.keys() if result_dict[s] == 'no_data']
             if (len(state_max_error_list) == 0) & (len(state_no_data_list) == 0):
                 log.info('all states succesfully downloaded')
             else:
@@ -551,40 +531,32 @@ def main(**kwargs):
                     log.error(f"Max error: {' '.join(state_max_error_list)}")
                 if (len(state_no_data_list) > 0):
                     log.error(f"No data error: {' '.join(state_no_data_list)}")
-                sic_state_max_error_list, sic_state_no_data_list,\
-                    sic_state_success_list = query_dmr(year=year,
-                                                       sic_list=sic2,
-                                                       state_list=state_max_error_list)
+                result_dict = query_dmr(year=year, sic_list=sic2,
+                                        state_list=state_max_error_list)
+                sic_state_max_error_list = [s for s in result_dict.keys() if result_dict[s] == 'max_error']
                 if len(sic_state_max_error_list) > 0:
                     log.error(f"Max error: {' '.join(sic_state_max_error_list)}")
 
             log.info(f"Querying nutrients for {year}")
             # Query aggregated nutrients data
-            n_state_max_error_list, n_state_no_data_list,\
-                n_state_success_list = query_dmr(year=year,
-                                                 nutrient='N',
-                                                 state_list=STATES)
+            result_dict = query_dmr(year=year, nutrient='N', state_list=STATES)
+            n_state_max_error_list = [s for s in result_dict.keys() if result_dict[s] == 'max_error']
+            n_state_no_data_list = [s for s in result_dict.keys() if result_dict[s] == 'no_data']
             if (len(n_state_max_error_list) == 0) & (len(n_state_no_data_list) == 0):
                 log.info('all states succesfully downloaded for N')
             else:
-                n_sic_state_max_error_list, n_sic_state_no_data_list,\
-                        n_sic_state_success_list = query_dmr(year=year,
-                                                             sic_list=sic2,
-                                                             state_list=n_state_max_error_list,
-                                                             nutrient='N')
-            p_state_max_error_list, p_state_no_data_list,\
-                p_state_success_list = query_dmr(year=year,
-                                                 nutrient='P',
-                                                 state_list=STATES)
+                result_dict = query_dmr(year=year, sic_list=sic2,
+                                        state_list=n_state_max_error_list,
+                                        nutrient='N')
+            result_dict = query_dmr(year=year, nutrient='P', state_list=STATES)
+            p_state_max_error_list = [s for s in result_dict.keys() if result_dict[s] == 'max_error']
+            p_state_no_data_list = [s for s in result_dict.keys() if result_dict[s] == 'no_data']
             if (len(p_state_max_error_list) == 0) & (len(p_state_no_data_list) == 0):
                 log.info('all states succesfully downloaded for P')
             else:
-                p_sic_state_max_error_list, p_sic_state_no_data_list,\
-                    p_sic_state_success_list = query_dmr(year=year,
-                                                         sic_list=sic2,
-                                                         state_list=p_state_max_error_list,
-                                                         nutrient='P')
-
+                result_dict = query_dmr(year=year, sic_list=sic2,
+                                        state_list=p_state_max_error_list,
+                                        nutrient='P')
             # write metadata
             generate_metadata(year, datatype='source')
 
@@ -639,7 +611,8 @@ def main(**kwargs):
             # generate output for flowbyfacility
             fbf_columns = ['FlowName', 'FlowAmount', 'FacilityID',
                            'DataReliability']
-            dmr_fbf = aggregate(dmr_df[fbf_columns], ['FacilityID', 'FlowName'])
+            dmr_fbf = aggregate(dmr_df.loc[:fbf_columns],
+                                ['FacilityID', 'FlowName'])
             dmr_fbf['Compartment'] = 'water'
             dmr_fbf['Unit'] = 'kg'
             store_inventory(dmr_fbf, 'DMR_' + year, 'flowbyfacility')
