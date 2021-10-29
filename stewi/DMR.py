@@ -93,7 +93,7 @@ def generate_url(report_year, **kwargs):
     return url
 
 
-def query_dmr(year, sic_list=[], state_list=STATES, nutrient=''):
+def query_dmr(year, sic_list=None, state_list=STATES, nutrient=''):
     """Loop through a set of states and sics to download and pickle DMR data.
 
     :param year: str, year of data
@@ -102,7 +102,7 @@ def query_dmr(year, sic_list=[], state_list=STATES, nutrient=''):
     :param state_list: List of states to include in query
     :param nutrient: Option to query by nutrient category with aggregation.
         Input 'N' or 'P'
-    :return: max_error_list, no_data_list, success_list
+    :return: results dictionary
     """
     path = OUTPUT_PATH.joinpath(year)
     path.mkdir(parents=True, exist_ok=True)
@@ -126,7 +126,7 @@ def query_dmr(year, sic_list=[], state_list=STATES, nutrient=''):
             results[state] = download_data(url, filepath, state)
     else:
         for state in state_list:
-            if (nutrient != '') | (state not in BIG_STATES):
+            if nutrient != '' or state not in BIG_STATES:
                 filename = f"{filestub}state_{state}.pickle"
                 filepath = path.joinpath(filename)
                 url = generate_url(year, p_st=state, p_poll_cat=nutrient,
@@ -171,7 +171,7 @@ def download_data(url, filepath: Path, state) -> str:
 
 def execute_query(url):
     log.debug(url)
-    while True:
+    for attempt in range(3):
         try:
             json_data = requests.get(url).json()
             result = pd.DataFrame(json_data)
@@ -254,7 +254,7 @@ def combine_DMR_inventory(year, nutrient=''):
         log.info('reading stored DMR queries by state...')
     for state in STATES:
         log.debug(f'accessing data for {state}')
-        if (nutrient != '') | (state not in BIG_STATES):
+        if nutrient != '' or state not in BIG_STATES:
             filepath = path.joinpath(f'{filestub}state_{state}.pickle')
             result = unpickle(filepath)
             if result is None:
@@ -272,7 +272,7 @@ def unpickle(filepath):
     try:
         result = pd.read_pickle(filepath)
     except:
-        return None
+        log.exception(f'error reading {filepath}')
     if str(type(result)) == "<class 'NoneType'>":
         raise Exception('Problem with saved dataframe')
     result = pd.DataFrame(result['Results']['Results'])
@@ -462,14 +462,14 @@ def remove_nutrient_overlap_TRI(df, preference):
     if preference == 'DMR':
         keep_list = dmr_list
 
-    df_nutrients = df.loc[((df['FlowName'].isin(combined_list)) &
+    df_nutrients = df.loc[((df['FlowName'].isin(combined_list)) and
                            (df['Compartment'] == 'water'))]
     df_duplicates = df_nutrients[df_nutrients.duplicated(subset='FRS_ID',
                                                          keep=False)]
     if len(df_duplicates) == 0:
         return df
 
-    df = df.loc[~((df['FlowName'].isin(combined_list)) &
+    df = df.loc[~((df['FlowName'].isin(combined_list)) and
                   (df['Compartment'] == 'water'))]
     df_nutrients = df_nutrients[~df_nutrients.duplicated(subset='FRS_ID',
                                                          keep=False)]
@@ -524,7 +524,7 @@ def main(**kwargs):
             result_dict = query_dmr(year=year, state_list=STATES)
             state_max_error_list = [s for s in result_dict.keys() if result_dict[s] == 'max_error']
             state_no_data_list = [s for s in result_dict.keys() if result_dict[s] == 'no_data']
-            if (len(state_max_error_list) == 0) & (len(state_no_data_list) == 0):
+            if (len(state_max_error_list) == 0) and (len(state_no_data_list) == 0):
                 log.info('all states succesfully downloaded')
             else:
                 if (len(state_max_error_list) > 0):
@@ -539,24 +539,16 @@ def main(**kwargs):
 
             log.info(f"Querying nutrients for {year}")
             # Query aggregated nutrients data
-            result_dict = query_dmr(year=year, nutrient='N', state_list=STATES)
-            n_state_max_error_list = [s for s in result_dict.keys() if result_dict[s] == 'max_error']
-            n_state_no_data_list = [s for s in result_dict.keys() if result_dict[s] == 'no_data']
-            if (len(n_state_max_error_list) == 0) & (len(n_state_no_data_list) == 0):
-                log.info('all states succesfully downloaded for N')
-            else:
-                result_dict = query_dmr(year=year, sic_list=sic2,
-                                        state_list=n_state_max_error_list,
-                                        nutrient='N')
-            result_dict = query_dmr(year=year, nutrient='P', state_list=STATES)
-            p_state_max_error_list = [s for s in result_dict.keys() if result_dict[s] == 'max_error']
-            p_state_no_data_list = [s for s in result_dict.keys() if result_dict[s] == 'no_data']
-            if (len(p_state_max_error_list) == 0) & (len(p_state_no_data_list) == 0):
-                log.info('all states succesfully downloaded for P')
-            else:
-                result_dict = query_dmr(year=year, sic_list=sic2,
-                                        state_list=p_state_max_error_list,
-                                        nutrient='P')
+            for nutrient in ['N', 'P']:
+                result_dict = query_dmr(year=year, nutrient=nutrient, state_list=STATES)
+                state_max_error_list = [s for s in result_dict.keys() if result_dict[s] == 'max_error']
+                state_no_data_list = [s for s in result_dict.keys() if result_dict[s] == 'no_data']
+                if (len(state_max_error_list) == 0) and (len(state_no_data_list) == 0):
+                    log.info(f'all states succesfully downloaded for {nutrient}')
+                else:
+                    result_dict = query_dmr(year=year, sic_list=sic2,
+                                            state_list=state_max_error_list,
+                                            nutrient=nutrient)
             # write metadata
             generate_metadata(year, datatype='source')
 
@@ -611,8 +603,8 @@ def main(**kwargs):
             # generate output for flowbyfacility
             fbf_columns = ['FlowName', 'FlowAmount', 'FacilityID',
                            'DataReliability']
-            dmr_fbf = aggregate(dmr_df.loc[:fbf_columns],
-                                ['FacilityID', 'FlowName'])
+            dmr_fbf = dmr_df[fbf_columns].reset_index(drop=True)
+            dmr_fbf = aggregate(dmr_fbf, ['FacilityID', 'FlowName'])
             dmr_fbf['Compartment'] = 'water'
             dmr_fbf['Unit'] = 'kg'
             store_inventory(dmr_fbf, 'DMR_' + year, 'flowbyfacility')
