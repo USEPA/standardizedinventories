@@ -11,6 +11,7 @@ import logging as log
 import os
 import yaml
 import time
+import urllib
 from datetime import datetime
 from pathlib import Path
 
@@ -39,7 +40,7 @@ g_kg = 0.001
 WRITE_FORMAT = "parquet"
 
 paths = Paths()
-paths.local_path = os.path.realpath(paths.local_path + "/stewi")
+paths.local_path = Path(paths.local_path).joinpath("stewi")
 
 # global variable to replace stored inventory files when saving
 REPLACE_FILES = False
@@ -89,7 +90,6 @@ def url_is_alive(url):
     :param url: A URL
     :rtype: bool
     """
-    import urllib
     request = urllib.request.Request(url)
     request.get_method = lambda: 'HEAD'
     try:
@@ -101,43 +101,39 @@ def url_is_alive(url):
         return False
 
 
-def download_table(filepath, url, get_time=False, zip_dir=None):
-    if not os.path.exists(filepath):
-        if url[-4:].lower() == '.zip':
+def download_table(filepath: Path, url: str, get_time=False):
+    """Download file at url to Path if it does not exist."""
+    if not filepath.exists():
+        if url.lower().endswith('zip'):
             import zipfile, requests, io
             table_request = requests.get(url).content
             zip_file = zipfile.ZipFile(io.BytesIO(table_request))
-            if zip_dir is None:
-                zip_dir = os.path.abspath(os.path.join(filepath, "../../.."))
-            zip_file.extractall(zip_dir)
-        elif 'xls' in url.lower() or url.lower()[-5:] == 'excel':
-            import urllib, shutil
-            with urllib.request.urlopen(url) as response, open(filepath, 'wb') as out_file:
-                shutil.copyfileobj(response, out_file)
+            zip_file.extractall(filepath)
+        elif 'xls' in url.lower() or url.lower().endswith('excel'):
+            import shutil
+            try:
+                with urllib.request.urlopen(url) as response, open(filepath, 'wb') as out_file:
+                    shutil.copyfileobj(response, out_file)
+            except urllib.error.HTTPError:
+                log.warning(f'Error downloading {url}')
         elif 'json' in url.lower():
-            import pandas as pd
             pd.read_json(url).to_csv(filepath, index=False)
         if get_time:
-            try: retrieval_time = os.path.getctime(filepath)
+            try: retrieval_time = filepath.stat().st_ctime
             except: retrieval_time = time.time()
             return time.ctime(retrieval_time)
     elif get_time:
-        return time.ctime(os.path.getctime(filepath))
+        return time.ctime(filepath.stat().st_ctime)
 
 
-def import_table(path_or_reference, skip_lines=0, get_time=False):
-    if isinstance(path_or_reference, pd.DataFrame):
-        df = path_or_reference
-    elif path_or_reference.lower().endswith('csv'):
-        df = pd.read_csv(path_or_reference, low_memory=False)
-    elif '.xls' in path_or_reference.lower():
-        df = pd.read_excel(path_or_reference, sheet_name=None,
-                           skiprows=skip_lines)
-    else:
-        log.exception('Error importing table')
-    if get_time:
-        try: retrieval_time = os.path.getctime(path_or_reference)
-        except: retrieval_time = time.time()
+def import_table(path_or_reference, get_time=False):
+    """Read and return time of csv from url or Path."""
+    df = pd.read_csv(path_or_reference, low_memory=False)
+    if get_time and isinstance(path_or_reference, Path):
+        retrieval_time = path_or_reference.stat().st_ctime
+        return df, time.ctime(retrieval_time)
+    elif get_time:
+        retrieval_time = time.time()
         return df, time.ctime(retrieval_time)
     return df
 
@@ -263,10 +259,6 @@ def add_missing_fields(df, inventory_acronym, f, maintain_columns=False):
         col_list = col_list + [c for c in df if c not in f.fields()]
     df = df[col_list]
     return df
-
-
-def checkforFile(filepath):
-    return os.path.exists(filepath)
 
 
 def store_inventory(df, file_name, f, replace_files=REPLACE_FILES):
