@@ -29,7 +29,7 @@ import zipfile
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
-import os.path, os, io, sys
+import io
 import argparse
 import re
 from pathlib import Path
@@ -40,6 +40,7 @@ from stewi.globals import unit_convert, DATA_PATH, set_stewi_meta,\
     read_source_metadata, aggregate
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
+import stewi.exceptions
 
 
 EXT_DIR = 'TRI Data Files'
@@ -133,7 +134,7 @@ def generate_national_totals(year):
                        index=False)
 
     # Update validationSets_Sources.csv
-    date_created = time.strptime(time.ctime(os.path.getctime(filename)))
+    date_created = time.strptime(time.ctime(filename.stat().st_ctime))
     date_created = time.strftime('%d-%b-%Y', date_created)
     validation_dict = {'Inventory': 'TRI',
                        #'Version': '',
@@ -228,8 +229,7 @@ def import_TRI_by_release_type(d, year):
         except FileNotFoundError:
             log.error(f'{file}.csv file not found in {tri_csv}')
     if len(tri) == 0:
-        log.error('No data found. Please run option A before proceeding')
-        sys.exit(0)
+        raise stewi.exceptions.DataNotFoundError
     return tri
 
 
@@ -347,8 +347,7 @@ def Generate_TRI_files_csv(TRIyear, Files):
 def generate_metadata(year, files, datatype='inventory'):
     """Get metadata and writes to .json."""
     if datatype == 'source':
-        source_path = [OUTPUT_PATH.joinpath(f'US_{p}_{year}.csv') for p in files]
-        source_path = [os.path.realpath(p) for p in source_path]
+        source_path = [str(OUTPUT_PATH.joinpath(f'US_{p}_{year}.csv')) for p in files]
         source_meta = compile_source_metadata(source_path, _config, year)
         source_meta['SourceType'] = 'Zip file'
         tri_url = _config['url']
