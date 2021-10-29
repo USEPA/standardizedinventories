@@ -26,7 +26,6 @@ Year:
 
 import os
 import requests
-import sys
 import pandas as pd
 import argparse
 from pathlib import Path
@@ -38,6 +37,7 @@ from stewi.globals import unit_convert,\
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
 from stewi.filter import filter_states, filter_config
+import stewi.exceptions
 
 
 _config = config()['databases']['DMR']
@@ -257,9 +257,7 @@ def combine_DMR_inventory(year, nutrient=''):
     """Loop through pickled data and combines into a dataframe."""
     path = OUTPUT_PATH.joinpath(year)
     if not path.is_dir():
-        log.error(f'Data not found for {year} in {OUTPUT_PATH}. '
-                  'Please run option A to download data before proceeding')
-        sys.exit(0)
+        raise stewi.exceptions.DataNotFoundError
     output_df = pd.DataFrame()
     if nutrient:
         path += nutrient + '_'
