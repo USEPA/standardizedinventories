@@ -30,15 +30,15 @@ Year:
 
 import pandas as pd
 import numpy as np
-import os
 import argparse
 import requests
 import zipfile
 import io
+from pathlib import Path
 
 from esupy.processed_data_mgmt import download_from_remote
 from esupy.util import strip_file_extension
-from stewi.globals import data_dir,write_metadata, USton_kg,lb_kg,\
+from stewi.globals import DATA_PATH, write_metadata, USton_kg, lb_kg,\
     log, store_inventory, config, read_source_metadata,\
     paths, aggregate, get_reliability_table_for_source, set_stewi_meta
 from stewi.validate import update_validationsets_sources, validate_inventory,\
@@ -46,9 +46,9 @@ from stewi.validate import update_validationsets_sources, validate_inventory,\
 
 
 _config = config()['databases']['NEI']
-ext_folder = 'NEI Data Files'
-nei_external_dir = paths.local_path + '/' + ext_folder + '/'
-nei_data_dir = data_dir + 'NEI/'
+EXT_DIR = 'NEI Data Files'
+OUTPUT_PATH = Path(paths.local_path).joinpath(EXT_DIR)
+NEI_DATA_PATH = DATA_PATH / 'NEI'
 
 
 def read_data(year, file):
@@ -59,8 +59,9 @@ def read_data(year, file):
     :returns df : DataFrame of NEI data from a single file
         with standardized column names.
     """
-    nei_required_fields = pd.read_table(
-        nei_data_dir + 'NEI_required_fields.csv', sep=',')
+    nei_required_fields = pd.read_table(NEI_DATA_PATH
+                                        .joinpath('NEI_required_fields.csv'),
+                                        sep=',')
     nei_required_fields = nei_required_fields[[year, 'StandardizedEPA']]
     usecols = list(nei_required_fields[year].dropna())
     df = pd.read_parquet(file, columns=usecols)
@@ -80,17 +81,18 @@ def standardize_output(year, source='Point'):
     # read in nei files and concatenate all nei files into one dataframe
     nei_file_path = _config[year]['file_name']
     for file in nei_file_path:
-        if(not(os.path.exists(nei_external_dir + file))):
-            log.info(f'{file} not found in {nei_external_dir}, '
+        filename = OUTPUT_PATH.joinpath(file)
+        if not filename.is_file():
+            log.info(f'{file} not found in {OUTPUT_PATH}, '
                      'downloading source data')
             # download source file and metadata
             file_meta = set_stewi_meta(strip_file_extension(file))
-            file_meta.category = ext_folder
+            file_meta.category = EXT_DIR
             file_meta.tool = file_meta.tool.lower()
             download_from_remote(file_meta, paths)
         # concatenate all other files
-        log.info(f'reading NEI data from {nei_external_dir}{file}')
-        nei = pd.concat([nei, read_data(year, nei_external_dir + file)])
+        log.info(f'reading NEI data from {filename}')
+        nei = pd.concat([nei, read_data(year, filename)])
         log.debug(f'{str(len(nei))} records')
     # convert TON to KG
     nei['FlowAmount'] = nei['FlowAmount'] * USton_kg
@@ -104,8 +106,8 @@ def standardize_output(year, source='Point'):
                         right_on='Code', how='left')
         nei['DataReliability'] = nei['DQI Reliability Score']
         # drop Code and DQI Reliability Score columns
-        nei = nei.drop(columns = ['Code', 'DQI Reliability Score',
-                                  'ReliabilityScore'])
+        nei = nei.drop(columns=['Code', 'DQI Reliability Score',
+                                'ReliabilityScore'])
 
         nei['Compartment'] = 'air'
         """
@@ -178,13 +180,14 @@ def generate_national_totals(year):
     # convert LB/TON to KG
     df['FlowAmount'] = np.where(df['UOM'] == 'LB', df['FlowAmount'] * lb_kg,
                                 df['FlowAmount'] * USton_kg)
-    df = df.drop(['UOM'], 1)
+    df = df.drop(columns=['UOM'])
     # sum across all facilities to create national totals
     df = df.groupby(['FlowID', 'FlowName'])['FlowAmount'].sum().reset_index()
     # save national totals to .csv
     df.rename(columns={'FlowAmount': 'FlowAmount[kg]'}, inplace=True)
-    log.info(f'saving NEI_{year}_NationalTotals.csv to {data_dir}')
-    df.to_csv(data_dir + 'NEI_' + year + '_NationalTotals.csv', index=False)
+    log.info(f'saving NEI_{year}_NationalTotals.csv to {DATA_PATH}')
+    df.to_csv(DATA_PATH.joinpath(f'NEI_{year}_NationalTotals.csv'),
+              index=False)
 
     # Update validationSets_Sources.csv
     validation_dict = {'Inventory': 'NEI',
@@ -199,13 +202,14 @@ def generate_national_totals(year):
 
 
 def validate_national_totals(nei_flowbyfacility, year):
+    """Validate against national flow totals."""
     log.info('validating flow by facility against national totals')
-    if not(os.path.exists(data_dir + 'NEI_' + year + '_NationalTotals.csv')):
+    if not DATA_PATH.joinpath(f'NEI_{year}_NationalTotals.csv').is_file():
         generate_national_totals(year)
     else:
         log.info('using already processed national totals validation file')
-    nei_national_totals = pd.read_csv(data_dir + 'NEI_' + year +
-                                      '_NationalTotals.csv',
+    nei_national_totals = pd.read_csv(DATA_PATH
+                                      .joinpath(f'NEI_{year}_NationalTotals.csv'),
                                       header=0, dtype={"FlowAmount[kg]": float})
     nei_national_totals.rename(columns={'FlowAmount[kg]': 'FlowAmount'},
                                inplace=True)
@@ -221,7 +225,7 @@ def generate_metadata(year, datatype='inventory'):
     if datatype == 'inventory':
         source_meta = []
         for file in nei_file_path:
-            meta = set_stewi_meta(strip_file_extension(file), ext_folder)
+            meta = set_stewi_meta(strip_file_extension(file), EXT_DIR)
             source_meta.append(read_source_metadata(paths, meta, force_JSON=True))
         write_metadata('NEI_' + year, source_meta, datatype=datatype)
 
