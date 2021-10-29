@@ -9,3 +9,9 @@ class StewiFormatError(Exception):
                        f"Try {', '.join(format_dict.keys())}")
         self.message = message
         super().__init__(self.message)
+
+class InventoryNotAvailableError(Exception):
+    def __init__(self):
+        message = ("Inventory not available for requested year")
+        self.message = message
+        super().__init__(self.message)

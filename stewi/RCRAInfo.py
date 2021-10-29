@@ -111,6 +111,7 @@ from stewi.globals import write_metadata, data_dir, config,\
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
 from stewi.filter import apply_filters_to_inventory
+from stewi.exceptions import InventoryNotAvailableError
 
 try:
     from selenium import webdriver
@@ -455,6 +456,8 @@ def main(**kwargs):
         kwargs = vars(parser.parse_args())
 
     for year in kwargs['Year']:
+        if int(year) % 2 == 0:
+            raise InventoryNotAvailableError
         # Adds sepcified Year to BR_REPORTING table
         if 'Tables' in kwargs:
             tables = kwargs['Tables'].copy()
