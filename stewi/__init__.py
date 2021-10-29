@@ -24,27 +24,20 @@ def getAvailableInventoriesandYears(stewiformat='flowbyfacility'):
          TRI: [2015, 2016]}
     """
     f = ensure_format(stewiformat)
-    if os.path.exists(f.path()):
-        files = os.listdir(f.path())
+    if f.path().is_dir():
+        files = [x for x in f.path().glob(f"*.{WRITE_FORMAT}") if x.is_file()]
     else:
         log.error(f'directory not found: {f.path()}')
         return
     outputfiles = []
     for name in files:
-        if name.endswith(WRITE_FORMAT):
-            _n = name[:-len('.' + WRITE_FORMAT)]
-            if '_v' in _n:
-                _n = _n[:_n.find('_v')]
-            outputfiles.append(_n)
+        if '_v' in name.stem:
+            _n = name.stem[:name.stem.find('_v')]
+        outputfiles.append(tuple(_n.split('_')))
     # remove duplicates
     outputfiles = list(set(outputfiles))
     existing_inventories = {}
-    for file in outputfiles:
-        length = len(file)
-        s_yr = length - 4
-        e_acronym = length - 5
-        year = file[s_yr:]
-        acronym = file[:e_acronym]
+    for acronym, year in outputfiles:
         if acronym not in existing_inventories.keys():
             existing_inventories[acronym] = [year]
         else:
@@ -83,28 +76,28 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
     f = ensure_format(stewiformat)
     inventory = read_inventory(inventory_acronym, year, f)
 
-    # for backwards compatability, maintain these optional parameters in getInventory
-    if filter_for_LCI:
-        log.warning(r'"filter_for_LCI" parameter is deprecated and will be removed '
-                    'as a paramter in getInventory in future release.\n'
-                    r'Add "filter_for_LCI" to filters.')
-        if 'filter_for_LCI' not in filters:
-            filters.append('filter_for_LCI')
-    if US_States_Only:
-        log.warning(r'"US_States_Only" parameter is deprecated and will be removed '
-                    'as a paramter in getInventory in future release.\n'
-                    r'Add "US_States_only" to filters.')
-        if 'US_States_only' not in filters:
-            filters.append('US_States_only')
+    if f.value > 2:  # exclude FLOW and FACILITY
+        # for backwards compatability, maintain these optional parameters in getInventory
+        if filter_for_LCI:
+            log.warning(r'"filter_for_LCI" parameter is deprecated and will be removed '
+                        'as a paramter in getInventory in future release.\n'
+                        r'Add "filter_for_LCI" to filters.')
+            if 'filter_for_LCI' not in filters:
+                filters.append('filter_for_LCI')
+        if US_States_Only:
+            log.warning(r'"US_States_Only" parameter is deprecated and will be removed '
+                        'as a paramter in getInventory in future release.\n'
+                        r'Add "US_States_only" to filters.')
+            if 'US_States_only' not in filters:
+                filters.append('US_States_only')
 
-    inventory = apply_filters_to_inventory(inventory, inventory_acronym, year,
-                                           filters)
+        inventory = apply_filters_to_inventory(inventory, inventory_acronym, year,
+                                               filters)
+        # After filting, may be necessary to reaggregate inventory again
+        inventory = aggregate(inventory)
 
     inventory = add_missing_fields(inventory, inventory_acronym, f,
                                    maintain_columns=False)
-
-    # After filting, may be necessary to reaggregate inventory again
-    inventory = aggregate(inventory)
 
     return inventory
 

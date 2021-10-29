@@ -1,6 +1,7 @@
 """Define and generate format specs for StEWI inventories."""
 
 from enum import Enum, unique
+from pathlib import Path
 from stewi.globals import paths
 from stewi.exceptions import StewiFormatError
 
@@ -48,7 +49,7 @@ class StewiFormat(Enum):
 
     def path(self):
         """Return local path for directory."""
-        return f"{paths.local_path}/{str(self)}/"
+        return Path(paths.local_path) / str(self)
 
 
 def ensure_format(f):
