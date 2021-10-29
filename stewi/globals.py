@@ -40,7 +40,7 @@ g_kg = 0.001
 WRITE_FORMAT = "parquet"
 
 paths = Paths()
-paths.local_path = Path(paths.local_path).joinpath("stewi")
+paths.local_path = os.path.realpath(paths.local_path + "/stewi")
 
 # global variable to replace stored inventory files when saving
 REPLACE_FILES = False
