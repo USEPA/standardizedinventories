@@ -95,4 +95,5 @@ def filter_states(inventory_df, inventory_acronym=None, year=None,
 def compare_to_available_filters(filters):
     """Compare passed filters to available filters in filter.yaml."""
     x = [s for s in filters if s not in filter_config.keys()]
-    log.warning(f"the following filters are unavailable: {', '.join(x)}")
+    if x:
+        log.warning(f"the following filters are unavailable: {', '.join(x)}")
