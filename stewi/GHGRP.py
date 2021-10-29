@@ -39,13 +39,13 @@ import numpy as np
 import requests
 from xml.dom import minidom
 import time
-import os
 import argparse
 import warnings
+from pathlib import Path
 
 from stewi.globals import download_table, write_metadata, import_table, \
-    data_dir, get_reliability_table_for_source, set_stewi_meta, config,\
-    store_inventory, paths, log, create_paths_if_missing,\
+    DATA_PATH, get_reliability_table_for_source, set_stewi_meta, config,\
+    store_inventory, paths, log, \
     compile_source_metadata, read_source_metadata, aggregate
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
@@ -53,9 +53,9 @@ from stewi.formats import StewiFormat
 
 
 _config = config()['databases']['GHGRP']
-ghgrp_data_dir = data_dir + 'GHGRP/'
-ext_folder = 'GHGRP Data Files'
-ghgrp_external_dir = paths.local_path + '/' + ext_folder + '/'
+GHGRP_DATA_PATH = DATA_PATH / 'GHGRP'
+EXT_DIR = 'GHGRP Data Files'
+OUTPUT_PATH = Path(paths.local_path).joinpath(EXT_DIR)
 
 # Flow codes that are reported in validation in CO2e
 flows_CO2e = ['PFC', 'HFC', 'Other', 'Very_Short', 'HFE', 'Other_Full']
@@ -67,7 +67,7 @@ N2OGWP = 298
 HFC23GWP = 14800
 
 # define column groupings
-ghgrp_cols = import_table(ghgrp_data_dir + 'ghgrp_columns.csv')
+ghgrp_cols = pd.read_csv(GHGRP_DATA_PATH.joinpath('ghgrp_columns.csv'))
 name_cols = list(ghgrp_cols[ghgrp_cols['ghg_name'] == 1]['column_name'])
 alias_cols = list(ghgrp_cols[ghgrp_cols['ghg_alias'] == 1]['column_name'])
 quantity_cols = list(ghgrp_cols[ghgrp_cols['ghg_quantity'] == 1]['column_name'])
@@ -83,10 +83,10 @@ group_cols = co2_cols + ch4_cols + n2o_cols
 ghg_cols = base_cols + info_cols + group_cols
 
 # define filepaths for downloaded data
-data_summaries_path = ghgrp_external_dir + _config['most_recent_year'] +\
-    '_data_summary_spreadsheets/'
-esbb_subparts_path = ghgrp_external_dir + _config['esbb_subparts_url']
-lo_subparts_path = ghgrp_external_dir + _config['lo_subparts_url']
+data_summaries_path = OUTPUT_PATH.joinpath(
+    f"{_config['most_recent_year']}_data_summary_spreadsheets")
+esbb_subparts_path = OUTPUT_PATH.joinpath(_config['esbb_subparts_url'])
+lo_subparts_path = OUTPUT_PATH.joinpath(_config['lo_subparts_url'])
 
 
 class MetaGHGRP:
@@ -96,9 +96,9 @@ class MetaGHGRP:
         self.filetype = []
         self.url = []
 
-    def add(self, time, filename, filetype, url):
+    def add(self, time, filename: Path, filetype, url):
         self.time.append(time)
-        self.filename.append(filename)
+        self.filename.append(str(filename))
         self.filetype.append(filetype)
         self.url.append(url)
 
@@ -107,49 +107,46 @@ def generate_url(table, report_year='', row_start=0, row_end=9999,
                  output_ext='JSON'):
     """Input a specific table name to generate the query URL to submit."""
     request_url = _config['enviro_url'] + table
-    if report_year != '': request_url += '/REPORTING_YEAR/=/' + report_year
-    if row_start != '': request_url += '/ROWS/' + str(row_start) + ':' +\
-        str(row_end)
-    request_url += '/' + output_ext
+    if report_year != '':
+        request_url += f'/REPORTING_YEAR/=/{report_year}'
+    if row_start != '':
+        request_url += f'/ROWS/{str(row_start)}:{str(row_end)}'
+    request_url += f'/{output_ext}'
     return request_url
 
 
 def get_row_count(table, report_year):
     """Return number of rows from API for specific table."""
     count_url = _config['enviro_url'] + table
-    if report_year != '': count_url += '/REPORTING_YEAR/=/' + report_year
+    if report_year != '':
+        count_url += f'/REPORTING_YEAR/=/{report_year}'
     count_url += '/COUNT'
-    while True:
-        try:
-            count_request = requests.get(count_url)
-            count_xml = minidom.parseString(count_request.text)
-            table_count = count_xml.getElementsByTagName('RequestRecordCount')
-            table_count = int(table_count[0].firstChild.nodeValue)
-            break
-        except: pass
+    try:
+        count_request = requests.get(count_url)
+        count_xml = minidom.parseString(count_request.text)
+        table_count = count_xml.getElementsByTagName('RequestRecordCount')
+        table_count = int(table_count[0].firstChild.nodeValue)
+    except:
+        log.exception('error in url request')
     return table_count
 
 
 def download_chunks(table, table_count, m, row_start=0, report_year='',
-                    output_ext='csv', filepath=''):
-    """ docstring """
+                    filepath=''):
+    """Download data from envirofacts in chunks."""
     # Generate URL for each 5,000 row grouping and add to DataFrame
     output_table = pd.DataFrame()
     while row_start <= table_count:
         row_end = row_start + 4999
         table_url = generate_url(table=table, report_year=report_year,
                                  row_start=row_start, row_end=row_end,
-                                 output_ext=output_ext)
+                                 output_ext='csv')
         log.debug(f'url: {table_url}')
-        try:
-            table_temp, temp_time = import_table(table_url, get_time=True)
-        except pd.errors.ParserError:
-            log.error(f'error in downloading table {table}')
-            return None
+        table_temp, temp_time = import_table(table_url, get_time=True)
         output_table = pd.concat([output_table, table_temp])
         row_start += 5000
     m.add(time=temp_time, url=generate_url(table, report_year=report_year,
-                                           row_start='', output_ext='CSV'),
+                                           row_start='', output_ext='csv'),
           filetype='Database', filename=filepath)
     if filepath:
         output_table.to_csv(filepath, index=False)
@@ -163,7 +160,8 @@ def get_facilities(facilities_file):
     information such as address, zip code, lat and long.
     """
     # load .xlsx file from filepath
-    facilities_dict = import_table(facilities_file, skip_lines=3)
+    facilities_dict = pd.read_excel(facilities_file, sheet_name=None,
+                                    skiprows=3)
     # drop excel worksheets that we do not need
     for s in ['Industry Type', 'FAQs about this Data']:
         facilities_dict.pop(s, None)
@@ -219,14 +217,14 @@ def download_excel_tables(m):
     # download each table from web and save locally
     for table in required_tables:
         temp_time = download_table(filepath=table[0], url=table[1],
-                                   get_time=True, zip_dir=table[0])
+                                   get_time=True)
         # record metadata
         m.add(time=temp_time, filename=table[0], url=table[1], filetype=table[2])
 
 
 def import_or_download_table(filepath, table, year, m):
     # if data already exists on local network, import the data
-    if os.path.exists(filepath):
+    if filepath.is_file():
         log.info(f'Importing data from {table}')
         table_df, creation_time = import_table(filepath, get_time=True)
         m.add(time=creation_time, filename=filepath, filetype='Database',
@@ -265,8 +263,9 @@ def download_and_parse_subpart_tables(year, m):
     master dataframe.
     """
     # import list of all ghgrp tables
-    ghgrp_tables_df = import_table(ghgrp_data_dir +
-                                   'all_ghgrp_tables_years.csv').fillna('')
+    ghgrp_tables_df = pd.read_csv(GHGRP_DATA_PATH
+                                  .joinpath('all_ghgrp_tables_years.csv')
+                                  ).fillna('')
     # filter to obtain only those tables included in the report year
     year_tables = ghgrp_tables_df[ghgrp_tables_df['REPORTING_YEAR'
                                                   ].str.contains(year)]
@@ -275,18 +274,15 @@ def download_and_parse_subpart_tables(year, m):
                               ].reset_index(drop=True)
 
     # data directory where subpart emissions tables will be stored
-    tables_dir = ghgrp_external_dir + 'tables/' + year + '/'
+    tables_dir = OUTPUT_PATH.joinpath('tables', year)
     log.info(f'downloading and processing GHGRP data to {tables_dir}')
-
-    create_paths_if_missing(tables_dir)
+    tables_dir.mkdir(parents=True, exist_ok=True)
     ghgrp1 = pd.DataFrame(columns=ghg_cols)
 
     # for all subpart emissions tables listed...
     for subpart_emissions_table in year_tables['TABLE']:
-
         # define filepath where subpart emissions table will be stored
-        filepath = tables_dir + subpart_emissions_table + '.csv'
-
+        filepath = tables_dir.joinpath(f"{subpart_emissions_table}.csv")
         table_df = import_or_download_table(filepath, subpart_emissions_table,
                                             year, m)
         if table_df is None:
@@ -415,9 +411,10 @@ def parse_additional_suparts_data(addtnl_subparts_path, subpart_cols_file, year)
         # Avoid the UserWarning for openpyxl "Unknown extension is not supported"
         warnings.filterwarnings("ignore", category=UserWarning)
         # load .xslx data for additional subparts from filepath
-        addtnl_subparts_dict = import_table(addtnl_subparts_path)
+        addtnl_subparts_dict = pd.read_excel(addtnl_subparts_path,
+                                             sheet_name=None)
     # import column headers data for additional subparts
-    subpart_cols = import_table(ghgrp_data_dir + subpart_cols_file)
+    subpart_cols = pd.read_csv(GHGRP_DATA_PATH.joinpath(subpart_cols_file))
     # get list of tabs to process
     addtnl_tabs = subpart_cols['tab_name'].unique()
     for key, df in list(addtnl_subparts_dict.items()):
@@ -527,10 +524,11 @@ def parse_subpart_L(year):
     return df
 
 
-def generate_national_totals_validation(validation_table, year, m):
+def generate_national_totals_validation(validation_table, year):
     # define filepath for reference data
-    ref_filepath = ghgrp_external_dir + 'GHGRP_reference.csv'
+    ref_filepath = OUTPUT_PATH.joinpath('GHGRP_reference.csv')
 
+    m = MetaGHGRP()
     reference_df = import_or_download_table(ref_filepath, validation_table,
                                             year, m)
 
@@ -558,11 +556,11 @@ def generate_national_totals_validation(validation_table, year, m):
     reference_df_agg.reset_index(inplace=True)
     reference_df_agg.columns = reference_df_agg.columns.droplevel(level=1)
     # save reference dataframe to network
-    reference_df_agg.to_csv(data_dir + 'GHGRP_' + year + '_NationalTotals.csv',
+    reference_df_agg.to_csv(DATA_PATH + 'GHGRP_' + year + '_NationalTotals.csv',
                             index=False)
 
     # Update validationSets_Sources.csv
-    date_created = time.strptime(time.ctime(os.path.getctime(ref_filepath)))
+    date_created = time.strptime(time.ctime(ref_filepath.stat().st_ctime))
     date_created = time.strftime('%d-%b-%Y', date_created)
     validation_dict = {'Inventory': 'GHGRP',
                        #'Version':'',
@@ -593,13 +591,14 @@ def validate_national_totals_by_subpart(tab_df, year):
     tab_df.loc[mask, 'FlowAmount'] = tab_df['AmountCO2e']
 
     # parse tabulated data
-    tab_df.drop(['FacilityID', 'DataReliability', 'FlowName'], axis=1, inplace=True)
+    tab_df.drop(columns=['FacilityID', 'DataReliability', 'FlowName'],
+                inplace=True)
     tab_df.rename(columns={'Process': 'SubpartName',
                            'FlowID': 'FlowName'}, inplace=True)
 
     # import and parse reference data
-    ref_df = import_table(data_dir + 'GHGRP_' + year + '_NationalTotals.csv')
-    ref_df.drop(['FlowName'], axis=1, inplace=True)
+    ref_df = pd.read_csv(DATA_PATH.joinpath(f'GHGRP_{year}_NationalTotals.csv'))
+    ref_df.drop(columns=['FlowName'], inplace=True)
     ref_df.rename(columns={'SUBPART_NAME': 'SubpartName',
                            'FlowCode': 'FlowName'}, inplace=True)
 
@@ -619,10 +618,10 @@ def generate_metadata(year, m, datatype='inventory'):
         source_meta['SourceURL'] = m.url
         source_meta['SourceAcquisitionTime'] = m.time
         write_metadata('GHGRP_' + year, source_meta,
-                       category=ext_folder, datatype='source')
+                       category=EXT_DIR, datatype='source')
     else:
         source_meta = read_source_metadata(paths, set_stewi_meta('GHGRP_' + year,
-                                           ext_folder),
+                                           EXT_DIR),
                                            force_JSON=True)['tool_meta']
         write_metadata('GHGRP_' + year, source_meta, datatype=datatype)
 
@@ -630,9 +629,8 @@ def generate_metadata(year, m, datatype='inventory'):
 def load_subpart_l_gwp():
     """Load global warming potentials for subpart L calculation."""
     subpart_L_GWPs_url = _config['subpart_L_GWPs_url']
-    filepath = ghgrp_external_dir + 'Subpart L Calculation Spreadsheet.xls'
-    if not(os.path.exists(filepath)):
-        download_table(filepath=filepath, url=subpart_L_GWPs_url)
+    filepath = OUTPUT_PATH.joinpath('Subpart L Calculation Spreadsheet.xls')
+    download_table(filepath=filepath, url=subpart_L_GWPs_url)
     table1 = pd.read_excel(filepath, sheet_name='Lookup Tables',
                            usecols="A,D")
     table1.rename(columns={'Global warming potential (100 yr.)': 'CO2e_factor',
@@ -687,7 +685,7 @@ def main(**kwargs):
         kwargs = vars(parser.parse_args())
 
     for year in kwargs['Year']:
-        pickle_file = ghgrp_external_dir + 'GHGRP_' + year + '.pk'
+        pickle_file = OUTPUT_PATH.joinpath(f'GHGRP_{year}.pk')
         if kwargs['Option'] == 'A':
 
             m = MetaGHGRP()
@@ -712,7 +710,7 @@ def main(**kwargs):
                                ghgrp3, ghgrp4]).reset_index(drop=True)
 
             # map flow descriptions to standard gas names from GHGRP
-            ghg_mapping = pd.read_csv(ghgrp_data_dir + 'ghg_mapping.csv',
+            ghg_mapping = pd.read_csv(GHGRP_DATA_PATH.joinpath('ghg_mapping.csv'),
                                       usecols=['Flow Description', 'FlowName',
                                                'GAS_CODE'])
             ghgrp = pd.merge(ghgrp, ghg_mapping, on='Flow Description',
@@ -761,17 +759,19 @@ def main(**kwargs):
             log.info('generating flowbysubpart output')
 
             # generate flowbysubpart
-            ghgrp_fbs = ghgrp[StewiFormat.FLOWBYPROCESS.subset_fields(ghgrp)]
+            ghgrp_fbs = ghgrp[StewiFormat.FLOWBYPROCESS.subset_fields(ghgrp)
+                              ].reset_index(drop=True)
             ghgrp_fbs = aggregate(ghgrp_fbs, ['FacilityID', 'FlowName', 'Process',
                                               'ProcessType'])
             store_inventory(ghgrp_fbs, 'GHGRP_' + year, 'flowbyprocess')
 
             log.info('generating flowbyfacility output')
-            ghgrp_fbf = ghgrp[StewiFormat.FLOWBYFACILITY.subset_fields(ghgrp)]
+            ghgrp_fbf = ghgrp[StewiFormat.FLOWBYFACILITY.subset_fields(ghgrp)
+                              ].reset_index(drop=True)
 
             # aggregate instances of more than one flow for same facility and flow type
-            ghgrp_fbf_2 = aggregate(ghgrp_fbf, ['FacilityID', 'FlowName'])
-            store_inventory(ghgrp_fbf_2, 'GHGRP_' + year, 'flowbyfacility')
+            ghgrp_fbf = aggregate(ghgrp_fbf, ['FacilityID', 'FlowName'])
+            store_inventory(ghgrp_fbf, 'GHGRP_' + year, 'flowbyfacility')
 
             log.info('generating flows output')
             flow_columns = ['FlowName', 'FlowID']
@@ -783,8 +783,8 @@ def main(**kwargs):
             store_inventory(ghgrp_flow, 'GHGRP_' + year, 'flow')
 
             log.info('generating facilities output')
-            facilities_df = get_facilities(data_summaries_path +
-                                           'ghgp_data_' + year + '.xlsx')
+            facilities_df = get_facilities(data_summaries_path
+                                           .joinpath(f'ghgp_data_{year}.xlsx'))
 
             # add facility information based on facility ID
             ghgrp = ghgrp.merge(facilities_df, on='FacilityID', how='left')

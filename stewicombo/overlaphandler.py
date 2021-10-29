@@ -85,7 +85,7 @@ def aggregate_and_remove_overlap(df):
     rows_with_nans_srs_frs = df[df.loc[:, "FRS_ID"].isnull() | df.loc[:, "SRS_ID"].isnull()]
 
     # Adjust special use case for flows in TRI and DMR
-    if (('DMR' in df['Source'].values) & ('TRI' in df['Source'].values)):
+    if 'DMR' in df['Source'].values and 'TRI' in df['Source'].values:
         from stewi.DMR import remove_nutrient_overlap_TRI
         df = remove_nutrient_overlap_TRI(df, INVENTORY_PREFERENCE_BY_COMPARTMENT['water'][0])
 

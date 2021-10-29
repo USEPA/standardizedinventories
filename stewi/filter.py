@@ -6,7 +6,8 @@ Functions to support filtering of processed inventories
 """
 
 import pandas as pd
-from stewi.globals import data_dir, config, read_inventory, log
+from stewi.globals import DATA_PATH, config, read_inventory, log
+from stewi.formats import StewiFormat
 
 filter_config = config(file='filter.yaml')
 
@@ -37,7 +38,7 @@ def apply_filters_to_inventory(inventory, inventory_acronym, year, filters):
 
     if inventory_acronym == 'RCRAInfo' and 'National_Biennial_Report' in filters:
         log.info('filtering for National Biennial Report')
-        fac_list = read_inventory('RCRAInfo', year, 'facility')
+        fac_list = read_inventory('RCRAInfo', year, StewiFormat.FACILITY)
         fac_list = fac_list[['FacilityID',
                              'Generator ID Included in NBR']
                             ].drop_duplicates(ignore_index=True)
@@ -72,11 +73,11 @@ def filter_states(inventory_df, inventory_acronym=None, year=None,
     :param include_territories: bool, True to include data from U.S. territories
     :return: DataFrame
     """
-    states_df = pd.read_csv(data_dir + 'state_codes.csv')
+    states_df = pd.read_csv(DATA_PATH.joinpath('state_codes.csv'))
     states_list = []
     if 'State' not in inventory_df:
         if all(p is not None for p in [inventory_acronym, year]):
-            fac_list = read_inventory(inventory_acronym, year, 'facility')
+            fac_list = read_inventory(inventory_acronym, year, StewiFormat.FACILITY)
             fac_list = fac_list[['FacilityID', 'State']].drop_duplicates(ignore_index=True)
             inventory_df = inventory_df.merge(fac_list, how='left')
         else:
@@ -95,4 +96,5 @@ def filter_states(inventory_df, inventory_acronym=None, year=None,
 def compare_to_available_filters(filters):
     """Compare passed filters to available filters in filter.yaml."""
     x = [s for s in filters if s not in filter_config.keys()]
-    log.warning(f"the following filters are unavailable: {', '.join(x)}")
+    if x:
+        log.warning(f"the following filters are unavailable: {', '.join(x)}")

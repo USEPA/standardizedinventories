@@ -22,36 +22,38 @@ Year:
 
 import pandas as pd
 import argparse
-import os
 import zipfile
 import io
+from pathlib import Path
 
 from esupy.remote import make_http_request
-from stewi.globals import data_dir, write_metadata,\
+from stewi.globals import DATA_PATH, write_metadata,\
     unit_convert, log, MMBtu_MJ, MWh_MJ, config, USton_kg, lb_kg,\
     compile_source_metadata, remove_line_breaks, paths, store_inventory,\
     read_source_metadata, set_stewi_meta, aggregate
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
 from stewi.formats import StewiFormat
+import stewi.exceptions
 
 
 _config = config()['databases']['eGRID']
 
 # set filepath
-ext_folder = 'eGRID Data Files'
-eGRIDfilepath = paths.local_path + '/' + ext_folder + '/'
-eGRID_data_dir = data_dir + 'eGRID/'
+EXT_DIR = 'eGRID Data Files'
+OUTPUT_PATH = Path(paths.local_path).joinpath(EXT_DIR)
+eGRID_DATA_DIR = DATA_PATH / 'eGRID'
 
 
-def imp_fields(fields_txt, year):
+def imp_fields(filename, year):
     """Import list of fields from egrid that are desired for LCI.
 
-    :param fields_txt: str name of csv file
+    :param filename: str name of csv file
     :param year: str year of egrid inventory
     :return: a list of source fields and a dictionary to stewi fields
     """
-    egrid_req_fields_df = pd.read_csv(eGRID_data_dir + fields_txt, header=0)
+    egrid_req_fields_df = pd.read_csv(eGRID_DATA_DIR.joinpath(filename),
+                                      header=0)
     egrid_req_fields_df = remove_line_breaks(egrid_req_fields_df,
                                              headers_only=False)
     egrid_req_fields = list(egrid_req_fields_df[year])
@@ -59,13 +61,14 @@ def imp_fields(fields_txt, year):
     return egrid_req_fields, col_dict
 
 
-def filter_fields(fields_txt, field):
+def filter_fields(filename, field):
     """Return a list of fields that are marked in the field column.
 
-    :param fields_txt: str name of csv file
+    :param filename: str name of csv file
     :param field: str column to filter
     """
-    egrid_req_fields_df = pd.read_csv(eGRID_data_dir + fields_txt, header=0)
+    egrid_req_fields_df = pd.read_csv(eGRID_DATA_DIR.joinpath(filename),
+                                      header=0)
     egrid_req_fields_df = remove_line_breaks(egrid_req_fields_df,
                                              headers_only=False)
     egrid_req_fields_df = egrid_req_fields_df[
@@ -96,32 +99,31 @@ def download_eGRID(year):
         workbook = r.content
 
     # save .xlsx workbook to destination directory
-    destination = eGRIDfilepath + egrid_file_name
+    destination = OUTPUT_PATH.joinpath(egrid_file_name)
     # if destination folder does not already exist, create it
-    if not(os.path.exists(eGRIDfilepath)):
-        os.makedirs(eGRIDfilepath)
+    OUTPUT_PATH.mkdir(parents=True, exist_ok=True)
     with open(destination, 'wb') as output:
         output.write(workbook)
-    log.info(f'{egrid_file_name} saved to {eGRIDfilepath}')
+    log.info(f'{egrid_file_name} saved to {OUTPUT_PATH}')
 
 
 def generate_metadata(year, datatype='inventory'):
     """Generate metadata and writes to json for datatypes 'inventory' or 'source'."""
     if datatype == 'source':
-        source_path = eGRIDfilepath + _config[year]['file_name']
+        source_path = str(OUTPUT_PATH.joinpath(_config[year]['file_name']))
         source_meta = compile_source_metadata(source_path, _config, year)
-        write_metadata('eGRID_' + year, source_meta, category=ext_folder,
+        write_metadata('eGRID_' + year, source_meta, category=EXT_DIR,
                        datatype='source')
     else:
         source_meta = read_source_metadata(paths, set_stewi_meta('eGRID_' + year,
-                                           ext_folder),
+                                           EXT_DIR),
                                            force_JSON=True)['tool_meta']
         write_metadata('eGRID_' + year, source_meta, datatype=datatype)
 
 
 def extract_eGRID_excel(year, sheetname, index='field'):
     """Generate a dataframe from eGRID sheetname from file stored locally."""
-    eGRIDfile = eGRIDfilepath + _config[year]['file_name']
+    eGRIDfile = OUTPUT_PATH.joinpath(_config[year]['file_name'])
     if index != 'field': header = 1
     else: header = 0
     df = pd.read_excel(eGRIDfile, sheet_name=sheetname + year[2:],
@@ -199,12 +201,14 @@ def generate_eGRID_files(year):
     unit_egrid['ReliabilitySource'] = unit_egrid[rel_score_cols].values.tolist()
     unit_egrid['FlowAmount'] = unit_egrid[flows_used_for_weighting].values.tolist()
     unit_egrid = unit_egrid.drop(columns=rel_score_cols + flows_used_for_weighting)
-    unit_egrid = unit_egrid.set_index(list(
-        unit_egrid.columns.difference(['FlowName', 'ReliabilitySource', 'FlowAmount']))
-        ).apply(pd.Series.explode).reset_index()
+    unit_egrid = unit_egrid.set_index(list(unit_egrid.columns
+                                           .difference(['FlowName',
+                                                        'ReliabilitySource',
+                                                        'FlowAmount']))
+                                      ).apply(pd.Series.explode).reset_index()
 
-    dq_mapping = pd.read_csv(
-        eGRID_data_dir + 'eGRID_unit_level_reliability_scores.csv')
+    dq_mapping = pd.read_csv(eGRID_DATA_DIR
+                             .joinpath('eGRID_unit_level_reliability_scores.csv'))
     unit_egrid = unit_egrid.merge(dq_mapping, how='left')
 
     # Aggregate data reliability scores by facility and flow
@@ -234,7 +238,8 @@ def generate_eGRID_files(year):
                    'DataReliability'] = 2
 
     # Import flow compartments
-    flow_compartments = pd.read_csv(eGRID_data_dir + 'eGRID_flow_compartments.csv',
+    flow_compartments = pd.read_csv(eGRID_DATA_DIR
+                                    .joinpath('eGRID_flow_compartments.csv'),
                                     header=0)
     flowbyfac = pd.merge(flowbyfac, flow_compartments, on='FlowName', how='left')
 
@@ -275,8 +280,8 @@ def generate_eGRID_files(year):
 
 def validate_eGRID(year, flowbyfac):
     """Validate eGRID flowbyfacility data against national totals."""
-    validation_file = data_dir + 'eGRID_' + year + '_NationalTotals.csv'
-    if not(os.path.exists(validation_file)):
+    validation_file = DATA_PATH.joinpath(f"eGRID_{year}_NationalTotals.csv")
+    if not validation_file.is_file():
         generate_national_totals(year)
     log.info('validating data against national totals')
     egrid_national_totals = pd.read_csv(validation_file, header=0,
@@ -328,7 +333,8 @@ def generate_national_totals(year):
     us_totals = us_totals.append({'FlowName': 'Steam', 'FlowAmount': steam_total},
                                  ignore_index=True)
 
-    flow_compartments = pd.read_csv(eGRID_data_dir + 'eGRID_flow_compartments.csv',
+    flow_compartments = pd.read_csv(eGRID_DATA_DIR
+                                    .joinpath('eGRID_flow_compartments.csv'),
                                     usecols=['FlowName', 'Compartment'])
     us_totals = us_totals.merge(flow_compartments, how='left', on='FlowName')
 
@@ -344,9 +350,9 @@ def generate_national_totals(year):
                   'Unit'] = 'MMBtu'
     us_totals.loc[(us_totals['FlowName'] == 'Electricity'),
                   'Unit'] = 'MWh'
-    log.info(f'saving eGRID_{year}_NationalTotals.csv to {data_dir}')
+    log.info(f'saving eGRID_{year}_NationalTotals.csv to {DATA_PATH}')
     us_totals = us_totals[['FlowName', 'Compartment', 'FlowAmount', 'Unit']]
-    us_totals.to_csv(data_dir + 'eGRID_' + year + '_NationalTotals.csv', index=False)
+    us_totals.to_csv(DATA_PATH.joinpath(f'eGRID_{year}_NationalTotals.csv'), index=False)
 
     # Update validationSets_Sources.csv
     validation_dict = {'Inventory': 'eGRID',
@@ -381,8 +387,7 @@ def main(**kwargs):
     for year in kwargs['Year']:
 
         if year not in _config:
-            log.error(f'Requested eGRID year {year} is not available')
-            continue
+            raise stewi.exceptions.InventoryNotAvailableError
 
         if kwargs['Option'] == 'A':
             # download data

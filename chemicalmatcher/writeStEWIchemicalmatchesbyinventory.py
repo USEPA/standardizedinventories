@@ -4,7 +4,7 @@ import pandas as pd
 
 import stewi
 from stewi.globals import log
-from chemicalmatcher.globals import output_dir, get_SRSInfo_for_substance_name,\
+from chemicalmatcher.globals import OUTPUT_PATH, get_SRSInfo_for_substance_name,\
     get_SRSInfo_for_program_list, add_manual_matches
 
 flowlist_cols = {"RCRAInfo": ['FlowName', 'FlowID'],
@@ -99,13 +99,15 @@ def writeChemicalMatches():
     # Write to csv
     all_lists_srs_info = all_lists_srs_info[['FlowID', 'FlowName', 'SRS_CAS',
                                              'SRS_ID', 'Source']].drop_duplicates(subset)
-    all_lists_srs_info.to_csv(output_dir + 'ChemicalsByInventorywithSRS_IDS_forStEWI.csv',
+    all_lists_srs_info.to_csv(OUTPUT_PATH
+                              .joinpath('ChemicalsByInventorywithSRS_IDS_forStEWI.csv'),
                               index=False)
     #errors_srs.to_csv('work/ErrorsSRS.csv',index=False)
 
     # Write flows missing srs_ids to file for more inspection
     flows_missing_SRS_ID = all_lists_srs_info[all_lists_srs_info['SRS_ID'].isnull()]
-    flows_missing_SRS_ID.to_csv(output_dir + 'flows_missing_SRS_ID.csv',
+    flows_missing_SRS_ID.to_csv(OUTPUT_PATH
+                                .joinpath('flows_missing_SRS_ID.csv'),
                                 index=False)
 
 

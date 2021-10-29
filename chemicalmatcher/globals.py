@@ -3,14 +3,13 @@ import pandas as pd
 import requests
 import json
 import urllib
+from pathlib import Path
 
 from stewi.globals import config, log
 
-try: MODULEPATH = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/'
-except NameError: MODULEPATH = 'chemicalmatcher/'
-
-output_dir = MODULEPATH + 'output/'
-data_dir = MODULEPATH + 'data/'
+MODULEPATH = Path(__file__).resolve().parent
+DATA_PATH = MODULEPATH / 'data'
+OUTPUT_PATH = MODULEPATH / 'output'
 
 SRSconfig = config(config_path=MODULEPATH)['databases']['SRS']
 base = SRSconfig['url']
@@ -131,7 +130,7 @@ def process_single_SRS_json_response(srs_json_response):
 
 def add_manual_matches(df_matches, include_proxies=True):
     #Read in manual matches
-    manual_matches = pd.read_csv(data_dir + 'chemicalmatches_manual.csv',
+    manual_matches = pd.read_csv(DATA_PATH.joinpath('chemicalmatches_manual.csv'),
                                  header=0,
                                  dtype={'FlowID': 'str', 'SRS_ID': 'str'})
     if not include_proxies:
@@ -154,6 +153,6 @@ def read_cm_file(file='match'):
         name = 'ChemicalsByInventorywithSRS_IDS_forStEWI.csv'
     elif file == 'missing':
         name = 'flows_missing_SRS_ID.csv'
-    df = pd.read_csv(output_dir + name,
+    df = pd.read_csv(OUTPUT_PATH.joinpath(name),
                      dtype={"SRS_ID": "str"})
     return df

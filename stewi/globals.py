@@ -11,20 +11,20 @@ import logging as log
 import os
 import yaml
 import time
+import urllib
 from datetime import datetime
+from pathlib import Path
 
 from esupy.processed_data_mgmt import Paths, FileMeta,\
     load_preprocessed_output, remove_extra_files,\
-    write_df_to_file, create_paths_if_missing, write_metadata_to_file,\
+    write_df_to_file, write_metadata_to_file,\
     read_source_metadata
 from esupy.dqi import get_weighted_average
 from esupy.util import get_git_hash
 
-try: MODULEPATH = os.path.dirname(os.path.realpath(
-    __file__)).replace('\\', '/') + '/'
-except NameError: MODULEPATH = 'stewi/'
 
-data_dir = MODULEPATH + 'data/'
+MODULEPATH = Path(__file__).resolve().parent
+DATA_PATH = MODULEPATH / 'data'
 
 log.basicConfig(level=log.INFO, format='%(levelname)s %(message)s')
 STEWI_VERSION = '0.10.0'
@@ -78,7 +78,7 @@ def set_stewi_meta(file_name, stewiformat=''):
 def config(config_path=MODULEPATH, file='config.yaml'):
     """Read and return stewi configuration file."""
     configfile = None
-    path = config_path + file
+    path = config_path.joinpath(file)
     with open(path, mode='r') as f:
         configfile = yaml.load(f, Loader=yaml.FullLoader)
     return configfile
@@ -90,7 +90,6 @@ def url_is_alive(url):
     :param url: A URL
     :rtype: bool
     """
-    import urllib
     request = urllib.request.Request(url)
     request.get_method = lambda: 'HEAD'
     try:
@@ -102,43 +101,39 @@ def url_is_alive(url):
         return False
 
 
-def download_table(filepath, url, get_time=False, zip_dir=None):
-    if not os.path.exists(filepath):
-        if url[-4:].lower() == '.zip':
+def download_table(filepath: Path, url: str, get_time=False):
+    """Download file at url to Path if it does not exist."""
+    if not filepath.exists():
+        if url.lower().endswith('zip'):
             import zipfile, requests, io
             table_request = requests.get(url).content
             zip_file = zipfile.ZipFile(io.BytesIO(table_request))
-            if zip_dir is None:
-                zip_dir = os.path.abspath(os.path.join(filepath, "../../.."))
-            zip_file.extractall(zip_dir)
-        elif 'xls' in url.lower() or url.lower()[-5:] == 'excel':
-            import urllib, shutil
-            with urllib.request.urlopen(url) as response, open(filepath, 'wb') as out_file:
-                shutil.copyfileobj(response, out_file)
+            zip_file.extractall(filepath)
+        elif 'xls' in url.lower() or url.lower().endswith('excel'):
+            import shutil
+            try:
+                with urllib.request.urlopen(url) as response, open(filepath, 'wb') as out_file:
+                    shutil.copyfileobj(response, out_file)
+            except urllib.error.HTTPError:
+                log.warning(f'Error downloading {url}')
         elif 'json' in url.lower():
-            import pandas as pd
             pd.read_json(url).to_csv(filepath, index=False)
         if get_time:
-            try: retrieval_time = os.path.getctime(filepath)
+            try: retrieval_time = filepath.stat().st_ctime
             except: retrieval_time = time.time()
             return time.ctime(retrieval_time)
     elif get_time:
-        return time.ctime(os.path.getctime(filepath))
+        return time.ctime(filepath.stat().st_ctime)
 
 
-def import_table(path_or_reference, skip_lines=0, get_time=False):
-    if isinstance(path_or_reference, pd.DataFrame):
-        df = path_or_reference
-    elif path_or_reference.lower().endswith('csv'):
-        df = pd.read_csv(path_or_reference, low_memory=False)
-    elif '.xls' in path_or_reference.lower():
-        df = pd.read_excel(path_or_reference, sheet_name=None,
-                           skiprows=skip_lines)
-    else:
-        log.exception('Error importing table')
-    if get_time:
-        try: retrieval_time = os.path.getctime(path_or_reference)
-        except: retrieval_time = time.time()
+def import_table(path_or_reference, get_time=False):
+    """Read and return time of csv from url or Path."""
+    df = pd.read_csv(path_or_reference, low_memory=False)
+    if get_time and isinstance(path_or_reference, Path):
+        retrieval_time = path_or_reference.stat().st_ctime
+        return df, time.ctime(retrieval_time)
+    elif get_time:
+        retrieval_time = time.time()
         return df, time.ctime(retrieval_time)
     return df
 
@@ -246,9 +241,9 @@ def add_missing_fields(df, inventory_acronym, f, maintain_columns=False):
     if 'ReliabilityScore' in df:
         df.rename(columns={'ReliabilityScore': 'DataReliability'}, inplace=True)
     # Add in units and compartment if not present
-    if ('Unit' in f.fields()) & ('Unit' not in df):
+    if 'Unit' in f.fields() and 'Unit' not in df:
         df['Unit'] = 'kg'
-    if ('Compartment' in f.fields()) & ('Compartment' not in df):
+    if 'Compartment' in f.fields() and 'Compartment' not in df:
         try:
             compartment = inventory_single_compartments[inventory_acronym]
         except KeyError:
@@ -264,10 +259,6 @@ def add_missing_fields(df, inventory_acronym, f, maintain_columns=False):
         col_list = col_list + [c for c in df if c not in f.fields()]
     df = df[col_list]
     return df
-
-
-def checkforFile(filepath):
-    return os.path.exists(filepath)
 
 
 def store_inventory(df, file_name, f, replace_files=REPLACE_FILES):
@@ -360,8 +351,8 @@ def generate_inventory(inventory_acronym, year):
 def get_reliability_table_for_source(source):
     """Retrieve the reliability table within stewi."""
     dq_file = 'DQ_Reliability_Scores_Table3-3fromERGreport.csv'
-    df = pd.read_csv(data_dir + dq_file, usecols=['Source', 'Code',
-                                                  'DQI Reliability Score'])
+    df = pd.read_csv(DATA_PATH.joinpath(dq_file), usecols=['Source', 'Code',
+                                                          'DQI Reliability Score'])
     df = df.loc[df['Source'] == source].reset_index(drop=True)
     df.drop('Source', axis=1, inplace=True)
     return df
