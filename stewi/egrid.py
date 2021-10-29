@@ -34,7 +34,7 @@ from stewi.globals import DATA_PATH, write_metadata,\
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
 from stewi.formats import StewiFormat
-from stewi.exceptions import InventoryNotAvailableError
+import stewi.exceptions
 
 
 _config = config()['databases']['eGRID']
@@ -387,7 +387,7 @@ def main(**kwargs):
     for year in kwargs['Year']:
 
         if year not in _config:
-            raise InventoryNotAvailableError
+            raise stewi.exceptions.InventoryNotAvailableError
 
         if kwargs['Option'] == 'A':
             # download data

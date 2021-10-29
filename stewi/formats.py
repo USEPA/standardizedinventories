@@ -3,7 +3,7 @@
 from enum import Enum, unique
 from pathlib import Path
 from stewi.globals import paths
-from stewi.exceptions import StewiFormatError
+import stewi.exceptions
 
 
 @unique
@@ -23,7 +23,7 @@ class StewiFormat(Enum):
         if label.lower() in format_dict.keys():
             return StewiFormat[label.upper()]
         else:
-            raise StewiFormatError
+            raise stewi.exceptions.StewiFormatError
 
     def specs(self):
         """Return dictionary of format specifications."""

@@ -15,3 +15,9 @@ class InventoryNotAvailableError(Exception):
         message = ("Inventory not available for requested year")
         self.message = message
         super().__init__(self.message)
+
+class DataNotFoundError(Exception):
+    def __init__(self):
+        message = ("Source data not found, download before proceeding")
+        self.message = message
+        super().__init__(self.message)
