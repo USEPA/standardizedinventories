@@ -66,8 +66,8 @@ def generate_url(report_year, **kwargs):
         p_st: state 2 letter abbreviation
         p_poll_cat: N or P
         p_nutrient_agg: Y or N
-        ResponseSet: int
-        PageNo: int
+        responseset: int
+        pageno: int
 
     See web service documentation for details
     https://echo.epa.gov/tools/web-services/loading-tool#/Custom%20Search/get_dmr_rest_services_get_custom_data_facility
@@ -84,8 +84,8 @@ def generate_url(report_year, **kwargs):
         params['p_param_group'] = 'Y'  # default is N
     if not ESTIMATION:
         params['p_est'] = 'N'  # default is Y
-    if 'ResponseSet' not in params:
-        params['ResponseSet'] = '20000'
+    if 'responseset' not in params:
+        params['responseset'] = '20000'
 
     url = _config['base_url'] + urllib.parse.urlencode(params)
 
@@ -120,55 +120,61 @@ def query_dmr(year, sic_list=None, state_list=STATES, nutrient=''):
             state = params[1]
             filename = f"{filestub}state_{state}_sic_{sic}.pickle"
             filepath = path.joinpath(filename)
-            url = generate_url(year, p_sic2=sic, p_st=state,
-                               p_poll_cat=nutrient, p_nutrient_agg=nutrient_agg)
-            results[state] = download_data(url, filepath, state)
+            if check_for_file(filepath, state, sic):
+                results[state] = 'success'
+            else:
+                url = generate_url(year, p_sic2=sic, p_st=state,
+                                   p_poll_cat=nutrient, p_nutrient_agg=nutrient_agg)
+                results[state] = download_data(url, filepath)
     else:
         for state in state_list:
             if nutrient != '' or state not in BIG_STATES:
                 filename = f"{filestub}state_{state}.pickle"
                 filepath = path.joinpath(filename)
-                url = generate_url(year, p_st=state, p_poll_cat=nutrient,
-                                   p_nutrient_agg=nutrient_agg)
-
-                results[state] = download_data(url, filepath, state)
+                if check_for_file(filepath, state):
+                    results[state] = 'success'
+                else:
+                    url = generate_url(year, p_st=state, p_poll_cat=nutrient,
+                                       p_nutrient_agg=nutrient_agg)
+                    results[state] = download_data(url, filepath)
             else:  # BIG_STATES
                 counter = 1
                 pages = 1
                 while counter <= pages:
                     filename = f"{filestub}state_{state}_{str(counter)}.pickle"
                     filepath = path.joinpath(filename)
-                    url = generate_url(year, p_st=state,
-                                       p_poll_cat=nutrient,
-                                       p_nutrient_agg=nutrient_agg,
-                                       ResponseSet='9000',
-                                       PageNo=str(counter))
-                    results[state] = download_data(url, filepath, state)
+                    if check_for_file(filepath, state):
+                        results[state] = 'success'
+                    else:
+                        url = generate_url(year, p_st=state,
+                                           p_poll_cat=nutrient,
+                                           p_nutrient_agg=nutrient_agg,
+                                           responseset='9000',
+                                           pageno=str(counter))
+                        results[state] = download_data(url, filepath)
                     if counter == 1:
                         # identify the number of pages to pull
-                        result = pd.read_pickle(filepath)
-                        pages = int(result['Results']['PageCount'])
+                        try:
+                            result = pd.read_pickle(filepath)
+                            pages = int(result['Results']['PageCount'])
+                        except FileNotFoundError:
+                            break
                     counter += 1
 
     return results
 
 
-def download_data(url, filepath: Path, state) -> str:
+def check_for_file(filepath: Path, state, sic='') -> bool:
+    message = f"{state}_{sic}" if sic else f"{state}"
     if filepath.is_file():
-        log.debug(f'file already exists for {state}, skipping')
-        return 'success'
+        log.debug(f'file already exists for {message}, skipping')
+        return True
     else:
-        log.info(f'executing query for {state}')
-        result = execute_query(url)
-        if isinstance(result, str):
-            log.error(f'error in state: {state}')
-            return result
-        else:
-            pd.to_pickle(result, filepath)
-            return 'success'
+        log.info(f'executing query for {message}')
+        return False
 
 
-def execute_query(url):
+def download_data(url, filepath: Path) -> str:
     log.debug(url)
     for attempt in range(3):
         try:
@@ -185,7 +191,8 @@ def execute_query(url):
     elif 'NoDataMsg' in result.index:
         return 'no_data'
     else:
-        return result
+        pd.to_pickle(result, filepath)
+        return 'success'
 
 
 def standardize_df(input_df):
