@@ -29,6 +29,7 @@ import pandas as pd
 import argparse
 import urllib
 from pathlib import Path
+import itertools
 
 from stewi.globals import unit_convert,\
     DATA_PATH, lb_kg, write_metadata, get_reliability_table_for_source,\
@@ -58,10 +59,11 @@ ESTIMATION = True
 BIG_STATES = {'CA', 'KY', 'WV', 'AL', 'PA', 'LA', 'MO', 'OH', 'CO', 'NY'}
 
 
-def generate_url(report_year, **kwargs):
+def generate_url(url_params):
     """Generate the url for DMR query.
 
     :param kwargs: potential arguments include:
+        p_year: 4 digit string of year
         p_sic2: sic region 2 digit code
         p_st: state 2 letter abbreviation
         p_poll_cat: N or P
@@ -72,10 +74,8 @@ def generate_url(report_year, **kwargs):
     See web service documentation for details
     https://echo.epa.gov/tools/web-services/loading-tool#/Custom%20Search/get_dmr_rest_services_get_custom_data_facility
     """
+    params = {k: v for k, v in url_params.items() if v}
 
-    params = {k: v for k, v in kwargs.items() if v}
-
-    params['p_year'] = report_year
     params['p_nd'] = DETECTION
     params['output'] = 'JSON'
     if 'p_poll_cat' in params:
@@ -106,93 +106,72 @@ def query_dmr(year, sic_list=None, state_list=STATES, nutrient=''):
     path = OUTPUT_PATH.joinpath(year)
     path.mkdir(parents=True, exist_ok=True)
     results = {}
-    param_list = []
     filestub = ''
-    nutrient_agg = 'N'
+    if not sic_list:
+        sic_list = ['']
+    url_params = {'p_year': year,
+                  'p_st': '',
+                  'p_poll_cat': nutrient,
+                  'p_nutrient_agg': 'N',
+                  'responseset': '9000',
+                  'pageno': '1',
+                  }
     if nutrient:
         filestub = nutrient + "_"
-        nutrient_agg = 'Y'
-    if sic_list:
-        param_list = [[sic, state] for sic in sic_list for state in state_list]
-        log.info('Breaking up queries further by SIC')
-        for params in param_list:
-            sic = params[0]
-            state = params[1]
-            filename = f"{filestub}state_{state}_sic_{sic}.pickle"
-            filepath = path.joinpath(filename)
-            if check_for_file(filepath, state, sic):
-                results[state] = 'success'
-            else:
-                url = generate_url(year, p_sic2=sic, p_st=state,
-                                   p_poll_cat=nutrient, p_nutrient_agg=nutrient_agg)
-                results[state] = download_data(url, filepath)
-    else:
-        for state in state_list:
-            if nutrient != '' or state not in BIG_STATES:
-                filename = f"{filestub}state_{state}.pickle"
-                filepath = path.joinpath(filename)
-                if check_for_file(filepath, state):
-                    results[state] = 'success'
-                else:
-                    url = generate_url(year, p_st=state, p_poll_cat=nutrient,
-                                       p_nutrient_agg=nutrient_agg)
-                    results[state] = download_data(url, filepath)
-            else:  # BIG_STATES
-                counter = 1
-                pages = 1
-                while counter <= pages:
-                    filename = f"{filestub}state_{state}_{str(counter)}.pickle"
-                    filepath = path.joinpath(filename)
-                    if check_for_file(filepath, state):
-                        results[state] = 'success'
-                    else:
-                        url = generate_url(year, p_st=state,
-                                           p_poll_cat=nutrient,
-                                           p_nutrient_agg=nutrient_agg,
-                                           responseset='9000',
-                                           pageno=str(counter))
-                        results[state] = download_data(url, filepath)
-                    if counter == 1:
-                        # identify the number of pages to pull
-                        try:
-                            result = pd.read_pickle(filepath)
-                            pages = int(result['Results']['PageCount'])
-                        except FileNotFoundError:
-                            break
-                    counter += 1
-
+        url_params['p_nutrient_agg'] = 'Y'
+    param_list = itertools.product(sic_list, state_list)
+    for params in param_list:
+        sic = params[0]
+        state = params[1]
+        filename = f"{filestub}state_{state}.pickle"
+        filepath = path.joinpath(filename)
+        if check_for_file(filepath, state):
+            results[state] = 'success'
+        else:
+            url_params['p_st'] = state
+            url_params['p_sic2'] = sic
+            results[state] = download_data(url_params, filepath)
     return results
 
 
-def check_for_file(filepath: Path, state, sic='') -> bool:
-    message = f"{state}_{sic}" if sic else f"{state}"
+def check_for_file(filepath: Path, state) -> bool:
     if filepath.is_file():
-        log.debug(f'file already exists for {message}, skipping')
+        log.debug(f'file already exists for {state}, skipping')
         return True
     else:
-        log.info(f'executing query for {message}')
+        log.info(f'executing query for {state}')
         return False
 
 
-def download_data(url, filepath: Path) -> str:
-    log.debug(url)
-    for attempt in range(3):
-        try:
-            json_data = requests.get(url).json()
-            result = pd.DataFrame(json_data)
-            break
-        except: pass
-    # Exception handling for http 500 server error still needed
-    if 'Error' in result.index:
-        if result['Results'].astype(str).str.contains('Maximum').any():
-            return 'max_error'
+def download_data(url_params, filepath: Path) -> str:
+    counter = 1
+    pages = 1
+    df = pd.DataFrame()
+    while counter <= pages:
+        url_params['pageno'] = counter
+        url = generate_url(url_params)
+        log.debug(url)
+        for attempt in range(3):
+            try:
+                json_data = requests.get(url).json()
+                result = pd.DataFrame(json_data)
+                break
+            except: pass
+        # Exception handling for http 500 server error still needed
+        if 'Error' in result.index:
+            if result['Results'].astype(str).str.contains('Maximum').any():
+                return 'max_error'
+            else:
+                return 'other_error'
+        elif 'NoDataMsg' in result.index:
+            return 'no_data'
         else:
-            return 'other_error'
-    elif 'NoDataMsg' in result.index:
-        return 'no_data'
-    else:
-        pd.to_pickle(result, filepath)
-        return 'success'
+            df = pd.concat([df, pd.DataFrame(result['Results']['Results'])],
+                           ignore_index=True)
+            pages = int(result['Results']['PageCount'])
+            counter += 1
+    pd.to_pickle(df, filepath)
+    return 'success'
 
 
 def standardize_df(input_df):
@@ -260,17 +239,11 @@ def combine_DMR_inventory(year, nutrient=''):
         log.info('reading stored DMR queries by state...')
     for state in STATES:
         log.debug(f'accessing data for {state}')
-        if nutrient != '' or state not in BIG_STATES:
-            filepath = path.joinpath(f'{filestub}state_{state}.pickle')
-            result = unpickle(filepath)
-            if result is None:
-                log.warning(f'No data found for {state}')
-            output_df = pd.concat([output_df, result])
-        else: # multiple files for each state
-            log.debug(f'looping through data for {state}')
-            for file in path.glob(f'state_{state}*.pickle'):
-                result = unpickle(file)
-                output_df = pd.concat([output_df, result])
+        filepath = path.joinpath(f'{filestub}state_{state}.pickle')
+        result = unpickle(filepath)
+        if result is None:
+            log.warning(f'No data found for {state}')
+        output_df = pd.concat([output_df, result])
     return output_df
 
 
@@ -279,9 +252,6 @@ def unpickle(filepath):
         result = pd.read_pickle(filepath)
     except:
         log.exception(f'error reading {filepath}')
-    if str(type(result)) == "<class 'NoneType'>":
-        raise Exception('Problem with saved dataframe')
-    result = pd.DataFrame(result['Results']['Results'])
     return result
 
 
@@ -527,7 +497,7 @@ def main(**kwargs):
             sic2 = list(pd.read_csv(DMR_DATA_PATH.joinpath('2_digit_SIC.csv'),
                         dtype={'SIC2': str})['SIC2'])
             # Query by state, then by SIC-state where necessary
-            result_dict = query_dmr(year=year, state_list=STATES)
+            result_dict = query_dmr(year=year)
             state_max_error_list = [s for s in result_dict.keys() if result_dict[s] == 'max_error']
             state_no_data_list = [s for s in result_dict.keys() if result_dict[s] == 'no_data']
             if (len(state_max_error_list) == 0) and (len(state_no_data_list) == 0):
@@ -546,7 +516,7 @@ def main(**kwargs):
             log.info(f"Querying nutrients for {year}")
             # Query aggregated nutrients data
             for nutrient in ['N', 'P']:
-                result_dict = query_dmr(year=year, nutrient=nutrient, state_list=STATES)
+                result_dict = query_dmr(year=year, nutrient=nutrient)
                 state_max_error_list = [s for s in result_dict.keys() if result_dict[s] == 'max_error']
                 state_no_data_list = [s for s in result_dict.keys() if result_dict[s] == 'no_data']
                 if (len(state_max_error_list) == 0) and (len(state_no_data_list) == 0):
