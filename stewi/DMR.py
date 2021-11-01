@@ -29,7 +29,6 @@ import pandas as pd
 import argparse
 import urllib
 from pathlib import Path
-import itertools
 
 from stewi.globals import unit_convert,\
     DATA_PATH, lb_kg, write_metadata, get_reliability_table_for_source,\
@@ -107,8 +106,6 @@ def query_dmr(year, sic_list=None, state_list=STATES, nutrient=''):
     path.mkdir(parents=True, exist_ok=True)
     results = {}
     filestub = ''
-    if not sic_list:
-        sic_list = ['']
     url_params = {'p_year': year,
                   'p_st': '',
                   'p_poll_cat': nutrient,
@@ -119,18 +116,14 @@ def query_dmr(year, sic_list=None, state_list=STATES, nutrient=''):
     if nutrient:
         filestub = nutrient + "_"
         url_params['p_nutrient_agg'] = 'Y'
-    param_list = itertools.product(sic_list, state_list)
-    for params in param_list:
-        sic = params[0]
-        state = params[1]
+    for state in state_list:
         filename = f"{filestub}state_{state}.pickle"
         filepath = path.joinpath(filename)
         if check_for_file(filepath, state):
             results[state] = 'success'
         else:
             url_params['p_st'] = state
-            url_params['p_sic2'] = sic
-            results[state] = download_data(url_params, filepath)
+            results[state] = download_data(url_params, filepath, sic_list)
     return results
 
 
@@ -143,33 +136,48 @@ def check_for_file(filepath: Path, state) -> bool:
         return False
 
 
-def download_data(url_params, filepath: Path) -> str:
-    counter = 1
-    pages = 1
+def download_data(url_params, filepath: Path, sic_list) -> str:
     df = pd.DataFrame()
-    while counter <= pages:
-        url_params['pageno'] = counter
-        url = generate_url(url_params)
-        log.debug(url)
-        for attempt in range(3):
-            try:
-                json_data = requests.get(url).json()
-                result = pd.DataFrame(json_data)
-                break
-            except: pass
-        # Exception handling for http 500 server error still needed
-        if 'Error' in result.index:
-            if result['Results'].astype(str).str.contains('Maximum').any():
-                return 'max_error'
+    if sic_list:
+        skip_errors = True
+    else:
+        skip_errors = False
+        sic_list = ['']
+    for sic in sic_list:
+        url_params['p_sic2'] = sic
+        counter = 1
+        pages = 1
+        while counter <= pages:
+            url_params['pageno'] = counter
+            url = generate_url(url_params)
+            log.debug(url)
+            for attempt in range(3):
+                try:
+                    json_data = requests.get(url).json()
+                    result = pd.DataFrame(json_data)
+                    break
+                except: pass
+            # Exception handling for http 500 server error still needed
+            if 'Error' in result.index:
+                if skip_errors:
+                    log.debug(f"error in sic_{sic}")
+                    break
+                elif result['Results'].astype(str).str.contains('Maximum').any():
+                    return 'max_error'
+                else:
+                    return 'other_error'
+            elif 'NoDataMsg' in result.index:
+                if skip_errors:
+                    log.debug(f"no data in sic_{sic}")
+                    break
+                else:
+                    return 'no_data'
             else:
-                return 'other_error'
-        elif 'NoDataMsg' in result.index:
-            return 'no_data'
-        else:
-            df = pd.concat([df, pd.DataFrame(result['Results']['Results'])],
-                           ignore_index=True)
-            pages = int(result['Results']['PageCount'])
-            counter += 1
+                df = pd.concat([df, pd.DataFrame(result['Results']['Results'])],
+                               ignore_index=True)
+                # set page count
+                pages = int(result['Results']['PageCount'])
+                counter += 1
     pd.to_pickle(df, filepath)
     return 'success'
 
@@ -507,6 +515,7 @@ def main(**kwargs):
                     log.error(f"Max error: {' '.join(state_max_error_list)}")
                 if (len(state_no_data_list) > 0):
                     log.error(f"No data error: {' '.join(state_no_data_list)}")
+                log.info('Breaking up queries further by SIC')
                 result_dict = query_dmr(year=year, sic_list=sic2,
                                         state_list=state_max_error_list)
                 sic_state_max_error_list = [s for s in result_dict.keys() if result_dict[s] == 'max_error']
