@@ -85,8 +85,10 @@ ghg_cols = base_cols + info_cols + group_cols
 # define filepaths for downloaded data
 data_summaries_path = OUTPUT_PATH.joinpath(
     f"{_config['most_recent_year']}_data_summary_spreadsheets")
-esbb_subparts_path = OUTPUT_PATH.joinpath(_config['esbb_subparts_url'])
-lo_subparts_path = OUTPUT_PATH.joinpath(_config['lo_subparts_url'])
+esbb_subparts_path = OUTPUT_PATH.joinpath(_config['esbb_subparts_url']
+                                          .rsplit('/', 1)[-1])
+lo_subparts_path = OUTPUT_PATH.joinpath(_config['lo_subparts_url']
+                                        .rsplit('/', 1)[-1])
 
 
 class MetaGHGRP:
@@ -204,13 +206,13 @@ def get_facilities(facilities_file):
 def download_excel_tables(m):
     # define required tables for download
     required_tables = [[data_summaries_path,
-                        _config['url'] + _config['data_summaries_url'],
+                        _config['file_url'] + _config['data_summaries_url'],
                         'Zip File'],
                        [esbb_subparts_path,
-                        _config['url'] + _config['esbb_subparts_url'],
+                        _config['file_url'] + _config['esbb_subparts_url'],
                         'Static File'],
                        [lo_subparts_path,
-                        _config['url'] + _config['lo_subparts_url'],
+                        _config['file_url'] + _config['lo_subparts_url'],
                         'Static File'],
                        ]
 
