@@ -1,4 +1,4 @@
-import os, sys, yaml
+"""Supporting variables and functions used in stewi."""
 import pandas as pd
 import requests
 import json
@@ -21,7 +21,7 @@ srs_replace_group = ['%2B', '/', '.']
 inventory_to_SRSlist_acronymns = SRSconfig['inventory_lists']
 
 
-#Return json object with SRS result
+# Return json object with SRS result
 def get_SRSInfo_for_substance_name(name):
     name_for_query = urllib.parse.quote(name)
     nameprefix = 'substance/name/'
@@ -64,7 +64,7 @@ def obtain_list_names(acronym):
     return names
 
 
-#Returns a df
+# Returns a df
 def query_SRS_for_program_list(url, inventory, lists_of_interest):
     try:
         chemicallistresponse = requests.get(url)
@@ -73,25 +73,21 @@ def query_SRS_for_program_list(url, inventory, lists_of_interest):
         return "Error:404"
     all_chemicals_list = []
     for chemical in chemicallistjson:
-        #get cas
+        # get cas
         chemicaldict = {}
         chemicaldict['SRS_CAS'] = chemical['currentCasNumber']
         chemicaldict['SRS_ID'] = chemical['subsKey']
-        #get synonyms
-        #extract from the json
+        # get synonyms
+        # extract from the json
         synonyms = chemical['synonyms']
-        #ids are deeply embedded in this list. Go get ids relevant to these lists of interest
+        # ids are deeply embedded in this list. Go get ids relevant to these lists of interest
         alternateids = []
         for i in synonyms:
             if i['listName'] in lists_of_interest:
-                # print('True for' + i['listName'])
-                #chem_alt_id_info = {}
                 for l in i['alternateIds']:
-                    #chem_alt_id_info['alternateId'] = l['alternateId']
-                    #chem_alt_id_info['alternateIdTypeName']
                     alternateids.append(l['alternateId'])
 
-        #make list of alt ids unique by converting to a set, then back to a list
+        # make list of alt ids unique by converting to a set, then back to a list
         alternateids = list(set(alternateids))
 
         if len(alternateids) > 0:
@@ -100,7 +96,7 @@ def query_SRS_for_program_list(url, inventory, lists_of_interest):
                 all_chemicals_list.append(chemicaldict.copy())
         else:
             all_chemicals_list.append(chemicaldict)
-    #Write it into a df
+
     all_inventory_chemicals = pd.DataFrame(all_chemicals_list)
     return all_inventory_chemicals
 
@@ -118,31 +114,26 @@ def query_SRS_for_flow(url, for_single_flow=False):
         return flow_info
 
 
-#Processes json response, returns a dataframe with key and CAS
+# Processes json response, returns a dataframe with key and CAS
 def process_single_SRS_json_response(srs_json_response):
     chemical_srs_info = pd.DataFrame(columns=["SRS_ID", "SRS_CAS"])
-    #for r in range(0,len(srs_json_response)):
-    #Do not loop through response but use first response
     chemical_srs_info.loc[0, "SRS_ID"] = srs_json_response[0]['subsKey']
     chemical_srs_info.loc[0, "SRS_CAS"] = srs_json_response[0]['currentCasNumber']
     return chemical_srs_info
 
 
 def add_manual_matches(df_matches, include_proxies=True):
-    #Read in manual matches
     manual_matches = pd.read_csv(DATA_PATH.joinpath('chemicalmatches_manual.csv'),
                                  header=0,
                                  dtype={'FlowID': 'str', 'SRS_ID': 'str'})
     if not include_proxies:
         manual_matches = manual_matches[manual_matches['Proxy_Used'] == 0]
-    #drop unneded columns
     manual_matches = manual_matches.drop(columns=['Proxy_Used', 'Proxy_Name',
                                                   'FlowName'])
     manual_matches = manual_matches.rename(columns={'SRS_ID': 'SRS_ID_Manual'})
-    #Merge with list
     df_matches = pd.merge(df_matches, manual_matches,
                           on=['FlowID', 'Source'], how='left')
-    #Set null SRS_IDs to those manually found. Replaces null with null if not
+    # Set null SRS_IDs to those manually found. Replaces null with null if not
     df_matches.loc[df_matches['SRS_ID'].isnull(), 'SRS_ID'] = df_matches['SRS_ID_Manual']
     df_matches = df_matches.drop(columns=['SRS_ID_Manual'])
     return df_matches

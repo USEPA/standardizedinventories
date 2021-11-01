@@ -10,11 +10,13 @@ class StewiFormatError(Exception):
         self.message = message
         super().__init__(self.message)
 
+
 class InventoryNotAvailableError(Exception):
     def __init__(self):
         message = ("Inventory not available for requested year")
         self.message = message
         super().__init__(self.message)
+
 
 class DataNotFoundError(Exception):
     def __init__(self):
