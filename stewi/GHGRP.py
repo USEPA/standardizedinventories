@@ -85,8 +85,10 @@ ghg_cols = base_cols + info_cols + group_cols
 # define filepaths for downloaded data
 data_summaries_path = OUTPUT_PATH.joinpath(
     f"{_config['most_recent_year']}_data_summary_spreadsheets")
-esbb_subparts_path = OUTPUT_PATH.joinpath(_config['esbb_subparts_url'])
-lo_subparts_path = OUTPUT_PATH.joinpath(_config['lo_subparts_url'])
+esbb_subparts_path = OUTPUT_PATH.joinpath(_config['esbb_subparts_url']
+                                          .rsplit('/', 1)[-1])
+lo_subparts_path = OUTPUT_PATH.joinpath(_config['lo_subparts_url']
+                                        .rsplit('/', 1)[-1])
 
 
 class MetaGHGRP:
