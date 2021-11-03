@@ -67,7 +67,7 @@ def writeChemicalMatches():
                                                   "ErrorDescription"])
                 name = row["FlowName"]
                 result = get_SRSInfo_for_substance_name(name)
-                if type(result) is str:
+                if isinstance(result, str):
                     # This is an error
                     error_srs.loc[0, 'FlowName'] = name
                     #error_srs.loc[0, 'FlowID'] = id

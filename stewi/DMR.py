@@ -55,8 +55,6 @@ PARAM_GROUP = True
 DETECTION = 'HALF'
 ESTIMATION = True
 
-BIG_STATES = {'CA', 'KY', 'WV', 'AL', 'PA', 'LA', 'MO', 'OH', 'CO', 'NY'}
-
 
 def generate_url(url_params):
     """Generate the url for DMR query.
@@ -189,7 +187,7 @@ def standardize_df(input_df):
                                       header=None)[0]
     output_df = input_df[dmr_required_fields].copy()
     dmr_reliability_table = get_reliability_table_for_source('DMR')
-    dmr_reliability_table.drop(['Code'], axis=1, inplace=True)
+    dmr_reliability_table.drop(columns=['Code'], inplace=True)
     output_df['DataReliability'] = dmr_reliability_table[
         'DQI Reliability Score'].values[0]
 
@@ -228,7 +226,7 @@ def standardize_df(input_df):
             flows.PARAMETER_CODE), ['FlowID']] = output_df['FlowID_x']
         output_df.loc[~output_df.FlowID_x.isin(
             flows.PARAMETER_CODE), ['FlowID']] = output_df['FlowID_y']
-        output_df.drop(['FlowID_x', 'FlowID_y'], inplace=True, axis=1)
+        output_df.drop(columns=['FlowID_x', 'FlowID_y'], inplace=True)
 
     return output_df
 
