@@ -77,7 +77,7 @@ def read_FRS_file(file_name, col_dict):
     return df_FRS
 
 
-def store_fm_file(df, file_name, category='', sources=[]):
+def store_fm_file(df, file_name, category='', sources=None):
     """Store the facilitymatcher file to local directory."""
     meta = set_facilitymatcher_meta(file_name, category)
     method_path = output_dir + '/' + meta.category
@@ -85,6 +85,8 @@ def store_fm_file(df, file_name, category='', sources=[]):
         log.info(f'saving {meta.name_data} to {method_path}')
         write_df_to_file(df, paths, meta)
         metadata_dict = {}
+        if not sources:
+            sources = []
         for source in sources:
             metadata_dict[source] = read_source_metadata(paths,
                 set_facilitymatcher_meta(strip_file_extension(source),

@@ -14,7 +14,7 @@ from chemicalmatcher.writeStEWIchemicalmatchesbyinventory import\
 from chemicalmatcher.globals import log, read_cm_file
 
 
-def get_matches_for_StEWI(inventory_list=[]):
+def get_matches_for_StEWI(inventory_list=None):
     """Retrieve all precompiled chemical matches.
 
     :param inventory_list: optional list of inventories, if passed will check
@@ -22,7 +22,7 @@ def get_matches_for_StEWI(inventory_list=[]):
     :return: dataframe in ChemicalMatches standard output format
     """
     chemicalmatches = read_cm_file()
-    if inventory_list != []:
+    if inventory_list is not None:
         inventories = set(chemicalmatches['Source'].unique())
         if set(inventory_list).issubset(inventories):
             log.debug('all inventories found in chemical matcher')

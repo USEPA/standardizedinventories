@@ -60,7 +60,7 @@ def printAvailableInventories(stewiformat='flowbyfacility'):
 
 
 def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
-                 filters=[], filter_for_LCI=False, US_States_Only=False):
+                 filters=None, filter_for_LCI=False, US_States_Only=False):
     """Return or generate an inventory in a standard output format.
 
     :param inventory_acronym: like 'TRI'
@@ -74,7 +74,8 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
     """
     f = ensure_format(stewiformat)
     inventory = read_inventory(inventory_acronym, year, f)
-
+    if not filters:
+        filters = []
     if f.value > 2:  # exclude FLOW and FACILITY
         # for backwards compatability, maintain these optional parameters in getInventory
         if filter_for_LCI:
