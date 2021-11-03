@@ -128,7 +128,13 @@ def download_table(filepath: Path, url: str, get_time=False):
 
 def import_table(path_or_reference, get_time=False):
     """Read and return time of csv from url or Path."""
-    df = pd.read_csv(path_or_reference, low_memory=False)
+    try:
+        df = pd.read_csv(path_or_reference, low_memory=False)
+    except urllib.error.URLError as exception:
+        log.warning(exception.reason)
+        log.info('retrying url...')
+        time.sleep(3)
+        df = pd.read_csv(path_or_reference, low_memory=False)
     if get_time and isinstance(path_or_reference, Path):
         retrieval_time = path_or_reference.stat().st_ctime
         return df, time.ctime(retrieval_time)
