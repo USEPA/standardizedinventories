@@ -206,13 +206,13 @@ def get_facilities(facilities_file):
 def download_excel_tables(m):
     # define required tables for download
     required_tables = [[data_summaries_path,
-                        _config['file_url'] + _config['data_summaries_url'],
+                        _config['url'] + _config['data_summaries_url'],
                         'Zip File'],
                        [esbb_subparts_path,
-                        _config['file_url'] + _config['esbb_subparts_url'],
+                        _config['url'] + _config['esbb_subparts_url'],
                         'Static File'],
                        [lo_subparts_path,
-                        _config['file_url'] + _config['lo_subparts_url'],
+                        _config['url'] + _config['lo_subparts_url'],
                         'Static File'],
                        ]
 

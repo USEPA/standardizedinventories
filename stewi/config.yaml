@@ -81,7 +81,7 @@ databases:
   GHGRP:
       most_recent_year: '2020'
       enviro_url: 'https://data.epa.gov/efservice/'
-      file_url: 'https://www.epa.gov/system/files/'
+      url: 'https://www.epa.gov/system/files/'
       data_summaries_url: 'other-files/2021-10/2020_data_summary_spreadsheets.zip'
         # Data Summary Spreadsheets: .zip file containing multi-year spreadsheets containing
         # the most important high-level information for facilities, as well as yearly
