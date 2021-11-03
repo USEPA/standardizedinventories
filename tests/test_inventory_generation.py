@@ -36,7 +36,7 @@ def test_TRI_generation():
     assert stewi.getInventory('TRI', year) is not None
 
 
-#@pytest.mark.skip(reason="GHGRP is skipped for time constraints")
+@pytest.mark.skip(reason="GHGRP is skipped for time constraints")
 def test_GHGRP_generation():
     assert stewi.getInventory('GHGRP', year) is not None
 
@@ -53,6 +53,10 @@ def test_DMR_generation():
 @pytest.mark.skip(reason="RCRAInfo requires browser download")
 def test_RCRAInfo_generation():
     assert stewi.getInventory('RCRAInfo', year) is not None
+
+
+def test_existing_inventories():
+    assert stewi.getAvailableInventoriesandYears() is not None
 
 
 if __name__ == "__main__":
