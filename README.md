@@ -1,4 +1,5 @@
 # Standardized Emission and Waste Inventories (StEWI)
+[![build](https://github.com/USEPA/standardizedinventories/actions/workflows/python-package.yml/badge.svg)](https://github.com/USEPA/standardizedinventories/actions/workflows/python-package.yml)
 
 StEWI is a collection of Python modules that provide processed USEPA facility-based emission and waste generation inventory data in standard tabular formats.
  The standard outputs may be further aggregated or filtered based on given criteria, and can be combined based on common facility and flows
@@ -95,15 +96,15 @@ If the `remove_overlap` parameter is set to True (default), `stewicombo` combine
 - Additional steps are taken to avoid overlap of:
     - nutrient flow releases to water between the TRI and DMR
     - particulate matter releases to air reflecting PM < 10 and PM < 2.5 in the NEI
-    - [Volatile Organic Compound (VOC)](https://github.com/USEPA/standardizedinventories/blob/master/stewicombo/data/VOC_SRS_IDs.csv) releases to air for individually reported VOCs and grouped VOCs 
+    - [Volatile Organic Compound (VOC)](https://github.com/USEPA/standardizedinventories/blob/master/stewicombo/data/VOC_SRS_IDs.csv) releases to air for individually reported VOCs and grouped VOCs
 
 
 ## Installation Instructions
 
 Install a release directly from github using pip. From a command line interface, run:
-> pip install git+https://github.com/USEPA/standardizedinventories.git@v0.10.0#egg=StEWI
+> pip install git+https://github.com/USEPA/standardizedinventories.git@v1.0.0#egg=StEWI
 
-where you can replace 'v0.10.0' with the version you wish to use under [Releases](https://github.com/USEPA/standardizedinventories/releases).
+where you can replace 'v1.0.0' with the version you wish to use under [Releases](https://github.com/USEPA/standardizedinventories/releases).
 
 Alternatively, to install from the most current point on the repository:
 ```
@@ -113,7 +114,7 @@ pip install . # or pip install -e . for devs
 ```
 The current version contains optional dependencies (`selenium` and `webdriver_manager`) to download RCRAInfo data using a chrome browswer interface prior to generating those stewi inventories.
 See details in [RCRAInfo.py](https://github.com/USEPA/standardizedinventories/blob/master/stewi/RCRAInfo.py) for how to generate those inventories without these optional libraries.
- 
+
 To download these optional dependencies use one of the following pip install commands:
 
 ```
@@ -123,7 +124,7 @@ pip install .["RCRAInfo"]
 or
 
 ```
-pip install . -r requirements.txt -r rcrainfo_requirements.txt 
+pip install . -r requirements.txt -r rcrainfo_requirements.txt
 ```
 
 
@@ -138,6 +139,6 @@ The United States Environmental Protection Agency (EPA) GitHub project code is p
 and the user assumes responsibility for its use.  EPA has relinquished control of the information and no longer
 has responsibility to protect the integrity , confidentiality, or availability of the information.
 Any reference to specific commercial products, processes, or services by service mark, trademark, manufacturer,
-or otherwise, does not constitute or imply their endorsement, recommendation or favoring by EPA.  
+or otherwise, does not constitute or imply their endorsement, recommendation or favoring by EPA.
 The EPA seal and logo shall not be used in any manner to imply endorsement of any commercial product or activity
 by EPA or the United States Government.
