@@ -2,3 +2,4 @@ StEWI.egg-info
 *.pyc
 work
 backup
+*.ipynb_checkpoints
