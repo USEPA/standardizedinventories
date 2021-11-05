@@ -11,127 +11,85 @@ import logging as log
 import os
 import yaml
 import time
+import urllib
 from datetime import datetime
+from pathlib import Path
 
 from esupy.processed_data_mgmt import Paths, FileMeta,\
     load_preprocessed_output, remove_extra_files,\
-    write_df_to_file, create_paths_if_missing, write_metadata_to_file,\
+    write_df_to_file, write_metadata_to_file,\
     read_source_metadata
 from esupy.dqi import get_weighted_average
 from esupy.util import get_git_hash
 
-try: MODULEPATH = os.path.dirname(os.path.realpath(
-    __file__)).replace('\\', '/') + '/'
-except NameError: MODULEPATH = 'stewi/'
 
-data_dir = MODULEPATH + 'data/'
+MODULEPATH = Path(__file__).resolve().parent
+DATA_PATH = MODULEPATH / 'data'
 
 log.basicConfig(level=log.INFO, format='%(levelname)s %(message)s')
-STEWI_VERSION = '0.10.0'
+STEWI_VERSION = '1.0.0'
 
+# Conversion factors
+USton_kg = 907.18474
+lb_kg = 0.4535924
+MMBtu_MJ = 1055.056
+MWh_MJ = 3600
+g_kg = 0.001
 
-#Common declaration of write format for package data products
+# Common declaration of write format for package data products
 WRITE_FORMAT = "parquet"
 
 paths = Paths()
 paths.local_path = os.path.realpath(paths.local_path + "/stewi")
-output_dir = paths.local_path
 
 # global variable to replace stored inventory files when saving
 REPLACE_FILES = False
 
-git_hash = get_git_hash()
-
-stewi_formats = ['flowbyfacility', 'flow', 'facility', 'flowbyprocess']
-inventory_formats = ['flowbyfacility', 'flowbyprocess']
+GIT_HASH = get_git_hash()
 
 source_metadata = {
-    'SourceType': 'Static File',  #Other types are "Web service"
-    'SourceFileName':'NA',
-    'SourceURL':'NA',
-    'SourceVersion':'NA',
-    'SourceAcquisitionTime':'NA',
-    'StEWI_Version':STEWI_VERSION,
+    'SourceType': 'Static File',  # Other types are "Web service"
+    'SourceFileName': 'NA',
+    'SourceURL': 'NA',
+    'SourceVersion': 'NA',
+    'SourceAcquisitionTime': 'NA',
+    'StEWI_Version': STEWI_VERSION,
     }
 
-inventory_single_compartments = {"NEI":"air",
-                                 "RCRAInfo":"waste",
-                                 "GHGRP":"air",
-                                 "DMR":"water"}
+inventory_single_compartments = {"NEI": "air",
+                                 "RCRAInfo": "waste",
+                                 "GHGRP": "air",
+                                 "DMR": "water"}
 
-flowbyfacility_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],
-                         'FlowName': [{'dtype': 'str'}, {'required': True}],
-                         'Compartment': [{'dtype': 'str'}, {'required': True}],
-                         'FlowAmount': [{'dtype': 'float'}, {'required': True}],
-                         'Unit': [{'dtype': 'str'}, {'required': True}],
-                         'DataReliability': [{'dtype': 'float'}, {'required': True}],
-                         }
 
-facility_fields = {'FacilityID':[{'dtype': 'str'}, {'required': True}],
-                   'FacilityName':[{'dtype': 'str'}, {'required': False}],
-                   'Address':[{'dtype': 'str'}, {'required': False}],
-                   'City':[{'dtype': 'str'}, {'required': False}],
-                   'State':[{'dtype': 'str'}, {'required': True}],
-                   'Zip':[{'dtype': 'str'}, {'required': False}],
-                   'Latitude':[{'dtype': 'float'}, {'required': False}],
-                   'Longitude':[{'dtype': 'float'}, {'required': False}],
-                   'County':[{'dtype': 'str'}, {'required': False}],
-                   'NAICS':[{'dtype': 'str'}, {'required': False}],
-                   'SIC':[{'dtype': 'str'}, {'required': False}],
-                   }
-
-flowbyprocess_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],
-                    'FlowName': [{'dtype': 'str'}, {'required': True}],
-                    'Compartment': [{'dtype': 'str'}, {'required': True}],
-                    'FlowAmount': [{'dtype': 'float'}, {'required': True}],
-                    'Unit': [{'dtype': 'str'}, {'required': True}],
-                    'DataReliability': [{'dtype': 'float'}, {'required': True}],
-                    'Process': [{'dtype': 'str'}, {'required': True}],
-                    'ProcessType': [{'dtype': 'str'}, {'required': False}],
-                    }
-
-flow_fields = {'FlowName': [{'dtype': 'str'}, {'required': True}],
-               'FlowID': [{'dtype': 'str'}, {'required': True}],
-               'CAS':  [{'dtype': 'str'}, {'required': False}],
-               'Compartment': [{'dtype': 'str'}, {'required': False}],
-               'Unit': [{'dtype': 'str'}, {'required': False}],
-               }
-
-format_dict = {'flowbyfacility': flowbyfacility_fields,
-               'flowbyprocess': flowbyprocess_fields,
-               'facility': facility_fields,
-               'flow': flow_fields}
-
-def set_stewi_meta(file_name, inventory_format = ''):
-    """Creates a class of esupy FileMeta with the inventory_format assigned
-    as category"""
+def set_stewi_meta(file_name, stewiformat=''):
+    """Create a class of esupy FileMeta with stewiformat assigned as category."""
     stewi_meta = FileMeta()
     stewi_meta.name_data = file_name
-    stewi_meta.category = inventory_format
+    stewi_meta.category = stewiformat
     stewi_meta.tool = "StEWI"
     stewi_meta.tool_version = STEWI_VERSION
     stewi_meta.ext = WRITE_FORMAT
-    stewi_meta.git_hash = git_hash
+    stewi_meta.git_hash = GIT_HASH
     stewi_meta.date_created = datetime.now().strftime('%d-%b-%Y')
     return stewi_meta
 
 
 def config(config_path=MODULEPATH, file='config.yaml'):
-    """Read and return stewi configuration file"""
+    """Read and return stewi configuration file."""
     configfile = None
-    path = config_path + file
+    path = config_path.joinpath(file)
     with open(path, mode='r') as f:
-        configfile = yaml.load(f,Loader=yaml.FullLoader)
+        configfile = yaml.load(f, Loader=yaml.FullLoader)
     return configfile
 
 
 def url_is_alive(url):
-    """
-    Checks that a given URL is reachable.
+    """Check that a given URL is reachable.
+
     :param url: A URL
     :rtype: bool
     """
-    import urllib
     request = urllib.request.Request(url)
     request.get_method = lambda: 'HEAD'
     try:
@@ -143,66 +101,61 @@ def url_is_alive(url):
         return False
 
 
-def download_table(filepath, url, get_time=False, zip_dir=None):
-    if not os.path.exists(filepath):
-        if url[-4:].lower() == '.zip':
+def download_table(filepath: Path, url: str, get_time=False):
+    """Download file at url to Path if it does not exist."""
+    if not filepath.exists():
+        if url.lower().endswith('zip'):
             import zipfile, requests, io
             table_request = requests.get(url).content
             zip_file = zipfile.ZipFile(io.BytesIO(table_request))
-            if zip_dir is None:
-                zip_dir = os.path.abspath(os.path.join(filepath, "../../.."))
-            zip_file.extractall(zip_dir)
-        elif 'xls' in url.lower() or url.lower()[-5:] == 'excel':
-            import urllib, shutil
-            with urllib.request.urlopen(url) as response, open(filepath, 'wb') as out_file:
-                shutil.copyfileobj(response, out_file)
+            zip_file.extractall(filepath)
+        elif 'xls' in url.lower() or url.lower().endswith('excel'):
+            import shutil
+            try:
+                with urllib.request.urlopen(url) as response, open(filepath, 'wb') as out_file:
+                    shutil.copyfileobj(response, out_file)
+            except urllib.error.HTTPError:
+                log.warning(f'Error downloading {url}')
         elif 'json' in url.lower():
-            import pandas as pd
             pd.read_json(url).to_csv(filepath, index=False)
         if get_time:
-            try: retrieval_time = os.path.getctime(filepath)
+            try: retrieval_time = filepath.stat().st_ctime
             except: retrieval_time = time.time()
             return time.ctime(retrieval_time)
     elif get_time:
-        return time.ctime(os.path.getctime(filepath))
-        
+        return time.ctime(filepath.stat().st_ctime)
 
-def import_table(path_or_reference, skip_lines=0, get_time=False):
-    if '.core.frame.DataFrame' in str(type(path_or_reference)):
-        df = path_or_reference
-    elif path_or_reference[-3:].lower() == 'csv':
+
+def import_table(path_or_reference, get_time=False):
+    """Read and return time of csv from url or Path."""
+    try:
         df = pd.read_csv(path_or_reference, low_memory=False)
-    elif 'xls' in path_or_reference[-4:].lower():
-        df = pd.read_excel(path_or_reference, sheet_name=None,
-                           skiprows=skip_lines)
-    if get_time:
-        try: retrieval_time = os.path.getctime(path_or_reference)
-        except: retrieval_time = time.time()
+    except urllib.error.URLError as exception:
+        log.warning(exception.reason)
+        log.info('retrying url...')
+        time.sleep(3)
+        df = pd.read_csv(path_or_reference, low_memory=False)
+    if get_time and isinstance(path_or_reference, Path):
+        retrieval_time = path_or_reference.stat().st_ctime
+        return df, time.ctime(retrieval_time)
+    elif get_time:
+        retrieval_time = time.time()
         return df, time.ctime(retrieval_time)
     return df
 
 
-def drop_excel_sheets(excel_dict, drop_sheets):
-    for s in drop_sheets:
-        try:
-            excel_dict.pop(s)
-        except KeyError:
-            continue
-    return excel_dict
+def aggregate(df, grouping_vars=None):
+    """Aggregate a 'FlowAmount' in a dataframe based on the passed grouping_vars
+    and generating a weighted average for data quality fields.
 
-
-def aggregate(df, grouping_vars = None):
-    """
-    Aggregate a 'FlowAmount' in a dataframe based on the passed grouping_vars
-    and generating a weighted average for data quality fields
     :param df: dataframe to aggregate
     :param grouping_vars: list of df column headers on which to groupby
     :return: aggregated dataframe with weighted average data reliability score
     """
     if grouping_vars is None:
-        grouping_vars = [x for x in df.columns if x not in ['FlowAmount','DataReliability']]
+        grouping_vars = [x for x in df.columns if x not in ['FlowAmount', 'DataReliability']]
     df_agg = df.groupby(grouping_vars).agg({'FlowAmount': ['sum']})
-    df_agg['DataReliability']=get_weighted_average(
+    df_agg['DataReliability'] = get_weighted_average(
         df, 'DataReliability', 'FlowAmount', grouping_vars)
     df_agg = df_agg.reset_index()
     df_agg.columns = df_agg.columns.droplevel(level=1)
@@ -213,25 +166,17 @@ def aggregate(df, grouping_vars = None):
 
 
 def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
-    """
-    Converts values in coln3 if coln2 == unit, based on the conversion
-    factor, and assigns to coln1
+    """Convert values in coln3 if coln2 == unit, based on the conversion
+    factor, and assigns to coln1.
     """
     df.loc[df[coln2] == unit, coln1] = conversion_factor * df[coln3]
     return df
 
-#Conversion factors
-USton_kg = 907.18474
-lb_kg = 0.4535924
-MMBtu_MJ = 1055.056
-MWh_MJ = 3600
-g_kg = 0.001
-
 
 def write_metadata(file_name, metadata_dict, category='',
                    datatype="inventory"):
-    """writes metadata specific to the inventory in file_name to local
-    directory as a JSON file
+    """Write JSON metadata specific to inventory to local directory.
+
     :param file_name: str in the form of inventory_year
     :param metadata_dict: dictionary of metadata to save
     :param category: str of a stewi format type e.g. 'flowbyfacility'
@@ -241,17 +186,18 @@ def write_metadata(file_name, metadata_dict, category='',
         validation metadata
     """
     if (datatype == "inventory") or (datatype == "source"):
-        meta = set_stewi_meta(file_name, inventory_format=category)
+        meta = set_stewi_meta(file_name, stewiformat=category)
         meta.tool_meta = metadata_dict
         write_metadata_to_file(paths, meta)
     elif datatype == "validation":
-        with open(output_dir + '/validation/' + file_name + \
+        with open(paths.local_path + '/validation/' + file_name +
                   '_validationset_metadata.json', 'w') as file:
             file.write(json.dumps(metadata_dict, indent=4))
 
 
 def compile_source_metadata(sourcefile, config, year):
-    """Compiles metadata related to the source data downloaded to generate inventory
+    """Compile metadata related to the source data downloaded to generate inventory.
+
     :param sourcefile: str or list of source file names
     :param config:
     :param year:
@@ -272,104 +218,90 @@ def compile_source_metadata(sourcefile, config, year):
     else:
         import re
         pattern = 'V[0-9]'
-        version = re.search(pattern,filename,flags=re.IGNORECASE)
+        version = re.search(pattern, filename, flags=re.IGNORECASE)
         if version is not None:
             metadata['SourceVersion'] = version.group(0)
     return metadata
 
-def remove_line_breaks(df, headers_only = True):
+
+def remove_line_breaks(df, headers_only=True):
     for column in df:
-        df.rename(columns={column: column.replace('\r\n',' ')}, inplace=True)
-        df.rename(columns={column: column.replace('\n',' ')}, inplace=True)
+        df.rename(columns={column: column.replace('\r\n', ' ')}, inplace=True)
+        df.rename(columns={column: column.replace('\n', ' ')}, inplace=True)
     if not headers_only:
-        df = df.replace(to_replace=['\r\n','\n'],value=[' ', ' '], regex=True)
-    return df    
+        df = df.replace(to_replace=['\r\n', '\n'], value=[' ', ' '], regex=True)
+    return df
 
 
-def get_required_fields(inventory_format='flowbyfacility'):
-    fields = format_dict[inventory_format]
-    required_fields = {key: value[0]['dtype'] for key, value
-                       in fields.items() if value[1]['required'] is True}
-    return required_fields
+def add_missing_fields(df, inventory_acronym, f, maintain_columns=False):
+    """Add all fields and formats for stewi inventory file.
 
-
-def get_optional_fields(inventory_format='flowbyfacility'):
-    fields = format_dict[inventory_format]
-    optional_fields = {key: value[0]['dtype'] for key, value
-                       in fields.items()}
-    return optional_fields
-
-
-def add_missing_fields(df, inventory_acronym, inventory_format='flowbyfacility',
-                       maintain_columns = False):
-    """Adds all fields and formats for stewi inventory file
     :param df: dataframe of inventory data
     :param inventory_acronym: str of inventory e.g. 'NEI'
-    :param inventory_format: str of a stewi format type e.g. 'flowbyfacility'
+    :param f: object of class StewiFormat
     :param maintain_columns: bool, if True do not delete any existing columns,
-        useful for inventories or inventory_formats that may have custom fields
-    :return: dataframe of inventory containing all relevant columns 
+        useful for inventories or inventory formats that may have custom fields
+    :return: dataframe of inventory containing all relevant columns
     """
-    fields = dict(format_dict[inventory_format])
     # Rename for legacy datasets
-    if 'ReliabilityScore' in df.columns:
-        df.rename(columns={'ReliabilityScore':'DataReliability'}, inplace=True)
+    if 'ReliabilityScore' in df:
+        df.rename(columns={'ReliabilityScore': 'DataReliability'}, inplace=True)
     # Add in units and compartment if not present
-    if ('Unit' in fields.keys()) & ('Unit' not in df.columns):
+    if 'Unit' in f.fields() and 'Unit' not in df:
         df['Unit'] = 'kg'
-    if ('Compartment' in fields.keys()) & ('Compartment' not in df.columns):
+    if 'Compartment' in f.fields() and 'Compartment' not in df:
         try:
             compartment = inventory_single_compartments[inventory_acronym]
         except KeyError:
             log.warning('no compartment found in inventory')
             compartment = ''
         df['Compartment'] = compartment
-    for key in fields.keys():
-        if key not in df.columns:
-            df[key] = None
+    for field in f.fields():
+        if field not in df:
+            df[field] = None
     # Resort
-    col_list = list(fields.keys())
+    col_list = f.fields()
     if maintain_columns:
-        col_list = col_list + [c for c in df.columns if c not in list(fields.keys())]
+        col_list = col_list + [c for c in df if c not in f.fields()]
     df = df[col_list]
+    df.reset_index(drop=True, inplace=True)
     return df
 
-def checkforFile(filepath):
-    return os.path.exists(filepath)
 
+def store_inventory(df, file_name, f, replace_files=REPLACE_FILES):
+    """Store inventory to local directory based on inventory format.
 
-def store_inventory(df, file_name, inventory_format, replace_files = REPLACE_FILES):
-    """Stores the inventory dataframe to local directory based on inventory format
     :param df: dataframe of processed inventory to save
     :param file_name: str of inventory_year e.g. 'TRI_2016'
-    :param inventory_format: str of a stewi format type e.g. 'flowbyfacility'
+    :param f: object of class StewiFormat
     :param replace_files: bool, True will use esupy function to delete existing
         files of the same name
     """
-    meta = set_stewi_meta(file_name, inventory_format)
-    method_path = output_dir + '/' + meta.category
+    meta = set_stewi_meta(file_name, str(f))
+    method_path = paths.local_path + '/' + meta.category
     try:
-        log.info('saving ' + meta.name_data + ' to ' + method_path)
-        write_df_to_file(df,paths,meta)
+        log.info(f'saving {meta.name_data} to {method_path}')
+        write_df_to_file(df, paths, meta)
         if replace_files:
             remove_extra_files(meta, paths)
     except:
         log.error('Failed to save inventory')
 
-def read_inventory(inventory_acronym, year, inventory_format):
-    """Returns the inventory as dataframe from local directory. If not found,
-    the inventory is generated.
+
+def read_inventory(inventory_acronym, year, f):
+    """Return the inventory from local directory. If not found, generate it.
+
     :param inventory_acronym: like 'TRI'
     :param year: year as number like 2010
-    :param inventory_format: str of a stewi format type e.g. 'flowbyfacility'
+    :param f: object of class StewiFormat
     :return: dataframe of stored inventory; if not present returns None
     """
     file_name = inventory_acronym + '_' + str(year)
-    meta = set_stewi_meta(file_name, inventory_format)
+    meta = set_stewi_meta(file_name, str(f))
     inventory = load_preprocessed_output(meta, paths)
-    method_path = output_dir + '/' + meta.category
+    method_path = paths.local_path + '/' + meta.category
     if inventory is None:
-        log.info(meta.name_data + ' not found in ' + method_path)
+        log.info(f'{meta.name_data} not found in {method_path}')
         log.info('requested inventory does not exist in local directory, '
                  'it will be generated...')
         generate_inventory(inventory_acronym, year)
@@ -377,9 +309,9 @@ def read_inventory(inventory_acronym, year, inventory_format):
         if inventory is None:
             log.error('error generating inventory')
     if inventory is not None:
-        log.info('loaded ' + meta.name_data + ' from ' + method_path)
+        log.info(f'loaded {meta.name_data} from {method_path}')
         # ensure dtypes
-        fields = get_optional_fields(inventory_format)
+        fields = f.field_types()
         fields = {key: value for key, value in fields.items()
                   if key in list(inventory)}
         inventory = inventory.astype(fields)
@@ -387,7 +319,8 @@ def read_inventory(inventory_acronym, year, inventory_format):
 
 
 def generate_inventory(inventory_acronym, year):
-    """generates the passed inventory data by running the appropriate modules
+    """Generate inventory data by running the appropriate modules.
+
     :param inventory_acronym: like 'TRI'
     :param year: year as number like 2010
     """
@@ -396,8 +329,8 @@ def generate_inventory(inventory_acronym, year):
     year = str(year)
     if inventory_acronym == 'DMR':
         import stewi.DMR as DMR
-        DMR.main(Option = 'A', Year = [year])
-        DMR.main(Option = 'B', Year = [year])
+        DMR.main(Option= 'A', Year = [year])
+        DMR.main(Option= 'B', Year = [year])
     elif inventory_acronym == 'eGRID':
         import stewi.egrid as eGRID
         eGRID.main(Option = 'A', Year = [year])
@@ -420,13 +353,13 @@ def generate_inventory(inventory_acronym, year):
         import stewi.TRI as TRI
         TRI.main(Option = 'A', Year = [year], Files = ['1a', '3a'])
         TRI.main(Option = 'C', Year = [year], Files = ['1a', '3a'])
-    
+
 
 def get_reliability_table_for_source(source):
-    """retrieve the reliability table within stewi"""
+    """Retrieve the reliability table within stewi."""
     dq_file = 'DQ_Reliability_Scores_Table3-3fromERGreport.csv'
-    df = pd.read_csv(data_dir + dq_file, usecols=['Source', 'Code',
-                                                  'DQI Reliability Score'])
+    df = pd.read_csv(DATA_PATH.joinpath(dq_file), usecols=['Source', 'Code',
+                                                          'DQI Reliability Score'])
     df = df.loc[df['Source'] == source].reset_index(drop=True)
     df.drop('Source', axis=1, inplace=True)
     return df
