@@ -34,7 +34,8 @@ jobs:
         py-version: [3.8, 3.9]
         build-type:
         - user
-        - dev
+      # Do not need to test install on dev because requirements are the same  
+      # - dev 
 
     steps:
     - uses: actions/checkout@v2
