@@ -1,4 +1,5 @@
 # Standardized Emission and Waste Inventories (StEWI)
+[![build](https://github.com/USEPA/standardizedinventories/actions/workflows/python-package.yml/badge.svg)](https://github.com/USEPA/standardizedinventories/actions/workflows/python-package.yml)
 
 StEWI is a collection of Python modules that provide processed USEPA facility-based emission and waste generation inventory data in standard tabular formats.
  The standard outputs may be further aggregated or filtered based on given criteria, and can be combined based on common facility and flows
