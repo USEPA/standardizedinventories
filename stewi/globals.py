@@ -264,6 +264,7 @@ def add_missing_fields(df, inventory_acronym, f, maintain_columns=False):
     if maintain_columns:
         col_list = col_list + [c for c in df if c not in f.fields()]
     df = df[col_list]
+    df.reset_index(drop=True, inplace=True)
     return df
 
 

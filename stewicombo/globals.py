@@ -90,10 +90,13 @@ def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
     columns_to_keep = StewiFormat.FLOWBYFACILITY.fields() + ['Source',
                                                              'Year', 'FRS_ID']
     inventories = pd.DataFrame()
+    filters = None
+    if filter_for_LCI:
+        filters = ['filter_for_LCI']
     for k in inventory_dict.keys():
         inventory = stewi.getInventory(k, inventory_dict[k],
                                        'flowbyfacility',
-                                       filter_for_LCI=filter_for_LCI)
+                                       filters)
         if inventory is None:
             continue
         inventory["Source"] = k
