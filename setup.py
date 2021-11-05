@@ -1,6 +1,6 @@
 from setuptools import setup
 
-install_requires=['esupy @ git+https://github.com/USEPA/esupy.git@develop#egg=esupy',
+install_requires=['esupy @ git+https://github.com/USEPA/esupy#egg=esupy',
                   'numpy>=1.20.1',
                   'pandas>=1.3',
                   'requests>=2.20',
@@ -13,7 +13,7 @@ install_requires=['esupy @ git+https://github.com/USEPA/esupy.git@develop#egg=es
 
 setup(
     name="StEWI",
-    version="0.10.0",
+    version="1.0.0",
     author="Wesley Ingwersen, Ben Young, Matthew Bergman, Jose Hernandez-Betancur, Tapajyoti Ghosh, Mo Li",
     author_email="ingwersen.wesley@epa.gov",
     description="Standardized Emission And Waste Inventories (StEWI)"
@@ -28,7 +28,7 @@ setup(
     extras_require={"RCRAInfo": ['webdriver_manager>=3.4.2',
                                  'selenium>=3.141.0']},
     classifiers=[
-        "Development Status :: Beta",
+        "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
         "Intended Audience :: Science/Research",
         "License :: CC0",
