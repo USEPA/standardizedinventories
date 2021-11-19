@@ -26,7 +26,7 @@ import zipfile
 import io
 from pathlib import Path
 
-from esupy.remote import make_http_request
+from esupy.remote import make_url_request
 from stewi.globals import DATA_PATH, write_metadata,\
     unit_convert, log, MMBtu_MJ, MWh_MJ, config, USton_kg, lb_kg,\
     compile_source_metadata, remove_line_breaks, paths, store_inventory,\
@@ -89,7 +89,7 @@ def download_eGRID(year):
     download_url = _config[year]['download_url']
     egrid_file_name = _config[year]['file_name']
 
-    r = make_http_request(download_url)
+    r = make_url_request(download_url)
 
     # extract .xlsx workbook
     if year == '2016' or year == '2014':
