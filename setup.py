@@ -5,7 +5,6 @@ install_requires=['esupy @ git+https://github.com/USEPA/esupy.git@develop#egg=es
                   'pandas>=1.3',
                   'requests>=2.20',
                   'beautifulsoup4>=4.9.3',
-                  'regex>=2021.4.4',
                   'PyYAML>=5.1',
                   'openpyxl>=3.0.7',
                   'xlrd>=2.0.0',
