@@ -31,7 +31,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        py-version: ['3.8', '3.9', '3.10']
+        py-version: ['3.7', '3.8', '3.9', '3.10']
         
     steps:
     - uses: actions/checkout@v2
@@ -48,7 +48,7 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel
         pip install pytest pytest-cov flake8
     
-    # install package & dependencies
+    # install testing
     - name: Install package and dependencies
       run: |
         pip install .["RCRAInfo"]
