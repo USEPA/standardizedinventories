@@ -102,9 +102,9 @@ If the `remove_overlap` parameter is set to True (default), `stewicombo` combine
 ## Installation Instructions
 
 Install a release directly from github using pip. From a command line interface, run:
-> pip install git+https://github.com/USEPA/standardizedinventories.git@v1.0.1#egg=StEWI
+> pip install git+https://github.com/USEPA/standardizedinventories.git@v1.0.2#egg=StEWI
 
-where you can replace 'v1.0.1' with the version you wish to use under [Releases](https://github.com/USEPA/standardizedinventories/releases).
+where you can replace 'v1.0.2' with the version you wish to use under [Releases](https://github.com/USEPA/standardizedinventories/releases).
 
 Alternatively, to install from the most current point on the repository:
 ```
