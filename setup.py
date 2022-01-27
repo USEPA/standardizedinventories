@@ -13,7 +13,7 @@ install_requires=['esupy @ git+https://github.com/USEPA/esupy#egg=esupy',
 setup(
     name="StEWI",
     version="1.0.2",
-    author="Wesley Ingwersen, Ben Young, Matthew Bergman, Jose Hernandez-Betancur, Tapajyoti Ghosh, Mo Li",
+    author="Ben Young, Wesley Ingwersen, Matthew Bergmann, Jose Hernandez-Betancur, Tapajyoti Ghosh, Eric Bell",
     author_email="ingwersen.wesley@epa.gov",
     description="Standardized Emission And Waste Inventories (StEWI)"
                 "provides processed EPA release and emissions inventories "
