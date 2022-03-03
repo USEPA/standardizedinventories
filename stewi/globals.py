@@ -305,6 +305,7 @@ def read_inventory(inventory_acronym, year, f, download_if_missing=False):
     if inventory is None:
         log.info(f'{meta.name_data} not found in {method_path}')
         if download_if_missing:
+            meta.tool = meta.tool.lower() # lower case for remote access
             download_from_remote(meta, paths)
         else:
             log.info('requested inventory does not exist in local directory, '
