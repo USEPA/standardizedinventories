@@ -60,7 +60,8 @@ def printAvailableInventories(stewiformat='flowbyfacility'):
 
 
 def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
-                 filters=None, filter_for_LCI=False, US_States_Only=False):
+                 filters=None, filter_for_LCI=False, US_States_Only=False,
+                 download_if_missing=False):
     """Return or generate an inventory in a standard output format.
 
     :param inventory_acronym: like 'TRI'
@@ -68,12 +69,16 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
     :param stewiformat: str e.g. 'flowbyfacility' or 'flow'
     :param filters: a list of named filters to apply to inventory
     :param filter_for_LCI: whether or not to filter inventory for life
-        cycle inventory creation
-    :param US_States_Only: includes only US states
+        cycle inventory creation, is DEPRECATED in favor of 'filters'
+    :param US_States_Only: includes only US states, is DEPRECATED in
+        favor of 'filters'
+    :param download_if_missing: bool, if True will attempt to load from
+        remote server prior to generating if file not found locally
     :return: dataframe with standard fields depending on output format
     """
     f = ensure_format(stewiformat)
-    inventory = read_inventory(inventory_acronym, year, f)
+    inventory = read_inventory(inventory_acronym, year, f,
+                               download_if_missing)
     if not filters:
         filters = []
     if f.value > 2:  # exclude FLOW and FACILITY
@@ -102,31 +107,39 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
     return inventory
 
 
-def getInventoryFlows(inventory_acronym, year):
+def getInventoryFlows(inventory_acronym, year,
+                      download_if_missing=False):
     """Return flows for an inventory.
 
     :param inventory_acronym: e.g. 'TRI'
     :param year: e.g. 2014
+    :param download_if_missing: bool, if True will attempt to load from
+        remote server prior to generating if file not found locally
     :return: dataframe with standard flows format
     """
-    flows = read_inventory(inventory_acronym, year, StewiFormat.FLOW)
+    flows = read_inventory(inventory_acronym, year, StewiFormat.FLOW,
+                           download_if_missing)
     if flows is None:
-        return None
+        return
     flows = add_missing_fields(flows, inventory_acronym, StewiFormat.FLOW,
                                maintain_columns=False)
     return flows
 
 
-def getInventoryFacilities(inventory_acronym, year):
+def getInventoryFacilities(inventory_acronym, year,
+                           download_if_missing=False):
     """Return flows for an inventory.
 
     :param inventory_acronym: e.g. 'TRI'
     :param year: e.g. 2014
+    :param download_if_missing: bool, if True will attempt to load from
+        remote server prior to generating if file not found locally
     :return: dataframe with standard flows format
     """
-    facilities = read_inventory(inventory_acronym, year, StewiFormat.FACILITY)
+    facilities = read_inventory(inventory_acronym, year, StewiFormat.FACILITY,
+                                download_if_missing)
     if facilities is None:
-        return None
+        return
     facilities = add_missing_fields(facilities, inventory_acronym, StewiFormat.FACILITY,
                                     maintain_columns=True)
     return facilities
