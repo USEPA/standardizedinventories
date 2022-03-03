@@ -18,7 +18,7 @@ setup(
     description="Standardized Emission And Waste Inventories (StEWI)"
                 "provides processed EPA release and emissions inventories "
                 "in standard tabular format",
-    license="CC0",
+    license="MIT",
     keywords="USEPA data",
     url="http://www.github.com/usepa/standardizedinventories",
     packages=['chemicalmatcher', 'facilitymatcher', 'stewi', 'stewicombo'],
@@ -30,7 +30,7 @@ setup(
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
         "Intended Audience :: Science/Research",
-        "License :: CC0",
+        "License :: MIT",
         "Programming Language :: Python :: 3.x",
         "Topic :: Utilities",
     ]
