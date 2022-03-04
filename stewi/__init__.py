@@ -97,7 +97,7 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
                 filters.append('US_States_only')
 
         inventory = apply_filters_to_inventory(inventory, inventory_acronym, year,
-                                               filters)
+                                               filters, download_if_missing)
         # After filting, may be necessary to reaggregate inventory again
         inventory = aggregate(inventory)
 
