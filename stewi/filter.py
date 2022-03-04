@@ -33,7 +33,8 @@ def apply_filters_to_inventory(inventory, inventory_acronym, year, filters,
     if 'US_States_only' in filters:
         log.info('filtering for US states')
         inventory = filter_states(inventory, inventory_acronym=inventory_acronym,
-                                  year=year, download_if_missing)
+                                  year=year,
+                                  download_if_missing=download_if_missing)
 
     if inventory_acronym == 'DMR' and 'remove_duplicate_organic_enrichment' in filters:
         from stewi.DMR import remove_duplicate_organic_enrichment
