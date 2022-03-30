@@ -668,6 +668,94 @@ def load_subpart_l_gwp():
     return subpart_L_GWPs
 
 
+def estimate_facility_fuel_use(year):
+    """
+    Calculate fuel consumption based on reported emissions in Subpart C.
+    Uses emissions reported under methods Tier 1, 2, 3, or 4 and default
+    combustion emission factors provided by GHGRP.
+    Returns dataframe by facility of fuel consumption by fuel in physical
+    and energy units.
+    """
+    m = MetaGHGRP()
+    subpart_c_table = _config['subpart_C_fuel_table']
+    tables_dir = OUTPUT_PATH.joinpath('tables', year)
+    tables_dir.mkdir(parents=True, exist_ok=True)
+    filepath = tables_dir.joinpath(f"{subpart_c_table}.csv")
+    fuel_df = import_or_download_table(filepath, subpart_c_table,
+                                       year, m)
+
+    # combine all fuel name columns from different tables into one
+    fuel_cols = ['FUEL_TYPE_OTHER','FUEL_TYPE','FUEL_TYPE_BLEND']
+    fuel_df['FuelType'] = fuel_df[fuel_cols].fillna('').sum(axis=1)
+
+    col_dict = {
+        'TIER123_CO2_COMBUSTION_EMISSIONS': ['TIER1_CO2_COMBUSTION_EMISSIONS',
+                                             'TIER2_CO2_COMBUSTION_EMISSIONS',
+                                             'TIER3_CO2_COMBUSTION_EMISSIONS'],
+        'T4P75_CH4_EMISSIONS_CO2E': ['T4CH4COMBUSTIONEMISSIONS',
+                                     'PART_75_CH4_EMISSIONS_CO2E'],
+        'T4P75_N2O_EMISSIONS_CO2E': ['T4N2OCOMBUSTIONEMISSIONS',
+                                     'PART_75_N2O_EMISSIONS_CO2E']
+                }
+
+    for new_col, cols in col_dict.items():
+        fuel_df[new_col] = fuel_df[cols].sum(axis=1)
+
+    keep_cols = ['FACILITY_ID', 'FuelType'] + list(col_dict.keys())
+    fuel_df.drop([col for col in fuel_df.columns if col not in keep_cols],
+                 axis=1, inplace=True)
+
+    # load CO2 emission factors
+    CO2_efs = import_table(GHGRP_DATA_PATH.joinpath(
+        "GHGRP_default_CO2_efs.csv"))
+
+    # merge CO2 emission factors based on fuel type
+    fuel_df = fuel_df.merge(CO2_efs, left_on='FuelType',
+                            right_on='Fuel type', how='left')
+
+    # load CH4 and N2O emission factors
+    CH4N2O_efs = import_table(GHGRP_DATA_PATH.joinpath(
+        "GHGRP_default_CH4N2O_efs.csv"))
+
+    # merge CH4 and N2O emission factors based on fuel type
+    fuel_df = fuel_df.merge(CH4N2O_efs, left_on='FuelType',
+                            right_on='Fuel type', how='left')
+
+    # calculate fuel quantity from CO2 emissions for Tier 1, 2, and 3 emissions
+    fuel_df['FuelQtyT123'] = (fuel_df['TIER123_CO2_COMBUSTION_EMISSIONS'] *
+                              1000 / fuel_df['CO2_EF'])
+    # calculate fuel quantity from CH4 emissions for Tier 4 and Part 75 emissions
+    fuel_df['FuelQtyCH4'] = (fuel_df['T4P75_CH4_EMISSIONS_CO2E'] *
+                             1000 / fuel_df['CH4_EF'])
+    # calculate fuel quantity from N2O emissions for Tier 4 and Part 75 emissions
+    fuel_df['FuelQtyN2O'] = (fuel_df['T4P75_N2O_EMISSIONS_CO2E'] *
+                             1000 / fuel_df['N2O_EF'])
+    # estimate fuel quantity from average of CH4 and N2O results for Tier 4 and Part 75 emissions
+    fuel_df['FuelQtyT4P75'] = fuel_df[['FuelQtyCH4','FuelQtyN2O']].mean(axis=1)
+
+    # sum Tier 1, 2, and 3 emissions with Tier 4 and Part 75 emissions
+    fuel_df['FuelQty_mmbtu'] = fuel_df['FuelQtyT123'] + fuel_df['FuelQtyT4P75']
+
+    fuel_df['FuelQtyPhysical'] = fuel_df['FuelQty_mmbtu'] / fuel_df['HHV (mmbtu)']
+    # rename columns for consistency
+    fuel_df.rename(columns={'Unit': 'FuelQtyUnits'}, inplace=True)
+
+    # drop all rows where fuel quantity is equal to zero
+    fuel_df = fuel_df[fuel_df['FuelQty_mmbtu'] != 0]
+
+    # aggregate to facility level
+    fuel_inv = fuel_df.groupby(['FACILITY_ID', 'FuelType',
+                                'FuelQtyUnits']).agg(
+                                    {'FuelQty_mmbtu': ['sum'],
+                                     'FuelQtyPhysical': ['sum']})
+    fuel_inv = fuel_inv.reset_index()
+    fuel_inv.columns = fuel_inv.columns.droplevel(level=1)
+
+    col = fuel_inv.pop('FuelQtyUnits')
+    fuel_inv.insert(len(fuel_inv.columns), col.name, col)
+    return fuel_inv
+
+
 def main(**kwargs):
 
     parser = argparse.ArgumentParser(argument_default = argparse.SUPPRESS)

@@ -1,0 +1,60 @@
+﻿Fuel type,HHV (mmbtu),Unit,CO2_EF,Unit2
+Anthracite,25.09,short ton,103.69,kg CO2/mmBtu
+Bituminous,24.93,short ton,93.28,kg CO2/mmBtu
+Subbituminous,17.25,short ton,97.17,kg CO2/mmBtu
+Lignite,14.21,short ton,97.72,kg CO2/mmBtu
+Coal Coke,24.8,short ton,113.67,kg CO2/mmBtu
+Mixed (Commercial sector),21.39,short ton,94.27,kg CO2/mmBtu
+Mixed (Industrial coking),26.28,short ton,93.9,kg CO2/mmBtu
+Mixed (Industrial sector),22.35,short ton,94.67,kg CO2/mmBtu
+Mixed (Electric Power sector),19.73,short ton,95.52,kg CO2/mmBtu
+Natural Gas (Weighted U.S. Average),1.26E-03,scf,53.06,kg CO2/mmBtu
+Distillate Fuel Oil No. 1,0.139,gallon,73.25,kg CO2/mmBtu
+Distillate Fuel Oil No. 2,0.138,gallon,73.96,kg CO2/mmBtu
+Distillate Fuel Oil No. 4,0.146,gallon,75.04,kg CO2/mmBtu
+Residual Fuel Oil No. 5,0.14,gallon,72.93,kg CO2/mmBtu
+Residual Fuel Oil No. 6,0.15,gallon,75.1,kg CO2/mmBtu
+Used Oil,0.138,gallon,74,kg CO2/mmBtu
+Kerosene,0.135,gallon,75.2,kg CO2/mmBtu
+Liquefied petroleum gases (LPG),0.092,gallon,61.71,kg CO2/mmBtu
+Propane,0.091,gallon,62.87,kg CO2/mmBtu
+Propylene 2,0.091,gallon,67.77,kg CO2/mmBtu
+Ethane 1,0.068,gallon,59.6,kg CO2/mmBtu
+Ethanol,0.084,gallon,68.44,kg CO2/mmBtu
+Ethylene 2,0.058,gallon,65.96,kg CO2/mmBtu
+Isobutane 1,0.099,gallon,64.94,kg CO2/mmBtu
+Isobutylene 1,0.103,gallon,68.86,kg CO2/mmBtu
+Butane 1,0.103,gallon,64.77,kg CO2/mmBtu
+Butylene 1,0.105,gallon,68.72,kg CO2/mmBtu
+Naphtha (<401 deg F),0.125,gallon,68.02,kg CO2/mmBtu
+Natural Gasoline,0.11,gallon,66.88,kg CO2/mmBtu
+Other Oil (>401 deg F),0.139,gallon,76.22,kg CO2/mmBtu
+Pentanes Plus,0.11,gallon,70.02,kg CO2/mmBtu
+Petrochemical Feedstocks,0.125,gallon,71.02,kg CO2/mmBtu
+Special Naphtha,0.125,gallon,72.34,kg CO2/mmBtu
+Unfinished Oils,0.139,gallon,74.54,kg CO2/mmBtu
+Heavy Gas Oils,0.148,gallon,74.92,kg CO2/mmBtu
+Lubricants,0.144,gallon,74.27,kg CO2/mmBtu
+Motor Gasoline,0.125,gallon,70.22,kg CO2/mmBtu
+Aviation Gasoline,0.12,gallon,69.25,kg CO2/mmBtu
+Kerosene-Type Jet Fuel,0.135,gallon,72.22,kg CO2/mmBtu
+Asphalt and Road Oil,0.158,gallon,75.36,kg CO2/mmBtu
+Crude Oil,0.138,gallon,74.54,kg CO2/mmBtu
+Petroleum Coke,30,short ton,102.41,kg CO2/mmBtu
+Propane Gas,2.52E-03,scf,61.46,kg CO2/mmBtu
+Municipal Solid Waste,9.95,short ton,90.7,kg CO2/mmBtu
+Tires,28,short ton,85.97,kg CO2/mmBtu
+Plastics,38,short ton,75,kg CO2/mmBtu
+Blast Furnace Gas,9.20E-05,scf,274.32,kg CO2/mmBtu
+Coke Oven Gas,5.99E-04,scf,46.85,kg CO2/mmBtu
+Fuel Gas,1.39E-03,scf,59,kg CO2/mmBtu
+Wood and Wood Residuals (dry basis),17.48,short ton,93.8,kg CO2/mmBtu
+Agricultural Byproducts,8.25,short ton,118.17,kg CO2/mmBtu
+Peat,8,short ton,111.84,kg CO2/mmBtu
+Solid Byproducts,10.39,short ton,105.51,kg CO2/mmBtu
+Landfill Gas,4.85E-04,scf,52.07,kg CO2/mmBtu
+Other Biomass Gases,6.55E-04,scf,52.07,kg CO2/mmBtu
+Ethanol,0.084,gallon,68.44,kg CO2/mmBtu
+Biodiesel (100%),0.128,gallon,73.84,kg CO2/mmBtu
+Rendered Animal Fat,0.125,gallon,71.06,kg CO2/mmBtu
+Vegetable Oil,0.12,gallon,81.55,kg CO2/mmBtu

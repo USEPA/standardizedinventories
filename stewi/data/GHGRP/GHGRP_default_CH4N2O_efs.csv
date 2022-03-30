@@ -1,0 +1,60 @@
+﻿Fuel type,CH4_EF,UnitCH4,N2O_EF,UnitN2O
+Anthracite,0.011,kg CH4/mmBtu,0.0016,kg N2O/mmBtu
+Bituminous,0.011,kg CH4/mmBtu,0.0016,kg N2O/mmBtu
+Subbituminous,0.011,kg CH4/mmBtu,0.0016,kg N2O/mmBtu
+Lignite,0.011,kg CH4/mmBtu,0.0016,kg N2O/mmBtu
+Coal Coke,0.011,kg CH4/mmBtu,0.0016,kg N2O/mmBtu
+Mixed (Commercial sector),0.011,kg CH4/mmBtu,0.0016,kg N2O/mmBtu
+Mixed (Industrial coking),0.011,kg CH4/mmBtu,0.0016,kg N2O/mmBtu
+Mixed (Industrial sector),0.011,kg CH4/mmBtu,0.0016,kg N2O/mmBtu
+Mixed (Electric Power sector),0.011,kg CH4/mmBtu,0.0016,kg N2O/mmBtu
+Natural Gas (Weighted U.S. Average),0.001,kg CH4/mmBtu,0.0001,kg N2O/mmBtu
+Distillate Fuel Oil No. 1,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Distillate Fuel Oil No. 2,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Distillate Fuel Oil No. 4,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Residual Fuel Oil No. 5,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Residual Fuel Oil No. 6,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Used Oil,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Kerosene,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Liquefied petroleum gases (LPG),0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Propane,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Propylene 2,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Ethane 1,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Ethanol,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Ethylene 2,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Isobutane 1,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Isobutylene 1,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Butane 1,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Butylene 1,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Naphtha (<401 deg F),0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Natural Gasoline,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Other Oil (>401 deg F),0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Pentanes Plus,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Petrochemical Feedstocks,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Special Naphtha,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Unfinished Oils,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Heavy Gas Oils,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Lubricants,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Motor Gasoline,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Aviation Gasoline,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Kerosene-Type Jet Fuel,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Asphalt and Road Oil,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Crude Oil,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Petroleum Coke,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Propane Gas,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Municipal Solid Waste,0.032,kg CH4/mmBtu,0.0042,kg N2O/mmBtu
+Tires,0.032,kg CH4/mmBtu,0.0042,kg N2O/mmBtu
+Plastics,,kg CH4/mmBtu,,kg N2O/mmBtu
+Blast Furnace Gas,0.000022,kg CH4/mmBtu,0.0001,kg N2O/mmBtu
+Coke Oven Gas,0.00048,kg CH4/mmBtu,0.0001,kg N2O/mmBtu
+Fuel Gas,0.003,kg CH4/mmBtu,0.0006,kg N2O/mmBtu
+Wood and Wood Residuals (dry basis),0.0072,kg CH4/mmBtu,0.0036,kg N2O/mmBtu
+Agricultural Byproducts,0.032,kg CH4/mmBtu,0.0042,kg N2O/mmBtu
+Peat,0.032,kg CH4/mmBtu,0.0042,kg N2O/mmBtu
+Solid Byproducts,0.032,kg CH4/mmBtu,0.0042,kg N2O/mmBtu
+Landfill Gas,0.0032,kg CH4/mmBtu,0.00063,kg N2O/mmBtu
+Other Biomass Gases,0.0032,kg CH4/mmBtu,0.00063,kg N2O/mmBtu
+Ethanol,0.0011,kg CH4/mmBtu,0.00011,kg N2O/mmBtu
+Biodiesel (100%),0.0011,kg CH4/mmBtu,0.00011,kg N2O/mmBtu
+Rendered Animal Fat,0.0011,kg CH4/mmBtu,0.00011,kg N2O/mmBtu
+Vegetable Oil,0.0011,kg CH4/mmBtu,0.00011,kg N2O/mmBtu

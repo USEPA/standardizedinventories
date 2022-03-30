@@ -101,4 +101,5 @@ databases:
         # Subpart O (HCFC-22 Production and HFC-23 Destruction)
         # across all reporting years.
       subpart_L_GWPs_url: 'https://ccdsupport.com/confluence/download/attachments/63996073/Subpart%20L%20Calculation%20Spreadsheet%20-%20Summarize%20Process%20Level%20CO2e%20by%20f-GHG.xls?version=1&modificationDate=1427459649000&api=v2'
+      subpart_C_fuel_table: 'C_FUEL_LEVEL_INFORMATION'
 
