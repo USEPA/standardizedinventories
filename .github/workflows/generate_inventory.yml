@@ -37,7 +37,7 @@ jobs:
       id: Inventory
       if: always()
       run: |
-        python standardizedinventories/tests/generate_inventory.py
+        pytest -m inventory
 
     - name: Upload files
       if: ${{ env.PUSH_INVENTORIES && steps.Inventory.outcome == 'success' }}
