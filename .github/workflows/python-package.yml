@@ -72,7 +72,7 @@ jobs:
         pytest --doctest-modules
 
     - name: Upload files
-      if: ${{ env.PUSH_INVENTORIES && steps.Inventory.outcome == 'success' }}
+      # if: ${{ env.PUSH_INVENTORIES && steps.Inventory.outcome == 'success' }}
       uses: actions/upload-artifact@v3
       with:
         # Artifact name
