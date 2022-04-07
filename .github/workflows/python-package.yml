@@ -28,9 +28,9 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     env:
-      PUSH_INVENTORIES: |
-        ${{ ((github.event_name == 'pull_request' && github.ref == 'refs/heads/master') || \
-        (github.event_name == 'workflow_dispatch')) && \
+      PUSH_INVENTORIES: >
+        ${{ ((github.event_name == 'pull_request' && github.ref == 'refs/heads/master') ||
+        (github.event_name == 'workflow_dispatch')) &&
         (matrix.os == 'ubuntu-latest' && matrix.py-version == '3.10') }}
     strategy:
       fail-fast: false
