@@ -4,6 +4,7 @@ import pytest
 
 import stewi
 from stewi.globals import config
+from stewi.exceptions import InventoryNotAvailableError
 
 
 year = 2018
@@ -36,7 +37,10 @@ def test_generate_inventories(year):
             continue
         if inventory == 'DMR':
             continue
-        df = stewi.getInventory(inventory, year)
+        try:
+            df = stewi.getInventory(inventory, year)
+        except InventoryNotAvailableError:
+            continue
 
 
 def test_NEI_generation():
@@ -71,4 +75,5 @@ def test_existing_inventories():
 
 
 if __name__ == "__main__":
-    test_all_inventory_generation()
+    # test_all_inventory_generation()
+    test_generate_inventories(2017)
