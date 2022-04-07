@@ -12,13 +12,13 @@ install_requires=['esupy @ git+https://github.com/USEPA/esupy.git@urban_rural_cl
 
 setup(
     name="StEWI",
-    version="1.0.2",
+    version="1.0.3",
     author="Ben Young, Wesley Ingwersen, Matthew Bergmann, Jose Hernandez-Betancur, Tapajyoti Ghosh, Eric Bell",
     author_email="ingwersen.wesley@epa.gov",
     description="Standardized Emission And Waste Inventories (StEWI)"
                 "provides processed EPA release and emissions inventories "
                 "in standard tabular format",
-    license="CC0",
+    license="MIT",
     keywords="USEPA data",
     url="http://www.github.com/usepa/standardizedinventories",
     packages=['chemicalmatcher', 'facilitymatcher', 'stewi', 'stewicombo'],
@@ -30,7 +30,7 @@ setup(
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
         "Intended Audience :: Science/Research",
-        "License :: CC0",
+        "License :: MIT",
         "Programming Language :: Python :: 3.x",
         "Topic :: Utilities",
     ]

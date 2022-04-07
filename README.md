@@ -1,4 +1,5 @@
 # Standardized Emission and Waste Inventories (StEWI)
+[![DOI - 10.3390/app12073447](https://img.shields.io/badge/DOI-10.3390%2Fapp12073447-blue)](https://doi.org/10.3390/app12073447)
 [![build](https://github.com/USEPA/standardizedinventories/actions/workflows/python-package.yml/badge.svg)](https://github.com/USEPA/standardizedinventories/actions/workflows/python-package.yml)
 
 StEWI is a collection of Python modules that provide processed USEPA facility-based emission and waste generation inventory data in standard tabular formats.
@@ -8,6 +9,8 @@ StEWI is a collection of Python modules that provide processed USEPA facility-ba
 StEWI consists of a core module, `stewi`, that digests and provides the USEPA inventory data in standard formats. Two matcher modules, the `facilitymatcher`
 and `chemicalmatcher`, provide commons IDs for facilities and flows across inventories, which is used by the `stewicombo` module
 to combine the data, and optionally remove overlaps and remove double counting of groups of chemicals based on user preferences.
+
+StEWI v1 was peer-reviewed internally at USEPA and externally through _Applied Sciences_. An article describing StEWI was published in a special issue of Applied Sciences: [Advanced Data Engineering for Life Cycle Applications](https://doi.org/10.3390/app12073447).
 
 ## USEPA Inventories Covered By Data Reporting Year (current version)
 
@@ -102,9 +105,9 @@ If the `remove_overlap` parameter is set to True (default), `stewicombo` combine
 ## Installation Instructions
 
 Install a release directly from github using pip. From a command line interface, run:
-> pip install git+https://github.com/USEPA/standardizedinventories.git@v1.0.2#egg=StEWI
+> pip install git+https://github.com/USEPA/standardizedinventories.git@v1.0.3#egg=StEWI
 
-where you can replace 'v1.0.2' with the version you wish to use under [Releases](https://github.com/USEPA/standardizedinventories/releases).
+where you can replace 'v1.0.3' with the version you wish to use under [Releases](https://github.com/USEPA/standardizedinventories/releases).
 
 Alternatively, to install from the most current point on the repository:
 ```

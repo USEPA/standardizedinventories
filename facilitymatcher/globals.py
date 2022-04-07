@@ -17,7 +17,8 @@ from stewi.globals import log, set_stewi_meta, source_metadata, config
 import facilitymatcher.WriteFacilityMatchesforStEWI as write_fm
 import facilitymatcher.WriteFRSNAICSforStEWI as write_naics
 from esupy.processed_data_mgmt import Paths, load_preprocessed_output,\
-    write_df_to_file, write_metadata_to_file, read_source_metadata
+    write_df_to_file, write_metadata_to_file, read_source_metadata,\
+    download_from_remote
 from esupy.util import strip_file_extension
 
 MODULEPATH = Path(__file__).resolve().parent
@@ -97,14 +98,21 @@ def store_fm_file(df, file_name, category='', sources=None):
         log.error('Failed to save inventory')
 
 
-def get_fm_file(file_name):
-    """Read facilitymatcher file, if not present, generate it."""
+def get_fm_file(file_name, download_if_missing=False):
+    """Read facilitymatcher file, if not present, generate it.
+    :param file_name: str, can be 'FacilityMatchList_forStEWI' or
+        'FRS_NAICSforStEWI'
+    :param download_if_missing: bool, if True will attempt to load from
+        remote server prior to generating if file not found locally
+    """
     file_meta = set_facilitymatcher_meta(file_name, category='')
     df = load_preprocessed_output(file_meta, paths)
     if df is None:
         log.info(f'{file_name} not found in {output_dir}, '
                  'writing facility matches to file')
-        if file_name == 'FacilityMatchList_forStEWI':
+        if download_if_missing:
+            download_from_remote(file_meta, paths)
+        elif file_name == 'FacilityMatchList_forStEWI':
             write_fm.write_facility_matches()
         elif file_name == 'FRS_NAICSforStEWI':
             write_naics.write_NAICS_matches()

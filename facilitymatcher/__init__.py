@@ -23,7 +23,8 @@ def get_matches_for_inventories(inventory_list=stewi_inventories):
 
 
 def get_FRS_NAICSInfo_for_facility_list(frs_id_list,
-                                        inventories_of_interest_list=None):
+                                        inventories_of_interest_list=None,
+                                        download_if_missing=False):
     """Return the FRS NAICS codes for the facilities of interest.
 
     Optionally it will also filter that FRS info by inventories of interest
@@ -31,10 +32,12 @@ def get_FRS_NAICSInfo_for_facility_list(frs_id_list,
          e.g. ['110000491735', '110000491744']
     :param inventories_of_interest_list: list of inventories to filter NAICS
         info by using StEWI inventory names e.g. ['NEI']
+    :param download_if_missing: bool, if True will attempt to load from
+        remote server prior to generating if file not found locally
     :return: dataframe with columns 'FRS_ID', 'Source', 'NAICS',
         'PRIMARY_INDICATOR'
     """
-    all_NAICS = get_fm_file('FRS_NAICSforStEWI')
+    all_NAICS = get_fm_file('FRS_NAICSforStEWI', download_if_missing)
     if frs_id_list is not None:
         NAICS_of_interest = filter_by_facility_list(all_NAICS, frs_id_list)
     else:
