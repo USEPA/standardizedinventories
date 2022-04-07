@@ -12,13 +12,16 @@ from stewi.formats import StewiFormat
 filter_config = config(file='filter.yaml')
 
 
-def apply_filters_to_inventory(inventory, inventory_acronym, year, filters):
+def apply_filters_to_inventory(inventory, inventory_acronym, year, filters,
+                               download_if_missing=False):
     """Apply one or more filters from a passed list to an inventory dataframe.
 
     :param inventory: df of stewi inventory of type flowbyfacility or flowbyprocess
     :param inventory_acronym: str of inventory e.g. 'NEI'
     :param year: year as number like 2010
     :param filters: a list of named filters to apply to inventory
+    :param download_if_missing: bool, if True will attempt to load from
+        remote server prior to generating if file not found locally
     :return: DataFrame of filtered inventory
     """
     if 'filter_for_LCI' in filters:
@@ -30,7 +33,8 @@ def apply_filters_to_inventory(inventory, inventory_acronym, year, filters):
     if 'US_States_only' in filters:
         log.info('filtering for US states')
         inventory = filter_states(inventory, inventory_acronym=inventory_acronym,
-                                  year=year)
+                                  year=year,
+                                  download_if_missing=download_if_missing)
 
     if inventory_acronym == 'DMR' and 'remove_duplicate_organic_enrichment' in filters:
         from stewi.DMR import remove_duplicate_organic_enrichment
@@ -38,7 +42,8 @@ def apply_filters_to_inventory(inventory, inventory_acronym, year, filters):
 
     if inventory_acronym == 'RCRAInfo' and 'National_Biennial_Report' in filters:
         log.info('filtering for National Biennial Report')
-        fac_list = read_inventory('RCRAInfo', year, StewiFormat.FACILITY)
+        fac_list = read_inventory('RCRAInfo', year, StewiFormat.FACILITY,
+                                  download_if_missing)
         fac_list = fac_list[['FacilityID',
                              'Generator ID Included in NBR']
                             ].drop_duplicates(ignore_index=True)
@@ -62,7 +67,8 @@ def apply_filters_to_inventory(inventory, inventory_acronym, year, filters):
 
 
 def filter_states(inventory_df, inventory_acronym=None, year=None,
-                  include_states=True, include_dc=True, include_territories=False):
+                  include_states=True, include_dc=True, include_territories=False,
+                  download_if_missing=False):
     """Remove records that are not included in the list of states.
 
     :param inventory_df: dataframe that includes column 'State' of 2 digit strings,
@@ -71,13 +77,16 @@ def filter_states(inventory_df, inventory_acronym=None, year=None,
     :param include_states: bool, True to include data from 50 U.S. states
     :param include_dc: bool, True to include data from D.C.
     :param include_territories: bool, True to include data from U.S. territories
+    :param download_if_missing: bool, if True will attempt to load from
+        remote server prior to generating if file not found locally
     :return: DataFrame
     """
     states_df = pd.read_csv(DATA_PATH.joinpath('state_codes.csv'))
     states_list = []
     if 'State' not in inventory_df:
         if all(p is not None for p in [inventory_acronym, year]):
-            fac_list = read_inventory(inventory_acronym, year, StewiFormat.FACILITY)
+            fac_list = read_inventory(inventory_acronym, year, StewiFormat.FACILITY,
+                                      download_if_missing)
             fac_list = fac_list[['FacilityID', 'State']].drop_duplicates(ignore_index=True)
             inventory_df = inventory_df.merge(fac_list, how='left')
         else:
