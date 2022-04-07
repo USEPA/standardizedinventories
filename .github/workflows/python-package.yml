@@ -32,7 +32,6 @@ jobs:
         ${{ ((github.event_name == 'pull_request' && github.ref == 'refs/heads/master') ||
         (github.event_name == 'workflow_dispatch')) &&
         (matrix.os == 'windows-latest' && matrix.py-version == '3.10') }}
-      DATA_DIR_PATH: "${HOME}/AppData/Local"
     strategy:
       fail-fast: false
       matrix:
@@ -70,7 +69,6 @@ jobs:
     - name: Test with pytest
       id: Inventory
       run: |
-        echo ${{ env.DATA_DIR_PATH }}
         pytest --doctest-modules
 
     - name: Upload files
@@ -81,11 +79,11 @@ jobs:
         name: Inventory files
         # A file, directory or wildcard patter that describes what to upload
         path: |
-          ${{ env.DATA_DIR_PATH }}/stewi/facility/*
-          ${{ env.DATA_DIR_PATH }}/stewi/flow/*
-          ${{ env.DATA_DIR_PATH }}/stewi/flowbyfacility/*
-          ${{ env.DATA_DIR_PATH }}/stewi/flowbyprocess/*
-          ${{ env.DATA_DIR_PATH }}/stewi/validation/*
-          ${{ env.DATA_DIR_PATH }}/stewi/*.json
+          ~/AppData/Local/stewi/facility/*
+          ~/AppData/Local/stewi/flow/*
+          ~/AppData/Local/stewi/flowbyfacility/*
+          ~/AppData/Local/stewi/flowbyprocess/*
+          ~/AppData/Local/stewi/validation/*
+          ~/AppData/Local/stewi/*.json
         if-no-files-found: warn # 'warn' or 'ignore' are also available, defaults to `warn`
         # retention-days: 5 # cannot exceed the retention limit set by the repository, organization, or enterprise.
