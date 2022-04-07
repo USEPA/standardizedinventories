@@ -18,7 +18,7 @@ from pathlib import Path
 from esupy.processed_data_mgmt import Paths, FileMeta,\
     load_preprocessed_output, remove_extra_files,\
     write_df_to_file, write_metadata_to_file,\
-    read_source_metadata
+    read_source_metadata, download_from_remote
 from esupy.dqi import get_weighted_average
 from esupy.util import get_git_hash
 
@@ -288,12 +288,14 @@ def store_inventory(df, file_name, f, replace_files=REPLACE_FILES):
         log.error('Failed to save inventory')
 
 
-def read_inventory(inventory_acronym, year, f):
+def read_inventory(inventory_acronym, year, f, download_if_missing=False):
     """Return the inventory from local directory. If not found, generate it.
 
     :param inventory_acronym: like 'TRI'
     :param year: year as number like 2010
     :param f: object of class StewiFormat
+    :param download_if_missing: bool, if True will attempt to load from
+        remote server prior to generating if file not found locally
     :return: dataframe of stored inventory; if not present returns None
     """
     file_name = inventory_acronym + '_' + str(year)
@@ -302,9 +304,13 @@ def read_inventory(inventory_acronym, year, f):
     method_path = paths.local_path + '/' + meta.category
     if inventory is None:
         log.info(f'{meta.name_data} not found in {method_path}')
-        log.info('requested inventory does not exist in local directory, '
-                 'it will be generated...')
-        generate_inventory(inventory_acronym, year)
+        if download_if_missing:
+            meta.tool = meta.tool.lower() # lower case for remote access
+            download_from_remote(meta, paths)
+        else:
+            log.info('requested inventory does not exist in local directory, '
+                     'it will be generated...')
+            generate_inventory(inventory_acronym, year)
         inventory = load_preprocessed_output(meta, paths)
         if inventory is None:
             log.error('error generating inventory')
