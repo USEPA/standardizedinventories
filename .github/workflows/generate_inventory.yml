@@ -27,7 +27,7 @@ jobs:
       run: |
         python -VV
         python -m pip install --upgrade pip setuptools wheel
-        pip install pytest
+        pip install pytest pytest-cov
 
     - name: Install package and dependencies
       run: |
