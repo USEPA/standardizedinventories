@@ -34,7 +34,7 @@ def test_generate_inventories(year):
     for inventory in config()['databases']:
         if SKIP_BROWSER_DOWNLOAD and inventory in requires_browser_download:
             continue
-        if inventory.isin(['DMR']):
+        if inventory == 'DMR':
             continue
         df = stewi.getInventory(inventory, year)
 
