@@ -1,10 +1,8 @@
-# This workflow will generate inventory datasets via XXX.py
+# This workflow will generate inventory and combined datasets as artifact
 
 name: Generate Inventories
 
 on:
-  push:
-    branches: [inventory_gen]
   pull_request:
     branches: [master]
     types: [opened, reopened]   # excludes syncronize to avoid redundant trigger from commits on PRs

@@ -64,5 +64,5 @@ jobs:
     - name: Test with pytest
       id: Inventory
       run: |
-        pytest --doctest-modules
+        pytest --doctest-modules -m "not (combined or inventory)"
 
