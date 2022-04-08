@@ -62,7 +62,6 @@ jobs:
         flake8 . --count --extend-ignore=E12,E26,E231,E251,E701 --exclude build --exit-zero --max-line-length=127 --statistics
 
     - name: Test with pytest
-      id: Inventory
       run: |
         pytest --doctest-modules -m "not (combined or inventory)"
 
