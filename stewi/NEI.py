@@ -28,19 +28,21 @@ Year:
     2011
 """
 
-import pandas as pd
-import numpy as np
 import argparse
-import requests
-import zipfile
 import io
+import zipfile
 from pathlib import Path
+
+import numpy as np
+import pandas as pd
+import requests
 
 from esupy.processed_data_mgmt import download_from_remote
 from esupy.util import strip_file_extension
 from stewi.globals import DATA_PATH, write_metadata, USton_kg, lb_kg,\
     log, store_inventory, config, read_source_metadata,\
-    paths, aggregate, get_reliability_table_for_source, set_stewi_meta
+    paths, aggregate, get_reliability_table_for_source, set_stewi_meta,\
+    assign_secondary_context
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
 
@@ -123,7 +125,7 @@ def standardize_output(year, source='Point'):
         nei['DataReliability'] = 3
     # add Source column
     nei['Source'] = source
-    nei.reset_index(drop=True, inplace=True)
+    nei = nei.reset_index(drop=True)
     return nei
 
 
@@ -182,9 +184,10 @@ def generate_national_totals(year):
                                 df['FlowAmount'] * USton_kg)
     df = df.drop(columns=['UOM'])
     # sum across all facilities to create national totals
-    df = df.groupby(['FlowID', 'FlowName'])['FlowAmount'].sum().reset_index()
+    df = (df.groupby(['FlowID', 'FlowName'])['FlowAmount'].sum()
+            .reset_index()
+            .rename(columns={'FlowAmount': 'FlowAmount[kg]'}))
     # save national totals to .csv
-    df.rename(columns={'FlowAmount': 'FlowAmount[kg]'}, inplace=True)
     log.info(f'saving NEI_{year}_NationalTotals.csv to {DATA_PATH}')
     df.to_csv(DATA_PATH.joinpath(f'NEI_{year}_NationalTotals.csv'),
               index=False)
@@ -208,11 +211,10 @@ def validate_national_totals(nei_flowbyfacility, year):
         generate_national_totals(year)
     else:
         log.info('using already processed national totals validation file')
-    nei_national_totals = pd.read_csv(DATA_PATH
-                                      .joinpath(f'NEI_{year}_NationalTotals.csv'),
-                                      header=0, dtype={"FlowAmount[kg]": float})
-    nei_national_totals.rename(columns={'FlowAmount[kg]': 'FlowAmount'},
-                               inplace=True)
+    nei_national_totals = (
+        pd.read_csv(DATA_PATH.joinpath(f'NEI_{year}_NationalTotals.csv'),
+                    header=0, dtype={"FlowAmount[kg]": float})
+          .rename(columns={'FlowAmount[kg]': 'FlowAmount'}))
     validation_result = validate_inventory(nei_flowbyfacility,
                                            nei_national_totals,
                                            group_by='flow', tolerance=5.0)
@@ -253,9 +255,12 @@ def main(**kwargs):
         if kwargs['Option'] == 'A':
 
             nei_point = standardize_output(year)
+            nei_point = assign_secondary_context(nei_point, int(year),
+                                                 'urb', 'rh')
 
             log.info('generating flow by facility output')
-            nei_flowbyfacility = aggregate(nei_point, ['FacilityID', 'FlowName'])
+            nei_flowbyfacility = aggregate(nei_point, ['FacilityID', 'FlowName',
+                                                       'Compartment'])
             store_inventory(nei_flowbyfacility, 'NEI_' + year, 'flowbyfacility')
             log.debug(len(nei_flowbyfacility))
             #2017: 2184786
@@ -264,7 +269,7 @@ def main(**kwargs):
             #2011: 1840866
 
             log.info('generating flow by SCC output')
-            nei_flowbyprocess = aggregate(nei_point, ['FacilityID',
+            nei_flowbyprocess = aggregate(nei_point, ['FacilityID', 'Compartment',
                                                       'FlowName', 'Process'])
             nei_flowbyprocess['ProcessType'] = 'SCC'
             store_inventory(nei_flowbyprocess, 'NEI_' + year, 'flowbyprocess')
@@ -286,7 +291,7 @@ def main(**kwargs):
             log.info('generating facility output')
             facility = nei_point[['FacilityID', 'FacilityName', 'Address',
                                   'City', 'State', 'Zip', 'Latitude',
-                                  'Longitude', 'NAICS', 'County']]
+                                  'Longitude', 'NAICS', 'County', 'cmpt_urb']]
             facility = facility.drop_duplicates('FacilityID')
             facility = facility.astype({'Zip': 'str'})
             store_inventory(facility, 'NEI_' + year, 'facility')

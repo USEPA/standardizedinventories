@@ -5,16 +5,18 @@
 Supporting variables and functions used in stewi
 """
 
-import pandas as pd
 import json
 import logging as log
 import os
-import yaml
 import time
 import urllib
 from datetime import datetime
 from pathlib import Path
 
+import pandas as pd
+import yaml
+
+from esupy import context_secondary as e_c_s
 from esupy.processed_data_mgmt import Paths, FileMeta,\
     load_preprocessed_output, remove_extra_files,\
     write_df_to_file, write_metadata_to_file,\
@@ -368,4 +370,47 @@ def get_reliability_table_for_source(source):
                                                           'DQI Reliability Score'])
     df = df.loc[df['Source'] == source].reset_index(drop=True)
     df.drop('Source', axis=1, inplace=True)
+    return df
+
+def assign_secondary_context(df, year, *args):
+    """
+    Handler function to import esupy.context_secondary (e_c_s), flexibly assign
+    urban/rural (via 'urb') and/or release height ('rh') secondary compartments,
+    and concatenate primary+secondary compartments into a full context.
+    :param df: pd.DataFrame
+    :param year: int, data year
+    :param args: str, flag(s) for compartment assignment + skip_concat option
+    """
+    if 'urb' not in args and 'rh' not in args:
+        log.warning('Please pass one or more valid *cmpts string codes: {urb, rh}')
+        return None
+    elif 'urb' in args and not e_c_s.has_geo_pkgs:
+        log.error('Geospatial dependencies of esupy.context_secondary missing; '
+                  'unable to assign urban/rural compartment.\n See esupy README.md.')
+        return None
+    if 'rh' in args:
+        df = e_c_s.classify_height(df)
+    if 'urb' in args:
+        df = e_c_s.urb_intersect(df, year)
+    if 'skip_concat' not in args:
+        df = concat_compartment(df, args)
+    return df
+
+def concat_compartment(df, cmpts):
+    """
+	Concatenate primary & secondary compartment df cols by into a single col
+    context 'Compartment' column
+	:param df: pd.DataFrame, including compartment cols
+    :cmpts: tuple, compartment string codes {'urb', 'rh'}
+    """
+    if 'urb' in cmpts and 'rh' in cmpts:
+        df['Compartment'] = df['Compartment'] + '/' + df['cmpt_urb'] + '/' + df['cmpt_rh']
+    elif 'urb' in cmpts:
+        df['Compartment'] = df['Compartment'] + '/' + df['cmpt_urb']
+    elif 'rh' in cmpts:
+        df['Compartment'] = df['Compartment'] + '/' + df['cmpt_rh']
+    else:
+        log.warning('df missing primary and/or secondary compartment columns')
+        return None
+    df['Compartment'] = df['Compartment'].str.replace('/unspecified','')
     return df

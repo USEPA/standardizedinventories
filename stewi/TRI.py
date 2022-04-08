@@ -37,7 +37,7 @@ from pathlib import Path
 from stewi.globals import unit_convert, DATA_PATH, set_stewi_meta,\
     get_reliability_table_for_source, write_metadata, url_is_alive,\
     lb_kg, g_kg, config, store_inventory, log, paths, compile_source_metadata,\
-    read_source_metadata, aggregate
+    read_source_metadata, aggregate, assign_secondary_context, concat_compartment
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
 import stewi.exceptions
@@ -95,8 +95,7 @@ def generate_national_totals(year):
     """
     filename = TRI_DATA_PATH.joinpath(f'TRI_chem_release_{year}.csv')
     df = pd.read_csv(filename, header=0)
-    df.replace(',', 0.0, inplace=True)
-    df.replace('.', 0.0, inplace=True)
+    df = df.replace(',', 0.0).replace('.', 0.0)
     cols = ['Compartment', 'FlowName', 'Unit', 'FlowAmount']
     compartments = {'air': ['Fugitive Air Emissions',
                             'Point Source Air Emissions'],
@@ -114,7 +113,7 @@ def generate_national_totals(year):
         for column in columns:
             df_aux[column] = df_aux[column].str.replace(',', '').astype('float')
         df_aux['FlowAmount'] = df_aux[columns].sum(axis=1)
-        df_aux.rename(columns={'Chemical': 'FlowName'}, inplace=True)
+        df_aux = df_aux.rename(columns={'Chemical': 'FlowName'})
         df_aux['Unit'] = 'Pounds'
         df_aux['Compartment'] = compartment
         df_National = pd.concat([df_National, df_aux], axis=0,
@@ -128,7 +127,7 @@ def generate_national_totals(year):
     if df_National is None:
         log.warning('Totals not generated')
         return
-    df_National.sort_values(by=['FlowName', 'Compartment'], inplace=True)
+    df_National = df_National.sort_values(by=['FlowName', 'Compartment'])
     log.info(f'saving TRI_{year}_NationalTotals.csv to {DATA_PATH}')
     df_National.to_csv(DATA_PATH.joinpath(f'TRI_{year}_NationalTotals.csv'),
                        index=False)
@@ -179,10 +178,11 @@ def map_to_fedefl(df):
     return mapped_df
 
 
-def imp_fields(tri_fields_txt):
-    """Import list of fields from TRI that are desired for LCI."""
-    tri_required_fields_csv = tri_fields_txt
-    tri_req_fields = pd.read_csv(tri_required_fields_csv, header=None)
+def imp_fields(fname):
+    """
+    Import list of fields from TRI that are desired for LCI.
+    """
+    tri_req_fields = pd.read_csv(fname, header=None)
     tri_req_fields = list(tri_req_fields[0])
     return tri_req_fields
 
@@ -233,12 +233,6 @@ def import_TRI_by_release_type(d, year):
     return tri
 
 
-def strip_coln_white_space(df, coln):
-    """Remove white space after some basis of estimate codes."""
-    df[coln] = df[coln].str.strip()
-    return df
-
-
 def validate_national_totals(inv, TRIyear):
     log.info('validating data against national totals')
     filename = DATA_PATH.joinpath(f'TRI_{TRIyear}_NationalTotals.csv')
@@ -248,12 +242,10 @@ def validate_national_totals(inv, TRIyear):
         tri_national_totals['FlowAmount_kg'] = 0
         tri_national_totals = unit_convert(tri_national_totals, 'FlowAmount_kg',
                                            'Unit', 'Pounds', lb_kg, 'FlowAmount')
-        # drop old amount and units
-        tri_national_totals.drop('FlowAmount', axis=1, inplace=True)
-        tri_national_totals.drop('Unit', axis=1, inplace=True)
-        # Rename cols to match reference format
-        tri_national_totals.rename(columns={'FlowAmount_kg': 'FlowAmount'},
-                                   inplace=True)
+        # drop old amount and units; rename cols to match reference format
+        tri_national_totals = \
+            (tri_national_totals.drop(columns=['FlowAmount', 'Unit'])
+                                .rename(columns={'FlowAmount_kg': 'FlowAmount'}))
         inv = map_to_fedefl(inv)
         if inv is not None:
             validation_result = validate_inventory(inv, tri_national_totals,
@@ -264,8 +256,11 @@ def validate_national_totals(inv, TRIyear):
                     'Please run option B')
 
 
-def Generate_TRI_files_csv(TRIyear, Files):
-    """Generate TRI inventories from downloaded files."""
+def Generate_TRI_files_csv(TRIyear):
+    """
+    Generate TRI inventories from downloaded files.
+    :param TRIyear: str
+    """
     tri_required_fields = imp_fields(TRI_DATA_PATH.joinpath('TRI_required_fields.txt'))
     keys = imp_fields(TRI_DATA_PATH.joinpath('TRI_keys.txt'))
     values = list()
@@ -273,60 +268,40 @@ def Generate_TRI_files_csv(TRIyear, Files):
         start = 13 + 2*p
         end = start + 1
         values.append(concat_req_field(tri_required_fields[start: end + 1]))
-    # Create a dictionary that had the import fields for each release
-    # type to use in import process
+    # Create dict of required fields on import for each release type
     import_dict = dict_create(keys, values)
     # Build the TRI DataFrame
     tri = import_TRI_by_release_type(import_dict, TRIyear)
-    # drop NA for Amount, but leave in zeros
-    tri = tri.dropna(subset=['FlowAmount'])
-    tri = strip_coln_white_space(tri, 'Basis of Estimate')
+    tri = tri.dropna(subset=['FlowAmount'])  # drop nan amount rows
+    tri['Basis of Estimate'] = tri['Basis of Estimate'].str.strip()  # rm trailing spaces
     # Convert to float if there are errors - be careful with this line
     if tri['FlowAmount'].values.dtype != 'float64':
         tri['FlowAmount'] = pd.to_numeric(tri['FlowAmount'], errors='coerce')
     tri = tri[tri['FlowAmount'] != 0]
     # Import reliability scores for TRI
     tri_reliability_table = get_reliability_table_for_source('TRI')
-    tri = pd.merge(tri, tri_reliability_table, left_on='Basis of Estimate',
-                   right_on='Code', how='left')
+    tri = (pd.merge(tri, tri_reliability_table, left_on='Basis of Estimate',
+                    right_on='Code', how='left')
+             .drop(columns=['Basis of Estimate', 'Code']))
     tri['DQI Reliability Score'] = tri['DQI Reliability Score'].fillna(value=5)
-    tri.drop(['Basis of Estimate', 'Code'], axis=1, inplace=True)
     # Replace source info with Context
-    source_to_context = pd.read_csv(TRI_DATA_PATH
-                                    .joinpath('TRI_ReleaseType_to_Compartment.csv'))
+    source_to_context = pd.read_csv(TRI_DATA_PATH.joinpath(
+        'TRI_ReleaseType_to_Compartment.csv'))
     tri = pd.merge(tri, source_to_context, how='left')
     # Convert units to ref mass unit of kg
     tri['Amount_kg'] = 0.0
     tri = unit_convert(tri, 'Amount_kg', 'Unit', 'Pounds', lb_kg, 'FlowAmount')
     tri = unit_convert(tri, 'Amount_kg', 'Unit', 'Grams', g_kg, 'FlowAmount')
-    tri.drop(columns=['FlowAmount', 'Unit'], inplace=True)
-    # Rename cols to match reference format
-    tri.rename(columns={'Amount_kg': 'FlowAmount',
-                        'DQI Reliability Score': 'DataReliability'},
-               inplace=True)
-    tri.drop(columns=['ReleaseType'], inplace=True)
-    grouping_vars = ['FacilityID', 'FlowName', 'CAS', 'Compartment']
-    tri = aggregate(tri, grouping_vars)
+    tri = (tri.drop(columns=['FlowAmount', 'Unit', 'ReleaseType'])
+              .rename(columns={'Amount_kg': 'FlowAmount',       # to match reference format
+                               'DQI Reliability Score': 'DataReliability'}))
 
-    validate_national_totals(tri, TRIyear)
-
-    # FLOWS
-    flowsdf = tri[['FlowName', 'CAS', 'Compartment']
-                  ].drop_duplicates().reset_index(drop=True)
-    flowsdf.loc[:, 'FlowID'] = flowsdf['CAS']
-    store_inventory(flowsdf, 'TRI_' + TRIyear, 'flow')
-
-    # FLOW BY FACILITY
-    tri.drop(columns=['CAS'], inplace=True)
-    store_inventory(tri, 'TRI_' + TRIyear, 'flowbyfacility')
-
-    # FACILITY
-    # Import and handle TRI facility data
+    # FACILITY - import and handle TRI facility data
     import_facility = tri_required_fields[0:10]
-    tri_facility = pd.read_csv(OUTPUT_PATH.joinpath(f'US_1a_{TRIyear}.csv'),
-                               usecols=import_facility,
-                               low_memory=False)
-    tri_facility = tri_facility.drop_duplicates(ignore_index=True)
+    tri_facility = (pd.read_csv(OUTPUT_PATH.joinpath(f'US_1a_{TRIyear}.csv'),
+                                usecols=import_facility,
+                                low_memory=False)
+                      .drop_duplicates(ignore_index=True))
     # rename columns
     TRI_facility_name_crosswalk = {
         'TRIFID': 'FacilityID',
@@ -340,8 +315,33 @@ def Generate_TRI_files_csv(TRIyear, Files):
         'LATITUDE': 'Latitude',
         'LONGITUDE': 'Longitude',
         }
-    tri_facility.rename(columns=TRI_facility_name_crosswalk, inplace=True)
+    tri_facility = tri_facility.rename(columns=TRI_facility_name_crosswalk)
+    tri_facility = assign_secondary_context(tri_facility.copy(), int(TRIyear),
+                                            'urb', 'skip_concat')
+    tri_facility = pd.DataFrame(tri_facility) # TODO: ditch this at the end
     store_inventory(tri_facility, 'TRI_' + TRIyear, 'facility')
+
+    # merge & concat urban/rural into tri.Compartment
+    tri = tri.merge(tri_facility[['FacilityID', 'cmpt_urb']].drop_duplicates(),
+                    how='left', on='FacilityID')
+    tri.loc[tri['Compartment'] != 'air', 'cmpt_urb'] = 'unspecified'
+    tri = concat_compartment(tri, 'urb')     # TODO: run & check for Compartment
+
+    # then aggregate w/ expanded Compartment
+    grouping_vars = ['FacilityID', 'FlowName', 'CAS', 'Compartment']
+    tri = aggregate(tri, grouping_vars)
+
+    validate_national_totals(tri, TRIyear)
+
+    # FLOWS
+    flows = (tri[['FlowName', 'CAS', 'Compartment']].drop_duplicates()
+                                                    .reset_index(drop=True))
+    flows['FlowID'] = flows['CAS']
+    store_inventory(flows, 'TRI_' + TRIyear, 'flow')
+
+    # FLOW BY FACILITY
+    fbf = tri.drop(columns=['CAS'])
+    store_inventory(fbf, 'TRI_' + TRIyear, 'flowbyfacility')
 
 
 def generate_metadata(year, files, datatype='inventory'):
