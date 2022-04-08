@@ -53,6 +53,6 @@ jobs:
           ~/.local/share/stewi/*.json
           ~/.local/share/stewicombo/*
           ~/.local/share/facilitymatcher/*
-          !~/.local/share/facilitymatcher/*.csv # exclude facilitymatcher source files
+          !~/.local/share/facilitymatcher/FRS Data Files/ # exclude facilitymatcher source files
         if-no-files-found: warn # 'warn' or 'ignore' are also available, defaults to `warn`
         # retention-days: 5 # cannot exceed the retention limit set by the repository, organization, or enterprise.
