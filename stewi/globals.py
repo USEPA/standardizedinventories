@@ -372,34 +372,25 @@ def get_reliability_table_for_source(source):
 
 def assign_secondary_context(df, year, *args):
     """
-    Handler function to import esupy.context_secondary (e_c_s), flexibly assign
-    urban/rural (via 'urb') and/or release height ('rh') secondary compartments,
-    and concatenate primary+secondary compartments into a full context.
+    Wrapper for esupy.context_secondary.main(), which flexibly assigns
+    urban/rural (pass 'urb' as positional arg) and/or release height ('rh')
+    secondary compartments. Also choose whether to concatenate primary +
+    secondary compartments by passing 'concat'.
     :param df: pd.DataFrame
     :param year: int, data year
     :param args: str, flag(s) for compartment assignment + skip_concat option
     """
-    if 'urb' not in args and 'rh' not in args:
-        log.warning('Please pass one or more valid *cmpts string codes: {urb, rh}')
-        return None
-    elif 'urb' in args and not e_c_s.has_geo_pkgs:
-        log.error('Geospatial dependencies of esupy.context_secondary missing; '
-                  'unable to assign urban/rural compartment.\n See esupy README.md.')
-        return None
-    if 'rh' in args:
-        df = e_c_s.classify_height(df)
-    if 'urb' in args:
-        df = e_c_s.urb_intersect(df, year)
-    if 'skip_concat' not in args:
-        df = concat_compartment(df, args)
+    df = e_c_s.main(df, year, *args)
+    if 'concat' in args:
+        df = concat_compartment(df, *args)
     return df
 
-def concat_compartment(df, cmpts):
+def concat_compartment(df, *cmpts):
     """
 	Concatenate primary & secondary compartment df cols by into a single col
     context 'Compartment' column
 	:param df: pd.DataFrame, including compartment cols
-    :cmpts: tuple, compartment string codes {'urb', 'rh'}
+    :cmpts: str, compartment string code(s) {'urb', 'rh'}
     """
     if 'urb' in cmpts and 'rh' in cmpts:
         df['Compartment'] = df['Compartment'] + '/' + df['cmpt_urb'] + '/' + df['cmpt_rh']
@@ -408,7 +399,7 @@ def concat_compartment(df, cmpts):
     elif 'rh' in cmpts:
         df['Compartment'] = df['Compartment'] + '/' + df['cmpt_rh']
     else:
-        log.warning('df missing primary and/or secondary compartment columns')
+        log.warning('No valid secondary compartment code args {urb, rh} supplied')
         return None
     df['Compartment'] = df['Compartment'].str.replace('/unspecified','')
     return df

@@ -316,16 +316,15 @@ def Generate_TRI_files_csv(TRIyear):
         'LONGITUDE': 'Longitude',
         }
     tri_facility = tri_facility.rename(columns=TRI_facility_name_crosswalk)
-    tri_facility = assign_secondary_context(tri_facility.copy(), int(TRIyear),
-                                            'urb', 'skip_concat')
-    tri_facility = pd.DataFrame(tri_facility) # TODO: ditch this at the end
+
+    tri_facility = assign_secondary_context(tri_facility, int(TRIyear), 'urb')
     store_inventory(tri_facility, 'TRI_' + TRIyear, 'facility')
 
     # merge & concat urban/rural into tri.Compartment
     tri = tri.merge(tri_facility[['FacilityID', 'cmpt_urb']].drop_duplicates(),
                     how='left', on='FacilityID')
     tri.loc[tri['Compartment'] != 'air', 'cmpt_urb'] = 'unspecified'
-    tri = concat_compartment(tri, 'urb')     # TODO: run & check for Compartment
+    tri = concat_compartment(tri, 'urb')
 
     # then aggregate w/ expanded Compartment
     grouping_vars = ['FacilityID', 'FlowName', 'CAS', 'Compartment']

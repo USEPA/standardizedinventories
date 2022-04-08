@@ -256,7 +256,7 @@ def main(**kwargs):
 
             nei_point = standardize_output(year)
             nei_point = assign_secondary_context(nei_point, int(year),
-                                                 'urb', 'rh')
+                                                 'urb', 'rh', 'concat')
 
             log.info('generating flow by facility output')
             nei_flowbyfacility = aggregate(nei_point, ['FacilityID', 'FlowName',
