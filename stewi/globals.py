@@ -227,11 +227,9 @@ def compile_source_metadata(sourcefile, config, year):
 
 
 def remove_line_breaks(df, headers_only=True):
-    for column in df:
-        df.rename(columns={column: column.replace('\r\n', ' ')}, inplace=True)
-        df.rename(columns={column: column.replace('\n', ' ')}, inplace=True)
+    df.columns = df.columns.str.replace('\r|\n', ' ')
     if not headers_only:
-        df = df.replace(to_replace=['\r\n', '\n'], value=[' ', ' '], regex=True)
+        df = df.replace('\r\n', ' ').replace('\n', ' ')
     return df
 
 
@@ -247,7 +245,7 @@ def add_missing_fields(df, inventory_acronym, f, maintain_columns=False):
     """
     # Rename for legacy datasets
     if 'ReliabilityScore' in df:
-        df.rename(columns={'ReliabilityScore': 'DataReliability'}, inplace=True)
+        df = df.rename(columns={'ReliabilityScore': 'DataReliability'})
     # Add in units and compartment if not present
     if 'Unit' in f.fields() and 'Unit' not in df:
         df['Unit'] = 'kg'
@@ -265,8 +263,7 @@ def add_missing_fields(df, inventory_acronym, f, maintain_columns=False):
     col_list = f.fields()
     if maintain_columns:
         col_list = col_list + [c for c in df if c not in f.fields()]
-    df = df[col_list]
-    df.reset_index(drop=True, inplace=True)
+    df = df[col_list].reset_index(drop=True)
     return df
 
 
@@ -366,10 +363,11 @@ def generate_inventory(inventory_acronym, year):
 def get_reliability_table_for_source(source):
     """Retrieve the reliability table within stewi."""
     dq_file = 'DQ_Reliability_Scores_Table3-3fromERGreport.csv'
-    df = pd.read_csv(DATA_PATH.joinpath(dq_file), usecols=['Source', 'Code',
-                                                          'DQI Reliability Score'])
-    df = df.loc[df['Source'] == source].reset_index(drop=True)
-    df.drop('Source', axis=1, inplace=True)
+    df = (pd.read_csv(DATA_PATH.joinpath(dq_file),
+                      usecols=['Source', 'Code', 'DQI Reliability Score'])
+            .query('Source == @source')
+            .reset_index(drop=True)
+            .drop(columns='Source'))
     return df
 
 def assign_secondary_context(df, year, *args):
