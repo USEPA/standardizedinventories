@@ -32,12 +32,10 @@ jobs:
     - name: Install package and dependencies
       run: |
         pip install .
+        # FEDEFL required for TRI validation
         pip install git+https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List#egg=fedelemflowlist
 
-
     - name: Generate inventory files
-      id: Inventory
-      if: always()
       run: |
         # pytest -m inventory
         pytest -m combined
@@ -57,5 +55,6 @@ jobs:
           ~/.local/share/stewi/*.json
           ~/.local/share/stewicombo/*
           ~/.local/share/facilitymatcher/*
+          !~/.local/share/facilitymatcher/*.csv # exclude facilitymatcher source files
         if-no-files-found: warn # 'warn' or 'ignore' are also available, defaults to `warn`
         # retention-days: 5 # cannot exceed the retention limit set by the repository, organization, or enterprise.
