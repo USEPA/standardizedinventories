@@ -27,11 +27,6 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    env:
-      PUSH_INVENTORIES: >
-        ${{ ((github.event_name == 'pull_request' && github.ref == 'refs/heads/master') ||
-        (github.event_name == 'workflow_dispatch')) &&
-        (matrix.os == 'ubuntu-latest' && matrix.py-version == '3.10') }}
     strategy:
       fail-fast: false
       matrix:
@@ -71,19 +66,3 @@ jobs:
       run: |
         pytest --doctest-modules
 
-    # - name: Upload files
-    #   if: ${{ env.PUSH_INVENTORIES && steps.Inventory.outcome == 'success' }}
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     # Artifact name
-    #     name: Inventory files
-    #     # A file, directory or wildcard patter that describes what to upload
-    #     path: | # uses local user data dir for ubuntu
-    #       ~/.local/share/stewi/facility/*
-    #       ~/.local/share/stewi/flow/*
-    #       ~/.local/share/stewi/flowbyfacility/*
-    #       ~/.local/share/stewi/flowbyprocess/*
-    #       ~/.local/share/stewi/validation/*
-    #       ~/.local/share/stewi/*.json
-    #     if-no-files-found: warn # 'warn' or 'ignore' are also available, defaults to `warn`
-    #     # retention-days: 5 # cannot exceed the retention limit set by the repository, organization, or enterprise.
