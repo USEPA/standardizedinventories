@@ -88,6 +88,6 @@ def test_existing_inventories():
 
 if __name__ == "__main__":
     # test_all_inventory_generation()
-    # test_generate_inventories(2017)
+    test_generate_inventories(2017)
     # test_generate_combined_inventories("NEI_TRI_air_2017",
     # "air", {"NEI":"2017", "TRI":"2017"})
