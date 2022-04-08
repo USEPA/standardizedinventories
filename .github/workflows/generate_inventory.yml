@@ -39,10 +39,10 @@ jobs:
       id: Inventory
       if: always()
       run: |
-        pytest -m inventory
+        # pytest -m inventory
+        pytest -m combined
 
     - name: Upload files
-      if: ${{ env.PUSH_INVENTORIES && steps.Inventory.outcome == 'success' }}
       uses: actions/upload-artifact@v3
       with:
         # Artifact name
@@ -55,5 +55,7 @@ jobs:
           ~/.local/share/stewi/flowbyprocess/*
           ~/.local/share/stewi/validation/*
           ~/.local/share/stewi/*.json
+          ~/.local/share/stewicombo/*
+          ~/.local/share/facilitymatcher/*
         if-no-files-found: warn # 'warn' or 'ignore' are also available, defaults to `warn`
         # retention-days: 5 # cannot exceed the retention limit set by the repository, organization, or enterprise.

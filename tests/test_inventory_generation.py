@@ -5,6 +5,7 @@ import pytest
 import stewi
 from stewi.globals import config
 from stewi.exceptions import InventoryNotAvailableError
+import stewicombo
 
 
 year = 2018
@@ -35,12 +36,23 @@ def test_generate_inventories(year):
     for inventory in config()['databases']:
         if SKIP_BROWSER_DOWNLOAD and inventory in requires_browser_download:
             continue
-        if inventory == 'DMR':
+        if inventory in ['DMR', 'GHGRP']:
             continue
         try:
             df = stewi.getInventory(inventory, year)
         except InventoryNotAvailableError:
             continue
+
+@pytest.mark.parametrize("name,compartment,inv_dict",
+                         [("NEI_TRI_air_2017", "air", {"NEI":"2017", "TRI":"2017"}),
+                          #("TRI_DMR_2017", "water", {"TRI":"2017", "DMR":"2017"}),
+                          ("TRI_GRDREL_2017", "soil", {"TRI":"2017"})])
+@pytest.mark.combined
+def test_generate_combined_inventories(name, compartment, inv_dict):
+    df = stewicombo.combineFullInventories(inv_dict, filter_for_LCI=True,
+                                           remove_overlap=True,
+                                           comparments=[compartment])
+    stewicombo.saveInventory(name, df, inv_dict)
 
 
 def test_NEI_generation():
