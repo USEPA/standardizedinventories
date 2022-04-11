@@ -16,7 +16,6 @@ from pathlib import Path
 import pandas as pd
 import yaml
 
-from esupy import context_secondary as e_c_s
 from esupy.processed_data_mgmt import Paths, FileMeta,\
     load_preprocessed_output, remove_extra_files,\
     write_df_to_file, write_metadata_to_file,\
@@ -380,9 +379,13 @@ def assign_secondary_context(df, year, *args):
     :param year: int, data year
     :param args: str, flag(s) for compartment assignment + skip_concat option
     """
-    df = e_c_s.main(df, year, *args)
+    from esupy import context_secondary as e_c_s
+    df = e_c_s.main(df, year, *args)  # if e_c_s.has_geo_pkgs == False, returns unaltered df
     if 'concat' in args:
-        df = concat_compartment(df, *args)
+        if 'urb' in args and e_c_s.has_geo_pkgs==False:
+            pass    # prevent concatenation when unaltered df is returned
+        else:
+            df = concat_compartment(df, *args)
     return df
 
 def concat_compartment(df, *cmpts):
