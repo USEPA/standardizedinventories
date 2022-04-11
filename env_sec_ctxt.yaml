@@ -17,6 +17,3 @@ dependencies:
         - pyarrow==6.0.1  # causes error if installed via conda default channel "OSError: NotImplemented: Support for codec 'snappy' not built"
         - requests_ftp==0.3.1        
         - "--editable=git+https://github.com/USEPA/standardizedinventories.git@urban_rural_classify#egg=StEWI"
-        
-        # - "--editable=git+https://github.com/USEPA/esupy.git@urban_rural_classify#egg=esupy"
-          # Note: uncommenting above line causes pip conflict despite character-for-character identical VCS urls
