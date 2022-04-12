@@ -16,17 +16,13 @@ SKIP_BROWSER_DOWNLOAD = True
 @pytest.mark.skip(reason="perform separate inventory tests")
 def test_all_inventory_generation():
     error_list = []
-
     for inventory in config()['databases']:
         if SKIP_BROWSER_DOWNLOAD and inventory in requires_browser_download:
             continue
-
         df = stewi.getInventory(inventory, year)
-
         error = df is None or len(df) == 0
         if error:
             error_list.append(inventory)
-
     assert len(error_list) == 0, f"Generation of {','.join(error_list)} unsuccessful"
 
 
@@ -36,16 +32,14 @@ def test_generate_inventories(year):
     for inventory in config()['databases']:
         if SKIP_BROWSER_DOWNLOAD and inventory in requires_browser_download:
             continue
-        if inventory in ['DMR', 'GHGRP']:
-            continue
         try:
-            df = stewi.getInventory(inventory, year)
+            stewi.generate_inventory(inventory, year)
         except InventoryNotAvailableError:
             continue
 
 @pytest.mark.parametrize("name,compartment,inv_dict",
                          [("NEI_TRI_air_2017", "air", {"NEI":"2017", "TRI":"2017"}),
-                          #("TRI_DMR_2017", "water", {"TRI":"2017", "DMR":"2017"}),
+                          ("TRI_DMR_2017", "water", {"TRI":"2017", "DMR":"2017"}),
                           ("TRI_GRDREL_2017", "soil", {"TRI":"2017"})])
 @pytest.mark.combined
 def test_generate_combined_inventories(name, compartment, inv_dict):
@@ -63,13 +57,13 @@ def test_TRI_generation():
     assert stewi.getInventory('TRI', year) is not None
 
 
+def test_eGRID_generation():
+    assert stewi.getInventory('eGRID', year) is not None
+
+
 @pytest.mark.skip(reason="GHGRP is skipped for time constraints")
 def test_GHGRP_generation():
     assert stewi.getInventory('GHGRP', year) is not None
-
-
-def test_eGRID_generation():
-    assert stewi.getInventory('eGRID', year) is not None
 
 
 @pytest.mark.skip(reason="DMR is skipped for time constraints")
