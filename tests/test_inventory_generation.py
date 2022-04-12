@@ -6,6 +6,7 @@ import stewi
 from stewi.globals import config
 from stewi.exceptions import InventoryNotAvailableError
 import stewicombo
+import facilitymatcher
 
 
 year = 2018
@@ -36,6 +37,15 @@ def test_generate_inventories(year):
             stewi.generate_inventory(inventory, year)
         except InventoryNotAvailableError:
             continue
+
+
+@pytest.mark.combined
+def test_generate_fm_files():
+    df_naics = facilitymatcher.get_FRS_NAICSInfo_for_facility_list(
+                    frs_id_list=None, inventories_of_interest_list=None,
+                    download_if_missing=False)
+    df_facilities = facilitymatcher.get_matches_for_inventories()
+
 
 @pytest.mark.parametrize("name,compartment,inv_dict",
                          [("NEI_TRI_air_2017", "air", {"NEI":"2017", "TRI":"2017"}),
