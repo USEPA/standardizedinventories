@@ -69,7 +69,7 @@ def generate_url(url_params):
         pageno: int
 
     See web service documentation for details
-    https://echo.epa.gov/tools/web-services/loading-tool#/Custom%20Search/get_dmr_rest_services_get_custom_data_facility
+    https://echo.epa.gov/tools/web-services/loading-tool#/Custom%20Search/get_dmr_rest_services_get_custom_data_annual
     """
     params = {k: v for k, v in url_params.items() if v}
 
@@ -249,16 +249,17 @@ def combine_DMR_inventory(year, nutrient=''):
         result = unpickle(filepath)
         if result is None:
             log.warning(f'No data found for {state}')
-        output_df = pd.concat([output_df, result])
+        else:
+            output_df = pd.concat([output_df, result], ignore_index=True)
     return output_df
 
 
 def unpickle(filepath):
     try:
-        result = pd.read_pickle(filepath)
-    except:
+        return pd.read_pickle(filepath)
+    except FileNotFoundError:
         log.exception(f'error reading {filepath}')
-    return result
+        return None
 
 
 def download_state_totals_validation(year):
