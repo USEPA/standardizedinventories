@@ -38,6 +38,7 @@ jobs:
         pytest -m combined
 
     - name: Upload files
+      if: always() # Upload files even if some inventories fail
       uses: actions/upload-artifact@v3
       with:
         # Artifact name
