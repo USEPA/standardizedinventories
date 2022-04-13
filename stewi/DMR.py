@@ -445,14 +445,14 @@ def remove_nutrient_overlap_TRI(df, preference):
     if preference == 'DMR':
         keep_list = dmr_list
 
-    df_nutrients = df.loc[((df['FlowName'].isin(combined_list)) and
+    df_nutrients = df.loc[((df['FlowName'].isin(combined_list)) &
                            (df['Compartment'] == 'water'))]
     df_duplicates = df_nutrients[df_nutrients.duplicated(subset='FRS_ID',
                                                          keep=False)]
     if len(df_duplicates) == 0:
         return df
 
-    df = df.loc[~((df['FlowName'].isin(combined_list)) and
+    df = df.loc[~((df['FlowName'].isin(combined_list)) &
                   (df['Compartment'] == 'water'))]
     df_nutrients = df_nutrients[~df_nutrients.duplicated(subset='FRS_ID',
                                                          keep=False)]
