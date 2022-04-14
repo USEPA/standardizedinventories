@@ -427,7 +427,7 @@ def main(**kwargs):
 
         elif kwargs['Option'] == 'C':
             log.info(f'generating TRI inventory from files for {year}')
-            Generate_TRI_files_csv(year, files)
+            Generate_TRI_files_csv(year)
             generate_metadata(year, files, datatype='inventory')
 
 
