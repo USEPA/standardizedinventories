@@ -249,7 +249,7 @@ def validate_national_totals(inv, TRIyear):
         inv = map_to_fedefl(inv)
         if inv is not None:
             validation_result = validate_inventory(inv, tri_national_totals,
-                                                   group_by='flow', tolerance=5.0)
+                                                   group_by='compartment', tolerance=5.0)
             write_validation_result('TRI', TRIyear, validation_result)
     else:
         log.warning(f'validation file for TRI_{TRIyear} does not exist. '
@@ -319,7 +319,7 @@ def Generate_TRI_files_csv(TRIyear):
 
     tri_facility = assign_secondary_context(tri_facility, int(TRIyear), 'urb')
     store_inventory(tri_facility, 'TRI_' + TRIyear, 'facility')
-    
+
     if 'cmpt_urb' in tri_facility.columns:  # given urban/rural assignment success
         # merge & concat urban/rural into tri.Compartment before aggregation
         tri = tri.merge(tri_facility[['FacilityID', 'cmpt_urb']].drop_duplicates(),

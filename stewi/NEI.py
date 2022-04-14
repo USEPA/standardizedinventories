@@ -112,15 +112,6 @@ def standardize_output(year, source='Point'):
                                 'ReliabilityScore'])
 
         nei['Compartment'] = 'air'
-        """
-        # Modify compartment based on stack height (ft)
-        nei.loc[nei['StackHeight'] < 32, 'Compartment'] = 'air/ground'
-        nei.loc[(nei['StackHeight'] >= 32) & (nei['StackHeight'] < 164),
-                'Compartment'] = 'air/low'
-        nei.loc[(nei['StackHeight'] >= 164) & (nei['StackHeight'] < 492),
-                'Compartment'] = 'air/high'
-        nei.loc[nei['StackHeight'] >= 492, 'Compartment'] = 'air/very high'
-        """
     else:
         nei['DataReliability'] = 3
     # add Source column
