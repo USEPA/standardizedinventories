@@ -280,9 +280,11 @@ def main(**kwargs):
             #2011: 277
 
             log.info('generating facility output')
-            facility = nei_point[['FacilityID', 'FacilityName', 'Address',
-                                  'City', 'State', 'Zip', 'Latitude',
-                                  'Longitude', 'NAICS', 'County', 'cmpt_urb']]
+            fac_fields = ['FacilityID', 'FacilityName', 'Address',
+                          'City', 'State', 'Zip', 'Latitude',
+                          'Longitude', 'NAICS', 'County', 'cmpt_urb']
+            facility = nei_point[[f for f in fac_fields
+                                  if f in nei_point.columns]]
             facility = facility.drop_duplicates('FacilityID')
             facility = facility.astype({'Zip': 'str'})
             store_inventory(facility, 'NEI_' + year, 'facility')
