@@ -130,6 +130,9 @@ or
 pip install . -r requirements.txt -r rcrainfo_requirements.txt
 ```
 
+### Secondary Context Installation Steps
+In order to enable calculation and assignment of urban/rural and release height secondary contexts, please refer to [esupy's README.md](https://github.com/USEPA/esupy/tree/main#installation-instructions-for-optional-geospatial-packages) for installation instructions, which may require a copy of the [`env_sec_ctxt.yaml`](https://github.com/USEPA/standardizedinventories/blob/master/env_sec_ctxt.yaml) file included here.
+
 
 ## Wiki
 
