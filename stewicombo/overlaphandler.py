@@ -136,7 +136,7 @@ def aggregate_and_remove_overlap(df):
     df = pd.concat(to_be_concat)
 
     log.debug("Adding any rows with NaN FRS_ID or SRS_ID")
-    df = df.append(rows_with_nans_srs_frs, ignore_index=True)
+    df = pd.concat([df, rows_with_nans_srs_frs], ignore_index=True)
 
     if 'NEI' in df['Source'].values:
         df = remove_default_flow_overlaps(df, compartment='air', SCC=False)

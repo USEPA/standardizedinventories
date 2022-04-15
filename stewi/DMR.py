@@ -69,7 +69,7 @@ def generate_url(url_params):
         pageno: int
 
     See web service documentation for details
-    https://echo.epa.gov/tools/web-services/loading-tool#/Custom%20Search/get_dmr_rest_services_get_custom_data_facility
+    https://echo.epa.gov/tools/web-services/loading-tool#/Custom%20Search/get_dmr_rest_services_get_custom_data_annual
     """
     params = {k: v for k, v in url_params.items() if v}
 
@@ -249,16 +249,17 @@ def combine_DMR_inventory(year, nutrient=''):
         result = unpickle(filepath)
         if result is None:
             log.warning(f'No data found for {state}')
-        output_df = pd.concat([output_df, result])
+        else:
+            output_df = pd.concat([output_df, result], ignore_index=True)
     return output_df
 
 
 def unpickle(filepath):
     try:
-        result = pd.read_pickle(filepath)
-    except:
+        return pd.read_pickle(filepath)
+    except FileNotFoundError:
         log.exception(f'error reading {filepath}')
-    return result
+        return None
 
 
 def download_state_totals_validation(year):
@@ -444,14 +445,14 @@ def remove_nutrient_overlap_TRI(df, preference):
     if preference == 'DMR':
         keep_list = dmr_list
 
-    df_nutrients = df.loc[((df['FlowName'].isin(combined_list)) and
+    df_nutrients = df.loc[((df['FlowName'].isin(combined_list)) &
                            (df['Compartment'] == 'water'))]
     df_duplicates = df_nutrients[df_nutrients.duplicated(subset='FRS_ID',
                                                          keep=False)]
     if len(df_duplicates) == 0:
         return df
 
-    df = df.loc[~((df['FlowName'].isin(combined_list)) and
+    df = df.loc[~((df['FlowName'].isin(combined_list)) &
                   (df['Compartment'] == 'water'))]
     df_nutrients = df_nutrients[~df_nutrients.duplicated(subset='FRS_ID',
                                                          keep=False)]
