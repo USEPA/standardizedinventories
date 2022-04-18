@@ -33,6 +33,7 @@ def test_generate_inventories(year):
     for inventory in config()['databases']:
         if SKIP_BROWSER_DOWNLOAD and inventory in requires_browser_download:
             continue
+        if inventory != 'DMR': continue
         try:
             stewi.generate_inventory(inventory, year)
         except InventoryNotAvailableError:
