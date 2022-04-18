@@ -156,7 +156,7 @@ def download_data(url_params, filepath: Path, sic_list) -> str:
                     break
                 except: pass
             else:
-                log.warning("exeeded max attempts")
+                log.warning("exceeded max attempts")
                 return 'other_error'
             # Exception handling for http 500 server error still needed
             if 'Error' in result.index:
@@ -179,6 +179,7 @@ def download_data(url_params, filepath: Path, sic_list) -> str:
                 # set page count
                 pages = int(result['Results']['PageCount'])
                 counter += 1
+    log.debug(f"saving to {filepath}")
     pd.to_pickle(df, filepath)
     return 'success'
 
@@ -508,6 +509,7 @@ def main(**kwargs):
                         dtype={'SIC2': str})['SIC2'])
             # Query by state, then by SIC-state where necessary
             result_dict = query_dmr(year=year)
+            log.debug([s for s in result_dict.keys() if result_dict[s] != 'success'])
             state_max_error_list = [s for s in result_dict.keys() if result_dict[s] == 'max_error']
             state_no_data_list = [s for s in result_dict.keys() if result_dict[s] == 'no_data']
             if (len(state_max_error_list) == 0) and (len(state_no_data_list) == 0):
