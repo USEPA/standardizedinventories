@@ -155,6 +155,9 @@ def download_data(url_params, filepath: Path, sic_list) -> str:
                     result = pd.DataFrame(json_data)
                     break
                 except: pass
+            else:
+                log.warning("exeeded max attempts")
+                return 'other_error'
             # Exception handling for http 500 server error still needed
             if 'Error' in result.index:
                 if skip_errors:
