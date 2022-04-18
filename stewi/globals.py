@@ -382,27 +382,20 @@ def assign_secondary_context(df, year, *args):
     from esupy import context_secondary as e_c_s
     df = e_c_s.main(df, year, *args)  # if e_c_s.has_geo_pkgs == False, returns unaltered df
     if 'concat' in args:
-        if 'urb' in args and e_c_s.has_geo_pkgs==False:
-            pass    # prevent concatenation when unaltered df is returned
-        else:
-            df = concat_compartment(df, *args)
+        df = concat_compartment(df, e_c_s.has_geo_pkgs, *args)
     return df
 
-def concat_compartment(df, *cmpts):
+def concat_compartment(df, has_geo_pkgs, *cmpts):
     """
-	Concatenate primary & secondary compartment df cols by into a single col
-    context 'Compartment' column
+	Concatenate primary & secondary compartment cols sequentially. If both
+    'urb' and 'rh' are passed, return Compartment w/ order 'primary/urb/rh'.
 	:param df: pd.DataFrame, including compartment cols
+    :param has_geo_pkgs: bool, created via esupy context_secondary import
     :cmpts: str, compartment string code(s) {'urb', 'rh'}
     """
-    if 'urb' in cmpts and 'rh' in cmpts:
-        df['Compartment'] = df['Compartment'] + '/' + df['cmpt_urb'] + '/' + df['cmpt_rh']
-    elif 'urb' in cmpts:
+    if 'urb' in cmpts and has_geo_pkgs:
         df['Compartment'] = df['Compartment'] + '/' + df['cmpt_urb']
-    elif 'rh' in cmpts:
+    if 'rh' in cmpts:
         df['Compartment'] = df['Compartment'] + '/' + df['cmpt_rh']
-    else:
-        log.warning('No valid secondary compartment code args {urb, rh} supplied')
-        return None
     df['Compartment'] = df['Compartment'].str.replace('/unspecified','')
     return df
