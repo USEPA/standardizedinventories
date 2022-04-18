@@ -3,7 +3,7 @@
 import pytest
 
 import stewi
-from stewi.globals import config
+from stewi.globals import config, generate_inventory
 from stewi.exceptions import InventoryNotAvailableError
 import stewicombo
 import facilitymatcher
@@ -35,7 +35,7 @@ def test_generate_inventories(year):
             continue
         if inventory != 'DMR': continue
         try:
-            stewi.generate_inventory(inventory, year)
+            generate_inventory(inventory, year)
         except InventoryNotAvailableError:
             continue
 
