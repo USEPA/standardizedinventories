@@ -511,8 +511,9 @@ def main(**kwargs):
                         dtype={'SIC2': str})['SIC2'])
             # Query by state, then by SIC-state where necessary
             result_dict = query_dmr(year=year)
-            log.debug('possible errors: ' + [s for s in result_dict.keys()
-                                             if result_dict[s] != 'success'])
+            log.debug('possible errors: ' + ', '.join(
+                [s for s in result_dict.keys()
+                 if result_dict[s] != 'success']))
             state_max_error_list = [s for s in result_dict.keys()
                                     if result_dict[s] == 'max_error']
             state_no_data_list = [s for s in result_dict.keys()
@@ -536,8 +537,9 @@ def main(**kwargs):
             # Query aggregated nutrients data
             for nutrient in ['N', 'P']:
                 result_dict = query_dmr(year=year, nutrient=nutrient)
-                log.debug('possible errors: ' + [s for s in result_dict.keys()
-                                                 if result_dict[s] != 'success'])
+                log.debug('possible errors: ' + ', '.join(
+                    [s for s in result_dict.keys()
+                     if result_dict[s] != 'success']))
                 state_max_error_list = [s for s in result_dict.keys()
                                         if result_dict[s] == 'max_error']
                 state_no_data_list = [s for s in result_dict.keys()
