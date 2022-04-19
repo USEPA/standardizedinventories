@@ -151,11 +151,16 @@ def download_data(url_params, filepath: Path, sic_list) -> str:
             log.debug(url)
             for attempt in range(3):
                 try:
-                    json_data = requests.get(url).json()
-                    result = pd.DataFrame(json_data)
+                    r = requests.get(url)
+                    r.raise_for_status()
+                    result = pd.DataFrame(r.json())
                     break
-                except: pass
-            # Exception handling for http 500 server error still needed
+                except requests.exceptions.HTTPError as err:
+                    log.info(err)
+                    pass
+            else:
+                log.warning("exceeded max attempts")
+                return 'other_error'
             if 'Error' in result.index:
                 if skip_errors:
                     log.debug(f"error in sic_{sic}")
@@ -176,6 +181,7 @@ def download_data(url_params, filepath: Path, sic_list) -> str:
                 # set page count
                 pages = int(result['Results']['PageCount'])
                 counter += 1
+    log.debug(f"saving to {filepath}")
     pd.to_pickle(df, filepath)
     return 'success'
 
@@ -505,8 +511,13 @@ def main(**kwargs):
                         dtype={'SIC2': str})['SIC2'])
             # Query by state, then by SIC-state where necessary
             result_dict = query_dmr(year=year)
-            state_max_error_list = [s for s in result_dict.keys() if result_dict[s] == 'max_error']
-            state_no_data_list = [s for s in result_dict.keys() if result_dict[s] == 'no_data']
+            log.debug('possible errors: ' + ', '.join(
+                [s for s in result_dict.keys()
+                 if result_dict[s] != 'success']))
+            state_max_error_list = [s for s in result_dict.keys()
+                                    if result_dict[s] == 'max_error']
+            state_no_data_list = [s for s in result_dict.keys()
+                                  if result_dict[s] == 'no_data']
             if (len(state_max_error_list) == 0) and (len(state_no_data_list) == 0):
                 log.info('all states succesfully downloaded')
             else:
@@ -517,7 +528,8 @@ def main(**kwargs):
                 log.info('Breaking up queries further by SIC')
                 result_dict = query_dmr(year=year, sic_list=sic2,
                                         state_list=state_max_error_list)
-                sic_state_max_error_list = [s for s in result_dict.keys() if result_dict[s] == 'max_error']
+                sic_state_max_error_list = [s for s in result_dict.keys()
+                                            if result_dict[s] == 'max_error']
                 if len(sic_state_max_error_list) > 0:
                     log.error(f"Max error: {' '.join(sic_state_max_error_list)}")
 
@@ -525,8 +537,13 @@ def main(**kwargs):
             # Query aggregated nutrients data
             for nutrient in ['N', 'P']:
                 result_dict = query_dmr(year=year, nutrient=nutrient)
-                state_max_error_list = [s for s in result_dict.keys() if result_dict[s] == 'max_error']
-                state_no_data_list = [s for s in result_dict.keys() if result_dict[s] == 'no_data']
+                log.debug('possible errors: ' + ', '.join(
+                    [s for s in result_dict.keys()
+                     if result_dict[s] != 'success']))
+                state_max_error_list = [s for s in result_dict.keys()
+                                        if result_dict[s] == 'max_error']
+                state_no_data_list = [s for s in result_dict.keys()
+                                      if result_dict[s] == 'no_data']
                 if (len(state_max_error_list) == 0) and (len(state_no_data_list) == 0):
                     log.info(f'all states succesfully downloaded for {nutrient}')
                 else:

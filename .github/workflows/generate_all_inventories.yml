@@ -1,0 +1,55 @@
+# This workflow will generate all inventory files on schedule
+
+name: Generate All Inventories
+
+on:
+  # push:
+  #   branches: [master]
+  schedule:
+    - cron: '0 6 14 * *'        # Runs 14th of every month at 6:00 UTC
+  workflow_dispatch:            # manual trigger only
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.10"
+
+    - name: Update pip & install testing pkgs
+      run: |
+        python -VV
+        python -m pip install --upgrade pip setuptools wheel
+        pip install pytest pytest-cov
+
+    - name: Install package and dependencies
+      run: |
+        pip install .
+        # FEDEFL required for TRI validation
+        pip install git+https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List#egg=fedelemflowlist
+
+    - name: Generate inventory files
+      run: |
+        pytest -m inventory --log-level=DEBUG
+
+    - name: Upload files
+      uses: actions/upload-artifact@v3
+      with:
+        # Artifact name
+        name: StEWI Inventory files
+        # A file, directory or wildcard patter that describes what to upload
+        path: | # uses local user data dir for ubuntu
+          ~/.local/share/stewi/facility/*
+          ~/.local/share/stewi/flow/*
+          ~/.local/share/stewi/flowbyfacility/*
+          ~/.local/share/stewi/flowbyprocess/*
+          ~/.local/share/stewi/validation/*
+          ~/.local/share/stewi/*.json
+        if-no-files-found: warn # 'warn' or 'ignore' are also available, defaults to `warn`
+        # retention-days: 5 # cannot exceed the retention limit set by the repository, organization, or enterprise.
