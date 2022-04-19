@@ -33,7 +33,6 @@ def test_generate_inventories(year):
     for inventory in config()['databases']:
         if SKIP_BROWSER_DOWNLOAD and inventory in requires_browser_download:
             continue
-        if inventory != 'DMR': continue
         try:
             generate_inventory(inventory, year)
         except InventoryNotAvailableError:
@@ -93,6 +92,7 @@ def test_existing_inventories():
 
 if __name__ == "__main__":
     # test_all_inventory_generation()
-    test_generate_inventories(2017)
-    # test_generate_combined_inventories("NEI_TRI_air_2017",
-    # "air", {"NEI":"2017", "TRI":"2017"})
+    # test_generate_inventories(2017)
+    test_generate_combined_inventories("TRI_DMR_2017",
+                                       "water",
+                                       {"TRI":"2017", "DMR":"2017"})

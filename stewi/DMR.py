@@ -511,9 +511,12 @@ def main(**kwargs):
                         dtype={'SIC2': str})['SIC2'])
             # Query by state, then by SIC-state where necessary
             result_dict = query_dmr(year=year)
-            log.debug([s for s in result_dict.keys() if result_dict[s] != 'success'])
-            state_max_error_list = [s for s in result_dict.keys() if result_dict[s] == 'max_error']
-            state_no_data_list = [s for s in result_dict.keys() if result_dict[s] == 'no_data']
+            log.debug('possible errors: ' + [s for s in result_dict.keys()
+                                             if result_dict[s] != 'success'])
+            state_max_error_list = [s for s in result_dict.keys()
+                                    if result_dict[s] == 'max_error']
+            state_no_data_list = [s for s in result_dict.keys()
+                                  if result_dict[s] == 'no_data']
             if (len(state_max_error_list) == 0) and (len(state_no_data_list) == 0):
                 log.info('all states succesfully downloaded')
             else:
@@ -524,7 +527,8 @@ def main(**kwargs):
                 log.info('Breaking up queries further by SIC')
                 result_dict = query_dmr(year=year, sic_list=sic2,
                                         state_list=state_max_error_list)
-                sic_state_max_error_list = [s for s in result_dict.keys() if result_dict[s] == 'max_error']
+                sic_state_max_error_list = [s for s in result_dict.keys()
+                                            if result_dict[s] == 'max_error']
                 if len(sic_state_max_error_list) > 0:
                     log.error(f"Max error: {' '.join(sic_state_max_error_list)}")
 
@@ -532,8 +536,12 @@ def main(**kwargs):
             # Query aggregated nutrients data
             for nutrient in ['N', 'P']:
                 result_dict = query_dmr(year=year, nutrient=nutrient)
-                state_max_error_list = [s for s in result_dict.keys() if result_dict[s] == 'max_error']
-                state_no_data_list = [s for s in result_dict.keys() if result_dict[s] == 'no_data']
+                log.debug('possible errors: ' + [s for s in result_dict.keys()
+                                                 if result_dict[s] != 'success'])
+                state_max_error_list = [s for s in result_dict.keys()
+                                        if result_dict[s] == 'max_error']
+                state_no_data_list = [s for s in result_dict.keys()
+                                      if result_dict[s] == 'no_data']
                 if (len(state_max_error_list) == 0) and (len(state_no_data_list) == 0):
                     log.info(f'all states succesfully downloaded for {nutrient}')
                 else:
