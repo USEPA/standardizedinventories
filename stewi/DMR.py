@@ -151,14 +151,16 @@ def download_data(url_params, filepath: Path, sic_list) -> str:
             log.debug(url)
             for attempt in range(3):
                 try:
-                    json_data = requests.get(url).json()
-                    result = pd.DataFrame(json_data)
+                    r = requests.get(url)
+                    r.raise_for_status()
+                    result = pd.DataFrame(r.json())
                     break
-                except: pass
+                except requests.exceptions.HTTPError as err:
+                    log.info(err)
+                    pass
             else:
                 log.warning("exceeded max attempts")
                 return 'other_error'
-            # Exception handling for http 500 server error still needed
             if 'Error' in result.index:
                 if skip_errors:
                     log.debug(f"error in sic_{sic}")
