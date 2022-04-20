@@ -538,6 +538,8 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 61209,Perchlorate (ClO4),14797-73-0,81029,DMR
 51632,Perfluorobutane Sulfonate,,101476,DMR
 52602,Perfluorobutanesulfonic acid,,,DMR
+51524,Perfluorobutanesulfonamide,,,DMR
+51522,Perfluorobutanoic Acid,,,DMR
 51635,Perfluorodecane Sulfonate,,46195,DMR
 52603,Perfluorodecanesulfonic acid,,,DMR
 51627,Perfluorodecanoic acid,,46196,DMR
@@ -551,6 +553,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 51525,Perfluorooctanesulfonamide,,80252,DMR
 52606,Perfluorooctanesulfonic acid,,,DMR
 51911,Perfluorooctanonic Acid [PFOA] + Perflurooctanesulfonate [PFOS],,,DMR
+51526,Perfluorooctanesulfonate,,,DMR
 51630,Perfluorotridecanoic acid,,101749,DMR
 51628,Perfluoroundecanoic acid,,101631,DMR
 51623,Perfluorovaleric acid,,93138,DMR
