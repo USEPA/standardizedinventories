@@ -28,6 +28,7 @@ import requests
 import pandas as pd
 import argparse
 import urllib
+import time
 from pathlib import Path
 
 from stewi.globals import unit_convert,\
@@ -157,6 +158,7 @@ def download_data(url_params, filepath: Path, sic_list) -> str:
                     break
                 except requests.exceptions.HTTPError as err:
                     log.info(err)
+                    time.sleep(20)
                     pass
             else:
                 log.warning("exceeded max attempts")
@@ -254,8 +256,12 @@ def combine_DMR_inventory(year, nutrient=''):
         filepath = path.joinpath(f'{filestub}state_{state}.pickle')
         result = unpickle(filepath)
         if result is None:
-            log.warning(f'No data found for {state}')
-        else:
+            log.warning(f'No data found for {state}. Retrying query...')
+            if (query_dmr(year=year, sic_list=None,
+                         state_list=[state],
+                         nutrient=nutrient).get(state) == 'success'):
+                result = unpickle(filepath)
+        if result is not None:
             output_df = pd.concat([output_df, result], ignore_index=True)
     return output_df
 
