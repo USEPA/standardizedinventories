@@ -12,11 +12,14 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 51481,PVP-Iodine,,,DMR
 52601,Pentadecafluorooctanoic acid,,,DMR
 52602,Perfluorobutanesulfonic acid,,,DMR
+51524,Perfluorobutanesulfonamide,,,DMR
+51522,Perfluorobutanoic Acid,,,DMR
 52603,Perfluorodecanesulfonic acid,,,DMR
 52604,Perfluoroheptanesulfonic acid,,,DMR
 52605,Perfluorohexanesulfonic acid,,,DMR
 52606,Perfluorooctanesulfonic acid,,,DMR
 51911,Perfluorooctanonic Acid [PFOA] + Perflurooctanesulfonate [PFOS],,,DMR
+51526,Perfluorooctanesulfonate,,,DMR
 51536,Selenate,,,DMR
 00990,Selenite,,,DMR
 10118,p-Nitroaniline,,,DMR
