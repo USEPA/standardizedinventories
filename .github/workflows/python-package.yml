@@ -15,9 +15,9 @@ on:
       - '.gitignore'
   pull_request:
     branches: [master, develop]
-    types: [opened, reopened]   # excludes syncronize to avoid redundant trigger from commits on PRs 
+    types: [opened, reopened]   # excludes syncronize to avoid redundant trigger from commits on PRs
     paths-ignore:
-      - '**.md'  
+      - '**.md'
       - '**.bib'
       - '**.ya?ml'
       - 'LICENSE'
@@ -32,27 +32,27 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         py-version: ['3.7', '3.8', '3.9', '3.10']
-        
+
     steps:
     - uses: actions/checkout@v2
-    
+
     # general Python setup
     - name: Set up Python ${{ matrix.py-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.py-version }}
-        
+
     - name: Update pip & install testing pkgs
       run: |
         python -VV
         python -m pip install --upgrade pip setuptools wheel
         pip install pytest pytest-cov flake8
-    
+
     # install testing
     - name: Install package and dependencies
       run: |
         pip install .["RCRAInfo"]
-        
+
     # linting & pytest
     - name: Lint with flake8
       run: |
@@ -60,7 +60,8 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --extend-ignore=E12,E26,E231,E251,E701 --exclude build --exit-zero --max-line-length=127 --statistics
-        
+
     - name: Test with pytest
       run: |
-        pytest --doctest-modules
+        pytest --doctest-modules -m "not (combined or inventory)"
+
