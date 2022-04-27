@@ -148,6 +148,7 @@ def addChemicalMatches(inventories_df):
                                          isin(cm_missing['FlowName'])==False)
     if sum(missing_flows.missing) > 0:
         log.warning('New unknown flows identified, run chemicalmatcher')
+        log.debug(missing_flows[missing_flows['missing']].to_string())
 
     return inventories
 
