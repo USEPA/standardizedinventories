@@ -78,6 +78,7 @@ co2e_cols = list(ghgrp_cols[ghgrp_cols['co2e_quantity'] == 1]['column_name'])
 subpart_c_cols = list(ghgrp_cols[ghgrp_cols['subpart_c'] == 1]['column_name'])
 method_cols = list(ghgrp_cols[ghgrp_cols['method'] == 1]['column_name'])
 base_cols = list(ghgrp_cols[ghgrp_cols['base_columns'] == 1]['column_name'])
+fuel_cols = list(ghgrp_cols[ghgrp_cols['fuel'] == 1]['column_name'])
 info_cols = name_cols + quantity_cols + method_cols
 group_cols = co2_cols + ch4_cols + n2o_cols
 ghg_cols = base_cols + info_cols + group_cols
@@ -246,8 +247,13 @@ def import_or_download_table(filepath, table, year, m):
         return None
 
     # for all columns in the temporary dataframe, remove subpart-specific prefixes
+    str_remove = (len(table) + 1)
     for col in table_df:
-        table_df.rename(columns={col: col[len(table) + 1:]}, inplace=True)
+        if col.startswith('D_GHG_B.'): # string may exist in columns
+            length = str_remove + 8
+        else:
+            length = str_remove
+        table_df.rename(columns={col: col[length:]}, inplace=True)
 
     # drop any unnamed columns
     if ('unnamed' in table_df.columns[len(table_df.columns) - 1].lower()
@@ -299,6 +305,7 @@ def download_and_parse_subpart_tables(year, m):
     ghgrp1.reset_index(drop=True, inplace=True)
     log.info('Parsing table data...')
     if 'C' in ghgrp1.SUBPART_NAME.unique():
+        ghgrp1 = estimate_facility_fuel_use(ghgrp1)
         ghgrp1 = calculate_combustion_emissions(ghgrp1)
         # add these new columns to the list of 'group' columns
         expanded_group_cols = group_cols + ['c_co2', 'c_co2_b', 'c_ch4', 'c_n2o']
@@ -668,27 +675,23 @@ def load_subpart_l_gwp():
     return subpart_L_GWPs
 
 
-def estimate_facility_fuel_use(year):
+def estimate_facility_fuel_use(emissions_df):
     """
     Calculate fuel consumption based on reported emissions in Subpart C.
     Uses emissions reported under methods Tier 1, 2, 3, or 4 and default
     combustion emission factors provided by GHGRP.
-    Returns dataframe by facility of fuel consumption by fuel in physical
-    and energy units.
+    Returns dataframe with fuel consumption calculated for all reported
+    records in energy units (mmbtu) by fuel type and added as new rows.
     """
-    m = MetaGHGRP()
-    subpart_c_table = _config['subpart_C_fuel_table']
-    tables_dir = OUTPUT_PATH.joinpath('tables', year)
-    tables_dir.mkdir(parents=True, exist_ok=True)
-    filepath = tables_dir.joinpath(f"{subpart_c_table}.csv")
-    fuel_df = import_or_download_table(filepath, subpart_c_table,
-                                       year, m)
-
+    fuel_df = emissions_df.copy()
     # combine all fuel name columns from different tables into one
-    fuel_cols = ['FUEL_TYPE_OTHER','FUEL_TYPE','FUEL_TYPE_BLEND']
     fuel_df['FuelType'] = fuel_df[fuel_cols].fillna('').sum(axis=1)
+    fuel_df = fuel_df[fuel_df['FuelType'] != '']
 
-    col_dict = {
+    ## TODO consider also whether AA should be included
+    fuel_df = fuel_df[fuel_df['SUBPART_NAME'] == 'C']
+
+    fuel_dict = {
         'TIER123_CO2_COMBUSTION_EMISSIONS': ['TIER1_CO2_COMBUSTION_EMISSIONS',
                                              'TIER2_CO2_COMBUSTION_EMISSIONS',
                                              'TIER3_CO2_COMBUSTION_EMISSIONS'],
@@ -698,10 +701,11 @@ def estimate_facility_fuel_use(year):
                                      'PART_75_N2O_EMISSIONS_CO2E']
                 }
 
-    for new_col, cols in col_dict.items():
+    for new_col, cols in fuel_dict.items():
         fuel_df[new_col] = fuel_df[cols].sum(axis=1)
 
-    keep_cols = ['FACILITY_ID', 'FuelType'] + list(col_dict.keys())
+    keep_cols = (['FACILITY_ID', 'REPORTING_YEAR', 'SUBPART_NAME',
+                  'FuelType'] + list(fuel_dict.keys()))
     fuel_df.drop([col for col in fuel_df.columns if col not in keep_cols],
                  axis=1, inplace=True)
 
@@ -743,17 +747,14 @@ def estimate_facility_fuel_use(year):
     # drop all rows where fuel quantity is equal to zero
     fuel_df = fuel_df[fuel_df['FuelQty_mmbtu'] != 0]
 
-    # aggregate to facility level
-    fuel_inv = fuel_df.groupby(['FACILITY_ID', 'FuelType',
-                                'FuelQtyUnits']).agg(
-                                    {'FuelQty_mmbtu': ['sum'],
-                                     'FuelQtyPhysical': ['sum']})
-    fuel_inv = fuel_inv.reset_index()
-    fuel_inv.columns = fuel_inv.columns.droplevel(level=1)
+    fuel_inv = fuel_df[['FACILITY_ID', 'REPORTING_YEAR', 'SUBPART_NAME',
+                        'FuelType', 'FuelQty_mmbtu',
+                        'FuelQtyPhysical', 'FuelQtyUnits'
+                        ]].reset_index(drop=True)
 
-    col = fuel_inv.pop('FuelQtyUnits')
-    fuel_inv.insert(len(fuel_inv.columns), col.name, col)
-    return fuel_inv
+    emissions_df = pd.concat([emissions_df, fuel_inv], ignore_index=True)
+
+    return emissions_df
 
 
 def main(**kwargs):
@@ -837,8 +838,16 @@ def main(**kwargs):
             ghgrp['DQI Reliability Score'] = ghgrp['DQI Reliability Score'
                                                    ].fillna(value=5)
 
-            # convert metric tons to kilograms
-            ghgrp['FlowAmount'] = 1000 * ghgrp['FlowAmount'].astype('float')
+            # assign compartments
+            ghgrp.loc[ghgrp['FlowCode'] == 'Fuel', 'Compartment'] = 'input'
+            ghgrp.loc[ghgrp['FlowCode'] == 'Fuel', 'Unit'] = 'mmbtu'
+            ghgrp['Compartment'] = ghgrp['Compartment'].fillna('air')
+
+            # convert metric tons to kilograms for emissions
+            ghgrp['FlowAmount'] = np.where(ghgrp['Compartment'] == 'air',
+                                           1000 * ghgrp['FlowAmount'].astype('float'),
+                                           ghgrp['FlowAmount'].astype('float'))
+            ghgrp['Unit'] = ghgrp['Unit'].fillna('kg')
 
             # rename reliability score column for consistency
             ghgrp.rename(columns={'DQI Reliability Score': 'DataReliability',
@@ -847,29 +856,25 @@ def main(**kwargs):
             ghgrp['ProcessType'] = 'Subpart'
 
             log.info('generating flowbysubpart output')
-
-            # generate flowbysubpart
             ghgrp_fbs = ghgrp[StewiFormat.FLOWBYPROCESS.subset_fields(ghgrp)
                               ].reset_index(drop=True)
-            ghgrp_fbs = aggregate(ghgrp_fbs, ['FacilityID', 'FlowName', 'Process',
-                                              'ProcessType'])
+            ghgrp_fbs = aggregate(ghgrp_fbs, ['FacilityID', 'FlowName', 'Compartment',
+                                              'Unit', 'Process', 'ProcessType'])
             store_inventory(ghgrp_fbs, 'GHGRP_' + year, 'flowbyprocess')
 
             log.info('generating flowbyfacility output')
             ghgrp_fbf = ghgrp[StewiFormat.FLOWBYFACILITY.subset_fields(ghgrp)
                               ].reset_index(drop=True)
-
             # aggregate instances of more than one flow for same facility and flow type
-            ghgrp_fbf = aggregate(ghgrp_fbf, ['FacilityID', 'FlowName'])
+            ghgrp_fbf = aggregate(ghgrp_fbf, ['FacilityID', 'FlowName',
+                                              'Compartment', 'Unit'])
             store_inventory(ghgrp_fbf, 'GHGRP_' + year, 'flowbyfacility')
 
             log.info('generating flows output')
-            flow_columns = ['FlowName', 'FlowID']
+            flow_columns = ['FlowName', 'FlowID', 'Compartment']
             ghgrp_flow = ghgrp[flow_columns].drop_duplicates()
             ghgrp_flow.dropna(subset=['FlowName'], inplace=True)
             ghgrp_flow.sort_values(by=['FlowID', 'FlowName'], inplace=True)
-            ghgrp_flow['Compartment'] = 'air'
-            ghgrp_flow['Unit'] = 'kg'
             store_inventory(ghgrp_flow, 'GHGRP_' + year, 'flow')
 
             log.info('generating facilities output')
