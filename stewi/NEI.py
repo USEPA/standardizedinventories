@@ -282,7 +282,7 @@ def main(**kwargs):
             log.info('generating facility output')
             fac_fields = ['FacilityID', 'FacilityName', 'Address',
                           'City', 'State', 'Zip', 'Latitude',
-                          'Longitude', 'NAICS', 'County', 'cmpt_urb']
+                          'Longitude', 'NAICS', 'County', 'UrbanRural']
             facility = nei_point[[f for f in fac_fields
                                   if f in nei_point.columns]]
             facility = facility.drop_duplicates('FacilityID')

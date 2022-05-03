@@ -381,6 +381,8 @@ def assign_secondary_context(df, year, *args):
     """
     from esupy import context_secondary as e_c_s
     df = e_c_s.main(df, year, *args)  # if e_c_s.has_geo_pkgs == False, returns unaltered df
+    if 'cmpt_urb' in df.columns:  # rename before storage w/ facilities
+        df = df.rename(columns={'cmpt_urb': 'UrbanRural'})
     if 'concat' in args:
         df = concat_compartment(df, e_c_s.has_geo_pkgs, *args)
     return df
@@ -394,7 +396,7 @@ def concat_compartment(df, has_geo_pkgs, *cmpts):
     :cmpts: str, compartment string code(s) {'urb', 'rh'}
     """
     if 'urb' in cmpts and has_geo_pkgs:
-        df['Compartment'] = df['Compartment'] + '/' + df['cmpt_urb']
+        df['Compartment'] = df['Compartment'] + '/' + df['UrbanRural']
     if 'rh' in cmpts:
         df['Compartment'] = df['Compartment'] + '/' + df['cmpt_rh']
     df['Compartment'] = df['Compartment'].str.replace('/unspecified','')

@@ -320,11 +320,10 @@ def Generate_TRI_files_csv(TRIyear):
     tri_facility = assign_secondary_context(tri_facility, int(TRIyear), 'urb')
     store_inventory(tri_facility, 'TRI_' + TRIyear, 'facility')
 
-    if 'cmpt_urb' in tri_facility.columns:  # given urban/rural assignment success
+    if 'UrbanRural' in tri_facility.columns:  # given urban/rural assignment success
         # merge & concat urban/rural into tri.Compartment before aggregation
-        tri = tri.merge(tri_facility[['FacilityID', 'cmpt_urb']].drop_duplicates(),
+        tri = tri.merge(tri_facility[['FacilityID', 'UrbanRural']].drop_duplicates(),
                         how='left', on='FacilityID')
-        tri.loc[tri['Compartment'] != 'air', 'cmpt_urb'] = 'unspecified'
         tri = concat_compartment(tri, True, 'urb')  # passes has_geo_pkgs=True
 
     grouping_vars = ['FacilityID', 'FlowName', 'CAS', 'Compartment']
