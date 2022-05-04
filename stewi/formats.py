@@ -78,6 +78,7 @@ facility_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],
                    'County': [{'dtype': 'str'}, {'required': False}],
                    'NAICS': [{'dtype': 'str'}, {'required': False}],
                    'SIC': [{'dtype': 'str'}, {'required': False}],
+                   'UrbanRural': [{'dtype': 'str'}, {'required': False}],
                    }
 
 flowbyprocess_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],
