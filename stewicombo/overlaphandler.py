@@ -3,6 +3,7 @@ from stewicombo.globals import log, LOOKUP_FIELDS, SOURCE_COL,INCLUDE_ORIGINAL,\
     INVENTORY_PREFERENCE_BY_COMPARTMENT, KEEP_ALL_DUPLICATES, FORCE_COLUMN_TYPES,\
     KEEP_ROW_WITHOUT_DUPS, COL_FUNC_PAIRS, COL_FUNC_DEFAULT, COMPARTMENT_COL,\
     VOC_srs
+from stewi.globals import aggregate
 
 if "LOOKUP_FIELDS" not in locals() and LOOKUP_FIELDS:
     raise ValueError("Not sure which fields to lookup in each row. "
@@ -50,6 +51,12 @@ def get_by_preference(group):
 
 
 def aggregate_and_remove_overlap(df):
+
+    # Temporarily set all compartments to the primary compartment
+    # until overlap handler is updated
+    df['Compartment'] = df['Compartment'].str.partition('/')[0]
+    df = aggregate(df)
+
     if not INCLUDE_ORIGINAL and not KEEP_ALL_DUPLICATES:
         raise ValueError("Cannot have both INCLUDE_ORIGINAL and "
                          "KEEP_REPEATED_DUPLICATES fields as False")
