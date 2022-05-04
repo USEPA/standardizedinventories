@@ -256,7 +256,7 @@ def validate_national_totals(inv, TRIyear):
                     'Please run option B')
 
 
-def Generate_TRI_files_csv(TRIyear):
+def generate_TRI_files_csv(TRIyear):
     """
     Generate TRI inventories from downloaded files.
     :param TRIyear: str
@@ -317,10 +317,11 @@ def Generate_TRI_files_csv(TRIyear):
         }
     tri_facility = tri_facility.rename(columns=TRI_facility_name_crosswalk)
 
-    tri_facility = assign_secondary_context(tri_facility, int(TRIyear), 'urb')
+    tri_facility, parameters = assign_secondary_context(
+        tri_facility, int(TRIyear), 'urb')
     store_inventory(tri_facility, 'TRI_' + TRIyear, 'facility')
 
-    if 'UrbanRural' in tri_facility.columns:  # given urban/rural assignment success
+    if 'urban_rural' in parameters:  # given urban/rural assignment success
         # merge & concat urban/rural into tri.Compartment before aggregation
         tri = tri.merge(tri_facility[['FacilityID', 'UrbanRural']].drop_duplicates(),
                         how='left', on='FacilityID')
@@ -340,9 +341,10 @@ def Generate_TRI_files_csv(TRIyear):
     # FLOW BY FACILITY
     fbf = tri.drop(columns=['CAS'])
     store_inventory(fbf, 'TRI_' + TRIyear, 'flowbyfacility')
+    return parameters
 
 
-def generate_metadata(year, files, datatype='inventory'):
+def generate_metadata(year, files, parameters=None, datatype='inventory'):
     """Get metadata and writes to .json."""
     if datatype == 'source':
         source_path = [str(OUTPUT_PATH.joinpath(f'US_{p}_{year}.csv')) for p in files]
@@ -355,13 +357,14 @@ def generate_metadata(year, files, datatype='inventory'):
         if not tri_version:
             tri_version = 'last'
         source_meta['SourceVersion'] = tri_version
-        write_metadata('TRI_' + year, source_meta, category=EXT_DIR,
+        write_metadata(f'TRI_{year}', source_meta, category=EXT_DIR,
                        datatype='source')
     else:
-        source_meta = read_source_metadata(paths, set_stewi_meta('TRI_' + year,
+        source_meta = read_source_metadata(paths, set_stewi_meta(f'TRI_{year}',
                                                                  EXT_DIR),
                                            force_JSON=True)['tool_meta']
-        write_metadata('TRI_' + year, source_meta, datatype=datatype)
+        write_metadata(f'TRI_{year}', source_meta, datatype=datatype,
+                       parameters=parameters)
 
 
 def main(**kwargs):
@@ -426,8 +429,8 @@ def main(**kwargs):
 
         elif kwargs['Option'] == 'C':
             log.info(f'generating TRI inventory from files for {year}')
-            Generate_TRI_files_csv(year)
-            generate_metadata(year, files, datatype='inventory')
+            parameters = generate_TRI_files_csv(year)
+            generate_metadata(year, files, parameters, datatype='inventory')
 
 
 if __name__ == '__main__':

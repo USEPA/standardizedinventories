@@ -175,7 +175,7 @@ def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
 
 
 def write_metadata(file_name, metadata_dict, category='',
-                   datatype="inventory"):
+                   datatype="inventory", parameters=None):
     """Write JSON metadata specific to inventory to local directory.
 
     :param file_name: str in the form of inventory_year
@@ -185,10 +185,15 @@ def write_metadata(file_name, metadata_dict, category='',
     :param datatype: 'inventory' when saving StEWI output files, 'source'
         when downloading and processing source data, 'validation' for saving
         validation metadata
+    :param parameters: list of parameters (str) to add to metadata
     """
     if (datatype == "inventory") or (datatype == "source"):
         meta = set_stewi_meta(file_name, stewiformat=category)
-        meta.tool_meta = metadata_dict
+        if datatype == 'inventory':
+            meta.tool_meta = {"parameters": parameters,
+                              "sources": metadata_dict}
+        else:
+            meta.tool_meta = metadata_dict
         write_metadata_to_file(paths, meta)
     elif datatype == "validation":
         with open(paths.local_path + '/validation/' + file_name +
@@ -369,6 +374,7 @@ def get_reliability_table_for_source(source):
             .drop(columns='Source'))
     return df
 
+
 def assign_secondary_context(df, year, *args):
     """
     Wrapper for esupy.context_secondary.main(), which flexibly assigns
@@ -380,12 +386,17 @@ def assign_secondary_context(df, year, *args):
     :param args: str, flag(s) for compartment assignment + skip_concat option
     """
     from esupy import context_secondary as e_c_s
+    parameters = []
     df = e_c_s.main(df, year, *args)  # if e_c_s.has_geo_pkgs == False, returns unaltered df
     if 'cmpt_urb' in df.columns:  # rename before storage w/ facilities
         df = df.rename(columns={'cmpt_urb': 'UrbanRural'})
+        parameters.append('urban_rural')
+    if 'cmpt_rh' in df.columns:
+        parameters.append('release_height')
     if 'concat' in args:
         df = concat_compartment(df, e_c_s.has_geo_pkgs, *args)
-    return df
+    return df, parameters
+
 
 def concat_compartment(df, has_geo_pkgs, *cmpts):
     """
