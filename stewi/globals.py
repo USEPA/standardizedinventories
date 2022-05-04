@@ -231,7 +231,7 @@ def compile_source_metadata(sourcefile, config, year):
 
 
 def remove_line_breaks(df, headers_only=True):
-    df.columns = df.columns.str.replace('\r|\n', ' ')
+    df.columns = df.columns.str.replace('\r|\n', ' ', regex=True)
     if not headers_only:
         df = df.replace('\r\n', ' ').replace('\n', ' ')
     return df
