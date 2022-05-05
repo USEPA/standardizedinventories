@@ -585,6 +585,10 @@ def generate_national_totals_validation(validation_table, year):
 
 def validate_national_totals_by_subpart(tab_df, year):
     log.info('validating flowbyfacility against national totals')
+
+    # drop fuel information for validation
+    tab_df = tab_df[tab_df['Compartment'] != 'input'].reset_index(drop=True)
+
     # apply CO2e factors for some flows
     mask = (tab_df['AmountCO2e'].isna() & tab_df['FlowID'].isin(flows_CO2e))
     tab_df.loc[mask, 'Flow Description'] = 'Fluorinated GHG Emissions (mt CO2e)'
@@ -800,6 +804,15 @@ def main(**kwargs):
             ghgrp = pd.concat([ghgrp1, ghgrp2,
                                ghgrp3, ghgrp4]).reset_index(drop=True)
 
+            # pickle data and save to network
+            log.info(f'saving processed GHGRP data to {pickle_file}')
+            ghgrp.to_pickle(pickle_file)
+            generate_metadata(year, m, datatype='source')
+
+        if kwargs['Option'] == 'B':
+            log.info(f'extracting data from {pickle_file}')
+            ghgrp = pd.read_pickle(pickle_file)
+
             # map flow descriptions to standard gas names from GHGRP
             ghg_mapping = pd.read_csv(GHGRP_DATA_PATH.joinpath('ghg_mapping.csv'),
                                       usecols=['Flow Description', 'FlowName',
@@ -815,16 +828,6 @@ def main(**kwargs):
             ghgrp.rename(columns={'FACILITY_ID': 'FacilityID',
                                   'NAICS_CODE': 'NAICS',
                                   'GAS_CODE': 'FlowCode'}, inplace=True)
-
-            # pickle data and save to network
-            log.info(f'saving processed GHGRP data to {pickle_file}')
-            ghgrp.to_pickle(pickle_file)
-
-            generate_metadata(year, m, datatype='source')
-
-        if kwargs['Option'] == 'B':
-            log.info(f'extracting data from {pickle_file}')
-            ghgrp = pd.read_pickle(pickle_file)
 
             # import data reliability scores
             ghgrp_reliability_table = get_reliability_table_for_source('GHGRPa')
