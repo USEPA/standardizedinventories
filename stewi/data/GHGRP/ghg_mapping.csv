@@ -678,132 +678,132 @@ Trifluoroacetyl fluoride,Other,Other,Other
 Trifluoromethanesulfonic Acid,Other,Other,Other
 Trifluoromethyl sulphur pentafluoride,Other_Full,Other_Full,Fully fluorinated GHGs
 "Unsaturated perfluorocarbons (PFCs), unsaturated HFCs, unsaturated hydrochlorofluorocarbons (HCFCs), unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones",PFC,PFC,"Unsaturated perfluorocarbons (PFCs), unsaturated HFCs, unsaturated hydrochlorofluorocarbons (HCFCs), unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones"
-#2 HP Off Gas,,Fuel,#2 HP Off Gas
-100 Side Off-Gas,,Fuel,100 Side Off-Gas
-150 Side Off-gas,,Fuel,150 Side Off-gas
-ACETONE,,Fuel,ACETONE
-Agricultural Byproducts,,Fuel,Agricultural Byproducts
-Anthracite,,Fuel,Anthracite
-ANTS Off-Gas,,Fuel,ANTS Off-Gas
+#2 HP Off Gas,,Fuel,Other Gas
+100 Side Off-Gas,,Fuel,Other Gas
+150 Side Off-gas,,Fuel,Other Gas
+ACETONE,,Fuel,Other
+Agricultural Byproducts,,Fuel,Biomass
+Anthracite,,Fuel,Coal
+ANTS Off-Gas,,Fuel,Other Gas
 Asphalt and Road Oil,,Fuel,Asphalt and Road Oil
-Auto Carpet,,Fuel,Auto Carpet
-Biodiesel (100%),,Fuel,Biodiesel (100%)
-Biogenic Process Derived Fuel (PDF),,Fuel,Biogenic Process Derived Fuel (PDF)
-BIOSLUDGE,,Fuel,BIOSLUDGE
-Bituminous,,Fuel,Bituminous
-Blast Furnace Gas,,Fuel,Blast Furnace Gas
-Blend (bituminous/subituminous),,Fuel,Blend (bituminous/subituminous)
-Butane,,Fuel,Butane
-Butane (gaseous),,Fuel,Butane (gaseous)
-By-Product/Waste Gas/Natural Gas,,Fuel,By-Product/Waste Gas/Natural Gas
-Carbon Monoxide,,Fuel,Carbon Monoxide
-Carbon Monoxide (CO),,Fuel,Carbon Monoxide (CO)
-Clay,,Fuel,Clay
-Coal Coke,,Fuel,Coal Coke
-Coke Oven Gas,,Fuel,Coke Oven Gas
-Combined Purge and Cold Box Fuel,,Fuel,Combined Purge and Cold Box Fuel
-Distillate Fuel Oil No. 1,,Fuel,Distillate Fuel Oil No. 1
-Distillate Fuel Oil No. 2,,Fuel,Distillate Fuel Oil No. 2
-Distillate Fuel Oil No. 4,,Fuel,Distillate Fuel Oil No. 4
-Dock Loading Vapors,,Fuel,Dock Loading Vapors
-DuPont gas Purge Ethylene,,Fuel,DuPont gas Purge Ethylene
-EDA1,,Fuel,EDA1
-EDA2,,Fuel,EDA2
-Engineered Alternative Fuel,,Fuel,Engineered Alternative Fuel
-Equistar gas Purge Ethylene,,Fuel,Equistar gas Purge Ethylene
-Ethane,,Fuel,Ethane
-Ethanol (100%),,Fuel,Ethanol (100%)
-Ethylene,,Fuel,Ethylene
-Fuel Gas,,Fuel,Fuel Gas
-Fuel Gas TXC,,Fuel,Fuel Gas TXC
-Fuel Ore,,Fuel,Fuel Ore
-Hazardous Waste,,Fuel,Hazardous Waste
-Heavy Residue,,Fuel,Heavy Residue
-HYD-01,,Fuel,HYD-01
-HYD-02,,Fuel,HYD-02
+Auto Carpet,,Fuel,Other
+Biodiesel (100%),,Fuel,Biodiesel
+Biogenic Process Derived Fuel (PDF),,Fuel,Biomass
+BIOSLUDGE,,Fuel,Biomass
+Bituminous,,Fuel,Coal
+Blast Furnace Gas,,Fuel,Other Gas
+Blend (bituminous/subituminous),,Fuel,Coal
+Butane,,Fuel,Other
+Butane (gaseous),,Fuel,Other Gas
+By-Product/Waste Gas/Natural Gas,,Fuel,Other Gas
+Carbon Monoxide,,Fuel,Other Gas
+Carbon Monoxide (CO),,Fuel,Other Gas
+Clay,,Fuel,Other
+Coal Coke,,Fuel,Coke
+Coke Oven Gas,,Fuel,Other Gas
+Combined Purge and Cold Box Fuel,,Fuel,Other
+Distillate Fuel Oil No. 1,,Fuel,Distillate Fuel Oil
+Distillate Fuel Oil No. 2,,Fuel,Distillate Fuel Oil
+Distillate Fuel Oil No. 4,,Fuel,Distillate Fuel Oil
+Dock Loading Vapors,,Fuel,Other
+DuPont gas Purge Ethylene,,Fuel,Other Gas
+EDA1,,Fuel,Other
+EDA2,,Fuel,Other
+Engineered Alternative Fuel,,Fuel,Other
+Equistar gas Purge Ethylene,,Fuel,Other Gas
+Ethane,,Fuel,Other Gas
+Ethanol (100%),,Fuel,Ethanol
+Ethylene,,Fuel,Other
+Fuel Gas,,Fuel,Other Gas
+Fuel Gas TXC,,Fuel,Other Gas
+Fuel Ore,,Fuel,Other
+Hazardous Waste,,Fuel,Other
+Heavy Residue,,Fuel,Other
+HYD-01,,Fuel,Hydrogen
+HYD-02,,Fuel,Hydrogen
 Hydrogen,,Fuel,Hydrogen
-Isobutane,,Fuel,Isobutane
-JT Methane,,Fuel,JT Methane
-KATT Fuel 2017,,Fuel,KATT Fuel 2017
+Isobutane,,Fuel,Other
+JT Methane,,Fuel,Other Gas
+KATT Fuel 2017,,Fuel,Other
 Kerosene,,Fuel,Kerosene
-Kerosene-Type Jet Fuel,,Fuel,Kerosene-Type Jet Fuel
-Landfill Gas,,Fuel,Landfill Gas
-LHC9 Offgas/Ventgas,,Fuel,LHC9 Offgas/Ventgas
-Light Straight Run,,Fuel,Light Straight Run
-Lignite,,Fuel,Lignite
-Liquefied petroleum gases (LPG),,Fuel,Liquefied petroleum gases (LPG)
+Kerosene-Type Jet Fuel,,Fuel,Kerosene
+Landfill Gas,,Fuel,Other Gas
+LHC9 Offgas/Ventgas,,Fuel,Other Gas
+Light Straight Run,,Fuel,Naphtha
+Lignite,,Fuel,Coal
+Liquefied petroleum gases (LPG),,Fuel,Liquefied Petroleum Gas
 Lubricants,,Fuel,Lubricants
-Maleic Fuel Gas,,Fuel,Maleic Fuel Gas
-Marine Loading Vapors,,Fuel,Marine Loading Vapors
-MBTU,,Fuel,MBTU
-Mixed (Commercial sector),,Fuel,Mixed (Commercial sector)
-Mixed (Electric Power sector),,Fuel,Mixed (Electric Power sector)
-Mixed (Industrial sector),,Fuel,Mixed (Industrial sector)
-Mixed Fuel Gas,,Fuel,Mixed Fuel Gas
-Motor Gasoline,,Fuel,Motor Gasoline
-Municipal Solid Waste,,Fuel,Municipal Solid Waste
-Naphtha (<401 deg F),,Fuel,Naphtha (<401 deg F)
-Natural Gas (Weighted U.S. Average),,Fuel,Natural Gas (Weighted U.S. Average)
-Natural Gas 1,,Fuel,Natural Gas 1
-Natural Gas 2,,Fuel,Natural Gas 2
-Natural Gasoline,,Fuel,Natural Gasoline
-NHSM (C-8 bottoms),,Fuel,NHSM (C-8 bottoms)
-NHSM (Tar),,Fuel,NHSM (Tar)
-No6 Fuel Oil Blend,,Fuel,No6 Fuel Oil Blend
-OCC Rejects,,Fuel,OCC Rejects
-OffGas,,Fuel,OffGas
-Oilfield Gas,,Fuel,Oilfield Gas
-Other Biomass Gases,,Fuel,Other Biomass Gases
-Other Gaseous Fuel,,Fuel,Other Gaseous Fuel
-Other Oil (>401 deg F),,Fuel,Other Oil (>401 deg F)
-Pentanes Plus,,Fuel,Pentanes Plus
-Petroleum Coke,,Fuel,Petroleum Coke
-Plastics,,Fuel,Plastics
-Process,,Fuel,Process
-Process Gas,,Fuel,Process Gas
+Maleic Fuel Gas,,Fuel,Other Gas
+Marine Loading Vapors,,Fuel,Other Gas
+MBTU,,Fuel,Other
+Mixed (Commercial sector),,Fuel,Other
+Mixed (Electric Power sector),,Fuel,Other
+Mixed (Industrial sector),,Fuel,Other
+Mixed Fuel Gas,,Fuel,Other Gas
+Motor Gasoline,,Fuel,Gasoline
+Municipal Solid Waste,,Fuel,Other
+Naphtha (<401 deg F),,Fuel,Naphtha
+Natural Gas (Weighted U.S. Average),,Fuel,Natural Gas
+Natural Gas 1,,Fuel,Natural Gas
+Natural Gas 2,,Fuel,Natural Gas
+Natural Gasoline,,Fuel,Other
+NHSM (C-8 bottoms),,Fuel,Other
+NHSM (Tar),,Fuel,Other
+No6 Fuel Oil Blend,,Fuel,Other
+OCC Rejects,,Fuel,Other
+OffGas,,Fuel,Other Gas
+Oilfield Gas,,Fuel,Other Gas
+Other Biomass Gases,,Fuel,Biomass
+Other Gaseous Fuel,,Fuel,Other Gas
+Other Oil (>401 deg F),,Fuel,Other
+Pentanes Plus,,Fuel,Other
+Petroleum Coke,,Fuel,Coke
+Plastics,,Fuel,Other
+Process,,Fuel,Other
+Process Gas,,Fuel,Other Gas
 Propane,,Fuel,Propane
-Propane Gas,,Fuel,Propane Gas
-Propylene,,Fuel,Propylene
-PSA Off Gas,,Fuel,PSA Off Gas
-PSA Off-gas,,Fuel,PSA Off-gas
-PSA Reject Gas,,Fuel,PSA Reject Gas
-Purge Gas,,Fuel,Purge Gas
-Raw Hydrogen,,Fuel,Raw Hydrogen
-Raw Landfill Gas and Waste Gas,,Fuel,Raw Landfill Gas and Waste Gas
-"Raw Landfill Gas, Processed Landfill Gas (Sales), Natural Gas (Peoples)",,Fuel,"Raw Landfill Gas, Processed Landfill Gas (Sales), Natural Gas (Peoples)"
-Reactor off gas,,Fuel,Reactor off gas
-Recovered Oil Processing Vapors,,Fuel,Recovered Oil Processing Vapors
-Refinery Fuel Gas,,Fuel,Refinery Fuel Gas
-Refinery Fuel Gas 1,,Fuel,Refinery Fuel Gas 1
-Refinery Fuel Gas 2,,Fuel,Refinery Fuel Gas 2
-Refinery Fuel Gas 4,,Fuel,Refinery Fuel Gas 4
-Refinery Fuel Gas 5,,Fuel,Refinery Fuel Gas 5
-Refinery Gas,,Fuel,Refinery Gas
-Rendered Animal Fat,,Fuel,Rendered Animal Fat
-Renewable Fuel Gas Blend,,Fuel,Renewable Fuel Gas Blend
-Residual Fuel Oil No. 5,,Fuel,Residual Fuel Oil No. 5
-Residual Fuel Oil No. 6,,Fuel,Residual Fuel Oil No. 6
-Solid Byproducts,,Fuel,Solid Byproducts
-Special Naphtha,,Fuel,Special Naphtha
-Spent Activated Carbon,,Fuel,Spent Activated Carbon
-Subbituminous,,Fuel,Subbituminous
-Synthetic Natural Gas,,Fuel,Synthetic Natural Gas
-Tail Gas,,Fuel,Tail Gas
-TANK16,,Fuel,TANK16
-TANK33_PZ,,Fuel,TANK33_PZ
-Tar Oil,,Fuel,Tar Oil
-Tires,,Fuel,Tires
-Used Oil,,Fuel,Used Oil
-V105 Off-Gas,,Fuel,V105 Off-Gas
-Vacuum,,Fuel,Vacuum
-Vegetable Oil,,Fuel,Vegetable Oil
-vent gas (Oxo Propane Recycle),,Fuel,vent gas (Oxo Propane Recycle)
-VRU Sponge Oil,,Fuel,VRU Sponge Oil
-Waste 1,,Fuel,Waste 1
-Waste 2,,Fuel,Waste 2
-Waste Coal Refuse,,Fuel,Waste Coal Refuse
-Waste Gas,,Fuel,Waste Gas
-Waste Supplemental Fuel,,Fuel,Waste Supplemental Fuel
-WM Spec Fuel,,Fuel,WM Spec Fuel
-Wood and Wood Residuals (dry basis),,Fuel,Wood and Wood Residuals (dry basis)
-WWT Gas,,Fuel,WWT Gas
+Propane Gas,,Fuel,Propane
+Propylene,,Fuel,Other Gas
+PSA Off Gas,,Fuel,Other Gas
+PSA Off-gas,,Fuel,Other Gas
+PSA Reject Gas,,Fuel,Other Gas
+Purge Gas,,Fuel,Other Gas
+Raw Hydrogen,,Fuel,Hydrogen
+Raw Landfill Gas and Waste Gas,,Fuel,Other Gas
+"Raw Landfill Gas, Processed Landfill Gas (Sales), Natural Gas (Peoples)",,Fuel,Other Gas
+Reactor off gas,,Fuel,Other Gas
+Recovered Oil Processing Vapors,,Fuel,Other Gas
+Refinery Fuel Gas,,Fuel,Other Gas
+Refinery Fuel Gas 1,,Fuel,Other Gas
+Refinery Fuel Gas 2,,Fuel,Other Gas
+Refinery Fuel Gas 4,,Fuel,Other Gas
+Refinery Fuel Gas 5,,Fuel,Other Gas
+Refinery Gas,,Fuel,Other Gas
+Rendered Animal Fat,,Fuel,Biomass
+Renewable Fuel Gas Blend,,Fuel,Biomass
+Residual Fuel Oil No. 5,,Fuel,Residual Fuel Oil
+Residual Fuel Oil No. 6,,Fuel,Residual Fuel Oil
+Solid Byproducts,,Fuel,Other
+Special Naphtha,,Fuel,Other
+Spent Activated Carbon,,Fuel,Other
+Subbituminous,,Fuel,Coal
+Synthetic Natural Gas,,Fuel,Other Gas
+Tail Gas,,Fuel,Other Gas
+TANK16,,Fuel,Other
+TANK33_PZ,,Fuel,Other
+Tar Oil,,Fuel,Other
+Tires,,Fuel,Other
+Used Oil,,Fuel,Other
+V105 Off-Gas,,Fuel,Other Gas
+Vacuum,,Fuel,Other
+Vegetable Oil,,Fuel,Biomass
+vent gas (Oxo Propane Recycle),,Fuel,Other Gas
+VRU Sponge Oil,,Fuel,Other
+Waste 1,,Fuel,Other
+Waste 2,,Fuel,Other
+Waste Coal Refuse,,Fuel,Other
+Waste Gas,,Fuel,Other Gas
+Waste Supplemental Fuel,,Fuel,Other
+WM Spec Fuel,,Fuel,Other
+Wood and Wood Residuals (dry basis),,Fuel,Biomass
+WWT Gas,,Fuel,Other Gas
