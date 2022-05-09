@@ -1,0 +1,19 @@
+name: stewi_2ndry_ctxt
+channels:
+    - defaults
+dependencies:
+    - python=3.9.7          
+    - pip=21.2.4       # must specify else conda returns warning
+    - numpy=1.21.2
+    - pandas=1.3.4          
+    - geopandas=0.9.0
+    - shapely=1.7.1
+    - requests=2.26.0
+    - appdirs=1.4.4
+    #- pytest=6.2.4
+    - spyder
+
+    - pip:
+        - pyarrow==6.0.1  # causes error if installed via conda default channel "OSError: NotImplemented: Support for codec 'snappy' not built"
+        - requests_ftp==0.3.1        
+        - "--editable=git+https://github.com/USEPA/standardizedinventories.git@urban_rural_classify#egg=StEWI"

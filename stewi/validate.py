@@ -35,8 +35,10 @@ def validate_inventory(inventory_df, reference_df, group_by='flow',
         reference_df['FlowAmount'] = pd.to_numeric(reference_df['FlowAmount'])
     if group_by == 'flow':
         group_by_columns = ['FlowName']
-        if 'Compartment' in inventory_df.keys():
-            group_by_columns += ['Compartment']
+    elif group_by == 'compartment':
+        group_by_columns = ['FlowName', 'PrimaryCompartment']
+        reference_df['PrimaryCompartment'] = reference_df['Compartment']
+        inventory_df['PrimaryCompartment'] = inventory_df['Compartment'].str.split('/').str[0]
     elif group_by == 'state':
         group_by_columns = ['State']
     elif group_by == 'facility':

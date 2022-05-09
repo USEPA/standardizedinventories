@@ -8,7 +8,7 @@ Public API for stewicombo. Functions to combine inventory data
 import facilitymatcher
 from stewicombo.overlaphandler import aggregate_and_remove_overlap
 from stewicombo.globals import get_id_before_underscore,\
-    getInventoriesforFacilityMatches, filter_by_compartment,\
+    getInventoriesforFacilityMatches, filter_by_primary_compartment,\
     addChemicalMatches, addBaseInventoryIDs, storeCombinedInventory,\
     write_stewicombo_metadata, compile_metadata, getCombinedInventory,\
     download_stewicombo_from_remote
@@ -38,7 +38,7 @@ def combineFullInventories(inventory_dict, filter_for_LCI=True,
     if len(inventories) == 0:
         return None
     if compartments is not None:
-        inventories = filter_by_compartment(inventories, compartments)
+        inventories = filter_by_primary_compartment(inventories, compartments)
 
     inventories = addChemicalMatches(inventories)
 

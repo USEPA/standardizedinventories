@@ -5,15 +5,16 @@
 Supporting variables and functions used in stewi
 """
 
-import pandas as pd
 import json
 import logging as log
 import os
-import yaml
 import time
 import urllib
 from datetime import datetime
 from pathlib import Path
+
+import pandas as pd
+import yaml
 
 from esupy.processed_data_mgmt import Paths, FileMeta,\
     load_preprocessed_output, remove_extra_files,\
@@ -174,7 +175,7 @@ def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
 
 
 def write_metadata(file_name, metadata_dict, category='',
-                   datatype="inventory"):
+                   datatype="inventory", parameters=None):
     """Write JSON metadata specific to inventory to local directory.
 
     :param file_name: str in the form of inventory_year
@@ -184,10 +185,15 @@ def write_metadata(file_name, metadata_dict, category='',
     :param datatype: 'inventory' when saving StEWI output files, 'source'
         when downloading and processing source data, 'validation' for saving
         validation metadata
+    :param parameters: list of parameters (str) to add to metadata
     """
     if (datatype == "inventory") or (datatype == "source"):
         meta = set_stewi_meta(file_name, stewiformat=category)
-        meta.tool_meta = metadata_dict
+        if datatype == 'inventory':
+            meta.tool_meta = {"parameters": parameters,
+                              "sources": metadata_dict}
+        else:
+            meta.tool_meta = metadata_dict
         write_metadata_to_file(paths, meta)
     elif datatype == "validation":
         with open(paths.local_path + '/validation/' + file_name +
@@ -225,11 +231,9 @@ def compile_source_metadata(sourcefile, config, year):
 
 
 def remove_line_breaks(df, headers_only=True):
-    for column in df:
-        df.rename(columns={column: column.replace('\r\n', ' ')}, inplace=True)
-        df.rename(columns={column: column.replace('\n', ' ')}, inplace=True)
+    df.columns = df.columns.str.replace('\r|\n', ' ', regex=True)
     if not headers_only:
-        df = df.replace(to_replace=['\r\n', '\n'], value=[' ', ' '], regex=True)
+        df = df.replace('\r\n', ' ').replace('\n', ' ')
     return df
 
 
@@ -245,7 +249,7 @@ def add_missing_fields(df, inventory_acronym, f, maintain_columns=False):
     """
     # Rename for legacy datasets
     if 'ReliabilityScore' in df:
-        df.rename(columns={'ReliabilityScore': 'DataReliability'}, inplace=True)
+        df = df.rename(columns={'ReliabilityScore': 'DataReliability'})
     # Add in units and compartment if not present
     if 'Unit' in f.fields() and 'Unit' not in df:
         df['Unit'] = 'kg'
@@ -263,8 +267,7 @@ def add_missing_fields(df, inventory_acronym, f, maintain_columns=False):
     col_list = f.fields()
     if maintain_columns:
         col_list = col_list + [c for c in df if c not in f.fields()]
-    df = df[col_list]
-    df.reset_index(drop=True, inplace=True)
+    df = df[col_list].reset_index(drop=True)
     return df
 
 
@@ -364,8 +367,48 @@ def generate_inventory(inventory_acronym, year):
 def get_reliability_table_for_source(source):
     """Retrieve the reliability table within stewi."""
     dq_file = 'DQ_Reliability_Scores_Table3-3fromERGreport.csv'
-    df = pd.read_csv(DATA_PATH.joinpath(dq_file), usecols=['Source', 'Code',
-                                                          'DQI Reliability Score'])
-    df = df.loc[df['Source'] == source].reset_index(drop=True)
-    df.drop('Source', axis=1, inplace=True)
+    df = (pd.read_csv(DATA_PATH.joinpath(dq_file),
+                      usecols=['Source', 'Code', 'DQI Reliability Score'])
+            .query('Source == @source')
+            .reset_index(drop=True)
+            .drop(columns='Source'))
+    return df
+
+
+def assign_secondary_context(df, year, *args):
+    """
+    Wrapper for esupy.context_secondary.main(), which flexibly assigns
+    urban/rural (pass 'urb' as positional arg) and/or release height ('rh')
+    secondary compartments. Also choose whether to concatenate primary +
+    secondary compartments by passing 'concat'.
+    :param df: pd.DataFrame
+    :param year: int, data year
+    :param args: str, flag(s) for compartment assignment + skip_concat option
+    """
+    from esupy import context_secondary as e_c_s
+    parameters = []
+    df = e_c_s.main(df, year, *args)  # if e_c_s.has_geo_pkgs == False, returns unaltered df
+    if 'cmpt_urb' in df.columns:  # rename before storage w/ facilities
+        df = df.rename(columns={'cmpt_urb': 'UrbanRural'})
+        parameters.append('urban_rural')
+    if 'cmpt_rh' in df.columns:
+        parameters.append('release_height')
+    if 'concat' in args:
+        df = concat_compartment(df, e_c_s.has_geo_pkgs, *args)
+    return df, parameters
+
+
+def concat_compartment(df, has_geo_pkgs, *cmpts):
+    """
+	Concatenate primary & secondary compartment cols sequentially. If both
+    'urb' and 'rh' are passed, return Compartment w/ order 'primary/urb/rh'.
+	:param df: pd.DataFrame, including compartment cols
+    :param has_geo_pkgs: bool, created via esupy context_secondary import
+    :cmpts: str, compartment string code(s) {'urb', 'rh'}
+    """
+    if 'urb' in cmpts and has_geo_pkgs:
+        df['Compartment'] = df['Compartment'] + '/' + df['UrbanRural']
+    if 'rh' in cmpts:
+        df['Compartment'] = df['Compartment'] + '/' + df['cmpt_rh']
+    df['Compartment'] = df['Compartment'].str.replace('/unspecified','')
     return df

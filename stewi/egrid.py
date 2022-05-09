@@ -301,7 +301,7 @@ def validate_eGRID(year, flowbyfac):
     # drop old unit
     egrid_national_totals.drop('Unit', axis=1, inplace=True)
     validation_result = validate_inventory(flowbyfac, egrid_national_totals,
-                                           group_by='flow', tolerance=5.0)
+                                           group_by='compartment', tolerance=5.0)
     write_validation_result('eGRID', year, validation_result)
 
 

@@ -240,7 +240,12 @@ def compile_metadata(inventory_dict):
     return inventory_meta
 
 
-def filter_by_compartment(df, compartments):
-    #TODO disaggregate compartments to include all children
-    df = df[df['Compartment'].isin(compartments)]
+def filter_by_primary_compartment(df, compartments):
+    """
+    Filter df to keep all entries with primary Compartment values in a given
+    list, chosen from {'water', 'air', 'land'}
+    :param df: pd.DataFrame
+    :param compartments: list, compartments to include
+    """
+    df = df[df['Compartment'].str.startswith(tuple(compartments))]
     return df
