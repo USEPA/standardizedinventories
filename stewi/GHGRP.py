@@ -43,10 +43,11 @@ import argparse
 import warnings
 from pathlib import Path
 
+from esupy.processed_data_mgmt import read_source_metadata
 from stewi.globals import download_table, write_metadata, import_table, \
     DATA_PATH, get_reliability_table_for_source, set_stewi_meta, config,\
     store_inventory, paths, log, \
-    compile_source_metadata, read_source_metadata, aggregate
+    compile_source_metadata, aggregate
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
 from stewi.formats import StewiFormat
@@ -257,6 +258,7 @@ def import_or_download_table(filepath, table, year, m):
 
     return table_df
 
+
 def download_and_parse_subpart_tables(year, m):
     """
     Generates a list of required subpart tables, based on report year.
@@ -374,9 +376,9 @@ def calculate_combustion_emissions(df):
     """
     df[subpart_c_cols] = df[subpart_c_cols].replace(np.nan, 0.0)
     # nonbiogenic carbon:
-        # NOTE: 'PART_75_CO2_EMISSIONS_METHOD' includes biogenic carbon emissions,
-        # so there will be a slight error here, but biogenic/nonbiogenic emissions
-        # for Part 75 are not reported separately.
+    # NOTE: 'PART_75_CO2_EMISSIONS_METHOD' includes biogenic carbon emissions,
+    # so there will be a slight error here, but biogenic/nonbiogenic emissions
+    # for Part 75 are not reported separately.
     df['c_co2'] = df['TIER1_CO2_COMBUSTION_EMISSIONS'] + \
                       df['TIER2_CO2_COMBUSTION_EMISSIONS'] + \
                       df['TIER3_CO2_COMBUSTION_EMISSIONS'] + \

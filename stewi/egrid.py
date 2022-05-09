@@ -27,10 +27,11 @@ import io
 from pathlib import Path
 
 from esupy.remote import make_url_request
+from esupy.processed_data_mgmt import read_source_metadata
 from stewi.globals import DATA_PATH, write_metadata,\
     unit_convert, log, MMBtu_MJ, MWh_MJ, config, USton_kg, lb_kg,\
     compile_source_metadata, remove_line_breaks, paths, store_inventory,\
-    read_source_metadata, set_stewi_meta, aggregate
+    set_stewi_meta, aggregate
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
 from stewi.formats import StewiFormat

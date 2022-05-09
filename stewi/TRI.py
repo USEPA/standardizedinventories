@@ -34,10 +34,11 @@ import argparse
 import re
 from pathlib import Path
 
+from esupy.processed_data_mgmt import read_source_metadata
 from stewi.globals import unit_convert, DATA_PATH, set_stewi_meta,\
     get_reliability_table_for_source, write_metadata, url_is_alive,\
     lb_kg, g_kg, config, store_inventory, log, paths, compile_source_metadata,\
-    read_source_metadata, aggregate, assign_secondary_context, concat_compartment
+    aggregate, assign_secondary_context, concat_compartment
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
 import stewi.exceptions

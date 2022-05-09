@@ -31,10 +31,11 @@ import urllib
 import time
 from pathlib import Path
 
+from esupy.processed_data_mgmt import read_source_metadata
 from stewi.globals import unit_convert,\
     DATA_PATH, lb_kg, write_metadata, get_reliability_table_for_source,\
     log, compile_source_metadata, config, store_inventory, set_stewi_meta,\
-    paths, read_source_metadata, aggregate
+    paths, aggregate
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
 from stewi.filter import filter_states, filter_config

@@ -45,6 +45,7 @@ def test_generate_fm_files():
                     frs_id_list=None, inventories_of_interest_list=None,
                     download_if_missing=False)
     df_facilities = facilitymatcher.get_matches_for_inventories()
+    assert df_naics is not None and df_facilities is not None
 
 
 @pytest.mark.parametrize("name,compartment,inv_dict",
@@ -57,6 +58,8 @@ def test_generate_combined_inventories(name, compartment, inv_dict):
                                            remove_overlap=True,
                                            compartments=[compartment])
     stewicombo.saveInventory(name, df, inv_dict)
+    df2 = stewicombo.getInventory(name, download_if_missing=False)
+    assert df2 is not None
 
 
 def test_NEI_generation():
@@ -93,6 +96,7 @@ def test_existing_inventories():
 if __name__ == "__main__":
     # test_all_inventory_generation()
     # test_generate_inventories(2017)
+    # test_generate_fm_files()
     test_generate_combined_inventories("TRI_DMR_2017",
                                        "water",
                                        {"TRI":"2017", "DMR":"2017"})

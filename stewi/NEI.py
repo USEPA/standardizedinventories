@@ -37,12 +37,12 @@ import numpy as np
 import pandas as pd
 import requests
 
-from esupy.processed_data_mgmt import download_from_remote
+from esupy.processed_data_mgmt import download_from_remote,\
+    read_source_metadata
 from esupy.util import strip_file_extension
 from stewi.globals import DATA_PATH, write_metadata, USton_kg, lb_kg,\
-    log, store_inventory, config, read_source_metadata,\
-    paths, aggregate, get_reliability_table_for_source, set_stewi_meta,\
-    assign_secondary_context
+    log, store_inventory, config, assign_secondary_context,\
+    paths, aggregate, get_reliability_table_for_source, set_stewi_meta
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
 from stewi.formats import facility_fields

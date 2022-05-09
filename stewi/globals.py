@@ -19,7 +19,7 @@ import yaml
 from esupy.processed_data_mgmt import Paths, FileMeta,\
     load_preprocessed_output, remove_extra_files,\
     write_df_to_file, write_metadata_to_file,\
-    read_source_metadata, download_from_remote
+    download_from_remote
 from esupy.dqi import get_weighted_average
 from esupy.util import get_git_hash
 
@@ -120,8 +120,10 @@ def download_table(filepath: Path, url: str, get_time=False):
         elif 'json' in url.lower():
             pd.read_json(url).to_csv(filepath, index=False)
         if get_time:
-            try: retrieval_time = filepath.stat().st_ctime
-            except: retrieval_time = time.time()
+            try:
+                retrieval_time = filepath.stat().st_ctime
+            except OSError:
+                retrieval_time = time.time()
             return time.ctime(retrieval_time)
     elif get_time:
         return time.ctime(filepath.stat().st_ctime)
@@ -287,7 +289,7 @@ def store_inventory(df, file_name, f, replace_files=REPLACE_FILES):
         write_df_to_file(df, paths, meta)
         if replace_files:
             remove_extra_files(meta, paths)
-    except:
+    except OSError:
         log.error('Failed to save inventory')
 
 
@@ -400,9 +402,9 @@ def assign_secondary_context(df, year, *args):
 
 def concat_compartment(df, has_geo_pkgs, *cmpts):
     """
-	Concatenate primary & secondary compartment cols sequentially. If both
+    Concatenate primary & secondary compartment cols sequentially. If both
     'urb' and 'rh' are passed, return Compartment w/ order 'primary/urb/rh'.
-	:param df: pd.DataFrame, including compartment cols
+    :param df: pd.DataFrame, including compartment cols
     :param has_geo_pkgs: bool, created via esupy context_secondary import
     :cmpts: str, compartment string code(s) {'urb', 'rh'}
     """

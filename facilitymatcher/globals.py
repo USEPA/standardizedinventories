@@ -94,7 +94,7 @@ def store_fm_file(df, file_name, category='', sources=None):
                                          ext_folder),
                 force_JSON=True)['tool_meta']
         write_fm_metadata(file_name, metadata_dict)
-    except:
+    except OSError:
         log.error('Failed to save inventory')
 
 

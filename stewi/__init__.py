@@ -7,9 +7,10 @@ inventory in standard formats
 """
 
 
+from esupy.processed_data_mgmt import read_source_metadata
 from stewi.globals import log, add_missing_fields,\
     WRITE_FORMAT, read_inventory, paths,\
-    read_source_metadata, set_stewi_meta, aggregate
+    set_stewi_meta, aggregate
 from stewi.filter import apply_filters_to_inventory, filter_config
 from stewi.formats import StewiFormat, ensure_format
 

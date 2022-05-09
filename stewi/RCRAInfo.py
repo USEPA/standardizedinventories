@@ -106,9 +106,10 @@ import time
 import datetime
 from pathlib import Path
 
+from esupy.processed_data_mgmt import read_source_metadata
 from stewi.globals import write_metadata, DATA_PATH, config,\
     USton_kg, get_reliability_table_for_source, paths,\
-    log, store_inventory, compile_source_metadata, read_source_metadata,\
+    log, store_inventory, compile_source_metadata,\
     aggregate, set_stewi_meta
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
