@@ -52,11 +52,6 @@ def get_by_preference(group):
 
 def aggregate_and_remove_overlap(df):
 
-    # Temporarily set all compartments to the primary compartment
-    # until overlap handler is updated
-    df['Compartment'] = df['Compartment'].str.partition('/')[0]
-    df = aggregate(df)
-
     if not INCLUDE_ORIGINAL and not KEEP_ALL_DUPLICATES:
         raise ValueError("Cannot have both INCLUDE_ORIGINAL and "
                          "KEEP_REPEATED_DUPLICATES fields as False")

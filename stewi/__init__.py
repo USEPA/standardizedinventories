@@ -61,7 +61,7 @@ def printAvailableInventories(stewiformat='flowbyfacility'):
 
 def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
                  filters=None, filter_for_LCI=False, US_States_Only=False,
-                 download_if_missing=False):
+                 download_if_missing=False, sec_cntx=True):
     """Return or generate an inventory in a standard output format.
 
     :param inventory_acronym: like 'TRI'
@@ -74,11 +74,20 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
         favor of 'filters'
     :param download_if_missing: bool, if True will attempt to load from
         remote server prior to generating if file not found locally
+    :param sec_cntx: bool, if False will collapse secondary contexts
+        (e.g., rural or urban, or release height)
     :return: dataframe with standard fields depending on output format
     """
     f = ensure_format(stewiformat)
     inventory = read_inventory(inventory_acronym, year, f,
                                download_if_missing)
+
+    if not sec_cntx:
+        inv_total = inventory['FlowAmount'].sum()
+        inventory['Compartment'] = (inventory['Compartment']
+                                    .str.partition('/')[0])
+        inventory = aggregate(inventory)
+
     if not filters:
         filters = []
     if f.value > 2:  # exclude FLOW and FACILITY

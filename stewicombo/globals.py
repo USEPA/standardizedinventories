@@ -94,9 +94,12 @@ def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
     if filter_for_LCI:
         filters = ['filter_for_LCI']
     for k in inventory_dict.keys():
+        # Temporarily set all compartments to the primary compartment via
+        # sec_cntx=False until overlap handler is updated
         inventory = stewi.getInventory(k, inventory_dict[k],
                                        'flowbyfacility',
-                                       filters)
+                                       filters,
+                                       sec_cntx=False)
         if inventory is None:
             continue
         inventory["Source"] = k
@@ -189,7 +192,7 @@ def storeCombinedInventory(df, file_name, category=''):
     try:
         log.info(f'saving {meta.name_data} to {method_path}')
         write_df_to_file(df, paths, meta)
-    except:
+    except OSError:
         log.error('Failed to save inventory')
 
 
