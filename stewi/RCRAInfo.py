@@ -156,7 +156,7 @@ def download_and_extract_zip(tables, query):
     options.add_argument('--disable-software-rasterizer')
     options.add_argument('--log-level=3')
     options.add_argument('--hide-scrollbars')
-    prefs = {'download.default_directory' : str(OUTPUT_PATH),
+    prefs = {'download.default_directory': str(OUTPUT_PATH),
             'download.prompt_for_download': False,
             'download.directory_upgrade': True,
             'safebrowsing_for_trusted_sources_enabled': False,

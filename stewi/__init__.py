@@ -84,7 +84,6 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
                                download_if_missing)
 
     if not sec_cntx:
-        inv_total = inventory['FlowAmount'].sum()
         inventory['Compartment'] = (inventory['Compartment']
                                     .str.partition('/')[0])
         inventory = aggregate(inventory)
