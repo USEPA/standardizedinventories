@@ -246,20 +246,13 @@ def import_or_download_table(filepath, table, year, m):
     if table_df is None:
         return None
 
-    # for all columns in the temporary dataframe, remove subpart-specific prefixes
-    str_remove = (len(table) + 1)
-    for col in table_df:
-        if col.startswith('D_GHG_B.'): # string may exist in columns
-            length = str_remove + 8
-        else:
-            length = str_remove
-        table_df.rename(columns={col: col[length:]}, inplace=True)
-
     # drop any unnamed columns
-    if ('unnamed' in table_df.columns[len(table_df.columns) - 1].lower()
-        ) or (table_df.columns[len(table_df.columns) - 1] == ''):
-        table_df.drop(table_df.columns[len(table_df.columns) - 1],
-                      axis=1, inplace=True)
+    table_df = table_df.drop(columns=table_df.columns[
+            table_df.columns.str.contains('unnamed', case=False)])
+
+    # for all columns, remove subpart-specific prefixes
+    table_df.columns = table_df.columns.str.extract(f'.*{table}\.(.*)',
+                                                    expand=False)
 
     return table_df
 
