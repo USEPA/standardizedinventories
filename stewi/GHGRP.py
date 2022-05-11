@@ -246,8 +246,8 @@ def import_or_download_table(filepath, table, year, m):
         return None
 
     # for all columns in the temporary dataframe, remove subpart-specific prefixes
-    for col in table_df:
-        table_df.rename(columns={col: col[len(table) + 1:]}, inplace=True)
+    pat_col = '|'.join(['D_GHG_B\.', 'C_CONFIGURATION_LEVEL_INFO\.'])
+    table_df.columns = table_df.columns.str.replace(pat_col, '', regex=True)
 
     # drop any unnamed columns
     if ('unnamed' in table_df.columns[len(table_df.columns) - 1].lower()
