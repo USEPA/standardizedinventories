@@ -10,14 +10,19 @@ def main(inventory, years):
     else:
         year_iter = [years]
     for i_year in year_iter:
-        stewi.globals.generate_inventory(inventory, i_year)
+        try:
+            stewi.globals.generate_inventory(inventory, i_year)
+        except stewi.exceptions.InventoryNotAvailableError as err:
+            print(err)
+            continue
+
 
 if __name__=="__main__":
     import argparse
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--years', help='singel year or years separated'
+    parser.add_argument('--years', help='single year or years separated'
                         'by dash')
     parser.add_argument('--inventory', help='inventory acroynym')
 

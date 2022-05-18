@@ -21,6 +21,7 @@ from esupy.processed_data_mgmt import Paths, FileMeta,\
     read_source_metadata, download_from_remote
 from esupy.dqi import get_weighted_average
 from esupy.util import get_git_hash
+import stewi.exceptions
 
 
 MODULEPATH = Path(__file__).resolve().parent
@@ -331,7 +332,8 @@ def generate_inventory(inventory_acronym, year):
     :param year: year as number like 2010
     """
     if inventory_acronym not in config()['databases']:
-        log.error('requested inventory not available')
+        raise stewi.exceptions.InventoryNotAvailableError(
+            message=f'"{inventory_acronym}" is not an available inventory')
     year = str(year)
     if inventory_acronym == 'DMR':
         import stewi.DMR as DMR
