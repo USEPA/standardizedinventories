@@ -10,6 +10,7 @@ import logging as log
 import os
 import time
 import urllib
+import copy
 from datetime import datetime
 from pathlib import Path
 
@@ -312,6 +313,11 @@ def read_inventory(inventory_acronym, year, f, download_if_missing=False):
         if download_if_missing:
             meta.tool = meta.tool.lower() # lower case for remote access
             download_from_remote(meta, paths)
+            # download metadata file
+            metadata_meta = copy.copy(meta)
+            metadata_meta.category = ''
+            metadata_meta.ext = 'json'
+            download_from_remote(metadata_meta, paths)
         else:
             log.info('requested inventory does not exist in local directory, '
                      'it will be generated...')
