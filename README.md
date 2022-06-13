@@ -130,7 +130,7 @@ or
 pip install . -r requirements.txt -r rcrainfo_requirements.txt
 ```
 
-# Data Products
+## Data Products
 Output of StEWI can be accessed for selected releases without having to run StEWI. See the [Data Product Links](https://github.com/USEPA/standardizedinventories/wiki/DataProductLinks) page for direct links to StEWI output files in Apache parquet format.
 
 ## Wiki
