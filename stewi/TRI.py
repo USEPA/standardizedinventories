@@ -403,7 +403,8 @@ def main(**kwargs):
             log.info('downloading TRI files from source for %s', year)
             tri_url = _config['url']
             if url_is_alive(tri_url):
-                link_zip_TRI = link_zip(tri_url, _config['queries'], year)
+                # link_zip_TRI = link_zip(tri_url, _config['queries'], year)
+                link_zip_TRI = _config.get('zip_url').replace("{year}", year)
                 extract_TRI_data_files(link_zip_TRI, files, year)
                 generate_metadata(year, files, datatype='source')
             else:
