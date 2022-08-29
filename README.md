@@ -1,5 +1,6 @@
 # Standardized Emission and Waste Inventories (StEWI)
 [![DOI - 10.3390/app12073447](https://img.shields.io/badge/DOI-10.3390%2Fapp12073447-blue)](https://doi.org/10.3390/app12073447)
+[![DOI - 10.23719/1526441](https://img.shields.io/badge/v1.0%20DataProducts-10.23719%2F1526441-blue)](https://doi.org/10.23719/1526441)
 [![build](https://github.com/USEPA/standardizedinventories/actions/workflows/python-package.yml/badge.svg)](https://github.com/USEPA/standardizedinventories/actions/workflows/python-package.yml)
 
 StEWI is a collection of Python modules that provide processed USEPA facility-based emission and waste generation inventory data in standard tabular formats.
@@ -133,10 +134,12 @@ pip install . -r requirements.txt -r rcrainfo_requirements.txt
 ### Secondary Context Installation Steps
 In order to enable calculation and assignment of urban/rural secondary contexts, please refer to [esupy's README.md](https://github.com/USEPA/esupy/tree/main#installation-instructions-for-optional-geospatial-packages) for installation instructions, which may require a copy of the [`env_sec_ctxt.yaml`](https://github.com/USEPA/standardizedinventories/blob/master/env_sec_ctxt.yaml) file included here.
 
+## Data Products
+Output of StEWI can be accessed for selected releases without having to run StEWI. See the [Data Product Links](https://github.com/USEPA/standardizedinventories/wiki/DataProductLinks) page for direct links to StEWI output files in Apache parquet format.
 
 ## Wiki
-
-See the [Wiki](https://github.com/USEPA/standardizedinventories/wiki) for instructions on installation and use and for contact information.
+See the [Wiki](https://github.com/USEPA/standardizedinventories/wiki) for instructions on installation and use and for
+citation and contact information.
 
 ## Disclaimer
 

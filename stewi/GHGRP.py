@@ -250,9 +250,11 @@ def import_or_download_table(filepath, table, year, m):
     table_df = table_df.drop(columns=table_df.columns[
             table_df.columns.str.contains('unnamed', case=False)])
 
-    # for all columns, remove subpart-specific prefixes
-    table_df.columns = table_df.columns.str.extract(f'.*{table}\.(.*)',
-                                                    expand=False)
+    # for all columns, remove subpart-specific prefixes if present
+    cols = table_df.columns.str.extract(f'.*{table}\.(.*)', expand=False)
+    table_df.columns = np.where(cols.isna(),
+                                table_df.columns,
+                                cols)
 
     return table_df
 
@@ -294,7 +296,7 @@ def download_and_parse_subpart_tables(year, m):
             year_tables['TABLE'] == subpart_emissions_table, 'SUBPART'])[0]
 
         # concatenate temporary dataframe to master ghgrp1 dataframe
-        ghgrp1 = pd.concat([ghgrp1, table_df])
+        ghgrp1 = pd.concat([ghgrp1, table_df], ignore_index=True)
 
     ghgrp1.reset_index(drop=True, inplace=True)
     log.info('Parsing table data...')

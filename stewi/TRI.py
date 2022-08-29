@@ -353,9 +353,11 @@ def generate_metadata(year, files, parameters=None, datatype='inventory'):
         source_meta['SourceType'] = 'Zip file'
         tri_url = _config['url']
         link_zip_TRI = link_zip(tri_url, _config['queries'], year)
-        regex = re.compile(r'https://www3.epa.gov/tri/current/US_\d{4}_?(\d*)\.zip')
-        tri_version = re.search(regex, link_zip_TRI).group(0)
-        if not tri_version:
+        regex = 'https.*/(.*(?=/\w*.zip))'
+        # tri_version = link_zip_TRI.split('/')[-2]
+        try:
+            tri_version = re.search(regex, link_zip_TRI).group(1)
+        except AttributeError: # no match found from regex
             tri_version = 'last'
         source_meta['SourceVersion'] = tri_version
         write_metadata(f'TRI_{year}', source_meta, category=EXT_DIR,
@@ -403,7 +405,8 @@ def main(**kwargs):
             log.info('downloading TRI files from source for %s', year)
             tri_url = _config['url']
             if url_is_alive(tri_url):
-                link_zip_TRI = link_zip(tri_url, _config['queries'], year)
+                # link_zip_TRI = link_zip(tri_url, _config['queries'], year)
+                link_zip_TRI = _config.get('zip_url').replace("{year}", year)
                 extract_TRI_data_files(link_zip_TRI, files, year)
                 generate_metadata(year, files, datatype='source')
             else:

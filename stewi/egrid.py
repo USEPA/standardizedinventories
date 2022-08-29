@@ -388,7 +388,8 @@ def main(**kwargs):
     for year in kwargs['Year']:
 
         if year not in _config:
-            raise stewi.exceptions.InventoryNotAvailableError
+            raise stewi.exceptions.InventoryNotAvailableError(
+                inv='eGRID', year=year)
 
         if kwargs['Option'] == 'A':
             # download data

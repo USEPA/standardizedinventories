@@ -35,7 +35,8 @@ def test_generate_inventories(year):
             continue
         try:
             generate_inventory(inventory, year)
-        except InventoryNotAvailableError:
+        except InventoryNotAvailableError as err:
+            print(err)
             continue
 
 

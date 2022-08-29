@@ -459,7 +459,8 @@ def main(**kwargs):
 
     for year in kwargs['Year']:
         if int(year) % 2 == 0:
-            raise stewi.exceptions.InventoryNotAvailableError
+            raise stewi.exceptions.InventoryNotAvailableError(
+                inv='RCRAInfo', year=year)
         # Adds sepcified Year to BR_REPORTING table
         if 'Tables' in kwargs:
             tables = kwargs['Tables'].copy()
