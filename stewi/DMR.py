@@ -457,6 +457,8 @@ def remove_nutrient_overlap_TRI(df, preference):
     # for facilities where the FRS and compartment match
     if preference == 'DMR':
         keep_list = dmr_list
+    else:
+        keep_list = tri_list
 
     df_nutrients = df.loc[((df['FlowName'].isin(combined_list)) &
                            (df['Compartment'] == 'water'))]
