@@ -95,11 +95,11 @@ def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
         filters = ['filter_for_LCI']
     for k in inventory_dict.keys():
         # Temporarily set all compartments to the primary compartment via
-        # sec_cntx=False until overlap handler is updated
+        # keep_sec_cntx=False until overlap handler is updated
         inventory = stewi.getInventory(k, inventory_dict[k],
                                        'flowbyfacility',
                                        filters,
-                                       sec_cntx=False)
+                                       keep_sec_cntx=False)
         if inventory is None:
             continue
         inventory["Source"] = k
