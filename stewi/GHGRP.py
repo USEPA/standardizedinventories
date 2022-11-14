@@ -147,6 +147,7 @@ def download_chunks(table, table_count, m, row_start=0, report_year='',
         table_temp, temp_time = import_table(table_url, get_time=True)
         output_table = pd.concat([output_table, table_temp])
         row_start += 5000
+    output_table.columns=output_table.columns.str.upper()
     m.add(time=temp_time, url=generate_url(table, report_year=report_year,
                                            row_start='', output_ext='csv'),
           filetype='Database', filename=filepath)
