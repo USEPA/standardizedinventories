@@ -50,7 +50,7 @@ from stewi.formats import facility_fields
 
 _config = config()['databases']['NEI']
 EXT_DIR = 'NEI Data Files'
-OUTPUT_PATH = Path(paths.local_path).joinpath(EXT_DIR)
+OUTPUT_PATH = paths.local_path / EXT_DIR
 NEI_DATA_PATH = DATA_PATH / 'NEI'
 
 

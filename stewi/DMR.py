@@ -45,7 +45,7 @@ import stewi.exceptions
 _config = config()['databases']['DMR']
 DMR_DATA_PATH = DATA_PATH / 'DMR'
 EXT_DIR = 'DMR Data Files'
-OUTPUT_PATH = Path(paths.local_path).joinpath(EXT_DIR)
+OUTPUT_PATH = paths.local_path / EXT_DIR
 
 states_df = pd.read_csv(DATA_PATH.joinpath('state_codes.csv'))
 STATES = list(states_df['states']) + list(states_df['dc']) +\

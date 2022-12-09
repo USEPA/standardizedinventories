@@ -30,7 +30,7 @@ MODULEPATH = Path(__file__).resolve().parent
 DATA_PATH = MODULEPATH / 'data'
 
 log.basicConfig(level=log.INFO, format='%(levelname)s %(message)s')
-STEWI_VERSION = '1.0.5'
+STEWI_VERSION = '1.1.0'
 
 # Conversion factors
 USton_kg = 907.18474
@@ -43,7 +43,9 @@ g_kg = 0.001
 WRITE_FORMAT = "parquet"
 
 paths = Paths()
-paths.local_path = os.path.realpath(paths.local_path + "/stewi")
+paths.local_path = paths.local_path / 'stewi'
+# TODO: rename `paths` to `path_data` and other `DATA_PATH` vars to `path_data_local`
+# paths = paths.local / 'stewi'
 
 # global variable to replace stored inventory files when saving
 REPLACE_FILES = False
@@ -182,7 +184,7 @@ def write_metadata(file_name, metadata_dict, category='',
                    datatype="inventory", parameters=None):
     """Write JSON metadata specific to inventory to local directory.
 
-    :param file_name: str in the form of inventory_year
+    :param file_name: str, in the form of inventory_year
     :param metadata_dict: dictionary of metadata to save
     :param category: str of a stewi format type e.g. 'flowbyfacility'
         or source category e.g. 'TRI Data Files'
@@ -200,9 +202,10 @@ def write_metadata(file_name, metadata_dict, category='',
             meta.tool_meta = metadata_dict
         write_metadata_to_file(paths, meta)
     elif datatype == "validation":
-        with open(paths.local_path + '/validation/' + file_name +
-                  '_validationset_metadata.json', 'w') as file:
-            file.write(json.dumps(metadata_dict, indent=4))
+        file = (paths.local_path / 'validation' /
+                f'{file_name}_validationset_metadata.json')
+        with file.open('w') as fi:
+            fi.write(json.dumps(metadata_dict, indent=4))
 
 
 def compile_source_metadata(sourcefile, config, year):
@@ -285,9 +288,8 @@ def store_inventory(df, file_name, f, replace_files=REPLACE_FILES):
         files of the same name
     """
     meta = set_stewi_meta(file_name, str(f))
-    method_path = paths.local_path + '/' + meta.category
     try:
-        log.info(f'saving {meta.name_data} to {method_path}')
+        log.info(f'saving {meta.name_data} to {paths.local_path / meta.category}')
         write_df_to_file(df, paths, meta)
         if replace_files:
             remove_extra_files(meta, paths)
@@ -308,7 +310,7 @@ def read_inventory(inventory_acronym, year, f, download_if_missing=False):
     file_name = inventory_acronym + '_' + str(year)
     meta = set_stewi_meta(file_name, str(f))
     inventory = load_preprocessed_output(meta, paths)
-    method_path = paths.local_path + '/' + meta.category
+    method_path = paths.local_path / meta.category
     if inventory is None:
         log.info(f'{meta.name_data} not found in {method_path}')
         if download_if_missing:

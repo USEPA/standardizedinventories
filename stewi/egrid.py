@@ -42,7 +42,7 @@ _config = config()['databases']['eGRID']
 
 # set filepath
 EXT_DIR = 'eGRID Data Files'
-OUTPUT_PATH = Path(paths.local_path).joinpath(EXT_DIR)
+OUTPUT_PATH = paths.local_path / EXT_DIR
 eGRID_DATA_DIR = DATA_PATH / 'eGRID'
 
 

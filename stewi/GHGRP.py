@@ -56,7 +56,7 @@ from stewi.formats import StewiFormat
 _config = config()['databases']['GHGRP']
 GHGRP_DATA_PATH = DATA_PATH / 'GHGRP'
 EXT_DIR = 'GHGRP Data Files'
-OUTPUT_PATH = Path(paths.local_path).joinpath(EXT_DIR)
+OUTPUT_PATH = paths.local_path / EXT_DIR
 
 # Flow codes that are reported in validation in CO2e
 flows_CO2e = ['PFC', 'HFC', 'Other', 'Very_Short', 'HFE', 'Other_Full']

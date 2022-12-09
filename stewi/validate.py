@@ -130,10 +130,10 @@ def write_validation_result(inventory_acronym, year, validation_df):
     :param year: str for year e.g. '2016'
     :param validation_df: df returned from validate_inventory function
     """
-    directory = Path(paths.local_path).joinpath('validation')
+    directory = paths.local_path / 'validation'
     directory.mkdir(parents=True, exist_ok=True)
     log.info(f'writing validation result to {directory}')
-    validation_df.to_csv(directory.joinpath(f"{inventory_acronym}_{year}.csv"),
+    validation_df.to_csv(directory / f'{inventory_acronym}_{year}.csv',
                          index=False)
     # Get metadata on validation dataset
     validation_set_info_table = read_ValidationSets_Sources()
