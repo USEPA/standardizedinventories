@@ -21,10 +21,10 @@ inv_pref = {  # inventory source preference by compartment
 
 
 def remove_flow_overlap(df, aggregate_flow, contributing_flows,
-                        compartment='air', SCC=False):
+                        primary_compartment='air', SCC=False):
     df_contributing_flows = df.loc[df['SRS_ID'].isin(contributing_flows)]
     df_contributing_flows = df_contributing_flows[df_contributing_flows[
-        'Compartment'] == compartment]
+        'Compartment'].str.partition('/')[0] == primary_compartment]
     match_conditions = ['FacilityID', 'Source', 'Compartment']
     if SCC:
         match_conditions.append('Process')
@@ -178,6 +178,10 @@ if __name__ == '__main__':
     df = addChemicalMatches(df)
 
     # df_agg = aggregate_and_remove_overlap(df)
+
+    # df = df[df['SRS_ID'].isin(['77683', '77681'])]
+    # df = remove_flow_overlap(df, '77683', ['77681'],
+    #                          primary_compartment='air', SCC=False)
 
     # %% inventory gen test
     # import stewicombo
