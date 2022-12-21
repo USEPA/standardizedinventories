@@ -14,7 +14,7 @@ setup(
     packages=['chemicalmatcher', 'facilitymatcher', 'stewi', 'stewicombo'],
     include_package_data=True,
     install_requires=[
-        'esupy @ git+https://github.com/USEPA/esupy.git@develop#egg=esupy',
+        'esupy @ git+https://github.com/USEPA/esupy.git@refactor_pathlib#egg=esupy',
         'numpy>=1.20.1',
         'pandas>=1.3',
         'requests>=2.20',
