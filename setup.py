@@ -25,8 +25,8 @@ setup(
         ],
     extras_require={"RCRAInfo": ['webdriver_manager>=3.4.2',
                                  'selenium>=3.141.0'],
-                    'sec_cntx': ['geopandas=0.9.0',
-                                 'shapely=1.7.1']
+                    'sec_cntx': ['geopandas==0.9.0',
+                                 'shapely==1.7.1']
                     },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
