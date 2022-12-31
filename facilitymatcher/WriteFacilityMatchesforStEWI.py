@@ -6,7 +6,6 @@ It writes facility matching file for StEWI
 """
 
 import pandas as pd
-import os
 
 import facilitymatcher.globals as fmg
 
