@@ -51,7 +51,7 @@ def test_generate_fm_files():
 
 @pytest.mark.parametrize("name,compartment,inv_dict",
                          [("NEI_TRI_air_2017", "air", {"NEI":"2017", "TRI":"2017"}),
-                          ("TRI_DMR_2017", "water", {"TRI":"2017", "DMR":"2017"}),
+                          # ("TRI_DMR_2017", "water", {"TRI":"2017", "DMR":"2017"}),
                           ("TRI_GRDREL_2017", "soil", {"TRI":"2017"})])
 @pytest.mark.combined
 def test_generate_combined_inventories(name, compartment, inv_dict):
