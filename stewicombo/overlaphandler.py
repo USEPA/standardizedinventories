@@ -35,6 +35,8 @@ def remove_flow_overlap(df, flow_cpst, flows_cntb, cmpt='air', SCC=False):
     if SCC:
         cols_agg.append('Process')
     # sum contributing flows' FlowAmounts by cols_agg (i.e., across SRS_IDs)
+    if '_CompartmentPrimary' not in df:
+        df['_CompartmentPrimary'] = df['Compartment'].apply(lambda x: x.split('/')[0])
     df_cf = (df.query('SRS_ID in @flows_cntb and '
                       '_CompartmentPrimary == @cmpt')
                .groupby(cols_agg, as_index=False)
