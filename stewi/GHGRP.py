@@ -126,10 +126,11 @@ def get_row_count(table, report_year):
     try:
         count_request = requests.get(count_url)
         count_xml = minidom.parseString(count_request.text)
-        table_count = count_xml.getElementsByTagName('RequestRecordCount')
+        table_count = count_xml.getElementsByTagName('TOTALQUERYRESULTS')
         table_count = int(table_count[0].firstChild.nodeValue)
-    except:
-        log.exception('error in url request')
+    except IndexError:
+        log.exception('error accessing table count')
+        raise
     return table_count
 
 
