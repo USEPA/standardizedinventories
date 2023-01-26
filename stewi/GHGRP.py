@@ -156,12 +156,13 @@ def download_chunks(table, table_count, m, row_start=0, report_year='',
     return output_table
 
 
-def get_facilities(facilities_file):
+def get_facilities(year):
     """Load and parse GHGRP data by facility from the API.
 
     Parses data to create dataframe of GHGRP facilities along with identifying
     information such as address, zip code, lat and long.
     """
+    facilities_file = data_summaries_path.joinpath(f'ghgp_data_{year}.xlsx')
     # load .xlsx file from filepath
     facilities_dict = pd.read_excel(facilities_file, sheet_name=None,
                                     skiprows=3)
@@ -787,8 +788,7 @@ def main(**kwargs):
             store_inventory(ghgrp_flow, 'GHGRP_' + year, 'flow')
 
             log.info('generating facilities output')
-            facilities_df = get_facilities(data_summaries_path
-                                           .joinpath(f'ghgp_data_{year}.xlsx'))
+            facilities_df = get_facilities(year)
 
             # add facility information based on facility ID
             ghgrp = ghgrp.merge(facilities_df, on='FacilityID', how='left')
