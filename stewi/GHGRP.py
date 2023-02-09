@@ -127,10 +127,11 @@ def get_row_count(table, report_year):
     try:
         count_request = requests.get(count_url)
         count_xml = minidom.parseString(count_request.text)
-        table_count = count_xml.getElementsByTagName('RequestRecordCount')
+        table_count = count_xml.getElementsByTagName('TOTALQUERYRESULTS')
         table_count = int(table_count[0].firstChild.nodeValue)
-    except:
-        log.exception('error in url request')
+    except IndexError:
+        log.exception('error accessing table count')
+        raise
     return table_count
 
 
@@ -148,6 +149,7 @@ def download_chunks(table, table_count, m, row_start=0, report_year='',
         table_temp, temp_time = import_table(table_url, get_time=True)
         output_table = pd.concat([output_table, table_temp])
         row_start += 5000
+    output_table.columns=output_table.columns.str.upper()
     m.add(time=temp_time, url=generate_url(table, report_year=report_year,
                                            row_start='', output_ext='csv'),
           filetype='Database', filename=filepath)
