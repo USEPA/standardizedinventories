@@ -37,7 +37,7 @@ Envirofacts web services documentation can be found at:
 import pandas as pd
 import numpy as np
 import requests
-from xml.dom import minidom
+import xml
 import time
 import argparse
 import warnings
@@ -126,12 +126,13 @@ def get_row_count(table, report_year):
     count_url += '/COUNT'
     try:
         count_request = requests.get(count_url)
-        count_xml = minidom.parseString(count_request.text)
+        count_xml = xml.dom.minidom.parseString(count_request.text)
         table_count = count_xml.getElementsByTagName('TOTALQUERYRESULTS')
         table_count = int(table_count[0].firstChild.nodeValue)
-    except IndexError:
-        log.exception('error accessing table count')
-        raise
+    except IndexError as e:
+        raise Exception(f'error accessing table count for {table}') from e
+    except xml.parsers.expat.error as e:
+        raise Exception(f'{table} not found') from e
     return table_count
 
 
