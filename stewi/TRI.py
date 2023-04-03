@@ -397,10 +397,10 @@ def main(**kwargs):
     if len(kwargs) == 0:
         kwargs = vars(parser.parse_args())
 
-    files = kwargs['Files']
+    files = kwargs.get('Files')
 
     for year in kwargs['Year']:
-
+        year = str(year)
         if kwargs['Option'] == 'A':
             log.info('downloading TRI files from source for %s', year)
             tri_url = _config['url']
@@ -438,4 +438,4 @@ def main(**kwargs):
 
 
 if __name__ == '__main__':
-    main()
+    main(Option='C', Year=[2020, 2021])
