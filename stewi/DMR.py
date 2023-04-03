@@ -511,7 +511,7 @@ def main(**kwargs):
         kwargs = vars(parser.parse_args())
 
     for year in kwargs['Year']:
-
+        year = str(year)
         if kwargs['Option'] == 'A':
             log.info(f"Querying for {year}")
 
@@ -600,7 +600,7 @@ def main(**kwargs):
                                 'State', 'Zip', 'Latitude', 'Longitude',
                                 'County', 'NAICS', 'SIC'] # 'Address' not in DMR
             dmr_facility = dmr_df[facility_columns].drop_duplicates()
-            store_inventory(dmr_facility, 'DMR_' + year, 'facility')
+            store_inventory(dmr_facility, f'DMR_{year}', 'facility')
 
             # generate output for flow
             flow_columns = ['FlowID', 'FlowName']
@@ -608,7 +608,7 @@ def main(**kwargs):
             dmr_flow.sort_values(by=['FlowName'], inplace=True)
             dmr_flow['Compartment'] = 'water'
             dmr_flow['Unit'] = 'kg'
-            store_inventory(dmr_flow, 'DMR_' + year, 'flow')
+            store_inventory(dmr_flow, f'DMR_{year}', 'flow')
 
             # generate output for flowbyfacility
             fbf_columns = ['FlowName', 'FlowAmount', 'FacilityID',
@@ -617,7 +617,7 @@ def main(**kwargs):
             dmr_fbf = aggregate(dmr_fbf, ['FacilityID', 'FlowName'])
             dmr_fbf['Compartment'] = 'water'
             dmr_fbf['Unit'] = 'kg'
-            store_inventory(dmr_fbf, 'DMR_' + year, 'flowbyfacility')
+            store_inventory(dmr_fbf, f'DMR_{year}', 'flowbyfacility')
 
             # write metadata
             generate_metadata(year, datatype='inventory')
@@ -627,4 +627,4 @@ def main(**kwargs):
 
 
 if __name__ == '__main__':
-    main()
+    main(Option='A', Year = [2021])
