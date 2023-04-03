@@ -51,6 +51,7 @@ from stewi.globals import download_table, write_metadata, import_table, \
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
 from stewi.formats import StewiFormat
+import stewi.exceptions
 
 
 _config = config()['databases']['GHGRP']
@@ -165,7 +166,11 @@ def get_facilities(year):
     Parses data to create dataframe of GHGRP facilities along with identifying
     information such as address, zip code, lat and long.
     """
-    facilities_file = data_summaries_path.joinpath(f'ghgp_data_{year}.xlsx')
+    facilities_file = data_summaries_path / f'ghgp_data_{year}.xlsx'
+    if not(facilities_file.exists()):
+        # folder structure may be duplicated
+        facilities_file = (data_summaries_path / data_summaries_path.name /
+                           f'ghgp_data_{year}.xlsx')
     # load .xlsx file from filepath
     facilities_dict = pd.read_excel(facilities_file, sheet_name=None,
                                     skiprows=3)
@@ -277,6 +282,9 @@ def download_and_parse_subpart_tables(year, m):
     # filter to obtain only those tables included in the report year
     year_tables = ghgrp_tables_df[ghgrp_tables_df['REPORTING_YEAR'
                                                   ].str.contains(year)]
+    if len(year_tables)==0:
+        raise stewi.exceptions.InventoryNotAvailableError(
+            inv='GHGRP', year=year)
     # filter to obtain only those tables that include primary emissions
     year_tables = year_tables[year_tables['PrimaryEmissions'] == 1
                               ].reset_index(drop=True)
@@ -532,7 +540,10 @@ def parse_subpart_L(year):
     return df
 
 
-def generate_national_totals_validation(validation_table, year):
+def generate_national_totals_validation(
+        year,
+        validation_table='V_GHG_EMITTER_SUBPART'
+        ):
     # define filepath for reference data
     ref_filepath = OUTPUT_PATH.joinpath('GHGRP_reference.csv')
 
@@ -564,7 +575,7 @@ def generate_national_totals_validation(validation_table, year):
     reference_df_agg.reset_index(inplace=True)
     reference_df_agg.columns = reference_df_agg.columns.droplevel(level=1)
     # save reference dataframe to network
-    reference_df_agg.to_csv(DATA_PATH + 'GHGRP_' + year + '_NationalTotals.csv',
+    reference_df_agg.to_csv(DATA_PATH / f'GHGRP_{year}_NationalTotals.csv',
                             index=False)
 
     # Update validationSets_Sources.csv
@@ -605,10 +616,14 @@ def validate_national_totals_by_subpart(tab_df, year):
                            'FlowID': 'FlowName'}, inplace=True)
 
     # import and parse reference data
-    ref_df = pd.read_csv(DATA_PATH.joinpath(f'GHGRP_{year}_NationalTotals.csv'))
-    ref_df.drop(columns=['FlowName'], inplace=True)
-    ref_df.rename(columns={'SUBPART_NAME': 'SubpartName',
-                           'FlowCode': 'FlowName'}, inplace=True)
+    totals_path = DATA_PATH / f'GHGRP_{year}_NationalTotals.csv'
+    if not totals_path.exists():
+        generate_national_totals_validation(year)
+    ref_df = (pd.read_csv(totals_path)
+              .drop(columns=['FlowName'])
+              .rename(columns={'SUBPART_NAME': 'SubpartName',
+                               'FlowCode': 'FlowName'})
+              )
 
     validation_result = validate_inventory(tab_df, ref_df, group_by='subpart')
     # Update flow names to indicate which are in CO2e
@@ -625,13 +640,13 @@ def generate_metadata(year, m, datatype='inventory'):
         source_meta['SourceType'] = m.filetype
         source_meta['SourceURL'] = m.url
         source_meta['SourceAcquisitionTime'] = m.time
-        write_metadata('GHGRP_' + year, source_meta,
+        write_metadata(f'GHGRP_{year}', source_meta,
                        category=EXT_DIR, datatype='source')
     else:
-        source_meta = read_source_metadata(paths, set_stewi_meta('GHGRP_' + year,
+        source_meta = read_source_metadata(paths, set_stewi_meta(f'GHGRP_{year}',
                                            EXT_DIR),
                                            force_JSON=True)['tool_meta']
-        write_metadata('GHGRP_' + year, source_meta, datatype=datatype)
+        write_metadata(f'GHGRP_{year}', source_meta, datatype=datatype)
 
 
 def load_subpart_l_gwp():
@@ -693,6 +708,7 @@ def main(**kwargs):
         kwargs = vars(parser.parse_args())
 
     for year in kwargs['Year']:
+        year = str(year)
         pickle_file = OUTPUT_PATH.joinpath(f'GHGRP_{year}.pk')
         if kwargs['Option'] == 'A':
 
@@ -771,7 +787,7 @@ def main(**kwargs):
                               ].reset_index(drop=True)
             ghgrp_fbs = aggregate(ghgrp_fbs, ['FacilityID', 'FlowName', 'Process',
                                               'ProcessType'])
-            store_inventory(ghgrp_fbs, 'GHGRP_' + year, 'flowbyprocess')
+            store_inventory(ghgrp_fbs, f'GHGRP_{year}', 'flowbyprocess')
 
             log.info('generating flowbyfacility output')
             ghgrp_fbf = ghgrp[StewiFormat.FLOWBYFACILITY.subset_fields(ghgrp)
@@ -779,7 +795,7 @@ def main(**kwargs):
 
             # aggregate instances of more than one flow for same facility and flow type
             ghgrp_fbf = aggregate(ghgrp_fbf, ['FacilityID', 'FlowName'])
-            store_inventory(ghgrp_fbf, 'GHGRP_' + year, 'flowbyfacility')
+            store_inventory(ghgrp_fbf, f'GHGRP_{year}', 'flowbyfacility')
 
             log.info('generating flows output')
             flow_columns = ['FlowName', 'FlowID']
@@ -788,7 +804,7 @@ def main(**kwargs):
             ghgrp_flow.sort_values(by=['FlowID', 'FlowName'], inplace=True)
             ghgrp_flow['Compartment'] = 'air'
             ghgrp_flow['Unit'] = 'kg'
-            store_inventory(ghgrp_flow, 'GHGRP_' + year, 'flow')
+            store_inventory(ghgrp_flow, f'GHGRP_{year}', 'flow')
 
             log.info('generating facilities output')
             facilities_df = get_facilities(year)
@@ -804,7 +820,7 @@ def main(**kwargs):
             ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].astype(int).astype(str)
             ghgrp_facility.loc[ghgrp_facility['NAICS'] == '0', 'NAICS'] = None
             ghgrp_facility.sort_values(by=['FacilityID'], inplace=True)
-            store_inventory(ghgrp_facility, 'GHGRP_' + year, 'facility')
+            store_inventory(ghgrp_facility, f'GHGRP_{year}', 'facility')
 
             validate_national_totals_by_subpart(ghgrp, year)
 
@@ -813,9 +829,8 @@ def main(**kwargs):
 
         elif kwargs['Option'] == 'C':
             log.info('generating national totals for validation')
-            validation_table = 'V_GHG_EMITTER_SUBPART'
-            generate_national_totals_validation(validation_table, year)
+            generate_national_totals_validation(year)
 
 
 if __name__ == '__main__':
-    main()
+    main(Option='B', Year=[2021])
