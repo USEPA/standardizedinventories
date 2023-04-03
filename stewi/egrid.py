@@ -324,15 +324,19 @@ def generate_national_totals(year):
 
     us_totals = extract_eGRID_excel(year, 'US', index='code')
     us_totals = us_totals[list(totals_dict.keys())]
-    us_totals.rename(columns=totals_dict, inplace=True)
-    us_totals = us_totals.transpose().reset_index()
-    us_totals = us_totals.rename(columns={'index': 'FlowName',
-                                          0: 'FlowAmount'})
+    us_totals = (us_totals
+                 .rename(columns=totals_dict)
+                 .transpose().reset_index()
+                 .rename(columns={'index': 'FlowName',
+                                  0: 'FlowAmount'})
+                 )
 
     steam_df = extract_eGRID_excel(year, 'PLNT', index='code')
-    steam_total = steam_df['USETHRMO'].sum()
-    us_totals = us_totals.append({'FlowName': 'Steam', 'FlowAmount': steam_total},
-                                 ignore_index=True)
+    us_totals = pd.concat(
+        [us_totals, pd.DataFrame({'FlowName': 'Steam',
+                                  'FlowAmount': steam_df['USETHRMO'].sum()},
+                                 index=[0])],
+        ignore_index=True)
 
     flow_compartments = pd.read_csv(eGRID_DATA_DIR
                                     .joinpath('eGRID_flow_compartments.csv'),
@@ -386,7 +390,7 @@ def main(**kwargs):
         kwargs = vars(parser.parse_args())
 
     for year in kwargs['Year']:
-
+        year = str(year)
         if year not in _config:
             raise stewi.exceptions.InventoryNotAvailableError(
                 inv='eGRID', year=year)
@@ -407,4 +411,4 @@ def main(**kwargs):
 
 
 if __name__ == '__main__':
-    main()
+    main(Year=[2020], Option='C')

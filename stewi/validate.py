@@ -180,7 +180,7 @@ def update_validationsets_sources(validation_dict, date_acquired=False):
         i = max(loc for loc, val in enumerate(inventories)
                 if val == validation_dict['Inventory'])
         line = pd.DataFrame.from_records([validation_dict], index=[(i+0.5)])
-    v_table = v_table.append(line, ignore_index=False)
+    v_table = pd.concat([v_table, line], ignore_index=False)
     v_table = v_table.sort_index().reset_index(drop=True)
     log.info("updating ValidationSets_Sources.csv with "
              f"{validation_dict['Inventory']} {validation_dict['Year']}")

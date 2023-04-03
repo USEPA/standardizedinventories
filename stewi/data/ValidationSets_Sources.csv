@@ -18,6 +18,8 @@ eGRID,v2,2014,eGRID Data Files,https://www.epa.gov/sites/production/files/2020-0
 eGRID,,2016,eGRID Data Files,https://www.epa.gov/sites/production/files/2020-01/egrid2018_historical_files_since_1996.zip,"Extracted from US Total tab, or for steam, summed from PLNT tab",15-Apr-2021
 eGRID,v2,2018,eGRID Data Files,https://www.epa.gov/sites/production/files/2020-03/egrid2018_data_v2.xlsx,"Extracted from US Total tab, or for steam, summed from PLNT tab",15-Apr-2021
 eGRID,,2019,eGRID Data Files,https://www.epa.gov/sites/production/files/2021-02/egrid2019_data.xlsx,"Extracted from US Total tab, or for steam, summed from PLNT tab",15-Apr-2021
+eGRID,,2021,eGRID Data Files,https://www.epa.gov/system/files/documents/2023-01/eGRID2021_data.xlsx,"Extracted from US Total tab, or for steam, summed from PLNT tab",02-Apr-2023
+eGRID,v2,2020,eGRID Data Files,https://www.epa.gov/system/files/documents/2022-09/eGRID2020_Data_v2.xlsx,"Extracted from US Total tab, or for steam, summed from PLNT tab",02-Apr-2023
 RCRAInfo,,2011,Trends Analysis,https://rcrapublic.epa.gov/rcrainfoweb/action/modules/br/trends/view,"Location: National, Metric: Generation, Generators To Include: All Generators Included In The NBR",16-Jun-2021
 RCRAInfo,,2013,Trends Analysis,https://rcrapublic.epa.gov/rcrainfoweb/action/modules/br/trends/view,"Location: National, Metric: Generation, Generators To Include: All Generators Included In The NBR",16-Jun-2021
 RCRAInfo,,2015,Trends Analysis,https://rcrapublic.epa.gov/rcrainfoweb/action/modules/br/trends/view,"Location: National, Metric: Generation, Generators To Include: All Generators Included In The NBR",16-Jun-2021
