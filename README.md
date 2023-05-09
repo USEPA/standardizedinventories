@@ -20,7 +20,7 @@ StEWI v1 was peer-reviewed internally at USEPA and externally through _Applied S
 |[Discharge Monitoring Reports](https://echo.epa.gov/tools/data-downloads/icis-npdes-dmr-and-limit-data-set)* | | | | | | |x|x|x|x|x|x|x|x|
 |[Greenhouse Gas Reporting Program](https://www.epa.gov/ghgreporting) | | | |x|x|x|x|x|x|x|x|x|x|x|
 |[Emissions & Generation Resource Integrated Database](https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid) | | | | | | |x| |x| |x|x|x|x|
-|[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)** | | | |x|i|i|x|i|i|x|i| | | |
+|[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)** | | | |x|i|i|x|i|i|x|i|i|x| |
 |[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)* | |x| |x| |x| |x| |x| |x| | |
 |[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program)* |x|x|x|x|x|x|x|x|x|x|x|x|x|x|
 

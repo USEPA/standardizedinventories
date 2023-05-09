@@ -78,11 +78,26 @@ databases:
             - 'sppd_rtr_16938.parquet'
             - 'sppd_rtr_16939.parquet'
         file_version: 'v1'
-    national_url: 'https://gaftp.epa.gov/air/nei/__year__/data_summaries/__version___facility.zip'
+    '2019':
+        file_name:
+            - 'sppd_rtr_24593.parquet'
+            - 'sppd_rtr_24671.parquet'
+            - 'sppd_rtr_24672.parquet'
+            - 'sppd_rtr_24673.parquet'
+        file_version: 'v1'
+    '2020':
+        file_name:
+            - 'sppd_rtr_24240.parquet'
+            - 'sppd_rtr_24506.parquet'
+            - 'sppd_rtr_24507.parquet'
+            - 'sppd_rtr_24592.parquet'
+        file_version: 'v1'
+    national_url: 'https://gaftp.epa.gov/air/nei/__year__/data_summaries/__file__.zip'
     national_version:
-        '2017': '2017v1/2017neiJan'
-        '2014': '2014v2/2014neiv2'
-        '2011': '2011v2/2011neiv2'
+        '2020': 'Facility%20Level%20by%20Pollutant'
+        '2017': '2017v1/2017neiJan_facility'
+        '2014': '2014v2/2014neiv2_facility'
+        '2011': '2011v2/2011neiv2_facility'
   DMR:
       url: 'https://echo.epa.gov/trends/loading-tool/water-pollution-search'
       base_url: 'https://echodata.epa.gov/echo/dmr_rest_services.get_custom_data_annual?'
