@@ -73,6 +73,13 @@ def remove_NEI_overlaps(df, **kwargs):
     return df
 
 
+def remove_default_flow_overlaps(df, **kwargs):
+    from warnings import warn
+    warn('remove_default_flow_overlaps() is deprecated. \n'
+         'Replace with remove_NEI_overlaps()', DeprecationWarning)
+    return remove_NEI_overlaps(df, **kwargs)
+
+
 def aggregate_and_remove_overlap(df):
     """
     Aggregate or remove redundant flows (preferences given in inv_pref)
