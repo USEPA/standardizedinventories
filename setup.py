@@ -13,6 +13,7 @@ setup(
     url="http://www.github.com/usepa/standardizedinventories",
     packages=['chemicalmatcher', 'facilitymatcher', 'stewi', 'stewicombo'],
     include_package_data=True,
+    python_requires=">=3.8",
     install_requires=[
         'esupy @ git+https://github.com/USEPA/esupy.git@refactor_pathlib#egg=esupy',
         'numpy>=1.20.1',
