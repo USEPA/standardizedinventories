@@ -9,19 +9,13 @@ https://echo.epa.gov/system/files/ECHO%20All%20Data%20Search%20Services_v3.pdf
 This file requires paramaters be passed like:
     Option -Y Year
     A -Y 2016
-Options:
+Option:
 A - for downloading DMR data by state
 B - for generating StEWI output files and validation from downloaded data
 C - for downloading and generating state totals file
 
 Year:
-    2019
-    2018
-    2017
-    2016
-    2015
-    2014
-
+    2014-2021
 """
 
 import requests

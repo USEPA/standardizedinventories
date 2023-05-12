@@ -7,7 +7,7 @@ This file requires parameters be passed like:
 
     Option -Y Year
 
-Options:
+Option:
     A - for downloading and processing GHGRP data from web and saving locally
     B - for generating inventory files for StEWI:
          - flowbysubpart
@@ -18,15 +18,7 @@ Options:
     C - for downloading national totals for validation
 
 Year:
-    2019
-    2018
-    2017
-    2016
-    2015
-    2014
-    2013
-    2012
-    2011
+    2011-2021
 
 Models with tables available at:
     https://www.epa.gov/enviro/greenhouse-gas-model

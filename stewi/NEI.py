@@ -8,7 +8,7 @@ options A:C.
 This file requires parameters be passed like:
     Option -Y Year
 
-Options:
+Option:
     A - for downloading NEI Point data and
         generating inventory files for StEWI:
         flowbyfacility
@@ -18,14 +18,7 @@ Options:
     B - for downloading national totals for validation
 
 Year:
-    2018
-    2017
-    2016
-    2015
-    2014
-    2013
-    2012
-    2011
+    2011-2020
 """
 
 import argparse

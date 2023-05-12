@@ -6,21 +6,20 @@ Downloads TRI Basic Plus files specified in paramaters for specified year
 This file requires parameters be passed like:
     Option -Y Year -F File1 File2 ... FileN
     where Option is either A, B, C:
-Options
+Option:
     A - for downloading and extracting files from TRI Data Plus web site
     B - for organizing TRI National Totals files from TRI_chem_release_Year.csv
     (this is expected to be download before and to be organized as it is
     described in TRI.py).
     C - for generating StEWI output files and validation from downloaded data
-Year is like 2010 with coverage up to 2018
-Files are:
+Files:
     1a - Releases and Other Waste Mgmt
     3a - Off Site Transfers
 See more documentation of files at
 https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-guides
 
-Years:
-    2008 through 2019
+Year:
+    2008 - 2021
 
 """
 
@@ -397,7 +396,7 @@ def main(**kwargs):
     if len(kwargs) == 0:
         kwargs = vars(parser.parse_args())
 
-    files = kwargs.get('Files')
+    files = kwargs.get('Files', ['1a', '3a'])
 
     for year in kwargs['Year']:
         year = str(year)
@@ -438,4 +437,4 @@ def main(**kwargs):
 
 
 if __name__ == '__main__':
-    main(Option='C', Year=[2020, 2021])
+    main(Option='C', Year=[2021])

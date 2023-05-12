@@ -8,16 +8,13 @@ This file requires parameters be passed like:
 
     Option -Y Year
 
-Options:
+Option:
     A - Download eGRID data
     B - Process and parse eGRID data and validation against national totals
     C - Download and process data for validation
 
 Year:
-    2019
-    2018
-    2016
-    2014
+    2014, 2016, 2018-2021
 """
 
 import pandas as pd
