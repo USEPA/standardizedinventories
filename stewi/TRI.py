@@ -297,29 +297,30 @@ def generate_TRI_files_csv(TRIyear):
                                'DQI Reliability Score': 'DataReliability'}))
 
     # FACILITY - import and handle TRI facility data
-    import_facility = tri_required_fields[0:10]
-    tri_facility = (pd.read_csv(OUTPUT_PATH.joinpath(f'US_1a_{TRIyear}.csv'),
-                                usecols=import_facility,
-                                low_memory=False)
-                      .drop_duplicates(ignore_index=True))
-    # rename columns
     TRI_facility_name_crosswalk = {
-        'TRIFID': 'FacilityID',
-        'FACILITY NAME': 'FacilityName',
-        'FACILITY STREET': 'Address',
-        'FACILITY CITY': 'City',
-        'FACILITY COUNTY': 'County',
-        'FACILITY STATE': 'State',
-        'FACILITY ZIP CODE': 'Zip',
-        'PRIMARY NAICS CODE': 'NAICS',
-        'LATITUDE': 'Latitude',
-        'LONGITUDE': 'Longitude',
+        'TRIFID': ['FacilityID', 'str'],
+        'FACILITY NAME': ['FacilityName', 'str'],
+        'FACILITY STREET': ['Address', 'str'],
+        'FACILITY CITY': ['City', 'str'],
+        'FACILITY COUNTY': ['County', 'str'],
+        'FACILITY STATE': ['State', 'str'],
+        'FACILITY ZIP CODE': ['Zip', 'str'],
+        'PRIMARY NAICS CODE': ['NAICS', 'str'],
+        'LATITUDE': ['Latitude', 'float64'],
+        'LONGITUDE': ['Longitude', 'float64'],
         }
-    tri_facility = tri_facility.rename(columns=TRI_facility_name_crosswalk)
-
+    tri_facility = (pd.read_csv(OUTPUT_PATH.joinpath(f'US_1a_{TRIyear}.csv'),
+                                usecols=TRI_facility_name_crosswalk.keys(),
+                                low_memory=False,
+                                dtype={k:v[1] for k, v in 
+                                       TRI_facility_name_crosswalk.items()})
+                      .drop_duplicates(ignore_index=True)
+                      .rename(columns={k:v[0] for k, v in 
+                                       TRI_facility_name_crosswalk.items()})
+                      )
     tri_facility, parameters = assign_secondary_context(
         tri_facility, int(TRIyear), 'urb')
-    store_inventory(tri_facility, 'TRI_' + TRIyear, 'facility')
+    store_inventory(tri_facility, f'TRI_{TRIyear}', 'facility')
 
     if 'urban_rural' in parameters:  # given urban/rural assignment success
         # merge & concat urban/rural into tri.Compartment before aggregation
@@ -333,14 +334,15 @@ def generate_TRI_files_csv(TRIyear):
     validate_national_totals(tri, TRIyear)
 
     # FLOWS
-    flows = (tri[['FlowName', 'CAS', 'Compartment']].drop_duplicates()
-                                                    .reset_index(drop=True))
-    flows['FlowID'] = flows['CAS']
-    store_inventory(flows, 'TRI_' + TRIyear, 'flow')
+    flows = (tri[['FlowName', 'CAS', 'Compartment']]
+                .drop_duplicates()
+                .reset_index(drop=True)
+                .assign(FlowID=lambda x: x['CAS']))
+    store_inventory(flows, f'TRI_{TRIyear}', 'flow')
 
     # FLOW BY FACILITY
     fbf = tri.drop(columns=['CAS'])
-    store_inventory(fbf, 'TRI_' + TRIyear, 'flowbyfacility')
+    store_inventory(fbf, f'TRI_{TRIyear}', 'flowbyfacility')
     return parameters
 
 
