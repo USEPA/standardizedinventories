@@ -70,7 +70,8 @@ def get_id_before_underscore(inventory_id):
 
 
 def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
-                                     filter_for_LCI, base_inventory=None):
+                                     filter_for_LCI, base_inventory=None,
+                                     **kwargs):
     """Retrieve stored flowbyfacility datasets based on passed dictionary.
 
     Filters them if necessary. Returns only those facilities with an FRS_ID
@@ -99,7 +100,8 @@ def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
         inventory = stewi.getInventory(k, inventory_dict[k],
                                        'flowbyfacility',
                                        filters,
-                                       keep_sec_cntx=False)
+                                       keep_sec_cntx=False,
+                                       **kwargs)
         if inventory is None:
             continue
         inventory["Source"] = k
