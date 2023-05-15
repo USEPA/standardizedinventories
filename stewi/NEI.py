@@ -202,7 +202,8 @@ def validate_national_totals(nei_flowbyfacility, year):
           .rename(columns={'FlowAmount[kg]': 'FlowAmount'}))
     validation_result = validate_inventory(nei_flowbyfacility,
                                            nei_national_totals,
-                                           group_by='flow', tolerance=5.0)
+                                           group_by=['FlowName'],
+                                           tolerance=5.0)
     write_validation_result('NEI', year, validation_result)
 
 

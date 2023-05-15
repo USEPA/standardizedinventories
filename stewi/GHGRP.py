@@ -617,7 +617,8 @@ def validate_national_totals_by_subpart(tab_df, year):
                                'FlowCode': 'FlowName'})
               )
 
-    validation_result = validate_inventory(tab_df, ref_df, group_by='subpart')
+    validation_result = validate_inventory(tab_df, ref_df,
+                                           group_by=['FlowName', 'SubpartName'])
     # Update flow names to indicate which are in CO2e
     validation_result.loc[validation_result['FlowName'].isin(flows_CO2e),
                           'FlowName'] = validation_result['FlowName'] + ' (CO2e)'

@@ -335,7 +335,7 @@ def validate_state_totals(df, year):
                                 ].groupby('State').sum().reset_index()
     dmr_by_state['FlowName'] = 'All'
     validation_df = validate_inventory(dmr_by_state, reference_df,
-                                       group_by="state")
+                                       group_by=["State"])
     write_validation_result('DMR', year, validation_df)
 
 
