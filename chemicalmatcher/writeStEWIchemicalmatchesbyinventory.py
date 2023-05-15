@@ -42,8 +42,9 @@ def writeChemicalMatches():
     for source in sources:
         log.info('accessing SRS for ' + source)
         # Get df with inventory flows
-        inventory_flows = all_list_names[all_list_names['Source'] ==
-                                         source].reset_index(drop=True)
+        inventory_flows = (all_list_names
+                           .query('Source == @source')
+                           .reset_index(drop=True))
 
         if inventory_query_type[source] == 'list':
             # make sure flowid is a string
@@ -88,27 +89,38 @@ def writeChemicalMatches():
 
     # Remove waste code and PGM_ID
     all_lists_srs_info = all_lists_srs_info.drop(columns=['PGM_ID'])
-    all_lists_srs_info = all_lists_srs_info.sort_values(['Source', 'FlowName',
-                                                         'SRS_ID', 'FlowID'])
 
     # Add in manually found matches
     all_lists_srs_info = add_manual_matches(all_lists_srs_info)
 
-    subset = ['FlowID', 'FlowName', 'Source']
-
     # Write to csv
-    all_lists_srs_info = all_lists_srs_info[['FlowID', 'FlowName', 'SRS_CAS',
-                                             'SRS_ID', 'Source']].drop_duplicates(subset)
-    all_lists_srs_info.to_csv(OUTPUT_PATH
-                              .joinpath('ChemicalsByInventorywithSRS_IDS_forStEWI.csv'),
-                              index=False)
+    filepath = OUTPUT_PATH.joinpath('ChemicalsByInventorywithSRS_IDS_forStEWI.csv')
+    flows_list = pd.read_csv(filepath, dtype={'SRS_ID': str})
+    flows_list = pd.concat([flows_list,
+                            all_lists_srs_info[['FlowID', 'FlowName', 'SRS_CAS',
+                                                'SRS_ID', 'Source']]
+                            ], ignore_index=True)
+    flows_list = flows_list.drop_duplicates(['FlowID', 'FlowName', 'Source'])
+    flows_list = flows_list.sort_values(['Source', 'FlowName',
+                                         'SRS_ID', 'FlowID'])
+
+    flows_list.to_csv(filepath, index=False)
     #errors_srs.to_csv('work/ErrorsSRS.csv',index=False)
 
     # Write flows missing srs_ids to file for more inspection
-    flows_missing_SRS_ID = all_lists_srs_info[all_lists_srs_info['SRS_ID'].isnull()]
-    flows_missing_SRS_ID.to_csv(OUTPUT_PATH
-                                .joinpath('flows_missing_SRS_ID.csv'),
-                                index=False)
+    filepath = OUTPUT_PATH.joinpath('flows_missing_SRS_ID.csv')
+    flows_missing_SRS_ID = flows_list.query('SRS_ID.isnull()')
+    missing_list = (pd.read_csv(filepath)
+                    .query('FlowID not in list(@flows_list.query( \
+                           "SRS_ID.notnull()").FlowID)')
+                    )
+    missing_list = (pd.concat([missing_list, flows_missing_SRS_ID],
+                             ignore_index=True)
+                    .drop_duplicates(['FlowID', 'FlowName', 'Source'])
+                    .sort_values(['Source', 'FlowName',
+                                  'SRS_ID', 'FlowID'])
+                    )
+    missing_list.to_csv(filepath, index=False)
 
 
 def extract_flows_for_chemical_matcher():
@@ -126,21 +138,18 @@ def extract_flows_for_chemical_matcher():
             list_names_years = pd.concat([list_names_years, list_names],
                                          sort=False)
         if source == 'TRI':
-            list_names_years['FlowID'] = list_names_years['FlowID'].apply(
-                lambda x: x.lstrip('0'))
-            list_names_years['FlowID'] = list_names_years['FlowID'].apply(
-                lambda x: x.replace('-', ''))
+            list_names_years['FlowID'] = (
+                list_names_years['FlowID'].apply(
+                    lambda x: x.lstrip('0').replace('-', '')))
         list_names_years = list_names_years.drop_duplicates()
         list_names_years['Source'] = source
         all_list_names = pd.concat([all_list_names, list_names_years],
                                    sort=False)
 
     # Drop duplicates from lists with same names
-    all_list_names.drop_duplicates(inplace=True)
-
-    # Reset index after removing flows
-    all_list_names.reset_index(inplace=True, drop=True)
-
+    all_list_names = (all_list_names
+                      .drop_duplicates()
+                      .reset_index(drop=True))
     return all_list_names
 
 
