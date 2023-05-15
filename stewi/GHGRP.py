@@ -523,13 +523,8 @@ def parse_subpart_L(year):
     # Flow Name column becomes new Flow Description
     df.rename(columns={'Flow Name': 'Flow Description'}, inplace=True)
     # calculate mass flow amount based on emissions in CO2e and GWP
-    df['AmountCO2e'] = df['FlowAmount'] * 1000
-    df['FlowAmount (mass)'] = df['FlowAmount'] / df['CO2e_factor']
-    # drop unnecessary columns
-    df.drop(columns=['FlowAmount', 'CO2e_factor'], inplace=True)
-    # rename Flow Amount column
-    df.rename(columns={'FlowAmount (mass)': 'FlowAmount'}, inplace=True)
-    return df
+    df['FlowAmount'] = df['FlowAmount'] / df['CO2e_factor']
+    return df.drop(columns=['CO2e_factor'])
 
 
 def generate_national_totals_validation(
