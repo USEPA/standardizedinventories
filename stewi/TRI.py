@@ -95,6 +95,9 @@ def generate_national_totals(year):
     """
     filename = TRI_DATA_PATH.joinpath(f'TRI_chem_release_{year}.csv')
     df = pd.read_csv(filename, header=0)
+    if 'CAS Number' not in df:
+        raise stewi.exceptions.DataNotFoundError(
+            message=f'Validation not available for TRI data in {year}')
     df = df.replace(',', 0.0).replace('.', 0.0)
     compartments = {'air': ['Fugitive Air Emissions',
                             'Point Source Air Emissions'],

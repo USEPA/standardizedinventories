@@ -24,7 +24,8 @@ class InventoryNotAvailableError(Exception):
 
 
 class DataNotFoundError(Exception):
-    def __init__(self):
-        message = ("Source data not found, download before proceeding")
+    def __init__(self, message=None):
+        if message is None:
+            message = ("Source data not found, download before proceeding")
         self.message = message
         super().__init__(self.message)
