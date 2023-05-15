@@ -1,8 +1,8 @@
 FlowName,FlowCode,SUBPART_NAME,FlowAmount
-Biogenic CO2,BIOCO2,AA,0.0
-Biogenic CO2,BIOCO2,C,0.0
-Biogenic CO2,BIOCO2,D,0.0
-Biogenic CO2,BIOCO2,H,0.0
+Biogenic CO2,BIOCO2,AA,73466149900.0
+Biogenic CO2,BIOCO2,C,54489758900.0
+Biogenic CO2,BIOCO2,D,3663194800.0
+Biogenic CO2,BIOCO2,H,823242200.0
 Carbon Dioxide,CO2,AA,5885732700.0
 Carbon Dioxide,CO2,BB,101076900.0
 Carbon Dioxide,CO2,C,547003506287.3381
@@ -48,8 +48,8 @@ Methane,CH4,TT,296705120.0
 Methane,CH4,W,2832380257.3535385
 Methane,CH4,X,9447140.0
 Methane,CH4,Y,24565060.0
-Nitrogen Triflouride,NF3,I,0.0
-Nitrogen Triflouride,NF3,L,0.0
+Nitrogen Triflouride,NF3,I,38634.1
+Nitrogen Triflouride,NF3,L,30637.899999999998
 Nitrous Oxide,N2O,AA,308703.0
 Nitrous Oxide,N2O,C,5714119.647921398
 Nitrous Oxide,N2O,D,16661999.9576
@@ -72,10 +72,10 @@ PFCs (CO2e),PFC,F,958650800.0
 PFCs (CO2e),PFC,I,2770436870.218
 PFCs (CO2e),PFC,L,1676505976.0
 PFCs (CO2e),PFC,SS,1186627.08
-Sulfur Hexafluoride,SF6,DD,0.0
-Sulfur Hexafluoride,SF6,I,0.0
-Sulfur Hexafluoride,SF6,L,0.0
-Sulfur Hexafluoride,SF6,SS,0.0
-Sulfur Hexafluoride,SF6,T,0.0
+Sulfur Hexafluoride,SF6,DD,99234.52100000001
+Sulfur Hexafluoride,SF6,I,38129.8
+Sulfur Hexafluoride,SF6,L,182.7
+Sulfur Hexafluoride,SF6,SS,8221.42
+Sulfur Hexafluoride,SF6,T,32524.7
 Very Short-lived Compounds (CO2e),Very_Short,I,961.0486
 Very Short-lived Compounds (CO2e),Very_Short,L,177045.309
