@@ -538,16 +538,26 @@ def generate_national_totals_validation(
         ):
     # define filepath for reference data
     ref_filepath = OUTPUT_PATH.joinpath('GHGRP_reference.csv')
-
     m = MetaGHGRP()
     reference_df = import_or_download_table(ref_filepath, validation_table,
                                             year, m)
-
     # parse reference dataframe to prepare it for validation
     reference_df['YEAR'] = reference_df['YEAR'].astype('str')
-    reference_df = reference_df[reference_df['YEAR'] == year]
-    reference_df.reset_index(drop=True, inplace=True)
+    reference_df = (reference_df.query('YEAR == @year')
+                                .reset_index(drop=True))
+    co2e_dict = {
+        'SF6': 22800,
+        'BIOCO2': 1,
+        'NF3': 17200,
+     }
+    # Update some values with known CO2e
+    reference_df['co2e_factor'] = reference_df['GAS_CODE'].map(co2e_dict)
+    reference_df['GHG_QUANTITY'] = np.where(
+        reference_df['GHG_QUANTITY'].isna(),
+        reference_df['CO2E_EMISSION'] / reference_df['co2e_factor'],
+        reference_df['GHG_QUANTITY'])
     reference_df['FlowAmount'] = reference_df['GHG_QUANTITY'].astype(float) * 1000
+
     # Maintain some flows in CO2e for validation
     reference_df.loc[reference_df['GAS_CODE'].isin(flows_CO2e),
                                   'FlowAmount'] =\
@@ -558,17 +568,17 @@ def generate_national_totals_validation(
 
     reference_df = reference_df[['FlowAmount', 'GAS_NAME', 'GAS_CODE',
                                  'FACILITY_ID', 'SUBPART_NAME']]
-    reference_df.rename(columns={'FACILITY_ID': 'FacilityID',
-                                 'GAS_NAME': 'FlowName',
-                                 'GAS_CODE': 'FlowCode'}, inplace=True)
-    reference_df_agg = reference_df.groupby(['FlowName',
-                                             'FlowCode', 'SUBPART_NAME']
-                                            ).agg({'FlowAmount': ['sum']})
-    reference_df_agg.reset_index(inplace=True)
-    reference_df_agg.columns = reference_df_agg.columns.droplevel(level=1)
+    reference_df = (reference_df
+                    .rename(columns={'FACILITY_ID': 'FacilityID',
+                                     'GAS_NAME': 'FlowName',
+                                     'GAS_CODE': 'FlowCode'})
+                    .groupby(['FlowName', 'FlowCode', 'SUBPART_NAME'])
+                    .agg({'FlowAmount': ['sum']})
+                    .reset_index())
+    reference_df.columns = reference_df.columns.droplevel(level=1)
     # save reference dataframe to network
-    reference_df_agg.to_csv(DATA_PATH / f'GHGRP_{year}_NationalTotals.csv',
-                            index=False)
+    reference_df.to_csv(DATA_PATH / f'GHGRP_{year}_NationalTotals.csv',
+                        index=False)
 
     # Update validationSets_Sources.csv
     date_created = time.strptime(time.ctime(ref_filepath.stat().st_ctime))
