@@ -45,6 +45,8 @@ def validate_inventory(inventory_df, reference_df, group_by='flow',
         group_by_columns = ['FlowName', 'FacilityID']
     elif group_by == 'subpart':
         group_by_columns = ['FlowName', 'SubpartName']
+    else:
+        group_by_columns = group_by
     inventory_df['FlowAmount'] = inventory_df['FlowAmount'].fillna(0.0)
     reference_df['FlowAmount'] = reference_df['FlowAmount'].fillna(0.0)
     inventory_sums = inventory_df[group_by_columns + ['FlowAmount']].groupby(
