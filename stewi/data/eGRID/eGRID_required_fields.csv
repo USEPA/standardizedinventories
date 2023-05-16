@@ -1,35 +1,35 @@
-﻿StEWI,flowbyfac_fields,facility_fields,2014,2016,2018,2019
-State,,1,Plant state abbreviation,Plant state abbreviation,Plant state abbreviation,Plant state abbreviation
-FacilityName,,1,Plant name,Plant name,Plant name,Plant name
-Plant operator name,,1,Plant operator name,Plant operator name,Plant transmission or distribution system owner name,Plant transmission or distribution system owner name
-FacilityID,1,1,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code
-Heat,1,,Plant total annual heat input (MMBtu),Plant total annual heat input (MMBtu),Plant total annual heat input (MMBtu),Plant total annual heat input (MMBtu)
-Electricity,1,,Plant annual net generation (MWh),Plant annual net generation (MWh),Plant annual net generation (MWh),Plant annual net generation (MWh)
-Steam,1,,CHP plant useful thermal output (MMBtu),CHP plant useful thermal output (MMBtu),CHP plant useful thermal output (MMBtu),CHP plant useful thermal output (MMBtu)
-Nitrogen oxides,1,,Plant annual NOx emissions (tons),Plant annual NOx emissions (tons),Plant annual NOx emissions (tons),Plant annual NOx emissions (tons)
-Sulfur dioxide,1,,Plant annual SO2 emissions (tons),Plant annual SO2 emissions (tons),Plant annual SO2 emissions (tons),Plant annual SO2 emissions (tons)
-Carbon dioxide,1,,Plant annual CO2 emissions (tons),Plant annual CO2 emissions (tons),Plant annual CO2 emissions (tons),Plant annual CO2 emissions (tons)
-Methane,1,,Plant annual CH4 emissions (lbs),Plant annual CH4 emissions (lbs),Plant annual CH4 emissions (lbs),Plant annual CH4 emissions (lbs)
-Nitrous oxide,1,,Plant annual N2O emissions (lbs),Plant annual N2O emissions (lbs),Plant annual N2O emissions (lbs),Plant annual N2O emissions (lbs)
-Plant primary fuel,1,1,Plant primary fuel,Plant primary fuel,Plant primary fuel,Plant primary fuel
-Plant nameplate capacity (MW),,,Plant nameplate capacity (MW),Plant nameplate capacity (MW),Plant nameplate capacity (MW),Plant nameplate capacity (MW)
-Plant capacity factor,,,Plant capacity factor,Plant capacity factor,Plant capacity factor,Plant capacity factor
-Plant primary coal/oil/gas/ other fossil fuel category,,1,Plant primary coal/oil/gas/ other fossil fuel category,Plant primary coal/oil/gas/ other fossil fuel category,Plant primary coal/oil/gas/ other fossil fuel category,Plant primary coal/oil/gas/ other fossil fuel category
-NERC region acronym,,1,NERC region acronym,NERC region acronym,NERC region acronym,NERC region acronym
-eGRID subregion acronym,,1,eGRID subregion acronym,eGRID subregion acronym,eGRID subregion acronym,eGRID subregion acronym
-Balancing Authority Name,,1,Balancing Authority Name,Balancing Authority Name,Balancing Authority Name,Balancing Authority Name
-Balancing Authority Code,,1,Balancing Authority Code,Balancing Authority Code,Balancing Authority Code,Balancing Authority Code
-County,,1,Plant county name,Plant county name,Plant county name,Plant county name
-Latitude,,1,Plant latitude,Plant latitude,Plant latitude,Plant latitude
-Longitude,,1,Plant longitude,Plant longitude,Plant longitude,Plant longitude
-Plant coal generation percent (resource mix),,1,Plant coal generation percent (resource mix),Plant coal generation percent (resource mix),Plant coal generation percent (resource mix),Plant coal generation percent (resource mix)
-Plant oil generation percent (resource mix),,1,Plant oil generation percent (resource mix),Plant oil generation percent (resource mix),Plant oil generation percent (resource mix),Plant oil generation percent (resource mix)
-Plant gas generation percent (resource mix),,1,Plant gas generation percent (resource mix),Plant gas generation percent (resource mix),Plant gas generation percent (resource mix),Plant gas generation percent (resource mix)
-Plant nuclear generation percent (resource mix),,1,Plant nuclear generation percent (resource mix),Plant nuclear generation percent (resource mix),Plant nuclear generation percent (resource mix),Plant nuclear generation percent (resource mix)
-Plant hydro generation percent (resource mix),,1,Plant  hydro generation percent (resource mix),Plant  hydro generation percent (resource mix),Plant hydro generation percent (resource mix),Plant hydro generation percent (resource mix)
-Plant biomass generation percent (resource mix),,1,Plant biomass generation percent (resource mix),Plant biomass generation percent (resource mix),Plant biomass generation percent (resource mix),Plant biomass generation percent (resource mix)
-Plant wind generation percent (resource mix),,1,Plant wind generation percent (resource mix),Plant wind generation percent (resource mix),Plant wind generation percent (resource mix),Plant wind generation percent (resource mix)
-Plant solar generation percent (resource mix),,1,Plant solar generation percent (resource mix),Plant solar generation percent (resource mix),Plant solar generation percent (resource mix),Plant solar generation percent (resource mix)
-Plant geothermal generation percent (resource mix),,1,Plant geothermal generation percent (resource mix),Plant geothermal generation percent (resource mix),Plant geothermal generation percent (resource mix),Plant geothermal generation percent (resource mix)
-Plant other fossil generation percent (resource mix),,1,Plant other fossil generation percent (resource mix),Plant other fossil generation percent (resource mix),Plant other fossil generation percent (resource mix),Plant other fossil generation percent (resource mix)
-Plant other unknown / purchased fuel generation percent (resource mix),,1,Plant other unknown / purchased fuel generation percent (resource mix),Plant other unknown / purchased fuel generation percent (resource mix),Plant other unknown / purchased fuel generation percent (resource mix),Plant other unknown / purchased fuel generation percent (resource mix)
+StEWI,flowbyfac_fields,facility_fields,2014,2016,2018,2019,2020,2021
+State,,1,Plant state abbreviation,Plant state abbreviation,Plant state abbreviation,Plant state abbreviation,Plant state abbreviation,Plant state abbreviation
+FacilityName,,1,Plant name,Plant name,Plant name,Plant name,Plant name,Plant name
+Plant operator name,,1,Plant operator name,Plant operator name,Plant transmission or distribution system owner name,Plant transmission or distribution system owner name,Plant transmission or distribution system owner name,Plant transmission or distribution system owner name
+FacilityID,1,1,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code
+Heat,1,,Plant total annual heat input (MMBtu),Plant total annual heat input (MMBtu),Plant total annual heat input (MMBtu),Plant total annual heat input (MMBtu),Plant total annual heat input (MMBtu),Plant total annual heat input (MMBtu)
+Electricity,1,,Plant annual net generation (MWh),Plant annual net generation (MWh),Plant annual net generation (MWh),Plant annual net generation (MWh),Plant annual net generation (MWh),Plant annual net generation (MWh)
+Steam,1,,CHP plant useful thermal output (MMBtu),CHP plant useful thermal output (MMBtu),CHP plant useful thermal output (MMBtu),CHP plant useful thermal output (MMBtu),CHP plant useful thermal output (MMBtu),CHP plant useful thermal output (MMBtu)
+Nitrogen oxides,1,,Plant annual NOx emissions (tons),Plant annual NOx emissions (tons),Plant annual NOx emissions (tons),Plant annual NOx emissions (tons),Plant annual NOx emissions (tons),Plant annual NOx emissions (tons)
+Sulfur dioxide,1,,Plant annual SO2 emissions (tons),Plant annual SO2 emissions (tons),Plant annual SO2 emissions (tons),Plant annual SO2 emissions (tons),Plant annual SO2 emissions (tons),Plant annual SO2 emissions (tons)
+Carbon dioxide,1,,Plant annual CO2 emissions (tons),Plant annual CO2 emissions (tons),Plant annual CO2 emissions (tons),Plant annual CO2 emissions (tons),Plant annual CO2 emissions (tons),Plant annual CO2 emissions (tons)
+Methane,1,,Plant annual CH4 emissions (lbs),Plant annual CH4 emissions (lbs),Plant annual CH4 emissions (lbs),Plant annual CH4 emissions (lbs),Plant annual CH4 emissions (lbs),Plant annual CH4 emissions (lbs)
+Nitrous oxide,1,,Plant annual N2O emissions (lbs),Plant annual N2O emissions (lbs),Plant annual N2O emissions (lbs),Plant annual N2O emissions (lbs),Plant annual N2O emissions (lbs),Plant annual N2O emissions (lbs)
+Plant primary fuel,1,1,Plant primary fuel,Plant primary fuel,Plant primary fuel,Plant primary fuel,Plant primary fuel,Plant primary fuel
+Plant nameplate capacity (MW),,,Plant nameplate capacity (MW),Plant nameplate capacity (MW),Plant nameplate capacity (MW),Plant nameplate capacity (MW),Plant nameplate capacity (MW),Plant nameplate capacity (MW)
+Plant capacity factor,,,Plant capacity factor,Plant capacity factor,Plant capacity factor,Plant capacity factor,Plant capacity factor,Plant capacity factor
+Plant primary coal/oil/gas/ other fossil fuel category,,1,Plant primary coal/oil/gas/ other fossil fuel category,Plant primary coal/oil/gas/ other fossil fuel category,Plant primary coal/oil/gas/ other fossil fuel category,Plant primary coal/oil/gas/ other fossil fuel category,,
+NERC region acronym,,1,NERC region acronym,NERC region acronym,NERC region acronym,NERC region acronym,NERC region acronym,NERC region acronym
+eGRID subregion acronym,,1,eGRID subregion acronym,eGRID subregion acronym,eGRID subregion acronym,eGRID subregion acronym,eGRID subregion acronym,eGRID subregion acronym
+Balancing Authority Name,,1,Balancing Authority Name,Balancing Authority Name,Balancing Authority Name,Balancing Authority Name,Balancing Authority Name,Balancing Authority Name
+Balancing Authority Code,,1,Balancing Authority Code,Balancing Authority Code,Balancing Authority Code,Balancing Authority Code,Balancing Authority Code,Balancing Authority Code
+County,,1,Plant county name,Plant county name,Plant county name,Plant county name,Plant county name,Plant county name
+Latitude,,1,Plant latitude,Plant latitude,Plant latitude,Plant latitude,Plant latitude,Plant latitude
+Longitude,,1,Plant longitude,Plant longitude,Plant longitude,Plant longitude,Plant longitude,Plant longitude
+Plant coal generation percent (resource mix),,1,Plant coal generation percent (resource mix),Plant coal generation percent (resource mix),Plant coal generation percent (resource mix),Plant coal generation percent (resource mix),Plant coal generation percent (resource mix),Plant coal generation percent (resource mix)
+Plant oil generation percent (resource mix),,1,Plant oil generation percent (resource mix),Plant oil generation percent (resource mix),Plant oil generation percent (resource mix),Plant oil generation percent (resource mix),Plant oil generation percent (resource mix),Plant oil generation percent (resource mix)
+Plant gas generation percent (resource mix),,1,Plant gas generation percent (resource mix),Plant gas generation percent (resource mix),Plant gas generation percent (resource mix),Plant gas generation percent (resource mix),Plant gas generation percent (resource mix),Plant gas generation percent (resource mix)
+Plant nuclear generation percent (resource mix),,1,Plant nuclear generation percent (resource mix),Plant nuclear generation percent (resource mix),Plant nuclear generation percent (resource mix),Plant nuclear generation percent (resource mix),Plant nuclear generation percent (resource mix),Plant nuclear generation percent (resource mix)
+Plant hydro generation percent (resource mix),,1,Plant  hydro generation percent (resource mix),Plant  hydro generation percent (resource mix),Plant hydro generation percent (resource mix),Plant hydro generation percent (resource mix),Plant hydro generation percent (resource mix),Plant hydro generation percent (resource mix)
+Plant biomass generation percent (resource mix),,1,Plant biomass generation percent (resource mix),Plant biomass generation percent (resource mix),Plant biomass generation percent (resource mix),Plant biomass generation percent (resource mix),Plant biomass generation percent (resource mix),Plant biomass generation percent (resource mix)
+Plant wind generation percent (resource mix),,1,Plant wind generation percent (resource mix),Plant wind generation percent (resource mix),Plant wind generation percent (resource mix),Plant wind generation percent (resource mix),Plant wind generation percent (resource mix),Plant wind generation percent (resource mix)
+Plant solar generation percent (resource mix),,1,Plant solar generation percent (resource mix),Plant solar generation percent (resource mix),Plant solar generation percent (resource mix),Plant solar generation percent (resource mix),Plant solar generation percent (resource mix),Plant solar generation percent (resource mix)
+Plant geothermal generation percent (resource mix),,1,Plant geothermal generation percent (resource mix),Plant geothermal generation percent (resource mix),Plant geothermal generation percent (resource mix),Plant geothermal generation percent (resource mix),Plant geothermal generation percent (resource mix),Plant geothermal generation percent (resource mix)
+Plant other fossil generation percent (resource mix),,1,Plant other fossil generation percent (resource mix),Plant other fossil generation percent (resource mix),Plant other fossil generation percent (resource mix),Plant other fossil generation percent (resource mix),Plant other fossil generation percent (resource mix),Plant other fossil generation percent (resource mix)
+Plant other unknown / purchased fuel generation percent (resource mix),,1,Plant other unknown / purchased fuel generation percent (resource mix),Plant other unknown / purchased fuel generation percent (resource mix),Plant other unknown / purchased fuel generation percent (resource mix),Plant other unknown / purchased fuel generation percent (resource mix),Plant other unknown / purchased fuel generation percent (resource mix),Plant other unknown / purchased fuel generation percent (resource mix)

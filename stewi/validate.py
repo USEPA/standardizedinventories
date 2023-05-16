@@ -13,38 +13,29 @@ from stewi.globals import log, DATA_PATH, paths, write_metadata,\
     source_metadata
 
 
-def validate_inventory(inventory_df, reference_df, group_by='flow',
+def validate_inventory(inventory_df, reference_df, group_by=None,
                        tolerance=5.0, filepath=''):
     """Compare inventory output with a reference DataFrame from another source.
 
     :param inventory_df: DataFrame of inventory resulting from script output
     :param reference_df: Reference DataFrame to compare emission quantities against.
         Must have same keys as inventory_df
-    :param group_by: 'flow' for species summed across facilities, 'facility'
-        to check species by facility
+    :param group_by: list of columns to compare across
     :param tolerance: Maximum acceptable percent difference between inventory
         and reference values. Default is 5%
     :return: DataFrame containing 'Conclusion' of statistical comparison and
         'Percent_Difference'
     """
-    if pd.api.types.is_string_dtype(inventory_df['FlowAmount']):
-        inventory_df['FlowAmount'] = inventory_df['FlowAmount'].str.replace(',', '')
-        inventory_df['FlowAmount'] = pd.to_numeric(inventory_df['FlowAmount'])
-    if pd.api.types.is_string_dtype(reference_df['FlowAmount']):
-        reference_df['FlowAmount'] = reference_df['FlowAmount'].str.replace(',', '')
-        reference_df['FlowAmount'] = pd.to_numeric(reference_df['FlowAmount'])
-    if group_by == 'flow':
+    if not group_by:
         group_by_columns = ['FlowName']
-    elif group_by == 'compartment':
-        group_by_columns = ['FlowName', 'PrimaryCompartment']
+    else:
+        group_by_columns = [group_by] if isinstance(group_by, str) else group_by
+    if 'Compartment' in group_by_columns:
         reference_df['PrimaryCompartment'] = reference_df['Compartment']
-        inventory_df['PrimaryCompartment'] = inventory_df['Compartment'].str.split('/').str[0]
-    elif group_by == 'state':
-        group_by_columns = ['State']
-    elif group_by == 'facility':
-        group_by_columns = ['FlowName', 'FacilityID']
-    elif group_by == 'subpart':
-        group_by_columns = ['FlowName', 'SubpartName']
+        inventory_df['PrimaryCompartment'] = (inventory_df['Compartment']
+                                              .str.split('/').str[0])
+        group_by_columns.append('PrimaryCompartment')
+        group_by_columns.remove('Compartment')
     inventory_df['FlowAmount'] = inventory_df['FlowAmount'].fillna(0.0)
     reference_df['FlowAmount'] = reference_df['FlowAmount'].fillna(0.0)
     inventory_sums = inventory_df[group_by_columns + ['FlowAmount']].groupby(
@@ -180,7 +171,7 @@ def update_validationsets_sources(validation_dict, date_acquired=False):
         i = max(loc for loc, val in enumerate(inventories)
                 if val == validation_dict['Inventory'])
         line = pd.DataFrame.from_records([validation_dict], index=[(i+0.5)])
-    v_table = v_table.append(line, ignore_index=False)
+    v_table = pd.concat([v_table, line], ignore_index=False)
     v_table = v_table.sort_index().reset_index(drop=True)
     log.info("updating ValidationSets_Sources.csv with "
              f"{validation_dict['Inventory']} {validation_dict['Year']}")

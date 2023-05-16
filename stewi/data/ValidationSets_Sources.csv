@@ -1,23 +1,25 @@
 Inventory,Version,Year,Name,URL,Criteria,Date Acquired
-TRI,,2008,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases), mapped to FEDEFL",25-Jun-2021
-TRI,,2009,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases), mapped to FEDEFL",25-Jun-2021
-TRI,,2010,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases), mapped to FEDEFL",25-Jun-2021
-TRI,,2011,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases), mapped to FEDEFL",25-Jun-2021
-TRI,,2012,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases), mapped to FEDEFL",25-Jun-2021
-TRI,,2013,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases), mapped to FEDEFL",25-Jun-2021
-TRI,,2014,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases), mapped to FEDEFL",25-Jun-2021
-TRI,,2015,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases), mapped to FEDEFL",25-Jun-2021
-TRI,,2016,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases), mapped to FEDEFL",25-Jun-2021
-TRI,,2017,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases), mapped to FEDEFL",25-Jun-2021
-TRI,,2018,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases), mapped to FEDEFL",25-Jun-2021
-TRI,,2019,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases), mapped to FEDEFL",25-Jun-2021
+TRI,,2011,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases)",11-May-2023
+TRI,,2012,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases)",11-May-2023
+TRI,,2013,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases)",11-May-2023
+TRI,,2014,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases)",11-May-2023
+TRI,,2015,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases)",11-May-2023
+TRI,,2016,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases)",11-May-2023
+TRI,,2017,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases)",11-May-2023
+TRI,,2018,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases)",11-May-2023
+TRI,,2019,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases)",11-May-2023
+TRI,,2020,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases)",11-May-2023
+TRI,,2021,TRI Explorer,https://enviro.epa.gov/triexplorer/tri_release.chemical,"Year, All of United States, All Chemicals, All Industries, Details:(Other On-Site Disposal or Other Releases, Other Off-Site Disposal or Other Releases)",11-May-2023
 NEI,2017v1/2017neiJan,2017,NEI Data,https://gaftp.epa.gov/air/nei/2017/data_summaries/2017v1/2017neiJan_facility.zip,"Data Summaries tab, Facility-level by Pollutant zip file download, summed to national level",06-Aug-2021
 NEI,2014v2/2014neiv2,2014,NEI Data,https://gaftp.epa.gov/air/nei/2014/data_summaries/2014v2/2014neiv2_facility.zip,"Data Summaries tab, Facility-level by Pollutant zip file download, summed to national level",06-Aug-2021
 NEI,2011v2/2011neiv2,2011,NEI Data,https://gaftp.epa.gov/air/nei/2011/data_summaries/2011v2/2011neiv2_facility.zip,"Data Summaries tab, Facility-level by Pollutant zip file download, summed to national level",06-Aug-2021
+NEI,Facility%20Level%20by%20Pollutant,2020,NEI Data,https://gaftp.epa.gov/air/nei/2020/data_summaries/Facility%20Level%20by%20Pollutant.zip,"Data Summaries tab, Facility-level by Pollutant zip file download, summed to national level",09-May-2023
 eGRID,v2,2014,eGRID Data Files,https://www.epa.gov/sites/production/files/2020-01/egrid2018_historical_files_since_1996.zip,"Extracted from US Total tab, or for steam, summed from PLNT tab",15-Apr-2021
 eGRID,,2016,eGRID Data Files,https://www.epa.gov/sites/production/files/2020-01/egrid2018_historical_files_since_1996.zip,"Extracted from US Total tab, or for steam, summed from PLNT tab",15-Apr-2021
 eGRID,v2,2018,eGRID Data Files,https://www.epa.gov/sites/production/files/2020-03/egrid2018_data_v2.xlsx,"Extracted from US Total tab, or for steam, summed from PLNT tab",15-Apr-2021
 eGRID,,2019,eGRID Data Files,https://www.epa.gov/sites/production/files/2021-02/egrid2019_data.xlsx,"Extracted from US Total tab, or for steam, summed from PLNT tab",15-Apr-2021
+eGRID,,2021,eGRID Data Files,https://www.epa.gov/system/files/documents/2023-01/eGRID2021_data.xlsx,"Extracted from US Total tab, or for steam, summed from PLNT tab",02-Apr-2023
+eGRID,v2,2020,eGRID Data Files,https://www.epa.gov/system/files/documents/2022-09/eGRID2020_Data_v2.xlsx,"Extracted from US Total tab, or for steam, summed from PLNT tab",02-Apr-2023
 RCRAInfo,,2011,Trends Analysis,https://rcrapublic.epa.gov/rcrainfoweb/action/modules/br/trends/view,"Location: National, Metric: Generation, Generators To Include: All Generators Included In The NBR",16-Jun-2021
 RCRAInfo,,2013,Trends Analysis,https://rcrapublic.epa.gov/rcrainfoweb/action/modules/br/trends/view,"Location: National, Metric: Generation, Generators To Include: All Generators Included In The NBR",16-Jun-2021
 RCRAInfo,,2015,Trends Analysis,https://rcrapublic.epa.gov/rcrainfoweb/action/modules/br/trends/view,"Location: National, Metric: Generation, Generators To Include: All Generators Included In The NBR",16-Jun-2021
@@ -34,12 +36,16 @@ DMR,,2015,State statistics,https://echo.epa.gov/trends/loading-tool/get-data/sta
 DMR,,2014,State statistics,https://echo.epa.gov/trends/loading-tool/get-data/state-statistics,Check totals by state,30-Jun-2021
 DMR,,2019,State statistics,https://echo.epa.gov/trends/loading-tool/get-data/state-statistics,Check totals by state,30-Jun-2021
 DMR,,2018,State statistics,https://echo.epa.gov/trends/loading-tool/get-data/state-statistics,Check totals by state,30-Jun-2021
+DMR,,2020,State statistics,https://echo.epa.gov/trends/loading-tool/get-data/state-statistics,Check totals by state,03-Apr-2023
+DMR,,2021,State statistics,https://echo.epa.gov/trends/loading-tool/get-data/state-statistics,Check totals by state,03-Apr-2023
 GHGRP,,2013,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/CSV,,17-Jun-2021
 GHGRP,,2014,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/CSV,,17-Jun-2021
 GHGRP,,2015,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/CSV,,17-Jun-2021
 GHGRP,,2016,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/CSV,,17-Jun-2021
-GHGRP,,2017,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/CSV,,17-Jun-2021
-GHGRP,,2018,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/CSV,,17-Jun-2021
-GHGRP,,2019,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/CSV,,17-Jun-2021
+GHGRP,,2017,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/CSV,,03-Apr-2023
+GHGRP,,2018,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/CSV,,03-Apr-2023
+GHGRP,,2019,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/CSV,,03-Apr-2023
 GHGRP,,2011,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/CSV,,17-Jun-2021
 GHGRP,,2012,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/CSV,,17-Jun-2021
+GHGRP,,2020,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/CSV,,03-Apr-2023
+GHGRP,,2021,GHGRP Table V_GHG_EMITTER_SUBPART,https://data.epa.gov/efservice/V_GHG_EMITTER_SUBPART/CSV,,03-Apr-2023

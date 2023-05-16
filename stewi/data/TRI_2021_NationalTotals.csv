@@ -1,0 +1,1537 @@
+Compartment,FlowName,CAS,Unit,FlowAmount
+air,"1,1,1,2-Tetrachloro-2-fluoroethane (HCFC-121a)",354110,Pounds,1940.0
+soil,"1,1,1,2-Tetrachloro-2-fluoroethane (HCFC-121a)",354110,Pounds,0.0
+water,"1,1,1,2-Tetrachloro-2-fluoroethane (HCFC-121a)",354110,Pounds,0.0
+air,"1,1,1,2-Tetrachloroethane",630206,Pounds,5371.22
+soil,"1,1,1,2-Tetrachloroethane",630206,Pounds,0.0
+water,"1,1,1,2-Tetrachloroethane",630206,Pounds,66.0
+air,"1,1,1-Trichloroethane",71556,Pounds,41116.32
+soil,"1,1,1-Trichloroethane",71556,Pounds,0.0
+water,"1,1,1-Trichloroethane",71556,Pounds,454.0
+air,"1,1,2,2-Tetrachloroethane",79345,Pounds,2865.95
+soil,"1,1,2,2-Tetrachloroethane",79345,Pounds,0.0
+water,"1,1,2,2-Tetrachloroethane",79345,Pounds,0.0
+air,"1,1,2-Trichloroethane",79005,Pounds,22528.33
+soil,"1,1,2-Trichloroethane",79005,Pounds,0.0
+water,"1,1,2-Trichloroethane",79005,Pounds,96.74
+air,"1,1-Dichloro-1-fluoroethane (HCFC-141b)",1717006,Pounds,5671.1
+soil,"1,1-Dichloro-1-fluoroethane (HCFC-141b)",1717006,Pounds,0.0
+water,"1,1-Dichloro-1-fluoroethane (HCFC-141b)",1717006,Pounds,148.0
+air,"1,1-Dimethylhydrazine",57147,Pounds,2.012
+soil,"1,1-Dimethylhydrazine",57147,Pounds,0.0
+water,"1,1-Dimethylhydrazine",57147,Pounds,0.0
+air,"1,2,3-Trichloropropane",96184,Pounds,1589.0
+soil,"1,2,3-Trichloropropane",96184,Pounds,0.0
+water,"1,2,3-Trichloropropane",96184,Pounds,3010.0
+air,"1,2,4-Trichlorobenzene",120821,Pounds,8685.15
+soil,"1,2,4-Trichlorobenzene",120821,Pounds,0.0
+water,"1,2,4-Trichlorobenzene",120821,Pounds,0.0
+air,"1,2,4-Trimethylbenzene",95636,Pounds,3786796.53
+soil,"1,2,4-Trimethylbenzene",95636,Pounds,3424.486
+water,"1,2,4-Trimethylbenzene",95636,Pounds,1160.58
+air,"1,2-Butylene oxide",106887,Pounds,2060.086
+soil,"1,2-Butylene oxide",106887,Pounds,0.0
+water,"1,2-Butylene oxide",106887,Pounds,2.0
+air,"1,2-Dibromo-3-chloropropane",96128,Pounds,0.111
+soil,"1,2-Dibromo-3-chloropropane",96128,Pounds,0.0
+water,"1,2-Dibromo-3-chloropropane",96128,Pounds,0.0
+air,"1,2-Dibromoethane",106934,Pounds,552.51
+soil,"1,2-Dibromoethane",106934,Pounds,0.0
+water,"1,2-Dibromoethane",106934,Pounds,70.0
+air,"1,2-Dichloro-1,1,2-trifluoroethane (HCFC-123a)",354234,Pounds,98461.564
+soil,"1,2-Dichloro-1,1,2-trifluoroethane (HCFC-123a)",354234,Pounds,0.0
+water,"1,2-Dichloro-1,1,2-trifluoroethane (HCFC-123a)",354234,Pounds,0.0
+air,"1,2-Dichloro-1,1-difluoroethane (HCFC-132b)",1649087,Pounds,22809.0
+soil,"1,2-Dichloro-1,1-difluoroethane (HCFC-132b)",1649087,Pounds,0.0
+water,"1,2-Dichloro-1,1-difluoroethane (HCFC-132b)",1649087,Pounds,13.0
+air,"1,2-Dichlorobenzene",95501,Pounds,20776.8
+soil,"1,2-Dichlorobenzene",95501,Pounds,0.0
+water,"1,2-Dichlorobenzene",95501,Pounds,5.0
+air,"1,2-Dichloroethane",107062,Pounds,410308.35
+soil,"1,2-Dichloroethane",107062,Pounds,66.2
+water,"1,2-Dichloroethane",107062,Pounds,4022.14
+air,"1,2-Dichloroethylene",540590,Pounds,42307.83
+soil,"1,2-Dichloroethylene",540590,Pounds,0.0
+water,"1,2-Dichloroethylene",540590,Pounds,30.0
+air,"1,2-Dichloropropane",78875,Pounds,18271.29
+soil,"1,2-Dichloropropane",78875,Pounds,0.0
+water,"1,2-Dichloropropane",78875,Pounds,291.691
+air,"1,2-Diphenylhydrazine",122667,Pounds,3.03
+soil,"1,2-Diphenylhydrazine",122667,Pounds,0.0
+water,"1,2-Diphenylhydrazine",122667,Pounds,0.0
+air,"1,2-Phenylenediamine",95545,Pounds,159.12
+soil,"1,2-Phenylenediamine",95545,Pounds,0.0
+water,"1,2-Phenylenediamine",95545,Pounds,0.1
+air,"1,3-Butadiene",106990,Pounds,1203608.47
+soil,"1,3-Butadiene",106990,Pounds,365.24
+water,"1,3-Butadiene",106990,Pounds,773.34
+air,"1,3-Dichlorobenzene",541731,Pounds,3.001
+soil,"1,3-Dichlorobenzene",541731,Pounds,0.0
+water,"1,3-Dichlorobenzene",541731,Pounds,0.0
+air,"1,3-Dichloropropylene",542756,Pounds,3414.02
+soil,"1,3-Dichloropropylene",542756,Pounds,0.0
+water,"1,3-Dichloropropylene",542756,Pounds,3045.0
+air,"1,3-Phenylenediamine",108452,Pounds,1707.61
+soil,"1,3-Phenylenediamine",108452,Pounds,0.0
+water,"1,3-Phenylenediamine",108452,Pounds,0.0
+air,"1,3-Propane sultone",1120714,Pounds,2.63
+soil,"1,3-Propane sultone",1120714,Pounds,0.0
+water,"1,3-Propane sultone",1120714,Pounds,0.0
+air,"1,4-Dichloro-2-butene",764410,Pounds,2445.01
+soil,"1,4-Dichloro-2-butene",764410,Pounds,0.0
+water,"1,4-Dichloro-2-butene",764410,Pounds,98.0
+air,"1,4-Dichlorobenzene",106467,Pounds,28593.85
+soil,"1,4-Dichlorobenzene",106467,Pounds,0.0
+water,"1,4-Dichlorobenzene",106467,Pounds,5.0
+air,"1,4-Dioxane",123911,Pounds,74740.13
+soil,"1,4-Dioxane",123911,Pounds,0.0
+water,"1,4-Dioxane",123911,Pounds,65341.67
+air,"1-(3-Chloroallyl)-3,5,7-triaza-1-azoniaadamantane chloride",4080313,Pounds,0.0
+soil,"1-(3-Chloroallyl)-3,5,7-triaza-1-azoniaadamantane chloride",4080313,Pounds,0.0
+water,"1-(3-Chloroallyl)-3,5,7-triaza-1-azoniaadamantane chloride",4080313,Pounds,0.0
+air,1-Bromopropane,106945,Pounds,783460.29
+soil,1-Bromopropane,106945,Pounds,52524.0
+water,1-Bromopropane,106945,Pounds,0.0
+air,"1-Chloro-1,1,2,2-tetrafluoroethane (HCFC-124a)",354256,Pounds,3723.875
+soil,"1-Chloro-1,1,2,2-tetrafluoroethane (HCFC-124a)",354256,Pounds,0.0
+water,"1-Chloro-1,1,2,2-tetrafluoroethane (HCFC-124a)",354256,Pounds,0.0
+air,"1-Chloro-1,1-difluoroethane (HCFC-142b)",75683,Pounds,116800.8
+soil,"1-Chloro-1,1-difluoroethane (HCFC-142b)",75683,Pounds,0.0
+water,"1-Chloro-1,1-difluoroethane (HCFC-142b)",75683,Pounds,3721.0
+air,"1-Octanesulfonamide, 1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,8-heptadecafluoro-N-(2-hydroxyethyl)-N-methyl-",24448097,Pounds,0.0
+soil,"1-Octanesulfonamide, 1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,8-heptadecafluoro-N-(2-hydroxyethyl)-N-methyl-",24448097,Pounds,0.0
+water,"1-Octanesulfonamide, 1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,8-heptadecafluoro-N-(2-hydroxyethyl)-N-methyl-",24448097,Pounds,0.0
+air,"1-Octanesulfonamide, 1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,8-heptadecafluoro-N-methyl-",31506328,Pounds,0.0
+soil,"1-Octanesulfonamide, 1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,8-heptadecafluoro-N-methyl-",31506328,Pounds,0.0
+water,"1-Octanesulfonamide, 1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,8-heptadecafluoro-N-methyl-",31506328,Pounds,0.8
+air,"1-Propanaminium, 2-hydroxy-N,N,N-trimethyl-, 3-[(gamma-omega-perfluoro-C6-20-alkyl)thio] derivs., chlorides",70983607,Pounds,0.0
+soil,"1-Propanaminium, 2-hydroxy-N,N,N-trimethyl-, 3-[(gamma-omega-perfluoro-C6-20-alkyl)thio] derivs., chlorides",70983607,Pounds,0.0
+water,"1-Propanaminium, 2-hydroxy-N,N,N-trimethyl-, 3-[(gamma-omega-perfluoro-C6-20-alkyl)thio] derivs., chlorides",70983607,Pounds,0.0
+air,"1-Propanaminium, 3-amino-N-(carboxymethyl)-N,N-dimethyl-, N-[2-[(gamma-omega-perfluoro-C4-20-alkyl)thio]acetyl] derivs., inner salts",1078715613,Pounds,0.0
+soil,"1-Propanaminium, 3-amino-N-(carboxymethyl)-N,N-dimethyl-, N-[2-[(gamma-omega-perfluoro-C4-20-alkyl)thio]acetyl] derivs., inner salts",1078715613,Pounds,0.0
+water,"1-Propanaminium, 3-amino-N-(carboxymethyl)-N,N-dimethyl-, N-[2-[(gamma-omega-perfluoro-C4-20-alkyl)thio]acetyl] derivs., inner salts",1078715613,Pounds,0.0
+air,"1-Propanaminium, N,N,N-trimethyl-3-[[(pentadecafluoroheptyl)sulfonyl]amino]-, iodide",67584581,Pounds,0.0
+soil,"1-Propanaminium, N,N,N-trimethyl-3-[[(pentadecafluoroheptyl)sulfonyl]amino]-, iodide",67584581,Pounds,0.0
+water,"1-Propanaminium, N,N,N-trimethyl-3-[[(pentadecafluoroheptyl)sulfonyl]amino]-, iodide",67584581,Pounds,0.0
+air,"1-Propanaminium, N,N,N-trimethyl-3-[[(tridecafluorohexyl)sulfonyl]amino]-, iodide",68957584,Pounds,0.0
+soil,"1-Propanaminium, N,N,N-trimethyl-3-[[(tridecafluorohexyl)sulfonyl]amino]-, iodide",68957584,Pounds,0.0
+water,"1-Propanaminium, N,N,N-trimethyl-3-[[(tridecafluorohexyl)sulfonyl]amino]-, iodide",68957584,Pounds,0.0
+air,"1-Propanaminium, N,N,N-trimethyl-3-[[(undecafluoropentyl)sulfonyl]amino]-, iodide",68957573,Pounds,0.0
+soil,"1-Propanaminium, N,N,N-trimethyl-3-[[(undecafluoropentyl)sulfonyl]amino]-, iodide",68957573,Pounds,0.0
+water,"1-Propanaminium, N,N,N-trimethyl-3-[[(undecafluoropentyl)sulfonyl]amino]-, iodide",68957573,Pounds,0.0
+air,"1-Propanesulfonic acid, 2-methyl-, 2-[[1-oxo-3-[(gamma-omega-perfluoro-C4-16-alkyl)thio]propyl]amino] derivs., sodium salts",68187473,Pounds,0.0
+soil,"1-Propanesulfonic acid, 2-methyl-, 2-[[1-oxo-3-[(gamma-omega-perfluoro-C4-16-alkyl)thio]propyl]amino] derivs., sodium salts",68187473,Pounds,0.0
+water,"1-Propanesulfonic acid, 2-methyl-, 2-[[1-oxo-3-[(gamma-omega-perfluoro-C4-16-alkyl)thio]propyl]amino] derivs., sodium salts",68187473,Pounds,0.0
+air,"2,2-Bis(bromomethyl)-1,3-propanediol",3296900,Pounds,95.03
+soil,"2,2-Bis(bromomethyl)-1,3-propanediol",3296900,Pounds,0.0
+water,"2,2-Bis(bromomethyl)-1,3-propanediol",3296900,Pounds,0.0
+air,"2,2-Dichloro-1,1,1-trifluoroethane (HCFC-123)",306832,Pounds,39937.88
+soil,"2,2-Dichloro-1,1,1-trifluoroethane (HCFC-123)",306832,Pounds,0.0
+water,"2,2-Dichloro-1,1,1-trifluoroethane (HCFC-123)",306832,Pounds,0.0
+air,"2,3-Dichloropropene",78886,Pounds,2897.0
+soil,"2,3-Dichloropropene",78886,Pounds,0.0
+water,"2,3-Dichloropropene",78886,Pounds,0.0
+air,"2,4,5-Trichlorophenol",95954,Pounds,7.04
+soil,"2,4,5-Trichlorophenol",95954,Pounds,0.0
+water,"2,4,5-Trichlorophenol",95954,Pounds,0.0
+air,"2,4,6-Trichlorophenol",88062,Pounds,310.14
+soil,"2,4,6-Trichlorophenol",88062,Pounds,0.0
+water,"2,4,6-Trichlorophenol",88062,Pounds,0.0
+air,"2,4-D",94757,Pounds,1305.919
+soil,"2,4-D",94757,Pounds,290.0
+water,"2,4-D",94757,Pounds,231.02
+air,"2,4-D 2-butoxyethyl ester",1929733,Pounds,41.69
+soil,"2,4-D 2-butoxyethyl ester",1929733,Pounds,0.0
+water,"2,4-D 2-butoxyethyl ester",1929733,Pounds,0.0
+air,"2,4-D 2-ethylhexyl ester",1928434,Pounds,4442.5
+soil,"2,4-D 2-ethylhexyl ester",1928434,Pounds,0.0
+water,"2,4-D 2-ethylhexyl ester",1928434,Pounds,461.5
+air,"2,4-D sodium salt",2702729,Pounds,1.0
+soil,"2,4-D sodium salt",2702729,Pounds,0.0
+water,"2,4-D sodium salt",2702729,Pounds,0.0
+air,"2,4-DB",94826,Pounds,2.0
+soil,"2,4-DB",94826,Pounds,0.0
+water,"2,4-DB",94826,Pounds,0.0
+air,"2,4-Diaminotoluene",95807,Pounds,674.0
+soil,"2,4-Diaminotoluene",95807,Pounds,0.0
+water,"2,4-Diaminotoluene",95807,Pounds,0.0
+air,"2,4-Dichlorophenol",120832,Pounds,45.318
+soil,"2,4-Dichlorophenol",120832,Pounds,1324.0
+water,"2,4-Dichlorophenol",120832,Pounds,0.0
+air,"2,4-Dimethylphenol",105679,Pounds,10072.12
+soil,"2,4-Dimethylphenol",105679,Pounds,0.0
+water,"2,4-Dimethylphenol",105679,Pounds,367.723
+air,"2,4-Dinitrophenol",51285,Pounds,5.0
+soil,"2,4-Dinitrophenol",51285,Pounds,0.0
+water,"2,4-Dinitrophenol",51285,Pounds,0.0
+air,"2,4-Dinitrotoluene",121142,Pounds,2176.385
+soil,"2,4-Dinitrotoluene",121142,Pounds,0.0
+water,"2,4-Dinitrotoluene",121142,Pounds,0.0
+air,"2,6-Dinitrotoluene",606202,Pounds,496.424
+soil,"2,6-Dinitrotoluene",606202,Pounds,0.0
+water,"2,6-Dinitrotoluene",606202,Pounds,0.0
+air,"2,6-Xylidine",87627,Pounds,114.0
+soil,"2,6-Xylidine",87627,Pounds,0.0
+water,"2,6-Xylidine",87627,Pounds,0.0
+air,"2-Chloro-1,1,1,2-tetrafluoroethane (HCFC-124)",2837890,Pounds,92848.16
+soil,"2-Chloro-1,1,1,2-tetrafluoroethane (HCFC-124)",2837890,Pounds,0.0
+water,"2-Chloro-1,1,1,2-tetrafluoroethane (HCFC-124)",2837890,Pounds,0.0
+air,"2-Chloro-1,1,1-trifluoroethane (HCFC-133a)",75887,Pounds,20292.1
+soil,"2-Chloro-1,1,1-trifluoroethane (HCFC-133a)",75887,Pounds,0.0
+water,"2-Chloro-1,1,1-trifluoroethane (HCFC-133a)",75887,Pounds,36.0
+air,2-Ethoxyethanol,110805,Pounds,32373.741
+soil,2-Ethoxyethanol,110805,Pounds,0.0
+water,2-Ethoxyethanol,110805,Pounds,0.0
+air,2-Mercaptobenzothiazole,149304,Pounds,1385.77
+soil,2-Mercaptobenzothiazole,149304,Pounds,27.0
+water,2-Mercaptobenzothiazole,149304,Pounds,1397.0
+air,2-Methoxyethanol,109864,Pounds,4163.41
+soil,2-Methoxyethanol,109864,Pounds,0.0
+water,2-Methoxyethanol,109864,Pounds,5.0
+air,2-Methyllactonitrile,75865,Pounds,8231.7
+soil,2-Methyllactonitrile,75865,Pounds,0.0
+water,2-Methyllactonitrile,75865,Pounds,0.0
+air,2-Methylpyridine,109068,Pounds,5798.38
+soil,2-Methylpyridine,109068,Pounds,0.0
+water,2-Methylpyridine,109068,Pounds,0.0
+air,2-Nitrophenol,88755,Pounds,0.0
+soil,2-Nitrophenol,88755,Pounds,0.0
+water,2-Nitrophenol,88755,Pounds,121.0
+air,2-Nitropropane,79469,Pounds,20253.02
+soil,2-Nitropropane,79469,Pounds,0.0
+water,2-Nitropropane,79469,Pounds,0.0
+air,2-Phenylphenol,90437,Pounds,28.13
+soil,2-Phenylphenol,90437,Pounds,0.0
+water,2-Phenylphenol,90437,Pounds,0.0
+air,"2-Propenoic acid, 2-methyl-, octadecyl ester, polymer with 3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,12-heneicosafluorododecyl 2-propenoate, 3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,10-heptadecafluorodecyl 2-propenoate and 3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,14,14,14-pentacosafluorotetradecyl 2-propenoate",142636882,Pounds,0.0
+soil,"2-Propenoic acid, 2-methyl-, octadecyl ester, polymer with 3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,12-heneicosafluorododecyl 2-propenoate, 3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,10-heptadecafluorodecyl 2-propenoate and 3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,14,14,14-pentacosafluorotetradecyl 2-propenoate",142636882,Pounds,0.0
+water,"2-Propenoic acid, 2-methyl-, octadecyl ester, polymer with 3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,12-heneicosafluorododecyl 2-propenoate, 3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,10-heptadecafluorodecyl 2-propenoate and 3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,14,14,14-pentacosafluorotetradecyl 2-propenoate",142636882,Pounds,0.0
+air,"2-Propenoic acid, butyl ester, telomer with 2-[[(heptadecafluorooctyl)sulfonyl]methylamino]ethyl 2-propenoate, 2-[methyl[(nonafluorobutyl)sulfonyl]amino]ethyl 2-propenoate, alpha-(2-methyl-1-oxo-2-propenyl)-omega-hydroxypoly(oxy-1,4-butanediyl), alpha-(2-methyl-1-oxo-2-propenyl)-omega-[(2-methyl-1-oxo-2-propenyl)oxy]poly(oxy-1,4-butanediyl), 2-[methyl[(pentadecafluoroheptyl)sulfonyl]amino]ethyl 2-propenoate, 2-[methyl[(tridecafluorohexyl)sulfonyl]amino]ethyl 2-propenoate, 2-[methyl[(undecafluoropentyl)sulfonyl]amino]ethyl 2-propenoate and 1-octanethiol",68227963,Pounds,0.41
+soil,"2-Propenoic acid, butyl ester, telomer with 2-[[(heptadecafluorooctyl)sulfonyl]methylamino]ethyl 2-propenoate, 2-[methyl[(nonafluorobutyl)sulfonyl]amino]ethyl 2-propenoate, alpha-(2-methyl-1-oxo-2-propenyl)-omega-hydroxypoly(oxy-1,4-butanediyl), alpha-(2-methyl-1-oxo-2-propenyl)-omega-[(2-methyl-1-oxo-2-propenyl)oxy]poly(oxy-1,4-butanediyl), 2-[methyl[(pentadecafluoroheptyl)sulfonyl]amino]ethyl 2-propenoate, 2-[methyl[(tridecafluorohexyl)sulfonyl]amino]ethyl 2-propenoate, 2-[methyl[(undecafluoropentyl)sulfonyl]amino]ethyl 2-propenoate and 1-octanethiol",68227963,Pounds,0.0
+water,"2-Propenoic acid, butyl ester, telomer with 2-[[(heptadecafluorooctyl)sulfonyl]methylamino]ethyl 2-propenoate, 2-[methyl[(nonafluorobutyl)sulfonyl]amino]ethyl 2-propenoate, alpha-(2-methyl-1-oxo-2-propenyl)-omega-hydroxypoly(oxy-1,4-butanediyl), alpha-(2-methyl-1-oxo-2-propenyl)-omega-[(2-methyl-1-oxo-2-propenyl)oxy]poly(oxy-1,4-butanediyl), 2-[methyl[(pentadecafluoroheptyl)sulfonyl]amino]ethyl 2-propenoate, 2-[methyl[(tridecafluorohexyl)sulfonyl]amino]ethyl 2-propenoate, 2-[methyl[(undecafluoropentyl)sulfonyl]amino]ethyl 2-propenoate and 1-octanethiol",68227963,Pounds,0.0
+air,"2-Propenoic acid, esters, 2-methyl-, dodecyl ester, polymer with alpha-fluoro-omega-[2-[(2-methyl-1-oxo-2-propen-1-yl)oxy]ethyl]poly(difluoromethylene)",65605585,Pounds,1.0
+soil,"2-Propenoic acid, esters, 2-methyl-, dodecyl ester, polymer with alpha-fluoro-omega-[2-[(2-methyl-1-oxo-2-propen-1-yl)oxy]ethyl]poly(difluoromethylene)",65605585,Pounds,0.0
+water,"2-Propenoic acid, esters, 2-methyl-, dodecyl ester, polymer with alpha-fluoro-omega-[2-[(2-methyl-1-oxo-2-propen-1-yl)oxy]ethyl]poly(difluoromethylene)",65605585,Pounds,0.0
+air,2-[[(Heptadecafluorooctyl)sulfonyl]methylamino]ethyl acrylate,25268773,Pounds,0.0
+soil,2-[[(Heptadecafluorooctyl)sulfonyl]methylamino]ethyl acrylate,25268773,Pounds,0.0
+water,2-[[(Heptadecafluorooctyl)sulfonyl]methylamino]ethyl acrylate,25268773,Pounds,0.0
+air,"3,3'-Dichlorobenzidine",91941,Pounds,0.0
+soil,"3,3'-Dichlorobenzidine",91941,Pounds,0.0
+water,"3,3'-Dichlorobenzidine",91941,Pounds,0.0
+air,"3,3'-Dichlorobenzidine dihydrochloride",612839,Pounds,4.86
+soil,"3,3'-Dichlorobenzidine dihydrochloride",612839,Pounds,0.0
+water,"3,3'-Dichlorobenzidine dihydrochloride",612839,Pounds,0.0
+air,"3,3'-Dimethoxybenzidine",119904,Pounds,16.04
+soil,"3,3'-Dimethoxybenzidine",119904,Pounds,0.0
+water,"3,3'-Dimethoxybenzidine",119904,Pounds,0.0
+air,"3,3'-Dimethoxybenzidine dihydrochloride",20325400,Pounds,0.0
+soil,"3,3'-Dimethoxybenzidine dihydrochloride",20325400,Pounds,0.0
+water,"3,3'-Dimethoxybenzidine dihydrochloride",20325400,Pounds,0.0
+air,"3,3'-Dimethylbenzidine",119937,Pounds,15.74
+soil,"3,3'-Dimethylbenzidine",119937,Pounds,0.0
+water,"3,3'-Dimethylbenzidine",119937,Pounds,0.0
+air,"3-Chloro-1,1,1-trifluoropropane (HCFC-253fb)",460355,Pounds,2291.62
+soil,"3-Chloro-1,1,1-trifluoropropane (HCFC-253fb)",460355,Pounds,0.0
+water,"3-Chloro-1,1,1-trifluoropropane (HCFC-253fb)",460355,Pounds,0.0
+air,3-Chloro-2-methyl-1-propene,563473,Pounds,373.0
+soil,3-Chloro-2-methyl-1-propene,563473,Pounds,0.0
+water,3-Chloro-2-methyl-1-propene,563473,Pounds,0.0
+air,3-Chloropropionitrile,542767,Pounds,2.0
+soil,3-Chloropropionitrile,542767,Pounds,0.0
+water,3-Chloropropionitrile,542767,Pounds,0.0
+air,3-Iodo-2-propynyl butylcarbamate,55406536,Pounds,993.63
+soil,3-Iodo-2-propynyl butylcarbamate,55406536,Pounds,333.6
+water,3-Iodo-2-propynyl butylcarbamate,55406536,Pounds,0.0
+air,"3-[[(Heptadecafluorooctyl)sulfonyl]amino]-N,N,N-trimethyl-1-propanaminium iodide",1652637,Pounds,0.0
+soil,"3-[[(Heptadecafluorooctyl)sulfonyl]amino]-N,N,N-trimethyl-1-propanaminium iodide",1652637,Pounds,0.0
+water,"3-[[(Heptadecafluorooctyl)sulfonyl]amino]-N,N,N-trimethyl-1-propanaminium iodide",1652637,Pounds,0.0
+air,"4,4'-Diaminodiphenyl ether",101804,Pounds,255.26
+soil,"4,4'-Diaminodiphenyl ether",101804,Pounds,0.0
+water,"4,4'-Diaminodiphenyl ether",101804,Pounds,404.0
+air,"4,4'-Isopropylidenediphenol",80057,Pounds,43579.35
+soil,"4,4'-Isopropylidenediphenol",80057,Pounds,29859.2
+water,"4,4'-Isopropylidenediphenol",80057,Pounds,1630.55
+air,"4,4'-Methylenebis(2-chloroaniline)",101144,Pounds,16.66
+soil,"4,4'-Methylenebis(2-chloroaniline)",101144,Pounds,0.0
+water,"4,4'-Methylenebis(2-chloroaniline)",101144,Pounds,0.0
+air,"4,4'-Methylenedianiline",101779,Pounds,1597.08
+soil,"4,4'-Methylenedianiline",101779,Pounds,0.0
+water,"4,4'-Methylenedianiline",101779,Pounds,3328.0
+air,"4,6-Dinitro-o-cresol",534521,Pounds,0.0
+soil,"4,6-Dinitro-o-cresol",534521,Pounds,0.0
+water,"4,6-Dinitro-o-cresol",534521,Pounds,0.0
+air,4-Aminoazobenzene,60093,Pounds,0.0
+soil,4-Aminoazobenzene,60093,Pounds,0.0
+water,4-Aminoazobenzene,60093,Pounds,0.0
+air,4-Aminobiphenyl,92671,Pounds,12.52
+soil,4-Aminobiphenyl,92671,Pounds,0.0
+water,4-Aminobiphenyl,92671,Pounds,0.0
+air,4-Dimethylaminoazobenzene,60117,Pounds,3.0
+soil,4-Dimethylaminoazobenzene,60117,Pounds,0.0
+water,4-Dimethylaminoazobenzene,60117,Pounds,0.0
+air,4-Nitrophenol,100027,Pounds,0.034
+soil,4-Nitrophenol,100027,Pounds,0.0
+water,4-Nitrophenol,100027,Pounds,0.0
+air,5-Nitro-o-toluidine,99558,Pounds,0.014
+soil,5-Nitro-o-toluidine,99558,Pounds,0.0
+water,5-Nitro-o-toluidine,99558,Pounds,0.0
+air,Abamectin,71751412,Pounds,7.0
+soil,Abamectin,71751412,Pounds,0.0
+water,Abamectin,71751412,Pounds,0.0
+air,Acephate,30560191,Pounds,2.0
+soil,Acephate,30560191,Pounds,0.0
+water,Acephate,30560191,Pounds,0.0
+air,Acetaldehyde,75070,Pounds,7639966.06
+soil,Acetaldehyde,75070,Pounds,134.406
+water,Acetaldehyde,75070,Pounds,299269.93
+air,Acetamide,60355,Pounds,72.0
+soil,Acetamide,60355,Pounds,0.0
+water,Acetamide,60355,Pounds,255.0
+air,Acetonitrile,75058,Pounds,776009.22
+soil,Acetonitrile,75058,Pounds,0.0
+water,Acetonitrile,75058,Pounds,2133.39
+air,Acetophenone,98862,Pounds,207838.22
+soil,Acetophenone,98862,Pounds,1319.45
+water,Acetophenone,98862,Pounds,825.1
+air,"Acifluorfen, sodium salt",62476599,Pounds,10.2
+soil,"Acifluorfen, sodium salt",62476599,Pounds,0.0
+water,"Acifluorfen, sodium salt",62476599,Pounds,0.0
+air,Acrolein,107028,Pounds,330370.11
+soil,Acrolein,107028,Pounds,6.0
+water,Acrolein,107028,Pounds,581.61
+air,Acrylamide,79061,Pounds,40728.78
+soil,Acrylamide,79061,Pounds,1146.0
+water,Acrylamide,79061,Pounds,49.0
+air,Acrylic acid,79107,Pounds,277555.8
+soil,Acrylic acid,79107,Pounds,777.0
+water,Acrylic acid,79107,Pounds,7001.0
+air,Acrylonitrile,107131,Pounds,293212.37
+soil,Acrylonitrile,107131,Pounds,14.0
+water,Acrylonitrile,107131,Pounds,107.84
+air,Alachlor,15972608,Pounds,0.013
+soil,Alachlor,15972608,Pounds,0.0
+water,Alachlor,15972608,Pounds,0.0
+air,"Alcohols, C8-14, gamma-omega-perfluoro",68391082,Pounds,0.0
+soil,"Alcohols, C8-14, gamma-omega-perfluoro",68391082,Pounds,0.0
+water,"Alcohols, C8-14, gamma-omega-perfluoro",68391082,Pounds,0.0
+air,Aldicarb,116063,Pounds,3.0
+soil,Aldicarb,116063,Pounds,0.0
+water,Aldicarb,116063,Pounds,0.0
+air,Aldrin,309002,Pounds,2.33
+soil,Aldrin,309002,Pounds,0.0
+water,Aldrin,309002,Pounds,0.0
+air,Allyl alcohol,107186,Pounds,46029.93
+soil,Allyl alcohol,107186,Pounds,404235.0
+water,Allyl alcohol,107186,Pounds,13991.49
+air,Allyl chloride,107051,Pounds,21999.44
+soil,Allyl chloride,107051,Pounds,1.0
+water,Allyl chloride,107051,Pounds,10.0
+air,Allylamine,107119,Pounds,1267.2
+soil,Allylamine,107119,Pounds,0.0
+water,Allylamine,107119,Pounds,0.0
+air,Aluminum (fume or dust),7429905,Pounds,757933.32
+soil,Aluminum (fume or dust),7429905,Pounds,300995.0
+water,Aluminum (fume or dust),7429905,Pounds,0.0
+air,Aluminum oxide (fibrous forms),1344281,Pounds,7482.97
+soil,Aluminum oxide (fibrous forms),1344281,Pounds,386743.73
+water,Aluminum oxide (fibrous forms),1344281,Pounds,155.25
+air,Aluminum phosphide,20859738,Pounds,21236.6
+soil,Aluminum phosphide,20859738,Pounds,0.0
+water,Aluminum phosphide,20859738,Pounds,0.0
+air,Ametryn,834128,Pounds,10.0
+soil,Ametryn,834128,Pounds,0.0
+water,Ametryn,834128,Pounds,0.0
+air,Amitrole,61825,Pounds,3.024
+soil,Amitrole,61825,Pounds,0.0
+water,Amitrole,61825,Pounds,0.0
+air,Ammonia,7664417,Pounds,133495414.2
+soil,Ammonia,7664417,Pounds,1868805.15
+water,Ammonia,7664417,Pounds,4310128.54
+air,Aniline,62533,Pounds,56225.18
+soil,Aniline,62533,Pounds,0.0
+water,Aniline,62533,Pounds,367.0
+air,Anthracene,120127,Pounds,8087.69
+soil,Anthracene,120127,Pounds,51.662
+water,Anthracene,120127,Pounds,319.766
+air,Antimony,7440360,Pounds,1338.655
+soil,Antimony,7440360,Pounds,8.81
+water,Antimony,7440360,Pounds,209.356
+air,Antimony compounds,N010,Pounds,22864.23
+soil,Antimony compounds,N010,Pounds,1766295.96
+water,Antimony compounds,N010,Pounds,5763.11
+air,Arsenic,7440382,Pounds,175.158
+soil,Arsenic,7440382,Pounds,96839.85
+water,Arsenic,7440382,Pounds,5084.62
+air,Arsenic compounds,N020,Pounds,40843.45
+soil,Arsenic compounds,N020,Pounds,255031921.46
+water,Arsenic compounds,N020,Pounds,11775.52
+air,Asbestos (friable),1332214,Pounds,2235.122
+soil,Asbestos (friable),1332214,Pounds,0.0
+water,Asbestos (friable),1332214,Pounds,0.0
+air,Atrazine,1912249,Pounds,32902.1
+soil,Atrazine,1912249,Pounds,313755.0
+water,Atrazine,1912249,Pounds,54.86
+air,Barium,7440393,Pounds,3590.5
+soil,Barium,7440393,Pounds,95824.76
+water,Barium,7440393,Pounds,1880.44
+air,Barium compounds (except for barium sulfate (CAS No. 7727-43-7)),N040,Pounds,677819.66
+soil,Barium compounds (except for barium sulfate (CAS No. 7727-43-7)),N040,Pounds,57279286.8
+water,Barium compounds (except for barium sulfate (CAS No. 7727-43-7)),N040,Pounds,414181.71
+air,Bendiocarb,22781233,Pounds,0.2
+soil,Bendiocarb,22781233,Pounds,0.0
+water,Bendiocarb,22781233,Pounds,0.0
+air,Benomyl,17804352,Pounds,9.37
+soil,Benomyl,17804352,Pounds,0.0
+water,Benomyl,17804352,Pounds,0.0
+air,Benzal chloride,98873,Pounds,174.423
+soil,Benzal chloride,98873,Pounds,0.0
+water,Benzal chloride,98873,Pounds,0.0
+air,Benzene,71432,Pounds,2871622.47
+soil,Benzene,71432,Pounds,1795.914
+water,Benzene,71432,Pounds,3458.68
+air,Benzidine,92875,Pounds,3.011
+soil,Benzidine,92875,Pounds,0.0
+water,Benzidine,92875,Pounds,0.0
+air,"Benzo[g,h,i]perylene",191242,Pounds,8995.08
+soil,"Benzo[g,h,i]perylene",191242,Pounds,4404.386
+water,"Benzo[g,h,i]perylene",191242,Pounds,193.806
+air,Benzoic trichloride,98077,Pounds,0.013
+soil,Benzoic trichloride,98077,Pounds,0.0
+water,Benzoic trichloride,98077,Pounds,0.0
+air,Benzoyl chloride,98884,Pounds,3142.53
+soil,Benzoyl chloride,98884,Pounds,0.0
+water,Benzoyl chloride,98884,Pounds,5.0
+air,Benzoyl peroxide,94360,Pounds,936.242
+soil,Benzoyl peroxide,94360,Pounds,0.0
+water,Benzoyl peroxide,94360,Pounds,0.0
+air,Benzyl chloride,100447,Pounds,3910.9
+soil,Benzyl chloride,100447,Pounds,0.0
+water,Benzyl chloride,100447,Pounds,8.0
+air,Beryllium,7440417,Pounds,31.937
+soil,Beryllium,7440417,Pounds,0.0
+water,Beryllium,7440417,Pounds,5.9
+air,Beryllium compounds,N050,Pounds,734.948
+soil,Beryllium compounds,N050,Pounds,24300.8
+water,Beryllium compounds,N050,Pounds,167.83
+air,Bifenthrin,82657043,Pounds,692.48
+soil,Bifenthrin,82657043,Pounds,5.0
+water,Bifenthrin,82657043,Pounds,0.3
+air,Biphenyl,92524,Pounds,121990.98
+soil,Biphenyl,92524,Pounds,304.31
+water,Biphenyl,92524,Pounds,56.032
+air,Bis(2-chloro-1-methylethyl) ether,108601,Pounds,1154.0
+soil,Bis(2-chloro-1-methylethyl) ether,108601,Pounds,0.0
+water,Bis(2-chloro-1-methylethyl) ether,108601,Pounds,317.0
+air,Bis(2-chloroethoxy)methane,111911,Pounds,113.68
+soil,Bis(2-chloroethoxy)methane,111911,Pounds,0.0
+water,Bis(2-chloroethoxy)methane,111911,Pounds,0.0
+air,Bis(2-chloroethyl) ether,111444,Pounds,814.236
+soil,Bis(2-chloroethyl) ether,111444,Pounds,0.0
+water,Bis(2-chloroethyl) ether,111444,Pounds,4.056
+air,Bis(chloromethyl) ether,542881,Pounds,0.0
+soil,Bis(chloromethyl) ether,542881,Pounds,0.0
+water,Bis(chloromethyl) ether,542881,Pounds,0.0
+air,Bis(tributyltin) oxide,56359,Pounds,0.0
+soil,Bis(tributyltin) oxide,56359,Pounds,0.0
+water,Bis(tributyltin) oxide,56359,Pounds,0.0
+air,Boron trichloride,10294345,Pounds,2462.7
+soil,Boron trichloride,10294345,Pounds,0.0
+water,Boron trichloride,10294345,Pounds,0.0
+air,Boron trifluoride,7637072,Pounds,5555.18
+soil,Boron trifluoride,7637072,Pounds,0.0
+water,Boron trifluoride,7637072,Pounds,0.0
+air,Bromacil,314409,Pounds,500.0
+soil,Bromacil,314409,Pounds,750.0
+water,Bromacil,314409,Pounds,0.0
+air,Bromine,7726956,Pounds,67761.0
+soil,Bromine,7726956,Pounds,8.0
+water,Bromine,7726956,Pounds,40.0
+air,Bromochlorodifluoromethane (Halon 1211),353593,Pounds,3480.0
+soil,Bromochlorodifluoromethane (Halon 1211),353593,Pounds,0.0
+water,Bromochlorodifluoromethane (Halon 1211),353593,Pounds,0.0
+air,Bromoform,75252,Pounds,6727.0
+soil,Bromoform,75252,Pounds,0.0
+water,Bromoform,75252,Pounds,0.0
+air,Bromomethane,74839,Pounds,280985.02
+soil,Bromomethane,74839,Pounds,0.0
+water,Bromomethane,74839,Pounds,52.0
+air,Bromotrifluoromethane (Halon 1301),75638,Pounds,13933.0
+soil,Bromotrifluoromethane (Halon 1301),75638,Pounds,0.0
+water,Bromotrifluoromethane (Halon 1301),75638,Pounds,0.0
+air,Bromoxynil,1689845,Pounds,265.02
+soil,Bromoxynil,1689845,Pounds,0.0
+water,Bromoxynil,1689845,Pounds,0.0
+air,Bromoxynil octanoate,1689992,Pounds,224.79
+soil,Bromoxynil octanoate,1689992,Pounds,0.0
+water,Bromoxynil octanoate,1689992,Pounds,0.0
+air,Butyl acrylate,141322,Pounds,187954.26
+soil,Butyl acrylate,141322,Pounds,1000.0
+water,Butyl acrylate,141322,Pounds,70.86
+air,Butyraldehyde,123728,Pounds,216333.15
+soil,Butyraldehyde,123728,Pounds,280.0
+water,Butyraldehyde,123728,Pounds,2212.0
+air,C.I. Basic Green 4,569642,Pounds,5.0
+soil,C.I. Basic Green 4,569642,Pounds,0.0
+water,C.I. Basic Green 4,569642,Pounds,0.0
+air,C.I. Direct Blue 218,28407376,Pounds,6.0
+soil,C.I. Direct Blue 218,28407376,Pounds,0.0
+water,C.I. Direct Blue 218,28407376,Pounds,4456.0
+air,C.I. Food Red 15,81889,Pounds,10.0
+soil,C.I. Food Red 15,81889,Pounds,0.0
+water,C.I. Food Red 15,81889,Pounds,0.0
+air,C.I. Solvent Yellow 34,492808,Pounds,3.014
+soil,C.I. Solvent Yellow 34,492808,Pounds,0.0
+water,C.I. Solvent Yellow 34,492808,Pounds,0.0
+air,Cadmium,7440439,Pounds,87.461
+soil,Cadmium,7440439,Pounds,60650.0
+water,Cadmium,7440439,Pounds,62.83
+air,Cadmium compounds,N078,Pounds,7855.87
+soil,Cadmium compounds,N078,Pounds,395328.55
+water,Cadmium compounds,N078,Pounds,2578.78
+air,Captan,133062,Pounds,137.719
+soil,Captan,133062,Pounds,0.0
+water,Captan,133062,Pounds,5.0
+air,Carbaryl,63252,Pounds,198.162
+soil,Carbaryl,63252,Pounds,0.0
+water,Carbaryl,63252,Pounds,5.0
+air,Carbofuran,1563662,Pounds,0.01
+soil,Carbofuran,1563662,Pounds,0.0
+water,Carbofuran,1563662,Pounds,0.0
+air,Carbon disulfide,75150,Pounds,8312606.51
+soil,Carbon disulfide,75150,Pounds,1.0
+water,Carbon disulfide,75150,Pounds,90008.28
+air,Carbon tetrachloride,56235,Pounds,148226.77
+soil,Carbon tetrachloride,56235,Pounds,1.0
+water,Carbon tetrachloride,56235,Pounds,119.205
+air,Carbonyl sulfide,463581,Pounds,10510540.96
+soil,Carbonyl sulfide,463581,Pounds,35.0
+water,Carbonyl sulfide,463581,Pounds,655.0
+air,Carboxin,5234684,Pounds,5.0
+soil,Carboxin,5234684,Pounds,0.0
+water,Carboxin,5234684,Pounds,0.0
+air,Catechol,120809,Pounds,1492.68
+soil,Catechol,120809,Pounds,22.114
+water,Catechol,120809,Pounds,7112.18
+air,Certain glycol ethers,N230,Pounds,12893622.05
+soil,Certain glycol ethers,N230,Pounds,91472.5
+water,Certain glycol ethers,N230,Pounds,24369.38
+air,Chlordane,57749,Pounds,290.714
+soil,Chlordane,57749,Pounds,0.0
+water,Chlordane,57749,Pounds,0.0
+air,Chlorimuron-ethyl,90982324,Pounds,182.41
+soil,Chlorimuron-ethyl,90982324,Pounds,0.0
+water,Chlorimuron-ethyl,90982324,Pounds,0.0
+air,Chlorine,7782505,Pounds,5569869.22
+soil,Chlorine,7782505,Pounds,85179.09
+water,Chlorine,7782505,Pounds,192699.67
+air,Chlorine dioxide,10049044,Pounds,501605.87
+soil,Chlorine dioxide,10049044,Pounds,219290.0
+water,Chlorine dioxide,10049044,Pounds,0.0
+air,Chloroacetic acid,79118,Pounds,8596.59
+soil,Chloroacetic acid,79118,Pounds,0.0
+water,Chloroacetic acid,79118,Pounds,50.0
+air,Chlorobenzene,108907,Pounds,565183.94
+soil,Chlorobenzene,108907,Pounds,0.0
+water,Chlorobenzene,108907,Pounds,145.94
+air,Chlorobenzilate,510156,Pounds,3.014
+soil,Chlorobenzilate,510156,Pounds,0.0
+water,Chlorobenzilate,510156,Pounds,0.0
+air,Chlorodifluoromethane (HCFC-22),75456,Pounds,1024512.06
+soil,Chlorodifluoromethane (HCFC-22),75456,Pounds,0.0
+water,Chlorodifluoromethane (HCFC-22),75456,Pounds,0.0
+air,Chloroethane,75003,Pounds,166716.9
+soil,Chloroethane,75003,Pounds,0.0
+water,Chloroethane,75003,Pounds,287.0
+air,Chloroform,67663,Pounds,246852.24
+soil,Chloroform,67663,Pounds,0.0
+water,Chloroform,67663,Pounds,5541.97
+air,Chloromethane,74873,Pounds,678926.11
+soil,Chloromethane,74873,Pounds,8282.0
+water,Chloromethane,74873,Pounds,1276.82
+air,Chloromethyl methyl ether,107302,Pounds,538.0
+soil,Chloromethyl methyl ether,107302,Pounds,0.0
+water,Chloromethyl methyl ether,107302,Pounds,0.0
+air,Chlorophenols,N084,Pounds,533.957
+soil,Chlorophenols,N084,Pounds,11.0
+water,Chlorophenols,N084,Pounds,0.0
+air,Chloropicrin,76062,Pounds,4953.82
+soil,Chloropicrin,76062,Pounds,0.0
+water,Chloropicrin,76062,Pounds,0.0
+air,Chloroprene,126998,Pounds,37584.25
+soil,Chloroprene,126998,Pounds,0.0
+water,Chloroprene,126998,Pounds,208.57
+air,Chlorothalonil,1897456,Pounds,1304.7
+soil,Chlorothalonil,1897456,Pounds,0.0
+water,Chlorothalonil,1897456,Pounds,5.0
+air,Chlorsulfuron,64902723,Pounds,53.1
+soil,Chlorsulfuron,64902723,Pounds,0.0
+water,Chlorsulfuron,64902723,Pounds,0.0
+air,Chromium,7440473,Pounds,115624.08
+soil,Chromium,7440473,Pounds,127874.11
+water,Chromium,7440473,Pounds,3099.34
+air,Chromium compounds (except for chromite ore mined in the Transvaal Region),N090,Pounds,187269.14
+soil,Chromium compounds (except for chromite ore mined in the Transvaal Region),N090,Pounds,3975319.7
+water,Chromium compounds (except for chromite ore mined in the Transvaal Region),N090,Pounds,101962.37
+air,Chromium(III) perfluorooctanoate,68141026,Pounds,750.0
+soil,Chromium(III) perfluorooctanoate,68141026,Pounds,0.0
+water,Chromium(III) perfluorooctanoate,68141026,Pounds,0.0
+air,Cobalt,7440484,Pounds,8677.45
+soil,Cobalt,7440484,Pounds,51488.31
+water,Cobalt,7440484,Pounds,620.78
+air,Cobalt compounds,N096,Pounds,24187.68
+soil,Cobalt compounds,N096,Pounds,441876.77
+water,Cobalt compounds,N096,Pounds,69440.99
+air,Copper,7440508,Pounds,357363.23
+soil,Copper,7440508,Pounds,4620064.84
+water,Copper,7440508,Pounds,14362.65
+air,Copper compounds,N100,Pounds,424136.54
+soil,Copper compounds,N100,Pounds,15310554.83
+water,Copper compounds,N100,Pounds,166793.03
+air,Creosote,8001589,Pounds,145503.63
+soil,Creosote,8001589,Pounds,18146.43
+water,Creosote,8001589,Pounds,159.0
+air,Cresol (mixed isomers),1319773,Pounds,804638.64
+soil,Cresol (mixed isomers),1319773,Pounds,82.53
+water,Cresol (mixed isomers),1319773,Pounds,2255.47
+air,Crotonaldehyde,4170303,Pounds,215.234
+soil,Crotonaldehyde,4170303,Pounds,1.0
+water,Crotonaldehyde,4170303,Pounds,0.0
+air,Cumene,98828,Pounds,905425.3
+soil,Cumene,98828,Pounds,359.059
+water,Cumene,98828,Pounds,298.416
+air,Cumene hydroperoxide,80159,Pounds,30490.07
+soil,Cumene hydroperoxide,80159,Pounds,0.0
+water,Cumene hydroperoxide,80159,Pounds,2600.0
+air,Cyanide compounds,N106,Pounds,142832.09
+soil,Cyanide compounds,N106,Pounds,166.8
+water,Cyanide compounds,N106,Pounds,17461.45
+air,Cycloate,1134232,Pounds,10.0
+soil,Cycloate,1134232,Pounds,0.0
+water,Cycloate,1134232,Pounds,0.0
+air,Cyclohexane,110827,Pounds,3563366.26
+soil,Cyclohexane,110827,Pounds,3556.62
+water,Cyclohexane,110827,Pounds,72606.37
+air,Cyclohexanol,108930,Pounds,45697.6
+soil,Cyclohexanol,108930,Pounds,0.0
+water,Cyclohexanol,108930,Pounds,32372.0
+air,Cyfluthrin,68359375,Pounds,208.0
+soil,Cyfluthrin,68359375,Pounds,0.0
+water,Cyfluthrin,68359375,Pounds,0.0
+air,Dazomet,533744,Pounds,31.0
+soil,Dazomet,533744,Pounds,0.0
+water,Dazomet,533744,Pounds,8.0
+air,Decabromodiphenyl oxide,1163195,Pounds,932.0
+soil,Decabromodiphenyl oxide,1163195,Pounds,0.0
+water,Decabromodiphenyl oxide,1163195,Pounds,0.0
+air,Di(2-ethylhexyl) phthalate,117817,Pounds,18465.21
+soil,Di(2-ethylhexyl) phthalate,117817,Pounds,5.0
+water,Di(2-ethylhexyl) phthalate,117817,Pounds,26.51
+air,Diallate,2303164,Pounds,0.025
+soil,Diallate,2303164,Pounds,0.0
+water,Diallate,2303164,Pounds,0.0
+air,Diaminotoluene (mixed isomers),25376458,Pounds,4162.16
+soil,Diaminotoluene (mixed isomers),25376458,Pounds,0.0
+water,Diaminotoluene (mixed isomers),25376458,Pounds,116.0
+air,Diazinon,333415,Pounds,130.863
+soil,Diazinon,333415,Pounds,0.0
+water,Diazinon,333415,Pounds,5.0
+air,Dibenzofuran,132649,Pounds,3224.8
+soil,Dibenzofuran,132649,Pounds,0.0
+water,Dibenzofuran,132649,Pounds,27.0
+air,Dibromotetrafluoroethane,124732,Pounds,12.0
+soil,Dibromotetrafluoroethane,124732,Pounds,0.0
+water,Dibromotetrafluoroethane,124732,Pounds,0.0
+air,Dibutyl phthalate,84742,Pounds,84991.12
+soil,Dibutyl phthalate,84742,Pounds,0.0
+water,Dibutyl phthalate,84742,Pounds,0.0
+air,Dicamba,1918009,Pounds,3360.333
+soil,Dicamba,1918009,Pounds,250.0
+water,Dicamba,1918009,Pounds,9.0
+air,Dichlorobenzene (mixed isomers),25321226,Pounds,19.513
+soil,Dichlorobenzene (mixed isomers),25321226,Pounds,0.0
+water,Dichlorobenzene (mixed isomers),25321226,Pounds,0.0
+air,Dichlorobromomethane,75274,Pounds,1513.0
+soil,Dichlorobromomethane,75274,Pounds,0.0
+water,Dichlorobromomethane,75274,Pounds,0.0
+air,Dichlorodifluoromethane (CFC-12),75718,Pounds,34982.11
+soil,Dichlorodifluoromethane (CFC-12),75718,Pounds,0.0
+water,Dichlorodifluoromethane (CFC-12),75718,Pounds,0.0
+air,Dichlorofluoromethane (HCFC-21),75434,Pounds,1300.0
+soil,Dichlorofluoromethane (HCFC-21),75434,Pounds,0.0
+water,Dichlorofluoromethane (HCFC-21),75434,Pounds,0.0
+air,Dichloromethane,75092,Pounds,2848599.9
+soil,Dichloromethane,75092,Pounds,0.0
+water,Dichloromethane,75092,Pounds,5534.71
+air,Dichlorotetrafluoroethane (CFC-114),76142,Pounds,79011.62
+soil,Dichlorotetrafluoroethane (CFC-114),76142,Pounds,0.0
+water,Dichlorotetrafluoroethane (CFC-114),76142,Pounds,0.0
+air,Dichlorvos,62737,Pounds,412.02
+soil,Dichlorvos,62737,Pounds,0.0
+water,Dichlorvos,62737,Pounds,0.0
+air,Dicofol,115322,Pounds,0.2
+soil,Dicofol,115322,Pounds,0.0
+water,Dicofol,115322,Pounds,0.0
+air,Dicyclopentadiene,77736,Pounds,150917.62
+soil,Dicyclopentadiene,77736,Pounds,6055.733
+water,Dicyclopentadiene,77736,Pounds,280.43
+air,Diepoxybutane,1464535,Pounds,3.0
+soil,Diepoxybutane,1464535,Pounds,0.0
+water,Diepoxybutane,1464535,Pounds,0.0
+air,Diethanolamine,111422,Pounds,83586.41
+soil,Diethanolamine,111422,Pounds,28713.78
+water,Diethanolamine,111422,Pounds,30859.0
+air,Diethyl sulfate,64675,Pounds,5003.34
+soil,Diethyl sulfate,64675,Pounds,0.0
+water,Diethyl sulfate,64675,Pounds,0.0
+air,Diflubenzuron,35367385,Pounds,10.0
+soil,Diflubenzuron,35367385,Pounds,0.0
+water,Diflubenzuron,35367385,Pounds,0.0
+air,Diglycidyl resorcinol ether,101906,Pounds,494.0
+soil,Diglycidyl resorcinol ether,101906,Pounds,0.0
+water,Diglycidyl resorcinol ether,101906,Pounds,0.0
+air,Dihydrosafrole,94586,Pounds,0.024
+soil,Dihydrosafrole,94586,Pounds,0.0
+water,Dihydrosafrole,94586,Pounds,0.0
+air,Diisocyanates,N120,Pounds,403643.42
+soil,Diisocyanates,N120,Pounds,209122.32
+water,Diisocyanates,N120,Pounds,6.89
+air,Dimethoate,60515,Pounds,27.2
+soil,Dimethoate,60515,Pounds,0.0
+water,Dimethoate,60515,Pounds,5.0
+air,Dimethyl phthalate,131113,Pounds,86485.24
+soil,Dimethyl phthalate,131113,Pounds,0.0
+water,Dimethyl phthalate,131113,Pounds,0.0
+air,Dimethyl sulfate,77781,Pounds,840.293
+soil,Dimethyl sulfate,77781,Pounds,0.0
+water,Dimethyl sulfate,77781,Pounds,5.0
+air,Dimethylamine,124403,Pounds,104172.4
+soil,Dimethylamine,124403,Pounds,4172.0
+water,Dimethylamine,124403,Pounds,33490.0
+air,Dimethylamine dicamba,2300665,Pounds,251.78
+soil,Dimethylamine dicamba,2300665,Pounds,0.0
+water,Dimethylamine dicamba,2300665,Pounds,0.0
+air,Dimethylcarbamoyl chloride,79447,Pounds,3.014
+soil,Dimethylcarbamoyl chloride,79447,Pounds,0.0
+water,Dimethylcarbamoyl chloride,79447,Pounds,0.0
+air,Dinitrobutyl phenol,88857,Pounds,1295.77
+soil,Dinitrobutyl phenol,88857,Pounds,0.0
+water,Dinitrobutyl phenol,88857,Pounds,34.0
+air,Dinitrotoluene (mixed isomers),25321146,Pounds,46115.5
+soil,Dinitrotoluene (mixed isomers),25321146,Pounds,49624.0
+water,Dinitrotoluene (mixed isomers),25321146,Pounds,37.0
+air,Dioxin and dioxin-like compounds,N150,Pounds,2.353
+soil,Dioxin and dioxin-like compounds,N150,Pounds,0.098
+water,Dioxin and dioxin-like compounds,N150,Pounds,2.854
+air,Diphenylamine,122394,Pounds,11449.343
+soil,Diphenylamine,122394,Pounds,0.0
+water,Diphenylamine,122394,Pounds,28.05
+air,Dipotassium endothall,2164070,Pounds,11.94
+soil,Dipotassium endothall,2164070,Pounds,0.0
+water,Dipotassium endothall,2164070,Pounds,2796.0
+air,Diuron,330541,Pounds,236.0
+soil,Diuron,330541,Pounds,0.0
+water,Diuron,330541,Pounds,5.0
+air,Epichlorohydrin,106898,Pounds,77319.44
+soil,Epichlorohydrin,106898,Pounds,21.58
+water,Epichlorohydrin,106898,Pounds,6076.0
+air,"Ethanaminium, N,N,N-triethyl-, salt with 1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,8-heptadecafluoro-1-octanesulfonic acid (1:1)",56773423,Pounds,0.0
+soil,"Ethanaminium, N,N,N-triethyl-, salt with 1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,8-heptadecafluoro-1-octanesulfonic acid (1:1)",56773423,Pounds,0.0
+water,"Ethanaminium, N,N,N-triethyl-, salt with 1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,8-heptadecafluoro-1-octanesulfonic acid (1:1)",56773423,Pounds,0.075
+air,"Ethanol, 2,2'-iminobis-, compd. with alpha,alpha'-[phosphinicobis(oxy-2,1-ethanediyl)]bis[omega-fluoropoly(difluoromethylene)] (1:1)",65530645,Pounds,0.01
+soil,"Ethanol, 2,2'-iminobis-, compd. with alpha,alpha'-[phosphinicobis(oxy-2,1-ethanediyl)]bis[omega-fluoropoly(difluoromethylene)] (1:1)",65530645,Pounds,0.0
+water,"Ethanol, 2,2'-iminobis-, compd. with alpha,alpha'-[phosphinicobis(oxy-2,1-ethanediyl)]bis[omega-fluoropoly(difluoromethylene)] (1:1)",65530645,Pounds,0.0
+air,"Ethanol, 2,2'-iminobis-, compd. with alpha-fluoro-omega-[2-(phosphonooxy)ethyl]poly(difluoromethylene) (2:1)",65530634,Pounds,4.01
+soil,"Ethanol, 2,2'-iminobis-, compd. with alpha-fluoro-omega-[2-(phosphonooxy)ethyl]poly(difluoromethylene) (2:1)",65530634,Pounds,0.0
+water,"Ethanol, 2,2'-iminobis-, compd. with alpha-fluoro-omega-[2-(phosphonooxy)ethyl]poly(difluoromethylene) (2:1)",65530634,Pounds,0.0
+air,Ethoprop,13194484,Pounds,10.0
+soil,Ethoprop,13194484,Pounds,0.0
+water,Ethoprop,13194484,Pounds,0.0
+air,Ethyl acrylate,140885,Pounds,64508.42
+soil,Ethyl acrylate,140885,Pounds,0.0
+water,Ethyl acrylate,140885,Pounds,9.71
+air,Ethyl chloroformate,541413,Pounds,498.0
+soil,Ethyl chloroformate,541413,Pounds,0.0
+water,Ethyl chloroformate,541413,Pounds,0.0
+air,Ethylbenzene,100414,Pounds,2049439.64
+soil,Ethylbenzene,100414,Pounds,14549.83
+water,Ethylbenzene,100414,Pounds,1736.11
+air,Ethylene,74851,Pounds,18286820.5
+soil,Ethylene,74851,Pounds,56.014
+water,Ethylene,74851,Pounds,192.0
+air,Ethylene glycol,107211,Pounds,1585320.87
+soil,Ethylene glycol,107211,Pounds,35542.783
+water,Ethylene glycol,107211,Pounds,379895.74
+air,Ethylene oxide,75218,Pounds,155497.6
+soil,Ethylene oxide,75218,Pounds,13.0
+water,Ethylene oxide,75218,Pounds,1645.0
+air,Ethylene thiourea,96457,Pounds,1060.24
+soil,Ethylene thiourea,96457,Pounds,0.0
+water,Ethylene thiourea,96457,Pounds,0.0
+air,"Ethylenebisdithiocarbamic acid, salts and esters",N171,Pounds,3.27
+soil,"Ethylenebisdithiocarbamic acid, salts and esters",N171,Pounds,0.0
+water,"Ethylenebisdithiocarbamic acid, salts and esters",N171,Pounds,0.0
+air,Ethyleneimine,151564,Pounds,0.0
+soil,Ethyleneimine,151564,Pounds,0.0
+water,Ethyleneimine,151564,Pounds,0.0
+air,Ethylidene dichloride,75343,Pounds,9528.93
+soil,Ethylidene dichloride,75343,Pounds,0.0
+water,Ethylidene dichloride,75343,Pounds,185.0
+air,"Fatty acids, linseed-oil, gamma-omega-perfluoro-C8-14-alkyl esters",178535234,Pounds,0.0
+soil,"Fatty acids, linseed-oil, gamma-omega-perfluoro-C8-14-alkyl esters",178535234,Pounds,0.0
+water,"Fatty acids, linseed-oil, gamma-omega-perfluoro-C8-14-alkyl esters",178535234,Pounds,0.0
+air,Fluorine,7782414,Pounds,25346.2
+soil,Fluorine,7782414,Pounds,0.0
+water,Fluorine,7782414,Pounds,0.0
+air,Fluorouracil,51218,Pounds,0.2
+soil,Fluorouracil,51218,Pounds,0.0
+water,Fluorouracil,51218,Pounds,0.0
+air,Fomesafen,72178020,Pounds,269.0
+soil,Fomesafen,72178020,Pounds,0.0
+water,Fomesafen,72178020,Pounds,0.58
+air,Formaldehyde,50000,Pounds,4700524.24
+soil,Formaldehyde,50000,Pounds,1976.128
+water,Formaldehyde,50000,Pounds,181946.26
+air,Formic acid,64186,Pounds,491301.25
+soil,Formic acid,64186,Pounds,764.79
+water,Formic acid,64186,Pounds,372667.1
+air,Freon 113 (CFC-113),76131,Pounds,670971.2
+soil,Freon 113 (CFC-113),76131,Pounds,0.0
+water,Freon 113 (CFC-113),76131,Pounds,0.0
+air,Furan,110009,Pounds,12720.96
+soil,Furan,110009,Pounds,0.0
+water,Furan,110009,Pounds,0.0
+air,Glycidol,556525,Pounds,1421.9
+soil,Glycidol,556525,Pounds,0.0
+water,Glycidol,556525,Pounds,19633.0
+air,Heptachlor,76448,Pounds,17.494
+soil,Heptachlor,76448,Pounds,0.0
+water,Heptachlor,76448,Pounds,0.0
+air,Hexabromocyclododecane,N270,Pounds,0.0
+soil,Hexabromocyclododecane,N270,Pounds,0.0
+water,Hexabromocyclododecane,N270,Pounds,0.0
+air,"Hexachloro-1,3-butadiene",87683,Pounds,2174.96
+soil,"Hexachloro-1,3-butadiene",87683,Pounds,0.0
+water,"Hexachloro-1,3-butadiene",87683,Pounds,27.0
+air,Hexachlorobenzene,118741,Pounds,846.715
+soil,Hexachlorobenzene,118741,Pounds,0.0
+water,Hexachlorobenzene,118741,Pounds,103.166
+air,Hexachlorocyclopentadiene,77474,Pounds,11.6
+soil,Hexachlorocyclopentadiene,77474,Pounds,0.0
+water,Hexachlorocyclopentadiene,77474,Pounds,0.03
+air,Hexachloroethane,67721,Pounds,938.337
+soil,Hexachloroethane,67721,Pounds,0.0
+water,Hexachloroethane,67721,Pounds,20.0
+air,Hexachlorophene,70304,Pounds,7.354
+soil,Hexachlorophene,70304,Pounds,0.0
+water,Hexachlorophene,70304,Pounds,0.0
+air,Hexafluoropropylene oxide dimer acid,13252136,Pounds,63.6
+soil,Hexafluoropropylene oxide dimer acid,13252136,Pounds,0.0
+water,Hexafluoropropylene oxide dimer acid,13252136,Pounds,0.48
+air,Hexafluoropropylene oxide dimer acid ammonium salt,62037803,Pounds,147.0
+soil,Hexafluoropropylene oxide dimer acid ammonium salt,62037803,Pounds,0.0
+water,Hexafluoropropylene oxide dimer acid ammonium salt,62037803,Pounds,672.973
+air,Hexazinone,51235042,Pounds,74.25
+soil,Hexazinone,51235042,Pounds,750.0
+water,Hexazinone,51235042,Pounds,0.0
+air,Hydramethylnon,67485294,Pounds,0.2
+soil,Hydramethylnon,67485294,Pounds,0.0
+water,Hydramethylnon,67485294,Pounds,0.0
+air,Hydrazine,302012,Pounds,3116.99
+soil,Hydrazine,302012,Pounds,0.0
+water,Hydrazine,302012,Pounds,133.0
+air,Hydrazine sulfate (1:1),10034932,Pounds,0.12
+soil,Hydrazine sulfate (1:1),10034932,Pounds,0.0
+water,Hydrazine sulfate (1:1),10034932,Pounds,0.0
+air,"Hydrochloric acid (acid aerosols including mists, vapors, gas, fog, and other airborne forms of any particle size)",7647010,Pounds,24346092.61
+soil,"Hydrochloric acid (acid aerosols including mists, vapors, gas, fog, and other airborne forms of any particle size)",7647010,Pounds,28579.0
+water,"Hydrochloric acid (acid aerosols including mists, vapors, gas, fog, and other airborne forms of any particle size)",7647010,Pounds,0.0
+air,Hydrogen cyanide,74908,Pounds,5295584.67
+soil,Hydrogen cyanide,74908,Pounds,0.0
+water,Hydrogen cyanide,74908,Pounds,839.45
+air,Hydrogen fluoride,7664393,Pounds,9457884.36
+soil,Hydrogen fluoride,7664393,Pounds,17513.7
+water,Hydrogen fluoride,7664393,Pounds,351.4
+air,Hydrogen sulfide,7783064,Pounds,17795510.57
+soil,Hydrogen sulfide,7783064,Pounds,53653.38
+water,Hydrogen sulfide,7783064,Pounds,374352.27
+air,Hydroquinone,123319,Pounds,17070.19
+soil,Hydroquinone,123319,Pounds,0.0
+water,Hydroquinone,123319,Pounds,4996.0
+air,Iron pentacarbonyl,13463406,Pounds,14261.0
+soil,Iron pentacarbonyl,13463406,Pounds,0.0
+water,Iron pentacarbonyl,13463406,Pounds,0.0
+air,Isobutyraldehyde,78842,Pounds,91533.15
+soil,Isobutyraldehyde,78842,Pounds,182.0
+water,Isobutyraldehyde,78842,Pounds,22.0
+air,Isodrin,465736,Pounds,0.41
+soil,Isodrin,465736,Pounds,0.0
+water,Isodrin,465736,Pounds,0.0
+air,Isoprene,78795,Pounds,172071.29
+soil,Isoprene,78795,Pounds,0.0
+water,Isoprene,78795,Pounds,518.0
+air,Isosafrole,120581,Pounds,3.36
+soil,Isosafrole,120581,Pounds,0.0
+water,Isosafrole,120581,Pounds,0.0
+air,Lead,7439921,Pounds,65607.97
+soil,Lead,7439921,Pounds,809934.46
+water,Lead,7439921,Pounds,5260.51
+air,Lead compounds,N420,Pounds,240955.6
+soil,Lead compounds,N420,Pounds,233558001.95
+water,Lead compounds,N420,Pounds,37300.83
+air,Lindane,58899,Pounds,189.263
+soil,Lindane,58899,Pounds,0.0
+water,Lindane,58899,Pounds,0.0
+air,Linuron,330552,Pounds,11.83
+soil,Linuron,330552,Pounds,0.0
+water,Linuron,330552,Pounds,0.0
+air,Lithium carbonate,554132,Pounds,11989.42
+soil,Lithium carbonate,554132,Pounds,0.0
+water,Lithium carbonate,554132,Pounds,166.76
+air,Malathion,121755,Pounds,955.102
+soil,Malathion,121755,Pounds,0.0
+water,Malathion,121755,Pounds,5.0
+air,Maleic anhydride,108316,Pounds,159952.08
+soil,Maleic anhydride,108316,Pounds,316.0
+water,Maleic anhydride,108316,Pounds,478.42
+air,Malononitrile,109773,Pounds,8.962
+soil,Malononitrile,109773,Pounds,0.0
+water,Malononitrile,109773,Pounds,0.0
+air,Maneb,12427382,Pounds,0.1
+soil,Maneb,12427382,Pounds,0.0
+water,Maneb,12427382,Pounds,0.0
+air,Manganese,7439965,Pounds,328405.44
+soil,Manganese,7439965,Pounds,217575.87
+water,Manganese,7439965,Pounds,115880.06
+air,Manganese compounds,N450,Pounds,617620.45
+soil,Manganese compounds,N450,Pounds,11337434.17
+water,Manganese compounds,N450,Pounds,3930704.38
+air,Mecoprop,93652,Pounds,260.65
+soil,Mecoprop,93652,Pounds,250.0
+water,Mecoprop,93652,Pounds,0.0
+air,Mercury,7439976,Pounds,4829.869
+soil,Mercury,7439976,Pounds,657.941
+water,Mercury,7439976,Pounds,173.907
+air,Mercury compounds,N458,Pounds,30750.29
+soil,Mercury compounds,N458,Pounds,2337220.35
+water,Mercury compounds,N458,Pounds,2958.37
+air,Merphos,150505,Pounds,10.0
+soil,Merphos,150505,Pounds,0.0
+water,Merphos,150505,Pounds,0.0
+air,Methacrylonitrile,126987,Pounds,0.014
+soil,Methacrylonitrile,126987,Pounds,0.0
+water,Methacrylonitrile,126987,Pounds,0.0
+air,Metham sodium,137428,Pounds,1085.66
+soil,Metham sodium,137428,Pounds,0.0
+water,Metham sodium,137428,Pounds,0.0
+air,Methanol,67561,Pounds,96341681.21
+soil,Methanol,67561,Pounds,2893944.35
+water,Methanol,67561,Pounds,5099480.43
+air,Methoxone,94746,Pounds,53.0
+soil,Methoxone,94746,Pounds,0.0
+water,Methoxone,94746,Pounds,0.0
+air,Methoxychlor,72435,Pounds,142.952
+soil,Methoxychlor,72435,Pounds,0.0
+water,Methoxychlor,72435,Pounds,0.0
+air,Methyl acrylate,96333,Pounds,50246.06
+soil,Methyl acrylate,96333,Pounds,0.0
+water,Methyl acrylate,96333,Pounds,31.0
+air,Methyl chlorocarbonate,79221,Pounds,138.044
+soil,Methyl chlorocarbonate,79221,Pounds,0.0
+water,Methyl chlorocarbonate,79221,Pounds,0.0
+air,Methyl hydrazine,60344,Pounds,2.0
+soil,Methyl hydrazine,60344,Pounds,0.0
+water,Methyl hydrazine,60344,Pounds,0.0
+air,Methyl iodide,74884,Pounds,36377.67
+soil,Methyl iodide,74884,Pounds,0.0
+water,Methyl iodide,74884,Pounds,3.0
+air,Methyl isobutyl ketone,108101,Pounds,2572566.3
+soil,Methyl isobutyl ketone,108101,Pounds,0.0
+water,Methyl isobutyl ketone,108101,Pounds,921.55
+air,Methyl methacrylate,80626,Pounds,1847966.56
+soil,Methyl methacrylate,80626,Pounds,722.5
+water,Methyl methacrylate,80626,Pounds,878.74
+air,Methyl parathion,298000,Pounds,4.0
+soil,Methyl parathion,298000,Pounds,0.0
+water,Methyl parathion,298000,Pounds,0.0
+air,Methyl tert-butyl ether,1634044,Pounds,230947.2
+soil,Methyl tert-butyl ether,1634044,Pounds,0.001
+water,Methyl tert-butyl ether,1634044,Pounds,3681.0
+air,Methylene bromide,74953,Pounds,3954.81
+soil,Methylene bromide,74953,Pounds,0.0
+water,Methylene bromide,74953,Pounds,0.0
+air,Metribuzin,21087649,Pounds,971.73
+soil,Metribuzin,21087649,Pounds,0.0
+water,Metribuzin,21087649,Pounds,20.1
+air,Mixture,MIXTURE,Pounds,42935.0
+soil,Mixture,MIXTURE,Pounds,0.0
+water,Mixture,MIXTURE,Pounds,10.0
+air,Molybdenum trioxide,1313275,Pounds,68957.76
+soil,Molybdenum trioxide,1313275,Pounds,25691.1
+water,Molybdenum trioxide,1313275,Pounds,39682.86
+air,Monochloropentafluoroethane (CFC-115),76153,Pounds,5113.94
+soil,Monochloropentafluoroethane (CFC-115),76153,Pounds,0.0
+water,Monochloropentafluoroethane (CFC-115),76153,Pounds,0.0
+air,Mustard gas,505602,Pounds,0.0
+soil,Mustard gas,505602,Pounds,0.0
+water,Mustard gas,505602,Pounds,0.0
+air,Myclobutanil,88671890,Pounds,51.86
+soil,Myclobutanil,88671890,Pounds,0.0
+water,Myclobutanil,88671890,Pounds,0.0
+air,"N,N-Dimethylaniline",121697,Pounds,2219.62
+soil,"N,N-Dimethylaniline",121697,Pounds,0.0
+water,"N,N-Dimethylaniline",121697,Pounds,0.0
+air,"N,N-Dimethylformamide",68122,Pounds,202990.57
+soil,"N,N-Dimethylformamide",68122,Pounds,0.0
+water,"N,N-Dimethylformamide",68122,Pounds,2231.0
+air,N-Methyl-2-pyrrolidone,872504,Pounds,1404737.68
+soil,N-Methyl-2-pyrrolidone,872504,Pounds,11247.0
+water,N-Methyl-2-pyrrolidone,872504,Pounds,7121.86
+air,N-Methylolacrylamide,924425,Pounds,1263.26
+soil,N-Methylolacrylamide,924425,Pounds,0.0
+water,N-Methylolacrylamide,924425,Pounds,5.0
+air,N-Nitroso-N-ethylurea,759739,Pounds,0.013
+soil,N-Nitroso-N-ethylurea,759739,Pounds,0.0
+water,N-Nitroso-N-ethylurea,759739,Pounds,0.0
+air,N-Nitroso-N-methylurea,684935,Pounds,0.013
+soil,N-Nitroso-N-methylurea,684935,Pounds,0.0
+water,N-Nitroso-N-methylurea,684935,Pounds,0.0
+air,N-Nitrosodi-n-butylamine,924163,Pounds,0.052
+soil,N-Nitrosodi-n-butylamine,924163,Pounds,0.0
+water,N-Nitrosodi-n-butylamine,924163,Pounds,0.0
+air,N-Nitrosodi-n-propylamine,621647,Pounds,1.017
+soil,N-Nitrosodi-n-propylamine,621647,Pounds,0.0
+water,N-Nitrosodi-n-propylamine,621647,Pounds,0.0
+air,N-Nitrosodiethylamine,55185,Pounds,0.013
+soil,N-Nitrosodiethylamine,55185,Pounds,0.0
+water,N-Nitrosodiethylamine,55185,Pounds,0.0
+air,N-Nitrosodimethylamine,62759,Pounds,0.2
+soil,N-Nitrosodimethylamine,62759,Pounds,0.0
+water,N-Nitrosodimethylamine,62759,Pounds,0.0
+air,N-Nitrosodiphenylamine,86306,Pounds,6.462
+soil,N-Nitrosodiphenylamine,86306,Pounds,0.0
+water,N-Nitrosodiphenylamine,86306,Pounds,0.0
+air,N-Nitrosopiperidine,100754,Pounds,4.4
+soil,N-Nitrosopiperidine,100754,Pounds,0.0
+water,N-Nitrosopiperidine,100754,Pounds,0.0
+air,Naled,300765,Pounds,10.0
+soil,Naled,300765,Pounds,0.0
+water,Naled,300765,Pounds,0.0
+air,Naphthalene,91203,Pounds,1318764.55
+soil,Naphthalene,91203,Pounds,1599.719
+water,Naphthalene,91203,Pounds,3568.1
+air,Nickel,7440020,Pounds,107312.55
+soil,Nickel,7440020,Pounds,66453.39
+water,Nickel,7440020,Pounds,6435.2
+air,Nickel compounds,N495,Pounds,192079.36
+soil,Nickel compounds,N495,Pounds,3075073.99
+water,Nickel compounds,N495,Pounds,56141.51
+air,Nicotine and salts,N503,Pounds,174888.02
+soil,Nicotine and salts,N503,Pounds,95561.0
+water,Nicotine and salts,N503,Pounds,27.0
+air,Nitrapyrin,1929824,Pounds,34.0
+soil,Nitrapyrin,1929824,Pounds,0.0
+water,Nitrapyrin,1929824,Pounds,0.0
+air,Nitrate compounds (water dissociable; reportable only when in aqueous solution),N511,Pounds,299373.55
+soil,Nitrate compounds (water dissociable; reportable only when in aqueous solution),N511,Pounds,17481554.06
+water,Nitrate compounds (water dissociable; reportable only when in aqueous solution),N511,Pounds,175910901.01
+air,Nitric acid,7697372,Pounds,1520635.2
+soil,Nitric acid,7697372,Pounds,144229.13
+water,Nitric acid,7697372,Pounds,304933.01
+air,Nitrilotriacetic acid,139139,Pounds,0.0
+soil,Nitrilotriacetic acid,139139,Pounds,0.0
+water,Nitrilotriacetic acid,139139,Pounds,0.0
+air,Nitrobenzene,98953,Pounds,15992.84
+soil,Nitrobenzene,98953,Pounds,0.0
+water,Nitrobenzene,98953,Pounds,0.0
+air,Nitroglycerin,55630,Pounds,97582.17
+soil,Nitroglycerin,55630,Pounds,345691.0
+water,Nitroglycerin,55630,Pounds,34486.0
+air,Nitromethane,75525,Pounds,57558.44
+soil,Nitromethane,75525,Pounds,0.0
+water,Nitromethane,75525,Pounds,796.0
+air,Nonylphenol,N530,Pounds,31436.63
+soil,Nonylphenol,N530,Pounds,76.0
+water,Nonylphenol,N530,Pounds,13.83
+air,Nonylphenol Ethoxylates,N535,Pounds,83865.91
+soil,Nonylphenol Ethoxylates,N535,Pounds,125.04
+water,Nonylphenol Ethoxylates,N535,Pounds,2587.5
+air,Norflurazon,27314132,Pounds,0.0
+soil,Norflurazon,27314132,Pounds,0.0
+water,Norflurazon,27314132,Pounds,0.0
+air,Octachlorostyrene,29082744,Pounds,0.0
+soil,Octachlorostyrene,29082744,Pounds,0.0
+water,Octachlorostyrene,29082744,Pounds,0.012
+air,Oryzalin,19044883,Pounds,0.0
+soil,Oryzalin,19044883,Pounds,0.0
+water,Oryzalin,19044883,Pounds,0.0
+air,Osmium tetroxide,20816120,Pounds,2.0
+soil,Osmium tetroxide,20816120,Pounds,0.0
+water,Osmium tetroxide,20816120,Pounds,0.0
+air,Oxadiazon,19666309,Pounds,0.0
+soil,Oxadiazon,19666309,Pounds,0.0
+water,Oxadiazon,19666309,Pounds,0.0
+air,Oxyfluorfen,42874033,Pounds,2.64
+soil,Oxyfluorfen,42874033,Pounds,0.0
+water,Oxyfluorfen,42874033,Pounds,0.3
+air,Ozone,10028156,Pounds,811606.5
+soil,Ozone,10028156,Pounds,0.0
+water,Ozone,10028156,Pounds,0.0
+air,Paraldehyde,123637,Pounds,44.262
+soil,Paraldehyde,123637,Pounds,0.0
+water,Paraldehyde,123637,Pounds,0.0
+air,Paraquat dichloride,1910425,Pounds,500.0
+soil,Paraquat dichloride,1910425,Pounds,30000.0
+water,Paraquat dichloride,1910425,Pounds,0.0
+air,Parathion,56382,Pounds,0.252
+soil,Parathion,56382,Pounds,0.0
+water,Parathion,56382,Pounds,0.0
+air,Pendimethalin,40487421,Pounds,3337.52
+soil,Pendimethalin,40487421,Pounds,1875.0
+water,Pendimethalin,40487421,Pounds,5.06
+air,Pentachlorobenzene,608935,Pounds,37.02
+soil,Pentachlorobenzene,608935,Pounds,0.0
+water,Pentachlorobenzene,608935,Pounds,144.702
+air,Pentachloroethane,76017,Pounds,1690.04
+soil,Pentachloroethane,76017,Pounds,0.0
+water,Pentachloroethane,76017,Pounds,0.0
+air,Pentachlorophenol,87865,Pounds,56.281
+soil,Pentachlorophenol,87865,Pounds,0.0
+water,Pentachlorophenol,87865,Pounds,846.0
+air,Pentobarbital sodium,57330,Pounds,1.0
+soil,Pentobarbital sodium,57330,Pounds,0.0
+water,Pentobarbital sodium,57330,Pounds,0.0
+air,Peracetic acid,79210,Pounds,255341.17
+soil,Peracetic acid,79210,Pounds,5277.73
+water,Peracetic acid,79210,Pounds,2197.52
+air,Perfluorodecanoic acid,335762,Pounds,0.0
+soil,Perfluorodecanoic acid,335762,Pounds,0.0
+water,Perfluorodecanoic acid,335762,Pounds,0.0
+air,Perfluorododecanoic acid,307551,Pounds,0.0
+soil,Perfluorododecanoic acid,307551,Pounds,0.0
+water,Perfluorododecanoic acid,307551,Pounds,0.0
+air,Perfluorohexanesulfonic acid,355464,Pounds,0.0
+soil,Perfluorohexanesulfonic acid,355464,Pounds,0.0
+water,Perfluorohexanesulfonic acid,355464,Pounds,0.0
+air,Perfluorononanoic acid,375951,Pounds,0.0
+soil,Perfluorononanoic acid,375951,Pounds,0.0
+water,Perfluorononanoic acid,375951,Pounds,0.0
+air,Perfluorooctane sulfonic acid,1763231,Pounds,0.0
+soil,Perfluorooctane sulfonic acid,1763231,Pounds,0.0
+water,Perfluorooctane sulfonic acid,1763231,Pounds,0.0
+air,Perfluorooctanoic acid,335671,Pounds,3.84
+soil,Perfluorooctanoic acid,335671,Pounds,0.0
+water,Perfluorooctanoic acid,335671,Pounds,0.0
+air,Perfluorooctyl iodide,507631,Pounds,381.7
+soil,Perfluorooctyl iodide,507631,Pounds,0.0
+water,Perfluorooctyl iodide,507631,Pounds,65.0
+air,Permethrin,52645531,Pounds,18.57
+soil,Permethrin,52645531,Pounds,0.0
+water,Permethrin,52645531,Pounds,0.0
+air,Phenanthrene,85018,Pounds,41072.95
+soil,Phenanthrene,85018,Pounds,513.685
+water,Phenanthrene,85018,Pounds,329.174
+air,Phenol,108952,Pounds,3140173.47
+soil,Phenol,108952,Pounds,16990.661
+water,Phenol,108952,Pounds,26692.5
+air,Phenolphthalein,77098,Pounds,10.0
+soil,Phenolphthalein,77098,Pounds,0.0
+water,Phenolphthalein,77098,Pounds,0.0
+air,Phenothrin,26002802,Pounds,20.0
+soil,Phenothrin,26002802,Pounds,0.0
+water,Phenothrin,26002802,Pounds,0.0
+air,Phenytoin,57410,Pounds,830.0
+soil,Phenytoin,57410,Pounds,0.0
+water,Phenytoin,57410,Pounds,0.0
+air,Phosgene,75445,Pounds,5691.32
+soil,Phosgene,75445,Pounds,0.0
+water,Phosgene,75445,Pounds,0.0
+air,Phosphine,7803512,Pounds,4378.4
+soil,Phosphine,7803512,Pounds,0.0
+water,Phosphine,7803512,Pounds,7.51
+air,Phosphorus (yellow or white),12185103,Pounds,909.35
+soil,Phosphorus (yellow or white),12185103,Pounds,3958.0
+water,Phosphorus (yellow or white),12185103,Pounds,0.0
+air,Phthalic anhydride,85449,Pounds,198718.93
+soil,Phthalic anhydride,85449,Pounds,14259.0
+water,Phthalic anhydride,85449,Pounds,27.0
+air,Picloram,1918021,Pounds,447.1
+soil,Picloram,1918021,Pounds,0.0
+water,Picloram,1918021,Pounds,0.0
+air,Picric acid,88891,Pounds,0.2
+soil,Picric acid,88891,Pounds,0.0
+water,Picric acid,88891,Pounds,0.0
+air,Piperonyl butoxide,51036,Pounds,8.36
+soil,Piperonyl butoxide,51036,Pounds,0.0
+water,Piperonyl butoxide,51036,Pounds,0.0
+air,"Poly(difluoromethylene), alpha,alpha'-[phosphinicobis(oxy-2,1-ethanediyl)]bis[omega-fluoro-, ammonium salt",65530703,Pounds,10.0
+soil,"Poly(difluoromethylene), alpha,alpha'-[phosphinicobis(oxy-2,1-ethanediyl)]bis[omega-fluoro-, ammonium salt",65530703,Pounds,0.0
+water,"Poly(difluoromethylene), alpha,alpha'-[phosphinicobis(oxy-2,1-ethanediyl)]bis[omega-fluoro-, ammonium salt",65530703,Pounds,0.0
+air,"Poly(difluoromethylene), alpha-fluoro-omega-[2-(phosphonooxy)ethyl]-, diammonium salt",65530725,Pounds,10.0
+soil,"Poly(difluoromethylene), alpha-fluoro-omega-[2-(phosphonooxy)ethyl]-, diammonium salt",65530725,Pounds,0.0
+water,"Poly(difluoromethylene), alpha-fluoro-omega-[2-(phosphonooxy)ethyl]-, diammonium salt",65530725,Pounds,0.0
+air,"Poly(difluoromethylene), alpha-fluoro-omega-[2-[(1-oxo-2-propenyl)oxy]ethyl]-, homopolymer",65605734,Pounds,0.0
+soil,"Poly(difluoromethylene), alpha-fluoro-omega-[2-[(1-oxo-2-propenyl)oxy]ethyl]-, homopolymer",65605734,Pounds,0.0
+water,"Poly(difluoromethylene), alpha-fluoro-omega-[2-[(1-oxo-2-propenyl)oxy]ethyl]-, homopolymer",65605734,Pounds,0.0
+air,"Poly(oxy-1,2-ethanediyl), alpha-[2-[ethyl[(heptadecafluorooctyl)sulfonyl]amino]ethyl]-omega-hydroxy-",29117086,Pounds,0.0
+soil,"Poly(oxy-1,2-ethanediyl), alpha-[2-[ethyl[(heptadecafluorooctyl)sulfonyl]amino]ethyl]-omega-hydroxy-",29117086,Pounds,0.0
+water,"Poly(oxy-1,2-ethanediyl), alpha-[2-[ethyl[(heptadecafluorooctyl)sulfonyl]amino]ethyl]-omega-hydroxy-",29117086,Pounds,0.0
+air,"Poly(oxy-1,2-ethanediyl), alpha-[2-[ethyl[(pentadecafluoroheptyl)sulfonyl]amino]ethyl]-omega-methoxy-",68958601,Pounds,0.0
+soil,"Poly(oxy-1,2-ethanediyl), alpha-[2-[ethyl[(pentadecafluoroheptyl)sulfonyl]amino]ethyl]-omega-methoxy-",68958601,Pounds,0.0
+water,"Poly(oxy-1,2-ethanediyl), alpha-[2-[ethyl[(pentadecafluoroheptyl)sulfonyl]amino]ethyl]-omega-methoxy-",68958601,Pounds,0.0
+air,"Poly(oxy-1,2-ethanediyl), alpha-hydro-omega-hydroxy-, ether with alpha-fluoro-omega-(2-hydroxyethyl)poly(difluoromethylene) (1:1)",65545804,Pounds,0.11
+soil,"Poly(oxy-1,2-ethanediyl), alpha-hydro-omega-hydroxy-, ether with alpha-fluoro-omega-(2-hydroxyethyl)poly(difluoromethylene) (1:1)",65545804,Pounds,0.0
+water,"Poly(oxy-1,2-ethanediyl), alpha-hydro-omega-hydroxy-, ether with alpha-fluoro-omega-(2-hydroxyethyl)poly(difluoromethylene) (1:1)",65545804,Pounds,0.0
+air,"Poly[oxy(methyl-1,2-ethanediyl)], alpha-[2-[ethyl[(heptadecafluorooctyl)sulfonyl]amino]ethyl]-omega-hydroxy-",37338480,Pounds,0.0
+soil,"Poly[oxy(methyl-1,2-ethanediyl)], alpha-[2-[ethyl[(heptadecafluorooctyl)sulfonyl]amino]ethyl]-omega-hydroxy-",37338480,Pounds,0.0
+water,"Poly[oxy(methyl-1,2-ethanediyl)], alpha-[2-[ethyl[(heptadecafluorooctyl)sulfonyl]amino]ethyl]-omega-hydroxy-",37338480,Pounds,0.0
+air,Polybrominated biphenyls,N575,Pounds,0.0
+soil,Polybrominated biphenyls,N575,Pounds,0.0
+water,Polybrominated biphenyls,N575,Pounds,0.0
+air,Polychlorinated alkanes (C10-C13),N583,Pounds,9.65
+soil,Polychlorinated alkanes (C10-C13),N583,Pounds,200.0
+water,Polychlorinated alkanes (C10-C13),N583,Pounds,0.0
+air,Polychlorinated biphenyls,1336363,Pounds,31.154
+soil,Polychlorinated biphenyls,1336363,Pounds,107.24
+water,Polychlorinated biphenyls,1336363,Pounds,1.4
+air,Polycyclic aromatic compounds,N590,Pounds,252785.21
+soil,Polycyclic aromatic compounds,N590,Pounds,17772.44
+water,Polycyclic aromatic compounds,N590,Pounds,5620.85
+air,Potassium N-methyldithiocarbamate,137417,Pounds,10.0
+soil,Potassium N-methyldithiocarbamate,137417,Pounds,0.0
+water,Potassium N-methyldithiocarbamate,137417,Pounds,0.0
+air,Potassium bromate,7758012,Pounds,15.0
+soil,Potassium bromate,7758012,Pounds,0.0
+water,Potassium bromate,7758012,Pounds,0.0
+air,Potassium dimethyldithiocarbamate,128030,Pounds,206.0
+soil,Potassium dimethyldithiocarbamate,128030,Pounds,0.0
+water,Potassium dimethyldithiocarbamate,128030,Pounds,0.0
+air,Potassium perfluorooctanesulfonate,2795393,Pounds,0.2
+soil,Potassium perfluorooctanesulfonate,2795393,Pounds,0.0
+water,Potassium perfluorooctanesulfonate,2795393,Pounds,0.0
+air,Prometryn,7287196,Pounds,0.0
+soil,Prometryn,7287196,Pounds,0.0
+water,Prometryn,7287196,Pounds,0.0
+air,Pronamide,23950585,Pounds,0.014
+soil,Pronamide,23950585,Pounds,0.0
+water,Pronamide,23950585,Pounds,0.0
+air,Propachlor,1918167,Pounds,0.01
+soil,Propachlor,1918167,Pounds,0.0
+water,Propachlor,1918167,Pounds,0.0
+air,Propanil,709988,Pounds,1000.0
+soil,Propanil,709988,Pounds,36090.0
+water,Propanil,709988,Pounds,0.0
+air,Propargite,2312358,Pounds,307.68
+soil,Propargite,2312358,Pounds,0.0
+water,Propargite,2312358,Pounds,0.0
+air,Propargyl alcohol,107197,Pounds,496.796
+soil,Propargyl alcohol,107197,Pounds,0.0
+water,Propargyl alcohol,107197,Pounds,0.0
+air,Propiconazole,60207901,Pounds,2591.48
+soil,Propiconazole,60207901,Pounds,0.0
+water,Propiconazole,60207901,Pounds,1179.0
+air,Propionaldehyde,123386,Pounds,152700.69
+soil,Propionaldehyde,123386,Pounds,6.0
+water,Propionaldehyde,123386,Pounds,19727.05
+air,Propoxur,114261,Pounds,0.2
+soil,Propoxur,114261,Pounds,0.0
+water,Propoxur,114261,Pounds,0.0
+air,Propylene,115071,Pounds,6962352.23
+soil,Propylene,115071,Pounds,159.122
+water,Propylene,115071,Pounds,85.3
+air,Propylene oxide,75569,Pounds,293848.44
+soil,Propylene oxide,75569,Pounds,28.0
+water,Propylene oxide,75569,Pounds,1288.0
+air,Propyleneimine,75558,Pounds,982.9
+soil,Propyleneimine,75558,Pounds,0.0
+water,Propyleneimine,75558,Pounds,0.0
+air,Pyridine,110861,Pounds,26274.12
+soil,Pyridine,110861,Pounds,0.0
+water,Pyridine,110861,Pounds,63.0
+air,Quinoline,91225,Pounds,341.263
+soil,Quinoline,91225,Pounds,0.0
+water,Quinoline,91225,Pounds,0.0
+air,Quinone,106514,Pounds,30.05
+soil,Quinone,106514,Pounds,0.0
+water,Quinone,106514,Pounds,0.0
+air,Quintozene,82688,Pounds,79.834
+soil,Quintozene,82688,Pounds,0.0
+water,Quintozene,82688,Pounds,0.0
+air,"S,S,S-Tributyltrithiophosphate",78488,Pounds,10.1
+soil,"S,S,S-Tributyltrithiophosphate",78488,Pounds,0.0
+water,"S,S,S-Tributyltrithiophosphate",78488,Pounds,0.0
+air,S-Ethyl dipropylthiocarbamate,759944,Pounds,7.5
+soil,S-Ethyl dipropylthiocarbamate,759944,Pounds,0.0
+water,S-Ethyl dipropylthiocarbamate,759944,Pounds,0.0
+air,Safrole,94597,Pounds,0.014
+soil,Safrole,94597,Pounds,0.0
+water,Safrole,94597,Pounds,0.0
+air,Selenium,7782492,Pounds,16980.89
+soil,Selenium,7782492,Pounds,0.0
+water,Selenium,7782492,Pounds,772.462
+air,Selenium compounds,N725,Pounds,100216.75
+soil,Selenium compounds,N725,Pounds,494905.52
+water,Selenium compounds,N725,Pounds,10650.38
+air,"Siloxanes and Silicones, (3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,10-heptadecafluorodecyl)oxy Me, hydroxy Me, Me octyl, ethers with polyethylene glycol mono-Me ether",143372547,Pounds,10.0
+soil,"Siloxanes and Silicones, (3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,10-heptadecafluorodecyl)oxy Me, hydroxy Me, Me octyl, ethers with polyethylene glycol mono-Me ether",143372547,Pounds,0.0
+water,"Siloxanes and Silicones, (3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,10-heptadecafluorodecyl)oxy Me, hydroxy Me, Me octyl, ethers with polyethylene glycol mono-Me ether",143372547,Pounds,0.0
+air,Silver,7440224,Pounds,1238.486
+soil,Silver,7440224,Pounds,92672.0
+water,Silver,7440224,Pounds,17.58
+air,Silver compounds,N740,Pounds,14934.28
+soil,Silver compounds,N740,Pounds,373115.0
+water,Silver compounds,N740,Pounds,1159.43
+air,Simazine,122349,Pounds,75.1
+soil,Simazine,122349,Pounds,0.0
+water,Simazine,122349,Pounds,5.1
+air,Sodium azide,26628228,Pounds,2.2
+soil,Sodium azide,26628228,Pounds,7964.0
+water,Sodium azide,26628228,Pounds,0.0
+air,Sodium dicamba,1982690,Pounds,200.11
+soil,Sodium dicamba,1982690,Pounds,250.0
+water,Sodium dicamba,1982690,Pounds,0.0
+air,Sodium dimethyldithiocarbamate,128041,Pounds,156.4
+soil,Sodium dimethyldithiocarbamate,128041,Pounds,10.0
+water,Sodium dimethyldithiocarbamate,128041,Pounds,0.0
+air,Sodium fluoroacetate,62748,Pounds,3.0
+soil,Sodium fluoroacetate,62748,Pounds,0.0
+water,Sodium fluoroacetate,62748,Pounds,0.0
+air,Sodium nitrite,7632000,Pounds,76979.91
+soil,Sodium nitrite,7632000,Pounds,1916.95
+water,Sodium nitrite,7632000,Pounds,1815982.41
+air,Sodium o-phenylphenoxide,132274,Pounds,0.0
+soil,Sodium o-phenylphenoxide,132274,Pounds,0.0
+water,Sodium o-phenylphenoxide,132274,Pounds,0.0
+air,Strychnine and salts,N746,Pounds,2.0
+soil,Strychnine and salts,N746,Pounds,0.0
+water,Strychnine and salts,N746,Pounds,0.0
+air,Styrene,100425,Pounds,30908958.32
+soil,Styrene,100425,Pounds,44193.35
+water,Styrene,100425,Pounds,11221.81
+air,Styrene oxide,96093,Pounds,2.8
+soil,Styrene oxide,96093,Pounds,0.0
+water,Styrene oxide,96093,Pounds,0.0
+air,Sulfluramid,4151502,Pounds,0.0
+soil,Sulfluramid,4151502,Pounds,0.0
+water,Sulfluramid,4151502,Pounds,0.8
+air,"Sulfonic acids, C6-12-alkane, gamma-omega-perfluoro, ammonium salts",180582790,Pounds,0.0
+soil,"Sulfonic acids, C6-12-alkane, gamma-omega-perfluoro, ammonium salts",180582790,Pounds,0.0
+water,"Sulfonic acids, C6-12-alkane, gamma-omega-perfluoro, ammonium salts",180582790,Pounds,0.0
+air,"Sulfuric acid (acid aerosols including mists, vapors, gas, fog, and other airborne forms of any particle size)",7664939,Pounds,49915404.0
+soil,"Sulfuric acid (acid aerosols including mists, vapors, gas, fog, and other airborne forms of any particle size)",7664939,Pounds,24581.0
+water,"Sulfuric acid (acid aerosols including mists, vapors, gas, fog, and other airborne forms of any particle size)",7664939,Pounds,0.0
+air,Sulfuryl fluoride,2699798,Pounds,292346.0
+soil,Sulfuryl fluoride,2699798,Pounds,0.0
+water,Sulfuryl fluoride,2699798,Pounds,0.0
+air,Tebuthiuron,34014181,Pounds,0.0
+soil,Tebuthiuron,34014181,Pounds,0.0
+water,Tebuthiuron,34014181,Pounds,0.0
+air,Terbacil,5902512,Pounds,0.0
+soil,Terbacil,5902512,Pounds,0.0
+water,Terbacil,5902512,Pounds,0.0
+air,Tetrabromobisphenol A,79947,Pounds,7629.639
+soil,Tetrabromobisphenol A,79947,Pounds,41.0
+water,Tetrabromobisphenol A,79947,Pounds,10.0
+air,Tetrachloroethylene,127184,Pounds,777093.28
+soil,Tetrachloroethylene,127184,Pounds,5.001
+water,Tetrachloroethylene,127184,Pounds,596.876
+air,Tetrachlorvinphos,961115,Pounds,30.0
+soil,Tetrachlorvinphos,961115,Pounds,0.0
+water,Tetrachlorvinphos,961115,Pounds,0.0
+air,Tetracycline hydrochloride,64755,Pounds,132.8
+soil,Tetracycline hydrochloride,64755,Pounds,0.0
+water,Tetracycline hydrochloride,64755,Pounds,0.0
+air,Tetrafluoroethylene,116143,Pounds,111382.0
+soil,Tetrafluoroethylene,116143,Pounds,0.0
+water,Tetrafluoroethylene,116143,Pounds,0.0
+air,Thallium,7440280,Pounds,1.878
+soil,Thallium,7440280,Pounds,0.14
+water,Thallium,7440280,Pounds,0.2
+air,Thallium compounds,N760,Pounds,1039.42
+soil,Thallium compounds,N760,Pounds,21331.78
+water,Thallium compounds,N760,Pounds,516.0
+air,Thiabendazole,148798,Pounds,13.3
+soil,Thiabendazole,148798,Pounds,0.0
+water,Thiabendazole,148798,Pounds,5088.0
+air,Thioacetamide,62555,Pounds,4.014
+soil,Thioacetamide,62555,Pounds,0.0
+water,Thioacetamide,62555,Pounds,0.0
+air,Thiobencarb,28249776,Pounds,500.0
+soil,Thiobencarb,28249776,Pounds,0.0
+water,Thiobencarb,28249776,Pounds,0.0
+air,Thiodicarb,59669260,Pounds,755.77
+soil,Thiodicarb,59669260,Pounds,0.0
+water,Thiodicarb,59669260,Pounds,0.0
+air,"Thiols, C8-20, gamma-omega-perfluoro, telomers with acrylamide",70969470,Pounds,0.0
+soil,"Thiols, C8-20, gamma-omega-perfluoro, telomers with acrylamide",70969470,Pounds,0.0
+water,"Thiols, C8-20, gamma-omega-perfluoro, telomers with acrylamide",70969470,Pounds,0.0
+air,Thiophanate-methyl,23564058,Pounds,31.2
+soil,Thiophanate-methyl,23564058,Pounds,0.0
+water,Thiophanate-methyl,23564058,Pounds,0.0
+air,Thiourea,62566,Pounds,266.077
+soil,Thiourea,62566,Pounds,0.0
+water,Thiourea,62566,Pounds,0.0
+air,Thiram,137268,Pounds,1086.894
+soil,Thiram,137268,Pounds,274.0
+water,Thiram,137268,Pounds,16.42
+air,Thorium dioxide,1314201,Pounds,0.0
+soil,Thorium dioxide,1314201,Pounds,0.0
+water,Thorium dioxide,1314201,Pounds,0.0
+air,Titanium tetrachloride,7550450,Pounds,19301.61
+soil,Titanium tetrachloride,7550450,Pounds,0.0
+water,Titanium tetrachloride,7550450,Pounds,0.0
+air,Toluene,108883,Pounds,14106372.4
+soil,Toluene,108883,Pounds,47271.66
+water,Toluene,108883,Pounds,89187.83
+air,Toluene diisocyanate (mixed isomers),26471625,Pounds,13848.08
+soil,Toluene diisocyanate (mixed isomers),26471625,Pounds,16.83
+water,Toluene diisocyanate (mixed isomers),26471625,Pounds,0.0
+air,"Toluene-2,4-diisocyanate",584849,Pounds,557.949
+soil,"Toluene-2,4-diisocyanate",584849,Pounds,0.0
+water,"Toluene-2,4-diisocyanate",584849,Pounds,0.0
+air,"Toluene-2,6-diisocyanate",91087,Pounds,144.617
+soil,"Toluene-2,6-diisocyanate",91087,Pounds,0.0
+water,"Toluene-2,6-diisocyanate",91087,Pounds,0.0
+air,Toxaphene,8001352,Pounds,121.681
+soil,Toxaphene,8001352,Pounds,0.0
+water,Toxaphene,8001352,Pounds,0.0
+air,Triadimefon,43121433,Pounds,1.53
+soil,Triadimefon,43121433,Pounds,0.0
+water,Triadimefon,43121433,Pounds,0.0
+air,Tribenuron-methyl,101200480,Pounds,2290.4
+soil,Tribenuron-methyl,101200480,Pounds,0.0
+water,Tribenuron-methyl,101200480,Pounds,0.0
+air,Tributyltin methacrylate,2155706,Pounds,0.0
+soil,Tributyltin methacrylate,2155706,Pounds,0.0
+water,Tributyltin methacrylate,2155706,Pounds,0.0
+air,Trichlorfon,52686,Pounds,0.0
+soil,Trichlorfon,52686,Pounds,0.0
+water,Trichlorfon,52686,Pounds,0.0
+air,Trichloroacetyl chloride,76028,Pounds,8.6
+soil,Trichloroacetyl chloride,76028,Pounds,0.0
+water,Trichloroacetyl chloride,76028,Pounds,0.0
+air,Trichloroethylene,79016,Pounds,990459.56
+soil,Trichloroethylene,79016,Pounds,0.0
+water,Trichloroethylene,79016,Pounds,326.58
+air,Trichlorofluoromethane (CFC-11),75694,Pounds,209465.68
+soil,Trichlorofluoromethane (CFC-11),75694,Pounds,0.0
+water,Trichlorofluoromethane (CFC-11),75694,Pounds,52.0
+air,Triclopyr-triethylammonium salt,57213691,Pounds,26.53
+soil,Triclopyr-triethylammonium salt,57213691,Pounds,0.0
+water,Triclopyr-triethylammonium salt,57213691,Pounds,0.0
+air,Triethylamine,121448,Pounds,121352.61
+soil,Triethylamine,121448,Pounds,0.0
+water,Triethylamine,121448,Pounds,5163.0
+air,Trifluralin,1582098,Pounds,427.873
+soil,Trifluralin,1582098,Pounds,0.0
+water,Trifluralin,1582098,Pounds,0.3
+air,Triphenyltin hydroxide,76879,Pounds,1.8
+soil,Triphenyltin hydroxide,76879,Pounds,0.0
+water,Triphenyltin hydroxide,76879,Pounds,0.0
+air,"Tris(2,3-dibromopropyl) phosphate",126727,Pounds,0.014
+soil,"Tris(2,3-dibromopropyl) phosphate",126727,Pounds,0.0
+water,"Tris(2,3-dibromopropyl) phosphate",126727,Pounds,0.0
+air,Trypan blue,72571,Pounds,4.155
+soil,Trypan blue,72571,Pounds,0.0
+water,Trypan blue,72571,Pounds,0.0
+air,Urethane,51796,Pounds,130.671
+soil,Urethane,51796,Pounds,0.0
+water,Urethane,51796,Pounds,0.0
+air,Vanadium (except when contained in an alloy),7440622,Pounds,7791.65
+soil,Vanadium (except when contained in an alloy),7440622,Pounds,32460.9
+water,Vanadium (except when contained in an alloy),7440622,Pounds,3260.91
+air,Vanadium compounds,N770,Pounds,162400.09
+soil,Vanadium compounds,N770,Pounds,2189401.8
+water,Vanadium compounds,N770,Pounds,371871.46
+air,Vinclozolin,50471448,Pounds,0.0
+soil,Vinclozolin,50471448,Pounds,0.0
+water,Vinclozolin,50471448,Pounds,0.0
+air,Vinyl acetate,108054,Pounds,916448.65
+soil,Vinyl acetate,108054,Pounds,2896.678
+water,Vinyl acetate,108054,Pounds,8099.0
+air,Vinyl chloride,75014,Pounds,428184.88
+soil,Vinyl chloride,75014,Pounds,20.64
+water,Vinyl chloride,75014,Pounds,48.52
+air,Vinyl fluoride,75025,Pounds,131017.6
+soil,Vinyl fluoride,75025,Pounds,0.0
+water,Vinyl fluoride,75025,Pounds,0.0
+air,Vinylidene chloride,75354,Pounds,62997.13
+soil,Vinylidene chloride,75354,Pounds,0.0
+water,Vinylidene chloride,75354,Pounds,29.0
+air,Warfarin and salts,N874,Pounds,6.1
+soil,Warfarin and salts,N874,Pounds,0.0
+water,Warfarin and salts,N874,Pounds,0.0
+air,Xylene (mixed isomers),1330207,Pounds,9926976.64
+soil,Xylene (mixed isomers),1330207,Pounds,20977.634
+water,Xylene (mixed isomers),1330207,Pounds,6826.63
+air,Zinc (fume or dust),7440666,Pounds,235970.79
+soil,Zinc (fume or dust),7440666,Pounds,564362.3
+water,Zinc (fume or dust),7440666,Pounds,0.0
+air,Zinc compounds,N982,Pounds,2389504.03
+soil,Zinc compounds,N982,Pounds,156724894.85
+water,Zinc compounds,N982,Pounds,991854.53
+air,Zineb,12122677,Pounds,0.1
+soil,Zineb,12122677,Pounds,0.0
+water,Zineb,12122677,Pounds,0.0
+air,alpha-Naphthylamine,134327,Pounds,10.0
+soil,alpha-Naphthylamine,134327,Pounds,0.0
+water,alpha-Naphthylamine,134327,Pounds,0.0
+air,beta-Naphthylamine,91598,Pounds,3.0
+soil,beta-Naphthylamine,91598,Pounds,0.0
+water,beta-Naphthylamine,91598,Pounds,0.0
+air,m-Cresol,108394,Pounds,9146.23
+soil,m-Cresol,108394,Pounds,0.0
+water,m-Cresol,108394,Pounds,617.614
+air,m-Dinitrobenzene,99650,Pounds,3.0
+soil,m-Dinitrobenzene,99650,Pounds,0.0
+water,m-Dinitrobenzene,99650,Pounds,0.0
+air,m-Xylene,108383,Pounds,206329.5
+soil,m-Xylene,108383,Pounds,11.3
+water,m-Xylene,108383,Pounds,188.65
+air,n-Butyl alcohol,71363,Pounds,7687661.75
+soil,n-Butyl alcohol,71363,Pounds,143.22
+water,n-Butyl alcohol,71363,Pounds,20995.37
+air,n-Hexane,110543,Pounds,37567136.41
+soil,n-Hexane,110543,Pounds,26091.076
+water,n-Hexane,110543,Pounds,2273.42
+air,o-Anisidine,90040,Pounds,1270.0
+soil,o-Anisidine,90040,Pounds,0.0
+water,o-Anisidine,90040,Pounds,0.0
+air,o-Cresol,95487,Pounds,3022.687
+soil,o-Cresol,95487,Pounds,0.0
+water,o-Cresol,95487,Pounds,134.2
+air,o-Toluidine,95534,Pounds,5546.21
+soil,o-Toluidine,95534,Pounds,0.0
+water,o-Toluidine,95534,Pounds,198.0
+air,o-Toluidine hydrochloride,636215,Pounds,0.02
+soil,o-Toluidine hydrochloride,636215,Pounds,0.0
+water,o-Toluidine hydrochloride,636215,Pounds,0.0
+air,o-Xylene,95476,Pounds,176012.78
+soil,o-Xylene,95476,Pounds,3.4
+water,o-Xylene,95476,Pounds,118.23
+air,p-Chloroaniline,106478,Pounds,76.08
+soil,p-Chloroaniline,106478,Pounds,0.0
+water,p-Chloroaniline,106478,Pounds,50.0
+air,p-Cresidine,120718,Pounds,1.48
+soil,p-Cresidine,120718,Pounds,0.0
+water,p-Cresidine,120718,Pounds,0.0
+air,p-Cresol,106445,Pounds,3516.44
+soil,p-Cresol,106445,Pounds,0.0
+water,p-Cresol,106445,Pounds,278.9
+air,p-Nitroaniline,100016,Pounds,49.6
+soil,p-Nitroaniline,100016,Pounds,0.0
+water,p-Nitroaniline,100016,Pounds,0.0
+air,p-Phenylenediamine,106503,Pounds,1471.21
+soil,p-Phenylenediamine,106503,Pounds,0.0
+water,p-Phenylenediamine,106503,Pounds,85.0
+air,p-Xylene,106423,Pounds,492420.76
+soil,p-Xylene,106423,Pounds,4.2
+water,p-Xylene,106423,Pounds,50.02
+air,sec-Butyl alcohol,78922,Pounds,170419.46
+soil,sec-Butyl alcohol,78922,Pounds,0.0
+water,sec-Butyl alcohol,78922,Pounds,953.0
+air,tert-Butyl alcohol,75650,Pounds,259409.0
+soil,tert-Butyl alcohol,75650,Pounds,27746.8
+water,tert-Butyl alcohol,75650,Pounds,6743.0
+air,"trans-1,4-Dichloro-2-butene",110576,Pounds,6.0
+soil,"trans-1,4-Dichloro-2-butene",110576,Pounds,0.0
+water,"trans-1,4-Dichloro-2-butene",110576,Pounds,0.0

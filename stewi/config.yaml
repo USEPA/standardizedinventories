@@ -27,6 +27,15 @@ databases:
         file_name: 'eGRID2019_data.xlsx'
         file_version: ''
         download_url: 'https://www.epa.gov/sites/production/files/2021-02/egrid2019_data.xlsx'
+    '2020':
+        file_name: 'eGRID2020_Data_v2.xlsx'
+        file_version: 'v2'
+        download_url: 'https://www.epa.gov/system/files/documents/2022-09/eGRID2020_Data_v2.xlsx'
+    '2021':
+        file_name: 'eGRID2021_data.xlsx'
+        file_version: ''
+        download_url: 'https://www.epa.gov/system/files/documents/2023-01/eGRID2021_data.xlsx'
+
   NEI:
     url: 'http://eis.epa.gov'
     '2011':
@@ -69,33 +78,48 @@ databases:
             - 'sppd_rtr_16938.parquet'
             - 'sppd_rtr_16939.parquet'
         file_version: 'v1'
-    national_url: 'https://gaftp.epa.gov/air/nei/__year__/data_summaries/__version___facility.zip'
+    '2019':
+        file_name:
+            - 'sppd_rtr_24593.parquet'
+            - 'sppd_rtr_24671.parquet'
+            - 'sppd_rtr_24672.parquet'
+            - 'sppd_rtr_24673.parquet'
+        file_version: 'v1'
+    '2020':
+        file_name:
+            - 'sppd_rtr_24240.parquet'
+            - 'sppd_rtr_24506.parquet'
+            - 'sppd_rtr_24507.parquet'
+            - 'sppd_rtr_24592.parquet'
+        file_version: 'v1'
+    national_url: 'https://gaftp.epa.gov/air/nei/__year__/data_summaries/__file__.zip'
     national_version:
-        '2017': '2017v1/2017neiJan'
-        '2014': '2014v2/2014neiv2'
-        '2011': '2011v2/2011neiv2'
+        '2020': 'Facility%20Level%20by%20Pollutant'
+        '2017': '2017v1/2017neiJan_facility'
+        '2014': '2014v2/2014neiv2_facility'
+        '2011': '2011v2/2011neiv2_facility'
   DMR:
       url: 'https://echo.epa.gov/trends/loading-tool/water-pollution-search'
       base_url: 'https://echodata.epa.gov/echo/dmr_rest_services.get_custom_data_annual?'
       pollutant_list_url: 'https://echodata.epa.gov/echo/dmr_rest_services.get_loading_tool_params?output=csv'
       state_url: 'https://echodata.epa.gov/echo/dmr_rest_services.get_state_stats?p_year=__year__&output=csv'
   GHGRP:
-      most_recent_year: '2020'
+      most_recent_year: '2021'
       enviro_url: 'https://data.epa.gov/efservice/'
       url: 'https://www.epa.gov/system/files/'
-      data_summaries_url: 'other-files/2021-10/2020_data_summary_spreadsheets.zip'
+      data_summaries_url: 'other-files/2022-10/2021_data_summary_spreadsheets.zip'
         # Data Summary Spreadsheets: .zip file containing multi-year spreadsheets containing
         # the most important high-level information for facilities, as well as yearly
         # spreadsheets containing slightly more detailed information, including
         # reported emissions by greenhouse gas and process.
-      esbb_subparts_url: 'documents/2021-10/e_s_cems_bb_cc_ll_full_data_set_10-06-2021.xlsx'
+      esbb_subparts_url: 'other-files/2022-10/e_s_cems_bb_cc_ll_full_data_set_10-13-2022.xlsx'
         # Subparts E, S-CEMS, BB, CC, LL Data Set: .xlsx file containing publicly available data
         # reported by facilities in the following industries across all reporting years:
         # Adipic Acid Production (E), Lime Manufacturing (S, CEMS reporters only),
         # Silicon Carbide Production (BB), Soda Ash Manufacturing (CC) and
         # Coal-based Liquid Fuel Suppliers (LL).
         # LL is not included because it is a supplier, rather than an emitter.
-      lo_subparts_url: 'other-files/2021-10/l_o_freq_request_data_10_21.xlsx'
+      lo_subparts_url: 'other-files/2022-10/l_o_freq_request_data_10_22.xlsx'
         # Subparts L, O Data Set: .xlsx file containing publicly available data
         # reported by facilities under:
         # Subpart L (Fluorinated Gas Production) and

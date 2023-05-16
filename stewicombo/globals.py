@@ -70,7 +70,8 @@ def get_id_before_underscore(inventory_id):
 
 
 def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
-                                     filter_for_LCI, base_inventory=None):
+                                     filter_for_LCI, base_inventory=None,
+                                     **kwargs):
     """Retrieve stored flowbyfacility datasets based on passed dictionary.
 
     Filters them if necessary. Returns only those facilities with an FRS_ID
@@ -93,19 +94,20 @@ def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
     filters = None
     if filter_for_LCI:
         filters = ['filter_for_LCI']
-    for k in inventory_dict.keys():
+    for source, year in inventory_dict.items():
         # Temporarily set all compartments to the primary compartment via
         # keep_sec_cntx=False until overlap handler is updated
-        inventory = stewi.getInventory(k, inventory_dict[k],
+        inventory = stewi.getInventory(source, year,
                                        'flowbyfacility',
                                        filters,
-                                       keep_sec_cntx=False)
+                                       keep_sec_cntx=False,
+                                       **kwargs)
         if inventory is None:
             continue
-        inventory["Source"] = k
+        inventory["Source"] = source
         # Merge in FRS_ID, ensure only single FRS added per facility ID, keeping
         # first listed
-        facmatches = facilitymatches[facilitymatches['Source'] == k]
+        facmatches = facilitymatches[facilitymatches['Source'] == source]
         facmatches = facmatches.drop_duplicates(subset=['FacilityID', 'Source'],
                                                 keep='first')
         inventory = pd.merge(inventory,
@@ -116,12 +118,12 @@ def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
 
         # If this isn't the base inventory, filter records for facilities not
         # found in the base inventory
-        if k is not base_inventory and base_inventory is not None:
+        if source is not base_inventory and base_inventory is not None:
             inventory = inventory[inventory['FRS_ID'].isin(
                 base_FRS_list)]
 
         # Add metadata
-        inventory["Year"] = inventory_dict[k]
+        inventory["Year"] = str(year)
         cols_to_keep = [c for c in columns_to_keep if c in inventory]
         inventory = inventory[cols_to_keep]
         inventories = pd.concat([inventories, inventory], ignore_index=True)

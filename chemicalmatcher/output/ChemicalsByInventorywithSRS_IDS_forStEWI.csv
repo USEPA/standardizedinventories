@@ -24,6 +24,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 30357,"1,2,3,4,7,8,9-Heptachlorodibenzofuran",55673-89-7,49572,DMR
 30345,"1,2,3,4,7,8-Hexachlorodibenzo-p-dioxin",39227-28-6,94099,DMR
 30352,"1,2,3,4,7,8-Hexachlorodibenzofuran",70648-26-9,66666,DMR
+77736,"1,2,3,4-Tetrachlorobenzene",,,DMR
 30346,"1,2,3,6,7,8-Hexachlorodibenzo-p-dioxin",57653-85-7,89422,DMR
 30353,"1,2,3,6,7,8-Hexachlorodibenzofuran",57117-44-9,51071,DMR
 30347,"1,2,3,7,8,9-Hexachlorodibenzo-p-dioxin",19408-74-3,91728,DMR
@@ -39,6 +40,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 10262,"1,2-Dichloroethane",,47485,DMR
 38676,"1,2-Dichloroethylene",540-59-0,45537,DMR
 10417,"1,2-Dichloropropane",,48750,DMR
+10692,"1,2-Dichloropropene",,,DMR
 11399,"1,2-Diphenylhydrazine",,47248,DMR
 82203,"1,3,5,7-Tetranitro-1,3,5,7-tetrazocine",2691-41-0,42754,DMR
 77226,"1,3,5-Trimethylbenzene",108-67-8,47397,DMR
@@ -74,6 +76,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 51440,"2,4-DDD (O,P-DDD)",53-19-0,84992,DMR
 34601,"2,4-Dichlorophenol",120-83-2,94933,DMR
 34606,"2,4-Dimethylphenol",105-67-9,96968,DMR
+51756,"2,4-Dinitroanisole",,,DMR
 12011,"2,4-Dinitrophenol",,49177,DMR
 10144,"2,4-Dinitrotoluene",,46998,DMR
 77541,"2,6-Dichlorophenol",87-65-0,48417,DMR
@@ -107,8 +110,11 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 76987,"4-Amino-2,6-dinitrotoluene",,81018,DMR
 10918,"4-Isopropyltoluene, (whole water)",,47926,DMR
 78724,"4-Nitro-N-methylphthalimide, total",41663-84-7,54509,DMR
+52608,4:2 Fluorotelomer sulfonic acid,,,DMR
+52607,6:2 Fluorotelomer sulfonic acid,,,DMR
 51638,8:2 Fluorotelomer Acrylate,,56716,DMR
 51636,8:2 Fluorotelomer Alcohol,,91205,DMR
+52609,8:2 Fluorotelomer sulfonic acid,,,DMR
 34205,Acenaphthene,83-32-9,48599,DMR
 34200,Acenaphthylene,208-96-8,46344,DMR
 77001,Acetaldehyde,75-07-0,48526,DMR
@@ -141,6 +147,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 00410,"Alkalinity, total (as CaCO3)",,79210,DMR
 10954,Alkyl benzene sulfonated (ABS),,53882,DMR
 360,Aluminum,7429-90-5,37021,DMR
+29865,Americium-241,,,DMR
 10654,Ametryn,,43683,DMR
 78723,"Amines, organic total",,80297,DMR
 38404,Aminocarb,2032-59-9,94312,DMR
@@ -213,6 +220,8 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 71872,Bromine chloride,13863-41-7,61670,DMR
 51606,Bromoacetic acid,,48731,DMR
 81555,Bromobenzene,108-86-1,47382,DMR
+10966,Bromoxynil,,,DMR
+81563,Butane,106-97-8,47492,DMR
 34292,Butyl benzyl phthalate,85-68-7,48846,DMR
 77063,Butyric acid,107-92-6,96465,DMR
 51715,C3 Dimer Acid/Salt,,,DMR
@@ -252,6 +261,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 61237,"Chlorinated hydrocarbons, total",,80290,DMR
 74052,"Chlorinated hydrocarbons, total",,80290,DMR
 81397,Chlorinated organic compounds,,80314,DMR
+78217,"Chlorinated pesticides, total",,80286,DMR
 10390,Chlorinated phenols,,82789,DMR
 50070,Chlorine dioxide,10049-04-4,39291,DMR
 03773,Chlorine produced oxidants,,78620,DMR
@@ -268,6 +278,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 10921,Chlorotoluene,,91514,DMR
 81322,Chlorpropham,101-21-3,94742,DMR
 12079,Chlorpyrifos,,92226,DMR
+10023,Chlorthal-dimethyl,,,DMR
 1012,Chromium,,36831,DMR
 10214,"Chromium, Hexavalent",,62530,DMR
 10215,"Chromium, Trivalent",,60916,DMR
@@ -387,12 +398,13 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 38671,HCFC-123,306-83-2,46265,DMR
 70010,HCFC-21,75-43-4,48928,DMR
 45028,HCFC-22,75-45-6,48927,DMR
+85669,HFC-143a,420-46-2,45982,DMR
 39084,"Halocarbons, purgeable scan, effluent",,80296,DMR
 61194,"Halogen, total residual",,80205,DMR
 03594,"Halogens, adsorbable organic",,35937,DMR
-79855,"Halogens, adsorbable organic",,35937,DMR
 51539,"Halogens, adsorbable organic",,35937,DMR
 51540,"Halogens, adsorbable organic",,35937,DMR
+79855,"Halogens, adsorbable organic",,35937,DMR
 78115,"Halogens, tot organics bottom sediment",,80377,DMR
 78456,"Halomethanes, sum",,35838,DMR
 70009,Halon 1011,74-97-5,48535,DMR
@@ -404,12 +416,14 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 39420,Heptachlor epoxide,1024-57-3,43710,DMR
 51626,Heptadecafluorononanoic acid,,141759,DMR
 2040,Heptane,142-82-5,46520,DMR
+00148,"Herbicides, total",,80282,DMR
 10159,Hexachlorobenzene,,95480,DMR
 10017,Hexachlorobutadiene,,48415,DMR
 11128,Hexachlorocyclohexane,,57648,DMR
 10662,Hexachlorocyclopentadiene,,48812,DMR
 10266,Hexachloroethane,,49017,DMR
 51541,Hexachlorophene,,87232,DMR
+52612,Hexafluoropropylene oxide dimer acid,,,DMR
 77542,Hexamethylbenzene,87-85-4,88254,DMR
 82196,Hexamethylphosphoramide,680-31-9,44344,DMR
 45504,Hexane,110-54-3,47684,DMR
@@ -426,8 +440,11 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 51686,Imidacloprid,,82986,DMR
 10313,"Indeno[1,2,3-cd]pyrene",,46349,DMR
 01168,Indium,7440-74-6,36811,DMR
+10354,Inorganic Nitrogen [nitrate and nitrite] [as N],,96190,DMR
 12297,Inorganic suspended solids,,78735,DMR
+71865,Iodide (as I),20461-54-5,58034,DMR
 2215,Iron,7439-89-6,37015,DMR
+00987,"Iron and manganese, total",,80294,DMR
 77033,Isobutanol,78-83-1,48753,DMR
 51001,Isobutyraldehyde,78-84-2,48752,DMR
 10042,Isophorone,,48764,DMR
@@ -437,6 +454,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 77014,Isopropylamine,,87894,DMR
 51802,K001,,,DMR
 78878,Kerosene,,16071,DMR
+51584,Kerosene,,,DMR
 31760,Klebsiella species,,3912,DMR
 6562,Lead,7439-92-1,37012,DMR
 10228,Lindane,,49118,DMR
@@ -502,10 +520,14 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 2817,Nitrogen,7727-37-9,38472,DMR
 81382,"Nitrogenous oxygen demand (20-day, 20 C)",,79690,DMR
 34101,Nitroglycerin,55-63-0,48975,DMR
+79753,Nitroguanidine,556-88-7,45382,DMR
+51800,Nitrotriazolone [NTO],,,DMR
 51178,Nonyl phenoxypoly ethanol,,97469,DMR
 51568,Nonylphenol,,56871,DMR
+77745,Nonylphenol,,,DMR
 73652,"O,O,O-Triethyl phosphorothioate",126-68-1,46769,DMR
 77889,Octachlorocyclopentene,706-78-5,87209,DMR
+11899,Oil & grease (polar),,,DMR
 11900,"Oil & grease, non polar material",,97467,DMR
 10364,Oil and grease,,35993,DMR
 51652,Oil refinery waste,,95980,DMR
@@ -525,6 +547,11 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 00343,"Oxygen demand, total (tod)",,79691,DMR
 10726,Oxytetracycline,,87309,DMR
 3054,Ozone,10028-15-6,39347,DMR
+52630,PFESA Byproduct 1,,,DMR
+52614,PFESA Byproduct 2,,,DMR
+52643,PFESA Byproduct 4,,,DMR
+52644,PFESA Byproduct 5,,,DMR
+52645,PFESA Byproduct 6,,,DMR
 51521,PFOA,,46198,DMR
 51481,PVP-Iodine,,,DMR
 01210,Palladium,7440-05-3,37000,DMR
@@ -534,26 +561,44 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 81501,Pentachloroethane,76-01-7,48888,DMR
 39032,Pentachlorophenol,87-86-5,48409,DMR
 52601,Pentadecafluorooctanoic acid,,,DMR
+50572,Pentaerythritol tetranitrate,78-11-5,87453,DMR
+8198,Pentane,109-66-0,47340,DMR
 51674,Peracetic acid,,48722,DMR
 61209,Perchlorate (ClO4),14797-73-0,81029,DMR
+52615,"Perfluoro(3,5,7,9-tetraoxadecanoic) acid",,,DMR
+52613,Perfluoro-2-methoxyacetic acid,,,DMR
+52627,"Perfluoro-3,5,7,9,11-pentaoxadodecanoic acid",,,DMR
+52616,"Perfluoro-3,5,7-trioxaoctanoic acid",,,DMR
+52617,"Perfluoro-3,5-dioxahexanoic acid",,,DMR
+52626,"Perfluoro-3,6-dioxaheptanoic acid",,,DMR
+52619,Perfluoro-4-isopropoxybutanoic acid,,,DMR
 51632,Perfluorobutane Sulfonate,,101476,DMR
-52602,Perfluorobutanesulfonic acid,,,DMR
 51524,Perfluorobutanesulfonamide,,,DMR
+52602,Perfluorobutanesulfonic acid,,,DMR
 51522,Perfluorobutanoic Acid,,,DMR
+51523,Perfluorobutanoicsulfonate,,,DMR
 51635,Perfluorodecane Sulfonate,,46195,DMR
 52603,Perfluorodecanesulfonic acid,,,DMR
 51627,Perfluorodecanoic acid,,46196,DMR
+52629,Perfluoroethoxyethanesulfonic acid,,,DMR
+52621,Perfluoroethoxypropanoic acid,,,DMR
+52622,Perfluoroethoxypropionic acid,,,DMR
+52618,Perfluoroethoxypropyl carboxylic acid,,,DMR
+52628,Perfluoroethoxysulfonic acid,,,DMR
 51634,Perfluoroheptane Sulfonate,,46026,DMR
 52604,Perfluoroheptanesulfonic acid,,,DMR
 51633,Perfluorohexane Sulfonate,,101731,DMR
 52605,Perfluorohexanesulfonic acid,,,DMR
 51624,Perfluorohexanoic acid,,46263,DMR
 51629,Perfluorolauric acid,,91633,DMR
+52620,Perfluoromethoxypropyl carboxylic acid,,,DMR
 51631,Perfluoromyristic acid,,46024,DMR
+52611,Perfluorononane sulfonic acid,,,DMR
 51525,Perfluorooctanesulfonamide,,80252,DMR
+51526,Perfluorooctanesulfonate,,,DMR
 52606,Perfluorooctanesulfonic acid,,,DMR
 51911,Perfluorooctanonic Acid [PFOA] + Perflurooctanesulfonate [PFOS],,,DMR
-51526,Perfluorooctanesulfonate,,,DMR
+52610,Perfluoropentane sulfonic acid,,,DMR
 51630,Perfluorotridecanoic acid,,101749,DMR
 51628,Perfluoroundecanoic acid,,101631,DMR
 51623,Perfluorovaleric acid,,93138,DMR
@@ -568,6 +613,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 7827,Phenanthrene,85-01-8,98155,DMR
 34694,Phenol,108-95-2,47376,DMR
 46313,Phorate,298-02-2,46312,DMR
+39058,Phosphated pesticides,,80306,DMR
 5889,Phosphorus,,38478,DMR
 39117,Phthalate esters,,35834,DMR
 78721,Phthalate esters,,35834,DMR
@@ -579,6 +625,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 11997,Potassium permanganate,,38484,DMR
 10651,Prometon,,41587,DMR
 10652,Prometryn,,88330,DMR
+82358,Propane,74-98-6,48534,DMR
 10648,Propazine,,46889,DMR
 39502,Propham,122-42-9,94727,DMR
 38537,Propoxur,114-26-1,95786,DMR
@@ -591,6 +638,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 3541,Pyridine,,46949,DMR
 51698,QUATERNARY AMMONIUM COMPOUNDS,,80284,DMR
 77299,Quinoline,91-22-5,87972,DMR
+52640,R-EVE,,,DMR
 20501,Radium-223,15623-45-7,5249,DMR
 12174,Radium-224,,5237,DMR
 10430,Radium-226,,5239,DMR
@@ -669,6 +717,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 10161,Toluene,,47380,DMR
 85813,Tolytriazole,29385-43-1,59086,DMR
 6656,Total Carbon,7440-44-0,36834,DMR
+6656,Total Inorganic Carbon,7440-44-0,36834,DMR
 10365,Total Organic Carbon,,35872,DMR
 928,Total Residual Chlorine,7782-50-5,38144,DMR
 01277,Total agg concentration #1,,79513,DMR
@@ -699,12 +748,13 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 77881,Triphenyl phosphate,115-86-6,47153,DMR
 12446,Tritium,,5260,DMR
 10491,Tungsten,,36977,DMR
+87006,Unknown,,,DMR
 6439,Uranium-238,7440-61-1,5255,DMR
 71800,Urea,57-13-6,48941,DMR
+51415,VOC,,80280,DMR
 78236,VOC,,80280,DMR
 78237,VOC,,80280,DMR
 84085,VOC,,80280,DMR
-51415,VOC,,80280,DMR
 4448,Vanadium,7440-62-2,36819,DMR
 10077,Vinyl acetate,,96461,DMR
 10282,Vinyl chloride,,48531,DMR
@@ -726,6 +776,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 10086,n-Amyl acetate,,44621,DMR
 10082,n-Butyl acetate,,46822,DMR
 77342,n-Butylbenzene,104-51-8,97250,DMR
+34199,n-Butylbenzene sulfonamide (in water),3622-84-2,41635,DMR
 77427,n-Decane,124-18-5,46801,DMR
 77804,n-Octadecane,593-45-3,45083,DMR
 51572,n-Propyl Bromide,,47494,DMR
@@ -761,6 +812,8 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 10693,"trans-1,3-Dichloropropene",,39275,DMR
 49263,"trans-1,4-Dichloro-2-butene",110-57-6,96270,DMR
 ,Carbon Dioxide,124-38-9,46795,GHGRP
+,"Fluorinated acetates, carbonofluoridates, and fluorinated alcohols other than fluorotelomer alcohols",,153839,GHGRP
+,Fully fluorinated GHGs,,153812,GHGRP
 ,HFC-125,354-33-6,46467,GHGRP
 ,HFC-134a,811-97-2,44103,GHGRP
 ,HFC-143a,420-46-2,45982,GHGRP
@@ -790,8 +843,16 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 ,PFPMIE (HT-70),,125291,GHGRP
 ,"Perfluorobuta-1,3-diene",685-63-2,44333,GHGRP
 ,Perfluorocyclopropane,931-91-9,99112,GHGRP
+,Saturated HFCs with 3 or more carbon-hydrogen bonds,,153834,GHGRP
+,Saturated HFEs and HCFEs with 2 carbon-hydrogen bonds,,153836,GHGRP
+,Saturated HFEs and HCFEs with 3 or more carbon-hydrogen bonds,,153837,GHGRP
+,Saturated hydrofluorocarbons (HFCs) with 2 or fewer carbon-hydrogen bonds,,153833,GHGRP
+,Saturated hydrofluoroethers (HFEs) and hydrochlorofluoroethers (HCFEs) with 1 carbon-hydrogen bond,,153835,GHGRP
 ,Sulfur Hexafluoride,2551-62-4,39886,GHGRP
+,"Unsaturated perfluorocarbons (PFCs), unsaturated HFCs, unsaturated hydrochlorofluorocarbons (HCFCs), unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones",,153840,GHGRP
 67425,(Ethylenebis(Oxyethylenenitrilo)) Tetraacetic Acid,67-42-5,49030,NEI
+21652584,(Perfluorooctyl)ethylene,21652-58-4,99850,NEI
+58899,.gamma.-Hexachlorocyclohexane (Lindane),58-89-9,49118,NEI
 79345,"1,1,2,2-Tetrachloroethane",79-34-5,48715,NEI
 79005,"1,1,2-Trichloroethane",79-00-5,48739,NEI
 57147,"1,1-Dimethyl Hydrazine",57-14-7,48940,NEI
@@ -810,6 +871,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 90120,1-Methylnaphthalene,90-12-0,48309,NEI
 832699,1-Methylphenanthrene,832-69-9,43687,NEI
 5522430,1-Nitropyrene,5522-43-0,38608,NEI
+70983607,"1-Propanaminium, 2-hydroxy-N,N,N-trimethyl-, 3-[(.gamma.-.omega.-perfluoro-C6-20-alkyl)thio] deri...",70983-60-7,28684,NEI
 2422799,12-Methylbenz(a)Anthracene,2422-79-9,78460,NEI
 540841,"2,2,4-Trimethylpentane",540-84-1,88529,NEI
 38380084,"2,3,3,4,4,5/2,3,3,4,4,5-Hexachlorobiphenyl  (PCBs156/157)",38380-08-4,82894,NEI
@@ -833,7 +895,9 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 2051607,2-Chlorobiphenyl (PCB-1),2051-60-7,81661,NEI
 91587,2-Chloronaphthalene,91-58-7,48260,NEI
 91576,2-Methylnaphthalene,91-57-6,87964,NEI
+2531842,2-Methylphenanthrene,2531-84-2,91493,NEI
 79469,2-Nitropropane,79-46-9,48708,NEI
+68227963,"2-Propenoic acid, butyl ester, telomer with 2-[[(heptadecafluorooctyl)sulfonyl]methylamino]ethyl ...",68227-96-3,69728,NEI
 20706256,2-Propoxyethyl Acetate,20706-25-6,82597,NEI
 91941,"3,3 -Dichlorobenzidine",91-94-1,48246,NEI
 119904,"3,3 -Dimethoxybenzidine",119-90-4,47040,NEI
@@ -865,8 +929,11 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 100027,4-Nitrophenol,100-02-7,47917,NEI
 3697243,5-Methylchrysene,3697-24-3,91779,NEI
 602879,5-Nitroacenaphthene,602-87-9,90653,NEI
+7496028,6-Nitrochrysene,7496-02-8,78944,NEI
 57976,"7,12-Dimethylbenz[a]Anthracene",57-97-6,89262,NEI
 194592,"7H-Dibenzo[c,g]carbazole",194-59-2,91722,NEI
+2043530,8:2 Fluorotelomer iodide,2043-53-0,39707,NEI
+779022,9-Methyl Anthracene,779-02-2,44120,NEI
 83329,Acenaphthene,83-32-9,48599,NEI
 208968,Acenaphthylene,208-96-8,46344,NEI
 75070,Acetaldehyde,75-07-0,48526,NEI
@@ -879,6 +946,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 107131,Acrylonitrile,107-13-1,47480,NEI
 107051,Allyl Chloride,107-05-1,47486,NEI
 NH3,Ammonia,7664-41-7,38644,NEI
+62037803,Ammonium perfluoro-2-methyl-3-oxahexanoate,62037-80-3,100310,NEI
 62533,Aniline,62-53-3,49067,NEI
 120127,Anthracene,120-12-7,95212,NEI
 7440360,Antimony,7440-36-0,36975,NEI
@@ -940,10 +1008,12 @@ CO,Carbon Monoxide,630-08-0,44569,NEI
 1319773,Cresol/Cresylic Acid (Mixed Isomers),1319-77-3,43230,NEI
 98828,Cumene,98-82-8,47969,NEI
 57125,Cyanide,57-12-5,89604,NEI
+72559,"DDE (1,1-Dichloro-2,2-Bis(p-Chlorophenyl) Ethylene)",72-55-9,88479,NEI
 2051243,Decachlorobiphenyl (PCB-209),2051-24-3,93573,NEI
 16672392,Di(Ethylene Glycol Monobutyl Ether) Phthalate,16672-39-2,60034,NEI
 334883,Diazomethane,334-88-3,46205,NEI
 226368,"Dibenz[a,h]acridine",226-36-8,92639,NEI
+53703,"Dibenzo(a,h)Anthracene",53-70-3,49154,NEI
 192654,"Dibenzo[a,e]Pyrene",192-65-4,46350,NEI
 53703,"Dibenzo[a,h]Anthracene",53-70-3,49154,NEI
 189640,"Dibenzo[a,h]Pyrene",189-64-0,46353,NEI
@@ -961,12 +1031,15 @@ CO,Carbon Monoxide,630-08-0,44569,NEI
 1002671,Diethylene Glycol Ethyl Methyl Ether,1002-67-1,78938,NEI
 112345,Diethylene Glycol Monobutyl Ether,112-34-5,47276,NEI
 111900,Diethylene Glycol Monoethyl Ether,111-90-0,47301,NEI
+18912806,Diethylene Glycol Monoisobutyl Ether,18912-80-6,62450,NEI
 111773,Diethylene Glycol Monomethyl Ether,111-77-3,96237,NEI
 131113,Dimethyl Phthalate,131-11-3,97998,NEI
 77781,Dimethyl Sulfate,77-78-1,48799,NEI
 79447,Dimethylcarbamoyl Chloride,79-44-7,48709,NEI
+65605585,"Dodecyl 2-methylprop-2-enoate;3,3,3-trifluoropropyl 2-methylprop-2-enoate",65605-58-5,73172,NEI
 EC,Elemental Carbon portion of PM2.5-PRI,,36834,NEI
 106898,Epichlorohydrin,106-89-8,96714,NEI
+65530634,"Ethanol, 2,2-iminobis-, compd. with .alpha.-fluoro-.omega.-[2-(phosphonooxy)ethyl]poly(difluorom...",65530-63-4,73281,NEI
 112505,Ethoxytriglycol,112-50-5,47264,NEI
 140885,Ethyl Acrylate,140-88-5,97768,NEI
 100414,Ethyl Benzene,100-41-4,94770,NEI
@@ -981,6 +1054,7 @@ EC,Elemental Carbon portion of PM2.5-PRI,,36834,NEI
 110496,Ethylene Glycol Monomethyl Ether Acetate,110-49-6,47687,NEI
 75218,Ethylene Oxide,75-21-8,48517,NEI
 96457,Ethylene Thiourea,96-45-7,48129,NEI
+23495127,Ethyleneglycol Monophenyl Ether Propionate,23495-12-7,56009,NEI
 151564,Ethyleneimine,151-56-4,46377,NEI
 75343,Ethylidene Dichloride,75-34-3,48932,NEI
 284,Extractable Organic Matter (EOM),,96236,NEI
@@ -988,6 +1062,7 @@ EC,Elemental Carbon portion of PM2.5-PRI,,36834,NEI
 206440,Fluoranthene,206-44-0,46345,NEI
 86737,Fluorene,86-73-7,48444,NEI
 50000,Formaldehyde,50-00-0,49201,NEI
+613,Glasswool (Man-Made Fibers),308066-92-4,97171,NEI
 171,Glycol Ethers,,82439,NEI
 76448,Heptachlor,76-44-8,87744,NEI
 28655712,Heptachlorobiphenyl,28655-71-2,59307,NEI
@@ -996,6 +1071,7 @@ EC,Elemental Carbon portion of PM2.5-PRI,,36834,NEI
 87683,Hexachlorobutadiene,87-68-3,48415,NEI
 77474,Hexachlorocyclopentadiene,77-47-4,48812,NEI
 67721,Hexachloroethane,67-72-1,49017,NEI
+13252136,Hexafluoropropylene oxide dimer acid (HFPO-DA) (GenX),13252-13-6,99841,NEI
 822060,Hexamethylene Diisocyanate,822-06-0,44441,NEI
 680319,Hexamethylphosphoramide,680-31-9,44344,NEI
 110543,Hexane,110-54-3,47684,NEI
@@ -1015,6 +1091,7 @@ EC,Elemental Carbon portion of PM2.5-PRI,,36834,NEI
 CH4,Methane,74-82-8,48548,NEI
 67561,Methanol,67-56-1,49023,NEI
 72435,Methoxychlor,72-43-5,48560,NEI
+111104,Methoxyethyl Oleate,111-10-4,46935,NEI
 112356,Methoxytriglycol,112-35-6,47275,NEI
 74839,Methyl Bromide,74-83-9,48547,NEI
 74873,Methyl Chloride,74-87-3,48543,NEI
@@ -1044,6 +1121,7 @@ NO3,Nitrate portion of PM2.5-PRI,,97628,NEI
 NOX,Nitrogen Oxides,,96397,NEI
 N2O,Nitrous Oxide,10024-97-2,94780,NEI
 OC,Organic Carbon portion of PM2.5-PRI,,35872,NEI
+10028156,Ozone,10028-15-6,39347,NEI
 130498292,"PAH, total",130498-29-2,84476,NEI
 250,PAH/POM - Unspecified,,106307,NEI
 PM-CON,PM Condensible,,77680,NEI
@@ -1057,6 +1135,9 @@ DIESEL-PM25,PM25-Primary from certain diesel engines,,79581,NEI
 25429292,Pentachlorobiphenyl,25429-29-2,56172,NEI
 82688,Pentachloronitrobenzene,82-68-8,98352,NEI
 87865,Pentachlorophenol,87-86-5,48409,NEI
+355464,Perfluorohexanesulfonic acid (PFHxS),355-46-4,46454,NEI
+1763231,Perfluorooctanesulfonic acid (PFOS),1763-23-1,40757,NEI
+335671,Perfluorooctanoic acid (PFOA),335-67-1,46198,NEI
 198550,Perylene,198-55-0,46348,NEI
 85018,Phenanthrene,85-01-8,98155,NEI
 108952,Phenol,108-95-2,47376,NEI
@@ -1065,8 +1146,13 @@ DIESEL-PM25,PM25-Primary from certain diesel engines,,79581,NEI
 7803512,Phosphine,7803-51-2,37301,NEI
 7723140,Phosphorus,7723-14-0,38478,NEI
 85449,Phthalic Anhydride,85-44-9,48853,NEI
+65530703,"Poly(difluoromethylene), .alpha.,.alpha.-[phosphinicobis(oxy-2,1-ethanediyl)]bis[.omega.-fluoro-...",65530-70-3,73274,NEI
+65530725,"Poly(difluoromethylene), .alpha.-fluoro-.omega.-[2-(phosphonooxy)ethyl]-, diammonium salt",65530-72-5,73215,NEI
+65545804,"Poly(oxy-1,2-ethanediyl), .alpha.-hydro-.omega.-hydroxy-, ether with .alpha.-fluoro-.omega.-(2-hy...",65545-80-4,73200,NEI
 1336363,Polychlorinated Biphenyls,1336-36-3,16366,NEI
+246,Polycyclic Organic Matter,,35886,NEI
 N590,Polycyclic aromatic compounds (includes 25 specific compounds),,35883,NEI
+2795393,Potassium perfluorooctanesulfonate (PFOS-K),2795-39-3,41715,NEI
 123386,Propionaldehyde,123-38-6,94706,NEI
 114261,Propoxur,114-26-1,95786,NEI
 2807309,Propyl Cellosolve,2807-30-9,41708,NEI
@@ -1078,6 +1164,7 @@ N590,Polycyclic aromatic compounds (includes 25 specific compounds),,35883,NEI
 PMFINE,Remaining PMFINE portion of PM2.5-PRI,,79581,NEI
 617,Rockwool (Man-Made Fibers),,35894,NEI
 7782492,Selenium,7782-49-2,38145,NEI
+143372547,"Siloxanes and Silicones, (3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,10-heptadecafluorodecyl)oxy Me, hydro...",143372-54-7,25329,NEI
 616,Slagwool (Man-Made Fibers),,,NEI
 100425,Styrene,100-42-5,47892,NEI
 96093,Styrene Oxide,96-09-3,48148,NEI
@@ -1087,6 +1174,7 @@ SF6,Sulfur Hexafluoride,2551-62-4,39886,NEI
 540885,Tert-butyl Acetate,540-88-5,45532,NEI
 26914330,Tetrachlorobiphenyl,26914-33-0,93149,NEI
 127184,Tetrachloroethylene,127-18-4,46750,NEI
+70969470,"Thiols, C8-20, .gamma.-.omega.-perfluoro, telomers with acrylamide",70969-47-0,28779,NEI
 7550450,Titanium Tetrachloride,7550-45-0,39509,NEI
 108883,Toluene,108-88-3,47380,NEI
 95807,"Toluene-2,4-Diamine",95-80-7,47729,NEI
@@ -1169,6 +1257,7 @@ U243,"1-PROPENE, 1,1,2,3,3,3-HEXACHLORO- (OR) HEXACHLOROPROPENE",1888-71-7,40325
 U011,"1H-1,2,4-TRIAZOL-3-AMINE (OR) AMITROLE",61-82-5,49075,RCRAInfo
 D017,"2,4,5-TP SILVEX (2,4,5-TRICHLOROPHENOXYPROPIONIC ACID)",93-72-1,48153,RCRAInfo
 D041,"2,4,5-TRICHLOROPHENOL",95-95-4,47719,RCRAInfo
+U480,"2,4,6, TRIBROMPHENOL (I.E.; DISCARDED COMMERCIAL CHEMICAL PRODUCTS, OFF-SPECIFICATION SPECIES, CONTAINER RESIDUES, AND SPILL RESIDUES THEREOF)",,,RCRAInfo
 D042,"2,4,6-TRICHLOROPHENOL",88-06-2,48401,RCRAInfo
 U237,"2,4-(1H,3H)-PYRIMIDINEDIONE, 5-[BIS(2-CHLOROETHYL)AMINO]- (OR) URACIL MUSTARD",66-75-1,88781,RCRAInfo
 D016,"2,4-D (2,4-DICHLOROPHENOXYACETIC ACID)",94-75-7,48475,RCRAInfo
@@ -1283,6 +1372,7 @@ D005,BARIUM,7440-39-3,36972,RCRAInfo
 P013,BARIUM CYANIDE,542-62-1,45500,RCRAInfo
 W309,BATTERIES,,98826,RCRAInfo
 U278,"BENDIOCARB (OR) 1,3-BENZODIOXOL-4-OL, 2,2-DIMETHYL-, METHYL CARBAMATE",22781-23-3,56467,RCRAInfo
+U364,"BENDIOCARB PHENOL (OR) 1,3-BENZODIOXOL-4-OL, 2,2-DIMETHYL-",22961-82-6,56440,RCRAInfo
 U271,"BENOMYL (OR) CARBAMIC ACID, [1-[(BUTYLAMINO)CARBONYL]-1H-BENZIMIDAZOL-2-YL]-, METHYL ESTER",17804-35-2,36086,RCRAInfo
 U017,"BENZAL CHLORIDE (OR) BENZENE, (DICHLOROMETHYL)-",98-87-3,87272,RCRAInfo
 U192,"BENZAMIDE, 3,5-DICHLORO-N-(1,1-DIMETHYL-2-PROPYNYL)- (OR) PRONAMIDE",23950-58-5,58676,RCRAInfo
@@ -1345,6 +1435,7 @@ U097,"CARBAMIC CHLORIDE, DIMETHYL- (OR) DIMETHYLCARBAMOYL CHLORIDE",79-44-7,4870
 U114,"CARBAMODITHIOIC ACID, 1,2-ETHANEDIYLBIS-, SALTS & ESTERS (OR) ETHYLENEBISDITHIOCARBAMIC ACID, SALTS & ESTERS",,35868,RCRAInfo
 U389,"CARBAMOTHIOIC ACID, BIS(1-METHYLETHYL)-, S-(2,3,3-TRICHLORO-2-PROPENYL) ESTER (OR) TRIALLATE",2303-17-5,41312,RCRAInfo
 U062,"CARBAMOTHIOIC ACID, BIS(1-METHYLETHYL)-, S-(2,3-DICHLORO-2-PROPENYL) ESTER (OR) DIALLATE",2303-16-4,41313,RCRAInfo
+U387,"CARBAMOTHIOIC ACID, DIPROPYL-, S-(PHENYLMETHYL) ESTER (OR) PROSULFOCARB",52888-80-9,55193,RCRAInfo
 U279,"CARBARYL (OR) 1-NAPHTHALENOL, METHYLCARBAMATE",63-25-2,49061,RCRAInfo
 P022,CARBON DISULFIDE,75-15-0,48521,RCRAInfo
 U033,"CARBON OXYFLUORIDE (R,T) (OR) CARBONIC DIFLUORIDE",353-50-4,46163,RCRAInfo
@@ -1415,6 +1506,7 @@ K094,DISTILLATION BOTTOMS FROM THE PRODUCTION OF PHTHALIC ANHYDRIDE FROM ORTHO-X
 K023,DISTILLATION LIGHT ENDS FROM THE PRODUCTION OF PHTHALIC ANHYDRIDE FROM NAPHTHALENE.,,4287,RCRAInfo
 K085,DISTILLATION OR FRACTIONATION COLUMN BOTTOMS FROM THE PRODUCTION OF CHLOROBENZENES.,,4307,RCRAInfo
 K010,DISTILLATION SIDE CUTS FROM THE PRODUCTION OF ACETALDEHYDE FROM ETHYLENE.,,4299,RCRAInfo
+K101,DISTILLATION TAR RESIDUES FROM THE DISTILLATION OF ANILINE-BASED COMPOUNDS IN THE PRODUCTION OF VETERINARY PHARMACEUTICALS FROM ARSENIC OR ORGANO-ARSENIC COMPOUNDS.,,4340,RCRAInfo
 P039,"DISULFOTON (OR) PHOSPHORODITHIOIC ACID, O,O-DIETHYL S-[2-(ETHYLTHIO)ETHYL] ESTER",298-04-4,46311,RCRAInfo
 P049,DITHIOBIURET (OR) THIOIMIDODICARBONIC DIAMIDE [(H2N)C(S)]2NH,541-53-7,45519,RCRAInfo
 W406,DRIED PAINT,,95976,RCRAInfo
@@ -1460,6 +1552,7 @@ U126,GLYCIDYLALDEHYDE (OR) OXIRANECARBOXYALDEHYDE,765-34-4,87738,RCRAInfo
 U163,"GUANIDINE, N-METHYL-N'-NITRO-N-NITROSO- (OR) MNNG",70-25-7,48999,RCRAInfo
 W503,GYPSUM SLUDGES,,,RCRAInfo
 W202,HALOGENATED SOLVENT,,,RCRAInfo
+PHRM,HAZARDOUS WASTE PHARMACEUTICALS,,,RCRAInfo
 K050,HEAT EXCHANGER BUNDLE CLEANING SLUDGE FROM THE PETROLEUM REFINING INDUSTRY.,,4321,RCRAInfo
 K017,HEAVY ENDS (STILL BOTTOMS) FROM THE PURIFICATION COLUMN IN THE PRODUCTION OF EPICHLOROHYDRIN.,,4293,RCRAInfo
 K115,HEAVY ENDS FROM PURIFICATION OF TOLUENEDIAMINE IN THE PRODUCTION OF TOLUENEDIAMINE VIA HYDROGENATION OF DINITROTOLUENE.,,4375,RCRAInfo
@@ -1603,6 +1696,7 @@ U200,"RESERPINE (OR) YOHIMBAN-16-CARBOXYLIC ACID, 11,17-DIMETHOXY-18-[(3,4,5-TRI
 K148,"RESIDUES FROM COAL TAR DISTILLATION, INCLUDING, BUT NOT LIMITED TO, STILL BOTTOMS.",,4357,RCRAInfo
 K178,RESIDUES FROM MANUFACTURING AND MANUFACTURING-SITE STORAGE OF FERRIC CHLORIDE FROM ACIDS FORMED DURING THE PRODUCTION OF TITANIUM DIOXIDE USING THE CHLORIDE-ILMENITE PROCESS.,,4256,RCRAInfo
 K145,RESIDUES FROM NAPHTHALENE COLLECTION AND RECOVERY OPERATIONS FROM THE RECOVERY OF COKE BY-PRODUCTS PRODUCED FROM COAL.,,4359,RCRAInfo
+F028,"RESIDUES RESULTING FROM THE INCINERATION OR THERMAL TREATMENT OF SOIL CONTAMINATED WITH EPA HAZARDOUS WASTE NOS. F020, F021, F022, F023, F026, AND F027.",,4263,RCRAInfo
 W606,"RESINS, TAR SLUDGE",,,RCRAInfo
 W512,SEDIMENT,,,RCRAInfo
 U204,SELENIOUS ACID (OR) SELENIUM DIOXIDE,7783-00-8,87574,RCRAInfo
@@ -1623,6 +1717,7 @@ W204,SOLVENT MIXTURE,,,RCRAInfo
 K086,"SOLVENT WASHES AND SLUDGES, CAUSTIC WASHES AND SLUDGES, OR WATER WASHES AND SLUDGES FROM CLEANING TUBS AND EQUIPMENT USED IN THE FORMULATION OF INK FROM PIGMENTS, DRIERS, SOAPS, AND STABILIZERS CONTAINING CHROMIUM AND LEAD.",,4342,RCRAInfo
 K132,SPENT ABSORBENT AND WASTEWATER SEPARATOR SOLIDS FROM THE PRODUCTION OF METHYL BROMIDE.,,4366,RCRAInfo
 W103,SPENT ACID,,,RCRAInfo
+K118,SPENT ADSORBENT SOLIDS FROM PURIFICATION OF ETHYLENE DIBROMIDE IN THE PRODUCTION OF ETHYLENE DIBROMIDE VIA BROMINATION OF ETHENE.,,4372,RCRAInfo
 K045,SPENT CARBON FROM THE TREATMENT OF WASTEWATER CONTAINING EXPLOSIVES.,,4326,RCRAInfo
 K028,"SPENT CATALYST FROM THE HYDROCHLORINATOR REACTOR IN THE PRODUCTION OF 1,1,1-TRICHLOROETHANE.",,4282,RCRAInfo
 F007,SPENT CYANIDE PLATING BATH SOLUTIONS FROM ELECTROPLATING OPERATIONS.,,4386,RCRAInfo
@@ -1706,8 +1801,10 @@ U095,"[1,1'-BIPHENYL]-4,4'-DIAMINE, 3,3'-DIMETHYL- (OR) 3,3'-DIMETHYLBENZIDINE",
 354110,"1,1,1,2-Tetrachloro-2-fluoroethane (HCFC-121a)",354-11-0,92334,TRI
 630206,"1,1,1,2-Tetrachloroethane",630-20-6,44565,TRI
 71556,"1,1,1-Trichloroethane",71-55-6,48567,TRI
+354143,"1,1,2,2-Tetrachloro-1-fluoroethane (HCFC-121)",354-14-3,46473,TRI
 79345,"1,1,2,2-Tetrachloroethane",79-34-5,48715,TRI
 79005,"1,1,2-Trichloroethane",79-00-5,48739,TRI
+812044,"1,1-Dichloro-1,2,2-trifluoroethane (HCFC-123b)",812-04-4,44100,TRI
 1717006,"1,1-Dichloro-1-fluoroethane (HCFC-141b)",1717-00-6,40976,TRI
 57147,"1,1-Dimethylhydrazine",57-14-7,48940,TRI
 96184,"1,2,3-Trichloropropane",96-18-4,48142,TRI
@@ -1737,6 +1834,10 @@ U095,"[1,1'-BIPHENYL]-4,4'-DIAMINE, 3,3'-DIMETHYL- (OR) 3,3'-DIMETHYLBENZIDINE",
 106945,1-Bromopropane,106-94-5,47494,TRI
 354256,"1-Chloro-1,1,2,2-tetrafluoroethane (HCFC-124a)",354-25-6,46470,TRI
 75683,"1-Chloro-1,1-difluoroethane (HCFC-142b)",75-68-3,48914,TRI
+678397,"1-Decanol, 3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,10-heptadecafluoro-",,,TRI
+31506328,"1-Octanesulfonamide, 1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,8-heptadecafluoro-N-methyl-",,,TRI
+70983607,"1-Propanaminium, 2-hydroxy-N,N,N-trimethyl-, 3-[(¿-¿-perfluoro-C6-20-alkyl)thio] derivs., chlorides",,,TRI
+68187473,"1-Propanesulfonic acid, 2-methyl-, 2-[[1-oxo-3-[(¿-¿-perfluoro-C4-16-alkyl)thio]propyl]amino] derivs., sodium salts",,,TRI
 3296900,"2,2-Bis(bromomethyl)-1,3-propanediol",3296-90-0,93124,TRI
 306832,"2,2-Dichloro-1,1,1-trifluoroethane (HCFC-123)",306-83-2,46265,TRI
 78886,"2,3-Dichloropropene",78-88-6,48749,TRI
@@ -1772,6 +1873,10 @@ U095,"[1,1'-BIPHENYL]-4,4'-DIAMINE, 3,3'-DIMETHYL- (OR) 3,3'-DIMETHYLBENZIDINE",
 88755,2-Nitrophenol,88-75-5,88124,TRI
 79469,2-Nitropropane,79-46-9,48708,TRI
 90437,2-Phenylphenol,90-43-7,48299,TRI
+68227963,"2-Propenoic acid, butyl ester, telomer with 2-[[(heptadecafluorooctyl)sulfonyl]methylamino]ethyl 2-propenoate, 2-[methyl[(nonafluorobutyl)sulfonyl]amino]ethyl 2-propenoate, a-(2-methyl-1-oxo-2-propenyl)-¿-hydroxypoly(oxy-1,4-butanediyl), a-(2-methyl-1-oxo-2-propenyl)-¿-[(2-methyl-1-oxo-2-propenyl)oxy]poly(oxy-1,4-butanediyl), 2-[methyl[(pentadecafluoroheptyl)sulfonyl]amino]ethyl 2-propenoate, 2-[methyl[(tridecafluorohexyl)sulfonyl]amino]ethyl 2-propenoate, 2-[methyl[(undecafluoropentyl)sulfonyl]amino]ethyl 2-propenoate and 1-octanethiol",,,TRI
+68227963,"2-Propenoic acid, butyl ester, telomer with 2-[[(heptadecafluorooctyl)sulfonyl]methylamino]ethyl 2-propenoate, 2-[methyl[(nonafluorobutyl)sulfonyl]amino]ethyl 2-propenoate, a-(2-methyl-1-oxo-2-propenyl)-Ώ-hydroxypoly(oxy-1,4-butanediyl), a-(2-methyl-1-oxo-2-propenyl)-Ώ-[(2-methyl-1-oxo-2-propenyl)oxy]poly(oxy-1,4-butanediyl), 2-[methyl[(pentadecafluoroheptyl)sulfonyl]amino]ethyl 2-propenoate, 2-[methyl[(tridecafluorohexyl)sulfonyl]amino]ethyl 2-propenoate, 2-[methyl[(undecafluoropentyl)sulfonyl]amino]ethyl 2-propenoate and 1-octanethiol",,,TRI
+65605585,"2-Propenoic acid, esters, 2-methyl-, dodecyl ester, polymer with a-fluoro-¿-[2-[(2-methyl-1-oxo-2-propen-1-yl)oxy]ethyl]poly(difluoromethylene)",,,TRI
+65605585,"2-Propenoic acid, esters, 2-methyl-, dodecyl ester, polymer with a-fluoro-Ώ-[2-[(2-methyl-1-oxo-2-propen-1-yl)oxy]ethyl]poly(difluoromethylene)",,,TRI
 91941,"3,3'-Dichlorobenzidine",91-94-1,48246,TRI
 612839,"3,3'-Dichlorobenzidine dihydrochloride",612-83-9,90122,TRI
 119904,"3,3'-Dimethoxybenzidine",119-90-4,47040,TRI
@@ -1844,6 +1949,7 @@ N050,Beryllium compounds,,35863,TRI
 111911,Bis(2-chloroethoxy)methane,111-91-1,96048,TRI
 111444,Bis(2-chloroethyl) ether,111-44-4,46914,TRI
 542881,Bis(chloromethyl) ether,542-88-1,45495,TRI
+56359,Bis(tributyltin) oxide,56-35-9,89949,TRI
 10294345,Boron trichloride,10294-34-5,39059,TRI
 7637072,Boron trifluoride,7637-07-2,38667,TRI
 314409,Bromacil,314-40-9,46247,TRI
@@ -1857,6 +1963,7 @@ N050,Beryllium compounds,,35863,TRI
 357573,Brucine,357-57-3,92161,TRI
 141322,Butyl acrylate,141-32-2,46147,TRI
 123728,Butyraldehyde,123-72-8,94699,TRI
+569642,C.I. Basic Green 4,569-64-2,45646,TRI
 1937377,C.I. Direct Black 38,1937-37-7,40116,TRI
 28407376,C.I. Direct Blue 218,28407-37-6,92583,TRI
 81889,C.I. Food Red 15,81-88-9,87016,TRI
@@ -1875,6 +1982,7 @@ N078,Cadmium compounds,,35862,TRI
 120809,Catechol,120-80-9,47008,TRI
 N230,Certain glycol ethers,,35893,TRI
 57749,Chlordane,57-74-9,49134,TRI
+115286,Chlorendic acid,115-28-6,47165,TRI
 90982324,Chlorimuron-ethyl,90982-32-4,87979,TRI
 7782505,Chlorine,7782-50-5,38144,TRI
 10049044,Chlorine dioxide,10049-04-4,39291,TRI
@@ -1894,6 +2002,7 @@ N084,Chlorophenols,1336-35-2,82789,TRI
 64902723,Chlorsulfuron,64902-72-3,89687,TRI
 7440473,Chromium,7440-47-3,36831,TRI
 N090,Chromium compounds (except for chromite ore mined in the Transvaal Region),,35917,TRI
+68141026,Chromium(III) perfluorooctanoate,,,TRI
 7440484,Cobalt,7440-48-4,36830,TRI
 N096,Cobalt compounds,,35860,TRI
 7440508,Copper,7440-50-8,36829,TRI
@@ -1911,6 +2020,7 @@ N106,Cyanide compounds,,35859,TRI
 68359375,Cyfluthrin,68359-37-5,90789,TRI
 533744,Dazomet,533-74-4,45614,TRI
 1163195,Decabromodiphenyl oxide,1163-19-5,95770,TRI
+2043530,"Decane, 1,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8-heptadecafluoro-10-iodo-",,,TRI
 13684565,Desmedipham,13684-56-5,36428,TRI
 117817,Di(2-ethylhexyl) phthalate,117-81-7,95501,TRI
 2303164,Diallate,2303-16-4,41313,TRI
@@ -1955,6 +2065,11 @@ N150,Dioxin and dioxin-like compounds,,35957,TRI
 136458,Dipropyl isocinchomeronate,136-45-8,46580,TRI
 330541,Diuron,330-54-1,46215,TRI
 106898,Epichlorohydrin,106-89-8,96714,TRI
+56773423,"Ethanaminium, N,N,N-triethyl-, salt with 1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,8-heptadecafluoro-1-octanesulfonic acid (1:1)",,,TRI
+65530645,"Ethanol, 2,2'-iminobis-, compd. with a,a'-[phosphinicobis(oxy-2,1-ethanediyl)]bis[¿-fluoropoly(difluoromethylene)] (1:1)",,,TRI
+65530645,"Ethanol, 2,2'-iminobis-, compd. with a,a'-[phosphinicobis(oxy-2,1-ethanediyl)]bis[Ώ-fluoropoly(difluoromethylene)] (1:1)",,,TRI
+65530634,"Ethanol, 2,2'-iminobis-, compd. with a-fluoro-¿-[2-(phosphonooxy)ethyl]poly(difluoromethylene) (2:1)",,,TRI
+65530634,"Ethanol, 2,2'-iminobis-, compd. with a-fluoro-Ώ-[2-(phosphonooxy)ethyl]poly(difluoromethylene) (2:1)",,,TRI
 13194484,Ethoprop,13194-48-4,97974,TRI
 140885,Ethyl acrylate,140-88-5,97768,TRI
 541413,Ethyl chloroformate,541-41-3,91429,TRI
@@ -1967,10 +2082,12 @@ N171,"Ethylenebisdithiocarbamic acid, salts and esters",,35868,TRI
 151564,Ethyleneimine,151-56-4,46377,TRI
 75343,Ethylidene dichloride,75-34-3,48932,TRI
 52857,Famphur,52-85-7,89102,TRI
+13356086,Fenbutatin oxide,13356-08-6,97918,TRI
 66441234,Fenoxaprop-ethyl,66441-23-4,72900,TRI
 72490018,Fenoxycarb,72490-01-8,63960,TRI
 39515418,Fenpropathrin,39515-41-8,53080,TRI
 14484641,Ferbam,14484-64-1,60313,TRI
+2164172,Fluometuron,2164-17-2,41764,TRI
 7782414,Fluorine,7782-41-4,38148,TRI
 51218,Fluorouracil,51-21-8,89828,TRI
 133073,Folpet,133-07-3,97937,TRI
@@ -1986,6 +2103,8 @@ N171,"Ethylenebisdithiocarbamic acid, salts and esters",,35868,TRI
 77474,Hexachlorocyclopentadiene,77-47-4,48812,TRI
 67721,Hexachloroethane,67-72-1,49017,TRI
 70304,Hexachlorophene,70-30-4,87232,TRI
+13252136,Hexafluoropropylene oxide dimer acid,,,TRI
+62037803,Hexafluoropropylene oxide dimer acid ammonium salt,,,TRI
 51235042,Hexazinone,51235-04-2,55696,TRI
 67485294,Hydramethylnon,67485-29-4,73866,TRI
 302012,Hydrazine,302-01-2,46284,TRI
@@ -2026,6 +2145,7 @@ N458,Mercury compounds,,35797,TRI
 72435,Methoxychlor,72-43-5,48560,TRI
 96333,Methyl acrylate,96-33-3,48133,TRI
 79221,Methyl chlorocarbonate,79-22-1,48721,TRI
+78933,Methyl ethyl ketone,78-93-3,48746,TRI
 60344,Methyl hydrazine,60-34-4,49090,TRI
 74884,Methyl iodide,74-88-4,48542,TRI
 108101,Methyl isobutyl ketone,108-10-1,47428,TRI
@@ -2033,6 +2153,7 @@ N458,Mercury compounds,,35797,TRI
 556616,Methyl isothiocyanate,556-61-6,90175,TRI
 80626,Methyl methacrylate,80-62-6,48666,TRI
 298000,Methyl parathion,298-00-0,92019,TRI
+376272,Methyl perfluorooctanoate,,,TRI
 1634044,Methyl tert-butyl ether,1634-04-4,41401,TRI
 74953,Methylene bromide,74-95-3,48537,TRI
 21087649,Metribuzin,21087-64-9,93379,TRI
@@ -2051,6 +2172,7 @@ MIXTURE,Mixture,,137414,TRI
 924163,N-Nitrosodi-n-butylamine,924-16-3,43926,TRI
 621647,N-Nitrosodi-n-propylamine,621-64-7,44785,TRI
 55185,N-Nitrosodiethylamine,55-18-5,48982,TRI
+62759,N-Nitrosodimethylamine,62-75-9,49062,TRI
 86306,N-Nitrosodiphenylamine,86-30-6,48460,TRI
 4549400,N-Nitrosomethylvinylamine,4549-40-0,93674,TRI
 100754,N-Nitrosopiperidine,100-75-4,47866,TRI
@@ -2071,6 +2193,7 @@ N530,Nonylphenol,,126137,TRI
 N535,Nonylphenol Ethoxylates,,,TRI
 27314132,Norflurazon,27314-13-2,57392,TRI
 29082744,Octachlorostyrene,29082-74-4,59178,TRI
+335660,"Octanoyl fluoride, pentadecafluoro-",,,TRI
 19044883,Oryzalin,19044-88-3,91924,TRI
 20816120,Osmium tetroxide,20816-12-0,57607,TRI
 19666309,Oxadiazon,19666-30-9,58712,TRI
@@ -2086,6 +2209,13 @@ N535,Nonylphenol Ethoxylates,,,TRI
 87865,Pentachlorophenol,87-86-5,48409,TRI
 57330,Pentobarbital sodium,57-33-0,89588,TRI
 79210,Peracetic acid,79-21-0,48722,TRI
+594423,Perchloromethyl mercaptan,594-42-3,45058,TRI
+355464,Perfluorohexanesulfonic acid,,,TRI
+375951,Perfluorononanoic acid,,,TRI
+1763231,Perfluorooctane sulfonic acid,,,TRI
+335671,Perfluorooctanoic acid,,,TRI
+21652584,Perfluorooctyl Ethylene,,,TRI
+507631,Perfluorooctyl iodide,,,TRI
 52645531,Permethrin,52645-53-1,55274,TRI
 85018,Phenanthrene,85-01-8,98155,TRI
 108952,Phenol,108-95-2,47376,TRI
@@ -2099,12 +2229,19 @@ N535,Nonylphenol Ethoxylates,,,TRI
 1918021,Picloram,1918-02-1,91763,TRI
 88891,Picric acid,88-89-1,88120,TRI
 51036,Piperonyl butoxide,51-03-6,49180,TRI
+65530703,"Poly(difluoromethylene), a,a'-[phosphinicobis(oxy-2,1-ethanediyl)]bis[¿-fluoro-, ammonium salt",,,TRI
+65530703,"Poly(difluoromethylene), a,a'-[phosphinicobis(oxy-2,1-ethanediyl)]bis[Ώ-fluoro-, ammonium salt",,,TRI
+65530725,"Poly(difluoromethylene), a-fluoro-¿-[2-(phosphonooxy)ethyl]-, diammonium salt",,,TRI
+65530725,"Poly(difluoromethylene), a-fluoro-Ώ-[2-(phosphonooxy)ethyl]-, diammonium salt",,,TRI
+65545804,"Poly(oxy-1,2-ethanediyl), a-hydro-¿-hydroxy-, ether with a-fluoro-¿-(2-hydroxyethyl)poly(difluoromethylene) (1:1)",,,TRI
+65545804,"Poly(oxy-1,2-ethanediyl), a-hydro-Ώ-hydroxy-, ether with a-fluoro-Ώ-(2-hydroxyethyl)poly(difluoromethylene) (1:1)",,,TRI
 N583,Polychlorinated alkanes (C10-C13),,101895,TRI
 1336363,Polychlorinated biphenyls,1336-36-3,16366,TRI
 N590,Polycyclic aromatic compounds,,35883,TRI
 137417,Potassium N-methyldithiocarbamate,137-41-7,46561,TRI
 7758012,Potassium bromate,7758-01-2,38344,TRI
 128030,Potassium dimethyldithiocarbamate,128-03-0,94449,TRI
+2795393,Potassium perfluorooctanesulfonate,,,TRI
 7287196,Prometryn,7287-19-6,88330,TRI
 23950585,Pronamide,23950-58-5,58676,TRI
 1918167,Propachlor,1918-16-7,40139,TRI
@@ -2128,6 +2265,7 @@ N590,Polycyclic aromatic compounds,,35883,TRI
 94597,Safrole,94-59-7,48487,TRI
 7782492,Selenium,7782-49-2,38145,TRI
 N725,Selenium compounds,,35854,TRI
+143372547,"Siloxanes and Silicones, (3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,10-heptadecafluorodecyl)oxy Me, hydroxy Me, Me octyl, ethers with polyethylene glycol mono-Me ether",,,TRI
 7440224,Silver,7440-22-4,36986,TRI
 N740,Silver compounds,,35973,TRI
 122349,Simazine,122-34-9,94729,TRI
@@ -2140,6 +2278,8 @@ N740,Silver compounds,,35973,TRI
 N746,Strychnine and salts,,35866,TRI
 100425,Styrene,100-42-5,47892,TRI
 96093,Styrene oxide,96-09-3,48148,TRI
+4151502,Sulfluramid,,,TRI
+180582790,"Sulfonic acids, C6-12-alkane, ¿-¿-perfluoro, ammonium salts",,,TRI
 7664939,"Sulfuric acid (acid aerosols including mists, vapors, gas, fog, and other airborne forms of any particle size)",7664-93-9,38642,TRI
 2699798,Sulfuryl fluoride,2699-79-8,93141,TRI
 34014181,Tebuthiuron,34014-18-1,55077,TRI
@@ -2157,6 +2297,7 @@ N760,Thallium compounds,,35889,TRI
 62555,Thioacetamide,62-55-5,49065,TRI
 28249776,Thiobencarb,28249-77-6,92602,TRI
 59669260,Thiodicarb,59669-26-0,51689,TRI
+70969470,"Thiols, C8-20, ¿-¿-perfluoro, telomers with acrylamide",,,TRI
 23564058,Thiophanate-methyl,23564-05-8,92271,TRI
 79196,Thiosemicarbazide,79-19-6,48724,TRI
 62566,Thiourea,62-56-6,89392,TRI
@@ -2172,6 +2313,7 @@ TRD SECRT,Trade Secret,,137413,TRI
 43121433,Triadimefon,43121-43-3,53469,TRI
 2303175,Triallate,2303-17-5,41312,TRI
 101200480,Tribenuron-methyl,101200-48-0,63362,TRI
+2155706,Tributyltin methacrylate,2155-70-6,41947,TRI
 52686,Trichlorfon,52-68-6,49159,TRI
 76028,Trichloroacetyl chloride,76-02-8,48887,TRI
 79016,Trichloroethylene,79-01-6,48738,TRI
@@ -2209,6 +2351,7 @@ N982,Zinc compounds,,35887,TRI
 95534,o-Toluidine,95-53-4,47748,TRI
 636215,o-Toluidine hydrochloride,636-21-5,44525,TRI
 95476,o-Xylene,95-47-6,87536,TRI
+104949,p-Anisidine,104-94-9,47608,TRI
 106478,p-Chloroaniline,106-47-8,47523,TRI
 120718,p-Cresidine,120-71-8,47012,TRI
 106445,p-Cresol,106-44-5,47526,TRI
