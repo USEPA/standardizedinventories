@@ -8,7 +8,7 @@ options A:C.
 This file requires parameters be passed like:
     Option -Y Year
 
-Options:
+Option:
     A - for downloading NEI Point data and
         generating inventory files for StEWI:
         flowbyfacility
@@ -18,14 +18,7 @@ Options:
     B - for downloading national totals for validation
 
 Year:
-    2018
-    2017
-    2016
-    2015
-    2014
-    2013
-    2012
-    2011
+    2011-2020
 """
 
 import argparse
@@ -132,9 +125,9 @@ def generate_national_totals(year):
 
     # generate url based on data year
     build_url = _config['national_url']
-    version = _config['national_version'][year]
+    file = _config['national_version'][year]
     url = build_url.replace('__year__', year)
-    url = url.replace('__version__', version)
+    url = url.replace('__file__', file)
 
     # make http request
     r = []
@@ -186,7 +179,7 @@ def generate_national_totals(year):
 
     # Update validationSets_Sources.csv
     validation_dict = {'Inventory': 'NEI',
-                       'Version': version,
+                       'Version': file,
                        'Year': year,
                        'Name': 'NEI Data',
                        'URL': url,
@@ -209,7 +202,8 @@ def validate_national_totals(nei_flowbyfacility, year):
           .rename(columns={'FlowAmount[kg]': 'FlowAmount'}))
     validation_result = validate_inventory(nei_flowbyfacility,
                                            nei_national_totals,
-                                           group_by='flow', tolerance=5.0)
+                                           group_by=['FlowName'],
+                                           tolerance=5.0)
     write_validation_result('NEI', year, validation_result)
 
 
@@ -244,8 +238,8 @@ def main(**kwargs):
         kwargs = vars(parser.parse_args())
 
     for year in kwargs['Year']:
+        year = str(year)
         if kwargs['Option'] == 'A':
-
             nei_point = standardize_output(year)
             nei_point, parameters = (assign_secondary_context(
                 nei_point, int(year), 'urb', 'rh', 'concat'))
@@ -294,17 +288,17 @@ def main(**kwargs):
 
             generate_metadata(year, parameters)
 
-            if year in ['2011', '2014', '2017']:
+            if year in ['2011', '2014', '2017', '2020']:
                 validate_national_totals(nei_flowbyfacility, year)
             else:
                 log.info('no validation performed')
 
         elif kwargs['Option'] == 'B':
-            if year in ['2011', '2014', '2017']:
+            if year in ['2011', '2014', '2017', '2020']:
                 generate_national_totals(year)
             else:
                 log.info(f'national totals do not exist for year {year}')
 
 
 if __name__ == '__main__':
-    main()
+    main(Year=[2019, 2020], Option='A')

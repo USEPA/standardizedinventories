@@ -15,7 +15,7 @@ from stewicombo.globals import getInventoriesforFacilityMatches, \
 
 def combineFullInventories(inventory_dict, filter_for_LCI=True,
                            remove_overlap=True, compartments=None,
-                           keep_sec_cntx=False):
+                           keep_sec_cntx=False, **kwargs):
     """Combine full stewi inventories.
 
     :param inventory_dict: dictionary of inventories and years,
@@ -36,7 +36,8 @@ def combineFullInventories(inventory_dict, filter_for_LCI=True,
                                                    facilitymatches,
                                                    filter_for_LCI,
                                                    base_inventory=None,
-                                                   keep_sec_cntx=keep_sec_cntx)
+                                                   keep_sec_cntx=keep_sec_cntx,
+                                                   **kwargs)
     if len(inventories) == 0:
         return None
     if compartments is not None:

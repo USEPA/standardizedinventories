@@ -1,0 +1,532 @@
+Chemical,CAS Number,Fugitive Air Emissions,Point Source Air Emissions,Surface Water Discharges,On-site Land Treatment,Other On-site Land Disposal,Off-site Land Treatment,Other Off-site Land Disposal
+"1,1,1,2-Tetrachloro-2-fluoroethane (HCFC-121a)",354110,"1,935.00",5,0,0,0,.,.
+"1,1,1,2-Tetrachloroethane",630206,"5,180.11",191.11,66,0,0,.,.
+"1,1,1-Trichloroethane",71556,"36,225.41","4,890.91",454,0,0,.,.
+"1,1,2,2-Tetrachloroethane",79345,"1,899.24",966.71,0,0,0,.,.
+"1,1,2-Trichloroethane",79005,"16,125.62","6,402.71",96.7395,0,0,.,.
+"1,1-Dichloro-1-fluoroethane (HCFC-141b)",1717006,"5,565.00",106.1,148,0,0,.,.
+"1,1-Dimethylhydrazine",57147,2.002,0.01,0,0,0,.,.
+"1,2,3-Trichloropropane",96184,"1,552.00",37,"3,010.00",0,0,.,.
+"1,2,4-Trichlorobenzene",120821,"6,647.25","2,037.90",0,0,0,.,.
+"1,2,4-Trimethylbenzene",95636,"925,219.18","2,861,577.35","1,160.58",3,"1,279.16",82.996,"2,059.33"
+"1,2-Butylene oxide",106887,"1,593.26",466.826,2,0,0,.,.
+"1,2-Dibromo-3-chloropropane",96128,0.002,0.109,0,0,0,.,.
+"1,2-Dibromoethane",106934,79.65,472.86,70,0,0,.,.
+"1,2-Dichloro-1,1,2-trifluoroethane (HCFC-123a)",354234,"98,091.08",370.484,0,0,0,.,.
+"1,2-Dichloro-1,1-difluoroethane (HCFC-132b)",1649087,565,"22,244.00",13,0,0,.,.
+"1,2-Dichlorobenzene",95501,"13,351.42","7,425.38",5,0,0,.,.
+"1,2-Dichloroethane",107062,"294,892.40","115,415.95","4,022.14",0,66.2,.,.
+"1,2-Dichloroethylene",540590,"37,719.62","4,588.21",30,0,0,.,.
+"1,2-Dichloropropane",78875,"10,482.40","7,788.89",291.691,0,0,.,.
+"1,2-Diphenylhydrazine",122667,3.02,0.01,0,0,0,.,.
+"1,2-Phenylenediamine",95545,80.57513,78.5444,0.1,0,0,0,.
+"1,3-Butadiene",106990,"367,961.52","835,646.95",773.34,1,364.240357,.,.
+"1,3-Dichlorobenzene",541731,3.00004,0.001,0,0,0,.,.
+"1,3-Dichloropropylene",542756,"2,623.00",791.02,"3,045.00",0,0,.,.
+"1,3-Phenylenediamine",108452,"1,367.21",340.4,0,0,0,.,.
+"1,3-Propane sultone",1120714,1.33,1.3,0,0,0,.,.
+"1,4-Dichloro-2-butene",764410,"2,433.00",12.01,98,0,0,.,.
+"1,4-Dichlorobenzene",106467,"25,699.50","2,894.35",5,0,0,.,.
+"1,4-Dioxane",123911,"27,112.61","47,627.52","65,341.67",0,0,.,.
+"1-(3-Chloroallyl)-3,5,7-triaza-1-azoniaadamantane chloride",4080313,0,0,0,0,0,.,.
+1-Bromopropane,106945,"527,127.39","256,332.90",0,0,"52,524.00",.,.
+"1-Chloro-1,1,2,2-tetrafluoroethane (HCFC-124a)",354256,"2,959.65",764.225,0,0,0,.,.
+"1-Chloro-1,1-difluoroethane (HCFC-142b)",75683,"96,719.80","20,081.00","3,721.00",0,0,.,.
+"1-Octanesulfonamide, 1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,8-heptadecafluoro-N-(2-hydroxyethyl)-N-methyl-",24448097,0,0,0,0,0,.,.
+"1-Octanesulfonamide, 1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,8-heptadecafluoro-N-methyl-",31506328,0,0,0.8,0,0,.,.
+"1-Propanaminium, 2-hydroxy-N,N,N-trimethyl-, 3-[(gamma-omega-perfluoro-C6-20-alkyl)thio] derivs., chlorides",70983607,0,0,0,0,0,.,.
+"1-Propanaminium, 3-amino-N-(carboxymethyl)-N,N-dimethyl-, N-[2-[(gamma-omega-perfluoro-C4-20-alkyl)thio]acetyl] derivs., inner salts",1078715613,0,0,0,0,0,.,.
+"1-Propanaminium, N,N,N-trimethyl-3-[[(pentadecafluoroheptyl)sulfonyl]amino]-, iodide",67584581,0,0,0,0,0,.,.
+"1-Propanaminium, N,N,N-trimethyl-3-[[(tridecafluorohexyl)sulfonyl]amino]-, iodide",68957584,0,0,0,0,0,.,.
+"1-Propanaminium, N,N,N-trimethyl-3-[[(undecafluoropentyl)sulfonyl]amino]-, iodide",68957573,0,0,0,0,0,.,.
+"1-Propanesulfonic acid, 2-methyl-, 2-[[1-oxo-3-[(gamma-omega-perfluoro-C4-16-alkyl)thio]propyl]amino] derivs., sodium salts",68187473,0,0,0,0,0,.,.
+"2,2-Bis(bromomethyl)-1,3-propanediol",3296900,5,90.03,0,0,0,.,.
+"2,2-Dichloro-1,1,1-trifluoroethane (HCFC-123)",306832,"29,709.98","10,227.90",0,0,0,.,.
+"2,3-Dichloropropene",78886,955,"1,942.00",0,0,0,.,.
+"2,4,5-Trichlorophenol",95954,7.02,0.02,0,0,0,.,.
+"2,4,6-Trichlorophenol",88062,310.010164,0.130049,0,0,0,.,.
+"2,4-D",94757,284.969,"1,020.95",231.02,0,0,40,250
+"2,4-D 2-butoxyethyl ester",1929733,2.25,39.44,0,0,0,.,.
+"2,4-D 2-ethylhexyl ester",1928434,"3,510.00",932.5,461.5,0,0,.,.
+"2,4-D butyl ester",94804,.,.,.,.,.,.,.
+"2,4-D sodium salt",2702729,1,0,0,0,0,.,.
+"2,4-DB",94826,1,1,0,0,0,.,.
+"2,4-Diaminotoluene",95807,518,156,0,0,0,.,.
+"2,4-Dichlorophenol",120832,20.783,24.535,0,0,0,.,"1,324.00"
+"2,4-Dimethylphenol",105679,"5,274.20","4,797.92",367.723,0,0,.,.
+"2,4-Dinitrophenol",51285,5,0,0,0,0,.,.
+"2,4-Dinitrotoluene",121142,56.715,"2,119.67",0,0,0,.,.
+"2,6-Dinitrotoluene",606202,6.104,490.32,0,0,0,.,.
+"2,6-Xylidine",87627,13,101,0,0,0,.,.
+"2-Chloro-1,1,1,2-tetrafluoroethane (HCFC-124)",2837890,"83,270.96","9,577.20",0,0,0,.,.
+"2-Chloro-1,1,1-trifluoroethane (HCFC-133a)",75887,"13,888.99","6,403.11",36,0,0,.,.
+2-Ethoxyethanol,110805,"32,004.94",368.801,0,0,0,.,.
+2-Mercaptobenzothiazole,149304,118.77,"1,267.00","1,397.00",0,0,.,27
+2-Methoxyethanol,109864,"2,520.89","1,642.52",5,0,0,.,.
+2-Methyllactonitrile,75865,"2,504.90","5,726.80",0,0,0,.,.
+2-Methylpyridine,109068,904.03,"4,894.35",0,0,0,.,.
+2-Nitrophenol,88755,0,0,121,0,0,.,.
+2-Nitropropane,79469,"9,423.01","10,830.01",0,0,0,.,.
+2-Phenylphenol,90437,21,7.13,0,0,0,.,.
+"2-Propenoic acid, 2-methyl-, octadecyl ester, polymer with 3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,12-heneicosafluorododecyl 2-propenoate, 3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,10-heptadecafluorodecyl 2-propenoate and 3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,14,14,14-pentacosafluorotetradecyl 2-propenoate",142636882,0,0,0,0,0,.,.
+"2-Propenoic acid, butyl ester, telomer with 2-[[(heptadecafluorooctyl)sulfonyl]methylamino]ethyl 2-propenoate, 2-[methyl[(nonafluorobutyl)sulfonyl]amino]ethyl 2-propenoate, alpha-(2-methyl-1-oxo-2-propenyl)-omega-hydroxypoly(oxy-1,4-butanediyl), alpha-(2-methyl-1-oxo-2-propenyl)-omega-[(2-methyl-1-oxo-2-propenyl)oxy]poly(oxy-1,4-butanediyl), 2-[methyl[(pentadecafluoroheptyl)sulfonyl]amino]ethyl 2-propenoate, 2-[methyl[(tridecafluorohexyl)sulfonyl]amino]ethyl 2-propenoate, 2-[methyl[(undecafluoropentyl)sulfonyl]amino]ethyl 2-propenoate and 1-octanethiol",68227963,0,0.41,0,0,0,.,.
+"2-Propenoic acid, esters, 2-methyl-, dodecyl ester, polymer with alpha-fluoro-omega-[2-[(2-methyl-1-oxo-2-propen-1-yl)oxy]ethyl]poly(difluoromethylene)",65605585,1,0,0,0,0,.,.
+2-[[(Heptadecafluorooctyl)sulfonyl]methylamino]ethyl acrylate,25268773,0,0,0,0,0,.,.
+"3,3'-Dichlorobenzidine",91941,0,0,0,0,0,.,.
+"3,3'-Dichlorobenzidine dihydrochloride",612839,0.73,4.13,0,0,0,.,.
+"3,3'-Dimethoxybenzidine",119904,12.1,3.94,0,0,0,.,.
+"3,3'-Dimethoxybenzidine dihydrochloride",20325400,0,0,0,0,0,.,.
+"3,3'-Dimethylbenzidine",119937,9.41,6.33,0,0,0,.,.
+"3-Chloro-1,1,1-trifluoropropane (HCFC-253fb)",460355,"2,269.82",21.8,0,0,0,.,.
+3-Chloro-2-methyl-1-propene,563473,166,207,0,0,0,.,.
+3-Chloropropionitrile,542767,2,0,0,0,0,.,.
+3-Iodo-2-propynyl butylcarbamate,55406536,687.41,306.22,0,289,0,37.6,7
+"3-[[(Heptadecafluorooctyl)sulfonyl]amino]-N,N,N-trimethyl-1-propanaminium iodide",1652637,0,0,0,0,0,.,.
+"4,4'-Diaminodiphenyl ether",101804,250,5.26,404,0,0,.,.
+"4,4'-Isopropylidenediphenol",80057,"28,437.88","15,141.47","1,630.55",0,0,"3,896.00","25,963.20"
+"4,4'-Methylenebis(2-chloroaniline)",101144,6.9000091,9.76,0,0,0,.,.
+"4,4'-Methylenedianiline",101779,"1,236.38",360.7,"3,328.00",0,0,.,.
+"4,6-Dinitro-o-cresol",534521,0,0,0,0,0,.,.
+4-Aminoazobenzene,60093,0,0,0,0,0,.,.
+4-Aminobiphenyl,92671,9.53,2.99,0,0,0,.,.
+4-Dimethylaminoazobenzene,60117,3,0,0,0,0,.,.
+4-Nitrophenol,100027,0.004,0.03,0,0,0,.,.
+5-Nitro-o-toluidine,99558,0.004,0.01,0,0,0,.,.
+Abamectin,71751412,4,3,0,0,0,.,.
+Acephate,30560191,1,1,0,0,0,.,.
+Acetaldehyde,75070,"1,331,126.58","6,308,839.48","299,269.93",99.1,25,10.306,.
+Acetamide,60355,0,72,255,0,0,.,.
+Acetonitrile,75058,"610,744.94","165,264.28","2,133.39",0,0,.,.
+Acetophenone,98862,"41,746.14","166,092.08",825.1,0,0,"1,319.45",.
+"Acifluorfen, sodium salt",62476599,5.2,5,0,0,0,.,.
+Acrolein,107028,"10,337.59","320,032.52",581.61,0,6,.,.
+Acrylamide,79061,"10,913.48","29,815.30",49,0,0,"1,146.00",.
+Acrylic acid,79107,"104,461.40","173,094.40","7,001.00",0,0,767,10
+Acrylonitrile,107131,"128,671.07","164,541.30",107.84,0,5,9,.
+Alachlor,15972608,0.011,0.002,0,0,0,.,.
+"Alcohols, C8-14, gamma-omega-perfluoro",68391082,0,0,0,0,0,.,.
+Aldicarb,116063,3,0,0,0,0,.,.
+Aldrin,309002,1.2401,1.09,0,0,0,.,.
+Allyl alcohol,107186,"35,357.95","10,671.98","13,991.49",0,0,0,"404,235.00"
+Allyl chloride,107051,"8,436.62","13,562.82",10,0,1,0,.
+Allylamine,107119,263,"1,004.20",0,0,0,.,.
+Aluminum (fume or dust),7429905,"207,822.73","550,110.59",0,0,"300,995.00",.,.
+Aluminum oxide (fibrous forms),1344281,"5,441.71","2,041.26",155.25,0,180.73,"386,346.00",217
+Aluminum phosphide,20859738,"21,234.00",2.6,0,0,0,.,.
+Ametryn,834128,5,5,0,0,0,.,.
+Amitrole,61825,3.004,0.02,0,0,0,.,.
+Ammonia,7664417,"35,473,548.45","98,021,865.75","4,310,128.54","579,134.12","186,392.51","1,014,791.32","88,487.20"
+Aniline,62533,"25,212.10","31,013.08",367,0,0,.,.
+Anthracene,120127,"5,215.36","2,872.33",319.766,0,21.6623,1,29
+Antimony,7440360,88.7147,"1,249.94",209.356,0,8.81,.,.
+Antimony compounds,N010,"7,995.27","14,868.96","5,763.11",33,"1,714,859.16",.,"51,403.80"
+Arsenic,7440382,42.736847,132.4211399,"5,084.62",0,"73,544.85",.,"23,295.00"
+Arsenic compounds,N020,"18,058.36","22,785.09","11,775.52","52,855.52","254,864,591.44","30,569.50","83,905.00"
+Asbestos (friable),1332214,"2,230.85",4.2717318,0,0,0,.,.
+Atrazine,1912249,"6,623.40","26,278.70",54.86,"263,741.00",0,14,"50,000.00"
+Barium,7440393,462.0699299,"3,128.43","1,880.44",0,"67,292.75",.,"28,532.01"
+Barium compounds (except for barium sulfate (CAS No. 7727-43-7)),N040,"92,343.46","585,476.20","414,181.71","272,335.35","52,395,638.73","647,964.42","3,963,348.30"
+Bendiocarb,22781233,0.1,0.1,0,0,0,.,.
+Benfluralin,1861401,.,.,.,.,.,.,.
+Benomyl,17804352,8.63,0.74,0,0,0,.,.
+Benzal chloride,98873,155.003,19.42,0,0,0,.,.
+Benzene,71432,"926,698.57","1,944,923.90","3,458.68",255,741.4278,535.8841,263.6024
+Benzidine,92875,3.001,0.01,0,0,0,.,.
+"Benzo[g,h,i]perylene",191242,"2,075.64","6,919.44",193.8063156,15.62,"4,220.26",165.0552,3.450965
+Benzoic trichloride,98077,0.003,0.01,0,0,0,.,.
+Benzoyl chloride,98884,"2,128.92","1,013.61",5,0,0,.,.
+Benzoyl peroxide,94360,920.112,16.13,0,0,0,.,.
+Benzyl chloride,100447,"2,742.40","1,168.50",8,0,0,.,.
+Beryllium,7440417,24.375,7.562,5.9,0,0,.,.
+Beryllium compounds,N050,55.217,679.7308003,167.83,695,"23,605.80",.,.
+Bifenthrin,82657043,137.73,554.75,0.3,0,5,.,.
+Biphenyl,92524,"82,781.62","39,209.36",56.032,0,304.31,.,.
+Bis(2-chloro-1-methylethyl) ether,108601,"1,135.00",19,317,0,0,.,.
+Bis(2-chloroethoxy)methane,111911,7.51,106.17,0,0,0,.,.
+Bis(2-chloroethyl) ether,111444,233.4,580.8359,4.05627,0,0,.,.
+Bis(chloromethyl) ether,542881,0,0,0,0,0,.,.
+Bis(tributyltin) oxide,56359,0,0,0,0,0,.,.
+Boron trichloride,10294345,61.8,"2,400.90",0,0,0,.,.
+Boron trifluoride,7637072,"5,295.44",259.74,0,0,0,.,.
+Bromacil,314409,250,250,0,0,0,.,750
+Bromine,7726956,"40,042.90","27,718.10",40,0,0,8,.
+Bromochlorodifluoromethane (Halon 1211),353593,"2,804.00",676,0,0,0,.,.
+Bromoform,75252,0,"6,727.00",0,0,0,.,.
+Bromomethane,74839,"17,569.00","263,416.02",52,0,0,.,.
+Bromotrifluoromethane (Halon 1301),75638,"12,705.00","1,228.00",0,0,0,.,.
+Bromoxynil,1689845,221.00008,44.02,0,0,0,.,.
+Bromoxynil octanoate,1689992,222.79,2,0,0,0,.,.
+Butyl acrylate,141322,"46,392.38","141,561.88",70.86,0,0,.,"1,000.00"
+Butyraldehyde,123728,"81,973.04","134,360.11","2,212.00",280,0,.,.
+C.I. Basic Green 4,569642,5,0,0,0,0,.,.
+C.I. Direct Blue 218,28407376,4,2,"4,456.00",0,0,.,.
+C.I. Food Red 15,81889,5,5,0,0,0,.,.
+C.I. Solvent Yellow 34,492808,3.004,0.01,0,0,0,.,.
+Cadmium,7440439,7.5332967,79.9275359,62.83,0,"60,650.00",.,.
+Cadmium compounds,N078,"1,393.74","6,462.13","2,578.78",0.3396,"395,075.71",2.4999999,250
+Calcium cyanamide,156627,.,.,.,.,.,.,.
+Captan,133062,10.39001,127.329,5,0,0,.,.
+Carbaryl,63252,12.842,185.32,5,0,0,.,.
+Carbofuran,1563662,0.000007,0.01,0,0,0,.,.
+Carbon disulfide,75150,"318,149.47","7,994,457.04","90,008.28",0,0,.,1
+Carbon tetrachloride,56235,"62,908.15","85,318.62",119.205,0,1,.,.
+Carbonyl sulfide,463581,"52,563.78","10,457,977.18",655,0,35,.,.
+Carboxin,5234684,5,0,0,0,0,.,.
+Catechol,120809,676.26,816.42,"7,112.18",10.41,10,1.70444,.
+Certain glycol ethers,N230,"4,268,513.52","8,625,108.53","24,369.38","5,364.00","73,145.00","10,747.40","2,216.10"
+Chlordane,57749,1.726619,288.9870014,0,0,0,.,.
+Chlorimuron-ethyl,90982324,151.41,31,0,0,0,.,.
+Chlorine,7782505,"324,162.51","5,245,706.71","192,699.67",5,"85,174.09",.,.
+Chlorine dioxide,10049044,"1,970.00","499,635.87",0,0,"219,290.00",.,.
+Chloroacetic acid,79118,"7,623.98",972.61,50,0,0,.,.
+Chlorobenzene,108907,"329,872.31","235,311.63",145.94,0,0,.,.
+Chlorobenzilate,510156,3.004,0.01,0,0,0,.,.
+Chlorodifluoromethane (HCFC-22),75456,"238,665.46","785,846.60",0,0,0,.,.
+Chloroethane,75003,"114,369.95","52,346.95",287,0,0,.,.
+Chloroform,67663,"83,712.70","163,139.54","5,541.97",0,0,.,.
+Chloromethane,74873,"102,827.46","576,098.65","1,276.82",0,5,.,"8,277.00"
+Chloromethyl methyl ether,107302,531,7,0,0,0,.,.
+Chlorophenols,N084,450.501,83.456,0,0,0,.,11
+Chloropicrin,76062,"3,102.50","1,851.32",0,0,0,.,.
+Chloroprene,126998,"10,699.41","26,884.84",208.57,0,0,.,.
+Chlorothalonil,1897456,146,"1,158.70",5,0,0,.,.
+Chlorotrifluoromethane (CFC-13),75729,.,.,.,.,.,.,.
+Chlorsulfuron,64902723,1.1,52,0,0,0,.,.
+Chromium,7440473,"86,607.76","29,016.32","3,099.34",33.58,"74,149.78",110,"53,580.75"
+Chromium compounds (except for chromite ore mined in the Transvaal Region),N090,"48,533.55","138,735.59","101,962.37","34,190.35","3,678,973.91","49,555.28","212,600.16"
+Chromium(III) perfluorooctanoate,68141026,750,0,0,0,0,.,.
+Cobalt,7440484,"2,051.20","6,626.25",620.7805,0,"45,202.31",30,"6,256.00"
+Cobalt compounds,N096,"3,490.81","20,696.87","69,440.99","4,994.50","367,102.27","11,464.00","58,316.00"
+Copper,7440508,"200,609.84","156,753.39","14,362.65",218.52,"4,490,603.24","114,109.15","15,133.93"
+Copper compounds,N100,"190,577.10","233,559.44","166,793.03","27,107.23","14,765,852.71","54,293.43","463,301.46"
+Creosote,8001589,"83,464.07","62,039.56",159,0,"18,146.43",.,.
+Cresol (mixed isomers),1319773,"56,638.40","748,000.24","2,255.47",5,16.0000544,61.53,.
+Crotonaldehyde,4170303,108.0142,107.21988,0,1,0,.,.
+Cumene,98828,"342,571.75","562,853.55",298.416,31.001,319.9165,0.342,7.8
+Cumene hydroperoxide,80159,"29,857.27",632.8,"2,600.00",0,0,.,.
+Cyanide compounds,N106,"42,962.82","99,869.27","17,461.45",0,36.8,.,130
+Cycloate,1134232,5,5,0,0,0,.,.
+Cyclohexane,110827,"1,519,447.52","2,043,918.74","72,606.37",438.08,"1,521.04",.,"1,597.50"
+Cyclohexanol,108930,"8,956.60","36,741.00","32,372.00",0,0,.,.
+Cyfluthrin,68359375,94,114,0,0,0,.,.
+Cyhalothrin,68085858,.,.,.,.,.,.,.
+Dazomet,533744,16,15,8,0,0,.,.
+Decabromodiphenyl oxide,1163195,353,579,0,0,0,.,.
+Di(2-ethylhexyl) phthalate,117817,"3,481.54","14,983.67",26.51,0,5,.,.
+Diallate,2303164,0.005,0.02,0,0,0,.,.
+Diaminotoluene (mixed isomers),25376458,"3,832.11",330.05,116,0,0,.,.
+Diazinon,333415,15.49303,115.37,5,0,0,.,.
+Dibenzofuran,132649,"1,853.90","1,370.90",27,0,0,.,.
+Dibromotetrafluoroethane,124732,1,11,0,0,0,.,.
+Dibutyl phthalate,84742,"83,481.45","1,509.67",0,0,0,.,.
+Dicamba,1918009,"2,701.99",658.3429,9,0,0,.,250
+Dichloran,99309,.,.,.,.,.,.,.
+Dichlorobenzene (mixed isomers),25321226,4.803,14.71,0,0,0,.,.
+Dichlorobromomethane,75274,0,"1,513.00",0,0,0,.,.
+Dichlorodifluoromethane (CFC-12),75718,"34,747.00",235.11,0,0,0,.,.
+Dichlorofluoromethane (HCFC-21),75434,0,"1,300.00",0,0,0,.,.
+Dichloromethane,75092,"1,334,969.91","1,513,629.99","5,534.71",0,0,.,.
+Dichlorotetrafluoroethane (CFC-114),76142,"71,698.01","7,313.61",0,0,0,.,.
+Dichlorvos,62737,407.000007,5.02,0,0,0,.,.
+Dicofol,115322,0.1,0.1,0,0,0,.,.
+Dicyclopentadiene,77736,"46,377.09","104,540.53",280.43,608,0,0.733,"5,447.00"
+Diepoxybutane,1464535,3,0,0,0,0,.,.
+Diethanolamine,111422,"70,853.20","12,733.21","30,859.00","28,000.00",713.78,.,.
+Diethyl sulfate,64675,"4,919.82",83.52,0,0,0,.,.
+Diflubenzuron,35367385,5,5,0,0,0,.,.
+Diglycidyl resorcinol ether,101906,494,0,0,0,0,.,.
+Dihydrosafrole,94586,0.004,0.02,0,0,0,.,.
+Diisocyanates,N120,"168,154.58","235,488.84",6.89,0,"196,056.92","3,444.00","9,621.40"
+Dimethoate,60515,22.1,5.1,5,0,0,.,.
+Dimethyl phthalate,131113,"13,669.14","72,816.10",0,0,0,.,.
+Dimethyl sulfate,77781,311.153,529.14,5,0,0,.,.
+Dimethylamine,124403,"70,447.71","33,724.69","33,490.00","4,044.00",0,128,.
+Dimethylamine dicamba,2300665,36,215.78,0,0,0,.,.
+Dimethylcarbamoyl chloride,79447,3.004,0.01,0,0,0,.,.
+Dinitrobutyl phenol,88857,"1,287.67",8.1,34,0,0,.,.
+Dinitrotoluene (mixed isomers),25321146,"36,227.21","9,888.29",37,0,"49,624.00",.,.
+Dioxin and dioxin-like compounds,N150,0.0910945,2.2621944,2.854318,0.0279074,0.0063259,0.0556535,0.00833
+Diphenylamine,122394,473.243,"10,976.10",28.05,0,0,.,.
+Dipotassium endothall,2164070,6.94,5,"2,796.00",0,0,.,.
+Diuron,330541,10,226,5,0,0,.,.
+Epichlorohydrin,106898,"67,314.49","10,004.95","6,076.00",0,0,21.5,0.08
+"Ethanaminium, N,N,N-triethyl-, salt with 1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,8-heptadecafluoro-1-octanesulfonic acid (1:1)",56773423,0,0,0.075,0,0,.,.
+"Ethanol, 2,2'-iminobis-, compd. with alpha,alpha'-[phosphinicobis(oxy-2,1-ethanediyl)]bis[omega-fluoropoly(difluoromethylene)] (1:1)",65530645,0.01,0,0,0,0,.,.
+"Ethanol, 2,2'-iminobis-, compd. with alpha-fluoro-omega-[2-(phosphonooxy)ethyl]poly(difluoromethylene) (2:1)",65530634,4.01,0,0,0,0,.,.
+Ethoprop,13194484,5,5,0,0,0,.,.
+Ethyl acrylate,140885,"21,139.75","43,368.67",9.71,0,0,.,.
+Ethyl chloroformate,541413,217,281,0,0,0,.,.
+Ethylbenzene,100414,"820,395.86","1,229,043.78","1,736.11",102,"1,210.69","3,386.83","9,850.31"
+Ethylene,74851,"8,428,690.93","9,858,129.57",192,54,2.014108,.,.
+Ethylene glycol,107211,"893,538.41","691,782.46","379,895.74",525,454.783,"32,542.00","2,021.00"
+Ethylene oxide,75218,"49,200.01","106,297.59","1,645.00",8,5,.,.
+Ethylene thiourea,96457,0.1005,"1,060.14",0,0,0,.,.
+"Ethylenebisdithiocarbamic acid, salts and esters",N171,3.08,0.19,0,0,0,.,.
+Ethyleneimine,151564,0,0,0,0,0,.,.
+Ethylidene dichloride,75343,"6,577.55","2,951.38",185,0,0,.,.
+"Fatty acids, linseed-oil, gamma-omega-perfluoro-C8-14-alkyl esters",178535234,0,0,0,0,0,.,.
+Fenbutatin oxide,13356086,.,.,.,.,.,.,.
+Fenpropathrin,39515418,.,.,.,.,.,.,.
+Fluorine,7782414,3.2,"25,343.00",0,0,0,.,.
+Fluorouracil,51218,0.1,0.1,0,0,0,.,.
+Folpet,133073,.,.,.,.,.,.,.
+Fomesafen,72178020,28,241,0.58,0,0,.,.
+Formaldehyde,50000,"403,803.49","4,296,720.75","181,946.26",103.3,21,334.398,"1,517.43"
+Formic acid,64186,"49,563.95","441,737.30","372,667.10",0.62,762.11,2.06,.
+Freon 113 (CFC-113),76131,"533,066.07","137,905.13",0,0,0,.,.
+Furan,110009,"3,237.94","9,483.02",0,0,0,.,.
+Glycidol,556525,727.9,694,"19,633.00",0,0,.,.
+Heptachlor,76448,0.729,16.765,0,0,0,.,.
+Hexabromocyclododecane,N270,0,0,0,0,0,.,.
+"Hexachloro-1,3-butadiene",87683,154.22,"2,020.74",27,0,0,.,.
+Hexachlorobenzene,118741,93.702,753.013,103.1661,0,0,.,.
+Hexachlorocyclopentadiene,77474,5.01001,6.59,0.03,0,0,.,.
+Hexachloroethane,67721,527.350134,410.986419,20,0,0,.,.
+Hexachlorophene,70304,5.314,2.04,0,0,0,.,.
+Hexafluoropropylene oxide dimer acid,13252136,11.1,52.5,0.48,0,0,.,.
+Hexafluoropropylene oxide dimer acid ammonium salt,62037803,2,145,672.973,0,0,.,.
+Hexazinone,51235042,5,69.25,0,0,0,.,750
+Hydramethylnon,67485294,0.1,0.1,0,0,0,.,.
+Hydrazine,302012,"3,050.46",66.530288,133,0,0,.,.
+Hydrazine sulfate (1:1),10034932,0.12,0,0,0,0,.,.
+"Hydrochloric acid (acid aerosols including mists, vapors, gas, fog, and other airborne forms of any particle size)",7647010,"804,933.99","23,541,158.62",0,0,"28,579.00",.,.
+Hydrogen cyanide,74908,"145,607.51","5,149,977.16",839.45,0,0,.,.
+Hydrogen fluoride,7664393,"1,691,450.92","7,766,433.44",351.4,0,"17,513.70",.,.
+Hydrogen sulfide,7783064,"7,780,308.44","10,015,202.13","374,352.27","15,728.36","27,775.34","10,149.68",.
+Hydroquinone,123319,"2,153.00","14,917.19","4,996.00",0,0,.,.
+Iron pentacarbonyl,13463406,"4,647.00","9,614.00",0,0,0,.,.
+Isobutyraldehyde,78842,"52,216.30","39,316.85",22,182,0,.,.
+Isodrin,465736,0.2,0.21,0,0,0,.,.
+Isoprene,78795,"84,514.23","87,557.06",518,0,0,.,.
+"Isopropyl alcohol (only persons who manufacture by the strong acid process are subject, no supplier notification)",67630,.,.,.,.,.,.,.
+Isosafrole,120581,3.13,0.23,0,0,0,.,.
+Lead,7439921,"33,583.07","32,024.90","5,260.51",955.72953,"803,018.06",814.2409,"5,146.43"
+Lead compounds,N420,"89,608.50","151,347.10","37,300.83","23,161.27","233,318,690.44","31,607.13","184,543.11"
+Lindane,58899,8.373,180.89,0,0,0,.,.
+Linuron,330552,5.2,6.63,0,0,0,.,.
+Lithium carbonate,554132,752.79,"11,236.63",166.76,0,0,.,.
+Malathion,121755,94.242,860.86,5,0,0,.,.
+Maleic anhydride,108316,"25,691.09","134,260.99",478.42,0,0,.,316
+Malononitrile,109773,7.022,1.94,0,0,0,.,.
+Maneb,12427382,0,0.1,0,0,0,.,.
+Manganese,7439965,"232,002.90","96,402.54","115,880.06",201,"42,403.13","14,307.26","160,664.48"
+Manganese compounds,N450,"171,713.27","445,907.18","3,930,704.38","450,802.04","7,486,345.62","534,598.99","2,865,687.52"
+Mecoprop,93652,0,260.65,0,0,0,250,.
+Mercury,7439976,261.879369,"4,567.99",173.9070593,3.200024,247.46612,261.2632,146.0116
+Mercury compounds,N458,"3,233.17","27,517.12","2,958.37",458.73081,"2,333,534.41",229.8296,"2,997.38"
+Merphos,150505,5,5,0,0,0,.,.
+Methacrylonitrile,126987,0.004,0.01,0,0,0,.,.
+Metham sodium,137428,196.26,889.4,0,0,0,.,.
+Methanol,67561,"37,678,865.61","58,662,815.60","5,099,480.43","237,023.10","2,643,541.00","5,103.25","8,277.00"
+Methiocarb,2032657,.,.,.,.,.,.,.
+Methoxone,94746,2.00005,51,0,0,0,.,.
+Methoxychlor,72435,1.102,141.85,0,0,0,.,.
+Methyl acrylate,96333,"32,630.11","17,615.95",31,0,0,.,.
+Methyl chlorocarbonate,79221,136.004,2.04,0,0,0,.,.
+Methyl hydrazine,60344,2,0,0,0,0,.,.
+Methyl iodide,74884,"30,797.80","5,579.87",3,0,0,.,.
+Methyl isobutyl ketone,108101,"896,453.34","1,676,112.96",921.55,0,0,.,.
+Methyl methacrylate,80626,"407,541.82","1,440,424.74",878.74,0,472.5,.,250
+Methyl parathion,298000,0,4,0,0,0,.,.
+Methyl tert-butyl ether,1634044,"78,800.75","152,146.45","3,681.00",0,0,0.001,.
+Methylene bromide,74953,"3,944.76",10.05,0,0,0,.,.
+Metribuzin,21087649,245.89,725.84,20.1,0,0,.,.
+Mixture,MIXTURE,"12,574.00","30,361.00",10,0,0,.,.
+Molybdenum trioxide,1313275,"5,430.49","63,527.27","39,682.86",0,250,"4,950.00","20,491.10"
+Monochloropentafluoroethane (CFC-115),76153,"1,032.94","4,081.00",0,0,0,.,.
+Mustard gas,505602,0,0,0,0,0,.,.
+Myclobutanil,88671890,51.66,0.2,0,0,0,.,.
+"N,N-Dimethylaniline",121697,377.08,"1,842.54",0,0,0,.,.
+"N,N-Dimethylformamide",68122,"30,229.14","172,761.43","2,231.00",0,0,.,.
+N-Methyl-2-pyrrolidone,872504,"568,102.41","836,635.27","7,121.86",0,"1,202.00","10,045.00",.
+N-Methylolacrylamide,924425,285.8,977.46016,5,0,0,.,.
+N-Nitroso-N-ethylurea,759739,0.003,0.01,0,0,0,.,.
+N-Nitroso-N-methylurea,684935,0.003,0.01,0,0,0,.,.
+N-Nitrosodi-n-butylamine,924163,0.002,0.05,0,0,0,.,.
+N-Nitrosodi-n-propylamine,621647,1.007,0.01,0,0,0,.,.
+N-Nitrosodiethylamine,55185,0.003,0.01,0,0,0,.,.
+N-Nitrosodimethylamine,62759,0,0.2,0,0,0,.,.
+N-Nitrosodiphenylamine,86306,6.132,0.33,0,0,0,.,.
+N-Nitrosopiperidine,100754,3.2,1.2,0,0,0,.,.
+Nabam,142596,.,.,.,.,.,.,.
+Naled,300765,5,5,0,0,0,.,.
+Naphthalene,91203,"316,590.74","1,002,173.81","3,568.10",80.003,"1,389.81",73.725,56.181
+Nickel,7440020,"56,857.86","50,454.69","6,435.20",30.64,"38,771.69","1,516.12","26,134.94"
+Nickel compounds,N495,"31,137.98","160,941.38","56,141.51","27,752.11","2,766,189.01","46,696.10","234,436.77"
+Nicotine and salts,N503,"20,490.68","154,397.34",27,0,250,"85,705.00","9,606.00"
+Nitrapyrin,1929824,33,1,0,0,0,.,.
+Nitrate compounds (water dissociable; reportable only when in aqueous solution),N511,"205,524.04","93,849.51","175,910,901.01","10,295,102.77","1,614,281.44","5,195,586.79","376,583.06"
+Nitric acid,7697372,"487,459.48","1,033,175.72","304,933.01","62,399.00","32,143.00","49,687.13",0
+Nitrilotriacetic acid,139139,0,0,0,0,0,.,.
+Nitrobenzene,98953,"9,617.28","6,375.56",0,0,0,.,.
+Nitroglycerin,55630,"12,684.05","84,898.12","34,486.00",0,"345,691.00",.,.
+Nitromethane,75525,"7,627.69","49,930.75",796,0,0,.,.
+Nonylphenol,N530,"17,407.23","14,029.40",13.83,0,0,76,.
+Nonylphenol Ethoxylates,N535,"72,271.40","11,594.51","2,587.50",125,0,0.04,.
+Norflurazon,27314132,0,0,0,0,0,.,.
+Octachlorostyrene,29082744,0,0,0.0123,0,0,.,.
+"Octanoyl fluoride, pentadecafluoro-",335660,.,.,.,.,.,.,.
+Oryzalin,19044883,0,0,0,0,0,.,.
+Osmium tetroxide,20816120,2,0,0,0,0,.,.
+Oxadiazon,19666309,0,0,0,0,0,.,.
+Oxyfluorfen,42874033,0.37,2.27,0.3,0,0,.,.
+Ozone,10028156,"13,740.90","797,865.60",0,0,0,.,.
+Paraldehyde,123637,6.132,38.13,0,0,0,.,.
+Paraquat dichloride,1910425,250,250,0,0,0,.,"30,000.00"
+Parathion,56382,0.10203,0.15,0,0,0,.,.
+Pendimethalin,40487421,"3,294.04",43.4800111,5.06,"1,841.00",0,34,.
+Pentachlorobenzene,608935,0.4302,36.59,144.7021,0,0,.,.
+Pentachloroethane,76017,"1,634.71",55.33,0,0,0,.,.
+Pentachlorophenol,87865,39.131,17.15,846,0,0,.,.
+Pentobarbital sodium,57330,0,1,0,0,0,.,.
+Peracetic acid,79210,"243,800.54","11,540.63","2,197.52","2,244.00",738,"2,295.73",.
+Perfluorodecanoic acid,335762,0,0,0,0,0,.,.
+Perfluorododecanoic acid,307551,0,0,0,0,0,.,.
+Perfluorohexanesulfonic acid,355464,0,0,0,0,0,.,.
+Perfluorononanoic acid,375951,0,0,0,0,0,.,.
+Perfluorooctane sulfonic acid,1763231,0,0,0,0,0,.,.
+Perfluorooctanoic acid,335671,2.51,1.33,0,0,0,.,.
+Perfluorooctyl iodide,507631,1,380.7,65,0,0,.,.
+Perfluorotetradecanoic acid,376067,.,.,.,.,.,.,.
+Permethrin,52645531,10.60001,7.97,0,0,0,.,.
+Phenanthrene,85018,"12,959.54","28,113.41",329.1736,2.001,77.0462,3.538,431.1
+Phenol,108952,"553,843.79","2,586,329.68","26,692.50",272.69,40.0384,89.9724,"16,587.96"
+Phenolphthalein,77098,5,5,0,0,0,.,.
+Phenothrin,26002802,10,10,0,0,0,.,.
+Phenytoin,57410,0,830,0,0,0,.,.
+Phosgene,75445,"4,370.34","1,320.98",0,0,0,.,.
+Phosphine,7803512,1,"4,377.40",7.51,0,0,.,.
+"Phosphinic acid, bis(perfluoro-C6-12-alkyl) derivs.",68412691,.,.,.,.,.,.,.
+"Phosphonic acid, perfluoro-C6-12-alkyl derivs.",68412680,.,.,.,.,.,.,.
+Phosphorus (yellow or white),12185103,36.72,872.63,0,0,"3,958.00",.,.
+Phthalic anhydride,85449,"66,306.35","132,412.58",27,0,0,.,"14,259.00"
+Picloram,1918021,0,447.1,0,0,0,.,.
+Picric acid,88891,0.1,0.1,0,0,0,.,.
+Piperonyl butoxide,51036,8.33,0.03,0,0,0,.,.
+Pirimiphos-methyl,29232937,.,.,.,.,.,.,.
+"Poly(difluoromethylene), alpha,alpha'-[phosphinicobis(oxy-2,1-ethanediyl)]bis[omega-fluoro-, ammonium salt",65530703,5,5,0,0,0,.,.
+"Poly(difluoromethylene), alpha-fluoro-omega-[2-(phosphonooxy)ethyl]-, diammonium salt",65530725,5,5,0,0,0,.,.
+"Poly(difluoromethylene), alpha-fluoro-omega-[2-[(1-oxo-2-propenyl)oxy]ethyl]-, homopolymer",65605734,0,0,0,0,0,.,.
+"Poly(oxy-1,2-ethanediyl), alpha-[2-[ethyl[(heptadecafluorooctyl)sulfonyl]amino]ethyl]-omega-hydroxy-",29117086,0,0,0,0,0,.,.
+"Poly(oxy-1,2-ethanediyl), alpha-[2-[ethyl[(pentadecafluoroheptyl)sulfonyl]amino]ethyl]-omega-methoxy-",68958601,0,0,0,0,0,.,.
+"Poly(oxy-1,2-ethanediyl), alpha-hydro-omega-hydroxy-, ether with alpha-fluoro-omega-(2-hydroxyethyl)poly(difluoromethylene) (1:1)",65545804,0,0.11,0,0,0,.,.
+"Poly[oxy(methyl-1,2-ethanediyl)], alpha-[2-[ethyl[(heptadecafluorooctyl)sulfonyl]amino]ethyl]-omega-hydroxy-",37338480,0,0,0,0,0,.,.
+Polybrominated biphenyls,N575,0,0,0,0,0,.,.
+Polychlorinated alkanes (C10-C13),N583,0,9.65,0,0,200,.,.
+Polychlorinated biphenyls,1336363,26.918283,4.2360124,1.4001,0,93.16,13,1.08
+Polycyclic aromatic compounds,N590,"75,199.47","177,585.74","5,620.85",78.66,"11,585.38","1,038.67","5,069.73"
+Potassium N-methyldithiocarbamate,137417,5,5,0,0,0,.,.
+Potassium bromate,7758012,0,15,0,0,0,.,.
+Potassium dimethyldithiocarbamate,128030,0,206,0,0,0,.,.
+Potassium perfluorooctanesulfonate,2795393,0,0.2,0,0,0,.,.
+Prometryn,7287196,0,0,0,0,0,.,.
+Pronamide,23950585,0.004,0.01,0,0,0,.,.
+Propachlor,1918167,0.008,0.002,0,0,0,.,.
+Propanil,709988,500,500,0,0,0,.,"36,090.00"
+Propargite,2312358,307.68,0,0,0,0,.,.
+Propargyl alcohol,107197,346.9186,149.8774,0,0,0,.,.
+Propiconazole,60207901,"1,156.30","1,435.18","1,179.00",0,0,.,.
+Propionaldehyde,123386,"37,837.72","114,862.97","19,727.05",1,5,.,.
+Propoxur,114261,0.1,0.1,0,0,0,.,.
+Propylene,115071,"2,732,591.91","4,229,760.32",85.3,54,105.1222,.,.
+Propylene oxide,75569,"70,362.64","223,485.80","1,288.00",0,28,.,.
+Propyleneimine,75558,550.3,432.6,0,0,0,.,.
+Pyridine,110861,"6,474.94","19,799.18",63,0,0,.,.
+Quinoline,91225,132.2601,209.0026,0,0,0,.,.
+Quinone,106514,7.65,22.4,0,0,0,.,.
+Quintozene,82688,0.004,79.83,0,0,0,.,.
+"S,S,S-Tributyltrithiophosphate",78488,5,5.1,0,0,0,.,.
+S-Ethyl dipropylthiocarbamate,759944,7.5,0,0,0,0,.,.
+Safrole,94597,0.004,0.01,0,0,0,.,.
+Selenium,7782492,0.0804,"16,980.81",772.4625,0,0,.,.
+Selenium compounds,N725,"2,173.07","98,043.68","10,650.38",386.82,"484,540.10",7.6,"9,971.00"
+"Siloxanes and Silicones, (3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,10-heptadecafluorodecyl)oxy Me, hydroxy Me, Me octyl, ethers with polyethylene glycol mono-Me ether",143372547,5,5,0,0,0,.,.
+Silver,7440224,"1,032.91",205.576301,17.58,0,"92,600.00",72,.
+Silver compounds,N740,"12,358.55","2,575.73","1,159.43",0,"373,115.00",.,.
+Simazine,122349,5.1,70,5.1,0,0,.,.
+Sodium azide,26628228,2.1,0.1,0,0,0,.,"7,964.00"
+Sodium dicamba,1982690,0,200.11,0,0,0,.,250
+Sodium dimethyldithiocarbamate,128041,20.2,136.2,0,0,0,10,.
+Sodium fluoroacetate,62748,3,0,0,0,0,.,.
+Sodium nitrite,7632000,"22,761.75","54,218.16","1,815,982.41",472,360.4,"1,084.55",.
+Sodium o-phenylphenoxide,132274,0,0,0,0,0,.,.
+Strychnine and salts,N746,0,2,0,0,0,.,.
+Styrene,100425,"7,044,828.21","23,864,130.11","11,221.81",36,"10,923.00","5,868.35","27,366.00"
+Styrene oxide,96093,2,0.8,0,0,0,.,.
+Sulfluramid,4151502,0,0,0.8,0,0,.,.
+"Sulfonic acids, C6-12-alkane, gamma-omega-perfluoro, ammonium salts",180582790,0,0,0,0,0,.,.
+"Sulfuric acid (acid aerosols including mists, vapors, gas, fog, and other airborne forms of any particle size)",7664939,"344,767.28","49,570,636.72",0,0,"24,581.00",.,.
+Sulfuryl fluoride,2699798,"192,980.50","99,365.50",0,0,0,.,.
+Tebuthiuron,34014181,0,0,0,0,0,.,.
+Terbacil,5902512,0,0,0,0,0,.,.
+Tetrabromobisphenol A,79947,295.5992,"7,334.04",10,0,0,10,31
+Tetrachloroethylene,127184,"355,769.36","421,323.92",596.876,0.001,2.00036,3,0
+Tetrachlorvinphos,961115,15,15,0,0,0,.,.
+Tetracycline hydrochloride,64755,25.7,107.1,0,0,0,.,.
+Tetrafluoroethylene,116143,"57,323.00","54,059.00",0,0,0,.,.
+Tetramethrin,7696120,.,.,.,.,.,.,.
+Thallium,7440280,0.3071227,1.570745,0.2,0,0.14,.,.
+Thallium compounds,N760,33.93,"1,005.49",516,0,"21,331.78",.,.
+Thiabendazole,148798,0.26,13.04,"5,088.00",0,0,.,.
+Thioacetamide,62555,4.004,0.01,0,0,0,.,.
+Thiobencarb,28249776,250,250,0,0,0,.,.
+Thiodicarb,59669260,5.28,750.49,0,0,0,.,.
+"Thiols, C8-20, gamma-omega-perfluoro, telomers with acrylamide",70969470,0,0,0,0,0,.,.
+Thiophanate-methyl,23564058,31.1,0.1,0,0,0,.,.
+Thiourea,62566,11.037,255.04,0,0,0,.,.
+Thiram,137268,37.4444584,"1,049.45",16.42,0,0,.,274
+Thorium dioxide,1314201,0,0,0,0,0,.,.
+Titanium tetrachloride,7550450,"18,087.32","1,214.29",0,0,0,.,.
+Toluene,108883,"5,514,909.93","8,591,462.47","89,187.83",440,"2,889.56","5,579.36","38,362.74"
+Toluene diisocyanate (mixed isomers),26471625,"4,834.55","9,013.53",0,0,16.83,.,.
+"Toluene-2,4-diisocyanate",584849,265.30399,292.645,0,0,0,.,.
+"Toluene-2,6-diisocyanate",91087,105.8342803,38.783,0,0,0,.,.
+Toxaphene,8001352,0.52,121.161,0,0,0,.,.
+Triadimefon,43121433,0.56,0.97,0,0,0,.,.
+Triallate,2303175,.,.,.,.,.,.,.
+Tribenuron-methyl,101200480,"2,271.40",19,0,0,0,.,.
+Tributyltin methacrylate,2155706,0,0,0,0,0,.,.
+Trichlorfon,52686,0,0,0,0,0,.,.
+Trichloroacetyl chloride,76028,5,3.6,0,0,0,.,.
+Trichloroethylene,79016,"483,855.45","506,604.11",326.58,0,0,.,.
+Trichlorofluoromethane (CFC-11),75694,"204,103.94","5,361.74",52,0,0,.,.
+Triclopyr-triethylammonium salt,57213691,5,21.53,0,0,0,.,.
+Triethylamine,121448,"76,591.66","44,760.95","5,163.00",0,0,.,.
+Trifluralin,1582098,39.818676,388.0540186,0.3,0,0,.,.
+Triphenyltin hydroxide,76879,0.01,1.79,0,0,0,.,.
+"Tris(2,3-dibromopropyl) phosphate",126727,0.004,0.01,0,0,0,.,.
+Trypan blue,72571,4.005,0.15,0,0,0,.,.
+Urethane,51796,85.394,45.277,0,0,0,.,.
+Vanadium (except when contained in an alloy),7440622,643.49,"7,148.16","3,260.91",0,5.9,6,"32,449.00"
+Vanadium compounds,N770,"8,878.67","153,521.42","371,871.46","78,949.89","1,435,315.31","23,376.00","651,760.60"
+Vinclozolin,50471448,0,0,0,0,0,.,.
+Vinyl acetate,108054,"333,721.67","582,726.98","8,099.00",0,0,0.678,"2,896.00"
+Vinyl chloride,75014,"212,211.52","215,973.36",48.52,0,0,.,20.64
+Vinyl fluoride,75025,"7,973.57","123,044.03",0,0,0,.,.
+Vinylidene chloride,75354,"44,739.21","18,257.92",29,0,0,.,.
+Warfarin and salts,N874,4.009,2.091,0,0,0,.,.
+Xylene (mixed isomers),1330207,"3,788,840.74","6,138,135.90","6,826.63",496,"3,424.84",417.7236,"16,639.07"
+Zinc (fume or dust),7440666,"81,679.87","154,290.92",0,0,"120,755.20","188,537.00","255,070.10"
+Zinc compounds,N982,"551,546.09","1,837,957.94","991,854.53","149,627.77","154,931,194.99","697,564.44","946,507.65"
+Zineb,12122677,0,0.1,0,0,0,.,.
+alpha-Naphthylamine,134327,3,7,0,0,0,.,.
+beta-Naphthylamine,91598,3,0,0,0,0,.,.
+m-Cresol,108394,"7,993.70","1,152.53",617.614,0,0,.,.
+m-Dinitrobenzene,99650,3,0,0,0,0,.,.
+m-Xylene,108383,"91,982.19","114,347.31",188.65,0,11.3,.,.
+n-Butyl alcohol,71363,"2,553,383.49","5,134,278.26","20,995.37",22,87.22,.,34
+n-Hexane,110543,"13,573,612.83","23,993,523.58","2,273.42","1,423.90","1,647.62",18.3356,"23,001.22"
+o-Anisidine,90040,"1,270.00",0,0,0,0,.,.
+o-Cresol,95487,"2,135.42",887.267,134.2,0,0,.,.
+o-Toluidine,95534,"3,906.84","1,639.37",198,0,0,.,.
+o-Toluidine hydrochloride,636215,0.01,0.01,0,0,0,.,.
+o-Xylene,95476,"90,720.33","85,292.45",118.23,0,3.4,.,.
+p-Chloroaniline,106478,76.02,0.06,50,0,0,.,.
+p-Cresidine,120718,0.01,1.47,0,0,0,.,.
+p-Cresol,106445,"2,836.97",679.47,278.9,0,0,.,.
+p-Nitroaniline,100016,1,48.6,0,0,0,.,.
+p-Phenylenediamine,106503,"1,056.23",414.98,85,0,0,.,.
+p-Xylene,106423,"243,787.67","248,633.09",50.02,0,4.2,.,.
+sec-Butyl alcohol,78922,"46,012.28","124,407.18",953,0,0,.,.
+tert-Butyl alcohol,75650,"112,668.80","146,740.20","6,743.00",0,750.2,130.6,"26,866.00"
+"trans-1,4-Dichloro-2-butene",110576,3,3,0,0,0,.,.

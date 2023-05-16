@@ -422,7 +422,7 @@ def validate_state_totals(report_year, flowbyfacility):
                                                      'imported_wastes',
                                                      'US_States_only'])
         validation_df = validate_inventory(flowbyfacility,
-                                           totals, group_by='state')
+                                           totals, group_by=['State'])
         write_validation_result('RCRAInfo', report_year, validation_df)
     else:
         log.warning(f'validation file for RCRAInfo_{report_year} does not exist.')

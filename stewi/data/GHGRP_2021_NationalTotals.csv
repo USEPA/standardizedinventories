@@ -1,0 +1,81 @@
+FlowName,FlowCode,SUBPART_NAME,FlowAmount
+Biogenic CO2,BIOCO2,AA,73466149900.0
+Biogenic CO2,BIOCO2,C,54489758900.0
+Biogenic CO2,BIOCO2,D,3663194800.0
+Biogenic CO2,BIOCO2,H,823242200.0
+Carbon Dioxide,CO2,AA,5885732700.0
+Carbon Dioxide,CO2,BB,101076900.0
+Carbon Dioxide,CO2,C,547003506287.3381
+Carbon Dioxide,CO2,CC,1313210400.0
+Carbon Dioxide,CO2,D,1531428779662.4
+Carbon Dioxide,CO2,EE,1327000000.0
+Carbon Dioxide,CO2,F,1540696600.0
+Carbon Dioxide,CO2,FF,37812700.0
+Carbon Dioxide,CO2,G,19907405300.0
+Carbon Dioxide,CO2,GG,599016400.0
+Carbon Dioxide,CO2,H,67572156500.0
+Carbon Dioxide,CO2,K,1604923600.0
+Carbon Dioxide,CO2,N,1986306400.0
+Carbon Dioxide,CO2,P,39859085500.0
+Carbon Dioxide,CO2,Q,27353423100.0
+Carbon Dioxide,CO2,R,529643600.0
+Carbon Dioxide,CO2,S,15869314100.0
+Carbon Dioxide,CO2,T,700940.0
+Carbon Dioxide,CO2,U,83035700.0
+Carbon Dioxide,CO2,W,146621965009.03973
+Carbon Dioxide,CO2,X,14243853500.0
+Carbon Dioxide,CO2,Y,46635777200.0
+Carbon Dioxide,CO2,Z,866692400.0
+HFCs (CO2e),HFC,I,440941491.1
+HFCs (CO2e),HFC,L,1079283097.1
+HFCs (CO2e),HFC,O,2669809325.6
+HFCs (CO2e),HFC,T,43949620.0
+HFEs (CO2e),HFE,I,2748420.0
+HFEs (CO2e),HFE,L,30862737.2
+Methane,CH4,AA,1582220.0
+Methane,CH4,C,32534157.479218584
+Methane,CH4,D,97591851.823
+Methane,CH4,FF,1160193310.0
+Methane,CH4,H,2359890.0
+Methane,CH4,HH,3339109550.0
+Methane,CH4,II,74483690.0
+Methane,CH4,K,478400.0
+Methane,CH4,N,1220.0
+Methane,CH4,P,75080.0
+Methane,CH4,Q,25700.0
+Methane,CH4,S,41460.0
+Methane,CH4,TT,296705120.0
+Methane,CH4,W,2832380257.3535385
+Methane,CH4,X,9447140.0
+Methane,CH4,Y,24565060.0
+Nitrogen Triflouride,NF3,I,38634.1
+Nitrogen Triflouride,NF3,L,30637.899999999998
+Nitrous Oxide,N2O,AA,308703.0
+Nitrous Oxide,N2O,C,5714119.647921398
+Nitrous Oxide,N2O,D,16661999.9576
+Nitrous Oxide,N2O,E,24884406.0
+Nitrous Oxide,N2O,H,348117.0
+Nitrous Oxide,N2O,I,1062057.0
+Nitrous Oxide,N2O,N,122.0
+Nitrous Oxide,N2O,P,1999.0
+Nitrous Oxide,N2O,Q,19193.0
+Nitrous Oxide,N2O,S,6025.0
+Nitrous Oxide,N2O,V,29682577.0
+Nitrous Oxide,N2O,W,311373.0528205547
+Nitrous Oxide,N2O,X,37902.0
+Nitrous Oxide,N2O,Y,283993.0
+Other (CO2e),Other,I,21800.0
+Other (CO2e),Other,L,45371600.0
+Other Fully Fluorinated GHGs (CO2e),Other_Full,I,554780391.0
+Other Fully Fluorinated GHGs (CO2e),Other_Full,L,87802168.0
+PFCs (CO2e),PFC,F,958650800.0
+PFCs (CO2e),PFC,I,2770436870.218
+PFCs (CO2e),PFC,L,1676505976.0
+PFCs (CO2e),PFC,SS,1186627.08
+Sulfur Hexafluoride,SF6,DD,99234.52100000001
+Sulfur Hexafluoride,SF6,I,38129.8
+Sulfur Hexafluoride,SF6,L,182.7
+Sulfur Hexafluoride,SF6,SS,8221.42
+Sulfur Hexafluoride,SF6,T,32524.7
+Very Short-lived Compounds (CO2e),Very_Short,I,961.0486
+Very Short-lived Compounds (CO2e),Very_Short,L,177045.309
