@@ -50,14 +50,17 @@ def test_generate_fm_files():
 
 
 @pytest.mark.parametrize("name,compartment,inv_dict",
-                         [("NEI_TRI_air_2017", "air", {"NEI":"2017", "TRI":"2017"}),
-                          # ("TRI_DMR_2017", "water", {"TRI":"2017", "DMR":"2017"}),
+                         [("NEI_TRI_air_seccntx_2017", "air", {"NEI":"2017", "TRI":"2017"}),
+                          ("TRI_DMR_2017", "water", {"TRI":"2017", "DMR":"2017"}),
                           ("TRI_GRDREL_2017", "soil", {"TRI":"2017"})])
 @pytest.mark.combined
 def test_generate_combined_inventories(name, compartment, inv_dict):
+    keep_sec_cntx = True if compartment == 'air' else False
     df = stewicombo.combineFullInventories(inv_dict, filter_for_LCI=True,
                                            remove_overlap=True,
-                                           compartments=[compartment])
+                                           compartments=[compartment],
+                                           keep_sec_cntx=keep_sec_cntx,
+                                           download_if_missing=True)
     stewicombo.saveInventory(name, df, inv_dict)
     df2 = stewicombo.getInventory(name, download_if_missing=False)
     assert df2 is not None

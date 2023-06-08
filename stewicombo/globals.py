@@ -55,8 +55,6 @@ def getInventoriesforFacilityMatches(inventory_dict, facilitymatches,
     if filter_for_LCI:
         filters = ['filter_for_LCI']
     for source, year in inventory_dict.items():
-        # Temporarily set all compartments to the primary compartment via
-        # keep_sec_cntx=False until overlap handler is updated
         inventory = stewi.getInventory(source, year,
                                        'flowbyfacility',
                                        filters,
