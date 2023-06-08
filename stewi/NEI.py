@@ -43,7 +43,7 @@ from stewi.formats import facility_fields
 
 _config = config()['databases']['NEI']
 EXT_DIR = 'NEI Data Files'
-OUTPUT_PATH = Path(paths.local_path).joinpath(EXT_DIR)
+OUTPUT_PATH = paths.local_path / EXT_DIR
 NEI_DATA_PATH = DATA_PATH / 'NEI'
 
 
@@ -241,8 +241,31 @@ def main(**kwargs):
         year = str(year)
         if kwargs['Option'] == 'A':
             nei_point = standardize_output(year)
+
+            log.info('generating facility output')
+            facility = nei_point[[f for f in facility_fields
+                                  if f in nei_point.columns]]
+            facility = facility.drop_duplicates('FacilityID')
+            facility = facility.astype({'Zip': 'str'})
+            facility, p = assign_secondary_context(facility, int(year), 'urb')
+            store_inventory(facility, f'NEI_{year}', 'facility')
+            log.debug(len(facility))
+            #2017: 87162
+            #2016: 85802
+            #2014: 85125
+            #2011: 95565
+
+            # reassign urban/rural back to full dataframe if available
+            if p:
+                nei_point = (nei_point.merge(
+                    facility.rename(columns={'UrbanRural': 'cmpt_urb'})
+                        [['FacilityID', 'cmpt_urb']],
+                    how='left', on='FacilityID',
+                    validate='m:1')
+                    )
+
             nei_point, parameters = (assign_secondary_context(
-                nei_point, int(year), 'urb', 'rh', 'concat'))
+                nei_point, int(year), 'rh', 'concat'))
 
             log.info('generating flow by facility output')
             nei_flowbyfacility = aggregate(nei_point, ['FacilityID', 'FlowName',
@@ -273,18 +296,6 @@ def main(**kwargs):
             #2016: 282
             #2014: 279
             #2011: 277
-
-            log.info('generating facility output')
-            facility = nei_point[[f for f in facility_fields
-                                  if f in nei_point.columns]]
-            facility = facility.drop_duplicates('FacilityID')
-            facility = facility.astype({'Zip': 'str'})
-            store_inventory(facility, f'NEI_{year}', 'facility')
-            log.debug(len(facility))
-            #2017: 87162
-            #2016: 85802
-            #2014: 85125
-            #2011: 95565
 
             generate_metadata(year, parameters)
 

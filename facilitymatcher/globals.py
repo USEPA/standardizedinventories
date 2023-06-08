@@ -25,10 +25,10 @@ MODULEPATH = Path(__file__).resolve().parent
 DATA_PATH = MODULEPATH / 'data'
 
 paths = Paths()
-paths.local_path = os.path.realpath(paths.local_path + "/facilitymatcher")
+paths.local_path = paths.local_path / 'facilitymatcher'
 output_dir = paths.local_path
 ext_folder = 'FRS Data Files'
-FRSpath = paths.local_path + '/' + ext_folder
+FRSpath = paths.local_path / ext_folder
 
 FRS_config = config(config_path=MODULEPATH)['databases']['FRS']
 
@@ -68,7 +68,7 @@ def download_extract_FRS_combined_national(file=None):
 def read_FRS_file(file_name, col_dict):
     """Retrieve FRS data file stored locally."""
     file_meta = set_facilitymatcher_meta(file_name, category=ext_folder)
-    log.info('loading %s from %s', file_meta.name_data, FRSpath)
+    log.info(f'loading {file_meta.name_data} from {FRSpath}')
     file_meta.name_data = strip_file_extension(file_meta.name_data)
     file_meta.ext = 'csv'
     df = load_preprocessed_output(file_meta, paths)
@@ -81,7 +81,7 @@ def read_FRS_file(file_name, col_dict):
 def store_fm_file(df, file_name, category='', sources=None):
     """Store the facilitymatcher file to local directory."""
     meta = set_facilitymatcher_meta(file_name, category)
-    method_path = output_dir + '/' + meta.category
+    method_path = output_dir / meta.category
     try:
         log.info(f'saving {meta.name_data} to {method_path}')
         write_df_to_file(df, paths, meta)

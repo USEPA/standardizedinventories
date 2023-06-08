@@ -7,16 +7,15 @@ Public API for stewicombo. Functions to combine inventory data
 
 import facilitymatcher
 from stewicombo.overlaphandler import aggregate_and_remove_overlap
-from stewicombo.globals import get_id_before_underscore,\
-    getInventoriesforFacilityMatches, filter_by_primary_compartment,\
-    addChemicalMatches, addBaseInventoryIDs, storeCombinedInventory,\
-    write_stewicombo_metadata, compile_metadata, getCombinedInventory,\
-    download_stewicombo_from_remote
+from stewicombo.globals import getInventoriesforFacilityMatches, \
+    filter_by_primary_compartment, addChemicalMatches, addBaseInventoryIDs, \
+    storeCombinedInventory, write_stewicombo_metadata, compile_metadata, \
+    getCombinedInventory, download_stewicombo_from_remote
 
 
 def combineFullInventories(inventory_dict, filter_for_LCI=True,
                            remove_overlap=True, compartments=None,
-                           **kwargs):
+                           keep_sec_cntx=False, **kwargs):
     """Combine full stewi inventories.
 
     :param inventory_dict: dictionary of inventories and years,
@@ -27,6 +26,7 @@ def combineFullInventories(inventory_dict, filter_for_LCI=True,
         based on preferences defined in globals
     :param compartments: list of compartments to include (e.g., 'water',
                                                           'air', 'land')
+    :param keep_sec_cntx: bool, if False only preserves primary contexts
     :return: Flow-By-Facility Combined Format
     """
     inventory_acronyms = list(inventory_dict.keys())
@@ -36,6 +36,7 @@ def combineFullInventories(inventory_dict, filter_for_LCI=True,
                                                    facilitymatches,
                                                    filter_for_LCI,
                                                    base_inventory=None,
+                                                   keep_sec_cntx=keep_sec_cntx,
                                                    **kwargs)
     if len(inventories) == 0:
         return None
@@ -51,7 +52,7 @@ def combineFullInventories(inventory_dict, filter_for_LCI=True,
         inventories['FacilityIDs_Combined'] = inventories['FacilityID']
         # Otherwise take the first ID as the facility ID
         inventories['FacilityID'] = \
-            inventories['FacilityID'].apply(lambda x: get_id_before_underscore(x))
+            inventories['FacilityID'].apply(lambda x: x.split('_')[0])
 
     return inventories
 
@@ -59,7 +60,8 @@ def combineFullInventories(inventory_dict, filter_for_LCI=True,
 def combineInventoriesforFacilitiesinBaseInventory(base_inventory,
                                                    inventory_dict,
                                                    filter_for_LCI=True,
-                                                   remove_overlap=True):
+                                                   remove_overlap=True,
+                                                   keep_sec_cntx=False):
     """Combine stewi inventories for all facilities present in base_inventory.
 
     The base_inventory must be in the inventory_dict
@@ -70,6 +72,7 @@ def combineInventoriesforFacilitiesinBaseInventory(base_inventory,
         See stewi.
     :param remove_overlap: boolean. Removes overlap across inventories
         based on preferences defined in globals
+    :param keep_sec_cntx: bool, if False only preserves primary contexts
     :return: Flow-By-Facility Combined Format
     """
     inventory_acronyms = list(inventory_dict.keys())
@@ -78,7 +81,8 @@ def combineInventoriesforFacilitiesinBaseInventory(base_inventory,
     inventories = getInventoriesforFacilityMatches(inventory_dict,
                                                    facilitymatches,
                                                    filter_for_LCI,
-                                                   base_inventory)
+                                                   base_inventory,
+                                                   keep_sec_cntx=keep_sec_cntx)
     inventories = addChemicalMatches(inventories)
 
     # Aggregate and remove overlap if requested
@@ -92,7 +96,8 @@ def combineInventoriesforFacilitiesinBaseInventory(base_inventory,
 
 def combineInventoriesforFacilityList(base_inventory, inventory_dict,
                                       facility_id_list,
-                                      filter_for_LCI=True, remove_overlap=True):
+                                      filter_for_LCI=True, remove_overlap=True,
+                                      keep_sec_cntx=False):
     """Combine inventories for all facilities present in facility id list for base_inventory.
 
     The base_inventory must be in the inventory_dict
@@ -105,6 +110,7 @@ def combineInventoriesforFacilityList(base_inventory, inventory_dict,
         See stewi.
     :param remove_overlap: boolean. Removes overlap across inventories
         based on preferences defined in globals
+    :param keep_sec_cntx: bool, if False only preserves primary contexts
     :return: Flow-By-Facility Combined Format
     """
     inventory_acronyms = list(inventory_dict.keys())
@@ -113,7 +119,8 @@ def combineInventoriesforFacilityList(base_inventory, inventory_dict,
     inventories = getInventoriesforFacilityMatches(inventory_dict,
                                                    facilitymatches,
                                                    filter_for_LCI,
-                                                   base_inventory)
+                                                   base_inventory,
+                                                   keep_sec_cntx=keep_sec_cntx)
     # Remove the records from the base_inventory that are not in the
     # facility list
     remove_records = inventories[(inventories['Source'] == base_inventory) &
@@ -173,3 +180,12 @@ def pivotCombinedInventories(combinedinventory_df):
         index=['FRS_ID', 'SRS_ID', 'Compartment'],
         columns='Source')
     return combinedinventory_df_pt
+
+if __name__ == '__main__':
+    inventory_dict = {"NEI": "2017", "TRI": "2017"}
+    filter_for_LCI = True
+    remove_overlap = True
+    # df = combineFullInventories({"NEI": "2017", "TRI": "2017"},
+    #                             filter_for_LCI=True,
+    #                             remove_overlap=True)
+                                # compartments=["air"])

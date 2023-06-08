@@ -31,8 +31,6 @@ jobs:
     - name: Install package and dependencies
       run: |
         pip install .
-        # FEDEFL required for TRI validation
-        pip install git+https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List#egg=fedelemflowlist
 
     - name: Generate inventory files
       run: |

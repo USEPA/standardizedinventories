@@ -31,7 +31,6 @@ import time
 import io
 import argparse
 import re
-from pathlib import Path
 
 from esupy.processed_data_mgmt import read_source_metadata
 from stewi.globals import unit_convert, DATA_PATH, set_stewi_meta,\
@@ -44,7 +43,7 @@ import stewi.exceptions
 
 
 EXT_DIR = 'TRI Data Files'
-OUTPUT_PATH = Path(paths.local_path).joinpath(EXT_DIR)
+OUTPUT_PATH = paths.local_path / EXT_DIR
 _config = config()['databases']['TRI']
 TRI_DATA_PATH = DATA_PATH / 'TRI'
 
@@ -302,7 +301,7 @@ def generate_TRI_files_csv(TRIyear):
         # merge & concat urban/rural into tri.Compartment before aggregation
         tri = tri.merge(tri_facility[['FacilityID', 'UrbanRural']].drop_duplicates(),
                         how='left', on='FacilityID')
-        tri = concat_compartment(tri, True, 'urb')  # passes has_geo_pkgs=True
+        tri = concat_compartment(tri)
 
     tri = aggregate(tri, ['FacilityID', 'FlowName', 'CAS', 'Compartment'])
     validate_national_totals(tri, TRIyear)

@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="StEWI",
-    version="1.0.6",
+    version="1.1.0",
     author="Ben Young, Wesley Ingwersen, Matthew Bergmann, Jose Hernandez-Betancur, Tapajyoti Ghosh, Eric Bell",
     author_email="ingwersen.wesley@epa.gov",
     description="Standardized Emission And Waste Inventories (StEWI)"
@@ -13,6 +13,7 @@ setup(
     url="http://www.github.com/usepa/standardizedinventories",
     packages=['chemicalmatcher', 'facilitymatcher', 'stewi', 'stewicombo'],
     include_package_data=True,
+    python_requires=">=3.8",
     install_requires=[
         'esupy @ git+https://github.com/USEPA/esupy.git@develop#egg=esupy',
         'numpy>=1.20.1',
@@ -24,7 +25,8 @@ setup(
         'xlrd>=2.0.0',
         ],
     extras_require={"RCRAInfo": ['webdriver_manager>=3.4.2',
-                                 'selenium>=3.141.0']},
+                                 'selenium>=3.141.0'],
+                    },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",

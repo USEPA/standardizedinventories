@@ -127,9 +127,9 @@ except ImportError:
 
 _config = config()['databases']['RCRAInfo']
 EXT_DIR = 'RCRAInfo Data Files'
-OUTPUT_PATH = Path(paths.local_path).joinpath(EXT_DIR)
+OUTPUT_PATH = paths.local_path / EXT_DIR
 RCRA_DATA_PATH = DATA_PATH / 'RCRAInfo'
-DIR_RCRA_BY_YEAR = OUTPUT_PATH.joinpath('RCRAInfo_by_year')
+DIR_RCRA_BY_YEAR = OUTPUT_PATH / 'RCRAInfo_by_year'
 
 
 def waste_description_cleaner(x):

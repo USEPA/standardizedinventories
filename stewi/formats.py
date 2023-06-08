@@ -49,7 +49,7 @@ class StewiFormat(Enum):
 
     def path(self):
         """Return local path for directory."""
-        return Path(paths.local_path) / str(self)
+        return paths.local_path / str(self)
 
 
 def ensure_format(f):
