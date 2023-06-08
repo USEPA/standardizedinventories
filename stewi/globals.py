@@ -406,21 +406,19 @@ def assign_secondary_context(df, year, *args):
     if 'cmpt_rh' in df.columns:
         parameters.append('release_height')
     if 'concat' in args:
-        df = concat_compartment(df, e_c_s.has_geo_pkgs, *args)
+        df = concat_compartment(df)
     return df, parameters
 
 
-def concat_compartment(df, has_geo_pkgs, *cmpts):
+def concat_compartment(df):
     """
     Concatenate primary & secondary compartment cols sequentially. If both
     'urb' and 'rh' are passed, return Compartment w/ order 'primary/urb/rh'.
     :param df: pd.DataFrame, including compartment cols
-    :param has_geo_pkgs: bool, created via esupy context_secondary import
-    :cmpts: str, compartment string code(s) {'urb', 'rh'}
     """
-    if 'urb' in cmpts and has_geo_pkgs:
+    if 'UrbanRural' in df:
         df['Compartment'] = df['Compartment'] + '/' + df['UrbanRural']
-    if 'rh' in cmpts:
+    if 'cmpt_rh' in df:
         df['Compartment'] = df['Compartment'] + '/' + df['cmpt_rh']
     df['Compartment'] = df['Compartment'].str.replace('/unspecified','')
     return df

@@ -301,7 +301,7 @@ def generate_TRI_files_csv(TRIyear):
         # merge & concat urban/rural into tri.Compartment before aggregation
         tri = tri.merge(tri_facility[['FacilityID', 'UrbanRural']].drop_duplicates(),
                         how='left', on='FacilityID')
-        tri = concat_compartment(tri, True, 'urb')  # passes has_geo_pkgs=True
+        tri = concat_compartment(tri)
 
     tri = aggregate(tri, ['FacilityID', 'FlowName', 'CAS', 'Compartment'])
     validate_national_totals(tri, TRIyear)

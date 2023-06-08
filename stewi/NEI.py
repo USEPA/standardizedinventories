@@ -257,11 +257,11 @@ def main(**kwargs):
 
             # reassign urban/rural back to full dataframe if available
             if p:
-                nei_point = (
-                    nei_point.merge(facility.rename({'UrbanRural': 'cmpt_urb'})
-                                    [['FacilityID', 'cmpt_urb']],
-                                    how='left', on='FacilityID',
-                                    validate='m:1')
+                nei_point = (nei_point.merge(
+                    facility.rename(columns={'UrbanRural': 'cmpt_urb'})
+                        [['FacilityID', 'cmpt_urb']],
+                    how='left', on='FacilityID',
+                    validate='m:1')
                     )
 
             nei_point, parameters = (assign_secondary_context(
