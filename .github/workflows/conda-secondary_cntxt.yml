@@ -1,0 +1,63 @@
+# This workflow will generate inventory files based on user input using a
+# Conda environment to install geospatial packages
+
+name: Generate single inventory (conda sec_ctxt)
+
+on:
+  workflow_dispatch:            # manual trigger only
+    inputs:
+        year:
+            description: "Year"
+            required: true
+            default: "2017"
+        inventory:
+            description: "Inventory"
+            required: true
+            default: "NEI"
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.9"
+
+    - name: Add conda to system path
+      run: |
+        # $CONDA is an environment variable pointing to the root of the miniconda directory
+        echo $CONDA/bin >> $GITHUB_PATH
+
+    - name: Install dependencies
+      run: |
+        conda env update --file env_sec_ctxt.yaml --name base
+
+    - name: Generate inventory files
+      env:
+          YEAR: ${{ github.event.inputs.year }}
+          INVENTORY: ${{ github.event.inputs.inventory }}
+      run: |
+        echo "Year: ${{ github.event.inputs.year }}"
+        echo "Inventory: ${{ github.event.inputs.inventory }}"
+        python scripts/generate_select_inventories.py --years $YEAR --inventory $INVENTORY
+
+    - name: Upload files
+      uses: actions/upload-artifact@v3
+      with:
+        # Artifact name
+        name: "${{ github.event.inputs.inventory }}"
+        # A file, directory or wildcard patter that describes what to upload
+        path: | # uses local user data dir for ubuntu
+          ~/.local/share/stewi/facility/*
+          ~/.local/share/stewi/flow/*
+          ~/.local/share/stewi/flowbyfacility/*
+          ~/.local/share/stewi/flowbyprocess/*
+          ~/.local/share/stewi/validation/*
+          ~/.local/share/stewi/*.json
+        if-no-files-found: warn # 'warn' or 'ignore' are also available, defaults to `warn`
+        # retention-days: 5 # cannot exceed the retention limit set by the repository, organization, or enterprise.
