@@ -231,6 +231,11 @@ def validate_national_totals(inv, TRIyear):
             validation_result = validate_inventory(inv, tri_national_totals,
                                                    group_by=['CAS', 'Compartment'],
                                                    tolerance=5.0)
+            validation_result = validation_result.merge(
+                inv[['FlowName', 'CAS']].drop_duplicates(),
+                on='CAS', how='left', validate='m:1')
+            col = validation_result.pop('FlowName').fillna('')
+            validation_result.insert(0, 'FlowName', col)
             write_validation_result('TRI', TRIyear, validation_result)
     else:
         log.warning(f'validation file for TRI_{TRIyear} does not exist. '
