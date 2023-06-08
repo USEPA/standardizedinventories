@@ -19,7 +19,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
-        python-version: "3.9" # secondary context not yet available on 3.10
+        python-version: "3.10"
 
     - name: Update pip & install testing pkgs
       run: |
@@ -29,9 +29,7 @@ jobs:
 
     - name: Install package and dependencies
       run: |
-        pip install .[sec_cntx]
-        # FEDEFL required for TRI validation
-        pip install git+https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List#egg=fedelemflowlist
+        pip install .
 
     - name: Generate inventory files
       run: |
