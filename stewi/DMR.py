@@ -149,7 +149,9 @@ def download_data(url_params, filepath: Path, sic_list) -> str:
                 try:
                     r = requests.get(url)
                     r.raise_for_status()
-                    result = pd.DataFrame(r.json())
+                    result = pd.DataFrame(r.json(strict=False))
+                    # ^^ set strict=False to avoid JSONDecodeError on
+                    # control characters
                     break
                 except requests.exceptions.HTTPError as err:
                     log.info(err)
