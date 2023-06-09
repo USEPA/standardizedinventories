@@ -29,7 +29,7 @@ MODULEPATH = Path(__file__).resolve().parent
 DATA_PATH = MODULEPATH / 'data'
 
 log.basicConfig(level=log.INFO, format='%(levelname)s %(message)s')
-STEWI_VERSION = '1.0.5'
+STEWI_VERSION = '1.0.6'
 
 # Conversion factors
 USton_kg = 907.18474
