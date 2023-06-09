@@ -21,7 +21,6 @@ import pandas as pd
 import argparse
 import zipfile
 import io
-from pathlib import Path
 
 from esupy.remote import make_url_request
 from esupy.processed_data_mgmt import read_source_metadata
@@ -245,7 +244,7 @@ def generate_eGRID_files(year):
     flowbyfac = flowbyfac.drop(columns=['Plant primary fuel', 'OriginalName'])
 
     # Write flowbyfacility file to output
-    store_inventory(flowbyfac, 'eGRID_' + year, 'flowbyfacility')
+    store_inventory(flowbyfac, f'eGRID_{year}', 'flowbyfacility')
 
     # Creation of the facility file
     # Need to change column names manually
@@ -265,13 +264,13 @@ def generate_eGRID_files(year):
     #2018: 10964
     #2016: 9709
     #2014: 8503
-    store_inventory(facility, 'eGRID_' + year, 'facility')
+    store_inventory(facility, f'eGRID_{year}', 'facility')
 
     # Write flows file
     flows = flowbyfac[['FlowName', 'Compartment', 'Unit']]
     flows = flows.drop_duplicates()
     flows = flows.sort_values(by='FlowName', axis=0)
-    store_inventory(flows, 'eGRID_' + year, 'flow')
+    store_inventory(flows, f'eGRID_{year}', 'flow')
 
     validate_eGRID(year, flowbyfac)
 
