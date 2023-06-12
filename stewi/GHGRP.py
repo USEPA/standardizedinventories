@@ -333,19 +333,17 @@ def download_and_parse_subpart_tables(year, m):
 
     # parse data where flow description has been populated (ghgrp1a)
     # keep only the necessary columns; drop all others
-    ghgrp1a.drop(columns=ghgrp1a.columns.difference(base_cols +
-                                                    ['Flow Description',
-                                                     'FlowAmount',
-                                                     'METHOD',
-                                                     'SUBPART_NAME']),
-                 inplace=True)
+    ghgrp1a = ghgrp1a.drop(columns=ghgrp1a.columns.difference(
+        base_cols + ['Flow Description',
+                     'FlowAmount',
+                     'METHOD',
+                     'SUBPART_NAME']))
 
     # parse data where flow description is blank (ghgrp1b)
     # keep only the necessary columns; drop all others
-    ghgrp1b.drop(columns=ghgrp1b.columns.difference(
+    ghgrp1b = ghgrp1b.drop(columns=ghgrp1b.columns.difference(
         base_cols + expanded_group_cols +
-        ['METHOD', 'SUBPART_NAME', 'UNIT_NAME', 'FUEL_TYPE']),
-        inplace=True)
+        ['METHOD', 'SUBPART_NAME', 'UNIT_NAME', 'FUEL_TYPE']))
     # 'unpivot' data to create separate line items for each group column
     ghgrp1b = ghgrp1b.melt(id_vars=base_cols + ['METHOD', 'SUBPART_NAME',
                                                 'UNIT_NAME', 'FUEL_TYPE'],
@@ -355,13 +353,15 @@ def download_and_parse_subpart_tables(year, m):
     # combine data for same generating unit and fuel type
     ghgrp1b['UNIT_NAME'] = ghgrp1b['UNIT_NAME'].fillna('tmp')
     ghgrp1b['FUEL_TYPE'] = ghgrp1b['FUEL_TYPE'].fillna('tmp')
-    ghgrp1b = ghgrp1b.groupby(['FACILITY_ID', 'REPORTING_YEAR',
-                               'SUBPART_NAME', 'UNIT_NAME', 'FUEL_TYPE',
-                               'Flow Description'])\
-        .agg({'FlowAmount': ['sum'], 'METHOD': ['sum']})
-    ghgrp1b = ghgrp1b.reset_index()
+    ghgrp1b = (ghgrp1b
+               .groupby(['FACILITY_ID', 'REPORTING_YEAR',
+                         'SUBPART_NAME', 'UNIT_NAME', 'FUEL_TYPE',
+                         'Flow Description'])
+               .agg({'FlowAmount': ['sum'], 'METHOD': ['sum']})
+               .reset_index()
+               )
     ghgrp1b.columns = ghgrp1b.columns.droplevel(level=1)
-    ghgrp1b.drop(['UNIT_NAME', 'FUEL_TYPE'], axis=1, inplace=True)
+    ghgrp1b = ghgrp1b.drop(columns=['UNIT_NAME', 'FUEL_TYPE'])
 
     # re-join split dataframes
     ghgrp1 = pd.concat([ghgrp1a, ghgrp1b]).reset_index(drop=True)
@@ -408,8 +408,7 @@ def calculate_combustion_emissions(df):
                       df['PART_75_N2O_EMISSIONS_CO2E']/N2OGWP
 
     # drop subpart C columns because they are no longer needed
-    df.drop(subpart_c_cols, axis=1, inplace=True)
-    return df
+    return df.drop(columns=subpart_c_cols)
 
 
 def parse_additional_suparts_data(addtnl_subparts_path, subpart_cols_file, year):
@@ -470,7 +469,6 @@ def parse_additional_suparts_data(addtnl_subparts_path, subpart_cols_file, year)
                                                inplace=True)
                 del subpart_df[col_dict['flow'][i]]
                 i += 1
-        fields = []
         fields = [c for c in subpart_df.columns if c in ['METHOD', 'Flow Name']]
 
         # 'unpivot' data to create separate line items for each quantity column
@@ -487,6 +485,10 @@ def parse_additional_suparts_data(addtnl_subparts_path, subpart_cols_file, year)
         # concatentate temporary dataframe with master dataframe
         ghgrp = pd.concat([ghgrp, temp_df], ignore_index=True)
 
+    if 'Flow Name' in ghgrp:
+        ghgrp['Flow Name'] = (ghgrp['Flow Name']
+                              .replace('\n','', regex=True)
+                              .str.strip())
     # drop those rows where flow amount is negative, zero, or NaN
     ghgrp = ghgrp[ghgrp['FlowAmount'] > 0]
     ghgrp = ghgrp[ghgrp['FlowAmount'].notna()]
@@ -595,10 +597,11 @@ def validate_national_totals_by_subpart(tab_df, year):
     # apply CO2e factors for some flows
     mask = (tab_df['AmountCO2e'].isna() & tab_df['FlowID'].isin(flows_CO2e))
     tab_df.loc[mask, 'Flow Description'] = 'Fluorinated GHG Emissions (mt CO2e)'
-    subpart_L_GWPs = load_subpart_l_gwp()
-    subpart_L_GWPs.rename(columns={'Flow Name': 'FlowName'}, inplace=True)
+    subpart_L_GWPs = (load_subpart_l_gwp()
+                      .rename(columns={'Flow Name': 'FlowName'}))
     tab_df = tab_df.merge(subpart_L_GWPs, how='left',
-                          on=['FlowName', 'Flow Description'])
+                          on=['FlowName', 'Flow Description'],
+                          validate="m:1")
     tab_df['CO2e_factor'] = tab_df['CO2e_factor'].fillna(1)
     tab_df.loc[mask, 'AmountCO2e'] = tab_df['FlowAmount'] * tab_df['CO2e_factor']
 
@@ -736,16 +739,16 @@ def main(**kwargs):
                                       usecols=['Flow Description', 'FlowName',
                                                'GAS_CODE'])
             ghgrp = pd.merge(ghgrp, ghg_mapping, on='Flow Description',
-                             how='left')
+                             how='left', validate='m:1')
             missing = ghgrp[ghgrp['FlowName'].isna()]
             if len(missing) > 0:
                 log.warning('some flows are unmapped')
-            ghgrp.drop('Flow Description', axis=1, inplace=True)
-
-            # rename certain columns for consistency
-            ghgrp.rename(columns={'FACILITY_ID': 'FacilityID',
-                                  'NAICS_CODE': 'NAICS',
-                                  'GAS_CODE': 'FlowCode'}, inplace=True)
+            ghgrp = (ghgrp
+                     .drop(columns=['Flow Description'])
+                     .rename(columns={'FACILITY_ID': 'FacilityID',
+                                      'NAICS_CODE': 'NAICS',
+                                      'GAS_CODE': 'FlowCode'})
+                     )
 
             # pickle data and save to network
             log.info(f'saving processed GHGRP data to {pickle_file}')
@@ -831,4 +834,5 @@ def main(**kwargs):
 
 
 if __name__ == '__main__':
+    main(Option='A', Year=[2021])
     main(Option='B', Year=[2021])
