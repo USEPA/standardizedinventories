@@ -3,11 +3,12 @@
 name: Generate All Inventories
 
 on:
-  # push:
-  #   branches: [master]
+  pull_request:
+    branches: [master]
+    types: [opened, reopened, ready_for_review]
   schedule:
     - cron: '0 6 14 * *'        # Runs 14th of every month at 6:00 UTC
-  workflow_dispatch:            # manual trigger only
+  workflow_dispatch:
 
 jobs:
   build:

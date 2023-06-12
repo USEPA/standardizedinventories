@@ -27,7 +27,7 @@ def test_all_inventory_generation():
     assert len(error_list) == 0, f"Generation of {','.join(error_list)} unsuccessful"
 
 
-@pytest.mark.parametrize("year", [2017])
+@pytest.mark.parametrize("year", [2020])
 @pytest.mark.inventory
 def test_generate_inventories(year):
     for inventory in config()['databases']:

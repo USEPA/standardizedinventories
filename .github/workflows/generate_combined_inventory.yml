@@ -31,7 +31,7 @@ jobs:
       run: |
         pip install .
 
-    - name: Generate inventory files
+    - name: Combine inventory files
       run: |
         pytest -m combined
 
