@@ -23,4 +23,4 @@ dependencies:
   - webdriver-manager=3.8.6
 
   - pip:
-    - "--editable=git+https://github.com/USEPA/standardizedinventories.git@develop#egg=StEWI"
+    - "--editable=git+https://github.com/USEPA/standardizedinventories.git#egg=StEWI"
