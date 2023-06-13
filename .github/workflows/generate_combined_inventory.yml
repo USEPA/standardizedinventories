@@ -40,7 +40,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         # Artifact name
-        name: StEWI Inventory files
+        name: StEWI Combined inventory files
         # A file, directory or wildcard patter that describes what to upload
         path: | # uses local user data dir for ubuntu
           ~/.local/share/stewi/facility/*
