@@ -3,8 +3,7 @@ FacilityID,,,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility 
 Unit ID,,,Unit ID,Unit ID,Unit ID,Unit ID,Unit ID,Unit ID
 Prime Mover,,,Prime Mover,Prime Mover,Prime Mover,Prime Mover,Prime Mover,Prime Mover
 Unit primary fuel,,,Unit primary fuel,Unit primary fuel,Unit primary fuel,Unit primary fuel,Unit primary fuel,Unit primary fuel
-Unit unadjusted annual heat input (MMBtu),1,,"Unit unadjusted annual heat input 
-(MMBtu)",Unit unadjusted annual heat input (MMBtu),Unit unadjusted annual heat input (MMBtu),Unit unadjusted annual heat input (MMBtu),Unit unadjusted annual heat input (MMBtu),Unit unadjusted annual heat input (MMBtu)
+Unit unadjusted annual heat input (MMBtu),1,,Unit unadjusted annual heat input  (MMBtu),Unit unadjusted annual heat input (MMBtu),Unit unadjusted annual heat input (MMBtu),Unit unadjusted annual heat input (MMBtu),Unit unadjusted annual heat input (MMBtu),Unit unadjusted annual heat input (MMBtu)
 Unit unadjusted annual NOx emissions (tons),1,,Unit unadjusted annual NOx emissions (tons),Unit unadjusted annual NOx emissions (tons),Unit unadjusted annual NOx emissions (tons),Unit unadjusted annual NOx emissions (tons),Unit unadjusted annual NOx emissions (tons),Unit unadjusted annual NOx emissions (tons)
 Unit unadjusted annual SO2 emissions (tons),1,,Unit unadjusted annual SO2 emissions (tons),Unit unadjusted annual SO2 emissions (tons),Unit unadjusted annual SO2 emissions (tons),Unit unadjusted annual SO2 emissions (tons),Unit unadjusted annual SO2 emissions (tons),Unit unadjusted annual SO2 emissions (tons)
 Unit unadjusted annual CO2 emissions (tons),1,,Unit unadjusted annual CO2 emissions (tons),Unit unadjusted annual CO2 emissions (tons),Unit unadjusted annual CO2 emissions (tons),Unit unadjusted annual CO2 emissions (tons),Unit unadjusted annual CO2 emissions (tons),Unit unadjusted annual CO2 emissions (tons)
