@@ -50,7 +50,11 @@ paths.local_path = paths.local_path / 'stewi'
 # global variable to replace stored inventory files when saving
 REPLACE_FILES = False
 
-GIT_HASH = get_git_hash()
+GIT_HASH_LONG = os.environ.get('GITHUB_SHA') or get_git_hash('long')
+if GIT_HASH_LONG:
+    GIT_HASH = GIT_HASH_LONG[0:7]
+else:
+    GIT_HASH = None
 
 source_metadata = {
     'SourceType': 'Static File',  # Other types are "Web service"
