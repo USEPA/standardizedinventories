@@ -153,7 +153,8 @@ def download_data(url_params, filepath: Path, sic_list) -> str:
                     # ^^ set strict=False to avoid JSONDecodeError on
                     # control characters
                     break
-                except requests.exceptions.HTTPError as err:
+                except (requests.exceptions.HTTPError,
+                        requests.exceptions.ConnectionError) as err:
                     log.info(err)
                     time.sleep(20)
                     pass
