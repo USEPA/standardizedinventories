@@ -3,11 +3,12 @@
 name: Generate All Inventories
 
 on:
-  # push:
-  #   branches: [master]
+  pull_request:
+    branches: [master]
+    types: [opened, reopened, ready_for_review]
   schedule:
     - cron: '0 6 14 * *'        # Runs 14th of every month at 6:00 UTC
-  workflow_dispatch:            # manual trigger only
+  workflow_dispatch:
 
 jobs:
   build:
@@ -16,9 +17,9 @@ jobs:
       fail-fast: false
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v3
       with:
         python-version: "3.10"
 
@@ -31,8 +32,6 @@ jobs:
     - name: Install package and dependencies
       run: |
         pip install .
-        # FEDEFL required for TRI validation
-        pip install git+https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List#egg=fedelemflowlist
 
     - name: Generate inventory files
       run: |

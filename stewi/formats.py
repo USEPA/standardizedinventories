@@ -49,7 +49,7 @@ class StewiFormat(Enum):
 
     def path(self):
         """Return local path for directory."""
-        return Path(paths.local_path) / str(self)
+        return paths.local_path / str(self)
 
 
 def ensure_format(f):
@@ -78,6 +78,7 @@ facility_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],
                    'County': [{'dtype': 'str'}, {'required': False}],
                    'NAICS': [{'dtype': 'str'}, {'required': False}],
                    'SIC': [{'dtype': 'str'}, {'required': False}],
+                   'UrbanRural': [{'dtype': 'str'}, {'required': False}],
                    }
 
 flowbyprocess_fields = {'FacilityID': [{'dtype': 'str'}, {'required': True}],

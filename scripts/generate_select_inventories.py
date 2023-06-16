@@ -7,6 +7,10 @@ def main(inventory, years):
     if '-' in years:
         years_list = years.split('-')
         year_iter = list(range(int(years_list[0]), int(years_list[1]) + 1))
+    elif ',' in years:
+        year_iter = [int(y.strip()) for y in years.split(',')]
+    elif isinstance(years, list):
+        year_iter = years
     else:
         year_iter = [years]
     for i_year in year_iter:

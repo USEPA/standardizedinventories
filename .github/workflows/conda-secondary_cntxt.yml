@@ -4,7 +4,10 @@
 name: Generate single inventory (conda sec_ctxt)
 
 on:
-  workflow_dispatch:            # manual trigger only
+  pull_request:
+    branches: [master]
+    types: [opened, reopened, ready_for_review]
+  workflow_dispatch:
     inputs:
         year:
             description: "Year"
@@ -37,7 +40,7 @@ jobs:
       run: |
         conda env update --file env_sec_ctxt.yaml --name base
 
-    - name: Generate inventory files
+    - name: Generate inventory files with secondary context enabled
       env:
           YEAR: ${{ github.event.inputs.year }}
           INVENTORY: ${{ github.event.inputs.inventory }}

@@ -7,9 +7,10 @@ inventory in standard formats
 """
 
 
+from esupy.processed_data_mgmt import read_source_metadata
 from stewi.globals import log, add_missing_fields,\
     WRITE_FORMAT, read_inventory, paths,\
-    read_source_metadata, set_stewi_meta, aggregate
+    set_stewi_meta, aggregate
 from stewi.filter import apply_filters_to_inventory, filter_config
 from stewi.formats import StewiFormat, ensure_format
 
@@ -61,7 +62,7 @@ def printAvailableInventories(stewiformat='flowbyfacility'):
 
 def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
                  filters=None, filter_for_LCI=False, US_States_Only=False,
-                 download_if_missing=False):
+                 download_if_missing=False, keep_sec_cntx=False):
     """Return or generate an inventory in a standard output format.
 
     :param inventory_acronym: like 'TRI'
@@ -74,11 +75,18 @@ def getInventory(inventory_acronym, year, stewiformat='flowbyfacility',
         favor of 'filters'
     :param download_if_missing: bool, if True will attempt to load from
         remote server prior to generating if file not found locally
+    :param keep_sec_cntx: bool, if False only preserves primary contexts
     :return: dataframe with standard fields depending on output format
     """
     f = ensure_format(stewiformat)
     inventory = read_inventory(inventory_acronym, year, f,
                                download_if_missing)
+
+    if (not keep_sec_cntx) and ('Compartment' in inventory):
+        inventory['Compartment'] = (inventory['Compartment']
+                                    .str.partition('/')[0])
+        inventory = aggregate(inventory)
+
     if not filters:
         filters = []
     if f.value > 2:  # exclude FLOW and FACILITY

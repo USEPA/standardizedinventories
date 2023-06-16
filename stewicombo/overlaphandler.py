@@ -1,187 +1,162 @@
+""" Handle redundant flows by facility and compartment """
+
+from pathlib import Path
+
 import pandas as pd
-from stewicombo.globals import log, LOOKUP_FIELDS, SOURCE_COL,INCLUDE_ORIGINAL,\
-    INVENTORY_PREFERENCE_BY_COMPARTMENT, KEEP_ALL_DUPLICATES, FORCE_COLUMN_TYPES,\
-    KEEP_ROW_WITHOUT_DUPS, COL_FUNC_PAIRS, COL_FUNC_DEFAULT, COMPARTMENT_COL,\
-    VOC_srs
 
-if "LOOKUP_FIELDS" not in locals() and LOOKUP_FIELDS:
-    raise ValueError("Not sure which fields to lookup in each row. "
-                     "Please update config.json with LOOKUP_FIELDS")
+from stewi.globals import log
 
 
-def join_with_underscore(items):
-    type_cast_to_str = False
-    for x in items:
-        if not isinstance(x, str):
-            # raise TypeError("join_with_underscore()  inputs must be string")
-            type_cast_to_str = True
-    if type_cast_to_str:
-        items = [str(x) for x in items]
+path_module = Path(__file__).parent
+path_data = path_module / 'data'
 
-    return "_".join(items)
-
-
-def reliablity_weighted_sum(df, weights_col_name, items):
-    grouped = df.groupby(SOURCE_COL)
-
-    for x, y in items.items():
-        first_index = x
-        break
-
-    # group_name = df.iloc[first_index].loc[SOURCE_COL]
-    group_name = df.loc[first_index, SOURCE_COL]
-    group = grouped.get_group(group_name)
-
-    new_reliability_col = items * (group[weights_col_name] / sum(group[weights_col_name]))
-    return sum(new_reliability_col)
+inv_pref = {  # inventory source preference by compartment
+    'air': ('eGRID', 'GHGRP', 'NEI', 'TRI'),
+    'water': ('DMR', 'TRI'),
+    'soil': ('TRI'),
+    'waste': ('RCRAInfo', 'TRI'),
+    'output': ('eGRID'),
+    }
 
 
-def get_first_item(items):
-    return items.iloc[0]
+def remove_flow_overlap(df, flow_cpst, flows_cntb, cmpt='air', SCC=False):
+    """
+    Subtract double-counted contributing flow quantities from a composite flow.
+    E.g., remove PM2.5 quantities from PM10 (i.e., all PM <= 10, by default)
+    to produce PM10-PM2.5 (2.5 < PM <= 10).
+    :param df: pd.DataFrame, flow-by-facility combined format
+    :param flow_cpst: str, composite flow SRS_ID code
+    :param flows_cntb: list, contributing flows (SRS_ID codes) to
+        remove from a composite flow
+    :param cmpt: str, primary compartment containing flow overlap
+    :param SCC: bool, optionally aggregate contributing flows at process level
+    """
+    cols_agg = ['FacilityID', 'Source', 'Compartment']
+    if SCC:
+        cols_agg.append('Process')
+    # sum contributing flows' FlowAmounts by cols_agg (i.e., across SRS_IDs)
+    if '_CompartmentPrimary' not in df:
+        df['_CompartmentPrimary'] = df['Compartment'].apply(lambda x: x.split('/')[0])
+    df_cf = (df.query('SRS_ID in @flows_cntb and '
+                      '_CompartmentPrimary == @cmpt')
+               .groupby(cols_agg, as_index=False)
+               .agg({'FlowAmount': sum})
+               .assign(SRS_ID=flow_cpst)
+               .rename(columns={'FlowAmount': 'ContributingAmount'}))
+    # then remove contributing flow totals from composite flow
+    df = (df.merge(df_cf, how='left', on=(cols_agg + ['SRS_ID']))
+            .fillna({'ContributingAmount': 0})
+            .eval('FlowAmount = FlowAmount - ContributingAmount')
+            .drop(columns='ContributingAmount'))
+    # and ensure the adjusted composite flows are non-negative
+    cond = (df['FlowAmount'] < 0) & (df['SRS_ID'] == flow_cpst)
+    df['FlowAmount'] = df['FlowAmount'].mask(cond, 0)
+    return df
 
 
-def get_by_preference(group):
-    preferences = INVENTORY_PREFERENCE_BY_COMPARTMENT[group.name]
+def remove_NEI_overlaps(df, **kwargs):
+    """
+    Remove overlaps inherent to NEI's default PM and VOC flows.
+    :param df: pd.DataFrame, flow-by-facility combined format
+    """
+    log.info('Assessing PM and VOC speciation')
+    # Remove PM2.5-PRI (SRS_ID: 77681) from PM10-PRI (SRS_ID: 77683)
+    df = remove_flow_overlap(df, '77683', ['77681'], **kwargs)
+    df.loc[(df['SRS_ID'] == '77683'), 'FlowName'] = 'PM10-PM2.5'
+    # Remove speciated HAP VOCs (import SRSs) from composite VOC flows (SRS_ID: 83723)
+    # Defined in EPA's Industrial, Commercial, and Institutional (ICI)
+    # Fuel Combustion Tool, Version 1.4, December 2015
+    # (Available at: ftp://ftp.epa.gov/EmisInventory/2014/doc/nonpoint/ICI%20Tool%20v1_4.zip).
+    VOC_srs = (pd.read_csv(path_data / 'VOC_SRS_IDs.csv', dtype=str)
+                  .squeeze()) # single-col df to series
+    df = remove_flow_overlap(df, '83723', VOC_srs, **kwargs)
+    return df
 
-    for pref in preferences:
-        for index, row in group.iterrows():
-            if pref == row[SOURCE_COL]:
-                return row
+
+def remove_default_flow_overlaps(df, **kwargs):
+    from warnings import warn
+    warn('remove_default_flow_overlaps() is deprecated. \n'
+         'Replace with remove_NEI_overlaps()', DeprecationWarning)
+    return remove_NEI_overlaps(df, **kwargs)
 
 
 def aggregate_and_remove_overlap(df):
-    if not INCLUDE_ORIGINAL and not KEEP_ALL_DUPLICATES:
-        raise ValueError("Cannot have both INCLUDE_ORIGINAL and "
-                         "KEEP_REPEATED_DUPLICATES fields as False")
+    """
+    Aggregate or remove redundant flows (preferences given in inv_pref)
+    by facility and compartment
+    :param df: pd.DataFrame, inventory df incl. chemical & facility matches
+    """
+    log.info('removing overlap between inventories')
+    ## TODO: implement args for different duplicate handling schemes
+        # see commented-out code in commit f2fc7c2 (or earlier, uncommented)
 
-    log.info("Removing overlap between inventories...")
+    df['_CompartmentPrimary'] = df['Compartment'].apply(lambda x: x.split('/')[0])
 
-    if INCLUDE_ORIGINAL:
-        keep = False
-    else:
-        keep = 'first'
+    # split off rows w/ NaN FRS_ID or SRS_ID & later recombine into output
+    df_nans = df.query('FRS_ID.isnull() or SRS_ID.isnull()')
 
-    # force cast skeptical columns
-    for col_name, dtype in FORCE_COLUMN_TYPES.items():
-        df[col_name] = df[col_name].astype(dtype)
+    # convert numeric code fields (str & float mix) to str
+    fields_as_str = ['FRS_ID', 'SRS_ID', 'SRS_CAS']
+    df[fields_as_str] = df[fields_as_str].astype(str)
 
-    # 2
-    # if you wish to also keep row that doesn't have any duplicates, don't find duplicates
-    # go ahead with next step of processing
-    if not KEEP_ROW_WITHOUT_DUPS:
-
-        df_chunk_filtered = df[LOOKUP_FIELDS]
-
-        if not KEEP_ALL_DUPLICATES:
-            # from a set of duplicates a logic is applied to figure out what is sent to write to output file
-            # for example only the first duplicate is kept
-            # or duplicates are filtered preferentially and high priority one is kept etc
-            df_dups = df[df_chunk_filtered.duplicated(keep=keep)]
-            df_dups_filtered = df_dups[LOOKUP_FIELDS]
-            df = df_dups[df_dups_filtered.duplicated(keep=keep).apply(lambda x: not x)]
-
-    # 3
-    # if any row has FRS_ID or SRS_ID as NaN, extract them and add to the output
-    rows_with_nans_srs_frs = df[df.loc[:, "FRS_ID"].isnull() | df.loc[:, "SRS_ID"].isnull()]
-
-    # Adjust special use case for flows in TRI and DMR
+    # adjust special use case for flows in TRI and DMR
     if 'DMR' in df['Source'].values and 'TRI' in df['Source'].values:
         from stewi.DMR import remove_nutrient_overlap_TRI
-        df = remove_nutrient_overlap_TRI(df, INVENTORY_PREFERENCE_BY_COMPARTMENT['water'][0])
+        df = remove_nutrient_overlap_TRI(df, inv_pref['water'][0])
 
-    # remaining rows
-    df = df[~(df.loc[:, "FRS_ID"].isnull() | df.loc[:, "SRS_ID"].isnull())]
-    # limit the groupby to those where more than one row exists to improve speed
-    id_duplicates = df.duplicated(subset=LOOKUP_FIELDS, keep=False)
-    df_duplicates = df.loc[id_duplicates]
-    df_singles = df.loc[~id_duplicates]
+    # drop split NaN rows
+    df = df.drop(df_nans.index)
 
-    grouped = df_duplicates.groupby(LOOKUP_FIELDS)
+    # minimal cols to find duplicated flows ACROSS inventories; excludes
+    # 'Compartment' b/c secondary contexts vary w/ data availability
+    cols_inter = ['FRS_ID', 'SRS_ID', '_CompartmentPrimary']
 
-    if SOURCE_COL not in df.columns: raise ("SOURCE_COL not found in input file's header")
+    # split into df's w/ unique (unq) and duplicated (dup) flows
+    id_duplicates = df.duplicated(subset=cols_inter, keep=False)
+    df_unq = df[~id_duplicates]
+    df_dup = df.copy()[id_duplicates]
 
-    funcname_cols_map = COL_FUNC_PAIRS
-    for col in list(set(df.columns) - set(
-            COL_FUNC_PAIRS.keys())):  # col names in columns, not in key of COL_FUNC_PAIRS
-        funcname_cols_map[col] = COL_FUNC_DEFAULT
+    # functions by column for intra-inventory aggregation
+    funcs_agg = {
+        'FacilityID':       '_'.join, # or `set` or `'unique'` to get unique set of vals
+        'FlowAmount':       sum,
+        'DataReliability':  sum,  # sums FlowAmount-weighted elements
+        'FlowName':         'first', # get the first element in .agg
+        }
+    # cols to define unique flows WITHIN inventories; using more grouping cols,
+    # rather than minimal cols + select unique elements, speeds up .agg()
+    cols_intra = list(set(df_dup.columns) - set(funcs_agg.keys()))
+    # affirm that cols_intra produces same number of groups as minimal cols
+    cols_min = cols_inter + ['Source', 'Compartment', 'FlowName']
+    if not (df_dup.groupby(cols_intra).ngroups == df_dup.groupby(cols_min).ngroups):
+        log.error('intra-inventory unique-flow-defining cols are insufficient')
 
-    to_be_concat = []
-    to_be_concat.append(df_singles)
+    df_dup['_FlowAmountSum'] = (df_dup.groupby(cols_intra)['FlowAmount']
+                                      .transform('sum'))
+    df_dup['DataReliability'] = df_dup.eval(
+        'DataReliability * FlowAmount / _FlowAmountSum')
+    df_dup = df_dup.groupby(cols_intra, as_index=False).agg(funcs_agg)
 
-    group_length = len(grouped)
-    counter = 1
-    pct = 1
-    for name, frame in grouped:
-        # find functions mapping for this df
-        func_cols_map = {}
-        for key, val in funcname_cols_map.items():
-            if "reliablity_weighted_sum" in val:
-                args = val.split(":")
-                if len(args) > 1:
-                    weights_col_name = args[1]
-                func_cols_map[key] = lambda items: reliablity_weighted_sum(frame, weights_col_name, items)
-            else:
-                func_cols_map[key] = eval(val)
-        grouped_by_src = frame.groupby(SOURCE_COL)
-        df_new = grouped_by_src.agg(func_cols_map)
+    # get source preference score (ordered, integer positions in inv_pref tuples)
+    # via each entry's compartment and inventory source acronym
 
-        # If we have 2 or more duplicates with same compartment use `INVENTORY_PREFERENCE_BY_COMPARTMENT`
-        grouped = df_new.groupby(COMPARTMENT_COL)
-        df_new = grouped.apply(get_by_preference)
-        to_be_concat.append(df_new)
-        if counter / group_length >= 0.1*pct:
-            log.info(str(pct) + '0% completed')
-            pct += 1
-        counter += 1
-    df = pd.concat(to_be_concat)
+    df_dup['_SourcePref'] = df_dup.apply(
+        lambda x: inv_pref.get(x['_CompartmentPrimary']).index(x['Source']),
+        axis='columns')
+    # df_dup.groupby(['Source', '_CompartmentPrimary', '_SourcePref']).size()
 
-    log.debug("Adding any rows with NaN FRS_ID or SRS_ID")
-    df = pd.concat([df, rows_with_nans_srs_frs], ignore_index=True)
+    # then drop cross-inventory dups by keeping entries w/ min _SourcePref
+    df_dup['_SourcePrefMin'] = (df_dup.groupby(cols_inter)['_SourcePref']
+                                      .transform(min))
+    df_dup = df_dup.query('_SourcePref == _SourcePrefMin')
+
+    log.debug('Reincorporating rows with NaN FRS_ID or SRS_ID')
+    df = pd.concat([df_unq, df_dup, df_nans], ignore_index=True)
 
     if 'NEI' in df['Source'].values:
-        df = remove_default_flow_overlaps(df, compartment='air', SCC=False)
-    log.info("Overlap removed.")
+        df = remove_NEI_overlaps(df)
 
-    return df
+    df = df.filter(regex=r'^(?!_)') # only keep cols not starting w/ '_'
 
-
-def remove_default_flow_overlaps(df, compartment='air', SCC=False):
-    log.info("Assessing PM and VOC speciation")
-
-    # SRS_ID = 77683 (PM10-PRI) and SRS_ID = 77681  (PM2.5-PRI)
-    df = remove_flow_overlap(df, '77683', ['77681'], compartment, SCC)
-    df.loc[(df['SRS_ID'] == '77683'), 'FlowName'] = 'PM10-PM2.5'
-
-    # SRS_ID = 83723 (VOC) change FlowAmount by subtracting sum of FlowAmount from speciated HAP VOCs.
-    # The records for speciated HAP VOCs are not changed.
-    # Defined in EPA’s Industrial, Commercial, and Institutional (ICI) Fuel Combustion Tool, Version 1.4, December 2015
-    # (Available at: ftp://ftp.epa.gov/EmisInventory/2014/doc/nonpoint/ICI%20Tool%20v1_4.zip).
-    df = remove_flow_overlap(df, '83723', VOC_srs, compartment, SCC)
-
-    return df
-
-
-def remove_flow_overlap(df, aggregate_flow, contributing_flows,
-                        compartment='air', SCC=False):
-    df_contributing_flows = df.loc[df["SRS_ID"].isin(contributing_flows)]
-    df_contributing_flows = df_contributing_flows[df_contributing_flows[
-        'Compartment'] == compartment]
-    match_conditions = ['FacilityID', 'Source', 'Compartment']
-    if SCC:
-        match_conditions.append('Process')
-
-    df_contributing_flows = df_contributing_flows.groupby(
-        match_conditions, as_index=False)['FlowAmount'].sum()
-
-    df_contributing_flows['SRS_ID'] = aggregate_flow
-    df_contributing_flows['ContributingAmount'] = df_contributing_flows['FlowAmount']
-    df_contributing_flows.drop(columns=['FlowAmount'], inplace=True)
-    df = df.merge(df_contributing_flows, how='left', on=match_conditions.append('SRS_ID'))
-    df[['ContributingAmount']] = df[['ContributingAmount']].fillna(value=0)
-    df['FlowAmount'] = df['FlowAmount'] - df['ContributingAmount']
-    df.drop(columns=['ContributingAmount'], inplace=True)
-
-    # Make sure the aggregate flow is non-negative
-    df.loc[((df.SRS_ID == aggregate_flow) & (df.FlowAmount <= 0)), "FlowAmount"] = 0
-
+    log.info('overlap removed')
     return df

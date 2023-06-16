@@ -106,9 +106,10 @@ import time
 import datetime
 from pathlib import Path
 
+from esupy.processed_data_mgmt import read_source_metadata
 from stewi.globals import write_metadata, DATA_PATH, config,\
     USton_kg, get_reliability_table_for_source, paths,\
-    log, store_inventory, compile_source_metadata, read_source_metadata,\
+    log, store_inventory, compile_source_metadata,\
     aggregate, set_stewi_meta
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
@@ -126,9 +127,9 @@ except ImportError:
 
 _config = config()['databases']['RCRAInfo']
 EXT_DIR = 'RCRAInfo Data Files'
-OUTPUT_PATH = Path(paths.local_path).joinpath(EXT_DIR)
+OUTPUT_PATH = paths.local_path / EXT_DIR
 RCRA_DATA_PATH = DATA_PATH / 'RCRAInfo'
-DIR_RCRA_BY_YEAR = OUTPUT_PATH.joinpath('RCRAInfo_by_year')
+DIR_RCRA_BY_YEAR = OUTPUT_PATH / 'RCRAInfo_by_year'
 
 
 def waste_description_cleaner(x):
@@ -155,7 +156,7 @@ def download_and_extract_zip(tables, query):
     options.add_argument('--disable-software-rasterizer')
     options.add_argument('--log-level=3')
     options.add_argument('--hide-scrollbars')
-    prefs = {'download.default_directory' : str(OUTPUT_PATH),
+    prefs = {'download.default_directory': str(OUTPUT_PATH),
             'download.prompt_for_download': False,
             'download.directory_upgrade': True,
             'safebrowsing_for_trusted_sources_enabled': False,
@@ -421,7 +422,7 @@ def validate_state_totals(report_year, flowbyfacility):
                                                      'imported_wastes',
                                                      'US_States_only'])
         validation_df = validate_inventory(flowbyfacility,
-                                           totals, group_by='state')
+                                           totals, group_by=['State'])
         write_validation_result('RCRAInfo', report_year, validation_df)
     else:
         log.warning(f'validation file for RCRAInfo_{report_year} does not exist.')

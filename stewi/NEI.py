@@ -8,7 +8,7 @@ options A:C.
 This file requires parameters be passed like:
     Option -Y Year
 
-Options:
+Option:
     A - for downloading NEI Point data and
         generating inventory files for StEWI:
         flowbyfacility
@@ -18,36 +18,31 @@ Options:
     B - for downloading national totals for validation
 
 Year:
-    2018
-    2017
-    2016
-    2015
-    2014
-    2013
-    2012
-    2011
+    2011-2020
 """
 
-import pandas as pd
-import numpy as np
 import argparse
-import requests
-import zipfile
 import io
-from pathlib import Path
+import zipfile
 
-from esupy.processed_data_mgmt import download_from_remote
+import numpy as np
+import pandas as pd
+import requests
+
+from esupy.processed_data_mgmt import download_from_remote,\
+    read_source_metadata
 from esupy.util import strip_file_extension
 from stewi.globals import DATA_PATH, write_metadata, USton_kg, lb_kg,\
-    log, store_inventory, config, read_source_metadata,\
+    log, store_inventory, config, assign_secondary_context,\
     paths, aggregate, get_reliability_table_for_source, set_stewi_meta
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
+from stewi.formats import facility_fields
 
 
 _config = config()['databases']['NEI']
 EXT_DIR = 'NEI Data Files'
-OUTPUT_PATH = Path(paths.local_path).joinpath(EXT_DIR)
+OUTPUT_PATH = paths.local_path / EXT_DIR
 NEI_DATA_PATH = DATA_PATH / 'NEI'
 
 
@@ -110,20 +105,11 @@ def standardize_output(year, source='Point'):
                                 'ReliabilityScore'])
 
         nei['Compartment'] = 'air'
-        """
-        # Modify compartment based on stack height (ft)
-        nei.loc[nei['StackHeight'] < 32, 'Compartment'] = 'air/ground'
-        nei.loc[(nei['StackHeight'] >= 32) & (nei['StackHeight'] < 164),
-                'Compartment'] = 'air/low'
-        nei.loc[(nei['StackHeight'] >= 164) & (nei['StackHeight'] < 492),
-                'Compartment'] = 'air/high'
-        nei.loc[nei['StackHeight'] >= 492, 'Compartment'] = 'air/very high'
-        """
     else:
         nei['DataReliability'] = 3
     # add Source column
     nei['Source'] = source
-    nei.reset_index(drop=True, inplace=True)
+    nei = nei.reset_index(drop=True)
     return nei
 
 
@@ -138,9 +124,9 @@ def generate_national_totals(year):
 
     # generate url based on data year
     build_url = _config['national_url']
-    version = _config['national_version'][year]
+    file = _config['national_version'][year]
     url = build_url.replace('__year__', year)
-    url = url.replace('__version__', version)
+    url = url.replace('__file__', file)
 
     # make http request
     r = []
@@ -182,16 +168,17 @@ def generate_national_totals(year):
                                 df['FlowAmount'] * USton_kg)
     df = df.drop(columns=['UOM'])
     # sum across all facilities to create national totals
-    df = df.groupby(['FlowID', 'FlowName'])['FlowAmount'].sum().reset_index()
+    df = (df.groupby(['FlowID', 'FlowName'])['FlowAmount'].sum()
+            .reset_index()
+            .rename(columns={'FlowAmount': 'FlowAmount[kg]'}))
     # save national totals to .csv
-    df.rename(columns={'FlowAmount': 'FlowAmount[kg]'}, inplace=True)
     log.info(f'saving NEI_{year}_NationalTotals.csv to {DATA_PATH}')
     df.to_csv(DATA_PATH.joinpath(f'NEI_{year}_NationalTotals.csv'),
               index=False)
 
     # Update validationSets_Sources.csv
     validation_dict = {'Inventory': 'NEI',
-                       'Version': version,
+                       'Version': file,
                        'Year': year,
                        'Name': 'NEI Data',
                        'URL': url,
@@ -208,26 +195,26 @@ def validate_national_totals(nei_flowbyfacility, year):
         generate_national_totals(year)
     else:
         log.info('using already processed national totals validation file')
-    nei_national_totals = pd.read_csv(DATA_PATH
-                                      .joinpath(f'NEI_{year}_NationalTotals.csv'),
-                                      header=0, dtype={"FlowAmount[kg]": float})
-    nei_national_totals.rename(columns={'FlowAmount[kg]': 'FlowAmount'},
-                               inplace=True)
+    nei_national_totals = (
+        pd.read_csv(DATA_PATH.joinpath(f'NEI_{year}_NationalTotals.csv'),
+                    header=0, dtype={"FlowAmount[kg]": float})
+          .rename(columns={'FlowAmount[kg]': 'FlowAmount'}))
     validation_result = validate_inventory(nei_flowbyfacility,
                                            nei_national_totals,
-                                           group_by='flow', tolerance=5.0)
+                                           group_by=['FlowName'],
+                                           tolerance=5.0)
     write_validation_result('NEI', year, validation_result)
 
 
-def generate_metadata(year, datatype='inventory'):
+def generate_metadata(year, parameters):
     """Get metadata and writes to .json."""
     nei_file_path = _config[year]['file_name']
-    if datatype == 'inventory':
-        source_meta = []
-        for file in nei_file_path:
-            meta = set_stewi_meta(strip_file_extension(file), EXT_DIR)
-            source_meta.append(read_source_metadata(paths, meta, force_JSON=True))
-        write_metadata('NEI_' + year, source_meta, datatype=datatype)
+    source_meta = []
+    for file in nei_file_path:
+        meta = set_stewi_meta(strip_file_extension(file), EXT_DIR)
+        source_meta.append(read_source_metadata(paths, meta, force_JSON=True))
+    write_metadata(f'NEI_{year}', source_meta, datatype='inventory',
+                   parameters=parameters)
 
 
 def main(**kwargs):
@@ -250,13 +237,39 @@ def main(**kwargs):
         kwargs = vars(parser.parse_args())
 
     for year in kwargs['Year']:
+        year = str(year)
         if kwargs['Option'] == 'A':
-
             nei_point = standardize_output(year)
 
+            log.info('generating facility output')
+            facility = nei_point[[f for f in facility_fields
+                                  if f in nei_point.columns]]
+            facility = facility.drop_duplicates('FacilityID')
+            facility = facility.astype({'Zip': 'str'})
+            facility, p = assign_secondary_context(facility, int(year), 'urb')
+            store_inventory(facility, f'NEI_{year}', 'facility')
+            log.debug(len(facility))
+            #2017: 87162
+            #2016: 85802
+            #2014: 85125
+            #2011: 95565
+
+            # reassign urban/rural back to full dataframe if available
+            if p:
+                nei_point = (nei_point.merge(
+                    facility.rename(columns={'UrbanRural': 'cmpt_urb'})
+                        [['FacilityID', 'cmpt_urb']],
+                    how='left', on='FacilityID',
+                    validate='m:1')
+                    )
+
+            nei_point, parameters = (assign_secondary_context(
+                nei_point, int(year), 'rh', 'concat'))
+
             log.info('generating flow by facility output')
-            nei_flowbyfacility = aggregate(nei_point, ['FacilityID', 'FlowName'])
-            store_inventory(nei_flowbyfacility, 'NEI_' + year, 'flowbyfacility')
+            nei_flowbyfacility = aggregate(nei_point, ['FacilityID', 'FlowName',
+                                                       'Compartment'])
+            store_inventory(nei_flowbyfacility, f'NEI_{year}', 'flowbyfacility')
             log.debug(len(nei_flowbyfacility))
             #2017: 2184786
             #2016: 1965918
@@ -264,10 +277,10 @@ def main(**kwargs):
             #2011: 1840866
 
             log.info('generating flow by SCC output')
-            nei_flowbyprocess = aggregate(nei_point, ['FacilityID',
+            nei_flowbyprocess = aggregate(nei_point, ['FacilityID', 'Compartment',
                                                       'FlowName', 'Process'])
             nei_flowbyprocess['ProcessType'] = 'SCC'
-            store_inventory(nei_flowbyprocess, 'NEI_' + year, 'flowbyprocess')
+            store_inventory(nei_flowbyprocess, f'NEI_{year}', 'flowbyprocess')
             log.debug(len(nei_flowbyprocess))
             #2017: 4055707
 
@@ -276,39 +289,26 @@ def main(**kwargs):
             nei_flows = nei_flows.drop_duplicates()
             nei_flows['Unit'] = 'kg'
             nei_flows = nei_flows.sort_values(by='FlowName', axis=0)
-            store_inventory(nei_flows, 'NEI_' + year, 'flow')
+            store_inventory(nei_flows, f'NEI_{year}', 'flow')
             log.debug(len(nei_flows))
             #2017: 293
             #2016: 282
             #2014: 279
             #2011: 277
 
-            log.info('generating facility output')
-            facility = nei_point[['FacilityID', 'FacilityName', 'Address',
-                                  'City', 'State', 'Zip', 'Latitude',
-                                  'Longitude', 'NAICS', 'County']]
-            facility = facility.drop_duplicates('FacilityID')
-            facility = facility.astype({'Zip': 'str'})
-            store_inventory(facility, 'NEI_' + year, 'facility')
-            log.debug(len(facility))
-            #2017: 87162
-            #2016: 85802
-            #2014: 85125
-            #2011: 95565
+            generate_metadata(year, parameters)
 
-            generate_metadata(year, datatype='inventory')
-
-            if year in ['2011', '2014', '2017']:
+            if year in ['2011', '2014', '2017', '2020']:
                 validate_national_totals(nei_flowbyfacility, year)
             else:
                 log.info('no validation performed')
 
         elif kwargs['Option'] == 'B':
-            if year in ['2011', '2014', '2017']:
+            if year in ['2011', '2014', '2017', '2020']:
                 generate_national_totals(year)
             else:
                 log.info(f'national totals do not exist for year {year}')
 
 
 if __name__ == '__main__':
-    main()
+    main(Year=[2019, 2020], Option='A')

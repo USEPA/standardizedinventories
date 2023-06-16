@@ -1,14 +1,13 @@
-﻿StEWI,weighting_flows,reliability_flows,2014,2016,2018,2019
-FacilityID,,,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code
-Unit ID,,,Unit ID,Unit ID,Unit ID,Unit ID
-Prime Mover,,,Prime Mover,Prime Mover,Prime Mover,Prime Mover
-Unit primary fuel,,,Unit primary fuel,Unit primary fuel,Unit primary fuel,Unit primary fuel
-Unit unadjusted annual heat input (MMBtu),1,,"Unit unadjusted annual heat input 
-(MMBtu)",Unit unadjusted annual heat input (MMBtu),Unit unadjusted annual heat input (MMBtu),Unit unadjusted annual heat input (MMBtu)
-Unit unadjusted annual NOx emissions (tons),1,,Unit unadjusted annual NOx emissions (tons),Unit unadjusted annual NOx emissions (tons),Unit unadjusted annual NOx emissions (tons),Unit unadjusted annual NOx emissions (tons)
-Unit unadjusted annual SO2 emissions (tons),1,,Unit unadjusted annual SO2 emissions (tons),Unit unadjusted annual SO2 emissions (tons),Unit unadjusted annual SO2 emissions (tons),Unit unadjusted annual SO2 emissions (tons)
-Unit unadjusted annual CO2 emissions (tons),1,,Unit unadjusted annual CO2 emissions (tons),Unit unadjusted annual CO2 emissions (tons),Unit unadjusted annual CO2 emissions (tons),Unit unadjusted annual CO2 emissions (tons)
-ReliabilitySource_heat,,1,Unit unadjusted annual heat input source,Unit unadjusted annual heat input source,Unit unadjusted annual heat input source,Unit unadjusted annual heat input source
-ReliabilitySource_NOx,,1,Unit unadjusted annual NOx emissions source,Unit unadjusted annual NOx emissions source,Unit unadjusted annual NOx emissions source,Unit unadjusted annual NOx emissions source
-ReliabilitySource_SO2,,1,Unit unadjusted annual SO2 emissions source,Unit unadjusted annual SO2 emissions source,Unit unadjusted annual SO2 emissions source,Unit unadjusted annual SO2 emissions source
-ReliabilitySource_CO2,,1,Unit unadjusted annual CO2 emissions source,Unit unadjusted annual CO2 emissions source,Unit unadjusted annual CO2 emissions source,Unit unadjusted annual CO2 emissions source
+StEWI,weighting_flows,reliability_flows,2014,2016,2018,2019,2020,2021
+FacilityID,,,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code,DOE/EIA ORIS plant or facility code
+Unit ID,,,Unit ID,Unit ID,Unit ID,Unit ID,Unit ID,Unit ID
+Prime Mover,,,Prime Mover,Prime Mover,Prime Mover,Prime Mover,Prime Mover,Prime Mover
+Unit primary fuel,,,Unit primary fuel,Unit primary fuel,Unit primary fuel,Unit primary fuel,Unit primary fuel,Unit primary fuel
+Unit unadjusted annual heat input (MMBtu),1,,Unit unadjusted annual heat input  (MMBtu),Unit unadjusted annual heat input (MMBtu),Unit unadjusted annual heat input (MMBtu),Unit unadjusted annual heat input (MMBtu),Unit unadjusted annual heat input (MMBtu),Unit unadjusted annual heat input (MMBtu)
+Unit unadjusted annual NOx emissions (tons),1,,Unit unadjusted annual NOx emissions (tons),Unit unadjusted annual NOx emissions (tons),Unit unadjusted annual NOx emissions (tons),Unit unadjusted annual NOx emissions (tons),Unit unadjusted annual NOx emissions (tons),Unit unadjusted annual NOx emissions (tons)
+Unit unadjusted annual SO2 emissions (tons),1,,Unit unadjusted annual SO2 emissions (tons),Unit unadjusted annual SO2 emissions (tons),Unit unadjusted annual SO2 emissions (tons),Unit unadjusted annual SO2 emissions (tons),Unit unadjusted annual SO2 emissions (tons),Unit unadjusted annual SO2 emissions (tons)
+Unit unadjusted annual CO2 emissions (tons),1,,Unit unadjusted annual CO2 emissions (tons),Unit unadjusted annual CO2 emissions (tons),Unit unadjusted annual CO2 emissions (tons),Unit unadjusted annual CO2 emissions (tons),Unit unadjusted annual CO2 emissions (tons),Unit unadjusted annual CO2 emissions (tons)
+ReliabilitySource_heat,,1,Unit unadjusted annual heat input source,Unit unadjusted annual heat input source,Unit unadjusted annual heat input source,Unit unadjusted annual heat input source,Unit unadjusted annual heat input source,Unit unadjusted annual heat input source
+ReliabilitySource_NOx,,1,Unit unadjusted annual NOx emissions source,Unit unadjusted annual NOx emissions source,Unit unadjusted annual NOx emissions source,Unit unadjusted annual NOx emissions source,Unit unadjusted annual NOx emissions source,Unit unadjusted annual NOx emissions source
+ReliabilitySource_SO2,,1,Unit unadjusted annual SO2 emissions source,Unit unadjusted annual SO2 emissions source,Unit unadjusted annual SO2 emissions source,Unit unadjusted annual SO2 emissions source,Unit unadjusted annual SO2 emissions source,Unit unadjusted annual SO2 emissions source
+ReliabilitySource_CO2,,1,Unit unadjusted annual CO2 emissions source,Unit unadjusted annual CO2 emissions source,Unit unadjusted annual CO2 emissions source,Unit unadjusted annual CO2 emissions source,Unit unadjusted annual CO2 emissions source,Unit unadjusted annual CO2 emissions source

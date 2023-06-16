@@ -1,79 +1,79 @@
 FlowName,FlowCode,SUBPART_NAME,FlowAmount
-Biogenic CO2,BIOCO2,AA,81070077800.0
-Biogenic CO2,BIOCO2,C,59635479600.0
+Biogenic CO2,BIOCO2,AA,81256103800.0
+Biogenic CO2,BIOCO2,C,59647636500.0
 Biogenic CO2,BIOCO2,D,3782459000.0
 Biogenic CO2,BIOCO2,H,732524400.0
-Carbon Dioxide,CO2,AA,5587653500.0
+Carbon Dioxide,CO2,AA,5587548000.0
 Carbon Dioxide,CO2,BB,108254600.0
-Carbon Dioxide,CO2,C,547865024049.0381
+Carbon Dioxide,CO2,C,548249824549.0381
 Carbon Dioxide,CO2,CC,1303462900.0
-Carbon Dioxide,CO2,D,1728785007852.25
+Carbon Dioxide,CO2,D,1728976662152.25
 Carbon Dioxide,CO2,EE,1339291900.0
 Carbon Dioxide,CO2,F,1205215900.0
 Carbon Dioxide,CO2,FF,5615100.0
-Carbon Dioxide,CO2,G,19104229300.0
+Carbon Dioxide,CO2,G,19103312300.0
 Carbon Dioxide,CO2,GG,565038800.0
-Carbon Dioxide,CO2,H,64340995400.0
-Carbon Dioxide,CO2,K,2082162300.0
-Carbon Dioxide,CO2,N,1970927500.0
-Carbon Dioxide,CO2,P,44133178300.0
-Carbon Dioxide,CO2,Q,27964252100.0
+Carbon Dioxide,CO2,H,64340699500.0
+Carbon Dioxide,CO2,K,2215292700.0
+Carbon Dioxide,CO2,N,1969580100.0
+Carbon Dioxide,CO2,P,44135838200.0
+Carbon Dioxide,CO2,Q,28085952600.0
 Carbon Dioxide,CO2,R,672995500.0
-Carbon Dioxide,CO2,S,16538644900.0
-Carbon Dioxide,CO2,T,2186015.0
+Carbon Dioxide,CO2,S,16540150900.0
+Carbon Dioxide,CO2,T,3157615.0
 Carbon Dioxide,CO2,U,109922400.0
-Carbon Dioxide,CO2,W,125278024305.40001
+Carbon Dioxide,CO2,W,125370223105.4
 Carbon Dioxide,CO2,X,10657840600.0
-Carbon Dioxide,CO2,Y,54363773200.0
+Carbon Dioxide,CO2,Y,54209977400.0
 Carbon Dioxide,CO2,Z,932949900.0
-HFCs (CO2e),HFC,I,358852555.0
-HFCs (CO2e),HFC,L,1877702768.5
+HFCs (CO2e),HFC,I,377055623.3
+HFCs (CO2e),HFC,L,1906782974.5
 HFCs (CO2e),HFC,O,5160042200.0
-HFCs (CO2e),HFC,T,3905330.0
-HFEs (CO2e),HFE,I,2944228.6999999997
-HFEs (CO2e),HFE,L,51092867.300000004
-Methane,CH4,AA,1841550.0
-Methane,CH4,C,35545242.2594994
-Methane,CH4,D,125513601.436
-Methane,CH4,FF,1513654060.0
-Methane,CH4,H,2555960.0
-Methane,CH4,HH,3400914930.0
-Methane,CH4,II,78332870.0
-Methane,CH4,K,736540.0
-Methane,CH4,P,186570.0
+HFCs (CO2e),HFC,T,95425330.0
+HFEs (CO2e),HFE,I,2944228.7
+HFEs (CO2e),HFE,L,51092867.3
+Methane,CH4,AA,1845500.0
+Methane,CH4,C,35500512.2594994
+Methane,CH4,D,125514361.436
+Methane,CH4,FF,1517635010.0
+Methane,CH4,H,2555970.0
+Methane,CH4,HH,3394340570.0
+Methane,CH4,II,77808670.0
+Methane,CH4,K,793780.0
+Methane,CH4,P,180200.0
 Methane,CH4,Q,22310.0
 Methane,CH4,S,49580.0
-Methane,CH4,TT,324292259.0
-Methane,CH4,W,3574709821.4999995
+Methane,CH4,TT,298084489.0
+Methane,CH4,W,3542323691.5
 Methane,CH4,X,8382460.0
-Methane,CH4,Y,26129040.0
-Nitrogen Triflouride,NF3,I,33820.8
+Methane,CH4,Y,25849000.0
+Nitrogen Triflouride,NF3,I,32140.2
 Nitrogen Triflouride,NF3,L,23314.4
-Nitrous Oxide,N2O,AA,367837.0
-Nitrous Oxide,N2O,C,6325374.82594994
-Nitrous Oxide,N2O,D,21526139.276699997
-Nitrous Oxide,N2O,E,24737761.0
-Nitrous Oxide,N2O,H,376649.0
-Nitrous Oxide,N2O,I,908004.0
-Nitrous Oxide,N2O,P,2829.0
+Nitrous Oxide,N2O,AA,368816.0
+Nitrous Oxide,N2O,C,6317094.82594994
+Nitrous Oxide,N2O,D,21526076.2767
+Nitrous Oxide,N2O,E,25027506.0
+Nitrous Oxide,N2O,H,376634.0
+Nitrous Oxide,N2O,I,900763.0
+Nitrous Oxide,N2O,P,1559.0
 Nitrous Oxide,N2O,Q,7334.0
 Nitrous Oxide,N2O,S,7210.0
 Nitrous Oxide,N2O,V,32043956.0
-Nitrous Oxide,N2O,W,292208.3
+Nitrous Oxide,N2O,W,289705.3
 Nitrous Oxide,N2O,X,25025.0
-Nitrous Oxide,N2O,Y,390133.0
+Nitrous Oxide,N2O,Y,378403.0
 Other (CO2e),Other,I,5200.0
-Other (CO2e),Other,L,59257500.0
-Other Fully Fluorinated GHGs (CO2e),Other_Full,I,562118570.0
-Other Fully Fluorinated GHGs (CO2e),Other_Full,L,443031220.0
+Other (CO2e),Other,L,59517500.0
+Other Fully Fluorinated GHGs (CO2e),Other_Full,I,582803156.0
+Other Fully Fluorinated GHGs (CO2e),Other_Full,L,441199220.0
 PFCs (CO2e),PFC,F,1045641459.0
-PFCs (CO2e),PFC,I,2881661251.5210013
+PFCs (CO2e),PFC,I,2911799499.08
 PFCs (CO2e),PFC,L,1147363908.0
-PFCs (CO2e),PFC,SS,4434.0
-Sulfur Hexafluoride,SF6,DD,111607.19999999994
-Sulfur Hexafluoride,SF6,I,31352.7
-Sulfur Hexafluoride,SF6,SS,6660.6
-Sulfur Hexafluoride,SF6,T,29291.699999999997
-Very Short-lived Compounds (CO2e),Very_Short,I,264.61599999999993
-Very Short-lived Compounds (CO2e),Very_Short,L,4727870.359999999
+PFCs (CO2e),PFC,SS,87202.0
+Sulfur Hexafluoride,SF6,DD,111896.242
+Sulfur Hexafluoride,SF6,I,30298.2
+Sulfur Hexafluoride,SF6,SS,6548.1
+Sulfur Hexafluoride,SF6,T,29291.7
+Very Short-lived Compounds (CO2e),Very_Short,I,264.6052
+Very Short-lived Compounds (CO2e),Very_Short,L,4727770.359999999
 Very Short-lived Compounds (CO2e),Very_Short,T,656.2

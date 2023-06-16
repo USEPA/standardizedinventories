@@ -11,18 +11,19 @@ StEWI consists of a core module, `stewi`, that digests and provides the USEPA in
 and `chemicalmatcher`, provide commons IDs for facilities and flows across inventories, which is used by the `stewicombo` module
 to combine the data, and optionally remove overlaps and remove double counting of groups of chemicals based on user preferences.
 
-StEWI v1 was peer-reviewed internally at USEPA and externally through _Applied Sciences_. An article describing StEWI was published in a special issue of Applied Sciences: [Advanced Data Engineering for Life Cycle Applications](https://doi.org/10.3390/app12073447).
+StEWI v1 was peer-reviewed internally at USEPA and externally through _Applied Sciences_.
+An article describing StEWI was published in a special issue of Applied Sciences: [Advanced Data Engineering for Life Cycle Applications](https://doi.org/10.3390/app12073447).
 
 ## USEPA Inventories Covered By Data Reporting Year (current version)
 
-|Source|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|[Discharge Monitoring Reports](https://echo.epa.gov/tools/data-downloads/icis-npdes-dmr-and-limit-data-set)* | | | | | | |x|x|x|x|x|x|
-|[Greenhouse Gas Reporting Program](https://www.epa.gov/ghgreporting) | | | |x|x|x|x|x|x|x|x|x|
-|[Emissions & Generation Resource Integrated Database](https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid) | | | | | | |x| |x| |x|x|
-|[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)** | | | |x|i|i|x|i|i|x|i| |
-|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)* | |x| |x| |x| |x| |x| |x|
-|[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program)* |x|x|x|x|x|x|x|x|x|x|x|x|
+|Source|2011|2012|2013|2014|2015|2016|2017|2018|2019|2020|2021|
+|---|---|---|---|---|---|---|---|---|---|---|---|
+|[Discharge Monitoring Reports](https://echo.epa.gov/tools/data-downloads/icis-npdes-dmr-and-limit-data-set)* |x|x|x|x|x|x|x|x|x|x|x|
+|[Greenhouse Gas Reporting Program](https://www.epa.gov/ghgreporting) |x|x|x|x|x|x|x|x|x|x|x|
+|[Emissions & Generation Resource Integrated Database](https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid) | | | |x| |x| |x|x|x|x|
+|[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)** |x|i|i|x|i|i|x|i|i|x| |
+|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)* |x| |x| |x| |x| |x| | |
+|[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program)* |x|x|x|x|x|x|x|x|x|x|x|
 
 *Earlier data exist and are accessible but have not been validated
 
@@ -34,7 +35,8 @@ The core `stewi` module produces the following output formats:
 
 [Flow-By-Facility](./format%20specs/FlowByFacility.md): Each row represents the total amount of release or waste of a single type in a given year from the given facility.
 
-[Flow-By-Process](./format%20specs/FlowByProcess.md): Each row represents the total amount of release or waste of a single type in a given year from a specific process within the given facility. Applicable only to NEI and GHGRP.
+[Flow-By-Process](./format%20specs/FlowByProcess.md): Each row represents the total amount of release or waste of a single type in a given year from a specific process within the given facility.
+Applicable only to NEI and GHGRP.
 
 [Facility](./format%20specs/Facility.md): Each row represents a unique facility in a given inventory and given year
 
@@ -64,7 +66,8 @@ Processing of the DMR uses the custom search option of the [Water Pollutant Load
 - Estimation: On - estimates loads when monitoring data are not reported for one or more monitoring periods in a reporting year
 - Nutrient Aggregation: On - Nitrogen and Phosphorous flows are converted to N and P equivalents
 
-For validation, the sum of facility releases (excluding N & P) are compared against reported state totals. Some validation issues are expected due to differences in default parameters used by the water pollutant loading tool for calculating state totals.
+For validation, the sum of facility releases (excluding N & P) are compared against reported state totals.
+Some validation issues are expected due to differences in default parameters used by the water pollutant loading tool for calculating state totals.
 
 ### eGRID
 
@@ -74,7 +77,9 @@ For validation, the sum of facility releases are compared against reported U.S. 
 ### GHGRP
 
 GHGRP data are sourced from EPA's [Envirofacts API](https://enviro.epa.gov/)
-For validation, the sum of facility releases by subpart are compared against reported U.S. totals by subpart and flow. The validation of some flows (HFC, HFE, and PFCs) are reported in carbon dioxide equivalents. Mixed reporting of these flows in the source data in units of mass or carbon dioxide equivalents results in validation issues.
+For validation, the sum of facility releases by subpart are compared against reported U.S. totals by subpart and flow.
+The validation of some flows (HFC, HFE, and PFCs) are reported in carbon dioxide equivalents.
+Mixed reporting of these flows in the source data in units of mass or carbon dioxide equivalents results in validation issues.
 
 ### NEI
 
@@ -93,7 +98,8 @@ For validation, the sum of facility releases are compared to national totals by 
 
 ## Combined Inventories
 
-`stewicombo` module combines inventory data from within and across selected inventories by matching facilities in the [Facility Registry Service](https://www.epa.gov/frs) and chemical flows using the [Substance Registry Service](https://sor.epa.gov/sor_internet/registry/substreg/LandingPage.do).
+`stewicombo` module combines inventory data from within and across selected inventories by matching facilities in the [Facility Registry Service](https://www.epa.gov/frs) and
+chemical flows using the [Substance Registry Service](https://sor.epa.gov/sor_internet/registry/substreg/LandingPage.do).
 If the `remove_overlap` parameter is set to True (default), `stewicombo` combines records using the following default logic:
 - Records that share a common compartment, SRS ID and FRS ID _within_ an inventory are summed.
 - Records that share a common compartment, SRS ID and FRS ID _across_ an inventory are assessed by compartment preference (see `INVENTORY_PREFERENCE_BY_COMPARTMENT`).
@@ -106,9 +112,9 @@ If the `remove_overlap` parameter is set to True (default), `stewicombo` combine
 ## Installation Instructions
 
 Install a release directly from github using pip. From a command line interface, run:
-> pip install git+https://github.com/USEPA/standardizedinventories.git@v1.0.5#egg=StEWI
+> pip install git+https://github.com/USEPA/standardizedinventories.git@v1.1.0#egg=StEWI
 
-where you can replace 'v1.0.5' with the version you wish to use under [Releases](https://github.com/USEPA/standardizedinventories/releases).
+where you can replace 'v1.1.0' with the version you wish to use under [Releases](https://github.com/USEPA/standardizedinventories/releases).
 
 Alternatively, to install from the most current point on the repository:
 ```
@@ -131,11 +137,16 @@ or
 pip install . -r requirements.txt -r rcrainfo_requirements.txt
 ```
 
+### Secondary Context Installation Steps
+In order to enable calculation and assignment of urban/rural secondary contexts, please refer to
+[esupy's README.md](https://github.com/USEPA/esupy/tree/main#installation-instructions-for-optional-geospatial-packages) for installation instructions,
+which may require a copy of the [`env_sec_ctxt.yaml`](https://github.com/USEPA/standardizedinventories/blob/master/env_sec_ctxt.yaml) file included here.
+
 ## Data Products
-Output of StEWI can be accessed for selected releases without having to run StEWI. See the [Data Product Links](https://github.com/USEPA/standardizedinventories/wiki/DataProductLinks) page for direct links to StEWI output files in Apache parquet format.
+Output of StEWI can be accessed for selected releases without having to run StEWI.
+See the [Data Product Links](https://github.com/USEPA/standardizedinventories/wiki/DataProductLinks) page for direct links to StEWI output files in Apache parquet format.
 
 ## Wiki
-
 See the [Wiki](https://github.com/USEPA/standardizedinventories/wiki) for instructions on installation and use and for
 citation and contact information.
 

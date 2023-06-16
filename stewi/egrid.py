@@ -8,29 +8,26 @@ This file requires parameters be passed like:
 
     Option -Y Year
 
-Options:
+Option:
     A - Download eGRID data
     B - Process and parse eGRID data and validation against national totals
     C - Download and process data for validation
 
 Year:
-    2019
-    2018
-    2016
-    2014
+    2014, 2016, 2018-2021
 """
 
 import pandas as pd
 import argparse
 import zipfile
 import io
-from pathlib import Path
 
 from esupy.remote import make_url_request
+from esupy.processed_data_mgmt import read_source_metadata
 from stewi.globals import DATA_PATH, write_metadata,\
     unit_convert, log, MMBtu_MJ, MWh_MJ, config, USton_kg, lb_kg,\
     compile_source_metadata, remove_line_breaks, paths, store_inventory,\
-    read_source_metadata, set_stewi_meta, aggregate
+    set_stewi_meta, aggregate
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
 from stewi.formats import StewiFormat
@@ -41,7 +38,7 @@ _config = config()['databases']['eGRID']
 
 # set filepath
 EXT_DIR = 'eGRID Data Files'
-OUTPUT_PATH = Path(paths.local_path).joinpath(EXT_DIR)
+OUTPUT_PATH = paths.local_path / EXT_DIR
 eGRID_DATA_DIR = DATA_PATH / 'eGRID'
 
 
@@ -247,7 +244,7 @@ def generate_eGRID_files(year):
     flowbyfac = flowbyfac.drop(columns=['Plant primary fuel', 'OriginalName'])
 
     # Write flowbyfacility file to output
-    store_inventory(flowbyfac, 'eGRID_' + year, 'flowbyfacility')
+    store_inventory(flowbyfac, f'eGRID_{year}', 'flowbyfacility')
 
     # Creation of the facility file
     # Need to change column names manually
@@ -267,13 +264,13 @@ def generate_eGRID_files(year):
     #2018: 10964
     #2016: 9709
     #2014: 8503
-    store_inventory(facility, 'eGRID_' + year, 'facility')
+    store_inventory(facility, f'eGRID_{year}', 'facility')
 
     # Write flows file
     flows = flowbyfac[['FlowName', 'Compartment', 'Unit']]
     flows = flows.drop_duplicates()
     flows = flows.sort_values(by='FlowName', axis=0)
-    store_inventory(flows, 'eGRID_' + year, 'flow')
+    store_inventory(flows, f'eGRID_{year}', 'flow')
 
     validate_eGRID(year, flowbyfac)
 
@@ -301,7 +298,8 @@ def validate_eGRID(year, flowbyfac):
     # drop old unit
     egrid_national_totals.drop('Unit', axis=1, inplace=True)
     validation_result = validate_inventory(flowbyfac, egrid_national_totals,
-                                           group_by='flow', tolerance=5.0)
+                                           group_by=['FlowName', 'Compartment'],
+                                           tolerance=5.0)
     write_validation_result('eGRID', year, validation_result)
 
 
@@ -323,15 +321,19 @@ def generate_national_totals(year):
 
     us_totals = extract_eGRID_excel(year, 'US', index='code')
     us_totals = us_totals[list(totals_dict.keys())]
-    us_totals.rename(columns=totals_dict, inplace=True)
-    us_totals = us_totals.transpose().reset_index()
-    us_totals = us_totals.rename(columns={'index': 'FlowName',
-                                          0: 'FlowAmount'})
+    us_totals = (us_totals
+                 .rename(columns=totals_dict)
+                 .transpose().reset_index()
+                 .rename(columns={'index': 'FlowName',
+                                  0: 'FlowAmount'})
+                 )
 
     steam_df = extract_eGRID_excel(year, 'PLNT', index='code')
-    steam_total = steam_df['USETHRMO'].sum()
-    us_totals = us_totals.append({'FlowName': 'Steam', 'FlowAmount': steam_total},
-                                 ignore_index=True)
+    us_totals = pd.concat(
+        [us_totals, pd.DataFrame({'FlowName': 'Steam',
+                                  'FlowAmount': steam_df['USETHRMO'].sum()},
+                                 index=[0])],
+        ignore_index=True)
 
     flow_compartments = pd.read_csv(eGRID_DATA_DIR
                                     .joinpath('eGRID_flow_compartments.csv'),
@@ -385,7 +387,7 @@ def main(**kwargs):
         kwargs = vars(parser.parse_args())
 
     for year in kwargs['Year']:
-
+        year = str(year)
         if year not in _config:
             raise stewi.exceptions.InventoryNotAvailableError(
                 inv='eGRID', year=year)
@@ -406,4 +408,4 @@ def main(**kwargs):
 
 
 if __name__ == '__main__':
-    main()
+    main(Year=[2020], Option='C')

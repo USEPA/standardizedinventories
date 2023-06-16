@@ -1,0 +1,26 @@
+name: stewi_2ndry_ctxt
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9.16
+  - pip=23.1.2  # must specify else conda returns warning
+
+  - appdirs=1.4.4
+  - beautifulsoup4=4.12.2
+  - boto3=1.24.28
+  - geopandas=0.13.2
+  - isort=5.12.0
+  - numpy=1.24.3
+  - openpyxl=3.1.2
+  - pandas=1.4.4
+  - pyarrow=12.0.0
+  - pyyaml=6.0
+  - requests=2.31.0
+  - requests-ftp=0.3.1
+  - selenium=4.9.1
+  - shapely=2.0.1
+  - xlrd=2.0.1
+  - webdriver-manager=3.8.6
+
+  - pip:
+    - "--editable=git+https://github.com/USEPA/standardizedinventories.git#egg=StEWI"

@@ -1,23 +1,21 @@
 City
-CountyName
-EstFactor
-ExternalPermitNmbr
-FacilityName
-FacilityTypeIndicator
-PermitTypeCode
-GeocodeLatitude
-GeocodeLongitude
-NaicsCode
-PollutantCode
-PollutantDesc
-ParameterCode
-ParameterDesc
-PollutantLoad
-Siccode
-StateCode
-TRIDirectPounds
-TRIFids
-TRIIndirectPounds
-Uin
-Zip
-
+County
+Estimation Factor
+NPDES Permit Number
+Facility Name
+Facility Type Indicator
+Permit Type
+Facility Latitude
+Facility Longitude
+NAICS Code
+Pollutant Code
+Pollutant Description
+Parameter Code
+Parameter Description
+Pollutant Load (kg/yr)
+SIC Code
+State
+TRI Direct Release (lb/yr)
+TRI Facility ID(s)
+TRI Indirect Release (lb/yr)
+ZIP Code
