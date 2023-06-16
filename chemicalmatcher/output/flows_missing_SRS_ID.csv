@@ -1,37 +1,89 @@
 FlowID,FlowName,SRS_CAS,SRS_ID,Source
 77736,"1,2,3,4-Tetrachlorobenzene",,,DMR
 10692,"1,2-Dichloropropene",,,DMR
+51602,1H-Benzotriazole,,,DMR
+46351,"1H-Isoindole-1,3(2H)-dione, 2-[(trichloromethyl)thio]-",,,DMR
 51756,"2,4-Dinitroanisole",,,DMR
+77631,"3,4-Dinitrotoluene",,,DMR
+51502,"3-Furancarboxamide, N-cyclohexyl-N-methoxy-2,5-dimethyl-",,,DMR
 10883,"3-Nitroaniline, total in water",,,DMR
+52636,"4,8-Dioxa-3H-perfluorononanoic acid",,,DMR
+51700,4-methyl-2-pentanol,,,DMR
 52608,4:2 Fluorotelomer sulfonic acid,,,DMR
 52607,6:2 Fluorotelomer sulfonic acid,,,DMR
 52609,8:2 Fluorotelomer sulfonic acid,,,DMR
 29865,Americium-241,,,DMR
+51581,Aroclor 1268,,,DMR
+04607,Azithromycin,,,DMR
+10845,"BOD, 5-day, 20 deg C per cfs of streamflw",,,DMR
 10943,Benzyl alcohol,,,DMR
 10124,Benzyl chloride,,,DMR
 51492,Bromate,,,DMR
 10966,Bromoxynil,,,DMR
+10179,Butyraldehyde,,,DMR
 51715,C3 Dimer Acid/Salt,,,DMR
+51659,"Carbamic acid, dimethyldithio-",,,DMR
+51620,"Carbamodithioic acid, dimethyl-, calcium salt",,,DMR
+51589,Carfentrazone-ethyl,,,DMR
+12605,Cesium-137,,,DMR
+39068,"Chlordane - Nonachlor, Cis",,,DMR
+39071,"Chlordane - Nonachlor, Trans",,,DMR
+77951,"Chlordene, Alpha",,,DMR
+51479,"Chlordene, Gamma",,,DMR
+10910,Chloroneb,,,DMR
 10023,Chlorthal-dimethyl,,,DMR
+04609,Ciprofloxacin,,,DMR
+51706,Corrosion Inhibitor,,,DMR
+39140,Creosote,,,DMR
 03781,Cypermethrin,,,DMR
+12053,Dichlorvos,,,DMR
+10946,Dicofol,,,DMR
 51555,Diethylene Glycol,,,DMR
 78004,Diphenamid,,,DMR
+51612,Dipropylene glycol,,,DMR
+11241,Estradiol,,,DMR
+04623,Estrone,,,DMR
 51501,"Ethanamine, N-methyl-N-nitroso-",,,DMR
+04616,Ethinyl estradiol,,,DMR
+51702,Florfenicol,,,DMR
+51588,Fluridone,,,DMR
+51590,Glutaraldehyde,,,DMR
 52612,Hexafluoropropylene oxide dimer acid,,,DMR
+04611,Ibuprofen,,,DMR
+51585,Imazapyr,,,DMR
+51801,Inorganic carbon,,,DMR
+51749,Iohexol,,,DMR
+51745,Iopromide,,,DMR
+51527,Isodrin,,,DMR
 51802,K001,,,DMR
 51584,Kerosene,,,DMR
+11641,Lead-210,,,DMR
+51747,Meprobamate,,,DMR
+11210,Methyl disulfide,,,DMR
+52642,N-Ethylperfluorooctanesulfonamide,,,DMR
+52641,N-Methylperfluorooctanesulfonamide,,,DMR
 51800,Nitrotriazolone [NTO],,,DMR
 77745,Nonylphenol,,,DMR
+51746,Nonylphenol diethoxylate,,,DMR
+51750,Nonylphenol monoethoxylate,,,DMR
+10742,Norflurazon,,,DMR
+12040,Octylphenol,,,DMR
+51752,Octylphenol monoethoxylate,,,DMR
 11899,Oil & grease (polar),,,DMR
+79755,Oxychlordane,,,DMR
 52630,PFESA Byproduct 1,,,DMR
 52614,PFESA Byproduct 2,,,DMR
 52643,PFESA Byproduct 4,,,DMR
 52644,PFESA Byproduct 5,,,DMR
 52645,PFESA Byproduct 6,,,DMR
 51481,PVP-Iodine,,,DMR
+51708,Penicillin G Potassium,,,DMR
+51587,Penoxsulam,,,DMR
+10935,Pentachloronitrobenzene,,,DMR
 52601,Pentadecafluorooctanoic acid,,,DMR
 52615,"Perfluoro(3,5,7,9-tetraoxadecanoic) acid",,,DMR
 52613,Perfluoro-2-methoxyacetic acid,,,DMR
+52624,Perfluoro-2-methoxypropanoic acid,,,DMR
 52627,"Perfluoro-3,5,7,9,11-pentaoxadodecanoic acid",,,DMR
 52616,"Perfluoro-3,5,7-trioxaoctanoic acid",,,DMR
 52617,"Perfluoro-3,5-dioxahexanoic acid",,,DMR
@@ -42,6 +94,7 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 51522,Perfluorobutanoic Acid,,,DMR
 51523,Perfluorobutanoicsulfonate,,,DMR
 52603,Perfluorodecanesulfonic acid,,,DMR
+52632,Perfluorododecanesulfonic acid,,,DMR
 52629,Perfluoroethoxyethanesulfonic acid,,,DMR
 52621,Perfluoroethoxypropanoic acid,,,DMR
 52622,Perfluoroethoxypropionic acid,,,DMR
@@ -55,10 +108,40 @@ FlowID,FlowName,SRS_CAS,SRS_ID,Source
 52606,Perfluorooctanesulfonic acid,,,DMR
 51911,Perfluorooctanonic Acid [PFOA] + Perflurooctanesulfonate [PFOS],,,DMR
 52610,Perfluoropentane sulfonic acid,,,DMR
+12582,Permanganate,,,DMR
+51529,Perthane,,,DMR
+77550,"Phenol, 2-methoxy-4-(1-propenyl)-",,,DMR
+51744,Phenytoin,,,DMR
+51499,"Phosphonic acid, methyl-, bis (1-methylethyl) ester",,,DMR
+04622,Polybrominated diphenyl oxides,,,DMR
+52703,Polyfluoralkyl ether (generic) (P-04-0417),,,DMR
+52639,Potassium 11-chloroeicosafluoro-3-oxaundecane-1-sulfonate,,,DMR
+52638,Potassium 9-chlorohexadecafluoro-3-oxanonane-1-sulfonate,,,DMR
+51701,Potassium Amyl Xanthate [PAX],,,DMR
+11052,Potassium N-methyldithiocarbamate,,,DMR
+12606,Potassium-40,,,DMR
+10774,Propachlor,,,DMR
 52640,R-EVE,,,DMR
+10192,S-Ethyl dipropylthiocarbamate,,,DMR
+77403,Salicylic acid,,,DMR
+12196,"Sanitary waste, TSS",,,DMR
 51536,Selenate,,,DMR
 00990,Selenite,,,DMR
+00534,"Solids, settleable",,,DMR
+51528,Strobane,,,DMR
+51753,Sulfamethoxazole,,,DMR
+12299,"Suspended solids, total discharge",,,DMR
+51762,TCPP [Tris [1-chloro-2-propyl] phosphate],,,DMR
+51761,"TDCPP [Tris[1,3-dichloro-2-propyl] phosphate]",,,DMR
+51683,Total petroleum hydrocarbon - diesel and waste oil,,,DMR
+00026,Toxics,,,DMR
+51586,Triclopyr,,,DMR
+04617,Triclosan,,,DMR
+51748,Trimethoprim,,,DMR
+51754,Tris[2-chloroethyl] phosphate [TCEP],,,DMR
 87006,Unknown,,,DMR
+12460,Uranium-235,,,DMR
+51518,VOC,,,DMR
 10118,p-Nitroaniline,,,DMR
 616,Slagwool (Man-Made Fibers),,,NEI
 U480,"2,4,6, TRIBROMPHENOL (I.E.; DISCARDED COMMERCIAL CHEMICAL PRODUCTS, OFF-SPECIFICATION SPECIES, CONTAINER RESIDUES, AND SPILL RESIDUES THEREOF)",,,RCRAInfo
@@ -68,6 +151,7 @@ W107,AQUEOUS/CYANIDES,,,RCRAInfo
 W002,CONT. DEBRIS,,,RCRAInfo
 W301,CONTAMINATED SOIL,,,RCRAInfo
 W506,CYAN. BEARING SLUDGE,,,RCRAInfo
+UNKN,DESCRIPTION,,,RCRAInfo
 W101,DILUTE AQUEOUS WST,,,RCRAInfo
 W320,ELECTRICAL DEVICES,,,RCRAInfo
 W503,GYPSUM SLUDGES,,,RCRAInfo
@@ -113,18 +197,24 @@ W005,WASTE PHARMACEUTICAL,,,RCRAInfo
 678397,"1-Decanol, 3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,10-heptadecafluoro-",,,TRI
 31506328,"1-Octanesulfonamide, 1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,8-heptadecafluoro-N-methyl-",,,TRI
 70983607,"1-Propanaminium, 2-hydroxy-N,N,N-trimethyl-, 3-[(¿-¿-perfluoro-C6-20-alkyl)thio] derivs., chlorides",,,TRI
+70983607,"1-Propanaminium, 2-hydroxy-N,N,N-trimethyl-, 3-[(�-�-perfluoro-C6-20-alkyl)thio] derivs., chlorides",,,TRI
 68187473,"1-Propanesulfonic acid, 2-methyl-, 2-[[1-oxo-3-[(¿-¿-perfluoro-C4-16-alkyl)thio]propyl]amino] derivs., sodium salts",,,TRI
+68187473,"1-Propanesulfonic acid, 2-methyl-, 2-[[1-oxo-3-[(�-�-perfluoro-C4-16-alkyl)thio]propyl]amino] derivs., sodium salts",,,TRI
 68227963,"2-Propenoic acid, butyl ester, telomer with 2-[[(heptadecafluorooctyl)sulfonyl]methylamino]ethyl 2-propenoate, 2-[methyl[(nonafluorobutyl)sulfonyl]amino]ethyl 2-propenoate, a-(2-methyl-1-oxo-2-propenyl)-¿-hydroxypoly(oxy-1,4-butanediyl), a-(2-methyl-1-oxo-2-propenyl)-¿-[(2-methyl-1-oxo-2-propenyl)oxy]poly(oxy-1,4-butanediyl), 2-[methyl[(pentadecafluoroheptyl)sulfonyl]amino]ethyl 2-propenoate, 2-[methyl[(tridecafluorohexyl)sulfonyl]amino]ethyl 2-propenoate, 2-[methyl[(undecafluoropentyl)sulfonyl]amino]ethyl 2-propenoate and 1-octanethiol",,,TRI
 68227963,"2-Propenoic acid, butyl ester, telomer with 2-[[(heptadecafluorooctyl)sulfonyl]methylamino]ethyl 2-propenoate, 2-[methyl[(nonafluorobutyl)sulfonyl]amino]ethyl 2-propenoate, a-(2-methyl-1-oxo-2-propenyl)-Ώ-hydroxypoly(oxy-1,4-butanediyl), a-(2-methyl-1-oxo-2-propenyl)-Ώ-[(2-methyl-1-oxo-2-propenyl)oxy]poly(oxy-1,4-butanediyl), 2-[methyl[(pentadecafluoroheptyl)sulfonyl]amino]ethyl 2-propenoate, 2-[methyl[(tridecafluorohexyl)sulfonyl]amino]ethyl 2-propenoate, 2-[methyl[(undecafluoropentyl)sulfonyl]amino]ethyl 2-propenoate and 1-octanethiol",,,TRI
+68227963,"2-Propenoic acid, butyl ester, telomer with 2-[[(heptadecafluorooctyl)sulfonyl]methylamino]ethyl 2-propenoate, 2-[methyl[(nonafluorobutyl)sulfonyl]amino]ethyl 2-propenoate, a-(2-methyl-1-oxo-2-propenyl)-�-hydroxypoly(oxy-1,4-butanediyl), a-(2-methyl-1-oxo-2-propenyl)-�-[(2-methyl-1-oxo-2-propenyl)oxy]poly(oxy-1,4-butanediyl), 2-[methyl[(pentadecafluoroheptyl)sulfonyl]amino]ethyl 2-propenoate, 2-[methyl[(tridecafluorohexyl)sulfonyl]amino]ethyl 2-propenoate, 2-[methyl[(undecafluoropentyl)sulfonyl]amino]ethyl 2-propenoate and 1-octanethiol",,,TRI
 65605585,"2-Propenoic acid, esters, 2-methyl-, dodecyl ester, polymer with a-fluoro-¿-[2-[(2-methyl-1-oxo-2-propen-1-yl)oxy]ethyl]poly(difluoromethylene)",,,TRI
 65605585,"2-Propenoic acid, esters, 2-methyl-, dodecyl ester, polymer with a-fluoro-Ώ-[2-[(2-methyl-1-oxo-2-propen-1-yl)oxy]ethyl]poly(difluoromethylene)",,,TRI
+65605585,"2-Propenoic acid, esters, 2-methyl-, dodecyl ester, polymer with a-fluoro-�-[2-[(2-methyl-1-oxo-2-propen-1-yl)oxy]ethyl]poly(difluoromethylene)",,,TRI
 68141026,Chromium(III) perfluorooctanoate,,,TRI
 2043530,"Decane, 1,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8-heptadecafluoro-10-iodo-",,,TRI
 56773423,"Ethanaminium, N,N,N-triethyl-, salt with 1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,8-heptadecafluoro-1-octanesulfonic acid (1:1)",,,TRI
 65530645,"Ethanol, 2,2'-iminobis-, compd. with a,a'-[phosphinicobis(oxy-2,1-ethanediyl)]bis[¿-fluoropoly(difluoromethylene)] (1:1)",,,TRI
 65530645,"Ethanol, 2,2'-iminobis-, compd. with a,a'-[phosphinicobis(oxy-2,1-ethanediyl)]bis[Ώ-fluoropoly(difluoromethylene)] (1:1)",,,TRI
+65530645,"Ethanol, 2,2'-iminobis-, compd. with a,a'-[phosphinicobis(oxy-2,1-ethanediyl)]bis[�-fluoropoly(difluoromethylene)] (1:1)",,,TRI
 65530634,"Ethanol, 2,2'-iminobis-, compd. with a-fluoro-¿-[2-(phosphonooxy)ethyl]poly(difluoromethylene) (2:1)",,,TRI
 65530634,"Ethanol, 2,2'-iminobis-, compd. with a-fluoro-Ώ-[2-(phosphonooxy)ethyl]poly(difluoromethylene) (2:1)",,,TRI
+65530634,"Ethanol, 2,2'-iminobis-, compd. with a-fluoro-�-[2-(phosphonooxy)ethyl]poly(difluoromethylene) (2:1)",,,TRI
 13252136,Hexafluoropropylene oxide dimer acid,,,TRI
 62037803,Hexafluoropropylene oxide dimer acid ammonium salt,,,TRI
 376272,Methyl perfluorooctanoate,,,TRI
@@ -139,12 +229,17 @@ N535,Nonylphenol Ethoxylates,,,TRI
 12185103,Phosphorus (yellow or white),,,TRI
 65530703,"Poly(difluoromethylene), a,a'-[phosphinicobis(oxy-2,1-ethanediyl)]bis[¿-fluoro-, ammonium salt",,,TRI
 65530703,"Poly(difluoromethylene), a,a'-[phosphinicobis(oxy-2,1-ethanediyl)]bis[Ώ-fluoro-, ammonium salt",,,TRI
+65530703,"Poly(difluoromethylene), a,a'-[phosphinicobis(oxy-2,1-ethanediyl)]bis[�-fluoro-, ammonium salt",,,TRI
 65530725,"Poly(difluoromethylene), a-fluoro-¿-[2-(phosphonooxy)ethyl]-, diammonium salt",,,TRI
 65530725,"Poly(difluoromethylene), a-fluoro-Ώ-[2-(phosphonooxy)ethyl]-, diammonium salt",,,TRI
+65530725,"Poly(difluoromethylene), a-fluoro-�-[2-(phosphonooxy)ethyl]-, diammonium salt",,,TRI
 65545804,"Poly(oxy-1,2-ethanediyl), a-hydro-¿-hydroxy-, ether with a-fluoro-¿-(2-hydroxyethyl)poly(difluoromethylene) (1:1)",,,TRI
 65545804,"Poly(oxy-1,2-ethanediyl), a-hydro-Ώ-hydroxy-, ether with a-fluoro-Ώ-(2-hydroxyethyl)poly(difluoromethylene) (1:1)",,,TRI
+65545804,"Poly(oxy-1,2-ethanediyl), a-hydro-�-hydroxy-, ether with a-fluoro-�-(2-hydroxyethyl)poly(difluoromethylene) (1:1)",,,TRI
 2795393,Potassium perfluorooctanesulfonate,,,TRI
 143372547,"Siloxanes and Silicones, (3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,10-heptadecafluorodecyl)oxy Me, hydroxy Me, Me octyl, ethers with polyethylene glycol mono-Me ether",,,TRI
 4151502,Sulfluramid,,,TRI
 180582790,"Sulfonic acids, C6-12-alkane, ¿-¿-perfluoro, ammonium salts",,,TRI
+180582790,"Sulfonic acids, C6-12-alkane, �-�-perfluoro, ammonium salts",,,TRI
 70969470,"Thiols, C8-20, ¿-¿-perfluoro, telomers with acrylamide",,,TRI
+70969470,"Thiols, C8-20, �-�-perfluoro, telomers with acrylamide",,,TRI
