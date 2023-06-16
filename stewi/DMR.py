@@ -138,9 +138,18 @@ def download_data(url_params, filepath: Path) -> str:
         try:
             r = requests.get(url)
             r.raise_for_status()
-            df = pd.read_csv(BytesIO(r.content),
-                             low_memory=False
-                             )
+            # When more than 100,000 records, need to split queries
+            if ((len(r.content) < 1000) and
+                ('Maximum number of records' in str(r.content))):
+                for x in ('NGP', 'GPC', 'NPD'):
+                    split_url = f'{url}&p_permit_type={x}'
+                    r = requests.get(split_url)
+                    r.raise_for_status()
+                    df_sub = pd.read_csv(BytesIO(r.content), low_memory=False)
+                    if len(df_sub) < 3: continue
+                    df = pd.concat([df, df_sub], ignore_index=True)
+            else:
+                df = pd.read_csv(BytesIO(r.content), low_memory=False)
             break
         except (requests.exceptions.HTTPError,
                 requests.exceptions.ConnectionError) as err:
