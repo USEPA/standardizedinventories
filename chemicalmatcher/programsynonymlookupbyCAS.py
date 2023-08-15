@@ -68,3 +68,8 @@ def programsynonymlookupbyCAS(cas_list, inventories_of_interest):
     all_chemical_synonyms = pd.DataFrame(all_chemical_list)
 
     return all_chemical_synonyms
+
+if __name__ == '__main__':
+    df = programsynonymlookupbyCAS(
+        cas_list = ['124-38-9', '74-82-8'],
+        inventories_of_interest = ['TRI', 'DMR', 'NEI'])
