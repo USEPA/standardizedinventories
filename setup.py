@@ -15,7 +15,7 @@ setup(
     include_package_data=True,
     python_requires=">=3.8",
     install_requires=[
-        'esupy @ git+https://github.com/USEPA/esupy.git@develop#egg=esupy',
+        'esupy @ git+https://github.com/USEPA/esupy.git#egg=esupy',
         'numpy>=1.20.1',
         'pandas>=1.3',
         'requests>=2.20',
