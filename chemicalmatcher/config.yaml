@@ -1,6 +1,7 @@
 databases:
   SRS:
-    url: https://cdxnodengn.epa.gov/cdx-srs-rest/
+    url: https://cdxapps.epa.gov/oms-substance-registry-services/rest-api/
+    # see https://cdxapps.epa.gov/oms-substance-registry-services/swagger-ui/
     queries:
       caslistprefix: substances/cas?casList=
       sep: '%7c'

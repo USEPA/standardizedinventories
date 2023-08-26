@@ -37,68 +37,44 @@ def get_SRSInfo_for_program_list(inventory):
     # See all lists
     # https://cdxnodengn.epa.gov/cdx-srs-rest/reference/substance_lists
     # Base URL for queries
-    substancesbylistname = 'substances/list_acronym/'
     srs_flow_df = pd.DataFrame()
     for listname in inventory_to_SRSlist_acronymns[inventory]:
         log.debug('Getting %s', listname)
-        lists_of_interest = obtain_list_names(listname)
-        url = base + substancesbylistname + urllib.parse.quote(listname)
-        flow_info = query_SRS_for_program_list(url, inventory,
-                                               lists_of_interest)
+        url = f'{base}substances/list_acronym/{urllib.parse.quote(listname)}'
+        flow_info = query_SRS_for_program_list(url, inventory)
         if len(flow_info) == 0:
             log.info(f'No flows found for {listname}')
         srs_flow_df = pd.concat([srs_flow_df, flow_info])
-    srs_flow_df.drop_duplicates(inplace=True)
+    srs_flow_df = srs_flow_df.drop_duplicates()
     if(inventory == 'TRI'):
         srs_flow_df['PGM_ID'] = srs_flow_df['PGM_ID'].apply(
             lambda x: str(x).lstrip('0'))
-    srs_flow_df.sort_values(by='PGM_ID', inplace=True)
+    srs_flow_df = srs_flow_df.sort_values(by='PGM_ID')
     return srs_flow_df
 
 
-def obtain_list_names(acronym):
-    url = base + 'reference/substance_lists'
-    with urllib.request.urlopen(url) as j:
-        data = json.loads(j.read().decode())
-    names = [d['substanceListName'] for d in data if d['substanceListAcronym'] == acronym]
-    return names
-
-
-# Returns a df
-def query_SRS_for_program_list(url, inventory, lists_of_interest):
+def query_SRS_for_program_list(url, inventory):
+    field_dict = {
+        'currentCasNumber': 'SRS_CAS',
+        'subsKey': 'SRS_ID',
+        'synonyms': 'synonyms'
+        }
     try:
-        chemicallistresponse = requests.get(url)
-        chemicallistjson = json.loads(chemicallistresponse.text)
+        df = (pd.read_json(requests.get(url).text)
+              .filter(field_dict.keys())
+              .rename(columns=field_dict)
+              )
     except:
         return "Error:404"
-    all_chemicals_list = []
-    for chemical in chemicallistjson:
-        # get cas
-        chemicaldict = {}
-        chemicaldict['SRS_CAS'] = chemical['currentCasNumber']
-        chemicaldict['SRS_ID'] = chemical['subsKey']
-        # get synonyms
-        # extract from the json
-        synonyms = chemical['synonyms']
-        # ids are deeply embedded in this list. Go get ids relevant to these lists of interest
-        alternateids = []
-        for i in synonyms:
-            if i['listName'] in lists_of_interest:
-                for l in i['alternateIds']:
-                    alternateids.append(l['alternateId'])
 
-        # make list of alt ids unique by converting to a set, then back to a list
-        alternateids = list(set(alternateids))
+    df['PGM_ID'] = df['synonyms'].apply(lambda x:
+        list(pd.DataFrame(x).synonymName.unique())
+        )
 
-        if len(alternateids) > 0:
-            for id in range(0, len(alternateids)):
-                chemicaldict['PGM_ID'] = alternateids[id]
-                all_chemicals_list.append(chemicaldict.copy())
-        else:
-            all_chemicals_list.append(chemicaldict)
-
-    all_inventory_chemicals = pd.DataFrame(all_chemicals_list)
-    return all_inventory_chemicals
+    df = (df
+          .drop(columns='synonyms')
+          .explode('PGM_ID'))
+    return df
 
 
 def query_SRS_for_flow(url, for_single_flow=False):
