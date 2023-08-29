@@ -9,20 +9,18 @@ from chemicalmatcher.globals import base, SRSconfig
 # SRS web service docs at https://cdxnodengn.epa.gov/cdx-srs-rest/
 # Base URL for queries
 queries = SRSconfig['queries']
-caslistprefix = queries['caslistprefix']
-sep = queries['sep']# This is the code for a pipe seperator required between CAS numbers
 
 
 def programsynonymlookupbyCAS(cas_list, inventories_of_interest):
     caslist_for_query = ''
     index_of_last = len(cas_list) - 1
     for cas in cas_list[:index_of_last]:
-        caslist_for_query = caslist_for_query + cas + sep
+        caslist_for_query = caslist_for_query + cas + queries.get("sep")
     # add on last CAS
     caslist_for_query = caslist_for_query + cas_list[index_of_last]
 
     # perform query
-    url = base + caslistprefix + caslist_for_query
+    url = f'{base}{queries.get("caslistprefix")}{caslist_for_query}'
     chemicallistresponse = requests.get(url)
     chemicallistjson = json.loads(chemicallistresponse.text)
 
