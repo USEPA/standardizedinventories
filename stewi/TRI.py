@@ -23,9 +23,7 @@ Year:
 
 """
 
-import requests
 import zipfile
-from bs4 import BeautifulSoup
 import pandas as pd
 import time
 import io
@@ -33,8 +31,9 @@ import argparse
 import re
 
 from esupy.processed_data_mgmt import read_source_metadata
+from esupy.remote import url_is_alive, make_url_request
 from stewi.globals import unit_convert, DATA_PATH, set_stewi_meta,\
-    get_reliability_table_for_source, write_metadata, url_is_alive,\
+    get_reliability_table_for_source, write_metadata,\
     lb_kg, g_kg, config, store_inventory, log, paths, compile_source_metadata,\
     aggregate, assign_secondary_context, concat_compartment
 from stewi.validate import update_validationsets_sources, validate_inventory,\
@@ -48,22 +47,8 @@ _config = config()['databases']['TRI']
 TRI_DATA_PATH = DATA_PATH / 'TRI'
 
 
-def visit(url):
-    html = requests.get(url).text
-    soup = BeautifulSoup(html, 'html.parser')
-    return soup
-
-
-def link_zip(url, queries, year):
-    soup = visit(url)
-    TRI_zip_options = {}
-    for link in soup.find_all(queries['TRI_year_reported']):
-        TRI_zip_options[link.text] = link.get(queries['TRI_zip'])
-    return TRI_zip_options[year]
-
-
 def extract_TRI_data_files(link_zip, files, year):
-    r_file = requests.get(link_zip)
+    r_file = make_url_request(link_zip)
     for file in files:
         df_columns = pd.read_csv(TRI_DATA_PATH
                                  .joinpath(f'TRI_File_{file}_columns.txt'),
@@ -330,20 +315,13 @@ def generate_metadata(year, files, parameters=None, datatype='inventory'):
         source_path = [str(OUTPUT_PATH.joinpath(f'US_{p}_{year}.csv')) for p in files]
         source_meta = compile_source_metadata(source_path, _config, year)
         source_meta['SourceType'] = 'Zip file'
-        tri_url = _config['url']
-        link_zip_TRI = link_zip(tri_url, _config['queries'], year)
-        regex = 'https.*/(.*(?=/\w*.zip))'
-        # tri_version = link_zip_TRI.split('/')[-2]
-        try:
-            tri_version = re.search(regex, link_zip_TRI).group(1)
-        except AttributeError: # no match found from regex
-            tri_version = 'last'
+        tri_version = 'last'
         source_meta['SourceVersion'] = tri_version
         write_metadata(f'TRI_{year}', source_meta, category=EXT_DIR,
                        datatype='source')
     else:
-        source_meta = read_source_metadata(paths, set_stewi_meta(f'TRI_{year}',
-                                                                 EXT_DIR),
+        source_meta = read_source_metadata(paths,
+                                           set_stewi_meta(f'TRI_{year}', EXT_DIR),
                                            force_JSON=True)['tool_meta']
         write_metadata(f'TRI_{year}', source_meta, datatype=datatype,
                        parameters=parameters)
@@ -384,7 +362,6 @@ def main(**kwargs):
             log.info('downloading TRI files from source for %s', year)
             tri_url = _config['url']
             if url_is_alive(tri_url):
-                # link_zip_TRI = link_zip(tri_url, _config['queries'], year)
                 link_zip_TRI = _config.get('zip_url').replace("{year}", year)
                 extract_TRI_data_files(link_zip_TRI, files, year)
                 generate_metadata(year, files, datatype='source')
@@ -417,4 +394,4 @@ def main(**kwargs):
 
 
 if __name__ == '__main__':
-    main(Option='C', Year=[2021])
+    main(Option='A', Year=[2021])

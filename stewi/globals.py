@@ -93,23 +93,6 @@ def config(config_path=MODULEPATH, file='config.yaml'):
     return configfile
 
 
-def url_is_alive(url):
-    """Check that a given URL is reachable.
-
-    :param url: A URL
-    :rtype: bool
-    """
-    request = urllib.request.Request(url)
-    request.get_method = lambda: 'HEAD'
-    try:
-        urllib.request.urlopen(request)
-        return True
-    except urllib.request.HTTPError:
-        return False
-    except urllib.error.URLError:
-        return False
-
-
 def download_table(filepath: Path, url: str, get_time=False):
     """Download file at url to Path if it does not exist."""
     if not filepath.exists():
