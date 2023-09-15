@@ -18,7 +18,6 @@ Year:
     2014-2021
 """
 
-import requests
 import pandas as pd
 import argparse
 import urllib
@@ -27,6 +26,7 @@ from pathlib import Path
 from io import BytesIO
 
 from esupy.processed_data_mgmt import read_source_metadata
+from esupy.remote import make_url_request
 from stewi.globals import unit_convert,\
     DATA_PATH, lb_kg, write_metadata, get_reliability_table_for_source,\
     log, compile_source_metadata, config, store_inventory, set_stewi_meta,\
@@ -134,31 +134,18 @@ def download_data(url_params, filepath: Path) -> str:
     df = pd.DataFrame()
     url = generate_url(url_params)
     log.debug(url)
-    for attempt in range(3):
-        try:
-            r = requests.get(url)
-            r.raise_for_status()
-            # When more than 100,000 records, need to split queries
-            if ((len(r.content) < 1000) and
-                ('Maximum number of records' in str(r.content))):
-                for x in ('NGP', 'GPC', 'NPD'):
-                    split_url = f'{url}&p_permit_type={x}'
-                    r = requests.get(split_url)
-                    r.raise_for_status()
-                    df_sub = pd.read_csv(BytesIO(r.content), low_memory=False)
-                    if len(df_sub) < 3: continue
-                    df = pd.concat([df, df_sub], ignore_index=True)
-            else:
-                df = pd.read_csv(BytesIO(r.content), low_memory=False)
-            break
-        except (requests.exceptions.HTTPError,
-                requests.exceptions.ConnectionError) as err:
-            log.info(err)
-            time.sleep(20)
-            pass
+    r = make_url_request(url)
+    # When more than 100,000 records, need to split queries
+    if ((len(r.content) < 1000) and
+        ('Maximum number of records' in str(r.content))):
+        for x in ('NGP', 'GPC', 'NPD'):
+            split_url = f'{url}&p_permit_type={x}'
+            r = make_url_request(split_url)
+            df_sub = pd.read_csv(BytesIO(r.content), low_memory=False)
+            if len(df_sub) < 3: continue
+            df = pd.concat([df, df_sub], ignore_index=True)
     else:
-        log.warning("exceeded max attempts")
-        return 'other_error'
+        df = pd.read_csv(BytesIO(r.content), low_memory=False)
     log.debug(f"saving to {filepath}")
     pd.to_pickle(df, filepath)
     return 'success'

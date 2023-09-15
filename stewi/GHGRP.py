@@ -28,7 +28,6 @@ Envirofacts web services documentation can be found at:
 
 import pandas as pd
 import numpy as np
-import requests
 import time
 import argparse
 import warnings
@@ -37,6 +36,7 @@ from xml.dom import minidom
 from xml.parsers.expat import ExpatError
 
 from esupy.processed_data_mgmt import read_source_metadata
+from esupy.remote import make_url_request
 from stewi.globals import download_table, write_metadata, import_table, \
     DATA_PATH, get_reliability_table_for_source, set_stewi_meta, config,\
     store_inventory, paths, log, \
@@ -119,7 +119,7 @@ def get_row_count(table, report_year):
         count_url += f'/REPORTING_YEAR/=/{report_year}'
     count_url += '/COUNT'
     try:
-        count_request = requests.get(count_url)
+        count_request = make_url_request(count_url)
         count_xml = minidom.parseString(count_request.text)
         table_count = count_xml.getElementsByTagName('TOTALQUERYRESULTS')
         table_count = int(table_count[0].firstChild.nodeValue)

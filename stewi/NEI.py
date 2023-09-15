@@ -27,10 +27,10 @@ import zipfile
 
 import numpy as np
 import pandas as pd
-import requests
 
 from esupy.processed_data_mgmt import download_from_remote,\
     read_source_metadata
+from esupy.remote import make_url_request
 from esupy.util import strip_file_extension
 from stewi.globals import DATA_PATH, write_metadata, USton_kg, lb_kg,\
     log, store_inventory, config, assign_secondary_context,\
@@ -128,16 +128,7 @@ def generate_national_totals(year):
     url = build_url.replace('__year__', year)
     url = url.replace('__file__', file)
 
-    # make http request
-    r = []
-    try:
-        r = requests.Session().get(url, verify=False)
-    except requests.exceptions.ConnectionError:
-        log.error(f"URL Connection Error for {url}")
-    try:
-        r.raise_for_status()
-    except requests.exceptions.HTTPError:
-        log.error('Error in URL request!')
+    r = make_url_request(url, verify=False)
 
     # extract data from zip archive
     z = zipfile.ZipFile(io.BytesIO(r.content))

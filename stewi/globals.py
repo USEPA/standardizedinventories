@@ -11,6 +11,9 @@ import os
 import time
 import urllib
 import copy
+import shutil
+import zipfile
+import io
 from datetime import datetime
 from pathlib import Path
 
@@ -22,6 +25,7 @@ from esupy.processed_data_mgmt import Paths, FileMeta,\
     write_df_to_file, write_metadata_to_file,\
     download_from_remote
 from esupy.dqi import get_weighted_average
+from esupy.remote import make_url_request
 from esupy.util import get_git_hash
 import stewi.exceptions
 
@@ -97,12 +101,10 @@ def download_table(filepath: Path, url: str, get_time=False):
     """Download file at url to Path if it does not exist."""
     if not filepath.exists():
         if url.lower().endswith('zip'):
-            import zipfile, requests, io
-            table_request = requests.get(url).content
-            zip_file = zipfile.ZipFile(io.BytesIO(table_request))
+            r = make_url_request(url)
+            zip_file = zipfile.ZipFile(io.BytesIO(r.content))
             zip_file.extractall(filepath)
         elif 'xls' in url.lower() or url.lower().endswith('excel'):
-            import shutil
             try:
                 with urllib.request.urlopen(url) as response, open(filepath, 'wb') as out_file:
                     shutil.copyfileobj(response, out_file)
