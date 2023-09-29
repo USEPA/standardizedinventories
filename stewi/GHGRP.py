@@ -31,7 +31,6 @@ import numpy as np
 import time
 import argparse
 import warnings
-import shutil
 import zipfile
 import io
 import urllib
@@ -272,11 +271,9 @@ def download_table(filepath: Path, url: str, get_time=False):
             zip_file = zipfile.ZipFile(io.BytesIO(r.content))
             zip_file.extractall(filepath)
         elif 'xls' in url.lower() or url.lower().endswith('excel'):
-            try:
-                with urllib.request.urlopen(url) as response, open(filepath, 'wb') as out_file:
-                    shutil.copyfileobj(response, out_file)
-            except urllib.error.HTTPError:
-                log.warning(f'Error downloading {url}')
+            r = make_url_request(url)
+            with open(filepath, "wb") as f:
+                f.write(r.content)
         elif 'json' in url.lower():
             pd.read_json(url).to_csv(filepath, index=False)
         if get_time:
