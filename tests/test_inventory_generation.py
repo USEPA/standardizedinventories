@@ -82,7 +82,8 @@ def test_DMR_generation():
 
 
 def test_RCRAInfo_generation():
-    assert stewi.getInventory('RCRAInfo', year) is not None
+    assert stewi.getInventory(
+        'RCRAInfo', year if year % 2 == 1 else year + 1) is not None
 
 
 def test_existing_inventories():
