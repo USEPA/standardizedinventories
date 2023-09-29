@@ -296,7 +296,7 @@ def read_inventory(inventory_acronym, year, f, download_if_missing=False):
         remote server prior to generating if file not found locally
     :return: dataframe of stored inventory; if not present returns None
     """
-    file_name = inventory_acronym + '_' + str(year)
+    file_name = f'{inventory_acronym}_{year}'
     meta = set_stewi_meta(file_name, str(f))
     inventory = load_preprocessed_output(meta, paths)
     method_path = paths.local_path / meta.category
