@@ -242,10 +242,12 @@ def Generate_RCRAInfo_files_csv(report_year):
                                .joinpath('RCRAInfo_LU_WasteCode_LineComponents.csv'))
     names = linewidthsdf['Data Element Name']
     try:
+        log.debug([f for f in OUTPUT_PATH.glob('*') if f.is_file()])
         wastecodesfile = [file for file in OUTPUT_PATH.glob('*lu_waste_code*.csv')][0]
     except IndexError:
-        log.exception('waste codes file missing, download and unzip waste code'
-                      f' file to {OUTPUT_PATH}')
+        raise stewi.exceptions.DataNotFoundError(
+            message=('waste codes file missing, download and unzip waste code'
+                     f' file to {OUTPUT_PATH}'))
     waste_codes = pd.read_csv(wastecodesfile,
                               header=0,
                               names=names)
