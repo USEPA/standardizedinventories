@@ -6,9 +6,8 @@ databases:
       TRI_year_reported: 'option'
       TRI_zip: 'value'
   RCRAInfo:
-    url: https://rcrapublic.epa.gov/rcra-public-export/?outputType=CSV
-    queries:
-      Table_of_tables: "//table[@id='tables']"
+    url: https://rcrapublic.epa.gov/rcra-public-export/rest/api/v1/public/export/current/CSV
+    url_stub: https://s3.amazonaws.com/rcrainfo-ftp
   eGRID:
     url: https://www.epa.gov/egrid/emissions-generation-resource-integrated-database-egrid
     '2014':

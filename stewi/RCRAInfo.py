@@ -100,13 +100,15 @@ See more documentation of files at https://rcrapublic.epa.gov/rcrainfoweb/
 import pandas as pd
 import zipfile
 import argparse
-import re
 import os
 import time
 import datetime
+import json
+import io
 from pathlib import Path
 
 from esupy.processed_data_mgmt import read_source_metadata
+from esupy.remote import make_url_request
 from stewi.globals import write_metadata, DATA_PATH, config,\
     USton_kg, get_reliability_table_for_source, paths,\
     log, store_inventory, compile_source_metadata,\
@@ -115,14 +117,6 @@ from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
 from stewi.filter import apply_filters_to_inventory
 import stewi.exceptions
-
-try:
-    from selenium import webdriver
-    from webdriver_manager.chrome import ChromeDriverManager
-except ImportError:
-    log.error('Must install selenium and webdriver_manager for RCRAInfo. '
-              'See install instructions for optional package '
-              'installation or install them indepedently and retry.')
 
 
 _config = config()['databases']['RCRAInfo']
@@ -138,76 +132,45 @@ def waste_description_cleaner(x):
     return x
 
 
-def extracting_files(path_unzip, name):
-    with zipfile.ZipFile(path_unzip.joinpath(name + '.zip')) as z:
-        z.extractall(path_unzip)
-    log.info(f'{name} stored to {path_unzip}')
-    os.remove(path_unzip.joinpath(name + '.zip'))
+def download_and_extract_zip(tables):
+    """
+    Extracts csv files for selected tables to local directory
+    https://rcrapublic.epa.gov/rcra-public-export/?outputType=CSV
+    """
+    r = make_url_request(_config['url'])
+    d = json.loads(r.text) # Load JSON to dict
+    def find_table(d, table):
+        for f_tab in d['tables']:
+            f_list = f_tab.get('files', [])
+            for f_item in f_list:
+                f_name = f_item.get("fileName", "")
+                if f_name == f'{table}.zip':
+                    return(f_item)
 
+    # Extract HD tables which are found in a combined zip file
+    if any(t.startswith('HD') for t in tables):
+        hd_tables = [t for t in tables if t.startswith('HD')]
+        tables = [t for t in tables if not t.startswith('HD')]
+        for module in d['modules']:
+            f_name = module.get("fileName", "")
+            if f_name == 'HD.zip':
+                r_dict = module
+                break
+        zip_url = f'{_config["url_stub"]}/{r_dict["s3Key"]}'
+        resp = make_url_request(zip_url)
+        with zipfile.ZipFile(io.BytesIO(resp.content), "r") as f:
+            for t in hd_tables:
+                zfiledata = io.BytesIO(f.read(f'{t}.zip'))
+                with zipfile.ZipFile(zfiledata) as f2:
+                    f2.extractall(path=OUTPUT_PATH)
 
-def download_and_extract_zip(tables, query):
-    log.info('Initiating download via browswer...')
-    regex = re.compile(r'(.+).zip\s?\(\d+.?\d*\s?[a-zA-Z]{2,}\)')
-    options = webdriver.ChromeOptions()
-    options.add_argument('--disable-notifications')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--verbose')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--disable-software-rasterizer')
-    options.add_argument('--log-level=3')
-    options.add_argument('--hide-scrollbars')
-    prefs = {'download.default_directory': str(OUTPUT_PATH),
-            'download.prompt_for_download': False,
-            'download.directory_upgrade': True,
-            'safebrowsing_for_trusted_sources_enabled': False,
-            'safebrowsing.enabled': False}
-    options.add_experimental_option('prefs', prefs)
-    browser = webdriver.Chrome(ChromeDriverManager().install(),
-                               options=options)
-    browser.maximize_window()
-    browser.set_page_load_timeout(30)
-    browser.get(_config['url'])
-    time.sleep(5)
-    table_of_tables = browser.find_element_by_xpath(query)
-    rows = table_of_tables.find_elements_by_css_selector('tr')[1:] # Excluding header
-    # Extracting zip files for Biennial Report Tables
-    Links = {}
-    for row in rows:
-        loop = 'YES'
-        while loop == 'YES':
-            try:
-                table_name = re.search(
-                    regex, row.find_elements_by_css_selector('td')[3].text
-                    ).group(1)
-                Link = row.find_elements_by_css_selector('td')[3]\
-                    .find_elements_by_css_selector('a')[0]\
-                        .get_attribute('href')
-                Links.update({table_name: Link})
-                loop = 'NO'
-            except AttributeError:
-                loop = 'YES'
-                now = datetime.datetime.now()
-                print('AttributeError occurred with selenium due to not '
-                      'appropriate charging of website.\nHour: '
-                      '{}:{}:{}'.format(now.hour, now.minute, now.second))
-    # Download the desired zip
-    if tables == [None]:
-        tables = list(Links.keys())
-    log.info(f'If download fails, locate {tables} and save zip file to {OUTPUT_PATH}'
-             ' and code will proceed')
-    for name in tables:
-        if OUTPUT_PATH.joinpath(f"{name}_0.csv").is_file():
-            log.info(f"{name} found in {OUTPUT_PATH}, skipping")
-            continue
-        browser.get(Links[name])
-        condition = OUTPUT_PATH.joinpath(f"{name}.zip").is_file()
-        while condition is False:
-            # continue to check for downloaded zip file
-            condition = OUTPUT_PATH.joinpath(f"{name}.zip").is_file()
-        time.sleep(5)
-        extracting_files(OUTPUT_PATH, name)
+    for table in tables:
+        r_dict = find_table(d, table)
+        zip_url = f'{_config["url_stub"]}/{r_dict["s3Key"]}'
+        resp = make_url_request(zip_url)
+        with zipfile.ZipFile(io.BytesIO(resp.content), "r") as f:
+            f.extractall(path=OUTPUT_PATH)
     log.info('file extraction complete')
-    browser.quit()
 
 
 def organize_br_reporting_files_by_year(tables, year):
@@ -215,12 +178,12 @@ def organize_br_reporting_files_by_year(tables, year):
     year = int(year)
     for table in tables:
         if 'BR_REPORTING' in table:
-            log.info(f'organizing data for {table} from {str(year)}...')
+            log.info(f'organizing data for {table} from {year}...')
             linewidthsdf = pd.read_csv(RCRA_DATA_PATH
                                        .joinpath('RCRA_FlatFile_LineComponents.csv'))
             fields = linewidthsdf['Data Element Name'].tolist()
             files = sorted([file for file in OUTPUT_PATH
-                            .glob(f'{table}*{str(year)}*.csv')])
+                            .glob(f'{table}*{year}*.csv')])
             df_full = pd.DataFrame()
             for filepath in files:
                 log.info(f'extracting {filepath}')
@@ -239,7 +202,7 @@ def organize_br_reporting_files_by_year(tables, year):
                 df = df[df['Report Cycle'] == year]
                 df_full = pd.concat([df_full, df])
             DIR_RCRA_BY_YEAR.mkdir(exist_ok=True)
-            filepath = DIR_RCRA_BY_YEAR.joinpath(f'br_reporting_{str(year)}.csv')
+            filepath = DIR_RCRA_BY_YEAR.joinpath(f'br_reporting_{year}.csv')
             log.info(f'saving to {filepath}...')
             df_full.to_csv(filepath, index=False)
             generate_metadata(year, files, datatype='source')
@@ -462,19 +425,17 @@ def main(**kwargs):
             raise stewi.exceptions.InventoryNotAvailableError(
                 inv='RCRAInfo', year=year)
         # Adds sepcified Year to BR_REPORTING table
+        year = str(year)
         if 'Tables' in kwargs:
             tables = kwargs['Tables'].copy()
             if 'BR_REPORTING' in kwargs['Tables']:
-                tables[kwargs['Tables'].index('BR_REPORTING')] = 'BR_REPORTING' + '_' + year
+                tables[kwargs['Tables'].index('BR_REPORTING')] = f'BR_REPORTING_{year}'
         else:
-            tables = ['BR_REPORTING_' + year]
+            kwargs['Tables'] = ['BR_REPORTING']
+            tables = [f'BR_REPORTING_{year}', 'HD_LU_WASTE_CODE']
 
         if kwargs['Option'] == 'A':
-            """If issues in running this option to download the data, go to the
-            specified url and find the BR_REPORTING_year.zip file and save to
-            OUTPUT_PATH. Also requires HD_LU_WASTE_CODE.zip"""
-            query = _config['queries']['Table_of_tables']
-            download_and_extract_zip(tables, query)
+            download_and_extract_zip(tables)
 
         elif kwargs['Option'] == 'B':
             organize_br_reporting_files_by_year(kwargs['Tables'], year)
@@ -490,4 +451,4 @@ def main(**kwargs):
 
 
 if __name__ == '__main__':
-    main()
+    main(Option='A', Year=[2021])
