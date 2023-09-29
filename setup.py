@@ -24,9 +24,6 @@ setup(
         'openpyxl>=3.0.7',
         'xlrd>=2.0.0',
         ],
-    extras_require={"RCRAInfo": ['webdriver_manager>=3.4.2',
-                                 'selenium>=3.141.0'],
-                    },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
