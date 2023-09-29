@@ -10,16 +10,11 @@ import facilitymatcher
 
 
 year = 2018
-requires_browser_download = {'RCRAInfo'}
-SKIP_BROWSER_DOWNLOAD = True
-
 
 @pytest.mark.skip(reason="perform separate inventory tests")
 def test_all_inventory_generation():
     error_list = []
     for inventory in config()['databases']:
-        if SKIP_BROWSER_DOWNLOAD and inventory in requires_browser_download:
-            continue
         df = stewi.getInventory(inventory, year)
         error = df is None or len(df) == 0
         if error:
@@ -31,8 +26,6 @@ def test_all_inventory_generation():
 @pytest.mark.inventory
 def test_generate_inventories(year):
     for inventory in config()['databases']:
-        if SKIP_BROWSER_DOWNLOAD and inventory in requires_browser_download:
-            continue
         try:
             generate_inventory(inventory, year)
         except InventoryNotAvailableError as err:
@@ -88,7 +81,6 @@ def test_DMR_generation():
     assert stewi.getInventory('DMR', year) is not None
 
 
-@pytest.mark.skip(reason="RCRAInfo requires browser download")
 def test_RCRAInfo_generation():
     assert stewi.getInventory('RCRAInfo', year) is not None
 
