@@ -71,7 +71,6 @@ def test_eGRID_generation():
     assert stewi.getInventory('eGRID', year) is not None
 
 
-@pytest.mark.skip(reason="GHGRP is skipped for time constraints")
 def test_GHGRP_generation():
     assert stewi.getInventory('GHGRP', year) is not None
 
