@@ -105,6 +105,7 @@ import time
 import datetime
 import json
 import io
+import re
 from pathlib import Path
 
 from esupy.processed_data_mgmt import read_source_metadata
@@ -243,7 +244,7 @@ def Generate_RCRAInfo_files_csv(report_year):
     names = linewidthsdf['Data Element Name']
     try:
         log.debug([f for f in OUTPUT_PATH.glob('*') if f.is_file()])
-        wastecodesfile = [file for file in OUTPUT_PATH.glob('*lu_waste_code*.csv')][0]
+        wastecodesfile = [file for file in OUTPUT_PATH.glob('*LU_WASTE_CODE*.csv')][0]
     except IndexError:
         raise stewi.exceptions.DataNotFoundError(
             message=('waste codes file missing, download and unzip waste code'
