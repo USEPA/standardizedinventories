@@ -31,16 +31,19 @@ import numpy as np
 import time
 import argparse
 import warnings
+import shutil
+import zipfile
+import io
+import urllib
 from pathlib import Path
 from xml.dom import minidom
 from xml.parsers.expat import ExpatError
 
 from esupy.processed_data_mgmt import read_source_metadata
 from esupy.remote import make_url_request
-from stewi.globals import download_table, write_metadata, import_table, \
+from stewi.globals import write_metadata, compile_source_metadata, aggregate, \
     DATA_PATH, get_reliability_table_for_source, set_stewi_meta, config,\
-    store_inventory, paths, log, \
-    compile_source_metadata, aggregate
+    store_inventory, paths, log
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
 from stewi.formats import StewiFormat
@@ -259,6 +262,49 @@ def import_or_download_table(filepath, table, year, m):
                                 cols)
 
     return table_df
+
+
+def download_table(filepath: Path, url: str, get_time=False):
+    """Download file at url to Path if it does not exist."""
+    if not filepath.exists():
+        if url.lower().endswith('zip'):
+            r = make_url_request(url)
+            zip_file = zipfile.ZipFile(io.BytesIO(r.content))
+            zip_file.extractall(filepath)
+        elif 'xls' in url.lower() or url.lower().endswith('excel'):
+            try:
+                with urllib.request.urlopen(url) as response, open(filepath, 'wb') as out_file:
+                    shutil.copyfileobj(response, out_file)
+            except urllib.error.HTTPError:
+                log.warning(f'Error downloading {url}')
+        elif 'json' in url.lower():
+            pd.read_json(url).to_csv(filepath, index=False)
+        if get_time:
+            try:
+                retrieval_time = filepath.stat().st_ctime
+            except OSError:
+                retrieval_time = time.time()
+            return time.ctime(retrieval_time)
+    elif get_time:
+        return time.ctime(filepath.stat().st_ctime)
+
+
+def import_table(path_or_reference, get_time=False):
+    """Read and return time of csv from url or Path."""
+    try:
+        df = pd.read_csv(path_or_reference, low_memory=False)
+    except urllib.error.URLError as exception:
+        log.warning(exception.reason)
+        log.info('retrying url...')
+        time.sleep(3)
+        df = pd.read_csv(path_or_reference, low_memory=False)
+    if get_time and isinstance(path_or_reference, Path):
+        retrieval_time = path_or_reference.stat().st_ctime
+        return df, time.ctime(retrieval_time)
+    elif get_time:
+        retrieval_time = time.time()
+        return df, time.ctime(retrieval_time)
+    return df
 
 
 def download_and_parse_subpart_tables(year, m):
