@@ -102,11 +102,8 @@ import zipfile
 import argparse
 import os
 import time
-import datetime
 import json
 import io
-import re
-from pathlib import Path
 
 from esupy.processed_data_mgmt import read_source_metadata
 from esupy.remote import make_url_request
