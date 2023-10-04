@@ -28,19 +28,21 @@ Envirofacts web services documentation can be found at:
 
 import pandas as pd
 import numpy as np
-import requests
 import time
 import argparse
 import warnings
+import zipfile
+import io
+import urllib
 from pathlib import Path
 from xml.dom import minidom
 from xml.parsers.expat import ExpatError
 
 from esupy.processed_data_mgmt import read_source_metadata
-from stewi.globals import download_table, write_metadata, import_table, \
+from esupy.remote import make_url_request
+from stewi.globals import write_metadata, compile_source_metadata, aggregate, \
     DATA_PATH, get_reliability_table_for_source, set_stewi_meta, config,\
-    store_inventory, paths, log, \
-    compile_source_metadata, aggregate
+    store_inventory, paths, log
 from stewi.validate import update_validationsets_sources, validate_inventory,\
     write_validation_result
 from stewi.formats import StewiFormat
@@ -119,7 +121,7 @@ def get_row_count(table, report_year):
         count_url += f'/REPORTING_YEAR/=/{report_year}'
     count_url += '/COUNT'
     try:
-        count_request = requests.get(count_url)
+        count_request = make_url_request(count_url)
         count_xml = minidom.parseString(count_request.text)
         table_count = count_xml.getElementsByTagName('TOTALQUERYRESULTS')
         table_count = int(table_count[0].firstChild.nodeValue)
@@ -261,6 +263,47 @@ def import_or_download_table(filepath, table, year, m):
     return table_df
 
 
+def download_table(filepath: Path, url: str, get_time=False):
+    """Download file at url to Path if it does not exist."""
+    if not filepath.exists():
+        if url.lower().endswith('zip'):
+            r = make_url_request(url)
+            zip_file = zipfile.ZipFile(io.BytesIO(r.content))
+            zip_file.extractall(filepath)
+        elif 'xls' in url.lower() or url.lower().endswith('excel'):
+            r = make_url_request(url)
+            with open(filepath, "wb") as f:
+                f.write(r.content)
+        elif 'json' in url.lower():
+            pd.read_json(url).to_csv(filepath, index=False)
+        if get_time:
+            try:
+                retrieval_time = filepath.stat().st_ctime
+            except OSError:
+                retrieval_time = time.time()
+            return time.ctime(retrieval_time)
+    elif get_time:
+        return time.ctime(filepath.stat().st_ctime)
+
+
+def import_table(path_or_reference, get_time=False):
+    """Read and return time of csv from url or Path."""
+    try:
+        df = pd.read_csv(path_or_reference, low_memory=False)
+    except urllib.error.URLError as exception:
+        log.warning(exception.reason)
+        log.info('retrying url...')
+        time.sleep(3)
+        df = pd.read_csv(path_or_reference, low_memory=False)
+    if get_time and isinstance(path_or_reference, Path):
+        retrieval_time = path_or_reference.stat().st_ctime
+        return df, time.ctime(retrieval_time)
+    elif get_time:
+        retrieval_time = time.time()
+        return df, time.ctime(retrieval_time)
+    return df
+
+
 def download_and_parse_subpart_tables(year, m):
     """
     Generates a list of required subpart tables, based on report year.
@@ -297,13 +340,13 @@ def download_and_parse_subpart_tables(year, m):
         if table_df is None:
             continue
         # add 1-2 letter subpart abbreviation
-        table_df['SUBPART_NAME'] = list(year_tables.loc[
-            year_tables['TABLE'] == subpart_emissions_table, 'SUBPART'])[0]
-
+        abbv = (year_tables.query('TABLE == @subpart_emissions_table')
+                ['SUBPART'].iloc[0])
+        table_df = table_df.assign(SUBPART_NAME = abbv)
         # concatenate temporary dataframe to master ghgrp1 dataframe
         ghgrp1 = pd.concat([ghgrp1, table_df], ignore_index=True)
 
-    ghgrp1.reset_index(drop=True, inplace=True)
+    ghgrp1 = ghgrp1.reset_index(drop=True)
     log.info('Parsing table data...')
     if 'C' in ghgrp1.SUBPART_NAME.unique():
         ghgrp1 = calculate_combustion_emissions(ghgrp1)
@@ -384,32 +427,37 @@ def calculate_combustion_emissions(df):
     # NOTE: 'PART_75_CO2_EMISSIONS_METHOD' includes biogenic carbon emissions,
     # so there will be a slight error here, but biogenic/nonbiogenic emissions
     # for Part 75 are not reported separately.
-    df['c_co2'] = df['TIER1_CO2_COMBUSTION_EMISSIONS'] + \
-                      df['TIER2_CO2_COMBUSTION_EMISSIONS'] + \
-                      df['TIER3_CO2_COMBUSTION_EMISSIONS'] + \
-                      df['TIER_123_SORBENT_CO2_EMISSIONS'] + \
-                      df['TIER_4_TOTAL_CO2_EMISSIONS'] - \
-                      df['TIER_4_BIOGENIC_CO2_EMISSIONS'] + \
-                      df['PART_75_CO2_EMISSIONS_METHOD'] -\
-                      df['TIER123_BIOGENIC_CO2_EMISSIONS']
+    df = (df.assign(c_co2 = lambda x:
+                        x['TIER1_CO2_COMBUSTION_EMISSIONS'] +
+                        x['TIER2_CO2_COMBUSTION_EMISSIONS'] +
+                        x['TIER3_CO2_COMBUSTION_EMISSIONS'] +
+                        x['TIER_123_SORBENT_CO2_EMISSIONS'] +
+                        x['TIER_4_TOTAL_CO2_EMISSIONS'] -
+                        x['TIER_4_BIOGENIC_CO2_EMISSIONS'] +
+                        x['PART_75_CO2_EMISSIONS_METHOD'] -
+                        x['TIER123_BIOGENIC_CO2_EMISSIONS'])
     # biogenic carbon:
-    df['c_co2_b'] = df['TIER123_BIOGENIC_CO2_EMISSIONS'] + \
-                        df['TIER_4_BIOGENIC_CO2_EMISSIONS']
+            .assign(c_co2_b = lambda x:
+                        x['TIER123_BIOGENIC_CO2_EMISSIONS'] +
+                        x['TIER_4_BIOGENIC_CO2_EMISSIONS'])
     # methane:
-    df['c_ch4'] = df['TIER1_CH4_COMBUSTION_EMISSIONS'] + \
-                      df['TIER2_CH4_COMBUSTION_EMISSIONS'] + \
-                      df['TIER3_CH4_COMBUSTION_EMISSIONS'] + \
-                      df['T4CH4COMBUSTIONEMISSIONS'] + \
-                      df['PART_75_CH4_EMISSIONS_CO2E']/CH4GWP
+            .assign(c_ch4 = lambda x:
+                        x['TIER1_CH4_COMBUSTION_EMISSIONS'] +
+                        x['TIER2_CH4_COMBUSTION_EMISSIONS'] +
+                        x['TIER3_CH4_COMBUSTION_EMISSIONS'] +
+                        x['T4CH4COMBUSTIONEMISSIONS'] +
+                        x['PART_75_CH4_EMISSIONS_CO2E']/CH4GWP)
     # nitrous oxide:
-    df['c_n2o'] = df['TIER1_N2O_COMBUSTION_EMISSIONS'] + \
-                      df['TIER2_N2O_COMBUSTION_EMISSIONS'] + \
-                      df['TIER3_N2O_COMBUSTION_EMISSIONS'] + \
-                      df['T4N2OCOMBUSTIONEMISSIONS'] + \
-                      df['PART_75_N2O_EMISSIONS_CO2E']/N2OGWP
-
+            .assign(c_n2o = lambda x:
+                        x['TIER1_N2O_COMBUSTION_EMISSIONS'] +
+                        x['TIER2_N2O_COMBUSTION_EMISSIONS'] +
+                        x['TIER3_N2O_COMBUSTION_EMISSIONS'] +
+                        x['T4N2OCOMBUSTIONEMISSIONS'] +
+                        x['PART_75_N2O_EMISSIONS_CO2E']/N2OGWP)
     # drop subpart C columns because they are no longer needed
-    return df.drop(columns=subpart_c_cols)
+            .drop(columns=subpart_c_cols)
+            )
+    return df
 
 
 def parse_additional_suparts_data(addtnl_subparts_path, subpart_cols_file, year):

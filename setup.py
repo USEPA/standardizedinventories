@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="StEWI",
-    version="1.1.1",
+    version="1.1.2",
     author="Ben Young, Wesley Ingwersen, Matthew Bergmann, Jose Hernandez-Betancur, Tapajyoti Ghosh, Eric Bell",
     author_email="ingwersen.wesley@epa.gov",
     description="Standardized Emission And Waste Inventories (StEWI)"
@@ -24,9 +24,6 @@ setup(
         'openpyxl>=3.0.7',
         'xlrd>=2.0.0',
         ],
-    extras_require={"RCRAInfo": ['webdriver_manager>=3.4.2',
-                                 'selenium>=3.141.0'],
-                    },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",

@@ -4,6 +4,8 @@ databases:
     # see https://cdxapps.epa.gov/oms-substance-registry-services/swagger-ui/
     queries:
       caslistprefix: substances/cas?casList=
+      nameprefix: substance/name/
+      listprefix: substances/list_acronym/
       sep: '%7c'
     inventory_lists:
       RCRAInfo:

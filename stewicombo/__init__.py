@@ -13,9 +13,12 @@ from stewicombo.globals import getInventoriesforFacilityMatches, \
     getCombinedInventory, download_stewicombo_from_remote
 
 
-def combineFullInventories(inventory_dict, filter_for_LCI=True,
-                           remove_overlap=True, compartments=None,
-                           keep_sec_cntx=False, **kwargs):
+def combineFullInventories(inventory_dict,
+                           filter_for_LCI=True,
+                           remove_overlap=True,
+                           compartments=None,
+                           keep_sec_cntx=False,
+                           **kwargs):
     """Combine full stewi inventories.
 
     :param inventory_dict: dictionary of inventories and years,
@@ -61,7 +64,8 @@ def combineInventoriesforFacilitiesinBaseInventory(base_inventory,
                                                    inventory_dict,
                                                    filter_for_LCI=True,
                                                    remove_overlap=True,
-                                                   keep_sec_cntx=False):
+                                                   keep_sec_cntx=False,
+                                                   **kwargs):
     """Combine stewi inventories for all facilities present in base_inventory.
 
     The base_inventory must be in the inventory_dict
@@ -82,7 +86,8 @@ def combineInventoriesforFacilitiesinBaseInventory(base_inventory,
                                                    facilitymatches,
                                                    filter_for_LCI,
                                                    base_inventory,
-                                                   keep_sec_cntx=keep_sec_cntx)
+                                                   keep_sec_cntx=keep_sec_cntx,
+                                                   **kwargs)
     inventories = addChemicalMatches(inventories)
 
     # Aggregate and remove overlap if requested
@@ -94,10 +99,13 @@ def combineInventoriesforFacilitiesinBaseInventory(base_inventory,
     return inventories
 
 
-def combineInventoriesforFacilityList(base_inventory, inventory_dict,
+def combineInventoriesforFacilityList(base_inventory,
+                                      inventory_dict,
                                       facility_id_list,
-                                      filter_for_LCI=True, remove_overlap=True,
-                                      keep_sec_cntx=False):
+                                      filter_for_LCI=True,
+                                      remove_overlap=True,
+                                      keep_sec_cntx=False,
+                                      **kwargs):
     """Combine inventories for all facilities present in facility id list for base_inventory.
 
     The base_inventory must be in the inventory_dict
@@ -120,7 +128,8 @@ def combineInventoriesforFacilityList(base_inventory, inventory_dict,
                                                    facilitymatches,
                                                    filter_for_LCI,
                                                    base_inventory,
-                                                   keep_sec_cntx=keep_sec_cntx)
+                                                   keep_sec_cntx=keep_sec_cntx,
+                                                   **kwargs)
     # Remove the records from the base_inventory that are not in the
     # facility list
     remove_records = inventories[(inventories['Source'] == base_inventory) &

@@ -9,7 +9,6 @@ import json
 import logging as log
 import os
 import time
-import urllib
 import copy
 from datetime import datetime
 from pathlib import Path
@@ -30,7 +29,7 @@ MODULEPATH = Path(__file__).resolve().parent
 DATA_PATH = MODULEPATH / 'data'
 
 log.basicConfig(level=log.INFO, format='%(levelname)s %(message)s')
-STEWI_VERSION = '1.1.1'
+STEWI_VERSION = '1.1.2'
 
 # Conversion factors
 USton_kg = 907.18474
@@ -91,68 +90,6 @@ def config(config_path=MODULEPATH, file='config.yaml'):
     with open(path, mode='r') as f:
         configfile = yaml.load(f, Loader=yaml.FullLoader)
     return configfile
-
-
-def url_is_alive(url):
-    """Check that a given URL is reachable.
-
-    :param url: A URL
-    :rtype: bool
-    """
-    request = urllib.request.Request(url)
-    request.get_method = lambda: 'HEAD'
-    try:
-        urllib.request.urlopen(request)
-        return True
-    except urllib.request.HTTPError:
-        return False
-    except urllib.error.URLError:
-        return False
-
-
-def download_table(filepath: Path, url: str, get_time=False):
-    """Download file at url to Path if it does not exist."""
-    if not filepath.exists():
-        if url.lower().endswith('zip'):
-            import zipfile, requests, io
-            table_request = requests.get(url).content
-            zip_file = zipfile.ZipFile(io.BytesIO(table_request))
-            zip_file.extractall(filepath)
-        elif 'xls' in url.lower() or url.lower().endswith('excel'):
-            import shutil
-            try:
-                with urllib.request.urlopen(url) as response, open(filepath, 'wb') as out_file:
-                    shutil.copyfileobj(response, out_file)
-            except urllib.error.HTTPError:
-                log.warning(f'Error downloading {url}')
-        elif 'json' in url.lower():
-            pd.read_json(url).to_csv(filepath, index=False)
-        if get_time:
-            try:
-                retrieval_time = filepath.stat().st_ctime
-            except OSError:
-                retrieval_time = time.time()
-            return time.ctime(retrieval_time)
-    elif get_time:
-        return time.ctime(filepath.stat().st_ctime)
-
-
-def import_table(path_or_reference, get_time=False):
-    """Read and return time of csv from url or Path."""
-    try:
-        df = pd.read_csv(path_or_reference, low_memory=False)
-    except urllib.error.URLError as exception:
-        log.warning(exception.reason)
-        log.info('retrying url...')
-        time.sleep(3)
-        df = pd.read_csv(path_or_reference, low_memory=False)
-    if get_time and isinstance(path_or_reference, Path):
-        retrieval_time = path_or_reference.stat().st_ctime
-        return df, time.ctime(retrieval_time)
-    elif get_time:
-        retrieval_time = time.time()
-        return df, time.ctime(retrieval_time)
-    return df
 
 
 def aggregate(df, grouping_vars=None):
@@ -311,7 +248,7 @@ def read_inventory(inventory_acronym, year, f, download_if_missing=False):
         remote server prior to generating if file not found locally
     :return: dataframe of stored inventory; if not present returns None
     """
-    file_name = inventory_acronym + '_' + str(year)
+    file_name = f'{inventory_acronym}_{year}'
     meta = set_stewi_meta(file_name, str(f))
     inventory = load_preprocessed_output(meta, paths)
     method_path = paths.local_path / meta.category

@@ -51,7 +51,7 @@ jobs:
     # install testing
     - name: Install package and dependencies
       run: |
-        pip install .["RCRAInfo"]
+        pip install .
 
     # linting & pytest
     - name: Lint with flake8

@@ -1,6 +1,6 @@
 """Test config file urls."""
 
-from stewi.globals import url_is_alive
+from esupy.remote import url_is_alive
 
 
 def test_stewi_config():

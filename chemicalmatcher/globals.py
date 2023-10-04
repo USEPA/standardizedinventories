@@ -13,6 +13,7 @@ OUTPUT_PATH = MODULEPATH / 'output'
 
 SRSconfig = config(config_path=MODULEPATH)['databases']['SRS']
 base = SRSconfig['url']
+queries = SRSconfig['queries']
 
 # Certain characters return errors or missing results but if replaces
 # with '_' this work per advice from Tim Bazel (CGI Federal) on 6/27/2018
@@ -24,11 +25,10 @@ inventory_to_SRSlist_acronymns = SRSconfig['inventory_lists']
 # Return json object with SRS result
 def get_SRSInfo_for_substance_name(name):
     name_for_query = urllib.parse.quote(name)
-    nameprefix = 'substance/name/'
-    nameprefixexcludeSynonyms = '?excludeSynonyms=True'
     for i in srs_replace_group:
         name_for_query = name_for_query.replace(i, '_')
-    url = base + nameprefix + name_for_query + nameprefixexcludeSynonyms
+    url = (f'{base}{queries.get("nameprefix")}{name_for_query}'
+           '?excludeSynonyms=True')
     flow_info = query_SRS_for_flow(url)
     return flow_info
 
@@ -39,8 +39,8 @@ def get_SRSInfo_for_program_list(inventory):
     # Base URL for queries
     srs_flow_df = pd.DataFrame()
     for listname in inventory_to_SRSlist_acronymns[inventory]:
-        log.debug('Getting %s', listname)
-        url = f'{base}substances/list_acronym/{urllib.parse.quote(listname)}'
+        log.debug(f'Getting {listname}')
+        url = f'{base}{queries.get("listprefix")}{urllib.parse.quote(listname)}'
         flow_info = query_SRS_for_program_list(url, inventory)
         if len(flow_info) == 0:
             log.info(f'No flows found for {listname}')
