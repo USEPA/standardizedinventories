@@ -122,20 +122,7 @@ git clone https://github.com/USEPA/standardizedinventories.git
 cd standardizedinventories
 pip install . # or pip install -e . for devs
 ```
-The current version contains optional dependencies (`selenium` and `webdriver_manager`) to download RCRAInfo data using a chrome browswer interface prior to generating those stewi inventories.
-See details in [RCRAInfo.py](https://github.com/USEPA/standardizedinventories/blob/master/stewi/RCRAInfo.py) for how to generate those inventories without these optional libraries.
 
-To download these optional dependencies use one of the following pip install commands:
-
-```
-pip install .["RCRAInfo"]
-```
-
-or
-
-```
-pip install . -r requirements.txt -r rcrainfo_requirements.txt
-```
 
 ### Secondary Context Installation Steps
 In order to enable calculation and assignment of urban/rural secondary contexts, please refer to
