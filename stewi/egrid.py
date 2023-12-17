@@ -203,6 +203,7 @@ def generate_eGRID_files(year):
                                                         'ReliabilitySource',
                                                         'FlowAmount']))
                                       ).apply(pd.Series.explode).reset_index()
+    unit_egrid['FlowAmount'] = pd.to_numeric(unit_egrid['FlowAmount'])
 
     dq_mapping = pd.read_csv(eGRID_DATA_DIR
                              .joinpath('eGRID_unit_level_reliability_scores.csv'))
