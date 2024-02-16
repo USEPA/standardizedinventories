@@ -14,6 +14,7 @@ from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
+import numpy as np
 import yaml
 
 from esupy.processed_data_mgmt import Paths, FileMeta,\
@@ -117,7 +118,9 @@ def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
     """Convert values in coln3 if coln2 == unit, based on the conversion
     factor, and assigns to coln1.
     """
-    df.loc[df[coln2] == unit, coln1] = conversion_factor * df[coln3]
+    df[coln1] = np.where(df[coln2] == unit,
+                         conversion_factor * df[coln3],
+                         coln1)
     return df
 
 
