@@ -120,7 +120,7 @@ def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):
     """
     df[coln1] = np.where(df[coln2] == unit,
                          conversion_factor * df[coln3],
-                         coln1)
+                         df[coln1])
     return df
 
 
