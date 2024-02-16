@@ -19,6 +19,7 @@ Year:
 """
 
 import pandas as pd
+import numpy as np
 import argparse
 import urllib
 import time
@@ -192,10 +193,10 @@ def standardize_df(input_df):
         dmr_flows = flows[['FlowName', 'FlowID']
                           ].drop_duplicates(subset=['FlowName'])
         output_df = output_df.merge(dmr_flows, on='FlowName', how='left')
-        output_df.loc[output_df.FlowID_x.isin(
-            flows.PARAMETER_CODE), ['FlowID']] = output_df['FlowID_x']
-        output_df.loc[~output_df.FlowID_x.isin(
-            flows.PARAMETER_CODE), ['FlowID']] = output_df['FlowID_y']
+        output_df['FlowID'] = np.where(
+            output_df.FlowID_x.isin(flows.PARAMETER_CODE),
+            output_df['FlowID_x'],
+            output_df['FlowID_y'])
         output_df = output_df.drop(columns=['FlowID_x', 'FlowID_y'])
 
     return output_df
