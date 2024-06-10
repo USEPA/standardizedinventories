@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="StEWI",
-    version="1.1.2",
+    version="1.1.3",
     author="Ben Young, Wesley Ingwersen, Matthew Bergmann, Jose Hernandez-Betancur, Tapajyoti Ghosh, Eric Bell",
     author_email="ingwersen.wesley@epa.gov",
     description="Standardized Emission And Waste Inventories (StEWI)"
@@ -15,7 +15,7 @@ setup(
     include_package_data=True,
     python_requires=">=3.8",
     install_requires=[
-        'esupy @ git+https://github.com/USEPA/esupy.git@develop#egg=esupy',
+        'esupy @ git+https://github.com/USEPA/esupy.git#egg=esupy',
         'numpy>=1.20.1',
         'pandas>=1.3',
         'requests>=2.20',

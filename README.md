@@ -1,5 +1,6 @@
 # Standardized Emission and Waste Inventories (StEWI)
 [![DOI - 10.3390/app12073447](https://img.shields.io/badge/DOI-10.3390%2Fapp12073447-blue)](https://doi.org/10.3390/app12073447)
+[![DOI](https://zenodo.org/badge/101654522.svg)](https://zenodo.org/doi/10.5281/zenodo.1342761)
 [![DOI - 10.23719/1526441](https://img.shields.io/badge/v1.0%20DataProducts-10.23719%2F1526441-blue)](https://doi.org/10.23719/1526441)
 [![build](https://github.com/USEPA/standardizedinventories/actions/workflows/python-package.yml/badge.svg)](https://github.com/USEPA/standardizedinventories/actions/workflows/python-package.yml)
 
