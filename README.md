@@ -1,5 +1,6 @@
 # Standardized Emission and Waste Inventories (StEWI)
 [![DOI - 10.3390/app12073447](https://img.shields.io/badge/DOI-10.3390%2Fapp12073447-blue)](https://doi.org/10.3390/app12073447)
+[![DOI](https://zenodo.org/badge/101654522.svg)](https://zenodo.org/doi/10.5281/zenodo.1342761)
 [![DOI - 10.23719/1526441](https://img.shields.io/badge/v1.0%20DataProducts-10.23719%2F1526441-blue)](https://doi.org/10.23719/1526441)
 [![build](https://github.com/USEPA/standardizedinventories/actions/workflows/python-package.yml/badge.svg)](https://github.com/USEPA/standardizedinventories/actions/workflows/python-package.yml)
 
@@ -22,7 +23,7 @@ An article describing StEWI was published in a special issue of Applied Sciences
 |[Greenhouse Gas Reporting Program](https://www.epa.gov/ghgreporting) |x|x|x|x|x|x|x|x|x|x|x|
 |[Emissions & Generation Resource Integrated Database](https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid) | | | |x| |x| |x|x|x|x|
 |[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)** |x|i|i|x|i|i|x|i|i|x| |
-|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)* |x| |x| |x| |x| |x| | |
+|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)* |x| |x| |x| |x| |x| |x|
 |[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program)* |x|x|x|x|x|x|x|x|x|x|x|
 
 *Earlier data exist and are accessible but have not been validated
