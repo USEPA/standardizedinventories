@@ -40,7 +40,7 @@ def remove_flow_overlap(df, flow_cpst, flows_cntb, cmpt='air', SCC=False):
     df_cf = (df.query('SRS_ID in @flows_cntb and '
                       '_CompartmentPrimary == @cmpt')
                .groupby(cols_agg, as_index=False)
-               .agg({'FlowAmount': sum})
+               .agg({'FlowAmount': 'sum'})
                .assign(SRS_ID=flow_cpst)
                .rename(columns={'FlowAmount': 'ContributingAmount'}))
     # then remove contributing flow totals from composite flow
@@ -119,8 +119,8 @@ def aggregate_and_remove_overlap(df):
     # functions by column for intra-inventory aggregation
     funcs_agg = {
         'FacilityID':       '_'.join, # or `set` or `'unique'` to get unique set of vals
-        'FlowAmount':       sum,
-        'DataReliability':  sum,  # sums FlowAmount-weighted elements
+        'FlowAmount':       'sum',
+        'DataReliability':  'sum',  # sums FlowAmount-weighted elements
         'FlowName':         'first', # get the first element in .agg
         }
     # cols to define unique flows WITHIN inventories; using more grouping cols,
@@ -147,7 +147,7 @@ def aggregate_and_remove_overlap(df):
 
     # then drop cross-inventory dups by keeping entries w/ min _SourcePref
     df_dup['_SourcePrefMin'] = (df_dup.groupby(cols_inter)['_SourcePref']
-                                      .transform(min))
+                                      .transform('min'))
     df_dup = df_dup.query('_SourcePref == _SourcePrefMin')
 
     log.debug('Reincorporating rows with NaN FRS_ID or SRS_ID')
