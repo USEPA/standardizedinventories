@@ -38,7 +38,7 @@ jobs:
         pytest -m inventory --log-level=DEBUG
 
     - name: Upload files
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         # Artifact name
         name: StEWI Inventory files

@@ -37,7 +37,7 @@ jobs:
 
     - name: Upload files
       if: always() # Upload files even if some inventories fail
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         # Artifact name
         name: StEWI Combined inventory files
