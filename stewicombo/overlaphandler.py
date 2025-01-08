@@ -5,6 +5,7 @@ from pathlib import Path
 import pandas as pd
 
 from stewi.globals import log
+from stewi.exceptions import StewiQueryError
 
 
 path_module = Path(__file__).parent
@@ -86,6 +87,8 @@ def aggregate_and_remove_overlap(df):
     by facility and compartment
     :param df: pd.DataFrame, inventory df incl. chemical & facility matches
     """
+    if len(df) == 0:
+        raise StewiQueryError(message='No data found to combine')
     log.info('removing overlap between inventories')
     ## TODO: implement args for different duplicate handling schemes
         # see commented-out code in commit f2fc7c2 (or earlier, uncommented)

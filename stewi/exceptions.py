@@ -29,3 +29,11 @@ class DataNotFoundError(Exception):
             message = ("Source data not found, download before proceeding")
         self.message = message
         super().__init__(self.message)
+
+
+class StewiQueryError(Exception):
+    def __init__(self, message=None):
+        if message is None:
+            message = ("No data found for passed query.")
+        self.message = message
+        super().__init__(self.message)
