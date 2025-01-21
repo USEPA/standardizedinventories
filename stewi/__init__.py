@@ -3,7 +3,7 @@
 # coding=utf-8
 """
 Public API for stewi. Functions to return inventory data for a single
-inventory in standard formats
+inventory in standard formats.
 """
 
 
@@ -11,12 +11,44 @@ from esupy.processed_data_mgmt import read_source_metadata
 from stewi.globals import log, add_missing_fields,\
     WRITE_FORMAT, read_inventory, paths,\
     set_stewi_meta, aggregate
+from stewi.globals import STEWI_DATA_VINTAGES
+from stewi.globals import linear_search
 from stewi.filter import apply_filters_to_inventory, filter_config
 from stewi.formats import StewiFormat, ensure_format
 
 
+def getAllInventoriesandYears(year=None):
+    """Return inventory year(s) of interest.
+
+    If no year is given, the full list of years are returned for each inventory
+    otherwise, only the most recent year is provided for each inventory (i.e.,
+    with vintage the same or older than the given year).
+
+    :param year: An integer year of interest, defaults to None
+    :type year: int, optional
+    :return: A dictionary of inventory names (key) and list or int of year(s)
+    :rtype: dict
+    """
+    r_dict = {}
+    if year is None:
+        # Don't give user access to global var: copy it!
+        for k,v in STEWI_DATA_VINTAGES.items():
+            r_dict[k] = v
+    else:
+        for key in STEWI_DATA_VINTAGES.keys():
+            avail_years = STEWI_DATA_VINTAGES[key]
+            y_idx = linear_search(avail_years, year)
+            if y_idx != -1:
+                r_dict[key] = STEWI_DATA_VINTAGES[key][y_idx]
+    return r_dict
+
+
 def getAvailableInventoriesandYears(stewiformat='flowbyfacility'):
     """Get available inventories and years for a given output format.
+
+    Note these inventories and years are based on the data downloaded by
+    the user. For the whole list of available inventories, see
+    :func:`getAllInventoriesandYears`.
 
     :param stewiformat: str e.g. 'flowbyfacility'
     :return: existing_inventories dictionary of inventories like:
