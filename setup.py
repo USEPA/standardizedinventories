@@ -21,6 +21,7 @@ setup(
         'requests>=2.20',
         'PyYAML>=5.1',
         'openpyxl>=3.0.7',
+        'xlrd>=2.0.0',
         ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
