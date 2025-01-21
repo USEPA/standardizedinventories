@@ -19,10 +19,8 @@ setup(
         'numpy>=1.20.1',
         'pandas>=1.3',
         'requests>=2.20',
-        'beautifulsoup4>=4.9.3',
         'PyYAML>=5.1',
         'openpyxl>=3.0.7',
-        'xlrd>=2.0.0',
         ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
