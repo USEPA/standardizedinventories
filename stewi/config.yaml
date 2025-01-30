@@ -1,7 +1,7 @@
 databases:
   TRI:
     url: https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-calendar-years-1987-present
-    zip_url: https://www3.epa.gov/tri/current/US_{year}.zip
+    zip_url: https://www3.epa.gov/tri/current2/US_{year}.zip
     queries:
       TRI_year_reported: 'option'
       TRI_zip: 'value'
