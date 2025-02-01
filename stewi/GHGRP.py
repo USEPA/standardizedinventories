@@ -35,6 +35,7 @@ import zipfile
 import io
 import urllib
 from pathlib import Path
+from requests.exceptions import HTTPError
 from xml.dom import minidom
 from xml.parsers.expat import ExpatError
 
@@ -126,9 +127,9 @@ def get_row_count(table, report_year):
         table_count = count_xml.getElementsByTagName('REQUESTRECORDCOUNT')
         table_count = int(table_count[0].firstChild.nodeValue)
     except IndexError as e:
-        raise Exception(f'error accessing table count for {table}') from e
-    except ExpatError as e:
-        raise Exception(f'{table} not found') from e
+        raise IndexError(f'error accessing table count for {table}') from e
+    except (ExpatError, HTTPError) as e:
+        raise HTTPError(f'{table} not found') from e
     return table_count
 
 
