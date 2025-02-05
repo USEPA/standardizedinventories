@@ -91,6 +91,13 @@ databases:
             - 'sppd_rtr_24507.parquet'
             - 'sppd_rtr_24592.parquet'
         file_version: 'v1'
+    '2022':
+        file_name:
+            - 'sppd_rtr_31281.parquet'
+            - 'sppd_rtr_31284.parquet'
+            - 'sppd_rtr_31302.parquet'
+            - 'sppd_rtr_31303.parquet'
+        file_version: 'v1'
     national_url: 'https://gaftp.epa.gov/air/nei/nei_facility_summaries/__year___NEI_Facility_summary.zip'
     # ^ url validation file for 2012+
     national_version:
