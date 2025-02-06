@@ -50,7 +50,7 @@ jobs:
         python scripts/generate_select_inventories.py --years $YEAR --inventory $INVENTORY
 
     - name: Upload files
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         # Artifact name
         name: "${{ github.event.inputs.inventory }}"
