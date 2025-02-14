@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="StEWI",
-    version="1.1.3",
+    version="1.1.4",
     author="Ben Young, Wesley Ingwersen, Matthew Bergmann, Jose Hernandez-Betancur, Tapajyoti Ghosh, Eric Bell",
     author_email="ingwersen.wesley@epa.gov",
     description="Standardized Emission And Waste Inventories (StEWI)"
@@ -19,7 +19,6 @@ setup(
         'numpy>=1.20.1',
         'pandas>=1.3',
         'requests>=2.20',
-        'beautifulsoup4>=4.9.3',
         'PyYAML>=5.1',
         'openpyxl>=3.0.7',
         'xlrd>=2.0.0',

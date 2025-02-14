@@ -2,7 +2,7 @@
 # !/usr/bin/env python3
 # coding=utf-8
 """
-Supporting variables and functions used in stewi
+Supporting variables and functions used in stewi.
 """
 
 import json
@@ -30,7 +30,7 @@ MODULEPATH = Path(__file__).resolve().parent
 DATA_PATH = MODULEPATH / 'data'
 
 log.basicConfig(level=log.INFO, format='%(levelname)s %(message)s')
-STEWI_VERSION = '1.1.3'
+STEWI_VERSION = '1.1.4'
 
 # Conversion factors
 USton_kg = 907.18474
@@ -69,6 +69,16 @@ inventory_single_compartments = {"NEI": "air",
                                  "RCRAInfo": "waste",
                                  "GHGRP": "air",
                                  "DMR": "water"}
+
+STEWI_DATA_VINTAGES = {
+    'DMR': [x for x in range(2011, 2021, 1)],
+    'GHGRP': [x for x in range(2011, 2021, 1)],
+    'eGRID': [2014, 2016, 2018, 2019, 2020, 2021],
+    'NEI': [2011, 2014, 2017, 2020],
+    'RCRAInfo': [x for x in range(2011, 2021, 2)],
+    'TRI': [x for x in range(2011, 2021, 1)],
+}
+'''A dictionary of StEWI inventories and their available vintages.'''
 
 
 def set_stewi_meta(file_name, stewiformat=''):
@@ -112,6 +122,33 @@ def aggregate(df, grouping_vars=None):
     df_agg = df_agg[df_agg['FlowAmount'] > 0]
     df_agg = df_agg[df_agg['FlowAmount'].notna()]
     return df_agg
+
+
+def linear_search(lst, target):
+    """Backwards search a list for index less than or equal to a given value.
+
+    :param lst: (list) A list of numerically sorted data (lowest to highest).
+    :param target : (int, float) A target value (e.g., year).
+    :return: (int)
+        The index of the search list associated with the value equal to or
+        less than the target, else -1 for a target out-of-range (i.e., smaller than the smallest entry in the list).
+
+    :Example:
+
+    >>> NEI_YEARS = [2011, 2014, 2017, 2020]
+    >>> linear_search(NEI_YEARS, 2020)
+    3
+    >>> linear_search(NEI_YEARS, 2019)
+    2
+    >>> linear_search(NEI_YEARS, 2018)
+    2
+    >>> linear_search(NEI_YEARS, 2010)
+    -1
+    """
+    for i in range(len(lst) - 1, -1, -1):
+        if lst[i] <= target:
+            return i
+    return -1
 
 
 def unit_convert(df, coln1, coln2, unit, conversion_factor, coln3):

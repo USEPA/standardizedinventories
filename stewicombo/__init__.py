@@ -11,6 +11,7 @@ from stewicombo.globals import getInventoriesforFacilityMatches, \
     filter_by_primary_compartment, addChemicalMatches, addBaseInventoryIDs, \
     storeCombinedInventory, write_stewicombo_metadata, compile_metadata, \
     getCombinedInventory, download_stewicombo_from_remote
+from stewi.exceptions import StewiQueryError
 
 
 def combineFullInventories(inventory_dict,
@@ -124,6 +125,9 @@ def combineInventoriesforFacilityList(base_inventory,
     inventory_acronyms = list(inventory_dict.keys())
     facilitymatches = facilitymatcher.get_matches_for_id_list(
         base_inventory, facility_id_list, inventory_acronyms)
+    if len(facilitymatches) == 0:
+        raise StewiQueryError(
+            message='No facility matches found for facility_id_list')
     inventories = getInventoriesforFacilityMatches(inventory_dict,
                                                    facilitymatches,
                                                    filter_for_LCI,
