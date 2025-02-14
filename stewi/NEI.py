@@ -18,7 +18,7 @@ Option:
     B - for downloading national totals for validation
 
 Year:
-    2011-2020
+    2011-2022
 """
 
 import argparse
