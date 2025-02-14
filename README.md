@@ -20,7 +20,7 @@ An article describing StEWI was published in a special issue of Applied Sciences
 |Source|2011|2012|2013|2014|2015|2016|2017|2018|2019|2020|2021|2022|2023|
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 |[Discharge Monitoring Reports](https://echo.epa.gov/tools/data-downloads/icis-npdes-dmr-and-limit-data-set)* |x|x|x|x|x|x|x|x|x|x|x|x|x|
-|[Greenhouse Gas Reporting Program](https://www.epa.gov/ghgreporting) |x|x|x|x|x|x|x|x|x|x|x| | |
+|[Greenhouse Gas Reporting Program](https://www.epa.gov/ghgreporting) |x|x|x|x|x|x|x|x|x|x|x|x|x|
 |[Emissions & Generation Resource Integrated Database](https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid) | | | |x| |x| |x|x|x|x|x|x|
 |[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)** |x|i|i|x|i|i|x|i|i|x|i|i| |
 |[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)* |x| |x| |x| |x| |x| |x| | |

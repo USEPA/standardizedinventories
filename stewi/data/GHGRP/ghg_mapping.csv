@@ -658,6 +658,7 @@ PERFLUOROBUTANOYL FLUORIDE,PFC,PFC,Perfluorocarbons (PFCs)
 Perfluorobutyric Acid,PFC,PFC,Perfluorocarbons (PFCs)
 Perfluorodiethyl ether,PFC,PFC,Perfluorocarbons (PFCs)
 Perfluoroethanesulfonyl Fluoride,PFC,PFC,Perfluorocarbons (PFCs)
+PERFLUOROETHANESULFONYL FLUORIDE,PFC,PFC,Perfluorocarbons (PFCs)
 Perfluoroethyl vinyl ether,PFC,PFC,Perfluorocarbons (PFCs)
 Perfluoroisobutyric Acid Fluoride,PFC,PFC,Perfluorocarbons (PFCs)
 Perfluoromethoxypropionyl Fluoride,PFC,PFC,Perfluorocarbons (PFCs)
@@ -673,6 +674,7 @@ Saturated HFEs and HCFEs with 3 or more carbon-hydrogen bonds,HFE,HFE,Saturated 
 Saturated hydrofluorocarbons (HFCs) with 2 or fewer carbon-hydrogen bonds,HFC,HFC,Saturated hydrofluorocarbons (HFCs) with 2 or fewer carbon-hydrogen bonds
 Saturated hydrofluoroethers (HFEs) and hydrochlorofluoroethers (HCFEs) with 1 carbon-hydrogen bond,HFE,HFE,Saturated hydrofluoroethers (HFEs) and hydrochlorofluoroethers (HCFEs) with 1 carbon-hydrogen bond
 Trifluoroacetic Acid,Other,Other,Other
+Trifluoro Acetic Acid,Other,Other,Other
 Trifluoroacetic Anhydride,Other,Other,Other
 Trifluoroacetyl fluoride,Other,Other,Other
 Trifluoromethanesulfonic Acid,Other,Other,Other
@@ -680,6 +682,7 @@ Trifluoromethyl sulphur pentafluoride,Other_Full,Other_Full,Fully fluorinated GH
 "Unsaturated perfluorocarbons (PFCs), unsaturated HFCs, unsaturated hydrochlorofluorocarbons (HCFCs), unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones",PFC,PFC,"Unsaturated PFCs, unsaturated HFCs, unsaturated HCFCs, unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones"
 Brayco IC X-100,Other_Full,Other_Full,Fully fluorinated GHGs
 Opteon SF10 (Sinera),PFC,PFC,"Unsaturated PFCs, unsaturated HFCs, unsaturated HCFCs, unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones"
+Opteon SP10,PFC,PFC,"Unsaturated PFCs, unsaturated HFCs, unsaturated HCFCs, unsaturated halogenated ethers, unsaturated halogenated esters, fluorinated aldehydes, and fluorinated ketones"
 Galden ZT-100,HFE,HFE,Saturated HFEs and HCFEs with 2 carbon-hydrogen bonds
 FC-3284 (Perfluoromethylmorpholine),Other_Full,Other_Full,FC-3284 (Perfluoromethylmorpholine)
 HT-80,Other_Full,Other_Full,Fully fluorinated GHGs
