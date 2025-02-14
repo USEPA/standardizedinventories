@@ -256,7 +256,7 @@ def import_or_download_table(filepath, table, year, m):
             table_df.columns.str.contains('unnamed', case=False)])
 
     # for all columns, remove subpart-specific prefixes if present
-    cols = table_df.columns.str.extract(f'.*{table}\.(.*)', expand=False)
+    cols = table_df.columns.str.extract(f'.*{table}\\.(.*)', expand=False)
     table_df.columns = np.where(cols.isna(),
                                 table_df.columns,
                                 cols)
@@ -505,18 +505,17 @@ def parse_additional_suparts_data(addtnl_subparts_path, subpart_cols_file, year)
             # combine all method equation columns into one, drop old method columns
             subpart_df['METHOD'] = subpart_df[col_dict['method']
                                               ].fillna('').sum(axis=1)
-            subpart_df.drop(col_dict['method'], axis=1, inplace=True)
+            subpart_df = subpart_df.drop(col_dict['method'], axis=1)
         else:
             subpart_df['METHOD'] = ''
 
         if 'flow' in col_dict.keys():
             n = len(col_dict['flow'])
             i = 1
-            subpart_df.rename(columns={col_dict['flow'][0]: 'Flow Name'},
-                              inplace=True)
+            subpart_df = subpart_df.rename(columns={col_dict['flow'][0]: 'Flow Name'})
             while i < n:
-                subpart_df['Flow Name'].fillna(subpart_df[col_dict['flow'][i]],
-                                               inplace=True)
+                subpart_df['Flow Name'] = (subpart_df['Flow Name']
+                                           .fillna(subpart_df[col_dict['flow'][i]]))
                 del subpart_df[col_dict['flow'][i]]
                 i += 1
         fields = [c for c in subpart_df.columns if c in ['METHOD', 'Flow Name']]
@@ -570,10 +569,12 @@ def parse_subpart_L(year):
     subpart_L_GWPs = load_subpart_l_gwp()
     df = df.merge(subpart_L_GWPs, how='left', on=['Flow Name', 'Flow Description'])
     df['CO2e_factor'] = df['CO2e_factor'].fillna(1)
-    # drop old Flow Description column
-    df.drop(columns=['Flow Description'], inplace=True)
-    # Flow Name column becomes new Flow Description
-    df.rename(columns={'Flow Name': 'Flow Description'}, inplace=True)
+    df = (df
+          # drop old Flow Description column
+          .drop(columns=['Flow Description'])
+          # Flow Name column becomes new Flow Description
+          .rename(columns={'Flow Name': 'Flow Description'})
+          )
     # calculate mass flow amount based on emissions in CO2e and GWP
     df['FlowAmount'] = df['FlowAmount'] / df['CO2e_factor']
     return df.drop(columns=['CO2e_factor'])
@@ -826,11 +827,12 @@ def main(**kwargs):
             ghgrp['FlowAmount'] = 1000 * ghgrp['FlowAmount'].astype('float')
 
             # rename reliability score column for consistency
-            ghgrp.rename(columns={'DQI Reliability Score': 'DataReliability',
-                                  'SUBPART_NAME': 'Process',
-                                  'FlowCode': 'FlowID'}, inplace=True)
-            ghgrp['ProcessType'] = 'Subpart'
-
+            ghgrp = (ghgrp
+                     .rename(columns={'DQI Reliability Score': 'DataReliability',
+                                      'SUBPART_NAME': 'Process',
+                                      'FlowCode': 'FlowID'})
+                     .assign(ProcessType = 'Subpart')
+                     )
             log.info('generating flowbysubpart output')
 
             # generate flowbysubpart
@@ -851,10 +853,12 @@ def main(**kwargs):
             log.info('generating flows output')
             flow_columns = ['FlowName', 'FlowID']
             ghgrp_flow = ghgrp[flow_columns].drop_duplicates()
-            ghgrp_flow.dropna(subset=['FlowName'], inplace=True)
-            ghgrp_flow.sort_values(by=['FlowID', 'FlowName'], inplace=True)
-            ghgrp_flow['Compartment'] = 'air'
-            ghgrp_flow['Unit'] = 'kg'
+            ghgrp_flow = (ghgrp_flow
+                          .dropna(subset=['FlowName'])
+                          .sort_values(by=['FlowID', 'FlowName'])
+                          .assign(Compartment = 'air')
+                          .assign(Unit = 'kg')
+                          )
             store_inventory(ghgrp_flow, f'GHGRP_{year}', 'flow')
 
             log.info('generating facilities output')
@@ -865,7 +869,7 @@ def main(**kwargs):
 
             # generate facilities output and save to network
             ghgrp_facility = ghgrp[StewiFormat.FACILITY.subset_fields(ghgrp)].drop_duplicates()
-            ghgrp_facility.dropna(subset=['FacilityName'], inplace=True)
+            ghgrp_facility = ghgrp_facility.dropna(subset=['FacilityName'])
             # ensure NAICS does not have trailing decimal/zero
             ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].fillna(0)
             ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].astype(int).astype(str)
