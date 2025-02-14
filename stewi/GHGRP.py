@@ -138,6 +138,7 @@ def download_chunks(table, table_count, m, row_start=0, report_year='',
     """Download data from envirofacts in chunks."""
     # Generate URL for each 5,000 row grouping and add to DataFrame
     output_table = pd.DataFrame()
+    output_list = []
     while row_start <= table_count:
         row_end = row_start + 4999
         table_url = generate_url(table=table, report_year=report_year,
@@ -145,8 +146,9 @@ def download_chunks(table, table_count, m, row_start=0, report_year='',
                                  output_ext='csv')
         log.debug(f'url: {table_url}')
         table_temp, temp_time = import_table(table_url, get_time=True)
-        output_table = pd.concat([output_table, table_temp])
+        output_list.append(table_temp)
         row_start += 5000
+    output_table = pd.concat(output_list)
     output_table.columns=output_table.columns.str.upper()
     m.add(time=temp_time, url=generate_url(table, report_year=report_year,
                                            row_start='', output_ext='csv'),
@@ -294,7 +296,7 @@ def import_table(path_or_reference, get_time=False):
     except urllib.error.URLError as exception:
         log.warning(exception.reason)
         log.info('retrying url...')
-        time.sleep(3)
+        time.sleep(3) # at times increasing this for large tables can be useful
         df = pd.read_csv(path_or_reference, low_memory=False)
     if get_time and isinstance(path_or_reference, Path):
         retrieval_time = path_or_reference.stat().st_ctime
@@ -333,6 +335,7 @@ def download_and_parse_subpart_tables(year, m):
     ghgrp1 = pd.DataFrame(columns=ghg_cols)
 
     # for all subpart emissions tables listed...
+    table_list = []
     for subpart_emissions_table in year_tables['TABLE']:
         # define filepath where subpart emissions table will be stored
         filepath = tables_dir.joinpath(f"{subpart_emissions_table}.csv")
@@ -344,8 +347,11 @@ def download_and_parse_subpart_tables(year, m):
         abbv = (year_tables.query('TABLE == @subpart_emissions_table')
                 ['SUBPART'].iloc[0])
         table_df = table_df.assign(SUBPART_NAME = abbv)
+        # drop empty columns
+        table_df = table_df.dropna(axis=1, how='all')
         # concatenate temporary dataframe to master ghgrp1 dataframe
-        ghgrp1 = pd.concat([ghgrp1, table_df], ignore_index=True)
+        table_list.append(table_df)
+    ghgrp1 = pd.concat(table_list, ignore_index=True)
 
     ghgrp1 = ghgrp1.reset_index(drop=True)
     log.info('Parsing table data...')
@@ -541,6 +547,12 @@ def parse_additional_suparts_data(addtnl_subparts_path, subpart_cols_file, year)
     # drop those rows where flow amount is negative, zero, or NaN
     ghgrp = ghgrp[ghgrp['FlowAmount'] > 0]
     ghgrp = ghgrp[ghgrp['FlowAmount'].notna()]
+
+    def strip_if_string(value):
+        if isinstance(value, str):
+            return value.strip()
+        return value
+    ghgrp['GHGRP ID'] = ghgrp['GHGRP ID'].apply(strip_if_string).astype(int)
 
     ghgrp = ghgrp.rename(columns={'GHGRP ID': 'FACILITY_ID',
                                   'Year': 'REPORTING_YEAR'})
@@ -888,5 +900,6 @@ def main(**kwargs):
 
 
 if __name__ == '__main__':
-    main(Option='A', Year=[2021])
-    main(Option='B', Year=[2021])
+    main(Option='C', Year=range(2021, 2024))
+    main(Option='A', Year=range(2021, 2024))
+    main(Option='B', Year=range(2021, 2024))
