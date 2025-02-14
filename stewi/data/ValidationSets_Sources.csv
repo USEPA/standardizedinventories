@@ -20,6 +20,7 @@ NEI,,2015,NEI Data,https://gaftp.epa.gov/air/nei/nei_facility_summaries/2015_NEI
 NEI,,2016,NEI Data,https://gaftp.epa.gov/air/nei/nei_facility_summaries/2016_NEI_Facility_summary.zip,"Data Summaries tab, Facility-level by Pollutant zip file download, summed to national level",06-Jan-2025
 NEI,,2018,NEI Data,https://gaftp.epa.gov/air/nei/nei_facility_summaries/2018_NEI_Facility_summary.zip,"Data Summaries tab, Facility-level by Pollutant zip file download, summed to national level",06-Jan-2025
 NEI,,2019,NEI Data,https://gaftp.epa.gov/air/nei/nei_facility_summaries/2019_NEI_Facility_summary.zip,"Data Summaries tab, Facility-level by Pollutant zip file download, summed to national level",06-Jan-2025
+NEI,,2021,NEI Data,https://gaftp.epa.gov/air/nei/nei_facility_summaries/2021_NEI_Facility_summary.zip,"Data Summaries tab, Facility-level by Pollutant zip file download, summed to national level",14-Feb-2025
 eGRID,v2,2014,eGRID Data Files,https://www.epa.gov/sites/production/files/2020-01/egrid2018_historical_files_since_1996.zip,"Extracted from US Total tab, or for steam, summed from PLNT tab",15-Apr-2021
 eGRID,,2016,eGRID Data Files,https://www.epa.gov/sites/production/files/2020-01/egrid2018_historical_files_since_1996.zip,"Extracted from US Total tab, or for steam, summed from PLNT tab",15-Apr-2021
 eGRID,v2,2018,eGRID Data Files,https://www.epa.gov/sites/production/files/2020-03/egrid2018_data_v2.xlsx,"Extracted from US Total tab, or for steam, summed from PLNT tab",15-Apr-2021

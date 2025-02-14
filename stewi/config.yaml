@@ -91,6 +91,13 @@ databases:
             - 'sppd_rtr_24507.parquet'
             - 'sppd_rtr_24592.parquet'
         file_version: 'v1'
+    '2021':
+        file_name:
+            - 'sppd_rtr_31440.parquet'
+            - 'sppd_rtr_31463.parquet'
+            - 'sppd_rtr_31510.parquet'
+            - 'sppd_rtr_31511.parquet'
+        file_version: 'v2'
     '2022':
         file_name:
             - 'sppd_rtr_31281.parquet'

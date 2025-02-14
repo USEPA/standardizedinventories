@@ -289,11 +289,19 @@ def main(**kwargs):
 
             generate_metadata(year, parameters)
 
-            validate_national_totals(nei_flowbyfacility, year)
+            if int(year) >= 2022:
+                log.info(f'national totals do not exist for year {year}. '
+                         'No validation available.')
+            else:
+                validate_national_totals(nei_flowbyfacility, year)
 
         elif kwargs['Option'] == 'B':
-            generate_national_totals(year)
+            if int(year) >= 2022:
+                log.info(f'national totals do not exist for year {year}. '
+                         'No validation available.')
+            else:
+                generate_national_totals(year)
 
 
 if __name__ == '__main__':
-    main(Year=range(2011, 2021), Option='B')
+    main(Year=range(2011, 2023), Option='B')
