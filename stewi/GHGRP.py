@@ -34,7 +34,9 @@ import warnings
 import zipfile
 import io
 import urllib
+import urllib3
 from pathlib import Path
+from requests.exceptions import HTTPError
 from xml.dom import minidom
 from xml.parsers.expat import ExpatError
 
@@ -126,9 +128,9 @@ def get_row_count(table, report_year):
         table_count = count_xml.getElementsByTagName('REQUESTRECORDCOUNT')
         table_count = int(table_count[0].firstChild.nodeValue)
     except IndexError as e:
-        raise Exception(f'error accessing table count for {table}') from e
-    except ExpatError as e:
-        raise Exception(f'{table} not found') from e
+        raise IndexError(f'error accessing table count for {table}') from e
+    except (ExpatError, HTTPError) as e:
+        raise HTTPError(f'{table} not found') from e
     return table_count
 
 
@@ -137,6 +139,7 @@ def download_chunks(table, table_count, m, row_start=0, report_year='',
     """Download data from envirofacts in chunks."""
     # Generate URL for each 5,000 row grouping and add to DataFrame
     output_table = pd.DataFrame()
+    output_list = []
     while row_start <= table_count:
         row_end = row_start + 4999
         table_url = generate_url(table=table, report_year=report_year,
@@ -144,8 +147,9 @@ def download_chunks(table, table_count, m, row_start=0, report_year='',
                                  output_ext='csv')
         log.debug(f'url: {table_url}')
         table_temp, temp_time = import_table(table_url, get_time=True)
-        output_table = pd.concat([output_table, table_temp])
+        output_list.append(table_temp)
         row_start += 5000
+    output_table = pd.concat(output_list)
     output_table.columns=output_table.columns.str.upper()
     m.add(time=temp_time, url=generate_url(table, report_year=report_year,
                                            row_start='', output_ext='csv'),
@@ -255,7 +259,7 @@ def import_or_download_table(filepath, table, year, m):
             table_df.columns.str.contains('unnamed', case=False)])
 
     # for all columns, remove subpart-specific prefixes if present
-    cols = table_df.columns.str.extract(f'.*{table}\.(.*)', expand=False)
+    cols = table_df.columns.str.extract(f'.*{table}\\.(.*)', expand=False)
     table_df.columns = np.where(cols.isna(),
                                 table_df.columns,
                                 cols)
@@ -290,10 +294,10 @@ def import_table(path_or_reference, get_time=False):
     """Read and return time of csv from url or Path."""
     try:
         df = pd.read_csv(path_or_reference, low_memory=False)
-    except urllib.error.URLError as exception:
+    except (urllib.error.URLError, urllib3.exceptions.HTTPError) as exception:
         log.warning(exception.reason)
         log.info('retrying url...')
-        time.sleep(3)
+        time.sleep(3) # at times increasing this for large tables can be useful
         df = pd.read_csv(path_or_reference, low_memory=False)
     if get_time and isinstance(path_or_reference, Path):
         retrieval_time = path_or_reference.stat().st_ctime
@@ -332,6 +336,7 @@ def download_and_parse_subpart_tables(year, m):
     ghgrp1 = pd.DataFrame(columns=ghg_cols)
 
     # for all subpart emissions tables listed...
+    table_list = []
     for subpart_emissions_table in year_tables['TABLE']:
         # define filepath where subpart emissions table will be stored
         filepath = tables_dir.joinpath(f"{subpart_emissions_table}.csv")
@@ -343,8 +348,11 @@ def download_and_parse_subpart_tables(year, m):
         abbv = (year_tables.query('TABLE == @subpart_emissions_table')
                 ['SUBPART'].iloc[0])
         table_df = table_df.assign(SUBPART_NAME = abbv)
+        # drop empty columns
+        table_df = table_df.dropna(axis=1, how='all')
         # concatenate temporary dataframe to master ghgrp1 dataframe
-        ghgrp1 = pd.concat([ghgrp1, table_df], ignore_index=True)
+        table_list.append(table_df)
+    ghgrp1 = pd.concat(table_list, ignore_index=True)
 
     ghgrp1 = ghgrp1.reset_index(drop=True)
     log.info('Parsing table data...')
@@ -504,18 +512,17 @@ def parse_additional_suparts_data(addtnl_subparts_path, subpart_cols_file, year)
             # combine all method equation columns into one, drop old method columns
             subpart_df['METHOD'] = subpart_df[col_dict['method']
                                               ].fillna('').sum(axis=1)
-            subpart_df.drop(col_dict['method'], axis=1, inplace=True)
+            subpart_df = subpart_df.drop(col_dict['method'], axis=1)
         else:
             subpart_df['METHOD'] = ''
 
         if 'flow' in col_dict.keys():
             n = len(col_dict['flow'])
             i = 1
-            subpart_df.rename(columns={col_dict['flow'][0]: 'Flow Name'},
-                              inplace=True)
+            subpart_df = subpart_df.rename(columns={col_dict['flow'][0]: 'Flow Name'})
             while i < n:
-                subpart_df['Flow Name'].fillna(subpart_df[col_dict['flow'][i]],
-                                               inplace=True)
+                subpart_df['Flow Name'] = (subpart_df['Flow Name']
+                                           .fillna(subpart_df[col_dict['flow'][i]]))
                 del subpart_df[col_dict['flow'][i]]
                 i += 1
         fields = [c for c in subpart_df.columns if c in ['METHOD', 'Flow Name']]
@@ -541,6 +548,12 @@ def parse_additional_suparts_data(addtnl_subparts_path, subpart_cols_file, year)
     # drop those rows where flow amount is negative, zero, or NaN
     ghgrp = ghgrp[ghgrp['FlowAmount'] > 0]
     ghgrp = ghgrp[ghgrp['FlowAmount'].notna()]
+
+    def strip_if_string(value):
+        if isinstance(value, str):
+            return value.strip()
+        return value
+    ghgrp['GHGRP ID'] = ghgrp['GHGRP ID'].apply(strip_if_string).astype(int)
 
     ghgrp = ghgrp.rename(columns={'GHGRP ID': 'FACILITY_ID',
                                   'Year': 'REPORTING_YEAR'})
@@ -569,10 +582,12 @@ def parse_subpart_L(year):
     subpart_L_GWPs = load_subpart_l_gwp()
     df = df.merge(subpart_L_GWPs, how='left', on=['Flow Name', 'Flow Description'])
     df['CO2e_factor'] = df['CO2e_factor'].fillna(1)
-    # drop old Flow Description column
-    df.drop(columns=['Flow Description'], inplace=True)
-    # Flow Name column becomes new Flow Description
-    df.rename(columns={'Flow Name': 'Flow Description'}, inplace=True)
+    df = (df
+          # drop old Flow Description column
+          .drop(columns=['Flow Description'])
+          # Flow Name column becomes new Flow Description
+          .rename(columns={'Flow Name': 'Flow Description'})
+          )
     # calculate mass flow amount based on emissions in CO2e and GWP
     df['FlowAmount'] = df['FlowAmount'] / df['CO2e_factor']
     return df.drop(columns=['CO2e_factor'])
@@ -825,11 +840,12 @@ def main(**kwargs):
             ghgrp['FlowAmount'] = 1000 * ghgrp['FlowAmount'].astype('float')
 
             # rename reliability score column for consistency
-            ghgrp.rename(columns={'DQI Reliability Score': 'DataReliability',
-                                  'SUBPART_NAME': 'Process',
-                                  'FlowCode': 'FlowID'}, inplace=True)
-            ghgrp['ProcessType'] = 'Subpart'
-
+            ghgrp = (ghgrp
+                     .rename(columns={'DQI Reliability Score': 'DataReliability',
+                                      'SUBPART_NAME': 'Process',
+                                      'FlowCode': 'FlowID'})
+                     .assign(ProcessType = 'Subpart')
+                     )
             log.info('generating flowbysubpart output')
 
             # generate flowbysubpart
@@ -850,10 +866,12 @@ def main(**kwargs):
             log.info('generating flows output')
             flow_columns = ['FlowName', 'FlowID']
             ghgrp_flow = ghgrp[flow_columns].drop_duplicates()
-            ghgrp_flow.dropna(subset=['FlowName'], inplace=True)
-            ghgrp_flow.sort_values(by=['FlowID', 'FlowName'], inplace=True)
-            ghgrp_flow['Compartment'] = 'air'
-            ghgrp_flow['Unit'] = 'kg'
+            ghgrp_flow = (ghgrp_flow
+                          .dropna(subset=['FlowName'])
+                          .sort_values(by=['FlowID', 'FlowName'])
+                          .assign(Compartment = 'air')
+                          .assign(Unit = 'kg')
+                          )
             store_inventory(ghgrp_flow, f'GHGRP_{year}', 'flow')
 
             log.info('generating facilities output')
@@ -864,7 +882,7 @@ def main(**kwargs):
 
             # generate facilities output and save to network
             ghgrp_facility = ghgrp[StewiFormat.FACILITY.subset_fields(ghgrp)].drop_duplicates()
-            ghgrp_facility.dropna(subset=['FacilityName'], inplace=True)
+            ghgrp_facility = ghgrp_facility.dropna(subset=['FacilityName'])
             # ensure NAICS does not have trailing decimal/zero
             ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].fillna(0)
             ghgrp_facility['NAICS'] = ghgrp_facility['NAICS'].astype(int).astype(str)
@@ -883,5 +901,6 @@ def main(**kwargs):
 
 
 if __name__ == '__main__':
-    main(Option='A', Year=[2021])
-    main(Option='B', Year=[2021])
+    main(Option='C', Year=range(2021, 2024))
+    main(Option='A', Year=range(2021, 2024))
+    main(Option='B', Year=range(2021, 2024))
