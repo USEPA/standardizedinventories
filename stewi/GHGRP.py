@@ -33,7 +33,7 @@ import argparse
 import warnings
 import zipfile
 import io
-import urllib
+import urllib3
 from pathlib import Path
 from requests.exceptions import HTTPError
 from xml.dom import minidom
@@ -293,7 +293,7 @@ def import_table(path_or_reference, get_time=False):
     """Read and return time of csv from url or Path."""
     try:
         df = pd.read_csv(path_or_reference, low_memory=False)
-    except urllib.error.URLError as exception:
+    except urllib3.exceptions.HTTPError as exception:
         log.warning(exception.reason)
         log.info('retrying url...')
         time.sleep(3) # at times increasing this for large tables can be useful
