@@ -6,7 +6,7 @@ FlowID,FlowName,FlowAmount[kg]
 100425,Styrene,12889028.427463142
 100447,Benzyl Chloride,41266.47019796445
 101144,"4,4-Methylenebis(2-Chloraniline)",3208.0379214541895
-101688,"4,4-Methylenediphenyl Diisocyanate",106669.23703470649
+101688,"4,4-Methylenediphenyl Diisocyanate",76272.68582089849
 101779,"4,4-Methylenedianiline",1083.7256043464486
 106423,p-Xylene,87449.5510279814
 106445,p-Cresol,1867.197742775405
@@ -88,7 +88,7 @@ FlowID,FlowName,FlowAmount[kg]
 1336363,Polychlorinated Biphenyls,231.45880911630252
 133904,Chloramben,0.0
 140,Coke Oven Emissions,86949.20128932748
-140885,Ethyl Acrylate,31321.183617259845
+140885,Ethyl Acrylate,31321.18361725984
 143226,Triglycol Monobutyl Ether,0.63502936
 151564,Ethyleneimine,10.911718414135324
 156627,Calcium Cyanamide,9135.350936
@@ -300,10 +300,10 @@ DIESEL-PM10,PM10-Primary from certain diesel engines,980616.1962989143
 DIESEL-PM25,PM25-Primary from certain diesel engines,928820.1833834382
 EC,Elemental Carbon portion of PM2.5-PRI,15648735.319653897
 N2O,Nitrous Oxide,84304911.62010798
-N590,Polycyclic aromatic compounds (includes 25 specific compounds),141788.08889023733
+N590,Polycyclic aromatic compounds (includes 25 specific compounds),141788.0888902373
 NH3,Ammonia,84970201.56905334
 NO3,Nitrate portion of PM2.5-PRI,3062768.452198288
-NOX,Nitrogen Oxides,1979182574.9183342
+NOX,Nitrogen Oxides,1979110874.6652236
 OC,Organic Carbon portion of PM2.5-PRI,57010998.262946
 PM-CON,PM Condensible,118395704.95183834
 PM10-FIL,PM10 Filterable,303826962.71087897
@@ -312,6 +312,6 @@ PM25-FIL,PM2.5 Filterable,180798361.10670462
 PM25-PRI,PM2.5 Primary (Filt + Cond),303693997.3221112
 PMFINE,Remaining PMFINE portion of PM2.5-PRI,189960932.01531816
 SF6,Sulfur Hexafluoride,52510.96431579705
-SO2,Sulfur Dioxide,1219113040.7928064
+SO2,Sulfur Dioxide,1219109224.2666051
 SO4,Sulfate Portion of PM2.5-PRI,36720647.948939785
-VOC,Volatile Organic Compounds,929258317.122223
+VOC,Volatile Organic Compounds,929250436.5353925
