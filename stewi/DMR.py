@@ -15,7 +15,7 @@ B - for generating StEWI output files and validation from downloaded data
 C - for downloading and generating state totals file
 
 Year:
-    2014-2021
+    2014-2023
 """
 
 import pandas as pd
@@ -566,4 +566,4 @@ def main(**kwargs):
 
 
 if __name__ == '__main__':
-    main(Option='A', Year = [2021])
+    main(Option='B', Year = [2020])
