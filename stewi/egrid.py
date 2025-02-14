@@ -14,7 +14,7 @@ Option:
     C - Download and process data for validation
 
 Year:
-    2014, 2016, 2018-2023
+    2014, 2016, 2018-2021
 """
 
 import pandas as pd
@@ -409,4 +409,4 @@ def main(**kwargs):
 
 
 if __name__ == '__main__':
-    main(Year=[2023], Option='B')
+    main(Year=[2020], Option='C')
