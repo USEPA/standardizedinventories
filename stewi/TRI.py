@@ -19,7 +19,7 @@ See more documentation of files at
 https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-guides
 
 Year:
-    2008 - 2021
+    2008 - 2023
 
 """
 
@@ -394,4 +394,4 @@ def main(**kwargs):
 
 
 if __name__ == '__main__':
-    main(Option='A', Year=[2021])
+    main(Option='C', Year=[2023])
