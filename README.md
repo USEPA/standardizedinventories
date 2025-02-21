@@ -23,7 +23,7 @@ An article describing StEWI was published in a special issue of Applied Sciences
 |[Greenhouse Gas Reporting Program](https://www.epa.gov/ghgreporting) |x|x|x|x|x|x|x|x|x|x|x|x|x|
 |[Emissions & Generation Resource Integrated Database](https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid) | | | |x| |x| |x|x|x|x|x|x|
 |[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)** |x|i|i|x|i|i|x|i|i|x|i|i| |
-|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)* |x| |x| |x| |x| |x| |x| | |
+|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)* |x| |x| |x| |x| |x| |x| |x|
 |[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program)* |x|x|x|x|x|x|x|x|x|x|x|x|x|
 
 *Earlier data exist and are accessible but have not been validated
