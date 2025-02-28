@@ -363,6 +363,7 @@ def main(**kwargs):
             tri_url = _config['url']
             if url_is_alive(tri_url):
                 link_zip_TRI = _config.get('zip_url').replace("{year}", year)
+                log.info(f'downloading from {link_zip_TRI}')
                 extract_TRI_data_files(link_zip_TRI, files, year)
                 generate_metadata(year, files, datatype='source')
             else:
