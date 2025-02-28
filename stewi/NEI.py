@@ -18,7 +18,7 @@ Option:
     B - for downloading national totals for validation
 
 Year:
-    2011-2020
+    2011-2022
 """
 
 import argparse
@@ -124,9 +124,9 @@ def generate_national_totals(year):
 
     # generate url based on data year
     build_url = _config['national_url']
-    file = _config['national_version'][year]
+    if year in _config['national_version']:
+        build_url = _config['national_version'][year]
     url = build_url.replace('__year__', year)
-    url = url.replace('__file__', file)
 
     r = make_url_request(url, verify=False)
 
@@ -169,7 +169,7 @@ def generate_national_totals(year):
 
     # Update validationSets_Sources.csv
     validation_dict = {'Inventory': 'NEI',
-                       'Version': file,
+                       'Version': '',
                        'Year': year,
                        'Name': 'NEI Data',
                        'URL': url,
@@ -289,17 +289,19 @@ def main(**kwargs):
 
             generate_metadata(year, parameters)
 
-            if year in ['2011', '2014', '2017', '2020']:
-                validate_national_totals(nei_flowbyfacility, year)
+            if int(year) >= 2022:
+                log.info(f'national totals do not exist for year {year}. '
+                         'No validation available.')
             else:
-                log.info('no validation performed')
+                validate_national_totals(nei_flowbyfacility, year)
 
         elif kwargs['Option'] == 'B':
-            if year in ['2011', '2014', '2017', '2020']:
-                generate_national_totals(year)
+            if int(year) >= 2022:
+                log.info(f'national totals do not exist for year {year}. '
+                         'No validation available.')
             else:
-                log.info(f'national totals do not exist for year {year}')
+                generate_national_totals(year)
 
 
 if __name__ == '__main__':
-    main(Year=[2019, 2020], Option='A')
+    main(Year=range(2011, 2023), Option='B')

@@ -17,18 +17,18 @@ An article describing StEWI was published in a special issue of Applied Sciences
 
 ## USEPA Inventories Covered By Data Reporting Year (current version)
 
-|Source|2011|2012|2013|2014|2015|2016|2017|2018|2019|2020|2021|
-|---|---|---|---|---|---|---|---|---|---|---|---|
-|[Discharge Monitoring Reports](https://echo.epa.gov/tools/data-downloads/icis-npdes-dmr-and-limit-data-set)* |x|x|x|x|x|x|x|x|x|x|x|
-|[Greenhouse Gas Reporting Program](https://www.epa.gov/ghgreporting) |x|x|x|x|x|x|x|x|x|x|x|
-|[Emissions & Generation Resource Integrated Database](https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid) | | | |x| |x| |x|x|x|x|
-|[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)** |x|i|i|x|i|i|x|i|i|x| |
-|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)* |x| |x| |x| |x| |x| |x|
-|[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program)* |x|x|x|x|x|x|x|x|x|x|x|
+|Source|2011|2012|2013|2014|2015|2016|2017|2018|2019|2020|2021|2022|2023|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|[Discharge Monitoring Reports](https://echo.epa.gov/tools/data-downloads/icis-npdes-dmr-and-limit-data-set)* |x|x|x|x|x|x|x|x|x|x|x|x|x|
+|[Greenhouse Gas Reporting Program](https://www.epa.gov/ghgreporting) |x|x|x|x|x|x|x|x|x|x|x|x|x|
+|[Emissions & Generation Resource Integrated Database](https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid) | | | |x| |x| |x|x|x|x|x|x|
+|[National Emissions Inventory](https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei)** |x|i|i|x|i|i|x|i|i|x|i|i| |
+|[RCRA Biennial Report](https://www.epa.gov/hwgenerators/biennial-hazardous-waste-report)* |x| |x| |x| |x| |x| |x| |x|
+|[Toxic Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program)* |x|x|x|x|x|x|x|x|x|x|x|x|x|
 
 *Earlier data exist and are accessible but have not been validated
 
-**Only point sources included at this time from NEI; _i_ interim years between triennial releases, accessed through the Emissions Inventory System, are not validated
+**Only point sources included at this time from NEI; _i_ interim years between triennial releases, accessed through the Emissions Inventory System. Note 2022 dataset is not able to validated at this time.
 
 ## Standard output formats
 
@@ -85,7 +85,7 @@ Mixed reporting of these flows in the source data in units of mass or carbon dio
 ### NEI
 
 NEI data are downloaded from the EPA Emissions Inventory System (EIS) Gateway and hosted on EPA [Data Commons](https://edap-ord-data-commons.s3.amazonaws.com/index.html?prefix=stewi/) for access by StEWI.
-For validation, the sum of facility releases are compared against reported totals by flow. Validation is only available for triennial datasets.
+For validation, the sum of facility releases are compared against reported totals by flow.
 
 ### RCRAInfo
 

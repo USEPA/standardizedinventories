@@ -19,7 +19,7 @@ See more documentation of files at
 https://www.epa.gov/toxics-release-inventory-tri-program/tri-basic-plus-data-files-guides
 
 Year:
-    2008 - 2021
+    2008 - 2023
 
 """
 
@@ -363,6 +363,7 @@ def main(**kwargs):
             tri_url = _config['url']
             if url_is_alive(tri_url):
                 link_zip_TRI = _config.get('zip_url').replace("{year}", year)
+                log.info(f'downloading from {link_zip_TRI}')
                 extract_TRI_data_files(link_zip_TRI, files, year)
                 generate_metadata(year, files, datatype='source')
             else:
@@ -394,4 +395,4 @@ def main(**kwargs):
 
 
 if __name__ == '__main__':
-    main(Option='A', Year=[2021])
+    main(Option='C', Year=[2023])
