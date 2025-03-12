@@ -65,6 +65,29 @@ def download_extract_FRS_combined_national(file=None):
     write_fm_metadata(name, source_dict, category=ext_folder)
 
 
+def download_and_read_frs_file(filetype):
+    """
+    Downloads, if necessary, and returns a df of the FRS filetype
+    :param filetype: str, "FRS_bridge_file" or "FRS_NAICS_file"
+    """
+    file = FRS_config[filetype]
+    # Check to see if file exists
+    if not (FRSpath / file).exists():
+        download_extract_FRS_combined_national(file)
+    # Import FRS bridge which provides ID matches
+    if filetype == 'FRS_bridge_file':
+        col_dict = {'REGISTRY_ID': "str",
+                    'PGM_SYS_ACRNM': "str",
+                    'PGM_SYS_ID': "str"}
+    elif filetype == 'FRS_NAICS_file':
+        col_dict = {'REGISTRY_ID': 'str',
+                    'PGM_SYS_ACRNM': 'str',
+                    'NAICS_CODE': 'str',
+                    'PRIMARY_INDICATOR': 'str'}
+    df = read_FRS_file(file, col_dict)
+    return df
+
+
 def read_FRS_file(file_name, col_dict):
     """Retrieve FRS data file stored locally."""
     file_meta = set_facilitymatcher_meta(file_name, category=ext_folder)
