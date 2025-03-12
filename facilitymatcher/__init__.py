@@ -10,14 +10,16 @@ from facilitymatcher.globals import filter_by_inventory_list, stewi_inventories,
     filter_by_facility_list, filter_by_inventory_id_list, get_fm_file
 
 
-def get_matches_for_inventories(inventory_list=stewi_inventories):
+def get_matches_for_inventories(inventory_list=stewi_inventories, **kwargs):
     """Return all facility matches for given inventories.
 
     :param inventory_list: list of inventories for desired matches using
         StEWI inventory names e.g. ['NEI','TRI']
     :return: dataframe in FacilityMatches standard output format
     """
-    facilitymatches = get_fm_file('FacilityMatchList_forStEWI')
+    download_if_missing = kwargs.get('download_if_missing', False)
+    facilitymatches = get_fm_file('FacilityMatchList_forStEWI',
+                                  download_if_missing=download_if_missing)
     facilitymatches = filter_by_inventory_list(facilitymatches, inventory_list)
     return facilitymatches
 
@@ -49,7 +51,7 @@ def get_FRS_NAICSInfo_for_facility_list(frs_id_list,
 
 
 def get_matches_for_id_list(base_inventory, id_list,
-                            inventory_list=stewi_inventories):
+                            inventory_list=stewi_inventories, **kwargs):
     """Return facility matches given a list of inventories of interest,
     a base inventory and list of ids from that inventory.
 
@@ -61,5 +63,7 @@ def get_matches_for_id_list(base_inventory, id_list,
          e.g. ['NEI','TRI']
     :return: dataframe in FacilityMatches standard output format
     """
-    return filter_by_inventory_id_list(get_fm_file('FacilityMatchList_forStEWI'),
-                                       inventory_list, base_inventory, id_list)
+    download_if_missing = kwargs.get('download_if_missing', False)
+    return filter_by_inventory_id_list(
+        get_fm_file('FacilityMatchList_forStEWI', download_if_missing),
+        inventory_list, base_inventory, id_list)

@@ -82,7 +82,7 @@ def combineInventoriesforFacilitiesinBaseInventory(base_inventory,
     """
     inventory_acronyms = list(inventory_dict.keys())
     facilitymatches = facilitymatcher.get_matches_for_inventories(
-        inventory_acronyms)
+        inventory_acronyms, **kwargs)
     inventories = getInventoriesforFacilityMatches(inventory_dict,
                                                    facilitymatches,
                                                    filter_for_LCI,
@@ -124,7 +124,7 @@ def combineInventoriesforFacilityList(base_inventory,
     """
     inventory_acronyms = list(inventory_dict.keys())
     facilitymatches = facilitymatcher.get_matches_for_id_list(
-        base_inventory, facility_id_list, inventory_acronyms)
+        base_inventory, facility_id_list, inventory_acronyms, **kwargs)
     if len(facilitymatches) == 0:
         raise StewiQueryError(
             message='No facility matches found for facility_id_list')
