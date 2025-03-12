@@ -84,7 +84,7 @@ Mixed reporting of these flows in the source data in units of mass or carbon dio
 
 ### NEI
 
-NEI data are downloaded from the EPA Emissions Inventory System (EIS) Gateway and hosted on EPA [Data Commons](https://edap-ord-data-commons.s3.amazonaws.com/index.html?prefix=stewi/) for access by StEWI.
+NEI data are downloaded from the EPA Emissions Inventory System (EIS) Gateway and hosted on EPA [Data Commons](https://dmap-data-commons-ord.s3.amazonaws.com/index.html?prefix=stewi/) for access by StEWI.
 For validation, the sum of facility releases are compared against reported totals by flow.
 
 ### RCRAInfo
