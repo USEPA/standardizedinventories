@@ -448,7 +448,7 @@ def remove_nutrient_overlap_TRI(df, preference):
     df = (pd.concat(to_be_concat)
           .sort_index()
           .drop(columns=['PrefList', 'NonPrefList'])
-          .reset_index(drop=True))
+          )
 
     return df
 
