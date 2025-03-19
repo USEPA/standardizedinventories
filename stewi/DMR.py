@@ -440,6 +440,9 @@ def remove_nutrient_overlap_TRI(df, preference):
         'FlowName'].apply(lambda x: x in keep_list)
     df_duplicates['NonPrefList'] = df_duplicates[
         'FlowName'].apply(lambda x: x not in keep_list)
+    # keep those data without FRS or they will be lost
+    df_nans = df_duplicates.query('FRS_ID == "nan"')
+    to_be_concat.append(df_nans)
     grouped = df_duplicates.groupby(['FRS_ID'])
     for name, frame in grouped:
         if not frame['NonPrefList'].all():
