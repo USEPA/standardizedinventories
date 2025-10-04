@@ -71,12 +71,12 @@ inventory_single_compartments = {"NEI": "air",
                                  "DMR": "water"}
 
 STEWI_DATA_VINTAGES = {
-    'DMR': [x for x in range(2011, 2021, 1)],
-    'GHGRP': [x for x in range(2011, 2021, 1)],
-    'eGRID': [2014, 2016, 2018, 2019, 2020, 2021],
-    'NEI': [2011, 2014, 2017, 2020],
-    'RCRAInfo': [x for x in range(2011, 2021, 2)],
-    'TRI': [x for x in range(2011, 2021, 1)],
+    'DMR': [x for x in range(2011, 2024, 1)],
+    'GHGRP': [x for x in range(2011, 2024, 1)],
+    'eGRID': [2014, 2016, 2018, 2019, 2020, 2021, 2022, 2023],
+    'NEI': [2011, 2014, 2017, 2020, 2021, 2022],
+    'RCRAInfo': [x for x in range(2011, 2024, 2)],
+    'TRI': [x for x in range(2011, 2024, 1)],
 }
 '''A dictionary of StEWI inventories and their available vintages.'''
 
