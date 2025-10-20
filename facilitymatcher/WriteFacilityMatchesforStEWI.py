@@ -9,20 +9,8 @@ import pandas as pd
 
 import facilitymatcher.globals as fmg
 
-
 def write_facility_matches():
-    file = fmg.FRS_config['FRS_bridge_file']
-
-    # Check to see if file exists
-    if not (fmg.FRSpath / file).exists():
-        fmg.download_extract_FRS_combined_national(file)
-
-    # Import FRS bridge which provides ID matches
-    col_dict = {'REGISTRY_ID': "str",
-                'PGM_SYS_ACRNM': "str",
-                'PGM_SYS_ID': "str"}
-    FRS_Bridges = fmg.read_FRS_file(file, col_dict)
-
+    FRS_Bridges = fmg.download_and_read_frs_file('FRS_bridge_file')
     # Programs of interest
     stewi_programs = fmg.get_programs_for_inventory_list(fmg.stewi_inventories)
 
@@ -64,6 +52,7 @@ def write_facility_matches():
     # Add in smart matching here
 
     # Write matches to bridge
+    file = fmg.FRS_config['FRS_bridge_file']
     fmg.store_fm_file(stewi_bridges, 'FacilityMatchList_forStEWI',
                        sources=[file])
 

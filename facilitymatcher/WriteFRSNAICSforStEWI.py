@@ -7,17 +7,7 @@ import facilitymatcher.globals as fmg
 
 
 def write_NAICS_matches():
-    file = fmg.FRS_config['FRS_NAICS_file']
-
-    # Check to see if file exists
-    if not (fmg.FRSpath / file).exists():
-        fmg.download_extract_FRS_combined_national(file)
-
-    col_dict = {'REGISTRY_ID': 'str',
-                'PGM_SYS_ACRNM': 'str',
-                'NAICS_CODE': 'str',
-                'PRIMARY_INDICATOR': 'str'}
-    FRS_NAICS = fmg.read_FRS_file(file, col_dict)
+    FRS_NAICS = fmg.download_and_read_frs_file('FRS_NAICS_file')
 
     # Filter this list for stewi
     # Programs of interest
@@ -37,7 +27,7 @@ def write_NAICS_matches():
     stewi_NAICS = stewi_NAICS.rename(columns={'REGISTRY_ID': 'FRS_ID',
                                               'PGM_SYS_ACRNM': 'Source',
                                               'NAICS_CODE': 'NAICS'})
-
+    file = fmg.FRS_config['FRS_NAICS_file']
     fmg.store_fm_file(stewi_NAICS, 'FRS_NAICSforStEWI', sources=[file])
 
 
