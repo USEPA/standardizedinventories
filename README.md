@@ -1,3 +1,5 @@
+DEPRECATED - This repository has been archived and is no longer maintained. The code is provided for historical reference and may contain unpatched or unknown vulnerabilities. It should not be used in production systems.
+
 # Standardized Emission and Waste Inventories (StEWI)
 [![DOI - 10.3390/app12073447](https://img.shields.io/badge/DOI-10.3390%2Fapp12073447-blue)](https://doi.org/10.3390/app12073447)
 [![DOI](https://zenodo.org/badge/101654522.svg)](https://zenodo.org/doi/10.5281/zenodo.1342761)
